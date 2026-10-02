@@ -1,0 +1,7333 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+
+<meta
+    name="viewport"
+    content="width=device-width,initial-scale=1,viewport-fit=cover"
+>
+
+<meta
+    name="description"
+    content="GHAR Seller Workspace -- manage properties, enquiries, visits, requests and offers."
+>
+
+<meta name="theme-color" content="#10231d">
+<meta name="robots" content="noindex,nofollow">
+
+<title>Seller Workspace -- GHAR</title>
+
+<link rel="stylesheet" href="assets/css/style.css">
+
+<style>
+
+/* =========================================================
+   GHAR SELLER INDEX
+   Premium seller workspace
+========================================================= */
+*
+:root{
+    --ghar-green:#10231d;
+    --ghar-deep:#07130f;
+    --ghar-forest:#18382d;
+    --ghar-gold:#c9a96e;
+    --ghar-cream:#f4ecdd;
+    --ghar-sand:#e7dcc9;
+
+    --page:#050806;
+    --card:#f5f4ef;
+    --card-soft:#deded8;
+
+    --text:#f7f5ed;
+    --dark:#101612;
+    --muted:#68716b;
+
+    --line:rgba(255,255,255,.10);
+
+    --radius:22px;
+    --shadow:
+        0 20px 55px rgba(0,0,0,.28);
+}
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+*,
+*::before,
+*::after{
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    margin:0;
+    min-height:100vh;
+
+    background:
+        radial-gradient(
+            circle at 15% 0%,
+            rgba(201,169,110,.12),
+            transparent 28%
+        ),
+        radial-gradient(
+            circle at 85% 20%,
+            rgba(24,56,45,.20),
+            transparent 30%
+        ),
+        #050806;
+
+    color:var(--text);
+
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        sans-serif;
+}
+
+a{
+    color:inherit;
+    text-decoration:none;
+}
+
+button,
+input,
+select,
+textarea{
+    font:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+img{
+    max-width:100%;
+    display:block;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.seller-header{
+    position:sticky;
+    top:0;
+    z-index:1000;
+
+    background:
+        rgba(244,236,221,.96);
+
+    color:var(--ghar-green);
+
+    border-bottom:
+        1px solid
+        rgba(16,35,29,.10);
+
+    backdrop-filter:blur(18px);
+}
+
+.seller-header-inner{
+    width:min(
+        1450px,
+        calc(100% - 30px)
+    );
+
+    min-height:76px;
+
+    margin:auto;
+
+    display:grid;
+
+    grid-template-columns:
+        auto
+        1fr
+        auto;
+
+    align-items:center;
+
+    gap:24px;
+}
+
+
+/* LOGO */
+
+.seller-brand{
+    display:flex;
+    align-items:center;
+    gap:13px;
+}
+
+.seller-logo{
+    width:43px;
+    height:43px;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:50%;
+
+    background:
+        linear-gradient(
+            145deg,
+            #10231d,
+            #1b3b30
+        );
+
+    color:var(--ghar-gold);
+
+    font-size:.95rem;
+    font-weight:950;
+
+    box-shadow:
+        0 8px 24px
+        rgba(16,35,29,.20);
+}
+
+.seller-brand-name{
+    font-weight:950;
+    font-size:1.08rem;
+    letter-spacing:.18em;
+}
+
+.seller-brand-sub{
+    margin-top:2px;
+
+    color:#6d746f;
+
+    font-size:.55rem;
+    font-weight:800;
+
+    letter-spacing:.13em;
+    text-transform:uppercase;
+}
+
+
+/* NAV */
+
+.seller-nav{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:3px;
+}
+
+.seller-nav a{
+    padding:10px 12px;
+
+    border-radius:10px;
+
+    color:#56615a;
+
+    font-size:.76rem;
+    font-weight:750;
+
+    transition:
+        background .2s ease,
+        color .2s ease;
+}
+
+.seller-nav a:hover,
+.seller-nav a.active{
+    background:
+        rgba(16,35,29,.08);
+
+    color:var(--ghar-green);
+}
+
+
+/* HEADER BUTTONS */
+
+.seller-header-actions{
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.seller-header-btn{
+    width:42px;
+    height:42px;
+
+    display:grid;
+    place-items:center;
+
+    border:
+        1px solid
+        rgba(16,35,29,.10);
+
+    border-radius:13px;
+
+    background:
+        rgba(255,255,255,.65);
+
+    color:var(--ghar-green);
+
+    transition:
+        transform .2s ease,
+        background .2s ease;
+}
+
+.seller-header-btn:hover{
+    transform:translateY(-2px);
+
+    background:#fff;
+}
+
+.seller-menu{
+    display:none;
+}
+
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+.seller-main{
+    width:min(
+        1450px,
+        calc(100% - 30px)
+    );
+
+    margin:auto;
+
+    padding:
+        28px 0
+        70px;
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.seller-hero{
+    position:relative;
+
+    overflow:hidden;
+
+    display:grid;
+
+    grid-template-columns:
+        1.15fr
+        .85fr;
+
+    min-height:440px;
+
+    border-radius:30px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #06110d 0%,
+            #10231d 55%,
+            #07130f 100%
+        );
+
+    box-shadow:
+        0 30px 80px
+        rgba(0,0,0,.35);
+}
+
+.seller-hero::before{
+    content:"";
+
+    position:absolute;
+
+    width:500px;
+    height:500px;
+
+    right:-180px;
+    top:-230px;
+
+    border-radius:50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(201,169,110,.22),
+            transparent 65%
+        );
+
+    pointer-events:none;
+}
+
+.seller-hero-copy{
+    position:relative;
+    z-index:2;
+
+    padding:
+        58px
+        54px;
+}
+
+.seller-eyebrow{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+
+    padding:
+        8px
+        13px;
+
+    border:
+        1px solid
+        rgba(201,169,110,.28);
+
+    border-radius:999px;
+
+    color:var(--ghar-gold);
+
+    background:
+        rgba(201,169,110,.07);
+
+    font-size:.62rem;
+    font-weight:850;
+
+    letter-spacing:.16em;
+}
+
+.seller-eyebrow::before{
+    content:"";
+
+    width:6px;
+    height:6px;
+
+    border-radius:50%;
+
+    background:var(--ghar-gold);
+}
+
+.seller-hero h1{
+    max-width:700px;
+
+    margin:
+        20px 0
+        15px;
+
+    color:#f8f5ed;
+
+    font-size:
+        clamp(
+            2.7rem,
+            5vw,
+            5.1rem
+        );
+
+    line-height:.94;
+
+    letter-spacing:-.065em;
+}
+
+.seller-hero h1 span{
+    color:var(--ghar-gold);
+}
+
+.seller-hero-description{
+    max-width:620px;
+
+    margin:0;
+
+    color:
+        rgba(255,255,255,.67);
+
+    font-size:.94rem;
+
+    line-height:1.7;
+}
+
+.seller-hero-actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+
+    margin-top:28px;
+}
+
+.seller-btn{
+    min-height:46px;
+
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+
+    padding:
+        0 19px;
+
+    border-radius:13px;
+
+    font-size:.76rem;
+    font-weight:850;
+
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease;
+}
+
+.seller-btn:hover{
+    transform:translateY(-2px);
+}
+
+.seller-btn-primary{
+    background:var(--ghar-gold);
+    color:var(--ghar-green);
+
+    box-shadow:
+        0 12px 28px
+        rgba(201,169,110,.18);
+}
+
+.seller-btn-secondary{
+    color:#fff;
+
+    border:
+        1px solid
+        rgba(255,255,255,.17);
+
+    background:
+        rgba(255,255,255,.07);
+}
+
+
+/* =========================================================
+   HERO PROPERTY
+========================================================= */
+
+.seller-hero-visual{
+    position:relative;
+
+    min-height:440px;
+
+    display:grid;
+    place-items:center;
+}
+
+.seller-orbit{
+    position:absolute;
+
+    width:340px;
+    height:340px;
+
+    border:
+        1px solid
+        rgba(201,169,110,.25);
+
+    border-radius:50%;
+}
+
+.seller-orbit::before{
+    content:"";
+
+    position:absolute;
+
+    inset:35px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.10);
+
+    border-radius:50%;
+}
+
+.seller-orbit::after{
+    content:"";
+
+    position:absolute;
+
+    inset:88px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.08);
+
+    border-radius:50%;
+}
+
+.seller-property-card{
+    position:relative;
+    z-index:3;
+
+    width:min(
+        330px,
+        80%
+    );
+
+    padding:25px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.14);
+
+    border-radius:25px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.13),
+            rgba(255,255,255,.04)
+        );
+
+    backdrop-filter:blur(18px);
+
+    box-shadow:
+        0 30px 70px
+        rgba(0,0,0,.40);
+}
+
+.seller-property-icon{
+    width:51px;
+    height:51px;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:15px;
+
+    background:
+        rgba(201,169,110,.13);
+
+    font-size:1.25rem;
+}
+
+.seller-property-card h2{
+    margin:
+        17px 0
+        5px;
+
+    color:#fff;
+
+    font-size:1.12rem;
+}
+
+.seller-property-card p{
+    margin:0;
+
+    color:
+        rgba(255,255,255,.57);
+
+    font-size:.72rem;
+    line-height:1.55;
+}
+
+.seller-property-price{
+    margin-top:20px;
+
+    color:var(--ghar-gold);
+
+    font-size:1.7rem;
+    font-weight:950;
+}
+
+.seller-property-status{
+    display:flex;
+    justify-content:space-between;
+
+    margin-top:17px;
+    padding-top:14px;
+
+    border-top:
+        1px solid
+        rgba(255,255,255,.10);
+
+    color:
+        rgba(255,255,255,.60);
+
+    font-size:.63rem;
+}
+
+.status-live{
+    color:#a9d6b0;
+    font-weight:800;
+}
+
+
+/* =========================================================
+   SECTION HEADER
+========================================================= */
+
+.seller-section-head{
+    margin:
+        34px 0
+        15px;
+}
+
+.seller-section-head h2{
+    margin:0;
+
+    font-size:1.25rem;
+
+    letter-spacing:-.025em;
+}
+
+.seller-section-head p{
+    margin:
+        5px 0 0;
+
+    color:
+        rgba(255,255,255,.47);
+
+    font-size:.73rem;
+}
+
+
+/* =========================================================
+   METRICS
+========================================================= */
+
+.seller-metrics{
+    display:grid;
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+    gap:14px;
+}
+
+.seller-metric{
+    position:relative;
+
+    overflow:hidden;
+
+    min-height:130px;
+
+    padding:22px;
+
+    border-radius:20px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #f3f2ed,
+            #d9d9d3
+        );
+
+    color:var(--dark);
+
+    box-shadow:
+        0 12px 35px
+        rgba(0,0,0,.22);
+}
+
+.seller-metric::after{
+    content:"";
+
+    position:absolute;
+
+    width:100px;
+    height:100px;
+
+    right:-40px;
+    bottom:-50px;
+
+    border-radius:50%;
+
+    background:
+        rgba(201,169,110,.15);
+}
+
+.metric-label{
+    position:relative;
+    z-index:1;
+
+    font-size:.61rem;
+    font-weight:900;
+
+    letter-spacing:.11em;
+
+    text-transform:uppercase;
+}
+
+.metric-value{
+    position:relative;
+    z-index:1;
+
+    margin-top:5px;
+
+    font-size:1.85rem;
+    font-weight:950;
+}
+
+.metric-sub{
+    position:relative;
+    z-index:1;
+
+    margin-top:4px;
+
+    color:#6c726e;
+
+    font-size:.65rem;
+}
+
+
+/* =========================================================
+   SELLER TOOLS
+========================================================= */
+
+.seller-tools{
+    display:grid;
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+    gap:14px;
+}
+
+.seller-tool{
+    min-height:140px;
+
+    padding:21px;
+
+    border-radius:20px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #faf9f5,
+            #deded9
+        );
+
+    color:var(--dark);
+
+    box-shadow:
+        0 12px 35px
+        rgba(0,0,0,.20);
+
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease;
+}
+
+.seller-tool:hover{
+    transform:translateY(-4px);
+
+    box-shadow:
+        0 20px 50px
+        rgba(0,0,0,.28);
+}
+
+.tool-icon{
+    width:42px;
+    height:42px;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:13px;
+
+    background:
+        var(--ghar-green);
+
+    color:var(--ghar-gold);
+
+    font-size:1rem;
+}
+
+.seller-tool h3{
+    margin:
+        13px 0
+        4px;
+
+    font-size:.84rem;
+}
+
+.seller-tool p{
+    margin:0;
+
+    color:#6b716d;
+
+    font-size:.66rem;
+    line-height:1.55;
+}
+
+
+/* =========================================================
+   DASHBOARD
+========================================================= */
+
+.seller-dashboard{
+    display:grid;
+
+    grid-template-columns:
+        1.35fr
+        .65fr;
+
+    gap:16px;
+
+    margin-top:18px;
+}
+
+.seller-panel{
+    overflow:hidden;
+
+    border:
+        1px solid
+        rgba(255,255,255,.08);
+
+    border-radius:21px;
+
+    background:
+        #101612;
+
+    box-shadow:
+        0 15px 45px
+        rgba(0,0,0,.25);
+}
+
+.panel-head{
+    min-height:62px;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    padding:
+        0 20px;
+
+    border-bottom:
+        1px solid
+        rgba(255,255,255,.08);
+}
+
+.panel-head h3{
+    margin:0;
+
+    color:#f4f1e9;
+
+    font-size:.88rem;
+}
+
+.panel-head a{
+    color:var(--ghar-gold);
+
+    font-size:.68rem;
+    font-weight:850;
+}
+
+.property-list{
+    display:grid;
+}
+
+.property-row{
+    display:grid;
+
+    grid-template-columns:
+        82px
+        1fr
+        auto;
+
+    align-items:center;
+
+    gap:13px;
+
+    padding:15px 20px;
+
+    border-bottom:
+        1px solid
+        rgba(255,255,255,.07);
+}
+
+.property-row:last-child{
+    border-bottom:0;
+}
+
+.property-image{
+    width:82px;
+    height:64px;
+
+    overflow:hidden;
+
+    border-radius:12px;
+
+    background:#222b26;
+}
+
+.property-image img{
+    width:100%;
+    height:100%;
+
+    object-fit:cover;
+}
+
+.property-title{
+    color:#f6f3eb;
+
+    font-size:.76rem;
+    font-weight:850;
+}
+
+.property-location{
+    margin-top:4px;
+
+    color:#7e8881;
+
+    font-size:.62rem;
+}
+
+.property-price{
+    margin-top:4px;
+
+    color:var(--ghar-gold);
+
+    font-size:.69rem;
+    font-weight:850;
+}
+
+.property-status{
+    padding:
+        5px 8px;
+
+    border-radius:999px;
+
+    background:
+        rgba(144,190,151,.14);
+
+    color:#9fd0a5;
+
+    font-size:.58rem;
+    font-weight:850;
+}
+
+
+/* =========================================================
+   ACTIVITY
+========================================================= */
+
+.activity-list{
+    padding:
+        7px 20px
+        16px;
+}
+
+.activity-item{
+    display:flex;
+
+    gap:10px;
+
+    padding:
+        13px 0;
+
+    border-bottom:
+        1px solid
+        rgba(255,255,255,.07);
+}
+
+.activity-item:last-child{
+    border-bottom:0;
+}
+
+.activity-icon{
+    width:30px;
+    height:30px;
+
+    flex:0 0 30px;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:9px;
+
+    background:
+        rgba(201,169,110,.10);
+
+    color:var(--ghar-gold);
+
+    font-size:.7rem;
+}
+
+.activity-title{
+    color:#f4f2ea;
+
+    font-size:.67rem;
+    font-weight:800;
+}
+
+.activity-text{
+    margin-top:3px;
+
+    color:#7d8780;
+
+    font-size:.61rem;
+    line-height:1.45;
+}
+
+
+/* =========================================================
+   SELLING JOURNEY
+========================================================= */
+
+.seller-journey{
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:13px;
+}
+
+.journey-card{
+    position:relative;
+
+    overflow:hidden;
+
+    min-height:130px;
+
+    padding:20px;
+
+    border-radius:19px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #0e3025,
+            #092119
+        );
+
+    border:
+        1px solid
+        rgba(201,169,110,.10);
+}
+
+.journey-number{
+    color:var(--ghar-gold);
+
+    font-size:.61rem;
+    font-weight:950;
+}
+
+.journey-card h3{
+    margin:
+        10px 0
+        5px;
+
+    color:#fff;
+
+    font-size:.84rem;
+}
+
+.journey-card p{
+    margin:0;
+
+    color:
+        rgba(255,255,255,.56);
+
+    font-size:.63rem;
+
+    line-height:1.55;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.seller-footer{
+    margin-top:15px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #07130f,
+            #10231d
+        );
+
+    border-top:
+        1px solid
+        rgba(201,169,110,.12);
+}
+
+.seller-footer-inner{
+    width:min(
+        1450px,
+        calc(100% - 30px)
+    );
+
+    margin:auto;
+
+    padding:
+        35px 0;
+
+    display:grid;
+
+    grid-template-columns:
+        1.3fr
+        repeat(3,1fr);
+
+    gap:30px;
+}
+
+.footer-brand h2{
+    margin:0;
+
+    color:#fff;
+
+    font-size:1.15rem;
+
+    letter-spacing:.12em;
+}
+
+.footer-brand p{
+    max-width:300px;
+
+    margin:
+        8px 0 0;
+
+    color:
+        rgba(255,255,255,.48);
+
+    font-size:.68rem;
+
+    line-height:1.6;
+}
+
+.footer-column h3{
+    margin:
+        0 0
+        11px;
+
+    color:var(--ghar-gold);
+
+    font-size:.68rem;
+
+    letter-spacing:.09em;
+
+    text-transform:uppercase;
+}
+
+.footer-column a{
+    display:block;
+
+    margin:
+        7px 0;
+
+    color:
+        rgba(255,255,255,.60);
+
+    font-size:.67rem;
+
+    transition:color .2s ease;
+}
+
+.footer-column a:hover{
+    color:#fff;
+}
+
+.footer-bottom{
+    width:min(
+        1450px,
+        calc(100% - 30px)
+    );
+
+    margin:auto;
+
+    padding:
+        17px 0;
+
+    border-top:
+        1px solid
+        rgba(255,255,255,.07);
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    gap:15px;
+
+    color:
+        rgba(255,255,255,.38);
+
+    font-size:.59rem;
+}
+
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+.empty-state{
+    padding:
+        32px 20px;
+
+    text-align:center;
+
+    color:#7c857f;
+
+    font-size:.68rem;
+}
+
+.empty-state-icon{
+    margin-bottom:8px;
+
+    font-size:1.7rem;
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+.ghar-toast{
+    position:fixed;
+
+    left:50%;
+    bottom:25px;
+
+    z-index:5000;
+
+    transform:
+        translate(-50%,20px);
+
+    opacity:0;
+    pointer-events:none;
+
+    padding:
+        11px 17px;
+
+    border-radius:12px;
+
+    background:
+        #10231d;
+
+    color:#fff;
+
+    box-shadow:
+        0 15px 40px
+        rgba(0,0,0,.30);
+
+    font-size:.7rem;
+    font-weight:750;
+
+    transition:
+        opacity .25s ease,
+        transform .25s ease;
+}
+
+.ghar-toast.show{
+    opacity:1;
+
+    transform:
+        translate(-50%,0);
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width:1050px){
+
+    .seller-nav{
+        display:none;
+    }
+
+    .seller-menu{
+        display:grid;
+    }
+
+    .seller-header-inner{
+        grid-template-columns:
+            auto
+            1fr
+            auto;
+    }
+
+    .seller-hero{
+        grid-template-columns:1fr;
+    }
+
+    .seller-hero-visual{
+        min-height:350px;
+    }
+
+    .seller-metrics{
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+    .seller-tools{
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+    .seller-dashboard{
+        grid-template-columns:1fr;
+    }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width:700px){
+
+    body{
+        background:#050806;
+    }
+
+    .seller-main{
+        width:
+            calc(100% - 20px);
+
+        padding-top:13px;
+    }
+
+    .seller-header-inner{
+        width:
+            calc(100% - 20px);
+
+        min-height:66px;
+    }
+
+    .seller-brand-sub{
+        display:none;
+    }
+
+    .seller-brand-name{
+        font-size:.96rem;
+    }
+
+    .seller-header-btn{
+        width:38px;
+        height:38px;
+    }
+
+    .seller-hero{
+        min-height:auto;
+
+        border-radius:22px;
+
+        grid-template-columns:1fr;
+    }
+
+    .seller-hero-copy{
+        padding:
+            30px
+            21px
+            22px;
+    }
+
+    .seller-eyebrow{
+        font-size:.52rem;
+    }
+
+    .seller-hero h1{
+        margin-top:17px;
+
+        font-size:
+            clamp(
+                2.35rem,
+                12vw,
+                3.25rem
+            );
+    }
+
+    .seller-hero-description{
+        font-size:.71rem;
+    }
+
+    .seller-hero-actions{
+        flex-direction:column;
+
+        margin-top:21px;
+    }
+
+    .seller-btn{
+        width:100%;
+
+        min-height:42px;
+    }
+
+    .seller-hero-visual{
+        min-height:255px;
+    }
+
+    .seller-orbit{
+        width:235px;
+        height:235px;
+    }
+
+    .seller-property-card{
+        width:75%;
+
+        padding:18px;
+    }
+
+    .seller-property-icon{
+        width:39px;
+        height:39px;
+    }
+
+    .seller-property-card h2{
+        margin-top:11px;
+
+        font-size:.88rem;
+    }
+
+    .seller-property-card p{
+        font-size:.59rem;
+    }
+
+    .seller-property-price{
+        margin-top:12px;
+
+        font-size:1.35rem;
+    }
+
+    .seller-property-status{
+        margin-top:11px;
+
+        font-size:.53rem;
+    }
+
+    .seller-section-head{
+        margin-top:25px;
+    }
+
+    .seller-section-head h2{
+        font-size:1rem;
+    }
+
+    .seller-section-head p{
+        font-size:.62rem;
+    }
+
+    .seller-metrics{
+        grid-template-columns:
+            repeat(2,1fr);
+
+        gap:8px;
+    }
+
+    .seller-metric{
+        min-height:88px;
+
+        padding:
+            14px 13px;
+
+        border-radius:15px;
+    }
+
+    .metric-label{
+        font-size:.49rem;
+    }
+
+    .metric-value{
+        font-size:1.35rem;
+    }
+
+    .metric-sub{
+        font-size:.52rem;
+    }
+
+    .seller-tools{
+        grid-template-columns:
+            repeat(2,1fr);
+
+        gap:8px;
+    }
+
+    .seller-tool{
+        min-height:112px;
+
+        padding:14px;
+
+        border-radius:15px;
+    }
+
+    .tool-icon{
+        width:34px;
+        height:34px;
+
+        border-radius:10px;
+    }
+
+    .seller-tool h3{
+        margin-top:9px;
+
+        font-size:.67rem;
+    }
+
+    .seller-tool p{
+        font-size:.52rem;
+    }
+
+    .seller-dashboard{
+        gap:9px;
+    }
+
+    .seller-panel{
+        border-radius:15px;
+    }
+
+    .panel-head{
+        min-height:49px;
+
+        padding:
+            0 14px;
+    }
+
+    .panel-head h3{
+        font-size:.68rem;
+    }
+
+    .panel-head a{
+        font-size:.55rem;
+    }
+
+    .property-row{
+        grid-template-columns:
+            58px
+            1fr;
+
+        gap:9px;
+
+        padding:
+            11px 13px;
+    }
+
+    .property-image{
+        width:58px;
+        height:50px;
+    }
+
+    .property-title{
+        font-size:.61rem;
+    }
+
+    .property-location{
+        font-size:.51rem;
+    }
+
+    .property-price{
+        font-size:.57rem;
+    }
+
+    .property-status{
+        grid-column:2;
+
+        justify-self:start;
+
+        font-size:.49rem;
+    }
+
+    .activity-list{
+        padding:
+            5px 13px
+            11px;
+    }
+
+    .activity-item{
+        padding:10px 0;
+    }
+
+    .activity-icon{
+        width:27px;
+        height:27px;
+        flex-basis:27px;
+    }
+
+    .activity-title{
+        font-size:.58rem;
+    }
+
+    .activity-text{
+        font-size:.51rem;
+    }
+
+    .seller-journey{
+        grid-template-columns:1fr;
+
+        gap:7px;
+    }
+
+    .journey-card{
+        min-height:94px;
+
+        padding:15px;
+
+        border-radius:14px;
+    }
+
+    .journey-card h3{
+        margin-top:7px;
+
+        font-size:.7rem;
+    }
+
+    .journey-card p{
+        font-size:.53rem;
+    }
+
+    .seller-footer-inner{
+        grid-template-columns:
+            repeat(2,1fr);
+
+        gap:25px 18px;
+
+        padding:
+            28px 0;
+    }
+
+    .footer-brand{
+        grid-column:
+            1 / -1;
+    }
+
+    .footer-column h3{
+        font-size:.57rem;
+    }
+
+    .footer-column a{
+        font-size:.56rem;
+    }
+
+    .footer-bottom{
+        flex-direction:column;
+        align-items:flex-start;
+
+        padding:
+            14px 0;
+    }
+}
+
+
+/* =========================================================
+   SMALL PHONES
+========================================================= */
+
+@media (max-width:390px){
+
+    .seller-main{
+        width:
+            calc(100% - 14px);
+    }
+
+    .seller-header-inner{
+        width:
+            calc(100% - 14px);
+    }
+
+    .seller-hero-copy{
+        padding:
+            26px 17px
+            19px;
+    }
+
+    .seller-hero h1{
+        font-size:2.15rem;
+    }
+
+    .seller-metrics,
+    .seller-tools{
+        gap:6px;
+    }
+
+    .seller-metric,
+    .seller-tool{
+        padding:12px;
+    }
+
+    .seller-property-card{
+        width:78%;
+    }
+}
+
+</style>
+</head>
+
+
+<body
+    data-page="seller-index"
+    data-role="seller"
+>
+
+
+<!-- =========================================================
+     HEADER
+========================================================= -->
+
+<header class="seller-header">
+
+    <div class="seller-header-inner">
+
+
+        <a
+            href="../index.html"
+            class="seller-brand"
+            aria-label="GHAR Home"
+        >
+
+            <span class="seller-logo">
+                G
+            </span>
+
+            <span>
+
+                <span class="seller-brand-name">
+                    GHAR
+                </span>
+
+                <span class="seller-brand-sub">
+                    Seller Workspace
+                </span>
+
+            </span>
+
+        </a>
+
+
+        <nav
+            class="seller-nav"
+            id="sellerNav"
+            aria-label="Seller navigation"
+        >
+
+            <a
+                href="seller-index.html"
+                class="active"
+            >
+                Overview
+            </a>
+
+            <a href="my-properties.html">
+                My Properties
+            </a>
+
+            <a href="scheduled-lists.html">
+                Visits
+            </a>
+
+            <a href="request.html">
+                Requests
+            </a>
+
+            <a href="status.html">
+                Status
+            </a>
+
+            <a href="reschedule.html">
+                Reschedule
+            </a>
+
+        </nav>
+
+
+        <div class="seller-header-actions">
+
+            <button
+                type="button"
+                class="seller-header-btn"
+                id="sellerNotifications"
+                aria-label="Notifications"
+            >
+                🔔
+            </button>
+
+            <button
+                type="button"
+                class="seller-header-btn"
+                id="sellerProfile"
+                aria-label="Profile"
+            >
+                👤
+            </button>
+
+            <button
+                type="button"
+                class="seller-header-btn seller-menu"
+                id="sellerMenu"
+                aria-label="Open seller menu"
+                aria-expanded="false"
+            >
+                ☰
+            </button>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+
+<!-- =========================================================
+     MAIN
+========================================================= -->
+
+<main class="seller-main">
+
+
+    <!-- =====================================================
+         HERO
+    ====================================================== -->
+
+    <section class="seller-hero">
+
+
+        <div class="seller-hero-copy">
+
+            <div class="seller-eyebrow">
+                GHAR SELLER WORKSPACE
+            </div>
+
+
+            <h1>
+                Turn your property
+                into a
+                <span>GHAR</span>
+                opportunity.
+            </h1>
+
+
+            <p class="seller-hero-description">
+
+                Manage your listings, property enquiries,
+                scheduled visits, buyer requests and offers
+                from one structured seller workspace.
+
+            </p>
+
+
+            <div class="seller-hero-actions">
+
+                <a
+                    href="add-property.html"
+                    class="seller-btn seller-btn-primary"
+                >
+                    + Add Property
+                </a>
+
+                <a
+                    href="my-properties.html"
+                    class="seller-btn seller-btn-secondary"
+                >
+                    Manage Properties
+                </a>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="seller-hero-visual">
+
+            <div class="seller-orbit"></div>
+
+
+            <div class="seller-property-card">
+
+                <div class="seller-property-icon">
+                    🏡
+                </div>
+
+
+                <h2>
+                    Your Property
+                </h2>
+
+
+                <p>
+                    Keep your listing, buyer activity,
+                    visits and offers connected.
+                </p>
+
+
+                <div class="seller-property-price">
+                    ₹2.85 Cr
+                </div>
+
+
+                <div class="seller-property-status">
+
+                    <span>
+                        Listing status
+                    </span>
+
+                    <span class="status-live">
+                        ● Active
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         SELLER OVERVIEW
+    ====================================================== -->
+
+    <div class="seller-section-head">
+
+        <h2>
+            Seller overview
+        </h2>
+
+        <p>
+            Your current property activity at a glance.
+        </p>
+
+    </div>
+
+
+    <section class="seller-metrics">
+
+
+        <article class="seller-metric">
+
+            <div class="metric-label">
+                My Properties
+            </div>
+
+            <div
+                class="metric-value"
+                id="sellerPropertyCount"
+            >
+                0
+            </div>
+
+            <div class="metric-sub">
+                Properties in your workspace
+            </div>
+
+        </article>
+
+
+        <article class="seller-metric">
+
+            <div class="metric-label">
+                Enquiries
+            </div>
+
+            <div
+                class="metric-value"
+                id="sellerEnquiryCount"
+            >
+                0
+            </div>
+
+            <div class="metric-sub">
+                Buyer enquiries
+            </div>
+
+        </article>
+
+
+        <article class="seller-metric">
+
+            <div class="metric-label">
+                Visits
+            </div>
+
+            <div
+                class="metric-value"
+                id="sellerVisitCount"
+            >
+                0
+            </div>
+
+            <div class="metric-sub">
+                Scheduled activity
+            </div>
+
+        </article>
+
+
+        <article class="seller-metric">
+
+            <div class="metric-label">
+                Offers
+            </div>
+
+            <div
+                class="metric-value"
+                id="sellerOfferCount"
+            >
+                0
+            </div>
+
+            <div class="metric-sub">
+                Buyer offers received
+            </div>
+
+        </article>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         SELLER TOOLS
+    ====================================================== -->
+
+    <div class="seller-section-head">
+
+        <h2>
+            Seller tools
+        </h2>
+
+        <p>
+            Common actions for managing your GHAR activity.
+        </p>
+
+    </div>
+
+
+    <section class="seller-tools">
+
+
+        <a
+            href="add-property.html"
+            class="seller-tool"
+        >
+
+            <div class="tool-icon">
+                +
+            </div>
+
+            <h3>
+                Add Property
+            </h3>
+
+            <p>
+                Create and submit a new property listing.
+            </p>
+
+        </a>
+
+
+        <a
+            href="my-properties.html"
+            class="seller-tool"
+        >
+
+            <div class="tool-icon">
+                🏠
+            </div>
+
+            <h3>
+                My Properties
+            </h3>
+
+            <p>
+                Review, edit and manage your listings.
+            </p>
+
+        </a>
+
+
+        <a
+            href="scheduled-lists.html"
+            class="seller-tool"
+        >
+
+            <div class="tool-icon">
+                📅
+            </div>
+
+            <h3>
+                Scheduled Visits
+            </h3>
+
+            <p>
+                Track upcoming buyer property visits.
+            </p>
+
+        </a>
+
+
+        <a
+            href="request.html"
+            class="seller-tool"
+        >
+
+            <div class="tool-icon">
+                📩
+            </div>
+
+            <h3>
+                Buyer Requests
+            </h3>
+
+            <p>
+                Review requests and required actions.
+            </p>
+
+        </a>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         RECENT PROPERTY / ACTIVITY
+    ====================================================== -->
+
+    <section class="seller-dashboard">
+
+
+        <!-- RECENT PROPERTIES -->
+
+        <div class="seller-panel">
+
+            <div class="panel-head">
+
+                <h3>
+                    Recent Properties
+                </h3>
+
+                <a href="my-properties.html">
+                    View all →
+                </a>
+
+            </div>
+
+
+            <div
+                class="property-list"
+                id="sellerPropertyList"
+            >
+
+            </div>
+
+        </div>
+
+
+
+        <!-- RECENT ACTIVITY -->
+
+        <div class="seller-panel">
+
+            <div class="panel-head">
+
+                <h3>
+                    Recent Activity
+                </h3>
+
+            </div>
+
+
+            <div
+                class="activity-list"
+                id="sellerActivity"
+            >
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         SELLING JOURNEY
+    ====================================================== -->
+
+    <div class="seller-section-head">
+
+        <h2>
+            Your selling journey
+        </h2>
+
+        <p>
+            Keep every stage organized through GHAR.
+        </p>
+
+    </div>
+
+
+    <section class="seller-journey">
+
+
+        <article class="journey-card">
+
+            <div class="journey-number">
+                01
+            </div>
+
+            <h3>
+                List
+            </h3>
+
+            <p>
+                Add your property information,
+                pricing, media and listing preferences.
+            </p>
+
+        </article>
+
+
+        <article class="journey-card">
+
+            <div class="journey-number">
+                02
+            </div>
+
+            <h3>
+                Connect
+            </h3>
+
+            <p>
+                Manage enquiries, buyer requests
+                and scheduled property visits.
+            </p>
+
+        </article>
+
+
+        <article class="journey-card">
+
+            <div class="journey-number">
+                03
+            </div>
+
+            <h3>
+                Progress
+            </h3>
+
+            <p>
+                Track offers and continue the
+                transaction through the relevant
+                GHAR workflow.
+            </p>
+
+        </article>
+
+    </section>
+
+</main>
+
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer class="seller-footer">
+
+
+    <div class="seller-footer-inner">
+
+
+        <!-- BRAND -->
+
+        <div class="footer-brand">
+
+            <h2>
+                GHAR
+            </h2>
+
+            <p>
+                Structured real-estate workspace
+                for property owners, buyers,
+                renters and transactions.
+            </p>
+
+        </div>
+
+
+        <!-- SELLER -->
+
+        <div class="footer-column">
+
+            <h3>
+                Seller
+            </h3>
+
+            <a href="seller-index.html">
+                Seller Dashboard
+            </a>
+
+            <a href="add-property.html">
+                Add Property
+            </a>
+
+            <a href="my-properties.html">
+                My Properties
+            </a>
+
+            <a href="scheduled-lists.html">
+                Scheduled Visits
+            </a>
+
+        </div>
+
+
+        <!-- WORKSPACE -->
+
+        <div class="footer-column">
+
+            <h3>
+                Workspace
+            </h3>
+
+            <a href="request.html">
+                Requests
+            </a>
+
+            <a href="status.html">
+                Status
+            </a>
+
+            <a href="reschedule.html">
+                Reschedule
+            </a>
+
+            <a href="../communication/notifications.html">
+                Notifications
+            </a>
+
+        </div>
+
+
+        <!-- GHAR -->
+
+        <div class="footer-column">
+
+            <h3>
+                GHAR
+            </h3>
+
+            <a href="../about.html">
+                About
+            </a>
+
+            <a href="../support/index.html">
+                Support
+            </a>
+
+            <a href="../legal/terms.html">
+                Terms
+            </a>
+
+            <a href="../legal/privacy.html">
+                Privacy
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <div class="footer-bottom">
+
+        <span>
+            © <span id="sellerYear"></span> GHAR.
+            All rights reserved.
+        </span>
+
+        <span>
+            Seller Workspace
+        </span>
+
+    </div>
+
+</footer>
+
+
+
+<!-- =========================================================
+     TOAST
+========================================================= -->
+
+<div
+    class="ghar-toast"
+    id="gharToast"
+    role="status"
+    aria-live="polite"
+></div>
+
+
+
+<!-- =========================================================
+     SHARED GHAR SCRIPTS
+========================================================= -->
+
+<script
+    src="assets/js/main/site.js"
+    defer
+></script>
+
+<script
+    src="assets/js/main/page.js"
+    defer
+></script>
+
+
+
+<!-- =========================================================
+     SELLER CONTROLLER
+========================================================= -->
+
+<script>
+
+(function(){
+
+    "use strict";
+
+
+    /* =====================================================
+       FALLBACK PROPERTY DATA
+    ===================================================== */
+
+    const fallbackProperties = [
+
+        {
+            id:"GHAR-P001",
+            title:"Luxury 3 BHK Residence",
+            location:"Sector 150, Noida",
+            price:"₹2.35 Cr",
+            status:"Active",
+            image:"images/ghar-house.jpg"
+        },
+
+        {
+            id:"GHAR-P014",
+            title:"Premium Independent House",
+            location:"Sector 132, Noida",
+            price:"₹3.10 Cr",
+            status:"Active",
+            image:"images/ghar-house.jpg"
+        },
+
+        {
+            id:"GHAR-P021",
+            title:"Modern Family Villa",
+            location:"Greater Noida West",
+            price:"₹2.85 Cr",
+            status:"Under Review",
+            image:"images/ghar-house.jpg"
+        }
+
+    ];
+
+
+    /* =====================================================
+       LOCAL STORAGE
+    ===================================================== */
+
+    function readArray(keys,fallback){
+
+        for(
+            const key of keys
+        ){
+
+            try{
+
+                const raw =
+                    localStorage.getItem(key);
+
+                if(!raw){
+                    continue;
+                }
+
+                const data =
+                    JSON.parse(raw);
+
+                if(Array.isArray(data)){
+                    return data;
+                }
+
+            }catch(error){
+
+                console.warn(
+                    "GHAR storage error:",
+                    key,
+                    error
+                );
+
+            }
+
+        }
+
+        return fallback;
+
+    }
+
+
+    /* =====================================================
+       SAFE HTML
+    ===================================================== */
+
+    function escapeHTML(value){
+
+        return String(
+            value ?? ""
+        )
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+    }
+
+
+    /* =====================================================
+       DATA
+    ===================================================== */
+
+    function getProperties(){
+
+        return readArray(
+
+            [
+                "ghar_seller_properties",
+                "sellerProperties",
+                "ghar_properties",
+                "properties"
+            ],
+
+            fallbackProperties
+
+        );
+
+    }
+
+
+    function getEnquiries(){
+
+        return readArray(
+
+            [
+                "ghar_seller_enquiries",
+                "sellerEnquiries",
+                "ghar_enquiries",
+                "enquiries"
+            ],
+
+            []
+
+        );
+
+    }
+
+
+    function getVisits(){
+
+        return readArray(
+
+            [
+                "ghar_seller_visits",
+                "sellerVisits",
+                "ghar_visits",
+                "visits"
+            ],
+
+            []
+
+        );
+
+    }
+
+
+    function getOffers(){
+
+        return readArray(
+
+            [
+                "ghar_seller_offers",
+                "sellerOffers",
+                "ghar_offers",
+                "offers"
+            ],
+
+            []
+
+        );
+
+    }
+
+
+    /* =====================================================
+       METRICS
+    ===================================================== */
+
+    function renderMetrics(){
+
+        const properties =
+            getProperties();
+
+        const enquiries =
+            getEnquiries();
+
+        const visits =
+            getVisits();
+
+        const offers =
+            getOffers();
+
+
+        const values = {
+
+            sellerPropertyCount:
+                properties.length,
+
+            sellerEnquiryCount:
+                enquiries.length,
+
+            sellerVisitCount:
+                visits.length,
+
+            sellerOfferCount:
+                offers.length
+
+        };
+
+
+        Object.entries(values)
+            .forEach(
+                ([id,value]) => {
+
+                    const element =
+                        document.getElementById(id);
+
+                    if(element){
+
+                        element.textContent =
+                            value;
+
+                    }
+
+                }
+            );
+
+    }
+
+
+    /* =====================================================
+       PROPERTY LIST
+    ===================================================== */
+
+    function renderProperties(){
+
+        const container =
+            document.getElementById(
+                "sellerPropertyList"
+            );
+
+        if(!container){
+            return;
+        }
+
+
+        const properties =
+            getProperties();
+
+
+        if(!properties.length){
+
+            container.innerHTML = `
+
+                <div class="empty-state">
+
+                    <div class="empty-state-icon">
+                        🏠
+                    </div>
+
+                    <div>
+                        No properties added yet.
+                    </div>
+
+                    <div style="margin-top:12px">
+
+                        <a
+                            href="add-property.html"
+                            class="seller-btn seller-btn-primary"
+                        >
+                            Add Property
+                        </a>
+
+                    </div>
+
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+        container.innerHTML =
+
+            properties
+            .slice(0,5)
+            .map(
+                property => {
+
+                    const id =
+                        property.id ||
+                        property.propertyId ||
+                        "";
+
+                    const title =
+                        property.title ||
+                        property.name ||
+                        "GHAR Property";
+
+                    const location =
+                        property.location ||
+                        property.city ||
+                        "Location available through GHAR";
+
+                    const price =
+                        property.price ||
+                        property.amount ||
+                        "Price on request";
+
+                    const status =
+                        property.status ||
+                        "Active";
+
+                    const image =
+                        property.image ||
+                        property.coverImage ||
+                        "images/ghar-house.jpg";
+
+
+                    return `
+
+                        <a
+                            class="property-row"
+                            href="edit-property.html?id=${encodeURIComponent(id)}"
+                        >
+
+                            <div class="property-image">
+
+                                <img
+                                    src="${escapeHTML(image)}"
+                                    alt="${escapeHTML(title)}"
+                                    loading="lazy"
+                                    onerror="
+                                        this.src='images/ghar-house.jpg';
+                                    "
+                                >
+
+                            </div>
+
+
+                            <div>
+
+                                <div class="property-title">
+                                    ${escapeHTML(title)}
+                                </div>
+
+                                <div class="property-location">
+                                    📍 ${escapeHTML(location)}
+                                </div>
+
+                                <div class="property-price">
+                                    ${escapeHTML(price)}
+                                </div>
+
+                            </div>
+
+
+                            <span class="property-status">
+                                ${escapeHTML(status)}
+                            </span>
+
+                        </a>
+
+                    `;
+
+                }
+            )
+            .join("");
+
+    }
+
+
+    /* =====================================================
+       ACTIVITY
+    ===================================================== */
+
+    function renderActivity(){
+
+        const container =
+            document.getElementById(
+                "sellerActivity"
+            );
+
+        if(!container){
+            return;
+        }
+
+
+        const enquiries =
+            getEnquiries();
+
+        const visits =
+            getVisits();
+
+        const offers =
+            getOffers();
+
+
+        const activities = [];
+
+
+        enquiries
+            .slice(-3)
+            .reverse()
+            .forEach(
+                item => {
+
+                    activities.push({
+
+                        icon:"📩",
+
+                        title:
+                            "New property enquiry",
+
+                        text:
+                            item.propertyTitle ||
+                            item.title ||
+                            "A buyer enquiry is available."
+
+                    });
+
+                }
+            );
+
+
+        visits
+            .slice(-3)
+            .reverse()
+            .forEach(
+                item => {
+
+                    activities.push({
+
+                        icon:"📅",
+
+                        title:
+                            "Property visit activity",
+
+                        text:
+                            item.propertyTitle ||
+                            item.title ||
+                            "A property visit is scheduled."
+
+                    });
+
+                }
+            );
+
+
+        offers
+            .slice(-3)
+            .reverse()
+            .forEach(
+                item => {
+
+                    activities.push({
+
+                        icon:"₹",
+
+                        title:
+                            "Offer activity",
+
+                        text:
+                            item.propertyTitle ||
+                            item.title ||
+                            "A buyer offer is available."
+
+                    });
+
+                }
+            );
+
+
+        if(!activities.length){
+
+            activities.push({
+
+                icon:"✓",
+
+                title:
+                    "Workspace ready",
+
+                text:
+                    "Your seller activity will appear here."
+
+            });
+
+        }
+
+
+        container.innerHTML =
+
+            activities
+            .slice(0,6)
+            .map(
+                activity => `
+
+                    <div class="activity-item">
+
+                        <div class="activity-icon">
+                            ${escapeHTML(activity.icon)}
+                        </div>
+
+                        <div>
+
+                            <div class="activity-title">
+                                ${escapeHTML(activity.title)}
+                            </div>
+
+                            <div class="activity-text">
+                                ${escapeHTML(activity.text)}
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                `
+            )
+            .join("");
+
+    }
+
+
+    /* =====================================================
+       MOBILE MENU
+    ===================================================== */
+
+    function initMenu(){
+
+        const menu =
+            document.getElementById(
+                "sellerMenu"
+            );
+
+        const nav =
+            document.getElementById(
+                "sellerNav"
+            );
+
+
+        if(!menu || !nav){
+            return;
+        }
+
+
+        menu.addEventListener(
+            "click",
+            function(){
+
+                const opened =
+                    menu.getAttribute(
+                        "aria-expanded"
+                    ) === "true";
+
+
+                if(opened){
+
+                    nav.style.display =
+                        "";
+
+                    nav.style.position =
+                        "";
+
+                    nav.style.top =
+                        "";
+
+                    nav.style.left =
+                        "";
+
+                    nav.style.right =
+                        "";
+
+                    nav.style.flexDirection =
+                        "";
+
+                    nav.style.padding =
+                        "";
+
+                    nav.style.background =
+                        "";
+
+                    nav.style.border =
+                        "";
+
+                    nav.style.borderRadius =
+                        "";
+
+                    nav.style.boxShadow =
+                        "";
+
+                    menu.setAttribute(
+                        "aria-expanded",
+                        "false"
+                    );
+
+                    return;
+
+                }
+
+
+                nav.style.display =
+                    "flex";
+
+                nav.style.position =
+                    "absolute";
+
+                nav.style.top =
+                    "66px";
+
+                nav.style.left =
+                    "10px";
+
+                nav.style.right =
+                    "10px";
+
+                nav.style.flexDirection =
+                    "column";
+
+                nav.style.alignItems =
+                    "stretch";
+
+                nav.style.padding =
+                    "10px";
+
+                nav.style.background =
+                    "rgba(244,236,221,.98)";
+
+                nav.style.border =
+                    "1px solid rgba(16,35,29,.12)";
+
+                nav.style.borderRadius =
+                    "16px";
+
+                nav.style.boxShadow =
+                    "0 20px 50px rgba(0,0,0,.18)";
+
+                menu.setAttribute(
+                    "aria-expanded",
+                    "true"
+                );
+
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       HEADER ACTIONS
+    ===================================================== */
+
+    function initHeader(){
+
+        const profile =
+            document.getElementById(
+                "sellerProfile"
+            );
+
+        const notifications =
+            document.getElementById(
+                "sellerNotifications"
+            );
+
+
+        if(profile){
+
+            profile.addEventListener(
+                "click",
+                function(){
+
+                    window.location.href =
+                        "my-profile.html";
+
+                }
+            );
+
+        }
+
+
+        if(notifications){
+
+            notifications.addEventListener(
+                "click",
+                function(){
+
+                    window.location.href =
+                        "../communication/notifications.html";
+
+                }
+            );
+
+        }
+
+    }
+
+
+    /* =====================================================
+       TOAST
+    ===================================================== */
+
+    function showToast(message){
+
+        const toast =
+            document.getElementById(
+                "gharToast"
+            );
+
+        if(!toast){
+            return;
+        }
+
+        toast.textContent =
+            message;
+
+        toast.classList.add("show");
+
+
+        clearTimeout(
+            window.__gharToastTimer
+        );
+
+
+        window.__gharToastTimer =
+            setTimeout(
+                function(){
+
+                    toast.classList.remove(
+                        "show"
+                    );
+
+                },
+                2600
+            );
+
+    }
+
+
+    /* =====================================================
+       YEAR
+    ===================================================== */
+
+    function renderYear(){
+
+        const year =
+            document.getElementById(
+                "sellerYear"
+            );
+
+        if(year){
+
+            year.textContent =
+                new Date().getFullYear();
+
+        }
+
+    }
+
+
+    /* =====================================================
+       STORAGE SYNC
+    ===================================================== */
+
+    window.addEventListener(
+        "storage",
+        function(){
+
+            renderMetrics();
+
+            renderProperties();
+
+            renderActivity();
+
+        }
+    );
+
+
+    /* =====================================================
+       INITIALIZE
+    ===================================================== */
+
+    function initialize(){
+
+      <!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, viewport-fit=cover"
+>
+
+<meta
+    name="description"
+    content="GHAR Seller -- Add and publish your property listing."
+>
+
+<meta name="theme-color" content="#10231d">
+<meta name="robots" content="noindex,nofollow">
+
+<title>Add Property · GHAR Seller</title>
+
+<link rel="stylesheet" href="../assets/css/style.css">
+
+<style>
+/* =========================================================
+   GHAR -- SELLER ADD PROPERTY
+   LOCKED GHAR PREMIUM DESIGN SYSTEM
+========================================================= */
+
+:root{
+    --ghar-green:#10231d;
+    --ghar-deep:#071510;
+    --ghar-forest:#18372d;
+    --ghar-gold:#c9a96e;
+    --ghar-gold-soft:#ead9b6;
+    --ghar-cream:#f5efe4;
+    --ghar-sand:#e8dcc8;
+    --ghar-bg:#edf0ea;
+    --ghar-card:rgba(255,255,255,.72);
+    --ghar-text:#18221e;
+    --ghar-muted:#707870;
+    --ghar-border:rgba(16,35,29,.12);
+    --ghar-shadow:0 20px 60px rgba(16,35,29,.09);
+    --ghar-radius:24px;
+}
+
+*{
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    margin:0;
+    min-height:100vh;
+
+    color:var(--ghar-text);
+
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    background:
+        radial-gradient(
+            circle at 0% 0%,
+            rgba(201,169,110,.20),
+            transparent 28%
+        ),
+        radial-gradient(
+            circle at 100% 20%,
+            rgba(24,55,45,.13),
+            transparent 30%
+        ),
+        linear-gradient(
+            135deg,
+            #f8f3e9 0%,
+            #e9eee8 48%,
+            #f0e4d4 100%
+        );
+}
+
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:-1;
+
+    background:
+        linear-gradient(
+            120deg,
+            transparent 0 48%,
+            rgba(201,169,110,.025) 50%,
+            transparent 52%
+        );
+}
+
+a{
+    color:inherit;
+    text-decoration:none;
+}
+
+button,
+input,
+select,
+textarea{
+    font:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.ghar-header{
+    position:sticky;
+    top:0;
+    z-index:1000;
+
+    border-bottom:1px solid var(--ghar-border);
+
+    background:rgba(248,243,233,.88);
+    backdrop-filter:blur(24px);
+    -webkit-backdrop-filter:blur(24px);
+}
+
+.ghar-header-inner{
+    width:min(1480px,calc(100% - 32px));
+    min-height:78px;
+    margin:auto;
+
+    display:grid;
+    grid-template-columns:auto 1fr auto;
+    align-items:center;
+    gap:30px;
+}
+
+.ghar-brand{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.ghar-logo{
+    width:46px;
+    height:46px;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:15px;
+
+    background:
+        linear-gradient(
+            145deg,
+            var(--ghar-green),
+            var(--ghar-forest)
+        );
+
+    color:var(--ghar-gold);
+
+    font-size:1.05rem;
+    font-weight:950;
+
+    box-shadow:
+        0 12px 32px rgba(16,35,29,.18);
+}
+
+.ghar-brand-name{
+    font-size:1.15rem;
+    font-weight:900;
+    letter-spacing:.06em;
+}
+
+.ghar-brand-sub{
+    display:block;
+    margin-top:2px;
+
+    color:var(--ghar-muted);
+
+    font-size:.61rem;
+    font-weight:800;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+}
+
+.ghar-nav{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:3px;
+}
+
+.ghar-nav a{
+    padding:10px 12px;
+
+    border-radius:11px;
+
+    color:#4f5953;
+
+    font-size:.78rem;
+    font-weight:750;
+}
+
+.ghar-nav a:hover,
+.ghar-nav a.active{
+    background:rgba(16,35,29,.08);
+    color:var(--ghar-green);
+}
+
+.ghar-header-actions{
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.ghar-icon-btn{
+    width:42px;
+    height:42px;
+
+    display:grid;
+    place-items:center;
+
+    border:1px solid var(--ghar-border);
+    border-radius:13px;
+
+    background:rgba(255,255,255,.60);
+
+    color:var(--ghar-green);
+
+    transition:.2s ease;
+}
+
+.ghar-icon-btn:hover{
+    transform:translateY(-2px);
+    background:#fff;
+}
+
+.ghar-mobile-menu{
+    display:none;
+}
+
+/* =========================================================
+   PAGE
+========================================================= */
+
+.page{
+    width:min(1480px,calc(100% - 32px));
+    margin:auto;
+    padding:30px 0 80px;
+}
+
+/* =========================================================
+   PAGE HERO
+========================================================= */
+
+.page-hero{
+    position:relative;
+    overflow:hidden;
+
+    padding:38px 42px;
+
+    border:1px solid rgba(201,169,110,.18);
+    border-radius:30px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(7,21,16,.98),
+            rgba(16,35,29,.96)
+        );
+
+    color:#fff;
+
+    box-shadow:
+        0 28px 75px rgba(16,35,29,.17);
+}
+
+.page-hero::before{
+    content:"";
+
+    position:absolute;
+
+    width:360px;
+    height:360px;
+
+    right:-120px;
+    top:-180px;
+
+    border-radius:50%;
+
+    border:1px solid rgba(201,169,110,.15);
+}
+
+.page-hero::after{
+    content:"";
+
+    position:absolute;
+
+    width:230px;
+    height:230px;
+
+    right:60px;
+    bottom:-160px;
+
+    border-radius:50%;
+
+    background:rgba(201,169,110,.07);
+}
+
+.hero-content{
+    position:relative;
+    z-index:2;
+
+    max-width:850px;
+}
+
+.eyebrow{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+
+    padding:7px 11px;
+
+    border:1px solid rgba(201,169,110,.30);
+    border-radius:999px;
+
+    background:rgba(201,169,110,.08);
+
+    color:var(--ghar-gold);
+
+    font-size:.64rem;
+    font-weight:850;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+}
+
+.eyebrow::before{
+    content:"";
+
+    width:6px;
+    height:6px;
+
+    border-radius:50%;
+
+    background:var(--ghar-gold);
+}
+
+.page-hero h1{
+    margin:17px 0 10px;
+
+    font-size:
+        clamp(
+            2rem,
+            4vw,
+            3.8rem
+        );
+
+    line-height:1;
+    letter-spacing:-.05em;
+}
+
+.page-hero h1 span{
+    color:var(--ghar-gold);
+}
+
+.page-hero p{
+    max-width:730px;
+
+    margin:0;
+
+    color:rgba(255,255,255,.68);
+
+    font-size:.92rem;
+    line-height:1.75;
+}
+
+.hero-meta{
+    display:flex;
+    flex-wrap:wrap;
+    gap:9px;
+
+    margin-top:22px;
+}
+
+.hero-chip{
+    padding:8px 11px;
+
+    border:1px solid rgba(255,255,255,.13);
+    border-radius:999px;
+
+    background:rgba(255,255,255,.06);
+
+    color:rgba(255,255,255,.72);
+
+    font-size:.66rem;
+    font-weight:700;
+}
+
+/* =========================================================
+   WORKSPACE
+========================================================= */
+
+.workspace{
+    display:grid;
+
+    grid-template-columns:
+        minmax(0,1fr)
+        320px;
+
+    gap:22px;
+
+    margin-top:22px;
+
+    align-items:start;
+}
+
+/* =========================================================
+   FORM CARD
+========================================================= */
+
+.form-card{
+    overflow:hidden;
+
+    border:1px solid var(--ghar-border);
+    border-radius:26px;
+
+    background:rgba(255,255,255,.67);
+
+    box-shadow:var(--ghar-shadow);
+}
+
+.form-section{
+    padding:27px;
+
+    border-bottom:1px solid var(--ghar-border);
+}
+
+.form-section:last-child{
+    border-bottom:0;
+}
+
+.section-heading{
+    display:flex;
+    align-items:flex-start;
+    gap:13px;
+
+    margin-bottom:21px;
+}
+
+.section-number{
+    width:36px;
+    height:36px;
+    flex:0 0 36px;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:12px;
+
+    background:var(--ghar-green);
+
+    color:var(--ghar-gold);
+
+    font-size:.72rem;
+    font-weight:900;
+}
+
+.section-heading h2{
+    margin:0;
+
+    color:var(--ghar-green);
+
+    font-size:1.02rem;
+    letter-spacing:-.02em;
+}
+
+.section-heading p{
+    margin:4px 0 0;
+
+    color:var(--ghar-muted);
+
+    font-size:.7rem;
+    line-height:1.5;
+}
+
+/* =========================================================
+   FORM GRID
+========================================================= */
+
+.form-grid{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:17px;
+}
+
+.form-grid.three{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+}
+
+.field{
+    min-width:0;
+}
+
+.field.full{
+    grid-column:1/-1;
+}
+
+.field label{
+    display:block;
+
+    margin:0 0 7px;
+
+    color:#3f4943;
+
+    font-size:.69rem;
+    font-weight:850;
+}
+
+.required{
+    color:#a26d35;
+}
+
+.field input,
+.field select,
+.field textarea{
+    width:100%;
+
+    border:1px solid rgba(16,35,29,.14);
+    border-radius:13px;
+
+    outline:none;
+
+    background:rgba(250,249,244,.82);
+
+    color:var(--ghar-text);
+
+    padding:13px 14px;
+
+    font-size:.78rem;
+
+    transition:
+        border-color .2s ease,
+        box-shadow .2s ease,
+        background .2s ease;
+}
+
+.field textarea{
+    min-height:115px;
+    resize:vertical;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus{
+    border-color:rgba(201,169,110,.9);
+
+    background:#fff;
+
+    box-shadow:
+        0 0 0 4px rgba(201,169,110,.11);
+}
+
+.field small{
+    display:block;
+
+    margin-top:5px;
+
+    color:#8a918b;
+
+    font-size:.61rem;
+    line-height:1.45;
+}
+
+/* =========================================================
+   RADIO / CHECKBOX
+========================================================= */
+
+.choice-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+}
+
+.choice{
+    position:relative;
+}
+
+.choice input{
+    position:absolute;
+    opacity:0;
+    pointer-events:none;
+}
+
+.choice label{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    min-height:48px;
+
+    padding:9px 10px;
+
+    border:1px solid rgba(16,35,29,.13);
+    border-radius:13px;
+
+    background:rgba(255,255,255,.52);
+
+    color:#4f5953;
+
+    font-size:.72rem;
+    font-weight:750;
+
+    text-align:center;
+
+    cursor:pointer;
+
+    transition:.2s ease;
+}
+
+.choice input:checked + label{
+    border-color:var(--ghar-green);
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--ghar-green),
+            var(--ghar-forest)
+        );
+
+    color:var(--ghar-gold);
+
+    box-shadow:
+        0 10px 25px rgba(16,35,29,.12);
+}
+
+/* =========================================================
+   UPLOAD
+========================================================= */
+
+.upload-box{
+    position:relative;
+
+    min-height:150px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    padding:25px;
+
+    border:1.5px dashed rgba(16,35,29,.22);
+    border-radius:18px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(245,239,228,.72),
+            rgba(237,240,234,.72)
+        );
+
+    text-align:center;
+
+    transition:.2s ease;
+}
+
+.upload-box:hover{
+    border-color:var(--ghar-gold);
+    background:rgba(255,255,255,.72);
+}
+
+.upload-box input{
+    position:absolute;
+    inset:0;
+
+    width:100%;
+    height:100%;
+
+    opacity:0;
+
+    cursor:pointer;
+}
+
+.upload-icon{
+    font-size:1.8rem;
+    margin-bottom:7px;
+}
+
+.upload-title{
+    color:var(--ghar-green);
+
+    font-size:.8rem;
+    font-weight:850;
+}
+
+.upload-sub{
+    margin-top:4px;
+
+    color:var(--ghar-muted);
+
+    font-size:.63rem;
+}
+
+/* =========================================================
+   IMAGE PREVIEW
+========================================================= */
+
+.image-preview{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:10px;
+
+    margin-top:13px;
+}
+
+.preview-item{
+    position:relative;
+
+    aspect-ratio:1/0.72;
+
+    overflow:hidden;
+
+    border-radius:13px;
+
+    background:var(--ghar-sand);
+}
+
+.preview-item img{
+    width:100%;
+    height:100%;
+
+    object-fit:cover;
+}
+
+.preview-remove{
+    position:absolute;
+    top:6px;
+    right:6px;
+
+    width:26px;
+    height:26px;
+
+    display:grid;
+    place-items:center;
+
+    border:0;
+    border-radius:50%;
+
+    background:rgba(7,21,16,.80);
+
+    color:#fff;
+
+    font-size:.7rem;
+}
+
+/* =========================================================
+   DOCUMENT BOX
+========================================================= */
+
+.document-row{
+    display:grid;
+    grid-template-columns:1fr auto;
+    align-items:center;
+    gap:12px;
+
+    padding:13px 14px;
+
+    margin-top:9px;
+
+    border:1px solid var(--ghar-border);
+    border-radius:14px;
+
+    background:rgba(255,255,255,.45);
+}
+
+.document-info strong{
+    display:block;
+
+    color:var(--ghar-green);
+
+    font-size:.72rem;
+}
+
+.document-info span{
+    display:block;
+
+    margin-top:3px;
+
+    color:var(--ghar-muted);
+
+    font-size:.61rem;
+}
+
+/* =========================================================
+   CHECKBOX
+========================================================= */
+
+.consent{
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+
+    margin-top:15px;
+
+    padding:15px;
+
+    border:1px solid rgba(16,35,29,.10);
+    border-radius:15px;
+
+    background:rgba(245,239,228,.58);
+}
+
+.consent input{
+    width:17px;
+    height:17px;
+
+    margin-top:1px;
+
+    accent-color:var(--ghar-green);
+}
+
+.consent label{
+    color:#59615c;
+
+    font-size:.68rem;
+    line-height:1.55;
+}
+
+.consent a{
+    color:var(--ghar-green);
+    font-weight:800;
+}
+
+/* =========================================================
+   FORM ACTIONS
+========================================================= */
+
+.form-actions{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+
+    padding:21px 27px;
+
+    background:rgba(245,239,228,.58);
+}
+
+.action-left,
+.action-right{
+    display:flex;
+    flex-wrap:wrap;
+    gap:9px;
+}
+
+.btn{
+    min-height:45px;
+
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+
+    padding:0 17px;
+
+    border:1px solid transparent;
+    border-radius:12px;
+
+    font-size:.72rem;
+    font-weight:850;
+
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease,
+        background .2s ease;
+}
+
+.btn:hover{
+    transform:translateY(-2px);
+}
+
+.btn-primary{
+    background:
+        linear-gradient(
+            135deg,
+            var(--ghar-green),
+            var(--ghar-forest)
+        );
+
+    color:var(--ghar-gold);
+
+    box-shadow:
+        0 12px 28px rgba(16,35,29,.15);
+}
+
+.btn-gold{
+    background:var(--ghar-gold);
+    color:var(--ghar-green);
+
+    box-shadow:
+        0 12px 25px rgba(201,169,110,.18);
+}
+
+.btn-light{
+    border-color:var(--ghar-border);
+    background:rgba(255,255,255,.65);
+    color:var(--ghar-green);
+}
+
+.btn-danger{
+    border-color:rgba(160,65,55,.18);
+    background:rgba(160,65,55,.06);
+    color:#93473e;
+}
+
+/* =========================================================
+   SIDE PANEL
+========================================================= */
+
+.side-column{
+    position:sticky;
+    top:100px;
+
+    display:grid;
+    gap:15px;
+}
+
+.side-card{
+    padding:21px;
+
+    border:1px solid var(--ghar-border);
+    border-radius:21px;
+
+    background:rgba(255,255,255,.62);
+
+    box-shadow:
+        0 15px 45px rgba(16,35,29,.065);
+}
+
+.side-card.dark{
+    background:
+        linear-gradient(
+            145deg,
+            rgba(7,21,16,.98),
+            rgba(24,55,45,.95)
+        );
+
+    color:#fff;
+}
+
+.side-card h3{
+    margin:0;
+
+    color:var(--ghar-green);
+
+    font-size:.9rem;
+}
+
+.side-card.dark h3{
+    color:#fff;
+}
+
+.side-card > p{
+    margin:7px 0 0;
+
+    color:var(--ghar-muted);
+
+    font-size:.67rem;
+    line-height:1.55;
+}
+
+.side-card.dark > p{
+    color:rgba(255,255,255,.62);
+}
+
+.progress-wrap{
+    margin-top:17px;
+}
+
+.progress-label{
+    display:flex;
+    justify-content:space-between;
+
+    margin-bottom:7px;
+
+    color:var(--ghar-muted);
+
+    font-size:.62rem;
+    font-weight:750;
+}
+
+.progress-track{
+    height:7px;
+
+    overflow:hidden;
+
+    border-radius:999px;
+
+    background:rgba(16,35,29,.09);
+}
+
+.progress-bar{
+    width:20%;
+    height:100%;
+
+    border-radius:999px;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--ghar-green),
+            var(--ghar-gold)
+        );
+
+    transition:width .25s ease;
+}
+
+.check-list{
+    display:grid;
+    gap:10px;
+
+    margin:15px 0 0;
+    padding:0;
+
+    list-style:none;
+}
+
+.check-list li{
+    display:flex;
+    gap:9px;
+
+    color:#626b65;
+
+    font-size:.66rem;
+    line-height:1.45;
+}
+
+.check-list li::before{
+    content:"✓";
+
+    width:19px;
+    height:19px;
+    flex:0 0 19px;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:50%;
+
+    background:rgba(201,169,110,.18);
+
+    color:#8a6b35;
+
+    font-size:.61rem;
+    font-weight:900;
+}
+
+.dark .check-list li{
+    color:rgba(255,255,255,.68);
+}
+
+.price-preview{
+    margin-top:18px;
+
+    padding:17px;
+
+    border:1px solid rgba(255,255,255,.10);
+    border-radius:16px;
+
+    background:rgba(255,255,255,.055);
+}
+
+.price-preview-label{
+    color:rgba(255,255,255,.52);
+
+    font-size:.6rem;
+    font-weight:750;
+    text-transform:uppercase;
+    letter-spacing:.08em;
+}
+
+.price-preview-value{
+    margin-top:5px;
+
+    color:var(--ghar-gold);
+
+    font-size:1.45rem;
+    font-weight:900;
+}
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+.ghar-toast{
+    position:fixed;
+    z-index:5000;
+
+    right:22px;
+    bottom:22px;
+
+    max-width:360px;
+
+    padding:13px 16px;
+
+    border:1px solid rgba(201,169,110,.25);
+    border-radius:14px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(7,21,16,.98),
+            rgba(16,35,29,.98)
+        );
+
+    color:#fff;
+
+    box-shadow:
+        0 18px 50px rgba(0,0,0,.20);
+
+    font-size:.72rem;
+    font-weight:700;
+
+    opacity:0;
+    transform:translateY(15px);
+
+    pointer-events:none;
+
+    transition:.25s ease;
+}
+
+.ghar-toast.show{
+    opacity:1;
+    transform:translateY(0);
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.ghar-footer{
+    padding:45px 0 30px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #071510,
+            #10231d
+        );
+
+    color:rgba(255,255,255,.65);
+}
+
+.footer-inner{
+    width:min(1480px,calc(100% - 32px));
+    margin:auto;
+
+    display:grid;
+
+    grid-template-columns:
+        1.3fr
+        repeat(3,1fr);
+
+    gap:30px;
+}
+
+.footer-brand h3{
+    margin:0;
+
+    color:#fff;
+
+    font-size:1.25rem;
+    letter-spacing:.08em;
+}
+
+.footer-brand p{
+    max-width:320px;
+
+    margin:10px 0 0;
+
+    font-size:.69rem;
+    line-height:1.7;
+}
+
+.footer-col h4{
+    margin:0 0 12px;
+
+    color:var(--ghar-gold);
+
+    font-size:.7rem;
+
+    text-transform:uppercase;
+    letter-spacing:.1em;
+}
+
+.footer-col a{
+    display:block;
+
+    margin:8px 0;
+
+    color:rgba(255,255,255,.58);
+
+    font-size:.68rem;
+}
+
+.footer-col a:hover{
+    color:#fff;
+}
+
+.footer-bottom{
+    width:min(1480px,calc(100% - 32px));
+    margin:30px auto 0;
+    padding-top:20px;
+
+    border-top:1px solid rgba(255,255,255,.09);
+
+    display:flex;
+    justify-content:space-between;
+    gap:15px;
+
+    flex-wrap:wrap;
+
+    font-size:.62rem;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:1100px){
+
+    .ghar-nav{
+        display:none;
+    }
+
+    .ghar-mobile-menu{
+        display:grid;
+    }
+
+    .workspace{
+        grid-template-columns:1fr;
+    }
+
+    .side-column{
+        position:static;
+
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .footer-inner{
+        grid-template-columns:
+            1.3fr
+            repeat(2,1fr);
+    }
+}
+
+@media(max-width:760px){
+
+    .ghar-header-inner{
+        width:calc(100% - 20px);
+    }
+
+    .page{
+        width:calc(100% - 20px);
+        padding-top:15px;
+    }
+
+    .page-hero{
+        padding:28px 21px;
+        border-radius:23px;
+    }
+
+    .page-hero h1{
+        font-size:2.35rem;
+    }
+
+    .form-grid,
+    .form-grid.three{
+        grid-template-columns:1fr;
+    }
+
+    .field.full{
+        grid-column:auto;
+    }
+
+    .form-section{
+        padding:21px 17px;
+    }
+
+    .choice-grid{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .image-preview{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .form-actions{
+        padding:17px;
+
+        flex-direction:column;
+        align-items:stretch;
+    }
+
+    .action-left,
+    .action-right{
+        width:100%;
+    }
+
+    .action-left .btn,
+    .action-right .btn{
+        flex:1;
+    }
+
+    .side-column{
+        grid-template-columns:1fr;
+    }
+
+    .footer-inner{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .footer-brand{
+        grid-column:1/-1;
+    }
+}
+
+@media(max-width:480px){
+
+    .ghar-brand-sub{
+        display:none;
+    }
+
+    .ghar-header-actions .ghar-icon-btn{
+        width:38px;
+        height:38px;
+    }
+
+    .page-hero h1{
+        font-size:2rem;
+    }
+
+    .choice-grid{
+        grid-template-columns:1fr;
+    }
+
+    .image-preview{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .footer-inner{
+        grid-template-columns:1fr;
+    }
+
+    .footer-brand{
+        grid-column:auto;
+    }
+
+    .footer-bottom{
+        flex-direction:column;
+    }
+
+    .ghar-toast{
+        left:12px;
+        right:12px;
+        bottom:12px;
+        max-width:none;
+    }
+}
+</style>
+</head>
+
+<body data-page="seller-add-property">
+
+<!-- =========================================================
+     HEADER
+========================================================= -->
+
+<header class="ghar-header">
+
+    <div class="ghar-header-inner">
+
+        <a href="../index.html" class="ghar-brand">
+
+            <span class="ghar-logo">G</span>
+
+            <span>
+                <span class="ghar-brand-name">GHAR</span>
+
+                <span class="ghar-brand-sub">
+                    Seller Workspace
+                </span>
+            </span>
+
+        </a>
+
+        <nav class="ghar-nav" id="gharNav">
+
+            <a href="../index.html">
+                Home
+            </a>
+
+            <a href="../seller-index.html">
+                Overview
+            </a>
+
+            <a href="my-properties.html">
+                My Properties
+            </a>
+
+            <a href="scheduled-lists.html">
+                Visits
+            </a>
+
+            <a href="request.html">
+                Requests
+            </a>
+
+            <a href="status.html">
+                Status
+            </a>
+
+        </nav>
+
+        <div class="ghar-header-actions">
+
+            <button
+                class="ghar-icon-btn"
+                type="button"
+                id="notificationBtn"
+                aria-label="Notifications"
+            >
+                🔔
+            </button>
+
+            <button
+                class="ghar-icon-btn"
+                type="button"
+                id="profileBtn"
+                aria-label="Seller profile"
+            >
+                👤
+            </button>
+
+            <button
+                class="ghar-icon-btn ghar-mobile-menu"
+                type="button"
+                id="menuBtn"
+                aria-label="Menu"
+                aria-expanded="false"
+            >
+                ☰
+            </button>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<!-- =========================================================
+     MAIN
+========================================================= -->
+
+<main class="page">
+
+    <!-- HERO -->
+
+    <section class="page-hero">
+
+        <div class="hero-content">
+
+            <div class="eyebrow">
+                GHAR SELLER · NEW LISTING
+            </div>
+
+            <h1>
+                Add your property to
+                <span>GHAR.</span>
+            </h1>
+
+            <p>
+                Create a complete property profile with accurate
+                details, pricing, location, media and ownership
+                information. Save a draft and continue later or
+                submit the listing for GHAR review.
+            </p>
+
+            <div class="hero-meta">
+
+                <span class="hero-chip">
+                    🔐 Secure listing workflow
+                </span>
+
+                <span class="hero-chip">
+                    📍 Location-based property profile
+                </span>
+
+                <span class="hero-chip">
+                    📷 Property media
+                </span>
+
+                <span class="hero-chip">
+                    ✓ Seller consent
+                </span>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- WORKSPACE -->
+
+    <div class="workspace">
+
+        <!-- =================================================
+             FORM
+        ================================================== -->
+
+        <form
+            class="form-card"
+            id="propertyForm"
+            novalidate
+        >
+
+            <!-- =============================================
+                 01 BASIC INFORMATION
+            ============================================== -->
+
+            <section class="form-section">
+
+                <div class="section-heading">
+
+                    <div class="section-number">
+                        01
+                    </div>
+
+                    <div>
+                        <h2>
+                            Property information
+                        </h2>
+
+                        <p>
+                            Start with the basic information buyers
+                            need to understand the property.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="form-grid">
+
+                    <div class="field full">
+
+                        <label for="propertyTitle">
+                            Property title
+                            <span class="required">*</span>
+                        </label>
+
+                        <input
+                            id="propertyTitle"
+                            name="title"
+                            type="text"
+                            placeholder="Example: Premium 3 BHK Luxury Apartment"
+                            required
+                            maxlength="120"
+                        >
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label for="listingType">
+                            Listing type
+                            <span class="required">*</span>
+                        </label>
+
+                        <select
+                            id="listingType"
+                            name="listingType"
+                            required
+                        >
+
+                            <option value="">
+                                Select listing type
+                            </option>
+
+                            <option value="sale">
+                                For Sale
+                            </option>
+
+                            <option value="rent">
+                                For Rent
+                            </option>
+
+                            <option value="lease">
+                                For Lease
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label for="propertyType">
+                            Property type
+                            <span class="required">*</span>
+                        </label>
+
+                        <select
+                            id="propertyType"
+                            name="propertyType"
+                            required
+                        >
+
+                            <option value="">
+                                Select property type
+                            </option>
+
+                            <option value="apartment">
+                                Apartment
+                            </option>
+
+                            <option value="independent-house">
+                                Independent House
+                            </option>
+
+                            <option value="villa">
+                                Villa
+                            </option>
+
+                            <option value="builder-floor">
+                                Builder Floor
+                            </option>
+
+                            <option value="plot">
+                                Residential Plot
+                            </option>
+
+                            <option value="commercial">
+                                Commercial Property
+                            </option>
+
+                            <option value="office">
+                                Office
+                            </option>
+
+                            <option value="shop">
+                                Shop
+                            </option>
+
+                            <option value="land">
+                                Land
+                            </option>
+
+                            <option value="other">
+                                Other
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label for="bhk">
+                            Configuration
+                        </label>
+
+                        <select id="bhk" name="bhk">
+
+                            <option value="">
+                                Select configuration
+                            </option>
+
+                            <option value="1 BHK">
+                                1 BHK
+                            </option>
+
+                            <option value="2 BHK">
+                                2 BHK
+                            </option>
+
+                            <option value="3 BHK">
+                                3 BHK
+                            </option>
+
+                            <option value="4 BHK">
+                                4 BHK
+                            </option>
+
+                            <option value="5 BHK">
+                                5 BHK
+                            </option>
+
+                            <option value="6+ BHK">
+                                6+ BHK
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label for="furnishing">
+                            Furnishing
+                        </label>
+
+                        <select id="furnishing" name="furnishing">
+
+                            <option value="">
+                                Select furnishing
+                            </option>
+
+                            <option value="unfurnished">
+                                Unfurnished
+                            </option>
+
+                            <option value="semi-furnished">
+                                Semi Furnished
+                            </option>
+
+                            <option value="fully-furnished">
+                                Fully Furnished
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label for="builtYear">
+                            Construction year
+                        </label>
+
+                        <input
+                            id="builtYear"
+                            name="builtYear"
+                            type="number"
+                            min="1900"
+                            max="2100"
+                            placeholder="Example: 2022"
+                        >
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label for="floor">
+                            Floor
+                        </label>
+
+                        <input
+                            id="floor"
+                            name="floor"
+                            type="text"
+                            placeholder="Example: 12 / 24"
+                        >
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =============================================
+                 02 LOCATION
+            ============================================== -->
+
+            <section class="form-section">
+
+                <div class="section-heading">
+
+                    <div class="section-number">
+                        02
+                    </div>
+
+                    <div>
+                        <h2>
+                            Property location
+                        </h2>
+
+                        <p>
+                            Provide the property location so GHAR
+                            can organize the listing geographically.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="form-grid">
+
+                    <div class="field full">
+
+                        <label for="address">
+                            Property address
+                            <span class="required">*</span>
+                        </label>
+
+                        <textarea
+                            id="address"
+                            name="address"
+                            placeholder="Enter property address"
+                            required
+                        ></textarea>
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label for="locality">
+                            Locality / Sector
+                            <span class="required">*</span>
+                        </label>
+
+                        <input
+                            id="locality"
+                            name="locality"
+                            type="text"
+                            placeholder="Example: Sector 150"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label for="city">
+                            City
+                            <span class="required">*</span>
+                        </label>
+
+                        <input
+                            id="city"
+                            name="city"
+                            type="text"
+                            placeholder="Example: Noida"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label for="state">
+                            State
+                            <span class="required">*</span>
+                        </label>
+
+                        <input
+                            id="state"
+                            name="state"
+                            type="text"
+                            placeholder="Example: Uttar Pradesh"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label for="pincode">
+                            PIN code
+                            <span class="required">*</span>
+                        </label>
+
+                        <input
+                            id="pincode"
+                            name="pincode"
+                            type="text"
+                            inputmode="numeric"
+                            maxlength="6"
+                            placeholder="201301"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =============================================
+                 03 PROPERTY SIZE
+            ============================================== -->
+
+            <section class="form-section">
+
+                <div class="section-heading">
+
+                    <div class="section-number">
+                        03
+                    </div>
+
+                    <div>
+                        <h2>
+                            Property specifications
+                        </h2>
+
+                        <p>
+                            Add the dimensions and features of the
+                            property.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="form-grid three">
+
+                    <div class="field">
+
+                        <label for="area">
+                            Area
+                            <span class="required">*</span>
+                        </label>
+
+                        <input
+                            id="area"
+                            name="area"
+                            type="number"
+                            min="1"
+                            placeholder="1500"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label for="areaUnit">
+                            Area unit
+                        </label>
+
+                        <select id="areaUnit" name="areaUnit">
+
+                            <option value="sqft">
+                                Sq. Ft.
+                            </option>
+
+                            <option value="sqm">
+                                Sq. M.
+                            </option>
+
+                            <option value="sqyd">
+                                Sq. Yd.
+                            </option>
+
+                            <option value="acre">
+                                Acre
+                            </option>
+
+                            <option value="bigha">
+                                Bigha
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label for="bedrooms">
+                            Bedrooms
+                        </label>
+
+                        <select id="bedrooms" name="bedrooms">
+
+                            <option value="">
+                                Select
+                            </option>
+
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5+</option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label for="bathrooms">
+                            Bathrooms
+                        </label>
+
+                        <select id="bathrooms" name="bathrooms">
+
+                            <option value="">
+                                Select
+                            </option>
+
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5+">5+</option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label for="balconies">
+                            Balconies
+                        </label>
+
+                        <select id="balconies" name="balconies">
+
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3+</option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label for="parking">
+                            Parking
+                        </label>
+
+                        <select id="parking" name="parking">
+
+                            <option value="none">
+                                No Parking
+                            </option>
+
+                            <option value="1">
+                                1 Parking
+                            </option>
+
+                            <option value="2">
+                                2 Parking
+                            </option>
+
+                            <option value="3+">
+                                3+ Parking
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <div style="margin-top:20px">
+
+                    <div class="field">
+
+                        <label>
+                            Property features
+                        </label>
+
+                    </div>
+
+                    <div class="choice-grid">
+
+                        <div class="choice">
+                            <input
+                                id="featureLift"
+                                type="checkbox"
+                                name="features"
+                                value="Lift"
+                            >
+                            <label for="featureLift">
+                                🛗 Lift
+                            </label>
+                        </div>
+
+                        <div class="choice">
+                            <input
+                                id="featurePool"
+                                type="checkbox"
+                                name="features"
+                                value="Swimming Pool"
+                            >
+                            <label for="featurePool">
+                                🏊 Pool
+                            </label>
+                        </div>
+
+                        <div class="choice">
+                            <input
+                                id="featureGym"
+                                type="checkbox"
+                                name="features"
+                                value="Gym"
+                            >
+                            <label for="featureGym">
+                                🏋 Gym
+                            </label>
+                        </div>
+
+                        <div class="choice">
+                            <input
+                                id="featureSecurity"
+                                type="checkbox"
+                                name="features"
+                                value="24x7 Security"
+                            >
+                            <label for="featureSecurity">
+                                🛡 Security
+                            </label>
+                        </div>
+
+                        <div class="choice">
+                            <input
+                                id="featureGarden"
+                                type="checkbox"
+                                name="features"
+                                value="Garden"
+                            >
+                            <label for="featureGarden">
+                                🌿 Garden
+                            </label>
+                        </div>
+
+                        <div class="choice">
+                            <input
+                                id="featureClub"
+                                type="checkbox"
+                                name="features"
+                                value="Clubhouse"
+                            >
+                            <label for="featureClub">
+                                🏛 Clubhouse
+                            </label>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =============================================
+                 04 PRICE
+            ============================================== -->
+
+            <section class="form-section">
+
+                <div class="section-heading">
+
+                    <div class="section-number">
+                        04
+                    </div>
+
+                    <div>
+                        <h2>
+                            Pricing
+                        </h2>
+
+                        <p>
+                            Enter your expected property price and
+                            transaction terms.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="form-grid">
+
+                    <div class="field">
+
+                        <label for="price">
+                            Expected price
+                            <span class="required">*</span>
+                        </label>
+
+                        <input
+                            id="price"
+                            name="price"
+                            type="number"
+                            min="0"
+                            step="1"
+                            placeholder="25000000"
+                            required
+                        >
+
+                        <small>
+                            Enter the amount in INR without commas.
+                        </small>
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label for="priceUnit">
+                            Price display
+                        </label>
+
+                        <select
+                            id="priceUnit"
+                            name="priceUnit"
+                        >
+
+                            <option value="total">
+                                Total Property Price
+                            </option>
+
+                            <option value="per-sqft">
+                                Price Per Sq. Ft.
+                            </option>
+
+                            <option value="per-month">
+                                Monthly Rent
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label for="maintenance">
+                            Maintenance
+                        </label>
+
+                        <input
+                            id="maintenance"
+                            name="maintenance"
+                            type="text"
+                            placeholder="Example: ₹8,000 / month"
+                        >
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label for="negotiable">
+                            Price flexibility
+                        </label>
+
+                        <select
+                            id="negotiable"
+                            name="negotiable"
+                        >
+
+                            <option value="negotiable">
+                                Negotiable
+                            </option>
+
+                            <option value="fixed">
+                                Fixed Price
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =============================================
+                 05 DESCRIPTION
+            ============================================== -->
+
+            <section class="form-section">
+
+                <div class="section-heading">
+
+                    <div class="section-number">
+                        05
+                    </div>
+
+                    <div>
+                        <h2>
+                            Property description
+                        </h2>
+
+                        <p>
+                            Explain the property, its condition,
+                            surroundings and important highlights.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="field">
+
+                    <label for="description">
+                        Description
+                        <span class="required">*</span>
+                    </label>
+
+                    <textarea
+                        id="description"
+                        name="description"
+                        style="min-height:170px"
+                        placeholder="Describe the property, layout, condition, surroundings, nearby facilities and other relevant details..."
+                        required
+                        maxlength="3000"
+                    ></textarea>
+
+                    <small>
+                        Keep the description accurate and factual.
+                    </small>
+
+                </div>
+
+            </section>
+
+
+            <!-- =============================================
+                 06 MEDIA
+            ============================================== -->
+
+            <section class="form-section">
+
+                <div class="section-heading">
+
+                    <div class="section-number">
+                        06
+                    </div>
+
+                    <div>
+                        <h2>
+                            Property media
+                        </h2>
+
+                        <p>
+                            Upload photographs to make the listing
+                            useful for prospective buyers or tenants.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="upload-box">
+
+                    <input
+                        id="propertyImages"
+                        type="file"
+                        accept="image/*"
+                        multiple
+                    >
+
+                    <div>
+
+                        <div class="upload-icon">
+                            📷
+                        </div>
+
+                        <div class="upload-title">
+                            Upload property photographs
+                        </div>
+
+                        <div class="upload-sub">
+                            JPG, JPEG, PNG or WEBP · Multiple images
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="image-preview"
+                    id="imagePreview"
+                ></div>
+
+            </section>
+
+
+            <!-- =============================================
+                 07 DOCUMENTS
+            ============================================== -->
+
+            <section class="form-section">
+
+                <div class="section-heading">
+
+                    <div class="section-number">
+                        07
+                    </div>
+
+                    <div>
+                        <h2>
+                            Documents
+                        </h2>
+
+                        <p>
+                            Add supporting documents where required
+                            by your GHAR workflow.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="document-row">
+
+                    <div class="document-info">
+
+                        <strong>
+                            Ownership / title document
+                        </strong>
+
+                        <span>
+                            PDF, JPG or PNG
+                        </span>
+
+                    </div>
+
+                    <label class="btn btn-light">
+
+                        Upload
+
+                        <input
+                            id="ownershipDocument"
+                            type="file"
+                            accept=".pdf,image/*"
+                            hidden
+                        >
+
+                    </label>
+
+                </div>
+
+
+                <div class="document-row">
+
+                    <div class="document-info">
+
+                        <strong>
+                            Identity document
+                        </strong>
+
+                        <span>
+                            Upload only when required by the workflow.
+                        </span>
+
+                    </div>
+
+                    <label class="btn btn-light">
+
+                        Upload
+
+                        <input
+                            id="identityDocument"
+                            type="file"
+                            accept=".pdf,image/*"
+                            hidden
+                        >
+
+                    </label>
+
+                </div>
+
+
+                <div class="document-row">
+
+                    <div class="document-info">
+
+                        <strong>
+                            Additional document
+                        </strong>
+
+                        <span>
+                            Optional supporting document.
+                        </span>
+
+                    </div>
+
+                    <label class="btn btn-light">
+
+                        Upload
+
+                        <input
+                            id="additionalDocument"
+                            type="file"
+                            accept=".pdf,image/*"
+                            hidden
+                        >
+
+                    </label>
+
+                </div>
+
+            </section>
+
+
+            <!-- =============================================
+                 08 SELLER DETAILS
+            ============================================== -->
+
+            <section class="form-section">
+
+                <div class="section-heading">
+
+                    <div class="section-number">
+                        08
+                    </div>
+
+                    <div>
+                        <h2>
+                            Seller information
+                        </h2>
+
+                        <p>
+                            Provide the information required to
+                            associate the listing with your seller
+                            account.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="form-grid">
+
+                    <div class="field">
+
+                        <label for="sellerName">
+                            Seller name
+                            <span class="required">*</span>
+                        </label>
+
+                        <input
+                            id="sellerName"
+                            name="sellerName"
+                            type="text"
+                            placeholder="Full name"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label for="sellerPhone">
+                            Contact number
+                            <span class="required">*</span>
+                        </label>
+
+                        <input
+                            id="sellerPhone"
+                            name="sellerPhone"
+                            type="tel"
+                            inputmode="tel"
+                            placeholder="+91 XXXXX XXXXX"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label for="sellerEmail">
+                            Email
+                        </label>
+
+                        <input
+                            id="sellerEmail"
+                            name="sellerEmail"
+                            type="email"
+                            placeholder="seller@example.com"
+                        >
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label for="sellerRole">
+                            Seller role
+                        </label>
+
+                        <select id="sellerRole" name="sellerRole">
+
+                            <option value="owner">
+                                Property Owner
+                            </option>
+
+                            <option value="authorized-representative">
+                                Authorized Representative
+                            </option>
+
+                            <option value="agent">
+                                Agent / Broker
+                            </option>
+
+                            <option value="developer">
+                                Developer / Builder
+                            </option>
+
+                            <option value="other">
+                                Other
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =============================================
+                 09 CONSENT
+            ============================================== -->
+
+            <section class="form-section">
+
+                <div class="section-heading">
+
+                    <div class="section-number">
+                        09
+                    </div>
+
+                    <div>
+                        <h2>
+                            Confirmation & consent
+                        </h2>
+
+                        <p>
+                            Review the information before submitting
+                            the property.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="consent">
+
+                    <input
+                        id="sellerConsent"
+                        name="sellerConsent"
+                        type="checkbox"
+                        required
+                    >
+
+                    <label for="sellerConsent">
+
+                        I confirm that the information submitted for
+                        this property is accurate to the best of my
+                        knowledge and that I have the authority to
+                        submit the listing. I understand that GHAR may
+                        review submitted information before publishing
+                        or processing the listing.
+
+                        <br><br>
+
+                        I agree to the
+                        <a href="../legal/terms.html">
+                            Terms
+                        </a>
+                        and
+                        <a href="../legal/privacy.html">
+                            Privacy Policy
+                        </a>.
+
+                    </label>
+
+                </div>
+
+            </section>
+
+
+            <!-- FORM ACTIONS -->
+
+            <div class="form-actions">
+
+                <div class="action-left">
+
+                    <button
+                        type="button"
+                        class="btn btn-light"
+                        id="backBtn"
+                    >
+                        ← Back
+                    </button>
+
+                    <button
+                        type="button"
+                        class="btn btn-danger"
+                        id="clearBtn"
+                    >
+                        Clear
+                    </button>
+
+                </div>
+
+
+                <div class="action-right">
+
+                    <button
+                        type="button"
+                        class="btn btn-light"
+                        id="draftBtn"
+                    >
+                        Save Draft
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="btn btn-gold"
+                    >
+                        Submit Property →
+                    </button>
+
+                </div>
+
+            </div>
+
+        </form>
+
+
+        <!-- =================================================
+             SIDEBAR
+        ================================================== -->
+
+        <aside class="side-column">
+
+            <div class="side-card dark">
+
+                <h3>
+                    Listing progress
+                </h3>
+
+                <p>
+                    Complete the important fields before submitting
+                    your property for review.
+                </p>
+
+                <div class="progress-wrap">
+
+                    <div class="progress-label">
+
+                        <span>
+                            Completion
+                        </span>
+
+                        <strong id="progressText">
+                            0%
+                        </strong>
+
+                    </div>
+
+                    <div class="progress-track">
+
+                        <div
+                            class="progress-bar"
+                            id="progressBar"
+                        ></div>
+
+                    </div>
+
+                </div>
+
+                <div class="price-preview">
+
+                    <div class="price-preview-label">
+                        Expected price
+                    </div>
+
+                    <div
+                        class="price-preview-value"
+                        id="pricePreview"
+                    >
+                        ₹0
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="side-card">
+
+                <h3>
+                    Listing checklist
+                </h3>
+
+                <p>
+                    A complete listing gives the workflow enough
+                    information to process your property.
+                </p>
+
+                <ul class="check-list">
+
+                    <li>
+                        Property title and type
+                    </li>
+
+                    <li>
+                        Accurate location
+                    </li>
+
+                    <li>
+                        Property specifications
+                    </li>
+
+                    <li>
+                        Expected price
+                    </li>
+
+                    <li>
+                        Property description
+                    </li>
+
+                    <li>
+                        Seller confirmation
+                    </li>
+
+                </ul>
+
+            </div>
+
+
+            <div class="side-card">
+
+                <h3>
+                    Need assistance?
+                </h3>
+
+                <p>
+                    If you need help with your property listing,
+                    use the GHAR support workflow.
+                </p>
+
+                <a
+                    href="../support/index.html"
+                    class="btn btn-primary"
+                    style="width:100%;margin-top:15px"
+                >
+                    Open Support
+                </a>
+
+            </div>
+
+        </aside>
+
+    </div>
+
+</main>
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer class="ghar-footer">
+
+    <div class="footer-inner">
+
+        <div class="footer-brand">
+
+            <h3>
+                GHAR
+            </h3>
+
+            <p>
+                A structured real-estate platform connecting
+                property discovery, sellers, buyers, visits,
+                enquiries and transaction workflows.
+            </p>
+
+        </div>
+
+
+        <div class="footer-col">
+
+            <h4>
+                Seller
+            </h4>
+
+            <a href="my-properties.html">
+                My Properties
+            </a>
+
+            <a href="add-property.html">
+                Add Property
+            </a>
+
+            <a href="scheduled-lists.html">
+                Scheduled Visits
+            </a>
+
+            <a href="request.html">
+                Requests
+            </a>
+
+        </div>
+
+
+        <div class="footer-col">
+
+            <h4>
+                GHAR
+            </h4>
+
+            <a href="../index.html">
+                Home
+            </a>
+
+            <a href="../about.html">
+                About
+            </a>
+
+            <a href="../property/property-search.html">
+                Properties
+            </a>
+
+            <a href="../contact.html">
+                Contact
+            </a>
+
+        </div>
+
+
+        <div class="footer-col">
+
+            <h4>
+                Legal & Support
+            </h4>
+
+            <a href="../support/index.html">
+                Support Centre
+            </a>
+
+            <a href="../legal/terms.html">
+                Terms
+            </a>
+
+            <a href="../legal/privacy.html">
+                Privacy
+            </a>
+
+            <a href="../legal/disclaimer.html">
+                Disclaimer
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <div class="footer-bottom">
+
+        <span>
+            © <span id="footerYear"></span> GHAR. All rights reserved.
+        </span>
+
+        <span>
+            Seller Workspace · Property Listing
+        </span>
+
+    </div>
+
+</footer>
+
+
+<div
+    class="ghar-toast"
+    id="gharToast"
+    role="status"
+    aria-live="polite"
+></div>
+
+
+<!-- =========================================================
+     SHARED GHAR SCRIPTS
+========================================================= -->
+
+<script
+    src="../assets/js/main/site.js"
+    defer
+></script>
+
+<script
+    src="../assets/js/main/page.js"
+    defer
+></script>
+
+
+<!-- =========================================================
+     PAGE CONTROLLER
+========================================================= -->
+
+<script>
+(function(){
+
+    "use strict";
+
+
+    /* =====================================================
+       ELEMENTS
+    ===================================================== */
+
+    const form =
+        document.getElementById("propertyForm");
+
+    const toast =
+        document.getElementById("gharToast");
+
+    const imageInput =
+        document.getElementById("propertyImages");
+
+    const imagePreview =
+        document.getElementById("imagePreview");
+
+    const progressBar =
+        document.getElementById("progressBar");
+
+    const progressText =
+        document.getElementById("progressText");
+
+    const priceInput =
+        document.getElementById("price");
+
+    const pricePreview =
+        document.getElementById("pricePreview");
+
+    const draftBtn =
+        document.getElementById("draftBtn");
+
+    const clearBtn =
+        document.getElementById("clearBtn");
+
+    const backBtn =
+        document.getElementById("backBtn");
+
+    const profileBtn =
+        document.getElementById("profileBtn");
+
+    const notificationBtn =
+        document.getElementById("notificationBtn");
+
+    const menuBtn =
+        document.getElementById("menuBtn");
+
+    const nav =
+        document.getElementById("gharNav");
+
+
+    /* =====================================================
+       STORAGE KEYS
+    ===================================================== */
+
+    const PROPERTY_KEY =
+        "ghar_seller_properties";
+
+    const DRAFT_KEY =
+        "ghar_seller_add_property_draft";
+
+
+    /* =====================================================
+       TOAST
+    ===================================================== */
+
+    let toastTimer;
+
+    function showToast(message){
+
+        if(!toast){
+            return;
+        }
+
+        toast.textContent = message;
+
+        toast.classList.add("show");
+
+        clearTimeout(toastTimer);
+
+        toastTimer =
+            setTimeout(
+                function(){
+                    toast.classList.remove("show");
+                },
+                3000
+            );
+
+    }
+
+
+    /* =====================================================
+       SAFE STORAGE
+    ===================================================== */
+
+    function getArray(key){
+
+        try{
+
+            const raw =
+                localStorage.getItem(key);
+
+            if(!raw){
+                return [];
+            }
+
+            const parsed =
+                JSON.parse(raw);
+
+            return Array.isArray(parsed)
+                ? parsed
+                : [];
+
+        }catch(error){
+
+            console.warn(
+                "GHAR storage error:",
+                error
+            );
+
+            return [];
+
+        }
+
+    }
+
+
+    function saveJSON(key,value){
+
+        try{
+
+            localStorage.setItem(
+                key,
+                JSON.stringify(value)
+            );
+
+            return true;
+
+        }catch(error){
+
+            console.warn(
+                "GHAR storage save error:",
+                error
+            );
+
+            return false;
+
+        }
+
+    }
+
+
+    /* =====================================================
+       FORM DATA
+    ===================================================== */
+
+    function getFormData(){
+
+        const data =
+            Object.fromEntries(
+                new FormData(form).entries()
+            );
+
+
+        data.features =
+            Array.from(
+                form.querySelectorAll(
+                    'input[name="features"]:checked'
+                )
+            )
+            .map(
+                input => input.value
+            );
+
+
+        data.images =
+            window.__gharImageNames || [];
+
+
+        data.createdAt =
+            new Date().toISOString();
+
+
+        return data;
+
+    }
+
+
+    /* =====================================================
+       NUMBER FORMAT
+    ===================================================== */
+
+    function formatINR(value){
+
+        const amount =
+            Number(value || 0);
+
+        if(!amount){
+            return "₹0";
+        }
+
+        return new Intl.NumberFormat(
+            "en-IN",
+            {
+                style:"currency",
+                currency:"INR",
+                maximumFractionDigits:0
+            }
+        ).format(amount);
+
+    }
+
+
+    /* =====================================================
+       PRICE PREVIEW
+    ===================================================== */
+
+    function updatePrice(){
+
+        if(!priceInput || !pricePreview){
+            return;
+        }
+
+        pricePreview.textContent =
+            formatINR(
+                priceInput.value
+            );
+
+    }
+
+
+    /* =====================================================
+       PROGRESS
+    ===================================================== */
+
+    function updateProgress(){
+
+        const requiredFields =
+            Array.from(
+                form.querySelectorAll(
+                    "[required]"
+                )
+            );
+
+        let completed = 0;
+
+
+        requiredFields.forEach(
+            field => {
+
+                if(
+                    field.type === "checkbox"
+                ){
+
+                    if(field.checked){
+                        completed++;
+                    }
+
+                    return;
+                }
+
+
+                if(
+                    String(
+                        field.value || ""
+                    ).trim()
+                ){
+
+                    completed++;
+
+                }
+
+            }
+        );
+
+
+        const percentage =
+            requiredFields.length
+                ? Math.round(
+                    completed /
+                    requiredFields.length *
+                    100
+                )
+                : 0;
+
+
+        if(progressBar){
+            progressBar.style.width =
+                percentage + "%";
+        }
+
+        if(progressText){
+            progressText.textContent =
+                percentage + "%";
+        }
+
+    }
+
+
+    /* =====================================================
+       IMAGE PREVIEW
+    ===================================================== */
+
+    window.__gharImageNames = [];
+
+
+    function renderImages(files){
+
+        if(!imagePreview){
+            return;
+        }
+
+        imagePreview.innerHTML = "";
+
+        window.__gharImageNames = [];
+
+
+        Array.from(files)
+            .slice(0,12)
+            .forEach(
+                (file,index) => {
+
+                    window.__gharImageNames.push(
+                        file.name
+                    );
+
+
+                    const wrapper =
+                        document.createElement("div");
+
+                    wrapper.className =
+                        "preview-item";
+
+
+                    const img =
+                        document.createElement("img");
+
+                    img.alt =
+                        "Property image " +
+                        (index + 1);
+
+
+                    const remove =
+                        document.createElement("button");
+
+                    remove.type =
+                        "button";
+
+                    remove.className =
+                        "preview-remove";
+
+                    remove.textContent =
+                        "×";
+
+                    remove.setAttribute(
+                        "aria-label",
+                        "Remove image"
+                    );
+
+
+                    const reader =
+                        new FileReader();
+
+
+                    reader.onload =
+                        function(event){
+
+                            img.src =
+                                event.target.result;
+
+                        };
+
+
+                    reader.readAsDataURL(file);
+
+
+                    remove.addEventListener(
+                        "click",
+                        function(){
+
+                            wrapper.remove();
+
+                            window.__gharImageNames =
+                                window.__gharImageNames
+                                    .filter(
+                                        name =>
+                                            name !== file.name
+                                    );
+
+                        }
+                    );
+
+
+                    wrapper.appendChild(img);
+
+                    wrapper.appendChild(remove);
+
+                    imagePreview.appendChild(wrapper);
+
+                }
+            );
+
+    }
+
+
+    if(imageInput){
+
+        imageInput.addEventListener(
+            "change",
+            function(){
+
+                renderImages(
+                    imageInput.files
+                );
+
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       SAVE DRAFT
+    ===================================================== */
+
+    function saveDraft(){
+
+        const data =
+            getFormData();
+
+
+        data.savedAt =
+            new Date().toISOString();
+
+
+        if(
+            saveJSON(
+                DRAFT_KEY,
+                data
+            )
+        ){
+
+            showToast(
+                "Property draft saved successfully."
+            );
+
+        }else{
+
+            showToast(
+                "Unable to save the draft on this device."
+            );
+
+        }
+
+    }
+
+
+    /* =====================================================
+       LOAD DRAFT
+    ===================================================== */
+
+    function loadDraft(){
+
+        try{
+
+            const raw =
+                localStorage.getItem(
+                    DRAFT_KEY
+                );
+
+            if(!raw){
+                return;
+            }
+
+
+            const data =
+                JSON.parse(raw);
+
+
+            if(
+                !data ||
+                typeof data !== "object"
+            ){
+                return;
+            }
+
+
+            Object.entries(data)
+                .forEach(
+                    ([key,value]) => {
+
+                        const field =
+                            form.elements[key];
+
+
+                        if(
+                            !field ||
+                            Array.isArray(value)
+                        ){
+                            return;
+                        }
+
+
+                        if(
+                            field.type === "checkbox" ||
+                            field.type === "radio"
+                        ){
+                            return;
+                        }
+
+
+                        field.value =
+                            value ?? "";
+
+                    }
+                );
+
+
+            if(
+                Array.isArray(
+                    data.features
+                )
+            ){
+
+                data.features.forEach(
+                    feature => {
+
+                        const checkbox =
+                            form.querySelector(
+                                'input[name="features"][value="' +
+                                CSS.escape(feature) +
+                                '"]'
+                            );
+
+                        if(checkbox){
+                            checkbox.checked = true;
+                        }
+
+                    }
+                );
+
+            }
+
+
+            updatePrice();
+
+            updateProgress();
+
+        }catch(error){
+
+            console.warn(
+                "GHAR draft load error:",
+                error
+            );
+
+        }
+
+    }
+
+
+    /* =====================================================
+       CLEAR FORM
+    ===================================================== */
+
+    function clearForm(){
+
+        const confirmed =
+            window.confirm(
+                "Clear all entered property information?"
+            );
+
+
+        if(!confirmed){
+            return;
+        }
+
+
+        form.reset();
+
+        imagePreview.innerHTML = "";
+
+        window.__gharImageNames = [];
+
+
+        localStorage.removeItem(
+            DRAFT_KEY
+        );
+
+
+        updatePrice();
+
+        updateProgress();
+
+        showToast(
+            "Property form cleared."
+        );
+
+    }
+
+
+    /* =====================================================
+       SUBMIT PROPERTY
+    ===================================================== */
+
+    function submitProperty(event){
+
+        event.preventDefault();
+
+
+        if(!form.checkValidity()){
+
+            form.reportValidity();
+
+            showToast(
+                "Please complete all required fields."
+            );
+
+            return;
+
+        }
+
+
+        const data =
+            getFormData();
+
+
+        const id =
+            "GHAR-P-" +
+            Date.now().toString(36).toUpperCase();
+
+
+        const property = {
+
+            id,
+
+            ...data,
+
+            status:"Under Review",
+
+            source:"seller-add-property",
+
+            submittedAt:
+                new Date().toISOString(),
+
+            updatedAt:
+                new Date().toISOString()
+
+        };
+
+
+        const properties =
+            getArray(
+                PROPERTY_KEY
+            );
+
+
+        properties.unshift(
+            property
+        );
+
+
+        const saved =
+            saveJSON(
+                PROPERTY_KEY,
+                properties
+            );
+
+
+        if(!saved){
+
+            showToast(
+                "Property could not be saved on this device."
+            );
+
+            return;
+
+        }
+
+
+        localStorage.removeItem(
+            DRAFT_KEY
+        );
+
+
+        /* -----------------------------------------------
+           CREATE SELLER ACTIVITY
+        ------------------------------------------------ */
+
+        const activities =
+            getArray(
+                "ghar_seller_activity"
+            );
+
+
+        activities.unshift({
+
+            id:
+                "ACT-" +
+                Date.now(),
+
+            type:
+                "property-submitted",
+
+            propertyId:
+                id,
+
+            title:
+                data.title,
+
+            message:
+                "New property submitted for review.",
+
+            createdAt:
+                new Date().toISOString()
+
+        });
+
+
+        saveJSON(
+            "ghar_seller_activity",
+            activities
+        );
+
+
+        showToast(
+            "Property submitted successfully."
+        );
+
+
+        setTimeout(
+            function(){
+
+                window.location.href =
+                    "my-properties.html";
+
+            },
+            1000
+        );
+
+    }
+
+
+    /* =====================================================
+       HEADER
+    ===================================================== */
+
+    if(profileBtn){
+
+        profileBtn.addEventListener(
+            "click",
+            function(){
+
+                window.location.href =
+                    "my-profile.html";
+
+            }
+        );
+
+    }
+
+
+    if(notificationBtn){
+
+        notificationBtn.addEventListener(
+            "click",
+            function(){
+
+                window.location.href =
+                    "../communication/notifications.html";
+
+            }
+        );
+
+    }
+
+
+    if(menuBtn && nav){
+
+        menuBtn.addEventListener(
+            "click",
+            function(){
+
+                const open =
+                    menuBtn.getAttribute(
+                        "aria-expanded"
+                    ) === "true";
+
+
+                if(open){
+
+                    nav.style.display =
+                        "";
+
+                    nav.style.position =
+                        "";
+
+                    nav.style.top =
+                        "";
+
+                    nav.style.left =
+                        "";
+
+                    nav.style.right =
+                        "";
+
+                    nav.style.padding =
+                        "";
+
+                    nav.style.flexDirection =
+                        "";
+
+                    nav.style.background =
+                        "";
+
+                    nav.style.border =
+                        "";
+
+                    nav.style.borderRadius =
+                        "";
+
+                    nav.style.boxShadow =
+                        "";
+
+
+                    menuBtn.setAttribute(
+                        "aria-expanded",
+                        "false"
+                    );
+
+                }else{
+
+                    nav.style.display =
+                        "flex";
+
+                    nav.style.position =
+                        "absolute";
+
+                    nav.style.top =
+                        "78px";
+
+                    nav.style.left =
+                        "10px";
+
+                    nav.style.right =
+                        "10px";
+
+                    nav.style.padding =
+                        "12px";
+
+                    nav.style.flexDirection =
+                        "column";
+
+                    nav.style.alignItems =
+                        "stretch";
+
+                    nav.style.background =
+                        "rgba(248,243,233,.98)";
+
+                    nav.style.border =
+                        "1px solid rgba(16,35,29,.12)";
+
+                    nav.style.borderRadius =
+                        "16px";
+
+                    nav.style.boxShadow =
+                        "0 20px 50px rgba(16,35,29,.15)";
+
+
+                    menuBtn.setAttribute(
+                        "aria-expanded",
+                        "true"
+                    );
+
+                }
+
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       BUTTONS
+    ===================================================== */
+
+    if(draftBtn){
+
+        draftBtn.addEventListener(
+            "click",
+            saveDraft
+        );
+
+    }
+
+
+    if(clearBtn){
+
+        clearBtn.addEventListener(
+            "click",
+            clearForm
+        );
+
+    }
+
+
+    if(backBtn){
+
+        backBtn.addEventListener(
+            "click",
+            function(){
+
+                if(
+                    document.referrer &&
+                    document.referrer.includes(
+                        window.location.origin
+                    )
+                ){
+
+                    history.back();
+
+                }else{
+
+                    window.location.href =
+                        "my-properties.html";
+
+                }
+
+            }
+        );
+
+    }
+
+
+    if(form){
+
+        form.addEventListener(
+            "submit",
+            submitProperty
+        );
+
+
+        form.addEventListener(
+            "input",
+            updateProgress
+        );
+
+
+        form.addEventListener(
+            "change",
+            updateProgress
+        );
+
+    }
+
+
+    if(priceInput){
+
+        priceInput.addEventListener(
+            "input",
+            updatePrice
+        );
+
+    }
+
+
+    /* =====================================================
+       FOOTER YEAR
+    ===================================================== */
+
+    const footerYear =
+        document.getElementById(
+            "footerYear"
+        );
+
+    if(footerYear){
+
+        footerYear.textContent =
+            new Date().getFullYear();
+
+    }
+
+
+    /* =====================================================
+       INITIALIZE
+    ===================================================== */
+
+    loadDraft();
+
+    updatePrice();
+
+    updateProgress();
+
+
+    console.log(
+        "GHAR Seller Add Property initialized."
+    );
+
+})();
+<
+
+            "GHAR Seller Workspace initialized."
+        );
+
+    }
+
+
+    if(
+        document.readyState ===
+        "loading"
+    ){
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            initialize,
+            {once:true}
+        );
+
+    }else{
+
+        initialize();
+
+    }
+
+
+})();
+
+</script>
+
+</body>
+</html>

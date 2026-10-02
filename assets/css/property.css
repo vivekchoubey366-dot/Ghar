@@ -1,0 +1,1882 @@
+/* =========================================================
+   GHAR -- PROPERTY SYSTEM
+   ---------------------------------------------------------
+   Property-specific styling for:
+   • Property listings
+   • Property cards
+   • Property details
+   • Property galleries
+   • Property search
+   • Property filters
+   • Property metadata
+   • Property pricing
+   • Property amenities
+   • Property actions
+   • Property enquiry / booking areas
+   • Property comparison
+   • Property badges
+   • Property maps
+   • Seller property forms
+   ---------------------------------------------------------
+   Uses variables.css as the single design-token source.
+   ========================================================= */
+
+
+/* =========================================================
+   01 -- PROPERTY PAGE FOUNDATION
+   ========================================================= */
+
+.ghar-property-page,
+.property-page {
+    --property-accent: var(
+        --ghar-green-700,
+        #315546
+    );
+
+    --property-accent-dark: var(
+        --ghar-green-900,
+        #162d25
+    );
+
+    --property-surface: var(
+        --ghar-surface,
+        #fbf8f1
+    );
+
+    --property-radius: var(
+        --ghar-radius-xl,
+        22px
+    );
+
+    --property-shadow: var(
+        --ghar-shadow-sm,
+        0 6px 18px rgba(16,35,29,.06)
+    );
+
+    min-width: 0;
+    width: 100%;
+}
+
+
+/* =========================================================
+   02 -- PROPERTY CONTAINER
+   ========================================================= */
+
+.property-container {
+    width: min(
+        100%,
+        var(--ghar-container, 1440px)
+    );
+
+    margin-inline: auto;
+    padding-inline:
+        var(
+            --ghar-page-padding,
+            24px
+        );
+
+    min-width: 0;
+}
+
+
+/* =========================================================
+   03 -- PROPERTY HEADER
+   ========================================================= */
+
+.property-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    gap: var(
+        --ghar-space-6,
+        24px
+    );
+
+    margin-bottom:
+        var(
+            --ghar-space-6,
+            24px
+        );
+
+    min-width: 0;
+}
+
+
+.property-header-content {
+    min-width: 0;
+    flex: 1 1 auto;
+}
+
+
+.property-title {
+    margin: 0;
+
+    color:
+        var(
+            --ghar-text,
+            #162d25
+        );
+
+    font-family:
+        var(
+            --ghar-font-display,
+            Manrope,
+            sans-serif
+        );
+
+    font-size:
+        var(
+            --ghar-page-title,
+            clamp(1.75rem, 3.5vw, 3rem)
+        );
+
+    font-weight:
+        var(
+            --ghar-weight-bold,
+            700
+        );
+
+    line-height:
+        var(
+            --ghar-leading-tight,
+            1.15
+        );
+
+    overflow-wrap: anywhere;
+}
+
+
+.property-subtitle {
+    margin-top:
+        var(
+            --ghar-space-2,
+            8px
+        );
+
+    color:
+        var(
+            --ghar-muted,
+            #737e77
+        );
+
+    max-width:
+        var(
+            --ghar-text-measure,
+            68ch
+        );
+
+    overflow-wrap: anywhere;
+}
+
+
+/* =========================================================
+   04 -- PROPERTY LOCATION
+   ========================================================= */
+
+.property-location {
+    display: flex;
+    align-items: center;
+
+    gap:
+        var(
+            --ghar-space-2,
+            8px
+        );
+
+    min-width: 0;
+
+    color:
+        var(
+            --ghar-text-3,
+            #40574d
+        );
+
+    font-size:
+        var(
+            --ghar-text-sm,
+            .82rem
+        );
+}
+
+
+.property-location span {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+
+.property-location-icon {
+    flex: 0 0 auto;
+}
+
+
+/* =========================================================
+   05 -- PROPERTY STATUS BADGES
+   ========================================================= */
+
+.property-badge,
+.property-status,
+.property-type-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 30px;
+
+    padding:
+        6px 12px;
+
+    border-radius:
+        var(
+            --ghar-radius-pill,
+            999px
+        );
+
+    font-size:
+        var(
+            --ghar-text-xs,
+            .72rem
+        );
+
+    font-weight:
+        var(
+            --ghar-weight-semibold,
+            600
+        );
+
+    line-height: 1;
+
+    white-space: nowrap;
+}
+
+
+.property-badge.sale,
+.property-status.sale {
+    color: #ffffff;
+    background:
+        var(
+            --ghar-green-900,
+            #162d25
+        );
+}
+
+
+.property-badge.rent,
+.property-status.rent {
+    color:
+        var(
+            --ghar-green-900,
+            #162d25
+        );
+
+    background:
+        var(
+            --ghar-sage,
+            #dfe9e2
+        );
+}
+
+
+.property-badge.featured {
+    color:
+        var(
+            --ghar-green-900,
+            #162d25
+        );
+
+    background:
+        var(
+            --ghar-gold-light,
+            #d5bc88
+        );
+}
+
+
+.property-badge.new {
+    color:
+        var(
+            --ghar-green-900,
+            #162d25
+        );
+
+    background:
+        var(
+            --ghar-sage-2,
+            #d3e0d8
+        );
+}
+
+
+/* =========================================================
+   06 -- PROPERTY GRID
+   ========================================================= */
+
+.property-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            3,
+            minmax(0, 1fr)
+        );
+
+    gap:
+        var(
+            --ghar-grid-gap-lg,
+            24px
+        );
+
+    min-width: 0;
+}
+
+
+/* =========================================================
+   07 -- PROPERTY CARD
+   ========================================================= */
+
+.property-card {
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+
+    min-width: 0;
+    max-width: 100%;
+
+    overflow: hidden;
+
+    border:
+        1px solid
+        var(
+            --ghar-border,
+            rgba(22,45,37,.08)
+        );
+
+    border-radius:
+        var(
+            --ghar-card-radius,
+            22px
+        );
+
+    background:
+        var(
+            --ghar-card-bg,
+            #fbf8f1
+        );
+
+    box-shadow:
+        var(
+            --ghar-card-shadow,
+            0 6px 18px rgba(16,35,29,.06)
+        );
+
+    transition:
+        transform
+        var(
+            --ghar-transition,
+            180ms ease
+        ),
+        box-shadow
+        var(
+            --ghar-transition,
+            180ms ease
+        ),
+        border-color
+        var(
+            --ghar-transition,
+            180ms ease
+        );
+}
+
+
+.property-card:hover {
+    transform: translateY(-3px);
+
+    box-shadow:
+        var(
+            --ghar-card-shadow-hover,
+            0 12px 30px rgba(16,35,29,.08)
+        );
+
+    border-color:
+        var(
+            --ghar-border-medium,
+            rgba(22,45,37,.12)
+        );
+}
+
+
+.property-card > * {
+    min-width: 0;
+}
+
+
+/* =========================================================
+   08 -- PROPERTY CARD IMAGE
+   ========================================================= */
+
+.property-card-media {
+    position: relative;
+
+    width: 100%;
+
+    aspect-ratio: 4 / 3;
+
+    overflow: hidden;
+
+    background:
+        var(
+            --ghar-image-placeholder,
+            #e7dece
+        );
+}
+
+
+.property-card-media img {
+    width: 100%;
+    height: 100%;
+
+    object-fit:
+        var(
+            --ghar-image-fit,
+            cover
+        );
+
+    object-position:
+        var(
+            --ghar-image-position,
+            center
+        );
+
+    transition:
+        transform
+        var(
+            --ghar-transition-slow,
+            320ms ease
+        );
+}
+
+
+.property-card:hover
+.property-card-media img {
+    transform: scale(1.035);
+}
+
+
+/* =========================================================
+   09 -- CARD IMAGE OVERLAY
+   ========================================================= */
+
+.property-card-media::after {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    pointer-events: none;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(16,35,29,.02),
+            rgba(16,35,29,.16)
+        );
+
+    opacity: .65;
+}
+
+
+/* =========================================================
+   10 -- CARD BADGE POSITION
+   ========================================================= */
+
+.property-card .property-badge {
+    position: absolute;
+
+    top: 14px;
+    left: 14px;
+
+    z-index:
+        var(
+            --ghar-z-card,
+            10
+        );
+}
+
+
+/* =========================================================
+   11 -- PROPERTY SAVE BUTTON
+   ========================================================= */
+
+.property-save {
+    position: absolute;
+
+    top: 12px;
+    right: 12px;
+
+    z-index:
+        var(
+            --ghar-z-card,
+            10
+        );
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 42px;
+    height: 42px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.42);
+
+    border-radius:
+        50%;
+
+    color:
+        var(
+            --ghar-green-900,
+            #162d25
+        );
+
+    background:
+        rgba(255,255,255,.82);
+
+    backdrop-filter:
+        blur(10px);
+
+    -webkit-backdrop-filter:
+        blur(10px);
+
+    cursor: pointer;
+
+    transition:
+        transform
+        var(
+            --ghar-transition,
+            180ms ease
+        ),
+        background
+        var(
+            --ghar-transition,
+            180ms ease
+        );
+}
+
+
+.property-save:hover {
+    transform: scale(1.05);
+
+    background:
+        rgba(255,255,255,.96);
+}
+
+
+.property-save.is-saved,
+.property-save.active {
+    color:
+        var(
+            --ghar-green-900,
+            #162d25
+        );
+
+    background:
+        var(
+            --ghar-gold-light,
+            #d5bc88
+        );
+}
+
+
+/* =========================================================
+   12 -- PROPERTY CARD BODY
+   ========================================================= */
+
+.property-card-body {
+    display: flex;
+    flex-direction: column;
+
+    gap:
+        var(
+            --ghar-space-3,
+            12px
+        );
+
+    padding:
+        var(
+            --ghar-card-padding,
+            24px
+        );
+
+    min-width: 0;
+
+    flex: 1 1 auto;
+}
+
+
+/* =========================================================
+   13 -- PROPERTY CARD TITLE
+   ========================================================= */
+
+.property-card-title {
+    margin: 0;
+
+    color:
+        var(
+            --ghar-text,
+            #162d25
+        );
+
+    font-family:
+        var(
+            --ghar-font-display,
+            Manrope,
+            sans-serif
+        );
+
+    font-size:
+        var(
+            --ghar-card-title,
+            1.25rem
+        );
+
+    font-weight:
+        var(
+            --ghar-weight-bold,
+            700
+        );
+
+    line-height:
+        var(
+            --ghar-leading-snug,
+            1.3
+        );
+
+    overflow-wrap: anywhere;
+}
+
+
+.property-card-title a {
+    color: inherit;
+}
+
+
+/* =========================================================
+   14 -- PROPERTY PRICE
+   ========================================================= */
+
+.property-price {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+
+    gap: 5px;
+
+    color:
+        var(
+            --ghar-green-900,
+            #162d25
+        );
+
+    font-weight:
+        var(
+            --ghar-weight-bold,
+            700
+        );
+
+    line-height: 1.2;
+}
+
+
+.property-price-value {
+    font-size:
+        clamp(
+            1.15rem,
+            2vw,
+            1.5rem
+        );
+}
+
+
+.property-price-unit {
+    color:
+        var(
+            --ghar-muted,
+            #737e77
+        );
+
+    font-size:
+        var(
+            --ghar-text-sm,
+            .82rem
+        );
+
+    font-weight:
+        var(
+            --ghar-weight-medium,
+            500
+        );
+}
+
+
+/* =========================================================
+   15 -- PROPERTY META
+   ========================================================= */
+
+.property-meta {
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            3,
+            minmax(0, 1fr)
+        );
+
+    gap:
+        10px;
+
+    min-width: 0;
+}
+
+
+.property-meta-item {
+    min-width: 0;
+
+    padding:
+        10px 8px;
+
+    border-radius:
+        var(
+            --ghar-radius-sm,
+            10px
+        );
+
+    background:
+        var(
+            --ghar-surface-soft,
+            #f2eee5
+        );
+}
+
+
+.property-meta-label {
+    display: block;
+
+    margin-bottom: 3px;
+
+    color:
+        var(
+            --ghar-muted,
+            #737e77
+        );
+
+    font-size:
+        var(
+            --ghar-text-xs,
+            .72rem
+        );
+}
+
+
+.property-meta-value {
+    display: block;
+
+    color:
+        var(
+            --ghar-text-2,
+            #263d34
+        );
+
+    font-size:
+        var(
+            --ghar-text-sm,
+            .82rem
+        );
+
+    font-weight:
+        var(
+            --ghar-weight-semibold,
+            600
+        );
+
+    overflow-wrap: anywhere;
+}
+
+
+/* =========================================================
+   16 -- PROPERTY CARD ACTIONS
+   ========================================================= */
+
+.property-card-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+
+    gap:
+        var(
+            --ghar-space-2,
+            8px
+        );
+
+    margin-top: auto;
+
+    min-width: 0;
+}
+
+
+.property-card-actions > * {
+    min-width: 0;
+}
+
+
+/* =========================================================
+   17 -- PROPERTY DETAILS LAYOUT
+   ========================================================= */
+
+.property-details {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1.45fr)
+        minmax(300px, .75fr);
+
+    gap:
+        var(
+            --ghar-grid-gap-xl,
+            32px
+        );
+
+    min-width: 0;
+}
+
+
+.property-details-main,
+.property-details-sidebar {
+    min-width: 0;
+}
+
+
+/* =========================================================
+   18 -- PROPERTY DETAILS PANEL
+   ========================================================= */
+
+.property-details-panel {
+    min-width: 0;
+
+    padding:
+        var(
+            --ghar-panel-padding,
+            24px
+        );
+
+    border:
+        1px solid
+        var(
+            --ghar-panel-border,
+            rgba(22,45,37,.08)
+        );
+
+    border-radius:
+        var(
+            --ghar-panel-radius,
+            22px
+        );
+
+    background:
+        var(
+            --ghar-panel-bg,
+            #fbf8f1
+        );
+
+    box-shadow:
+        var(
+            --ghar-panel-shadow,
+            0 2px 8px rgba(16,35,29,.04)
+        );
+}
+
+
+/* =========================================================
+   19 -- PROPERTY GALLERY
+   ========================================================= */
+
+.property-gallery {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 2fr)
+        minmax(140px, 1fr);
+
+    gap:
+        10px;
+
+    min-width: 0;
+
+    overflow: hidden;
+
+    border-radius:
+        var(
+            --ghar-banner-radius,
+            28px
+        );
+}
+
+
+.property-gallery-main {
+    min-width: 0;
+
+    aspect-ratio: 16 / 10;
+
+    overflow: hidden;
+}
+
+
+.property-gallery-main img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+}
+
+
+.property-gallery-thumbs {
+    display: grid;
+
+    grid-template-rows:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 10px;
+
+    min-width: 0;
+}
+
+
+.property-gallery-thumb {
+    position: relative;
+
+    min-width: 0;
+    min-height: 0;
+
+    overflow: hidden;
+
+    border: 0;
+    padding: 0;
+
+    border-radius:
+        var(
+            --ghar-radius-md,
+            14px
+        );
+
+    background:
+        var(
+            --ghar-image-placeholder,
+            #e7dece
+        );
+
+    cursor: pointer;
+}
+
+
+.property-gallery-thumb img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    transition:
+        transform
+        var(
+            --ghar-transition,
+            180ms ease
+        );
+}
+
+
+.property-gallery-thumb:hover img {
+    transform: scale(1.04);
+}
+
+
+.property-gallery-thumb.active {
+    outline:
+        2px solid
+        var(
+            --ghar-green-600,
+            #426b59
+        );
+
+    outline-offset: -2px;
+}
+
+
+/* =========================================================
+   20 -- PROPERTY FEATURES
+   ========================================================= */
+
+.property-features {
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            2,
+            minmax(0, 1fr)
+        );
+
+    gap:
+        12px;
+
+    min-width: 0;
+}
+
+
+.property-feature {
+    display: flex;
+    align-items: center;
+
+    gap:
+        var(
+            --ghar-space-3,
+            12px
+        );
+
+    min-width: 0;
+
+    padding:
+        14px;
+
+    border:
+        1px solid
+        var(
+            --ghar-border,
+            rgba(22,45,37,.08)
+        );
+
+    border-radius:
+        var(
+            --ghar-radius-md,
+            14px
+        );
+
+    background:
+        var(
+            --ghar-surface,
+            #fbf8f1
+        );
+}
+
+
+.property-feature-icon {
+    flex: 0 0 auto;
+
+    width: 40px;
+    height: 40px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius:
+        var(
+            --ghar-radius-sm,
+            10px
+        );
+
+    color:
+        var(
+            --ghar-green-900,
+            #162d25
+        );
+
+    background:
+        var(
+            --ghar-sage,
+            #dfe9e2
+        );
+}
+
+
+.property-feature-content {
+    min-width: 0;
+}
+
+
+.property-feature-label {
+    display: block;
+
+    color:
+        var(
+            --ghar-muted,
+            #737e77
+        );
+
+    font-size:
+        var(
+            --ghar-text-xs,
+            .72rem
+        );
+}
+
+
+.property-feature-value {
+    display: block;
+
+    margin-top: 2px;
+
+    color:
+        var(
+            --ghar-text,
+            #162d25
+        );
+
+    font-weight:
+        var(
+            --ghar-weight-semibold,
+            600
+        );
+
+    overflow-wrap: anywhere;
+}
+
+
+/* =========================================================
+   21 -- PROPERTY DESCRIPTION
+   ========================================================= */
+
+.property-description {
+    max-width:
+        var(
+            --ghar-text-measure,
+            68ch
+        );
+
+    color:
+        var(
+            --ghar-text-3,
+            #40574d
+        );
+
+    line-height:
+        var(
+            --ghar-leading-relaxed,
+            1.65
+        );
+
+    overflow-wrap: anywhere;
+}
+
+
+/* =========================================================
+   22 -- PROPERTY AMENITIES
+   ========================================================= */
+
+.property-amenities {
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            2,
+            minmax(0, 1fr)
+        );
+
+    gap:
+        10px;
+
+    min-width: 0;
+}
+
+
+.property-amenity {
+    display: flex;
+    align-items: center;
+
+    gap:
+        8px;
+
+    min-width: 0;
+
+    color:
+        var(
+            --ghar-text-2,
+            #263d34
+        );
+
+    font-size:
+        var(
+            --ghar-text-sm,
+            .82rem
+        );
+}
+
+
+.property-amenity span {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+
+/* =========================================================
+   23 -- PROPERTY SIDEBAR ACTION PANEL
+   ========================================================= */
+
+.property-action-panel {
+    position: sticky;
+    top:
+        calc(
+            var(--ghar-header-height, 76px) + 20px
+        );
+
+    display: flex;
+    flex-direction: column;
+
+    gap:
+        var(
+            --ghar-space-4,
+            16px
+        );
+
+    min-width: 0;
+
+    padding:
+        var(
+            --ghar-panel-padding,
+            24px
+        );
+
+    border:
+        1px solid
+        var(
+            --ghar-border,
+            rgba(22,45,37,.08)
+        );
+
+    border-radius:
+        var(
+            --ghar-radius-xl,
+            22px
+        );
+
+    background:
+        var(
+            --ghar-surface,
+            #fbf8f1
+        );
+
+    box-shadow:
+        var(
+            --ghar-shadow-md,
+            0 12px 30px rgba(16,35,29,.08)
+        );
+}
+
+
+/* =========================================================
+   24 -- PROPERTY SEARCH
+   ========================================================= */
+
+.property-search {
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            4,
+            minmax(0, 1fr)
+        );
+
+    gap:
+        var(
+            --ghar-space-3,
+            12px
+        );
+
+    padding:
+        var(
+            --ghar-space-5,
+            20px
+        );
+
+    min-width: 0;
+
+    border:
+        1px solid
+        var(
+            --ghar-border,
+            rgba(22,45,37,.08)
+        );
+
+    border-radius:
+        var(
+            --ghar-radius-xl,
+            22px
+        );
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--ghar-surface, #fbf8f1),
+            var(--ghar-sage, #dfe9e2)
+        );
+
+    box-shadow:
+        var(
+            --ghar-shadow-sm,
+            0 6px 18px rgba(16,35,29,.06)
+        );
+}
+
+
+.property-search-field {
+    min-width: 0;
+}
+
+
+.property-search-actions {
+    display: flex;
+    align-items: end;
+
+    min-width: 0;
+}
+
+
+/* =========================================================
+   25 -- PROPERTY FILTERS
+   ========================================================= */
+
+.property-filters {
+    display: flex;
+    align-items: center;
+
+    flex-wrap: wrap;
+
+    gap:
+        10px;
+
+    min-width: 0;
+}
+
+
+.property-filter {
+    display: inline-flex;
+    align-items: center;
+
+    min-height: 40px;
+
+    padding:
+        8px 14px;
+
+    border:
+        1px solid
+        var(
+            --ghar-border-medium,
+            rgba(22,45,37,.12)
+        );
+
+    border-radius:
+        var(
+            --ghar-radius-pill,
+            999px
+        );
+
+    color:
+        var(
+            --ghar-text-2,
+            #263d34
+        );
+
+    background:
+        var(
+            --ghar-surface,
+            #fbf8f1
+        );
+
+    cursor: pointer;
+
+    transition:
+        background
+        var(--ghar-transition, 180ms ease),
+        border-color
+        var(--ghar-transition, 180ms ease),
+        transform
+        var(--ghar-transition, 180ms ease);
+}
+
+
+.property-filter:hover {
+    transform: translateY(-1px);
+
+    border-color:
+        var(
+            --ghar-green-500,
+            #527d68
+        );
+}
+
+
+.property-filter.active {
+    color: #ffffff;
+
+    border-color:
+        var(
+            --ghar-green-900,
+            #162d25
+        );
+
+    background:
+        var(
+            --ghar-green-900,
+            #162d25
+        );
+}
+
+
+/* =========================================================
+   26 -- PROPERTY MAP
+   ========================================================= */
+
+.property-map {
+    width: 100%;
+    min-width: 0;
+
+    min-height: 360px;
+
+    overflow: hidden;
+
+    border:
+        1px solid
+        var(
+            --ghar-border,
+            rgba(22,45,37,.08)
+        );
+
+    border-radius:
+        var(
+            --ghar-radius-xl,
+            22px
+        );
+
+    background:
+        var(
+            --ghar-sand,
+            #e7dece
+        );
+}
+
+
+.property-map iframe {
+    width: 100%;
+    height: 100%;
+
+    min-height: 360px;
+
+    border: 0;
+}
+
+
+/* =========================================================
+   27 -- PROPERTY ENQUIRY
+   ========================================================= */
+
+.property-enquiry {
+    display: flex;
+    flex-direction: column;
+
+    gap:
+        var(
+            --ghar-space-4,
+            16px
+        );
+
+    min-width: 0;
+}
+
+
+.property-enquiry-note {
+    padding:
+        12px 14px;
+
+    border-radius:
+        var(
+            --ghar-radius-md,
+            14px
+        );
+
+    color:
+        var(
+            --ghar-text-3,
+            #40574d
+        );
+
+    background:
+        var(
+            --ghar-sage,
+            #dfe9e2
+        );
+
+    font-size:
+        var(
+            --ghar-text-sm,
+            .82rem
+        );
+
+    line-height:
+        var(
+            --ghar-leading-normal,
+            1.5
+        );
+}
+
+
+/* =========================================================
+   28 -- PROPERTY COMPARISON
+   ========================================================= */
+
+.property-comparison {
+    width: 100%;
+    min-width: 0;
+
+    overflow-x: auto;
+
+    -webkit-overflow-scrolling: touch;
+}
+
+
+.property-comparison-grid {
+    display: grid;
+
+    min-width: 720px;
+
+    grid-template-columns:
+        180px
+        repeat(
+            3,
+            minmax(180px, 1fr)
+        );
+
+    border:
+        1px solid
+        var(
+            --ghar-border,
+            rgba(22,45,37,.08)
+        );
+
+    border-radius:
+        var(
+            --ghar-radius-lg,
+            18px
+        );
+
+    overflow: hidden;
+}
+
+
+.property-comparison-cell {
+    min-width: 0;
+
+    padding:
+        14px;
+
+    border-right:
+        1px solid
+        var(
+            --ghar-border,
+            rgba(22,45,37,.08)
+        );
+
+    border-bottom:
+        1px solid
+        var(
+            --ghar-border,
+            rgba(22,45,37,.08)
+        );
+
+    background:
+        var(
+            --ghar-surface,
+            #fbf8f1
+        );
+
+    overflow-wrap: anywhere;
+}
+
+
+.property-comparison-label {
+    font-weight:
+        var(
+            --ghar-weight-semibold,
+            600
+        );
+
+    background:
+        var(
+            --ghar-surface-soft,
+            #f2eee5
+        );
+}
+
+
+/* =========================================================
+   29 -- PROPERTY EMPTY STATE
+   ========================================================= */
+
+.property-empty {
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    min-height: 280px;
+
+    padding:
+        var(
+            --ghar-space-8,
+            32px
+        );
+
+    text-align: center;
+
+    border:
+        1px dashed
+        var(
+            --ghar-border-medium,
+            rgba(22,45,37,.12)
+        );
+
+    border-radius:
+        var(
+            --ghar-radius-xl,
+            22px
+        );
+
+    background:
+        var(
+            --ghar-surface-soft,
+            #f2eee5
+        );
+}
+
+
+.property-empty-title {
+    margin-bottom:
+        var(
+            --ghar-space-2,
+            8px
+        );
+
+    color:
+        var(
+            --ghar-text,
+            #162d25
+        );
+
+    font-weight:
+        var(
+            --ghar-weight-bold,
+            700
+        );
+}
+
+
+.property-empty-text {
+    max-width: 48ch;
+
+    color:
+        var(
+            --ghar-muted,
+            #737e77
+        );
+}
+
+
+/* =========================================================
+   30 -- RESPONSIVE PROPERTY SYSTEM
+   ========================================================= */
+
+@media (max-width: 1200px) {
+
+    .property-grid {
+        grid-template-columns:
+            repeat(
+                2,
+                minmax(0, 1fr)
+            );
+    }
+
+    .property-details {
+        grid-template-columns:
+            minmax(0, 1fr)
+            minmax(280px, .7fr);
+    }
+
+    .property-search {
+        grid-template-columns:
+            repeat(
+                2,
+                minmax(0, 1fr)
+            );
+    }
+
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+    .property-details {
+        grid-template-columns: 1fr;
+    }
+
+    .property-action-panel {
+        position: static;
+    }
+
+    .property-gallery {
+        grid-template-columns: 1fr;
+    }
+
+    .property-gallery-thumbs {
+        grid-template-columns:
+            repeat(
+                3,
+                minmax(0, 1fr)
+            );
+
+        grid-template-rows: none;
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 680px) {
+
+    .property-container {
+        padding-inline:
+            var(
+                --ghar-page-padding-mobile,
+                16px
+            );
+    }
+
+    .property-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .property-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .property-search {
+        grid-template-columns: 1fr;
+    }
+
+    .property-meta {
+        grid-template-columns:
+            repeat(
+                2,
+                minmax(0, 1fr)
+            );
+    }
+
+    .property-features,
+    .property-amenities {
+        grid-template-columns: 1fr;
+    }
+
+    .property-card-actions {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .property-card-actions > * {
+        width: 100%;
+    }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 480px) {
+
+    .property-card-body {
+        padding:
+            var(
+                --ghar-space-4,
+                16px
+            );
+    }
+
+    .property-details-panel,
+    .property-action-panel {
+        padding:
+            var(
+                --ghar-space-4,
+                16px
+            );
+    }
+
+    .property-gallery {
+        border-radius:
+            var(
+                --ghar-radius-lg,
+                18px
+            );
+    }
+
+    .property-gallery-thumbs {
+        gap: 6px;
+    }
+
+    .property-meta {
+        grid-template-columns: 1fr;
+    }
+
+    .property-map,
+    .property-map iframe {
+        min-height: 280px;
+    }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .property-card,
+    .property-card-media img,
+    .property-save,
+    .property-gallery-thumb img,
+    .property-filter {
+        transition: none;
+    }
+
+    .property-card:hover {
+        transform: none;
+    }
+
+    .property-card:hover
+    .property-card-media img {
+        transform: none;
+    }
+
+}
+
+
+/* =========================================================
+   GHAR -- PROPERTY SYSTEM COMPLETE
+   ========================================================= */

@@ -1,0 +1,2713 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+
+<meta
+    name="viewport"
+    content="width=device-width,initial-scale=1,viewport-fit=cover"
+>
+
+<meta
+    name="description"
+    content="GHAR Buyer Workspace -- Manage submitted property offers, negotiations and offer status."
+>
+
+<meta
+    name="theme-color"
+    content="#10231d"
+>
+
+<meta
+    name="robots"
+    content="noindex,nofollow"
+>
+
+<title>My Offers · GHAR</title>
+
+<link rel="stylesheet" href="../assets/css/style.css">
+
+<style>
+
+/* =========================================================
+   GHAR -- MY OFFERS
+   HOMEPAGE-MATCHED DESIGN SYSTEM
+========================================================= */
+
+:root{
+    --g:#10231d;
+    --g2:#18372d;
+    --g3:#24483b;
+
+    --gold:#c9a96e;
+    --gold2:#e0c58c;
+
+    --cream:#f5efe4;
+    --cream2:#eee4d2;
+    --sand:#e7dac5;
+
+    --page:#eee9df;
+    --card:#f8f3e9;
+
+    --text:#17221d;
+    --muted:#70786f;
+
+    --line:rgba(16,35,29,.13);
+
+    --shadow:
+        0 14px 40px rgba(16,35,29,.08);
+
+    --shadow-lg:
+        0 25px 70px rgba(16,35,29,.13);
+
+    --radius:22px;
+    --radius-sm:14px;
+}
+
+/* =========================================================
+   RESET
+========================================================= */
+
+*{
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    margin:0;
+    min-height:100vh;
+
+    color:var(--text);
+
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        sans-serif;
+
+    background:
+        radial-gradient(
+            circle at 0% 0%,
+            rgba(201,169,110,.18),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 100% 30%,
+            rgba(24,55,45,.08),
+            transparent 28%
+        ),
+        linear-gradient(
+            135deg,
+            #f7f0e3,
+            #ecebe3 50%,
+            #eee3d2
+        );
+}
+
+button,
+input,
+select{
+    font:inherit;
+}
+
+button,
+a{
+    -webkit-tap-highlight-color:transparent;
+}
+
+a{
+    color:inherit;
+    text-decoration:none;
+}
+
+button{
+    cursor:pointer;
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.ghar-header{
+    position:sticky;
+    top:0;
+    z-index:1000;
+
+    border-bottom:1px solid var(--line);
+
+    background:
+        rgba(248,243,233,.92);
+
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
+}
+
+.ghar-header-inner{
+    width:min(1400px,calc(100% - 32px));
+    min-height:74px;
+
+    margin:auto;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+}
+
+/* BRAND */
+
+.ghar-brand{
+    display:flex;
+    align-items:center;
+    gap:11px;
+
+    min-width:max-content;
+}
+
+.ghar-logo{
+    width:44px;
+    height:44px;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:14px;
+
+    background:var(--g);
+    color:var(--gold);
+
+    font-size:1.15rem;
+    font-weight:900;
+
+    box-shadow:
+        0 10px 25px rgba(16,35,29,.18);
+}
+
+.ghar-brand-name{
+    display:block;
+
+    color:var(--g);
+
+    font-size:1.14rem;
+    font-weight:900;
+    letter-spacing:.06em;
+}
+
+.ghar-brand-sub{
+    display:block;
+
+    margin-top:2px;
+
+    color:var(--muted);
+
+    font-size:.61rem;
+    font-weight:750;
+
+    letter-spacing:.13em;
+    text-transform:uppercase;
+}
+
+/* NAV */
+
+.ghar-nav{
+    display:flex;
+    align-items:center;
+    gap:4px;
+}
+
+.ghar-nav a{
+    padding:10px 12px;
+
+    border-radius:11px;
+
+    font-size:.82rem;
+    font-weight:700;
+
+    transition:.2s ease;
+}
+
+.ghar-nav a:hover,
+.ghar-nav a.active{
+    background:rgba(16,35,29,.08);
+    color:var(--g);
+}
+
+/* HEADER ACTIONS */
+
+.ghar-header-actions{
+    display:flex;
+    align-items:center;
+    gap:7px;
+}
+
+.ghar-icon{
+    width:40px;
+    height:40px;
+
+    display:grid;
+    place-items:center;
+
+    border:1px solid var(--line);
+    border-radius:13px;
+
+    background:rgba(255,255,255,.55);
+
+    transition:.2s ease;
+}
+
+.ghar-icon:hover{
+    transform:translateY(-1px);
+    border-color:rgba(201,169,110,.55);
+}
+
+.ghar-menu{
+    display:none;
+}
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+.ghar-main{
+    width:min(1400px,calc(100% - 32px));
+
+    margin:auto;
+
+    padding:
+        26px
+        0
+        70px;
+}
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.offers-hero{
+    position:relative;
+    overflow:hidden;
+
+    min-height:270px;
+
+    padding:35px;
+
+    margin-bottom:20px;
+
+    border-radius:27px;
+
+    background:
+        linear-gradient(
+            120deg,
+            rgba(16,35,29,.99),
+            rgba(24,55,45,.96)
+        );
+
+    color:#fff;
+
+    box-shadow:var(--shadow-lg);
+}
+
+.offers-hero::before{
+    content:"";
+
+    position:absolute;
+
+    width:420px;
+    height:420px;
+
+    right:-170px;
+    top:-230px;
+
+    border-radius:50%;
+
+    border:1px solid rgba(201,169,110,.32);
+
+    box-shadow:
+        0 0 0 42px rgba(201,169,110,.045),
+        0 0 0 86px rgba(201,169,110,.025);
+}
+
+.offers-hero::after{
+    content:"";
+
+    position:absolute;
+
+    width:180px;
+    height:180px;
+
+    left:-90px;
+    bottom:-110px;
+
+    border-radius:50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(201,169,110,.15),
+            transparent 68%
+        );
+}
+
+.hero-content{
+    position:relative;
+    z-index:2;
+}
+
+.hero-eyebrow{
+    margin-bottom:8px;
+
+    color:var(--gold2);
+
+    font-size:.68rem;
+    font-weight:850;
+
+    letter-spacing:.18em;
+}
+
+.hero-title{
+    margin:0;
+
+    font-size:
+        clamp(
+            2rem,
+            4vw,
+            3.25rem
+        );
+
+    line-height:1.04;
+
+    letter-spacing:-.035em;
+}
+
+.hero-description{
+    max-width:690px;
+
+    margin:13px 0 0;
+
+    color:rgba(255,255,255,.74);
+
+    font-size:.91rem;
+    line-height:1.7;
+}
+
+.hero-actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:9px;
+
+    margin-top:21px;
+}
+
+.hero-btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+
+    min-height:43px;
+
+    padding:10px 16px;
+
+    border-radius:12px;
+
+    font-size:.79rem;
+    font-weight:800;
+
+    transition:.2s ease;
+}
+
+.hero-btn:hover{
+    transform:translateY(-1px);
+}
+
+.hero-btn.primary{
+    background:var(--gold);
+    color:var(--g);
+}
+
+.hero-btn.secondary{
+    border:1px solid rgba(255,255,255,.18);
+
+    background:
+        rgba(255,255,255,.08);
+
+    color:#fff;
+}
+
+/* =========================================================
+   STATS
+========================================================= */
+
+.offer-stats{
+    display:grid;
+    grid-template-columns:
+        repeat(4,minmax(0,1fr));
+
+    gap:13px;
+
+    margin-bottom:20px;
+}
+
+.offer-stat{
+    position:relative;
+
+    overflow:hidden;
+
+    min-height:108px;
+
+    padding:18px;
+
+    border:
+        1px solid
+        rgba(16,35,29,.11);
+
+    border-radius:18px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.74),
+            rgba(245,239,228,.86)
+        );
+
+    box-shadow:var(--shadow);
+}
+
+.offer-stat::after{
+    content:"";
+
+    position:absolute;
+
+    width:70px;
+    height:70px;
+
+    right:-30px;
+    top:-30px;
+
+    border-radius:50%;
+
+    border:
+        1px solid
+        rgba(201,169,110,.22);
+}
+
+.stat-label{
+    color:var(--muted);
+
+    font-size:.66rem;
+    font-weight:800;
+
+    letter-spacing:.1em;
+    text-transform:uppercase;
+}
+
+.stat-value{
+    margin-top:7px;
+
+    color:var(--g);
+
+    font-size:1.7rem;
+    font-weight:900;
+}
+
+/* =========================================================
+   SECTION CARD
+========================================================= */
+
+.workspace-card{
+    overflow:hidden;
+
+    border:
+        1px solid
+        rgba(16,35,29,.11);
+
+    border-radius:22px;
+
+    background:
+        rgba(248,243,233,.76);
+
+    box-shadow:var(--shadow);
+
+    margin-bottom:20px;
+}
+
+.workspace-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
+
+    padding:19px 20px;
+
+    border-bottom:1px solid var(--line);
+}
+
+.workspace-title{
+    margin:0;
+
+    color:var(--g);
+
+    font-size:1.08rem;
+    font-weight:850;
+}
+
+.workspace-subtitle{
+    margin:4px 0 0;
+
+    color:var(--muted);
+
+    font-size:.75rem;
+}
+
+/* =========================================================
+   FILTERS
+========================================================= */
+
+.filters{
+    display:flex;
+    flex-wrap:wrap;
+    gap:7px;
+}
+
+.filter{
+    min-height:34px;
+
+    padding:7px 12px;
+
+    border:
+        1px solid
+        rgba(16,35,29,.12);
+
+    border-radius:999px;
+
+    background:
+        rgba(255,255,255,.62);
+
+    color:var(--muted);
+
+    font-size:.7rem;
+    font-weight:800;
+
+    transition:.2s ease;
+}
+
+.filter:hover,
+.filter.active{
+    background:var(--g);
+    border-color:var(--g);
+    color:#fff;
+}
+
+/* =========================================================
+   TWO COLUMN CONTENT
+========================================================= */
+
+.content-grid{
+    display:grid;
+
+    grid-template-columns:
+        minmax(0,1.5fr)
+        minmax(280px,.7fr);
+
+    gap:20px;
+
+    align-items:start;
+}
+
+/* =========================================================
+   OFFER LIST
+========================================================= */
+
+.offer-list{
+    display:grid;
+    gap:13px;
+}
+
+.offer-card{
+    overflow:hidden;
+
+    border:
+        1px solid
+        rgba(16,35,29,.11);
+
+    border-radius:19px;
+
+    background:
+        rgba(255,255,255,.66);
+
+    box-shadow:
+        0 10px 32px rgba(16,35,29,.065);
+
+    transition:.22s ease;
+}
+
+.offer-card:hover{
+    transform:translateY(-2px);
+
+    box-shadow:
+        0 17px 40px rgba(16,35,29,.10);
+}
+
+.offer-main{
+    display:grid;
+
+    grid-template-columns:
+        175px minmax(0,1fr);
+}
+
+.offer-image{
+    min-height:175px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--sand),
+            var(--cream2)
+        );
+}
+
+.offer-image img{
+    width:100%;
+    height:100%;
+
+    display:block;
+
+    object-fit:cover;
+}
+
+.offer-details{
+    padding:17px;
+}
+
+.offer-topline{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:10px;
+}
+
+.offer-title{
+    margin:0;
+
+    color:var(--g);
+
+    font-size:.98rem;
+    font-weight:850;
+
+    line-height:1.3;
+}
+
+.offer-location{
+    margin-top:5px;
+
+    color:var(--muted);
+
+    font-size:.73rem;
+}
+
+.offer-price-row{
+    display:flex;
+    align-items:end;
+    justify-content:space-between;
+    gap:12px;
+
+    margin-top:15px;
+}
+
+.price-label{
+    color:var(--muted);
+
+    font-size:.61rem;
+    font-weight:800;
+
+    letter-spacing:.08em;
+    text-transform:uppercase;
+}
+
+.offer-price{
+    margin-top:3px;
+
+    color:var(--g);
+
+    font-size:1.23rem;
+    font-weight:900;
+}
+
+.status{
+    display:inline-flex;
+    align-items:center;
+
+    min-height:27px;
+
+    padding:5px 9px;
+
+    border-radius:999px;
+
+    font-size:.63rem;
+    font-weight:850;
+
+    white-space:nowrap;
+}
+
+.status-pending{
+    background:#f1e4c4;
+    color:#6f5522;
+}
+
+.status-counter{
+    background:#e1e7f1;
+    color:#3c5272;
+}
+
+.status-accepted{
+    background:#dcebdc;
+    color:#2e603b;
+}
+
+.status-rejected{
+    background:#f0dcdc;
+    color:#793d3d;
+}
+
+.offer-meta{
+    display:flex;
+    flex-wrap:wrap;
+
+    gap:6px;
+
+    margin-top:12px;
+}
+
+.offer-meta span{
+    padding:5px 8px;
+
+    border-radius:8px;
+
+    background:var(--cream);
+
+    color:var(--muted);
+
+    font-size:.64rem;
+}
+
+.offer-footer{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+
+    padding:12px 16px;
+
+    border-top:1px solid var(--line);
+}
+
+.offer-date{
+    color:var(--muted);
+
+    font-size:.66rem;
+}
+
+.offer-actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+}
+
+.offer-action{
+    min-height:32px;
+
+    padding:6px 10px;
+
+    border:
+        1px solid
+        rgba(16,35,29,.13);
+
+    border-radius:9px;
+
+    background:
+        rgba(255,255,255,.72);
+
+    color:var(--g);
+
+    font-size:.66rem;
+    font-weight:800;
+
+    transition:.2s ease;
+}
+
+.offer-action:hover{
+    transform:translateY(-1px);
+}
+
+.offer-action.primary{
+    background:var(--g);
+    border-color:var(--g);
+    color:#fff;
+}
+
+/* =========================================================
+   SIDE CARDS
+========================================================= */
+
+.side{
+    display:grid;
+    gap:14px;
+}
+
+.side-card{
+    padding:18px;
+
+    border:
+        1px solid
+        rgba(16,35,29,.11);
+
+    border-radius:20px;
+
+    background:
+        rgba(248,243,233,.78);
+
+    box-shadow:var(--shadow);
+}
+
+.side-card h3{
+    margin:0;
+
+    color:var(--g);
+
+    font-size:.92rem;
+}
+
+.side-description{
+    margin:7px 0 0;
+
+    color:var(--muted);
+
+    font-size:.73rem;
+    line-height:1.6;
+}
+
+.workflow{
+    margin-top:12px;
+}
+
+.workflow-item{
+    display:flex;
+    gap:10px;
+
+    padding:10px 0;
+
+    border-bottom:1px solid rgba(16,35,29,.08);
+}
+
+.workflow-item:last-child{
+    border-bottom:0;
+}
+
+.workflow-number{
+    width:27px;
+    height:27px;
+
+    flex:0 0 27px;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:9px;
+
+    background:var(--g);
+
+    color:var(--gold);
+
+    font-size:.66rem;
+    font-weight:900;
+}
+
+.workflow-item strong{
+    display:block;
+
+    color:var(--g);
+
+    font-size:.72rem;
+}
+
+.workflow-item span{
+    display:block;
+
+    margin-top:3px;
+
+    color:var(--muted);
+
+    font-size:.65rem;
+    line-height:1.45;
+}
+
+.side-link{
+    display:inline-flex;
+
+    margin-top:13px;
+
+    color:var(--g);
+
+    font-size:.73rem;
+    font-weight:850;
+}
+
+/* =========================================================
+   EMPTY
+========================================================= */
+
+.empty{
+    padding:48px 20px;
+
+    border:
+        1px dashed
+        rgba(16,35,29,.20);
+
+    border-radius:18px;
+
+    background:
+        rgba(255,255,255,.42);
+
+    text-align:center;
+}
+
+.empty-icon{
+    width:58px;
+    height:58px;
+
+    margin:0 auto 12px;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:17px;
+
+    background:var(--g);
+
+    color:var(--gold);
+
+    font-size:1.3rem;
+}
+
+.empty h3{
+    margin:0;
+
+    color:var(--g);
+
+    font-size:1rem;
+}
+
+.empty p{
+    max-width:430px;
+
+    margin:7px auto 17px;
+
+    color:var(--muted);
+
+    font-size:.74rem;
+    line-height:1.6;
+}
+
+/* =========================================================
+   QUICK ACTIONS
+========================================================= */
+
+.quick-actions{
+    display:grid;
+
+    grid-template-columns:
+        repeat(4,minmax(0,1fr));
+
+    gap:11px;
+
+    margin-top:20px;
+}
+
+.quick-card{
+    display:block;
+
+    padding:15px;
+
+    border:
+        1px solid
+        rgba(16,35,29,.11);
+
+    border-radius:17px;
+
+    background:
+        rgba(248,243,233,.72);
+
+    box-shadow:var(--shadow);
+
+    transition:.2s ease;
+}
+
+.quick-card:hover{
+    transform:translateY(-2px);
+}
+
+.quick-icon{
+    width:34px;
+    height:34px;
+
+    display:grid;
+    place-items:center;
+
+    margin-bottom:10px;
+
+    border-radius:10px;
+
+    background:var(--g);
+
+    color:var(--gold);
+
+    font-size:.78rem;
+}
+
+.quick-card strong{
+    display:block;
+
+    color:var(--g);
+
+    font-size:.75rem;
+}
+
+.quick-card span{
+    display:block;
+
+    margin-top:3px;
+
+    color:var(--muted);
+
+    font-size:.62rem;
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.ghar-footer{
+    margin-top:5px;
+
+    padding:35px 0 40px;
+
+    background:var(--g);
+
+    color:rgba(255,255,255,.68);
+}
+
+.footer-inner{
+    width:min(1400px,calc(100% - 32px));
+
+    margin:auto;
+
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+
+    gap:25px;
+}
+
+.footer-brand strong{
+    display:block;
+
+    color:#fff;
+
+    font-size:1.05rem;
+    letter-spacing:.08em;
+}
+
+.footer-brand span{
+    display:block;
+
+    margin-top:5px;
+
+    font-size:.7rem;
+}
+
+.footer-links{
+    display:flex;
+    flex-wrap:wrap;
+    gap:16px;
+
+    font-size:.68rem;
+}
+
+.footer-links a:hover{
+    color:#fff;
+}
+
+/* =========================================================
+   MOBILE NAV
+========================================================= */
+
+@media(max-width:1050px){
+
+    .ghar-nav{
+        display:none;
+    }
+
+    .ghar-menu{
+        display:grid;
+    }
+
+    .content-grid{
+        grid-template-columns:1fr;
+    }
+
+    .side{
+        grid-template-columns:
+            repeat(2,minmax(0,1fr));
+    }
+
+    .quick-actions{
+        grid-template-columns:
+            repeat(2,minmax(0,1fr));
+    }
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media(max-width:760px){
+
+    .ghar-header-inner{
+        width:calc(100% - 20px);
+        min-height:68px;
+    }
+
+    .ghar-main{
+        width:calc(100% - 20px);
+        padding-top:15px;
+    }
+
+    .offers-hero{
+        min-height:auto;
+        padding:25px 21px;
+        border-radius:22px;
+    }
+
+    .hero-title{
+        font-size:2rem;
+    }
+
+    .offer-stats{
+        grid-template-columns:
+            repeat(2,minmax(0,1fr));
+    }
+
+    .workspace-head{
+        align-items:flex-start;
+        flex-direction:column;
+    }
+
+    .offer-main{
+        grid-template-columns:1fr;
+    }
+
+    .offer-image{
+        height:185px;
+        min-height:185px;
+    }
+
+    .side{
+        grid-template-columns:1fr;
+    }
+
+    .footer-inner{
+        flex-direction:column;
+    }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:500px){
+
+    .ghar-brand-sub{
+        display:none;
+    }
+
+    .ghar-brand-name{
+        font-size:1rem;
+    }
+
+    .ghar-logo{
+        width:40px;
+        height:40px;
+    }
+
+    .ghar-header-actions{
+        gap:5px;
+    }
+
+    .ghar-icon{
+        width:37px;
+        height:37px;
+    }
+
+    .offers-hero{
+        padding:23px 18px;
+    }
+
+    .hero-title{
+        font-size:1.82rem;
+    }
+
+    .hero-description{
+        font-size:.78rem;
+    }
+
+    .hero-actions{
+        display:grid;
+        grid-template-columns:1fr;
+    }
+
+    .hero-btn{
+        width:100%;
+    }
+
+    .offer-stats{
+        gap:8px;
+    }
+
+    .offer-stat{
+        min-height:93px;
+        padding:14px;
+    }
+
+    .stat-value{
+        font-size:1.4rem;
+    }
+
+    .workspace-head{
+        padding:16px;
+    }
+
+    .filters{
+        width:100%;
+    }
+
+    .filter{
+        flex:1;
+        text-align:center;
+    }
+
+    .offer-details{
+        padding:15px;
+    }
+
+    .offer-topline{
+        flex-direction:column;
+    }
+
+    .offer-price-row{
+        align-items:flex-start;
+        flex-direction:column;
+    }
+
+    .offer-footer{
+        align-items:flex-start;
+        flex-direction:column;
+    }
+
+    .offer-actions{
+        width:100%;
+    }
+
+    .offer-action{
+        flex:1;
+        text-align:center;
+    }
+
+    .quick-actions{
+        gap:8px;
+    }
+
+    .quick-card{
+        padding:12px;
+    }
+
+    .footer-links{
+        gap:12px;
+    }
+}
+
+</style>
+</head>
+
+<body data-root="../" data-page="my-offers">
+
+<!-- =========================================================
+     HEADER
+========================================================= -->
+
+<header class="ghar-header">
+
+    <div class="ghar-header-inner">
+
+        <a
+            href="../index.html"
+            class="ghar-brand"
+        >
+            <span class="ghar-logo">G</span>
+
+            <span>
+                <span class="ghar-brand-name">
+                    GHAR
+                </span>
+
+                <span class="ghar-brand-sub">
+                    Real Estate
+                </span>
+            </span>
+        </a>
+
+        <nav class="ghar-nav" id="gharNav">
+
+            <a href="buyer-dashboard.html">
+                Dashboard
+            </a>
+
+            <a href="../property/property-search.html">
+                Properties
+            </a>
+
+            <a href="saved-properties.html">
+                Saved
+            </a>
+
+            <a href="my-enquiries.html">
+                Enquiries
+            </a>
+
+            <a
+                href="my-offers.html"
+                class="active"
+            >
+                Offers
+            </a>
+
+            <a href="my-visits.html">
+                Visits
+            </a>
+
+        </nav>
+
+        <div class="ghar-header-actions">
+
+            <button
+                class="ghar-icon"
+                id="offerNotifications"
+                type="button"
+                aria-label="Notifications"
+            >
+                🔔
+            </button>
+
+            <button
+                class="ghar-icon"
+                id="offerProfile"
+                type="button"
+                aria-label="Buyer profile"
+            >
+                👤
+            </button>
+
+            <button
+                class="ghar-icon ghar-menu"
+                id="offerMenu"
+                type="button"
+                aria-label="Open menu"
+                aria-expanded="false"
+            >
+                ☰
+            </button>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<!-- =========================================================
+     MAIN
+========================================================= -->
+
+<main class="ghar-main">
+
+    <!-- HERO -->
+
+    <section class="offers-hero">
+
+        <div class="hero-content">
+
+            <div class="hero-eyebrow">
+                GHAR BUYER WORKSPACE
+            </div>
+
+            <h1 class="hero-title">
+                My Offers
+            </h1>
+
+            <p class="hero-description">
+                Track your submitted property offers,
+                review seller responses, manage negotiations
+                and continue your purchase journey from one
+                organized workspace.
+            </p>
+
+            <div class="hero-actions">
+
+                <a
+                    href="../property/property-search.html"
+                    class="hero-btn primary"
+                >
+                    Find Properties
+                </a>
+
+                <a
+                    href="buyer-dashboard.html"
+                    class="hero-btn secondary"
+                >
+                    Buyer Dashboard
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         STATS
+    ====================================================== -->
+
+    <section class="offer-stats">
+
+        <article class="offer-stat">
+
+            <div class="stat-label">
+                Total Offers
+            </div>
+
+            <div
+                class="stat-value"
+                id="totalOffers"
+            >
+                0
+            </div>
+
+        </article>
+
+        <article class="offer-stat">
+
+            <div class="stat-label">
+                Pending
+            </div>
+
+            <div
+                class="stat-value"
+                id="pendingOffers"
+            >
+                0
+            </div>
+
+        </article>
+
+        <article class="offer-stat">
+
+            <div class="stat-label">
+                Counter Offers
+            </div>
+
+            <div
+                class="stat-value"
+                id="counterOffers"
+            >
+                0
+            </div>
+
+        </article>
+
+        <article class="offer-stat">
+
+            <div class="stat-label">
+                Accepted
+            </div>
+
+            <div
+                class="stat-value"
+                id="acceptedOffers"
+            >
+                0
+            </div>
+
+        </article>
+
+    </section>
+
+
+    <!-- =====================================================
+         OFFER WORKSPACE
+    ====================================================== -->
+
+    <section class="workspace-card">
+
+        <div class="workspace-head">
+
+            <div>
+
+                <h2 class="workspace-title">
+                    Offer Activity
+                </h2>
+
+                <p class="workspace-subtitle">
+                    Your submitted offers and their latest status.
+                </p>
+
+            </div>
+
+            <div class="filters">
+
+                <button
+                    class="filter active"
+                    data-filter="all"
+                    type="button"
+                >
+                    All
+                </button>
+
+                <button
+                    class="filter"
+                    data-filter="pending"
+                    type="button"
+                >
+                    Pending
+                </button>
+
+                <button
+                    class="filter"
+                    data-filter="counter"
+                    type="button"
+                >
+                    Counter
+                </button>
+
+                <button
+                    class="filter"
+                    data-filter="accepted"
+                    type="button"
+                >
+                    Accepted
+                </button>
+
+                <button
+                    class="filter"
+                    data-filter="rejected"
+                    type="button"
+                >
+                    Declined
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         CONTENT
+    ====================================================== -->
+
+    <section class="content-grid">
+
+        <div
+            id="offerList"
+            class="offer-list"
+        >
+            <!-- JS -->
+        </div>
+
+
+        <aside class="side">
+
+            <!-- WORKFLOW -->
+
+            <div class="side-card">
+
+                <h3>
+                    How offers work
+                </h3>
+
+                <p class="side-description">
+                    GHAR keeps your offer activity organized
+                    from submission through negotiation.
+                </p>
+
+                <div class="workflow">
+
+                    <div class="workflow-item">
+
+                        <div class="workflow-number">
+                            1
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Submit an offer
+                            </strong>
+
+                            <span>
+                                Choose a property and submit
+                                your proposed purchase price.
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    <div class="workflow-item">
+
+                        <div class="workflow-number">
+                            2
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Seller review
+                            </strong>
+
+                            <span>
+                                Your offer enters the GHAR
+                                transaction workflow.
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    <div class="workflow-item">
+
+                        <div class="workflow-number">
+                            3
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Response
+                            </strong>
+
+                            <span>
+                                The offer may remain pending,
+                                receive a counter or be accepted.
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    <div class="workflow-item">
+
+                        <div class="workflow-number">
+                            4
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Continue
+                            </strong>
+
+                            <span>
+                                Move forward with communication,
+                                visits and booking.
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- COMMUNICATION -->
+
+            <div class="side-card">
+
+                <h3>
+                    Need assistance?
+                </h3>
+
+                <p class="side-description">
+                    Use the secure GHAR communication workspace
+                    for questions about your offer or negotiation.
+                </p>
+
+                <a
+                    href="messages.html"
+                    class="side-link"
+                >
+                    Open Messages →
+                </a>
+
+            </div>
+
+        </aside>
+
+    </section>
+
+
+    <!-- =====================================================
+         QUICK ACTIONS
+    ====================================================== -->
+
+    <section class="quick-actions">
+
+        <a
+            href="../property/property-search.html"
+            class="quick-card"
+        >
+
+            <div class="quick-icon">
+                ⌕
+            </div>
+
+            <strong>
+                Search Properties
+            </strong>
+
+            <span>
+                Find your next property
+            </span>
+
+        </a>
+
+
+        <a
+            href="saved-properties.html"
+            class="quick-card"
+        >
+
+            <div class="quick-icon">
+                ♡
+            </div>
+
+            <strong>
+                Saved Properties
+            </strong>
+
+            <span>
+                View your shortlist
+            </span>
+
+        </a>
+
+
+        <a
+            href="my-enquiries.html"
+            class="quick-card"
+        >
+
+            <div class="quick-icon">
+                ✉
+            </div>
+
+            <strong>
+                My Enquiries
+            </strong>
+
+            <span>
+                Track conversations
+            </span>
+
+        </a>
+
+
+        <a
+            href="my-visits.html"
+            class="quick-card"
+        >
+
+            <div class="quick-icon">
+                ◷
+            </div>
+
+            <strong>
+                My Visits
+            </strong>
+
+            <span>
+                Manage property visits
+            </span>
+
+        </a>
+
+    </section>
+
+</main>
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer class="ghar-footer">
+
+    <div class="footer-inner">
+
+        <div class="footer-brand">
+
+            <strong>
+                GHAR
+            </strong>
+
+            <span>
+                A structured real-estate platform.
+            </span>
+
+        </div>
+
+        <div class="footer-links">
+
+            <a href="../about.html">
+                About
+            </a>
+
+            <a href="../support/index.html">
+                Support
+            </a>
+
+            <a href="../legal/terms.html">
+                Terms
+            </a>
+
+            <a href="../legal/privacy.html">
+                Privacy
+            </a>
+
+            <a href="../index.html">
+                Home
+            </a>
+
+        </div>
+
+    </div>
+
+</footer>
+
+
+<div class="ghar-global-toast"></div>
+
+
+<!-- =========================================================
+     CORE GHAR SCRIPTS
+========================================================= -->
+
+<script
+    src="../assets/js/main/site.js"
+    defer
+></script>
+
+<script
+    src="../assets/js/main/page.js"
+    defer
+></script>
+
+
+<!-- =========================================================
+     PAGE CONTROLLER
+========================================================= -->
+
+<script>
+
+(function(){
+
+"use strict";
+
+
+/* =========================================================
+   FALLBACK DATA
+========================================================= */
+
+const fallbackOffers = [
+
+    {
+        id:"GHAR-OFF-1001",
+        propertyId:"GHAR-P001",
+        title:"Luxury 3 BHK Residence",
+        location:"Sector 150, Noida",
+        image:"../images/ghar-house.jpg",
+        amount:"₹2.35 Cr",
+        status:"pending",
+        date:"Submitted recently",
+        details:"3 BHK • 2,450 sq.ft. • Apartment"
+    },
+
+    {
+        id:"GHAR-OFF-1002",
+        propertyId:"GHAR-P014",
+        title:"Premium Independent House",
+        location:"Sector 132, Noida",
+        image:"../images/ghar-house.jpg",
+        amount:"₹3.10 Cr",
+        status:"counter",
+        date:"Response received",
+        details:"4 BHK • Independent House"
+    },
+
+    {
+        id:"GHAR-OFF-1003",
+        propertyId:"GHAR-P021",
+        title:"Modern Family Villa",
+        location:"Greater Noida West",
+        image:"../images/ghar-house.jpg",
+        amount:"₹2.85 Cr",
+        status:"accepted",
+        date:"Offer accepted",
+        details:"4 BHK • Villa • Premium Community"
+    }
+
+];
+
+
+/* =========================================================
+   STORAGE
+========================================================= */
+
+function getOffers(){
+
+    const keys = [
+        "ghar_offers",
+        "buyerOffers",
+        "myOffers"
+    ];
+
+    for(const key of keys){
+
+        try{
+
+            const raw =
+                localStorage.getItem(key);
+
+            if(!raw){
+                continue;
+            }
+
+            const parsed =
+                JSON.parse(raw);
+
+            if(Array.isArray(parsed)){
+                return parsed;
+            }
+
+        }catch(error){
+
+            console.warn(
+                "GHAR offers storage error:",
+                error
+            );
+
+        }
+
+    }
+
+    return fallbackOffers;
+}
+
+
+/* =========================================================
+   ESCAPE HTML
+========================================================= */
+
+function escapeHTML(value){
+
+    return String(value ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+/* =========================================================
+   STATS
+========================================================= */
+
+function updateStats(offers){
+
+    const count =
+        status =>
+            offers.filter(
+                offer =>
+                    String(
+                        offer.status || ""
+                    ).toLowerCase() === status
+            ).length;
+
+
+    const values = {
+
+        totalOffers:
+            offers.length,
+
+        pendingOffers:
+            count("pending"),
+
+        counterOffers:
+            count("counter"),
+
+        acceptedOffers:
+            count("accepted")
+
+    };
+
+
+    Object.entries(values)
+        .forEach(
+            ([id,value]) => {
+
+                const element =
+                    document.getElementById(id);
+
+                if(element){
+                    element.textContent = value;
+                }
+
+            }
+        );
+
+}
+
+
+/* =========================================================
+   OFFER CARD
+========================================================= */
+
+function renderOffer(offer){
+
+    const status =
+        String(
+            offer.status || "pending"
+        ).toLowerCase();
+
+
+    const labels = {
+
+        pending:"Pending",
+
+        counter:"Counter Offer",
+
+        accepted:"Accepted",
+
+        rejected:"Declined"
+
+    };
+
+
+    const statusLabel =
+        labels[status] ||
+        "Pending";
+
+
+    const image =
+        offer.image ||
+        "../images/ghar-house.jpg";
+
+
+    return `
+
+        <article
+            class="offer-card"
+            data-status="${escapeHTML(status)}"
+        >
+
+            <div class="offer-main">
+
+                <div class="offer-image">
+
+                    <img
+                        src="${escapeHTML(image)}"
+                        alt="${escapeHTML(
+                            offer.title ||
+                            "GHAR Property"
+                        )}"
+                        loading="lazy"
+                        onerror="
+                            this.onerror=null;
+                            this.src='../images/ghar-house.jpg';
+                        "
+                    >
+
+                </div>
+
+
+                <div class="offer-details">
+
+                    <div class="offer-topline">
+
+                        <div>
+
+                            <h3 class="offer-title">
+                                ${escapeHTML(
+                                    offer.title ||
+                                    "GHAR Property"
+                                )}
+                            </h3>
+
+                            <div class="offer-location">
+                                📍
+                                ${escapeHTML(
+                                    offer.location ||
+                                    "Location available through GHAR"
+                                )}
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="offer-price-row">
+
+                        <div>
+
+                            <div class="price-label">
+                                Your Offer
+                            </div>
+
+                            <div class="offer-price">
+                                ${escapeHTML(
+                                    offer.amount ||
+                                    "Amount not specified"
+                                )}
+                            </div>
+
+                        </div>
+
+                        <span
+                            class="
+                                status
+                                status-${escapeHTML(status)}
+                            "
+                        >
+                            ${escapeHTML(statusLabel)}
+                        </span>
+
+                    </div>
+
+
+                    <div class="offer-meta">
+
+                        <span>
+                            ${escapeHTML(
+                                offer.details ||
+                                "Property details"
+                            )}
+                        </span>
+
+                        <span>
+                            ID:
+                            ${escapeHTML(
+                                offer.id ||
+                                "GHAR-OFFER"
+                            )}
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="offer-footer">
+
+                <span class="offer-date">
+                    ${escapeHTML(
+                        offer.date ||
+                        "Recently submitted"
+                    )}
+                </span>
+
+
+                <div class="offer-actions">
+
+                    <button
+                        type="button"
+                        class="offer-action"
+                        data-action="details"
+                        data-id="${escapeHTML(
+                            offer.id || ""
+                        )}"
+                    >
+                        View Details
+                    </button>
+
+
+                    ${
+                        status === "counter"
+                        ?
+                        `
+                        <button
+                            type="button"
+                            class="offer-action primary"
+                            data-action="counter"
+                            data-id="${escapeHTML(
+                                offer.id || ""
+                            )}"
+                        >
+                            Review Counter
+                        </button>
+                        `
+                        :
+                        ""
+                    }
+
+
+                    <button
+                        type="button"
+                        class="offer-action"
+                        data-action="message"
+                        data-id="${escapeHTML(
+                            offer.id || ""
+                        )}"
+                    >
+                        Message
+                    </button>
+
+                </div>
+
+            </div>
+
+        </article>
+
+    `;
+
+}
+
+
+/* =========================================================
+   RENDER
+========================================================= */
+
+function renderOffers(){
+
+    const list =
+        document.getElementById(
+            "offerList"
+        );
+
+    if(!list){
+        return;
+    }
+
+
+    const offers =
+        getOffers();
+
+
+    updateStats(offers);
+
+
+    if(!offers.length){
+
+        list.innerHTML = `
+
+            <div class="empty">
+
+                <div class="empty-icon">
+                    📝
+                </div>
+
+                <h3>
+                    No offers yet
+                </h3>
+
+                <p>
+                    Your submitted property offers will
+                    appear here. Start by finding a property
+                    that matches your requirements.
+                </p>
+
+                <a
+                    href="../property/property-search.html"
+                    class="hero-btn primary"
+                >
+                    Find Properties
+                </a>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    list.innerHTML =
+        offers
+            .map(renderOffer)
+            .join("");
+
+
+    bindOfferActions();
+
+}
+
+
+/* =========================================================
+   FILTERS
+========================================================= */
+
+function initFilters(){
+
+    const filters =
+        document.querySelectorAll(
+            ".filter"
+        );
+
+
+    filters.forEach(
+        filter => {
+
+            filter.addEventListener(
+                "click",
+                function(){
+
+                    filters.forEach(
+                        item =>
+                            item.classList
+                                .remove("active")
+                    );
+
+
+                    this.classList.add(
+                        "active"
+                    );
+
+
+                    const selected =
+                        this.dataset.filter;
+
+
+                    document
+                        .querySelectorAll(
+                            ".offer-card"
+                        )
+                        .forEach(
+                            card => {
+
+                                const status =
+                                    card.dataset.status;
+
+
+                                card.style.display =
+                                    selected === "all" ||
+                                    status === selected
+                                        ? ""
+                                        : "none";
+
+                            }
+                        );
+
+                }
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   OFFER ACTIONS
+========================================================= */
+
+function bindOfferActions(){
+
+    document
+        .querySelectorAll(
+            "[data-action]"
+        )
+        .forEach(
+            button => {
+
+                button.addEventListener(
+                    "click",
+                    function(){
+
+                        const action =
+                            this.dataset.action;
+
+                        const id =
+                            this.dataset.id;
+
+
+                        if(
+                            action ===
+                            "message"
+                        ){
+
+                            window.location.href =
+                                "conversation.html?offer=" +
+                                encodeURIComponent(id);
+
+                            return;
+
+                        }
+
+
+                        if(
+                            action ===
+                            "counter"
+                        ){
+
+                            window.location.href =
+                                "conversation.html?offer=" +
+                                encodeURIComponent(id) +
+                                "&type=counter";
+
+                            return;
+
+                        }
+
+
+                        if(
+                            action ===
+                            "details"
+                        ){
+
+                            window.location.href =
+                                "offer-details.html?id=" +
+                                encodeURIComponent(id);
+
+                        }
+
+                    }
+                );
+
+            }
+        );
+
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+function initHeader(){
+
+    const profile =
+        document.getElementById(
+            "offerProfile"
+        );
+
+
+    const notifications =
+        document.getElementById(
+            "offerNotifications"
+        );
+
+
+    const menu =
+        document.getElementById(
+            "offerMenu"
+        );
+
+
+    const nav =
+        document.getElementById(
+            "gharNav"
+        );
+
+
+    if(profile){
+
+        profile.addEventListener(
+            "click",
+            () => {
+
+                window.location.href =
+                    "buyer-profile.html";
+
+            }
+        );
+
+    }
+
+
+    if(notifications){
+
+        notifications.addEventListener(
+            "click",
+            () => {
+
+                window.location.href =
+                    "../communication/notifications.html";
+
+            }
+        );
+
+    }
+
+
+    if(menu && nav){
+
+        menu.addEventListener(
+            "click",
+            () => {
+
+                const open =
+                    menu.dataset.open === "true";
+
+
+                if(open){
+
+                    nav.style.display = "";
+
+                    nav.style.position = "";
+
+                    nav.style.top = "";
+
+                    nav.style.left = "";
+
+                    nav.style.right = "";
+
+                    nav.style.padding = "";
+
+                    nav.style.flexDirection = "";
+
+                    nav.style.background = "";
+
+                    nav.style.border = "";
+
+                    nav.style.borderRadius = "";
+
+                    nav.style.boxShadow = "";
+
+                    menu.dataset.open =
+                        "false";
+
+                    menu.setAttribute(
+                        "aria-expanded",
+                        "false"
+                    );
+
+                }else{
+
+                    nav.style.display =
+                        "flex";
+
+                    nav.style.position =
+                        "absolute";
+
+                    nav.style.top =
+                        "68px";
+
+                    nav.style.left =
+                        "10px";
+
+                    nav.style.right =
+                        "10px";
+
+                    nav.style.padding =
+                        "10px";
+
+                    nav.style.flexDirection =
+                        "column";
+
+                    nav.style.alignItems =
+                        "stretch";
+
+                    nav.style.background =
+                        "rgba(248,243,233,.98)";
+
+                    nav.style.border =
+                        "1px solid rgba(16,35,29,.12)";
+
+                    nav.style.borderRadius =
+                        "16px";
+
+                    nav.style.boxShadow =
+                        "0 20px 50px rgba(16,35,29,.15)";
+
+                    menu.dataset.open =
+                        "true";
+
+                    menu.setAttribute(
+                        "aria-expanded",
+                        "true"
+                    );
+
+                }
+
+            }
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   INIT
+========================================================= */
+
+function initialize(){
+
+    renderOffers();
+
+    initFilters();
+
+    initHeader();
+
+    console.log(
+        "GHAR My Offers ready."
+    );
+
+}
+
+
+if(
+    document.readyState ===
+    "loading"
+){
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        initialize,
+        {once:true}
+    );
+
+}else{
+
+    initialize();
+
+}
+
+})();
+
+</script>
+
+</body>
+</html>

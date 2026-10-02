@@ -1,0 +1,257 @@
+============================================================
+GHAR -- JAVASCRIPT LOAD ORDER
+============================================================
+
+CANONICAL JAVASCRIPT ROOT
+ghar/assets/js/
+
+IMPORTANT
+---------
+All GHAR JavaScript files must live under:
+
+ghar/assets/js/
+
+Do NOT create:
+
+ghar/assets/core/
+ghar/assets/js/ui/ui/ui.js/
+ghar/assets/js/core/
+ghar/assets/js/api/api/
+ghar/assets/js/auth/auth/auth.js/
+
+Use the existing JS folder structure only.
+
+
+============================================================
+01 -- CORE / FOUNDATION
+============================================================
+
+storage.js
+helpers.js
+formatters.js
+validators.js
+permissions.js
+router.js
+
+
+============================================================
+02 -- UI SYSTEM
+============================================================
+
+ui.js
+loader.js
+toast.js
+modal.js
+dropdown.js
+tabs.js
+accordion.js
+carousel.js
+pagination.js
+filters.js
+notifications.js
+
+
+============================================================
+03 -- API LAYER
+============================================================
+
+api.js
+auth-api.js
+user-api.js
+property-api.js
+payment-api.js
+enquiry-api.js
+booking-api.js
+document-api.js
+
+
+============================================================
+04 -- AUTHENTICATION
+============================================================
+
+session.js
+auth.js
+login.js
+signup.js
+logout.js
+
+
+============================================================
+05 -- PROPERTY SYSTEM
+============================================================
+
+property.js
+property-search.js
+property-details.js
+add-property.js
+edit-property.js
+compare.js
+saved.js
+
+
+============================================================
+06 -- DASHBOARDS
+============================================================
+
+dashboard.js
+buyer-dashboard.js
+seller-dashboard.js
+admin-dashboard.js
+
+
+============================================================
+07 -- TRANSACTIONS
+============================================================
+
+payments.js
+booking.js
+offers.js
+invoices.js
+
+
+============================================================
+08 -- COMMUNICATION
+============================================================
+
+enquiries.js
+messages.js
+conversation.js
+notifications.js
+
+
+============================================================
+09 -- ADMIN
+============================================================
+
+admin.js
+users.js
+properties.js
+approvals.js
+documents.js
+reports.js
+
+
+============================================================
+10 -- APPLICATION BOOTSTRAP
+============================================================
+
+app.js
+
+
+============================================================
+DEPENDENCY RULES
+============================================================
+
+1. storage.js must load before authentication/session logic.
+
+2. helpers.js and formatters.js must load before modules
+   that use their functions.
+
+3. validators.js and permissions.js must load before forms,
+   authentication and protected UI actions.
+
+4. Core/Foundation must load before UI.
+
+5. UI must load before page-specific functionality.
+
+6. api.js must load before all API modules.
+
+7. auth-api.js must load before authentication modules.
+
+8. Property API must load before property functionality.
+
+9. Authentication/session modules must load before protected
+   dashboard, seller and account functionality.
+
+10. Property modules must load before property-specific pages.
+
+11. Transaction modules must load before transaction pages.
+
+12. Communication modules must load before messaging,
+    enquiry and notification pages.
+
+13. Admin modules must load after authentication and API layers.
+
+14. app.js must ALWAYS be the final GHAR JavaScript file.
+
+
+============================================================
+PAGE RULE
+============================================================
+
+Every HTML page should load only the JavaScript required
+for that page.
+
+Do NOT load every GHAR JS file on every page unnecessarily.
+
+
+============================================================
+SECURITY RULE
+============================================================
+
+Frontend permissions are UI controls only.
+
+The server MUST independently enforce:
+
+- Authentication
+- Authorization
+- Role permissions
+- Property ownership
+- Property modification rights
+- Property deletion rights
+- Payment verification
+- Document access
+- User data access
+- Admin permissions
+- API access control
+
+Never trust frontend permission checks as security.
+
+
+============================================================
+ARCHITECTURE
+============================================================
+
+HTML
+  ↓
+CSS
+  ↓
+CORE
+  ↓
+UI
+  ↓
+API
+  ↓
+AUTH
+  ↓
+PAGE MODULE
+  ↓
+APP BOOTSTRAP
+
+
+============================================================
+CANONICAL ROOT
+============================================================
+
+ghar/assets/js/
+
+
+============================================================
+FINAL RULE
+============================================================
+
+One function = one responsible module.
+
+Avoid:
+
+- Duplicate functions
+- Duplicate API calls
+- Inline JavaScript
+- Multiple competing routers
+- Multiple authentication systems
+- Page-specific copies of global utilities
+- Circular dependencies
+- Nested duplicate JS folders
+
+GHAR should use one canonical JavaScript architecture.
+============================================================

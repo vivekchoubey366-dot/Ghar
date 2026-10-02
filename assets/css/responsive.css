@@ -1,0 +1,685 @@
+/* =========================================================
+   GHAR -- GLOBAL RESPONSIVE SYSTEM
+   =========================================================
+   Purpose:
+   • Desktop
+   • Laptop
+   • Tablet
+   • Mobile
+   • Small mobile
+   • Ultra-small devices
+   • Responsive grids
+   • Responsive containers
+   • Responsive typography
+   • Responsive spacing
+   • Responsive forms
+   • Responsive navigation
+   • Responsive cards
+   • Horizontal overflow protection
+   • Text containment
+   • Touch-friendly controls
+   This file controls RESPONSIVE behavior only.
+   Global reset rules belong to:
+   reset.css
+   Design tokens belong to:
+   variables.css
+   Global foundation belongs to:
+   style.css
+   ========================================================= */
+/* =========================================================
+   01 -- RESPONSIVE BASELINE
+   ========================================================= */
+html,
+body {
+    width: 100%;
+    max-width: 100%;
+    min-width: 320px;
+    overflow-x: hidden;
+}
+/* =========================================================
+   02 -- MEDIA SAFETY
+   ========================================================= */
+img,
+svg,
+video,
+canvas,
+iframe {
+    max-width: 100%;
+}
+img,
+video {
+    height: auto;
+}
+iframe {
+    border: 0;
+}
+/* =========================================================
+   03 -- TEXT SAFETY
+   ========================================================= */
+   
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+a,
+span,
+strong,
+small,
+label,
+li {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    word-break: normal;
+}
+/* =========================================================
+   04 -- FORM SAFETY
+   ========================================================= */
+   
+button,
+input,
+select,
+textarea {
+    max-width: 100%;
+    min-width: 0;
+}
+/* =========================================================
+   05 -- CONTAINER SYSTEM
+   ========================================================= */
+   
+.container,
+.container-wide,
+.container-narrow,
+.ghar-container,
+.ghar-container-wide,
+.ghar-container-narrow,
+.ghar-layout {
+    width: min(
+        calc(100% - (var(--ghar-page-padding) * 2)),
+        var(--ghar-container)
+    );
+    margin-inline: auto;
+    min-width: 0;
+}
+/* Wide container */
+.container-wide,
+.ghar-container-wide {
+    width: min(
+        calc(100% - (var(--ghar-page-padding) * 2)),
+        var(--ghar-container-wide)
+    );
+}
+/* Narrow container */
+.container-narrow,
+.ghar-container-narrow {
+    width: min(
+        calc(100% - (var(--ghar-page-padding) * 2)),
+        var(--ghar-container-narrow)
+    );
+}
+/* =========================================================
+   06 -- GRID SAFETY
+   ========================================================= */
+.grid-2,
+.grid-3,
+.grid-4,
+.ghar-grid-2,
+.ghar-grid-3,
+.ghar-grid-4,
+.stats-grid,
+.form-grid,
+.property-grid,
+.card-grid {
+    min-width: 0;
+}
+/* Every grid child must be allowed to shrink */
+.grid-2 > *,
+.grid-3 > *,
+.grid-4 > *,
+.ghar-grid-2 > *,
+.ghar-grid-3 > *,
+.ghar-grid-4 > *,
+.stats-grid > *,
+.form-grid > *,
+.property-grid > *,
+.card-grid > * {
+    min-width: 0;
+    max-width: 100%;
+}
+/* =========================================================
+   07 -- FLEX SAFETY
+   ========================================================= */
+.flex-row,
+.flex-column,
+.flex-wrap,
+.ghar-flex,
+.controls-inline {
+    min-width: 0;
+}
+.flex-row > *,
+.flex-column > *,
+.ghar-flex > *,
+.controls-inline > * {
+    min-width: 0;
+    max-width: 100%;
+}
+/* =========================================================
+   08 -- CARD SAFETY
+   ========================================================= */
+.card,
+.panel,
+.surface,
+.ghar-card,
+.ghar-panel,
+.property-card,
+.admin-panel,
+.admin-stat-card,
+.admin-management-card,
+.admin-quick-card {
+    min-width: 0;
+    max-width: 100%;
+}
+/* =========================================================
+   09 -- LARGE DESKTOP
+   1400px+
+   ========================================================= */
+@media (min-width: 1401px) {
+    .ghar-section {
+        padding-block:
+            var(--ghar-space-14);
+    }
+}
+/* =========================================================
+   10 -- DESKTOP / LARGE LAPTOP
+   <= 1400px
+   ========================================================= */
+   
+@media (max-width: 1400px) {
+    .grid-4,
+    .ghar-grid-4 {
+        grid-template-columns:
+            repeat(3, minmax(0, 1fr));
+    }
+}
+/* =========================================================
+   11 -- LAPTOP
+   <= 1200px
+   ========================================================= */
+   
+@media (max-width: 1200px) {
+    .container,
+    .container-wide,
+    .container-narrow,
+    .ghar-container,
+    .ghar-container-wide,
+    .ghar-container-narrow,
+    .ghar-layout {
+        width: min(
+            calc(100% - 44px),
+            var(--ghar-container)
+        );
+    }
+    /* Four-column layouts */
+    .grid-4,
+    .ghar-grid-4,
+    .stats-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+    /* Three-column layouts */
+    .grid-3,
+    .ghar-grid-3 {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+    /* Prevent oversized gaps */
+    .gap-5 {
+        gap: var(--ghar-space-7);
+    }
+}
+/* =========================================================
+   12 -- TABLET
+   <= 992px
+   ========================================================= */
+   
+@media (max-width: 992px) {
+    .container,
+    .container-wide,
+    .container-narrow,
+    .ghar-container,
+    .ghar-container-wide,
+    .ghar-container-narrow,
+    .ghar-layout {
+        width: min(
+            calc(100% - 44px),
+            var(--ghar-container)
+        );
+    }
+    /* Three-column layouts */
+    .grid-3,
+    .ghar-grid-3 {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+    /* Four-column layouts */
+    .grid-4,
+    .ghar-grid-4 {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+    /* Dashboard statistics */
+    .stats-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+    /* Form layouts */
+    .form-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+    /* Navigation helpers */
+    .desktop-only {
+        display: none !important;
+    }
+    .tablet-full {
+        width: 100% !important;
+    }
+    /* Hero layouts */
+    .hero,
+    .ghar-hero {
+        min-height: auto;
+    }
+    /* Large horizontal groups */
+    .toolbar,
+    .page-toolbar,
+    .filter-toolbar {
+        flex-wrap: wrap;
+    }
+}
+/* =========================================================
+   13 -- TABLET / LARGE MOBILE
+   <= 768px
+   ========================================================= */
+   
+@media (max-width: 768px) {
+    html {
+        font-size: 15.5px;
+    }
+    /* Container */
+    .container,
+    .container-wide,
+    .container-narrow,
+    .ghar-container,
+    .ghar-container-wide,
+    .ghar-container-narrow,
+    .ghar-layout {
+        width: calc(
+            100% - (var(--ghar-mobile-padding) * 2)
+        );
+    }
+    /* Main grids */
+    .grid-4,
+    .grid-3,
+    .grid-2,
+    .ghar-grid-4,
+    .ghar-grid-3,
+    .ghar-grid-2,
+    .stats-grid,
+    .property-grid,
+    .card-grid {
+        grid-template-columns:
+            1fr;
+    }
+    /* Forms */
+    .form-grid {
+        grid-template-columns:
+            1fr;
+    }
+    /* Sections */
+    .ghar-section {
+        padding-block:
+            var(--ghar-space-8);
+    }
+    .ghar-section-lg {
+        padding-block:
+            var(--ghar-space-12);
+    }
+    /* Horizontal controls */
+    .controls-inline,
+    .toolbar,
+    .page-toolbar,
+    .filter-toolbar {
+        width: 100%;
+        flex-wrap: wrap;
+    }
+    /* Full-width controls */
+    .controls-inline > *,
+    .toolbar > *,
+    .page-toolbar > *,
+    .filter-toolbar > * {
+        min-width: 0;
+    }
+    /* Mobile stacking */
+    .stack-mobile {
+        flex-direction: column !important;
+        align-items: stretch !important;
+    }
+    /* Mobile width */
+    .w-full-mobile {
+        width: 100% !important;
+    }
+    /* Hide desktop elements */
+    .hide-mobile,
+    .desktop-only {
+        display: none !important;
+    }
+    /* Show mobile elements */
+    .show-mobile {
+        display: block !important;
+    }
+    /* Mobile text */
+    .text-center-mobile {
+        text-align: center !important;
+    }
+    /* Navigation */
+    .nav-desktop {
+        display: none !important;
+    }
+    .nav-mobile {
+        display: flex !important;
+    }
+    /* Tables */
+    .table-responsive {
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    /* Images */
+    .hero-image,
+    .banner-image {
+        max-height: 420px;
+    }
+}
+/* =========================================================
+   14 -- MOBILE
+   <= 680px
+   ========================================================= */
+   
+@media (max-width: 680px) {
+    html {
+        font-size: 15px;
+    }
+    /* Container */
+    .container,
+    .container-wide,
+    .container-narrow,
+    .ghar-container,
+    .ghar-container-wide,
+    .ghar-container-narrow,
+    .ghar-layout {
+        width: calc(100% - 30px);
+    }
+    /* Single-column layout */
+    .grid-4,
+    .grid-3,
+    .grid-2,
+    .ghar-grid-4,
+    .ghar-grid-3,
+    .ghar-grid-2,
+    .stats-grid,
+    .form-grid,
+    .property-grid,
+    .card-grid {
+        grid-template-columns: 1fr;
+    }
+    /* Section spacing */
+    .section {
+        padding-block: 40px;
+    }
+    .ghar-section {
+        padding-block:
+            var(--ghar-space-7);
+    }
+    /* Cards */
+    .card,
+    .ghar-card,
+    .property-card {
+        width: 100%;
+    }
+    /* Buttons */
+    .btn-group,
+    .button-group {
+        width: 100%;
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .btn-group .btn,
+    .button-group .btn {
+        width: 100%;
+    }
+    /* Form controls */
+    .form-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .form-actions > * {
+        width: 100%;
+    }
+    /* Page toolbars */
+    .page-toolbar,
+    .filter-toolbar,
+    .toolbar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    /* Prevent oversized banner padding */
+    .banner,
+    .ghar-banner {
+        padding:
+            var(--ghar-space-7);
+    }
+}
+/* =========================================================
+   15 -- SMALL MOBILE
+   <= 480px
+   ========================================================= */
+   
+@media (max-width: 480px) {
+    html {
+        font-size: 15px;
+    }
+    /* Container */
+    .container,
+    .container-wide,
+    .container-narrow,
+    .ghar-container,
+    .ghar-container-wide,
+    .ghar-container-narrow,
+    .ghar-layout {
+        width: calc(100% - 24px);
+    }
+    /* Sections */
+    .section {
+        padding-block: 32px;
+    }
+    .ghar-section {
+        padding-block:
+            var(--ghar-space-6);
+    }
+    /* Headings */
+    h1,
+    .hero-title,
+    .page-title {
+        font-size:
+            clamp(1.8rem, 9vw, 2.5rem);
+    }
+    h2,
+    .section-title {
+        font-size:
+            clamp(1.45rem, 7vw, 2rem);
+    }
+    /* Buttons */
+    .btn {
+        min-height: 44px;
+    }
+    /* Cards */
+    .card,
+    .ghar-card {
+        border-radius:
+            var(--ghar-radius-lg);
+    }
+    /* Card padding */
+    .card-body,
+    .ghar-card-body {
+        padding:
+            var(--ghar-space-4);
+    }
+    /* Form fields */
+    input,
+    select,
+    textarea {
+        font-size: 16px;
+    }
+    /* Prevent iOS zoom */
+    input,
+    select,
+    textarea {
+        font-size: 16px !important;
+    }
+    /* Hero image */
+    .hero-image,
+    .banner-image {
+        max-height: 320px;
+    }
+    /* Hide optional content */
+    .hide-small-mobile {
+        display: none !important;
+    }
+}
+/* =========================================================
+   16 -- VERY SMALL DEVICES
+   <= 380px
+   ========================================================= */
+   
+@media (max-width: 380px) {
+    .container,
+    .container-wide,
+    .container-narrow,
+    .ghar-container,
+    .ghar-container-wide,
+    .ghar-container-narrow,
+    .ghar-layout {
+        width: calc(100% - 20px);
+    }
+    /* Smaller headings */
+    h1,
+    .hero-title,
+    .page-title {
+        font-size:
+            clamp(1.65rem, 9vw, 2.1rem);
+    }
+    h2,
+    .section-title {
+        font-size:
+            clamp(1.35rem, 8vw, 1.75rem);
+    }
+    /* Smaller gaps */
+    .gap-4 {
+        gap: var(--ghar-space-5);
+    }
+    .gap-5 {
+        gap: var(--ghar-space-6);
+    }
+    /* Smaller padding */
+    .p-4 {
+        padding:
+            var(--ghar-space-5) !important;
+    }
+}
+/* =========================================================
+   17 -- ULTRA SMALL DEVICES
+   <= 360px
+   ========================================================= */
+   
+@media (max-width: 360px) {
+    html {
+        font-size: 14.5px;
+    }
+    .container,
+    .container-wide,
+    .container-narrow,
+    .ghar-container,
+    .ghar-container-wide,
+    .ghar-container-narrow,
+    .ghar-layout {
+        width: calc(100% - 16px);
+    }
+    .p-3 {
+        padding: 14px !important;
+    }
+    .p-4 {
+        padding: 18px !important;
+    }
+    .gap-2 {
+        gap: 10px !important;
+    }
+    /* Prevent tiny screens from creating
+       horizontal overflow */
+    .row,
+    .toolbar,
+    .controls-inline {
+        max-width: 100%;
+    }
+}
+/* =========================================================
+   18 -- LANDSCAPE MOBILE
+   ========================================================= */
+@media (
+    max-width: 768px
+) and (
+    orientation: landscape
+) {
+    .ghar-section {
+        padding-block:
+            var(--ghar-space-6);
+    }
+    .hero,
+    .ghar-hero {
+        min-height: auto;
+    }
+    .hero-image,
+    .banner-image {
+        max-height: 280px;
+    }
+}
+/* =========================================================
+   19 -- TOUCH DEVICES
+   ========================================================= */
+   
+@media (hover: none) and (pointer: coarse) {
+    button,
+    .btn,
+    a[role="button"],
+    input[type="checkbox"],
+    input[type="radio"],
+    select {
+        min-height: 44px;
+    }
+    .hover-only {
+        display: none !important;
+    }
+}
+/* =========================================================
+   20 -- REDUCED MOTION
+   ========================================================= */
+   
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto !important;
+    }
+}
+/* =========================================================
+   GHAR -- RESPONSIVE SYSTEM COMPLETE
+   ========================================================= */

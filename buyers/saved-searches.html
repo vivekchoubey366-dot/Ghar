@@ -1,0 +1,2233 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<meta name="description"
+      content="GHAR Buyer Sold Properties -- View completed property purchases, transaction records, documents and payment history.">
+
+<meta name="theme-color" content="#10231d">
+<meta name="robots" content="noindex,nofollow">
+
+<title>Purchased Properties · GHAR</title>
+
+<link rel="stylesheet" href="../assets/css/style.css">
+
+<style>
+
+/* =========================================================
+   GHAR -- PURCHASED / SOLD PROPERTIES
+========================================================= */
+
+:root{
+    --ghar-green:#10231d;
+    --ghar-green-2:#18372d;
+    --ghar-gold:#c9a96e;
+    --ghar-cream:#f5efe4;
+    --ghar-sand:#e9dfcf;
+    --ghar-bg:#eef1eb;
+    --ghar-text:#18221e;
+    --ghar-muted:#6f776f;
+    --ghar-border:rgba(16,35,29,.12);
+    --ghar-card:rgba(255,255,255,.68);
+    --ghar-shadow:0 20px 60px rgba(16,35,29,.10);
+    --ghar-radius:22px;
+}
+
+*{
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    margin:0;
+    min-height:100vh;
+    color:var(--ghar-text);
+
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    background:
+        radial-gradient(
+            circle at 5% 0%,
+            rgba(201,169,110,.18),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 95% 20%,
+            rgba(24,55,45,.10),
+            transparent 28%
+        ),
+        linear-gradient(
+            135deg,
+            #f8f3ea,
+            #e8eee8 52%,
+            #f0e5d5
+        );
+}
+
+a{
+    color:inherit;
+    text-decoration:none;
+}
+
+button,
+input,
+select{
+    font:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.ghar-sold-header{
+    position:sticky;
+    top:0;
+    z-index:1000;
+
+    backdrop-filter:blur(22px);
+
+    background:rgba(248,243,234,.88);
+
+    border-bottom:
+        1px solid var(--ghar-border);
+}
+
+.ghar-sold-header-inner{
+    width:min(1400px,calc(100% - 32px));
+    min-height:76px;
+
+    margin:auto;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    gap:22px;
+}
+
+.ghar-sold-brand{
+    display:flex;
+    align-items:center;
+    gap:12px;
+
+    font-weight:800;
+}
+
+.ghar-sold-logo{
+    width:44px;
+    height:44px;
+
+    border-radius:14px;
+
+    display:grid;
+    place-items:center;
+
+    background:var(--ghar-green);
+    color:var(--ghar-gold);
+
+    font-weight:900;
+
+    box-shadow:
+        0 10px 25px
+        rgba(16,35,29,.18);
+}
+
+.ghar-sold-brand-name{
+    display:block;
+
+    font-size:1.2rem;
+    letter-spacing:.04em;
+}
+
+.ghar-sold-brand-subtitle{
+    display:block;
+
+    margin-top:2px;
+
+    color:var(--ghar-muted);
+
+    font-size:.65rem;
+    font-weight:650;
+
+    letter-spacing:.12em;
+    text-transform:uppercase;
+}
+
+.ghar-sold-nav{
+    display:flex;
+    align-items:center;
+    gap:6px;
+}
+
+.ghar-sold-nav a{
+    padding:10px 13px;
+
+    border-radius:11px;
+
+    font-size:.88rem;
+    font-weight:650;
+}
+
+.ghar-sold-nav a:hover,
+.ghar-sold-nav a.active{
+    background:rgba(16,35,29,.08);
+}
+
+.ghar-sold-actions{
+    display:flex;
+    gap:8px;
+}
+
+.ghar-sold-icon{
+    width:42px;
+    height:42px;
+
+    border:
+        1px solid var(--ghar-border);
+
+    border-radius:13px;
+
+    background:rgba(255,255,255,.60);
+
+    display:grid;
+    place-items:center;
+}
+
+.ghar-sold-menu{
+    display:none;
+}
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+.ghar-sold-main{
+    width:min(1400px,calc(100% - 32px));
+
+    margin:auto;
+
+    padding:
+        34px 0 70px;
+}
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.sold-hero{
+    position:relative;
+    overflow:hidden;
+
+    padding:34px;
+
+    margin-bottom:24px;
+
+    border-radius:28px;
+
+    color:#fff;
+
+    background:
+        linear-gradient(
+            120deg,
+            rgba(16,35,29,.98),
+            rgba(24,55,45,.95)
+        );
+
+    box-shadow:var(--ghar-shadow);
+}
+
+.sold-hero::after{
+    content:"";
+
+    position:absolute;
+
+    width:340px;
+    height:340px;
+
+    right:-120px;
+    top:-150px;
+
+    border-radius:50%;
+
+    border:
+        1px solid
+        rgba(201,169,110,.28);
+
+    box-shadow:
+        0 0 0 45px
+        rgba(201,169,110,.05),
+
+        0 0 0 90px
+        rgba(201,169,110,.03);
+}
+
+.sold-hero-content{
+    position:relative;
+    z-index:2;
+}
+
+.sold-eyebrow{
+    margin-bottom:9px;
+
+    color:var(--ghar-gold);
+
+    font-size:.74rem;
+    font-weight:800;
+
+    letter-spacing:.16em;
+}
+
+.sold-hero h1{
+    margin:0 0 9px;
+
+    font-size:
+        clamp(2rem,4vw,3rem);
+
+    line-height:1.08;
+}
+
+.sold-hero p{
+    max-width:720px;
+
+    margin:0;
+
+    color:
+        rgba(255,255,255,.74);
+
+    line-height:1.7;
+}
+
+.sold-hero-actions{
+    display:flex;
+    flex-wrap:wrap;
+
+    gap:10px;
+
+    margin-top:22px;
+}
+
+.sold-btn{
+    border:0;
+
+    border-radius:13px;
+
+    padding:12px 17px;
+
+    font-weight:750;
+
+    transition:.2s ease;
+}
+
+.sold-btn:hover{
+    transform:translateY(-1px);
+}
+
+.sold-btn-primary{
+    background:var(--ghar-gold);
+    color:var(--ghar-green);
+}
+
+.sold-btn-secondary{
+    background:rgba(255,255,255,.10);
+
+    color:#fff;
+
+    border:
+        1px solid
+        rgba(255,255,255,.18);
+}
+
+/* =========================================================
+   STATS
+========================================================= */
+
+.sold-stats{
+    display:grid;
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+    gap:15px;
+
+    margin-bottom:24px;
+}
+
+.sold-stat{
+    padding:21px;
+
+    border:
+        1px solid
+        var(--ghar-border);
+
+    border-radius:20px;
+
+    background:
+        rgba(255,255,255,.62);
+
+    box-shadow:
+        0 12px 40px
+        rgba(16,35,29,.06);
+}
+
+.sold-stat-label{
+    color:var(--ghar-muted);
+
+    font-size:.72rem;
+    font-weight:750;
+
+    letter-spacing:.08em;
+    text-transform:uppercase;
+}
+
+.sold-stat-value{
+    margin-top:7px;
+
+    color:var(--ghar-green);
+
+    font-size:1.7rem;
+    font-weight:850;
+}
+
+/* =========================================================
+   TOOLBAR
+========================================================= */
+
+.sold-toolbar{
+    padding:19px;
+
+    border:
+        1px solid
+        var(--ghar-border);
+
+    border-radius:20px;
+
+    background:
+        rgba(255,255,255,.62);
+
+    box-shadow:var(--ghar-shadow);
+
+    margin-bottom:20px;
+}
+
+.sold-toolbar-inner{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    gap:15px;
+}
+
+.sold-toolbar h2{
+    margin:0;
+
+    font-size:1.15rem;
+}
+
+.sold-toolbar p{
+    margin:5px 0 0;
+
+    color:var(--ghar-muted);
+
+    font-size:.82rem;
+}
+
+.sold-search{
+    width:260px;
+
+    padding:11px 14px;
+
+    border:
+        1px solid
+        var(--ghar-border);
+
+    border-radius:12px;
+
+    outline:none;
+
+    background:
+        rgba(255,255,255,.75);
+
+    color:var(--ghar-text);
+}
+
+.sold-search:focus{
+    border-color:var(--ghar-gold);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(201,169,110,.14);
+}
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
+.sold-layout{
+    display:grid;
+
+    grid-template-columns:
+        1.45fr .75fr;
+
+    gap:22px;
+}
+
+.sold-list{
+    display:grid;
+    gap:16px;
+}
+
+/* =========================================================
+   PROPERTY CARD
+========================================================= */
+
+.sold-card{
+    overflow:hidden;
+
+    border:
+        1px solid
+        var(--ghar-border);
+
+    border-radius:21px;
+
+    background:
+        rgba(255,255,255,.66);
+
+    box-shadow:var(--ghar-shadow);
+}
+
+.sold-card-top{
+    display:grid;
+
+    grid-template-columns:
+        205px 1fr;
+}
+
+.sold-image{
+    min-height:205px;
+
+    background:var(--ghar-sand);
+}
+
+.sold-image img{
+    width:100%;
+    height:100%;
+
+    object-fit:cover;
+}
+
+.sold-details{
+    padding:20px;
+}
+
+.sold-title{
+    margin:0;
+
+    font-size:1.1rem;
+    font-weight:820;
+}
+
+.sold-location{
+    margin-top:5px;
+
+    color:var(--ghar-muted);
+
+    font-size:.8rem;
+}
+
+.sold-info-grid{
+    display:grid;
+
+    grid-template-columns:
+        repeat(2,1fr);
+
+    gap:12px;
+
+    margin-top:17px;
+}
+
+.sold-info{
+    padding:11px;
+
+    border-radius:12px;
+
+    background:
+        var(--ghar-cream);
+}
+
+.sold-info-label{
+    color:var(--ghar-muted);
+
+    font-size:.66rem;
+    font-weight:700;
+
+    text-transform:uppercase;
+}
+
+.sold-info-value{
+    margin-top:4px;
+
+    color:var(--ghar-green);
+
+    font-size:.86rem;
+    font-weight:800;
+}
+
+.sold-status{
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:6px;
+
+    margin-top:14px;
+
+    padding:7px 10px;
+
+    border-radius:999px;
+
+    background:#dcebdc;
+
+    color:#285b37;
+
+    font-size:.7rem;
+    font-weight:800;
+}
+
+.sold-card-footer{
+    display:flex;
+
+    justify-content:space-between;
+    align-items:center;
+
+    gap:12px;
+
+    padding:14px 18px;
+
+    border-top:
+        1px solid
+        var(--ghar-border);
+}
+
+.sold-date{
+    color:var(--ghar-muted);
+
+    font-size:.74rem;
+}
+
+.sold-actions{
+    display:flex;
+    flex-wrap:wrap;
+
+    gap:7px;
+}
+
+.sold-action{
+    border:
+        1px solid
+        var(--ghar-border);
+
+    border-radius:10px;
+
+    padding:8px 11px;
+
+    background:
+        rgba(255,255,255,.72);
+
+    font-size:.74rem;
+    font-weight:700;
+}
+
+.sold-action.primary{
+    background:var(--ghar-green);
+
+    border-color:
+        var(--ghar-green);
+
+    color:#fff;
+}
+
+/* =========================================================
+   SIDE PANEL
+========================================================= */
+
+.sold-side{
+    display:grid;
+
+    gap:18px;
+
+    align-content:start;
+}
+
+.sold-side-card{
+    padding:20px;
+
+    border:
+        1px solid
+        var(--ghar-border);
+
+    border-radius:20px;
+
+    background:
+        rgba(255,255,255,.62);
+
+    box-shadow:var(--ghar-shadow);
+}
+
+.sold-side-card h3{
+    margin:0 0 15px;
+
+    font-size:1rem;
+}
+
+.sold-step{
+    display:flex;
+
+    gap:11px;
+
+    padding:10px 0;
+}
+
+.sold-step-number{
+    width:29px;
+    height:29px;
+
+    flex:0 0 29px;
+
+    border-radius:50%;
+
+    display:grid;
+    place-items:center;
+
+    background:var(--ghar-green);
+
+    color:var(--ghar-gold);
+
+    font-size:.72rem;
+    font-weight:800;
+}
+
+.sold-step strong{
+    display:block;
+
+    font-size:.8rem;
+}
+
+.sold-step span{
+    display:block;
+
+    margin-top:3px;
+
+    color:var(--ghar-muted);
+
+    font-size:.72rem;
+
+    line-height:1.5;
+}
+
+.sold-link{
+    color:var(--ghar-green);
+
+    font-weight:750;
+
+    font-size:.82rem;
+}
+
+/* =========================================================
+   EMPTY
+========================================================= */
+
+.sold-empty{
+    padding:55px 25px;
+
+    border:
+        1px dashed
+        rgba(16,35,29,.20);
+
+    border-radius:20px;
+
+    background:
+        rgba(255,255,255,.45);
+
+    text-align:center;
+}
+
+.sold-empty-icon{
+    width:60px;
+    height:60px;
+
+    margin:
+        0 auto 13px;
+
+    border-radius:18px;
+
+    display:grid;
+    place-items:center;
+
+    background:var(--ghar-green);
+
+    color:var(--ghar-gold);
+
+    font-size:1.4rem;
+}
+
+.sold-empty h3{
+    margin:0;
+}
+
+.sold-empty p{
+    max-width:450px;
+
+    margin:8px auto 18px;
+
+    color:var(--ghar-muted);
+
+    line-height:1.6;
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.ghar-sold-footer{
+    margin-top:15px;
+
+    padding:35px 0;
+
+    background:var(--ghar-green);
+
+    color:
+        rgba(255,255,255,.72);
+}
+
+.ghar-sold-footer-inner{
+    width:min(1400px,calc(100% - 32px));
+
+    margin:auto;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    flex-wrap:wrap;
+
+    gap:25px;
+}
+
+.ghar-sold-footer strong{
+    color:#fff;
+}
+
+.ghar-sold-footer-links{
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:18px;
+
+    font-size:.8rem;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:1100px){
+
+    .ghar-sold-nav{
+        display:none;
+    }
+
+    .ghar-sold-menu{
+        display:grid;
+    }
+
+    .sold-layout{
+        grid-template-columns:1fr;
+    }
+
+    .sold-stats{
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+}
+
+@media(max-width:760px){
+
+    .ghar-sold-main{
+        width:calc(100% - 20px);
+
+        padding-top:18px;
+    }
+
+    .ghar-sold-header-inner{
+        width:calc(100% - 20px);
+    }
+
+    .sold-hero{
+        padding:25px 21px;
+
+        border-radius:22px;
+    }
+
+    .sold-toolbar-inner{
+        align-items:flex-start;
+
+        flex-direction:column;
+    }
+
+    .sold-search{
+        width:100%;
+    }
+
+    .sold-card-top{
+        grid-template-columns:1fr;
+    }
+
+    .sold-image{
+        height:200px;
+        min-height:200px;
+    }
+
+    .sold-card-footer{
+        align-items:flex-start;
+
+        flex-direction:column;
+    }
+}
+
+@media(max-width:480px){
+
+    .ghar-sold-brand-subtitle{
+        display:none;
+    }
+
+    .sold-stats{
+        gap:9px;
+    }
+
+    .sold-stat{
+        padding:15px;
+    }
+
+    .sold-stat-value{
+        font-size:1.35rem;
+    }
+
+    .sold-info-grid{
+        grid-template-columns:1fr;
+    }
+
+    .sold-actions{
+        width:100%;
+    }
+
+    .sold-action{
+        flex:1;
+    }
+}
+
+</style>
+</head>
+
+<body
+    data-root="../"
+    data-page="sold"
+>
+
+<!-- =========================================================
+     HEADER
+========================================================= -->
+
+<header class="ghar-sold-header">
+
+    <div class="ghar-sold-header-inner">
+
+        <a
+            href="../index.html"
+            class="ghar-sold-brand"
+        >
+
+            <span class="ghar-sold-logo">
+                G
+            </span>
+
+            <span>
+
+                <span class="ghar-sold-brand-name">
+                    GHAR
+                </span>
+
+                <span class="ghar-sold-brand-subtitle">
+                    Real Estate
+                </span>
+
+            </span>
+
+        </a>
+
+
+        <nav class="ghar-sold-nav">
+
+            <a href="buyer-dashboard.html">
+                Dashboard
+            </a>
+
+            <a href="../property/property-search.html">
+                Properties
+            </a>
+
+            <a href="saved-properties.html">
+                Saved
+            </a>
+
+            <a href="my-enquiries.html">
+                Enquiries
+            </a>
+
+            <a href="my-offers.html">
+                Offers
+            </a>
+
+            <a href="my-visits.html">
+                Visits
+            </a>
+
+            <a
+                href="sold.html"
+                class="active"
+            >
+                Purchased
+            </a>
+
+        </nav>
+
+
+        <div class="ghar-sold-actions">
+
+            <button
+                class="ghar-sold-icon"
+                id="soldNotifications"
+                type="button"
+                aria-label="Notifications"
+            >
+                🔔
+            </button>
+
+            <button
+                class="ghar-sold-icon"
+                id="soldProfile"
+                type="button"
+                aria-label="Profile"
+            >
+                👤
+            </button>
+
+            <button
+                class="ghar-sold-icon ghar-sold-menu"
+                id="soldMenu"
+                type="button"
+                aria-label="Menu"
+                aria-expanded="false"
+            >
+                ☰
+            </button>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<!-- =========================================================
+     MAIN
+========================================================= -->
+
+<main class="ghar-sold-main">
+
+    <!-- HERO -->
+
+    <section class="sold-hero">
+
+        <div class="sold-hero-content">
+
+            <div class="sold-eyebrow">
+                GHAR BUYER WORKSPACE
+            </div>
+
+            <h1>
+                Purchased Properties
+            </h1>
+
+            <p>
+                Keep a secure record of properties you have
+                purchased through GHAR, including transaction
+                information, documents, payments and completed
+                purchase details.
+            </p>
+
+            <div class="sold-hero-actions">
+
+                <a
+                    href="../property/property-search.html"
+                    class="sold-btn sold-btn-primary"
+                >
+                    Explore Properties
+                </a>
+
+                <a
+                    href="buyer-dashboard.html"
+                    class="sold-btn sold-btn-secondary"
+                >
+                    Buyer Dashboard
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- STATS -->
+
+    <section class="sold-stats">
+
+        <article class="sold-stat">
+
+            <div class="sold-stat-label">
+                Purchased
+            </div>
+
+            <div
+                class="sold-stat-value"
+                id="totalPurchased"
+            >
+                0
+            </div>
+
+        </article>
+
+
+        <article class="sold-stat">
+
+            <div class="sold-stat-label">
+                Completed
+            </div>
+
+            <div
+                class="sold-stat-value"
+                id="completedPurchases"
+            >
+                0
+            </div>
+
+        </article>
+
+
+        <article class="sold-stat">
+
+            <div class="sold-stat-label">
+                Documents
+            </div>
+
+            <div
+                class="sold-stat-value"
+                id="documentCount"
+            >
+                0
+            </div>
+
+        </article>
+
+
+        <article class="sold-stat">
+
+            <div class="sold-stat-label">
+                Total Value
+            </div>
+
+            <div
+                class="sold-stat-value"
+                id="totalValue"
+            >
+                ₹0
+            </div>
+
+        </article>
+
+    </section>
+
+
+    <!-- TOOLBAR -->
+
+    <section class="sold-toolbar">
+
+        <div class="sold-toolbar-inner">
+
+            <div>
+
+                <h2>
+                    Purchase History
+                </h2>
+
+                <p>
+                    View properties purchased through your
+                    GHAR account.
+                </p>
+
+            </div>
+
+            <input
+                id="soldSearch"
+                class="sold-search"
+                type="search"
+                placeholder="Search property or location..."
+                autocomplete="off"
+            >
+
+        </div>
+
+    </section>
+
+
+    <!-- CONTENT -->
+
+    <section class="sold-layout">
+
+        <div
+            id="soldList"
+            class="sold-list"
+        >
+            <!-- Cards generated by JavaScript -->
+        </div>
+
+
+        <aside class="sold-side">
+
+            <div class="sold-side-card">
+
+                <h3>
+                    Purchase record
+                </h3>
+
+
+                <div class="sold-step">
+
+                    <div class="sold-step-number">
+                        1
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Property completed
+                        </strong>
+
+                        <span>
+                            Completed purchases remain available
+                            in your GHAR buyer workspace.
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="sold-step">
+
+                    <div class="sold-step-number">
+                        2
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Transaction record
+                        </strong>
+
+                        <span>
+                            Review purchase value, property ID
+                            and transaction information.
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="sold-step">
+
+                    <div class="sold-step-number">
+                        3
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Documents
+                        </strong>
+
+                        <span>
+                            Access available transaction and
+                            property documents.
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="sold-step">
+
+                    <div class="sold-step-number">
+                        4
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Support
+                        </strong>
+
+                        <span>
+                            Contact GHAR if you need assistance
+                            with a completed transaction.
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="sold-side-card">
+
+                <h3>
+                    Need assistance?
+                </h3>
+
+                <p
+                    style="
+                        color:var(--ghar-muted);
+                        font-size:.78rem;
+                        line-height:1.6;
+                    "
+                >
+                    For transaction or document assistance,
+                    use the secure GHAR communication workspace.
+                </p>
+
+                <a
+                    href="messages.html"
+                    class="sold-link"
+                >
+                    Open Messages →
+                </a>
+
+            </div>
+
+        </aside>
+
+    </section>
+
+</main>
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer class="ghar-sold-footer">
+
+    <div class="ghar-sold-footer-inner">
+
+        <div>
+
+            <strong>
+                GHAR
+            </strong>
+
+            <div>
+                A structured real-estate platform.
+            </div>
+
+        </div>
+
+
+        <div class="ghar-sold-footer-links">
+
+            <a href="../about.html">
+                About
+            </a>
+
+            <a href="../support/index.html">
+                Support
+            </a>
+
+            <a href="../legal/terms.html">
+                Terms
+            </a>
+
+            <a href="../legal/privacy.html">
+                Privacy
+            </a>
+
+            <a href="../index.html">
+                Home
+            </a>
+
+        </div>
+
+    </div>
+
+</footer>
+
+
+<div class="ghar-global-toast"></div>
+
+
+<!-- =========================================================
+     CORE GHAR SCRIPTS
+========================================================= -->
+
+<script
+    src="../assets/js/main/site.js"
+    defer
+></script>
+
+<script
+    src="../assets/js/main/page.js"
+    defer
+></script>
+
+
+<!-- =========================================================
+     PAGE CONTROLLER
+========================================================= -->
+
+<script>
+
+(function(){
+
+    "use strict";
+
+
+    const fallbackPurchases = [
+
+        {
+            id:"GHAR-PUR-1001",
+            propertyId:"GHAR-P001",
+            title:"Luxury 3 BHK Residence",
+            location:"Sector 150, Noida",
+            image:"../images/ghar-house.jpg",
+            value:"₹2.35 Cr",
+            status:"completed",
+            date:"Purchase completed",
+            details:"3 BHK • Apartment • 2,450 sq.ft.",
+            documents:6
+        },
+
+        {
+            id:"GHAR-PUR-1002",
+            propertyId:"GHAR-P014",
+            title:"Premium Independent House",
+            location:"Sector 132, Noida",
+            image:"../images/ghar-house.jpg",
+            value:"₹3.10 Cr",
+            status:"completed",
+            date:"Purchase completed",
+            details:"4 BHK • Independent House",
+            documents:8
+        }
+
+    ];
+
+
+    function getPurchases(){
+
+        const keys = [
+            "ghar_purchased_properties",
+            "ghar_sold_properties",
+            "buyerPurchases",
+            "myPurchasedProperties"
+        ];
+
+        for(const key of keys){
+
+            try{
+
+                const raw =
+                    localStorage.getItem(key);
+
+                if(!raw){
+                    continue;
+                }
+
+                const parsed =
+                    JSON.parse(raw);
+
+                if(Array.isArray(parsed)){
+                    return parsed;
+                }
+
+            }catch(error){
+
+                console.warn(
+                    "GHAR purchase storage error:",
+                    error
+                );
+
+            }
+
+        }
+
+        return fallbackPurchases;
+    }
+
+
+    function escapeHTML(value){
+
+        return String(value ?? "")
+            .replace(/&/g,"&amp;")
+            .replace(/</g,"&lt;")
+            .replace(/>/g,"&gt;")
+            .replace(/"/g,"&quot;")
+            .replace(/'/g,"&#039;");
+
+    }
+
+
+    function render(){
+
+        const list =
+            document.getElementById(
+                "soldList"
+            );
+
+        if(!list){
+            return;
+        }
+
+
+        const purchases =
+            getPurchases();
+
+
+        updateStats(purchases);
+
+
+        if(!purchases.length){
+
+            list.innerHTML = `
+
+                <div class="sold-empty">
+
+                    <div class="sold-empty-icon">
+                        🏠
+                    </div>
+
+                    <h3>
+                        No purchased properties
+                    </h3>
+
+                    <p>
+                        Completed property purchases will
+                        appear here once they are associated
+                        with your GHAR buyer account.
+                    </p>
+
+                    <a
+                        href="../property/property-search.html"
+                        class="sold-btn sold-btn-primary"
+                    >
+                        Explore Properties
+                    </a>
+
+                </div>
+
+            `;
+
+            return;
+        }
+
+
+        list.innerHTML =
+            purchases
+                .map(renderCard)
+                .join("");
+
+
+        bindActions();
+
+    }
+
+
+    function renderCard(property){
+
+        return `
+
+            <article
+                class="sold-card"
+                data-property="${escapeHTML(
+                    property.title || ""
+                )} ${escapeHTML(
+                    property.location || ""
+                )}"
+            >
+
+                <div class="sold-card-top">
+
+                    <div class="sold-image">
+
+                        <img
+                            src="${escapeHTML(
+                                property.image ||
+                                "../images/ghar-house.jpg"
+                            )}"
+                            alt="${escapeHTML(
+                                property.title ||
+                                "Purchased GHAR property"
+                            )}"
+                            loading="lazy"
+                            onerror="
+                                this.src='../images/ghar-house.jpg';
+                            "
+                        >
+
+                    </div>
+
+
+                    <div class="sold-details">
+
+                        <h3 class="sold-title">
+                            ${escapeHTML(
+                                property.title ||
+                                "Purchased Property"
+                            )}
+                        </h3>
+
+
+                        <div class="sold-location">
+                            📍
+                            ${escapeHTML(
+                                property.location ||
+                                "Location available through GHAR"
+                            )}
+                        </div>
+
+
+                        <div class="sold-info-grid">
+
+                            <div class="sold-info">
+
+                                <div class="sold-info-label">
+                                    Purchase Value
+                                </div>
+
+                                <div class="sold-info-value">
+                                    ${escapeHTML(
+                                        property.value ||
+                                        "Not specified"
+                                    )}
+                                </div>
+
+                            </div>
+
+
+                            <div class="sold-info">
+
+                                <div class="sold-info-label">
+                                    Property ID
+                                </div>
+
+                                <div class="sold-info-value">
+                                    ${escapeHTML(
+                                        property.propertyId ||
+                                        property.id ||
+                                        "GHAR-PROPERTY"
+                                    )}
+                                </div>
+
+                            </div>
+
+
+                            <div class="sold-info">
+
+                                <div class="sold-info-label">
+                                    Details
+                                </div>
+
+                                <div class="sold-info-value">
+                                    ${escapeHTML(
+                                        property.details ||
+                                        "Property details"
+                                    )}
+                                </div>
+
+                            </div>
+
+
+                            <div class="sold-info">
+
+                                <div class="sold-info-label">
+                                    Documents
+                                </div>
+
+                                <div class="sold-info-value">
+                                    ${escapeHTML(
+                                        property.documents ??
+                                        0
+                                    )}
+                                    available
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <span class="sold-status">
+                            ✓
+                            ${escapeHTML(
+                                property.status ===
+                                "completed"
+                                    ? "Purchase Completed"
+                                    : (
+                                        property.status ||
+                                        "Completed"
+                                    )
+                            )}
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="sold-card-footer">
+
+                    <span class="sold-date">
+                        ${escapeHTML(
+                            property.date ||
+                            "Purchase completed"
+                        )}
+                    </span>
+
+
+                    <div class="sold-actions">
+
+                        <button
+                            type="button"
+                            class="sold-action"
+                            data-action="details"
+                            data-id="${escapeHTML(
+                                property.id || ""
+                            )}"
+                        >
+                            View Details
+                        </button>
+
+
+                        <button
+                            type="button"
+                            class="sold-action"
+                            data-action="documents"
+                            data-id="${escapeHTML(
+                                property.id || ""
+                            )}"
+                        >
+                            Documents
+                        </button>
+
+
+                        <button
+                            type="button"
+                            class="sold-action primary"
+                            data-action="transaction"
+                            data-id="${escapeHTML(
+                                property.id || ""
+                            )}"
+                        >
+                            Transaction
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+        `;
+
+    }
+
+
+    function updateStats(purchases){
+
+        const completed =
+            purchases.filter(
+                item =>
+                    String(
+                        item.status || "completed"
+                    ).toLowerCase() ===
+                    "completed"
+            ).length;
+
+
+        const documents =
+            purchases.reduce(
+                (sum,item) =>
+                    sum +
+                    Number(
+                        item.documents || 0
+                    ),
+                0
+            );
+
+
+        const totalValue =
+            purchases.reduce(
+                (sum,item) =>
+                    sum +
+                    parseMoney(
+                        item.value
+                    ),
+                0
+            );
+
+
+        setText(
+            "totalPurchased",
+            purchases.length
+        );
+
+        setText(
+            "completedPurchases",
+            completed
+        );
+
+        setText(
+            "documentCount",
+            documents
+        );
+
+        setText(
+            "totalValue",
+            totalValue > 0
+                ? formatCroreValue(totalValue)
+                : "₹0"
+        );
+
+    }
+
+
+    function parseMoney(value){
+
+        if(typeof value === "number"){
+            return value;
+        }
+
+        if(!value){
+            return 0;
+        }
+
+        let text =
+            String(value)
+                .toLowerCase()
+                .replace(/₹/g,"")
+                .replace(/,/g,"")
+                .trim();
+
+
+        const crore =
+            text.includes("cr");
+
+        const lakh =
+            text.includes("lakh") ||
+            text.includes("lac");
+
+
+        const number =
+            parseFloat(
+                text.replace(
+                    /[^0-9.]/g,
+                    ""
+                )
+            );
+
+
+        if(!Number.isFinite(number)){
+            return 0;
+        }
+
+
+        if(crore){
+            return number * 10000000;
+        }
+
+        if(lakh){
+            return number * 100000;
+        }
+
+        return number;
+
+    }
+
+
+    function formatCroreValue(value){
+
+        if(value >= 10000000){
+
+            return "₹" +
+                (
+                    value / 10000000
+                ).toFixed(2) +
+                " Cr";
+
+        }
+
+
+        if(value >= 100000){
+
+            return "₹" +
+                (
+                    value / 100000
+                ).toFixed(2) +
+                " L";
+
+        }
+
+
+        return "₹" +
+            Math.round(value)
+                .toLocaleString("en-IN");
+
+    }
+
+
+    function setText(id,value){
+
+        const element =
+            document.getElementById(id);
+
+        if(element){
+            element.textContent = value;
+        }
+
+    }
+
+
+    function initSearch(){
+
+        const input =
+            document.getElementById(
+                "soldSearch"
+            );
+
+
+        if(!input){
+            return;
+        }
+
+
+        input.addEventListener(
+            "input",
+            function(){
+
+                const query =
+                    this.value
+                        .trim()
+                        .toLowerCase();
+
+
+                document
+                    .querySelectorAll(
+                        ".sold-card"
+                    )
+                    .forEach(
+                        card => {
+
+                            const text =
+                                String(
+                                    card.dataset.property ||
+                                    ""
+                                ).toLowerCase();
+
+
+                            card.style.display =
+                                !query ||
+                                text.includes(query)
+                                    ? ""
+                                    : "none";
+
+                        }
+                    );
+
+            }
+        );
+
+    }
+
+
+    function bindActions(){
+
+        document
+            .querySelectorAll(
+                "[data-action]"
+            )
+            .forEach(
+                button => {
+
+                    button.addEventListener(
+                        "click",
+                        function(){
+
+                            const action =
+                                this.dataset.action;
+
+                            const id =
+                                this.dataset.id;
+
+
+                            if(action === "details"){
+
+                                window.location.href =
+                                    `property-details.html?id=${encodeURIComponent(id)}`;
+
+                                return;
+
+                            }
+
+
+                            if(action === "documents"){
+
+                                window.location.href =
+                                    `documents.html?property=${encodeURIComponent(id)}`;
+
+                                return;
+
+                            }
+
+
+                            if(action === "transaction"){
+
+                                window.location.href =
+                                    `payment-details.html?property=${encodeURIComponent(id)}`;
+
+                            }
+
+                        }
+                    );
+
+                }
+            );
+
+    }
+
+
+    function initHeader(){
+
+        const profile =
+            document.getElementById(
+                "soldProfile"
+            );
+
+        const notifications =
+            document.getElementById(
+                "soldNotifications"
+            );
+
+        const menu =
+            document.getElementById(
+                "soldMenu"
+            );
+
+
+        if(profile){
+
+            profile.addEventListener(
+                "click",
+                () => {
+
+                    window.location.href =
+                        "my-profile.html";
+
+                }
+            );
+
+        }
+
+
+        if(notifications){
+
+            notifications.addEventListener(
+                "click",
+                () => {
+
+                    window.location.href =
+                        "../communication/notifications.html";
+
+                }
+            );
+
+        }
+
+
+        if(menu){
+
+            menu.addEventListener(
+                "click",
+                () => {
+
+                    const nav =
+                        document.querySelector(
+                            ".ghar-sold-nav"
+                        );
+
+
+                    if(!nav){
+                        return;
+                    }
+
+
+                    const open =
+                        menu.dataset.open ===
+                        "true";
+
+
+                    if(open){
+
+                        nav.style.display = "";
+
+                        nav.style.position = "";
+
+                        nav.style.top = "";
+
+                        nav.style.left = "";
+
+                        nav.style.right = "";
+
+                        nav.style.padding = "";
+
+                        nav.style.background = "";
+
+                        nav.style.boxShadow = "";
+
+                        menu.dataset.open =
+                            "false";
+
+                        menu.setAttribute(
+                            "aria-expanded",
+                            "false"
+                        );
+
+                    }else{
+
+                        nav.style.display =
+                            "flex";
+
+                        nav.style.position =
+                            "absolute";
+
+                        nav.style.top =
+                            "76px";
+
+                        nav.style.left =
+                            "10px";
+
+                        nav.style.right =
+                            "10px";
+
+                        nav.style.padding =
+                            "12px";
+
+                        nav.style.flexDirection =
+                            "column";
+
+                        nav.style.alignItems =
+                            "stretch";
+
+                        nav.style.background =
+                            "rgba(248,243,234,.98)";
+
+                        nav.style.border =
+                            "1px solid rgba(16,35,29,.12)";
+
+                        nav.style.borderRadius =
+                            "16px";
+
+                        nav.style.boxShadow =
+                            "0 20px 50px rgba(16,35,29,.15)";
+
+                        menu.dataset.open =
+                            "true";
+
+                        menu.setAttribute(
+                            "aria-expanded",
+                            "true"
+                        );
+
+                    }
+
+                }
+            );
+
+        }
+
+    }
+
+
+    function initialize(){
+
+        render();
+
+        initSearch();
+
+        initHeader();
+
+        console.log(
+            "GHAR Purchased Properties ready."
+        );
+
+    }
+
+
+    if(
+        document.readyState ===
+        "loading"
+    ){
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            initialize,
+            {once:true}
+        );
+
+    }else{
+
+        initialize();
+
+    }
+
+})();
+
+</script>
+
+</body>
+</html>

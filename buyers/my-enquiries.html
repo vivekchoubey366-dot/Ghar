@@ -1,0 +1,1442 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+
+<meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+>
+
+<meta
+    name="description"
+    content="GHAR Buyer Enquiries -- Track property enquiries, responses, conversations and follow-ups."
+>
+
+<meta
+    name="robots"
+    content="noindex,nofollow"
+>
+
+<meta
+    name="theme-color"
+    content="#10231d"
+>
+
+<title>My Enquiries · GHAR</title>
+
+<link
+    rel="stylesheet"
+    href="../assets/css/style.css"
+>
+
+<style>
+/* =========================================================
+   GHAR -- BUYER ENQUIRIES
+   Premium responsive page layer
+========================================================= */
+
+:root{
+    --g:#10231d;
+    --g2:#18372d;
+    --gold:#c9a96e;
+    --cream:#f6f0e6;
+    --sand:#e8ddcc;
+    --text:#17221d;
+    --muted:#707970;
+    --border:rgba(16,35,29,.12);
+    --card:rgba(255,255,255,.68);
+    --shadow:0 20px 60px rgba(16,35,29,.10);
+    --radius:24px;
+}
+
+*{
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    margin:0;
+    min-height:100vh;
+    color:var(--text);
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    background:
+        radial-gradient(
+            circle at 5% 0%,
+            rgba(201,169,110,.18),
+            transparent 28%
+        ),
+        radial-gradient(
+            circle at 95% 20%,
+            rgba(112,151,128,.12),
+            transparent 30%
+        ),
+        linear-gradient(
+            135deg,
+            #f8f3e9,
+            #e8eee8 52%,
+            #f1e6d6
+        );
+}
+
+button,
+input,
+select{
+    font:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+a{
+    color:inherit;
+    text-decoration:none;
+}
+
+img{
+    max-width:100%;
+    display:block;
+}
+
+/* =========================================================
+   PAGE
+========================================================= */
+
+.ghar-page{
+    width:min(1400px,calc(100% - 32px));
+    margin:auto;
+    padding:32px 0 70px;
+}
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.enquiry-hero{
+    position:relative;
+    overflow:hidden;
+    padding:36px;
+    border-radius:30px;
+    color:#fff;
+
+    background:
+        linear-gradient(
+            120deg,
+            rgba(16,35,29,.98),
+            rgba(24,55,45,.96)
+        );
+
+    box-shadow:var(--shadow);
+    margin-bottom:24px;
+}
+
+.enquiry-hero::after{
+    content:"";
+    position:absolute;
+    width:340px;
+    height:340px;
+    right:-120px;
+    top:-150px;
+    border-radius:50%;
+    border:1px solid rgba(201,169,110,.28);
+    box-shadow:
+        0 0 0 45px rgba(201,169,110,.05),
+        0 0 0 90px rgba(201,169,110,.025);
+}
+
+.hero-content{
+    position:relative;
+    z-index:2;
+    max-width:850px;
+}
+
+.eyebrow{
+    color:var(--gold);
+    font-size:.72rem;
+    font-weight:850;
+    letter-spacing:.17em;
+    text-transform:uppercase;
+    margin-bottom:10px;
+}
+
+.enquiry-hero h1{
+    margin:0 0 10px;
+    font-size:clamp(2rem,4vw,3.2rem);
+    line-height:1.08;
+}
+
+.enquiry-hero p{
+    margin:0;
+    max-width:720px;
+    color:rgba(255,255,255,.76);
+    line-height:1.7;
+}
+
+/* =========================================================
+   SUMMARY
+========================================================= */
+
+.summary-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:14px;
+    margin-bottom:24px;
+}
+
+.summary-card{
+    padding:20px;
+    border-radius:20px;
+    border:1px solid var(--border);
+    background:var(--card);
+    box-shadow:0 12px 40px rgba(16,35,29,.06);
+    backdrop-filter:blur(18px);
+}
+
+.summary-label{
+    color:var(--muted);
+    font-size:.73rem;
+    font-weight:800;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+}
+
+.summary-value{
+    margin-top:8px;
+    color:var(--g);
+    font-size:1.75rem;
+    font-weight:900;
+}
+
+/* =========================================================
+   TOOLBAR
+========================================================= */
+
+.toolbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
+    padding:18px;
+    margin-bottom:18px;
+
+    border:1px solid var(--border);
+    border-radius:20px;
+    background:rgba(255,255,255,.64);
+    box-shadow:0 12px 40px rgba(16,35,29,.06);
+}
+
+.toolbar-left{
+    display:flex;
+    flex:1;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+.search-box,
+.filter-select{
+    min-height:46px;
+    padding:0 14px;
+    border-radius:12px;
+    border:1px solid var(--border);
+    background:rgba(255,255,255,.78);
+    color:var(--text);
+    outline:none;
+}
+
+.search-box{
+    width:min(360px,100%);
+}
+
+.search-box:focus,
+.filter-select:focus{
+    border-color:var(--gold);
+    box-shadow:0 0 0 3px rgba(201,169,110,.14);
+}
+
+.ghar-btn{
+    min-height:44px;
+    padding:0 16px;
+    border:0;
+    border-radius:12px;
+    font-weight:800;
+    transition:.2s ease;
+}
+
+.ghar-btn:hover{
+    transform:translateY(-1px);
+}
+
+.btn-primary{
+    background:var(--gold);
+    color:var(--g);
+}
+
+.btn-dark{
+    background:var(--g);
+    color:#fff;
+}
+
+.btn-soft{
+    background:rgba(16,35,29,.07);
+    color:var(--g);
+}
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
+.content-grid{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:20px;
+}
+
+.panel{
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    background:rgba(255,255,255,.62);
+    box-shadow:var(--shadow);
+    overflow:hidden;
+}
+
+.panel-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
+    padding:21px 23px;
+    border-bottom:1px solid var(--border);
+}
+
+.panel-header h2{
+    margin:0;
+    font-size:1.18rem;
+}
+
+.panel-header p{
+    margin:5px 0 0;
+    color:var(--muted);
+    font-size:.82rem;
+}
+
+/* =========================================================
+   ENQUIRY LIST
+========================================================= */
+
+.enquiry-list{
+    display:grid;
+    gap:14px;
+    padding:20px;
+}
+
+.enquiry-card{
+    display:grid;
+    grid-template-columns:230px 1fr auto;
+    gap:20px;
+    padding:16px;
+
+    border:1px solid var(--border);
+    border-radius:20px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.84),
+            rgba(246,240,230,.70)
+        );
+
+    transition:.2s ease;
+}
+
+.enquiry-card:hover{
+    transform:translateY(-2px);
+    box-shadow:0 15px 35px rgba(16,35,29,.09);
+}
+
+.enquiry-image{
+    height:160px;
+    overflow:hidden;
+    border-radius:15px;
+    background:var(--sand);
+}
+
+.enquiry-image img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.enquiry-main{
+    min-width:0;
+}
+
+.enquiry-top{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:10px;
+}
+
+.enquiry-title{
+    margin:0;
+    font-size:1.05rem;
+    font-weight:850;
+}
+
+.enquiry-location{
+    margin-top:6px;
+    color:var(--muted);
+    font-size:.82rem;
+}
+
+.enquiry-price{
+    margin-top:13px;
+    color:var(--g);
+    font-size:1.1rem;
+    font-weight:900;
+}
+
+.enquiry-meta{
+    display:flex;
+    flex-wrap:wrap;
+    gap:7px;
+    margin-top:10px;
+}
+
+.enquiry-meta span{
+    padding:5px 8px;
+    border-radius:8px;
+    background:var(--cream);
+    color:var(--muted);
+    font-size:.7rem;
+    font-weight:650;
+}
+
+.enquiry-message{
+    margin-top:12px;
+    padding:11px 12px;
+    border-left:3px solid var(--gold);
+    border-radius:8px;
+    background:rgba(201,169,110,.09);
+    color:#4f5952;
+    font-size:.79rem;
+    line-height:1.55;
+}
+
+.enquiry-side{
+    min-width:145px;
+    display:flex;
+    flex-direction:column;
+    align-items:stretch;
+    justify-content:space-between;
+    gap:10px;
+}
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+.status{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:max-content;
+    padding:7px 10px;
+    border-radius:999px;
+    font-size:.68rem;
+    font-weight:850;
+    letter-spacing:.03em;
+}
+
+.status-new{
+    color:#75520c;
+    background:#f5e7bf;
+}
+
+.status-progress{
+    color:#15503b;
+    background:#d9eee4;
+}
+
+.status-replied{
+    color:#214d67;
+    background:#dcebf4;
+}
+
+.status-closed{
+    color:#5c625f;
+    background:#e4e6e4;
+}
+
+.status-follow{
+    color:#6c3e19;
+    background:#f1dfce;
+}
+
+/* =========================================================
+   ACTIONS
+========================================================= */
+
+.enquiry-actions{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+}
+
+.enquiry-actions .ghar-btn{
+    width:100%;
+    min-height:40px;
+    font-size:.76rem;
+}
+
+.text-link{
+    color:var(--g);
+    font-size:.76rem;
+    font-weight:800;
+    text-align:center;
+    padding:5px;
+}
+
+/* =========================================================
+   EMPTY
+========================================================= */
+
+.empty-state{
+    padding:55px 25px;
+    text-align:center;
+    color:var(--muted);
+}
+
+.empty-icon{
+    width:58px;
+    height:58px;
+    margin:0 auto 15px;
+    display:grid;
+    place-items:center;
+    border-radius:18px;
+    background:rgba(16,35,29,.08);
+    font-size:1.5rem;
+}
+
+.empty-state h3{
+    margin:0 0 7px;
+    color:var(--g);
+}
+
+.empty-state p{
+    margin:0 auto 18px;
+    max-width:500px;
+    font-size:.86rem;
+    line-height:1.6;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:1000px){
+
+    .summary-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .enquiry-card{
+        grid-template-columns:190px 1fr;
+    }
+
+    .enquiry-side{
+        grid-column:1/-1;
+        flex-direction:row;
+        align-items:center;
+    }
+
+    .enquiry-actions{
+        flex-direction:row;
+        flex:1;
+    }
+
+    .enquiry-actions .ghar-btn{
+        width:auto;
+        flex:1;
+    }
+}
+
+@media(max-width:700px){
+
+    .ghar-page{
+        width:calc(100% - 20px);
+        padding:18px 0 45px;
+    }
+
+    .enquiry-hero{
+        padding:25px 21px;
+        border-radius:22px;
+    }
+
+    .summary-grid{
+        grid-template-columns:1fr 1fr;
+        gap:10px;
+    }
+
+    .summary-card{
+        padding:15px;
+    }
+
+    .summary-value{
+        font-size:1.4rem;
+    }
+
+    .toolbar{
+        align-items:stretch;
+        flex-direction:column;
+    }
+
+    .toolbar-left{
+        flex-direction:column;
+    }
+
+    .search-box,
+    .filter-select{
+        width:100%;
+    }
+
+    .enquiry-card{
+        grid-template-columns:1fr;
+        gap:14px;
+    }
+
+    .enquiry-image{
+        height:190px;
+    }
+
+    .enquiry-side{
+        grid-column:auto;
+        flex-direction:column;
+        align-items:stretch;
+    }
+
+    .enquiry-actions{
+        flex-direction:column;
+    }
+
+    .enquiry-actions .ghar-btn{
+        width:100%;
+    }
+}
+
+@media(max-width:430px){
+
+    .summary-grid{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .enquiry-hero h1{
+        font-size:1.9rem;
+    }
+
+    .panel-header{
+        padding:17px;
+    }
+
+    .enquiry-list{
+        padding:12px;
+    }
+}
+</style>
+</head>
+
+<body
+    data-root="../"
+    data-page="my-enquiries"
+>
+
+<!-- GLOBAL HEADER -->
+<div data-site-header></div>
+
+<main class="ghar-page">
+
+    <!-- =====================================================
+         HERO
+    ====================================================== -->
+
+    <section class="enquiry-hero">
+
+        <div class="hero-content">
+
+            <div class="eyebrow">
+                GHAR BUYER WORKSPACE
+            </div>
+
+            <h1>
+                My Enquiries
+            </h1>
+
+            <p>
+                Keep every property enquiry organised.
+                Review responses, continue conversations,
+                check property details and follow up from
+                one secure workspace.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         SUMMARY
+    ====================================================== -->
+
+    <section class="summary-grid">
+
+        <article class="summary-card">
+            <div class="summary-label">
+                Total Enquiries
+            </div>
+
+            <div
+                class="summary-value"
+                id="totalEnquiries"
+            >
+                0
+            </div>
+        </article>
+
+
+        <article class="summary-card">
+            <div class="summary-label">
+                Active
+            </div>
+
+            <div
+                class="summary-value"
+                id="activeEnquiries"
+            >
+                0
+            </div>
+        </article>
+
+
+        <article class="summary-card">
+            <div class="summary-label">
+                Responses
+            </div>
+
+            <div
+                class="summary-value"
+                id="respondedEnquiries"
+            >
+                0
+            </div>
+        </article>
+
+
+        <article class="summary-card">
+            <div class="summary-label">
+                Follow-ups
+            </div>
+
+            <div
+                class="summary-value"
+                id="followupEnquiries"
+            >
+                0
+            </div>
+        </article>
+
+    </section>
+
+
+    <!-- =====================================================
+         TOOLBAR
+    ====================================================== -->
+
+    <section class="toolbar">
+
+        <div class="toolbar-left">
+
+            <input
+                type="search"
+                class="search-box"
+                id="enquirySearch"
+                placeholder="Search property, location or enquiry..."
+                aria-label="Search enquiries"
+            >
+
+            <select
+                class="filter-select"
+                id="enquiryStatusFilter"
+                aria-label="Filter enquiries"
+            >
+                <option value="all">
+                    All enquiries
+                </option>
+
+                <option value="new">
+                    New
+                </option>
+
+                <option value="progress">
+                    In progress
+                </option>
+
+                <option value="replied">
+                    Replied
+                </option>
+
+                <option value="follow">
+                    Follow-up
+                </option>
+
+                <option value="closed">
+                    Closed
+                </option>
+            </select>
+
+        </div>
+
+        <a
+            href="../property/property-search.html"
+            class="ghar-btn btn-primary"
+        >
+            + Find Property
+        </a>
+
+    </section>
+
+
+    <!-- =====================================================
+         ENQUIRIES
+    ====================================================== -->
+
+    <section class="panel">
+
+        <div class="panel-header">
+
+            <div>
+                <h2>
+                    Property Enquiries
+                </h2>
+
+                <p>
+                    Your enquiries and platform responses.
+                </p>
+            </div>
+
+            <a
+                href="buyer-dashboard.html"
+                class="ghar-btn btn-soft"
+            >
+                Dashboard
+            </a>
+
+        </div>
+
+
+        <div
+            class="enquiry-list"
+            id="enquiryList"
+        >
+
+            <!-- JS populated -->
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- GLOBAL FOOTER -->
+<div data-site-footer></div>
+
+<div class="ghar-global-toast"></div>
+
+
+<!-- =========================================================
+     CORE GHAR SCRIPTS
+========================================================== -->
+
+<script
+    src="../assets/js/main/site.js"
+    defer
+></script>
+
+<script
+    src="../assets/js/main/page.js"
+    defer
+></script>
+
+
+<script>
+(function(){
+
+    "use strict";
+
+    const STORAGE_KEYS = [
+        "ghar_enquiries",
+        "buyer_enquiries",
+        "my_enquiries"
+    ];
+
+    const demoEnquiries = [
+        {
+            id:"ENQ-1001",
+            propertyId:"GHAR-P001",
+            title:"Luxury 3 BHK Residence",
+            location:"Sector 150, Noida",
+            price:"₹2.35 Cr",
+            image:"../images/ghar-house.jpg",
+            type:"Apartment",
+            bedrooms:"3 BHK",
+            area:"1,850 sq.ft.",
+            status:"progress",
+            statusLabel:"In Progress",
+            date:"Recently",
+            message:"I am interested in this property and would like to know the availability and visit options."
+        },
+        {
+            id:"ENQ-1002",
+            propertyId:"GHAR-P002",
+            title:"Premium Independent House",
+            location:"Sector 47, Noida",
+            price:"₹3.10 Cr",
+            image:"../images/ghar-house.jpg",
+            type:"Independent House",
+            bedrooms:"4 BHK",
+            area:"2,700 sq.ft.",
+            status:"replied",
+            statusLabel:"Replied",
+            date:"2 days ago",
+            message:"Please share the available viewing slots and additional property information."
+        },
+        {
+            id:"ENQ-1003",
+            propertyId:"GHAR-P003",
+            title:"Modern Family Villa",
+            location:"Greater Noida West",
+            price:"₹2.75 Cr",
+            image:"../images/ghar-house.jpg",
+            type:"Villa",
+            bedrooms:"4 BHK",
+            area:"2,450 sq.ft.",
+            status:"follow",
+            statusLabel:"Follow-up",
+            date:"5 days ago",
+            message:"Requested a follow-up regarding property documents and booking process."
+        }
+    ];
+
+
+    function getStoredEnquiries(){
+
+        for(const key of STORAGE_KEYS){
+
+            try{
+
+                const raw =
+                    localStorage.getItem(key);
+
+                if(!raw) continue;
+
+                const parsed =
+                    JSON.parse(raw);
+
+                if(Array.isArray(parsed)){
+                    return parsed;
+                }
+
+            }catch(error){
+                console.warn(
+                    "GHAR enquiry storage error:",
+                    error
+                );
+            }
+        }
+
+        return demoEnquiries;
+    }
+
+
+    let enquiries = getStoredEnquiries();
+
+
+    function escapeHTML(value){
+
+        return String(value ?? "")
+            .replace(/&/g,"&amp;")
+            .replace(/</g,"&lt;")
+            .replace(/>/g,"&gt;")
+            .replace(/"/g,"&quot;")
+            .replace(/'/g,"&#039;");
+    }
+
+
+    function statusClass(status){
+
+        return {
+            new:"status-new",
+            progress:"status-progress",
+            replied:"status-replied",
+            follow:"status-follow",
+            closed:"status-closed"
+        }[status] || "status-progress";
+    }
+
+
+    function statusLabel(item){
+
+        if(item.statusLabel){
+            return item.statusLabel;
+        }
+
+        return {
+            new:"New",
+            progress:"In Progress",
+            replied:"Replied",
+            follow:"Follow-up",
+            closed:"Closed"
+        }[item.status] || "Active";
+    }
+
+
+    function updateSummary(list){
+
+        const total =
+            document.getElementById("totalEnquiries");
+
+        const active =
+            document.getElementById("activeEnquiries");
+
+        const responses =
+            document.getElementById("respondedEnquiries");
+
+        const followups =
+            document.getElementById("followupEnquiries");
+
+
+        if(total){
+            total.textContent = list.length;
+        }
+
+        if(active){
+            active.textContent =
+                list.filter(
+                    x =>
+                        x.status !== "closed"
+                ).length;
+        }
+
+        if(responses){
+            responses.textContent =
+                list.filter(
+                    x =>
+                        x.status === "replied"
+                ).length;
+        }
+
+        if(followups){
+            followups.textContent =
+                list.filter(
+                    x =>
+                        x.status === "follow"
+                ).length;
+        }
+    }
+
+
+    function render(){
+
+        const container =
+            document.getElementById(
+                "enquiryList"
+            );
+
+        if(!container) return;
+
+
+        const search =
+            (
+                document.getElementById(
+                    "enquirySearch"
+                )?.value || ""
+            )
+            .trim()
+            .toLowerCase();
+
+
+        const filter =
+            document.getElementById(
+                "enquiryStatusFilter"
+            )?.value || "all";
+
+
+        const filtered =
+            enquiries.filter(item => {
+
+                const haystack =
+                    [
+                        item.id,
+                        item.title,
+                        item.location,
+                        item.type,
+                        item.bedrooms,
+                        item.message
+                    ]
+                    .join(" ")
+                    .toLowerCase();
+
+
+                const matchesSearch =
+                    !search ||
+                    haystack.includes(search);
+
+
+                const matchesFilter =
+                    filter === "all" ||
+                    item.status === filter;
+
+
+                return (
+                    matchesSearch &&
+                    matchesFilter
+                );
+            });
+
+
+        updateSummary(enquiries);
+
+
+        if(!filtered.length){
+
+            container.innerHTML = `
+                <div class="empty-state">
+
+                    <div class="empty-icon">
+                        💬
+                    </div>
+
+                    <h3>
+                        No enquiries found
+                    </h3>
+
+                    <p>
+                        We couldn't find an enquiry matching
+                        your current search or filter.
+                    </p>
+
+                    <a
+                        href="../property/property-search.html"
+                        class="ghar-btn btn-primary"
+                    >
+                        Find Properties
+                    </a>
+
+                </div>
+            `;
+
+            return;
+        }
+
+
+        container.innerHTML =
+            filtered.map(item => `
+
+                <article
+                    class="enquiry-card"
+                    data-enquiry-id="${escapeHTML(item.id)}"
+                >
+
+                    <div class="enquiry-image">
+
+                        <img
+                            src="${escapeHTML(
+                                item.image ||
+                                "../images/ghar-house.jpg"
+                            )}"
+                            alt="${escapeHTML(item.title)}"
+                            loading="lazy"
+                            onerror="this.src='../images/ghar-house.jpg'"
+                        >
+
+                    </div>
+
+
+                    <div class="enquiry-main">
+
+                        <div class="enquiry-top">
+
+                            <div>
+
+                                <h3 class="enquiry-title">
+                                    ${escapeHTML(item.title)}
+                                </h3>
+
+                                <div class="enquiry-location">
+                                    📍 ${escapeHTML(item.location)}
+                                </div>
+
+                            </div>
+
+                            <span
+                                class="status ${statusClass(item.status)}"
+                            >
+                                ${escapeHTML(
+                                    statusLabel(item)
+                                )}
+                            </span>
+
+                        </div>
+
+
+                        <div class="enquiry-price">
+                            ${escapeHTML(item.price || "Price on request")}
+                        </div>
+
+
+                        <div class="enquiry-meta">
+
+                            <span>
+                                ${escapeHTML(item.type || "Property")}
+                            </span>
+
+                            <span>
+                                ${escapeHTML(item.bedrooms || "--")}
+                            </span>
+
+                            <span>
+                                ${escapeHTML(item.area || "--")}
+                            </span>
+
+                            <span>
+                                ${escapeHTML(item.date || "Recently")}
+                            </span>
+
+                        </div>
+
+
+                        <div class="enquiry-message">
+                            ${escapeHTML(
+                                item.message ||
+                                "No enquiry message available."
+                            )}
+                        </div>
+
+                    </div>
+
+
+                    <div class="enquiry-side">
+
+                        <div>
+                            <small
+                                style="
+                                    color:var(--muted);
+                                    font-size:.68rem;
+                                    font-weight:700;
+                                "
+                            >
+                                ENQUIRY ID
+                            </small>
+
+                            <div
+                                style="
+                                    margin-top:4px;
+                                    font-size:.76rem;
+                                    font-weight:850;
+                                    color:var(--g);
+                                "
+                            >
+                                ${escapeHTML(item.id)}
+                            </div>
+                        </div>
+
+
+                        <div class="enquiry-actions">
+
+                            <button
+                                type="button"
+                                class="ghar-btn btn-dark"
+                                data-action="conversation"
+                                data-id="${escapeHTML(item.id)}"
+                            >
+                                💬 Conversation
+                            </button>
+
+                            <button
+                                type="button"
+                                class="ghar-btn btn-soft"
+                                data-action="property"
+                                data-property="${escapeHTML(item.propertyId || "")}"
+                            >
+                                View Property
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+            `).join("");
+    }
+
+
+    function openConversation(id){
+
+        const url =
+            new URL(
+                "conversation.html",
+                window.location.href
+            );
+
+        url.searchParams.set(
+            "enquiryId",
+            id
+        );
+
+        window.location.href =
+            url.toString();
+    }
+
+
+    function openProperty(propertyId){
+
+        const url =
+            new URL(
+                "../property/property-details.html",
+                window.location.href
+            );
+
+        if(propertyId){
+            url.searchParams.set(
+                "id",
+                propertyId
+            );
+        }
+
+        window.location.href =
+            url.toString();
+    }
+
+
+    function initEvents(){
+
+        const search =
+            document.getElementById(
+                "enquirySearch"
+            );
+
+        const filter =
+            document.getElementById(
+                "enquiryStatusFilter"
+            );
+
+
+        if(search){
+
+            search.addEventListener(
+                "input",
+                render
+            );
+
+        }
+
+
+        if(filter){
+
+            filter.addEventListener(
+                "change",
+                render
+            );
+
+        }
+
+
+        document.addEventListener(
+            "click",
+            function(event){
+
+                const button =
+                    event.target.closest(
+                        "[data-action]"
+                    );
+
+                if(!button) return;
+
+
+                const action =
+                    button.dataset.action;
+
+
+                if(action === "conversation"){
+
+                    openConversation(
+                        button.dataset.id
+                    );
+
+                }
+
+
+                if(action === "property"){
+
+                    openProperty(
+                        button.dataset.property
+                    );
+
+                }
+
+            }
+        );
+
+    }
+
+
+    function init(){
+
+        initEvents();
+        render();
+
+        console.log(
+            "GHAR My Enquiries ready."
+        );
+    }
+
+
+    if(
+        document.readyState ===
+        "loading"
+    ){
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            init,
+            {once:true}
+        );
+
+    }else{
+
+        init();
+
+    }
+
+
+    window.GHARMyEnquiries = {
+        init,
+        render
+    };
+
+})();
+</script>
+
+</body>
+</html>

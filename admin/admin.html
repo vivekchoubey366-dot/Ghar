@@ -1,0 +1,4295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<meta name="robots" content="noindex,nofollow">
+<meta name="description" content="GHAR Central Administration Control Center">
+
+<title>GHAR Central Admin</title>
+
+<style>
+/* =========================================================
+   GHAR CENTRAL ADMIN
+   ========================================================= */
+
+:root{
+  --bg:#08100d;
+  --bg2:#0d1713;
+  --panel:#101d18;
+  --panel2:#14231d;
+  --panel3:#182a23;
+
+  --gold:#d7b77a;
+  --gold2:#f0d79d;
+  --cream:#f4ead8;
+  --muted:#a8b4ad;
+
+  --green:#77c69a;
+  --green2:#b8e4c8;
+
+  --red:#e27b7b;
+  --orange:#e4aa65;
+  --blue:#77a9dc;
+  --purple:#a995d9;
+
+  --border:rgba(215,183,122,.16);
+  --border2:rgba(255,255,255,.07);
+
+  --shadow:0 24px 80px rgba(0,0,0,.38);
+
+  --radius:18px;
+  --radius2:12px;
+
+  --sidebar:270px;
+}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  min-height:100vh;
+  background:
+    radial-gradient(circle at 85% 10%,rgba(215,183,122,.09),transparent 28%),
+    radial-gradient(circle at 10% 90%,rgba(80,140,105,.08),transparent 30%),
+    linear-gradient(135deg,#07100c,#0c1712 50%,#09110e);
+  color:var(--cream);
+  font-family:
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+}
+
+button,
+input,
+select,
+textarea{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+a{
+  color:inherit;
+  text-decoration:none;
+}
+
+.hidden{
+  display:none!important;
+}
+
+/* =========================================================
+   LOGIN GATE
+   ========================================================= */
+
+#adminGate{
+  position:fixed;
+  inset:0;
+  z-index:99999;
+  display:grid;
+  place-items:center;
+  padding:24px;
+  background:
+    radial-gradient(circle at 50% 0%,rgba(215,183,122,.13),transparent 35%),
+    #07100c;
+}
+
+.login-card{
+  width:min(470px,100%);
+  padding:38px;
+  border:1px solid var(--border);
+  border-radius:28px;
+  background:
+    linear-gradient(145deg,rgba(25,42,34,.96),rgba(10,20,15,.97));
+  box-shadow:var(--shadow);
+}
+
+.brand-lockup{
+  display:flex;
+  align-items:center;
+  gap:13px;
+  margin-bottom:30px;
+}
+
+.brand-mark{
+  width:48px;
+  height:48px;
+  border-radius:15px;
+  display:grid;
+  place-items:center;
+  background:linear-gradient(135deg,var(--gold),#8d6d36);
+  color:#111;
+  font-weight:900;
+  font-size:20px;
+}
+
+.brand-text strong{
+  display:block;
+  font-size:20px;
+  letter-spacing:.12em;
+}
+
+.brand-text span{
+  display:block;
+  margin-top:3px;
+  color:var(--muted);
+  font-size:11px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+}
+
+.login-card h1{
+  font-size:30px;
+  line-height:1.15;
+  margin-bottom:9px;
+}
+
+.login-card>p{
+  color:var(--muted);
+  line-height:1.6;
+  margin-bottom:26px;
+}
+
+.field{
+  margin-bottom:17px;
+}
+
+.field label{
+  display:block;
+  color:#c8d1cb;
+  font-size:12px;
+  font-weight:700;
+  margin-bottom:8px;
+}
+
+.field input,
+.field select,
+.field textarea{
+  width:100%;
+  border:1px solid var(--border2);
+  outline:none;
+  border-radius:12px;
+  padding:13px 14px;
+  color:var(--cream);
+  background:#0a1510;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus{
+  border-color:rgba(215,183,122,.55);
+  box-shadow:0 0 0 3px rgba(215,183,122,.07);
+}
+
+.login-actions{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  margin-top:20px;
+}
+
+.btn{
+  border:1px solid var(--border);
+  border-radius:11px;
+  padding:11px 15px;
+  color:var(--cream);
+  background:#15241d;
+  transition:.2s ease;
+}
+
+.btn:hover{
+  transform:translateY(-1px);
+  border-color:rgba(215,183,122,.42);
+}
+
+.btn.primary{
+  border-color:transparent;
+  color:#16120a;
+  font-weight:800;
+  background:linear-gradient(135deg,var(--gold2),var(--gold));
+}
+
+.btn.danger{
+  color:#ffd8d8;
+  background:rgba(150,45,45,.16);
+  border-color:rgba(226,123,123,.25);
+}
+
+.btn.success{
+  color:#d9ffe6;
+  background:rgba(60,140,90,.16);
+  border-color:rgba(119,198,154,.25);
+}
+
+.btn.small{
+  padding:8px 11px;
+  font-size:12px;
+}
+
+.login-security{
+  margin-top:22px;
+  padding-top:18px;
+  border-top:1px solid var(--border2);
+  color:#8f9d95;
+  font-size:11px;
+  line-height:1.6;
+}
+
+/* =========================================================
+   APP
+   ========================================================= */
+
+#adminApp{
+  min-height:100vh;
+}
+
+.sidebar{
+  position:fixed;
+  inset:0 auto 0 0;
+  width:var(--sidebar);
+  padding:20px 15px;
+  background:
+    linear-gradient(180deg,#0d1913,#09110d);
+  border-right:1px solid var(--border2);
+  z-index:1000;
+  overflow-y:auto;
+}
+
+.sidebar-brand{
+  display:flex;
+  gap:11px;
+  align-items:center;
+  padding:8px 10px 22px;
+  border-bottom:1px solid var(--border2);
+}
+
+.sidebar-brand .brand-mark{
+  width:39px;
+  height:39px;
+  border-radius:12px;
+  font-size:16px;
+}
+
+.sidebar-brand strong{
+  display:block;
+  font-size:15px;
+  letter-spacing:.1em;
+}
+
+.sidebar-brand span{
+  color:var(--muted);
+  font-size:9px;
+  letter-spacing:.13em;
+  text-transform:uppercase;
+}
+
+.nav-title{
+  color:#68776e;
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  padding:22px 11px 8px;
+}
+
+.nav-item{
+  width:100%;
+  display:flex;
+  align-items:center;
+  gap:11px;
+  padding:10px 11px;
+  border:1px solid transparent;
+  border-radius:11px;
+  color:#aebbb4;
+  background:none;
+  text-align:left;
+  font-size:13px;
+  margin-bottom:3px;
+}
+
+.nav-item:hover{
+  color:var(--cream);
+  background:rgba(255,255,255,.035);
+}
+
+.nav-item.active{
+  color:var(--gold2);
+  background:rgba(215,183,122,.09);
+  border-color:rgba(215,183,122,.13);
+}
+
+.nav-icon{
+  width:20px;
+  text-align:center;
+}
+
+.nav-badge{
+  margin-left:auto;
+  padding:3px 7px;
+  border-radius:20px;
+  background:rgba(215,183,122,.12);
+  color:var(--gold2);
+  font-size:10px;
+}
+
+.main{
+  margin-left:var(--sidebar);
+  min-height:100vh;
+}
+
+/* =========================================================
+   TOPBAR
+   ========================================================= */
+
+.topbar{
+  position:sticky;
+  top:0;
+  z-index:900;
+  min-height:70px;
+  padding:12px 25px;
+  display:flex;
+  align-items:center;
+  gap:15px;
+  background:rgba(8,16,13,.88);
+  backdrop-filter:blur(18px);
+  border-bottom:1px solid var(--border2);
+}
+
+.mobile-menu{
+  display:none;
+}
+
+.global-search{
+  flex:1;
+  max-width:570px;
+  position:relative;
+}
+
+.global-search input{
+  width:100%;
+  padding:11px 15px 11px 40px;
+  border-radius:12px;
+  border:1px solid var(--border2);
+  background:#0b1611;
+  color:var(--cream);
+  outline:none;
+}
+
+.global-search span{
+  position:absolute;
+  left:14px;
+  top:50%;
+  transform:translateY(-50%);
+  color:#738178;
+}
+
+.top-actions{
+  margin-left:auto;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.icon-btn{
+  width:38px;
+  height:38px;
+  display:grid;
+  place-items:center;
+  border:1px solid var(--border2);
+  border-radius:11px;
+  background:#101d17;
+  color:#b6c1bb;
+}
+
+.admin-user{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  padding-left:10px;
+  margin-left:5px;
+}
+
+.avatar{
+  width:36px;
+  height:36px;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  background:linear-gradient(135deg,#d8bb82,#806334);
+  color:#16120a;
+  font-size:12px;
+  font-weight:900;
+}
+
+.admin-user small{
+  display:block;
+  color:#76837b;
+  font-size:10px;
+}
+
+.admin-user strong{
+  display:block;
+  font-size:12px;
+}
+
+/* =========================================================
+   CONTENT
+   ========================================================= */
+
+.content{
+  padding:28px;
+  max-width:1800px;
+  margin:auto;
+}
+
+.view{
+  display:none;
+}
+
+.view.active{
+  display:block;
+}
+
+.page-head{
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+  align-items:flex-end;
+  margin-bottom:25px;
+}
+
+.eyebrow{
+  color:var(--gold);
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  margin-bottom:8px;
+}
+
+.page-head h1{
+  font-size:30px;
+  letter-spacing:-.02em;
+}
+
+.page-head p{
+  color:var(--muted);
+  font-size:13px;
+  margin-top:7px;
+}
+
+.page-actions{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+/* =========================================================
+   STAT CARDS
+   ========================================================= */
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:13px;
+  margin-bottom:18px;
+}
+
+.stat{
+  padding:18px;
+  border:1px solid var(--border2);
+  border-radius:var(--radius2);
+  background:
+    linear-gradient(145deg,rgba(24,41,33,.85),rgba(11,20,15,.92));
+}
+
+.stat-top{
+  display:flex;
+  justify-content:space-between;
+  color:#8b9891;
+  font-size:11px;
+}
+
+.stat-icon{
+  font-size:18px;
+}
+
+.stat-value{
+  margin-top:13px;
+  font-size:27px;
+  font-weight:800;
+}
+
+.stat-foot{
+  margin-top:6px;
+  color:#77847c;
+  font-size:10px;
+}
+
+.up{
+  color:var(--green);
+}
+
+.down{
+  color:var(--red);
+}
+
+/* =========================================================
+   GRID / CARDS
+   ========================================================= */
+
+.grid{
+  display:grid;
+  gap:16px;
+}
+
+.grid-2{
+  grid-template-columns:1.4fr 1fr;
+}
+
+.grid-3{
+  grid-template-columns:repeat(3,1fr);
+}
+
+.card{
+  border:1px solid var(--border2);
+  border-radius:var(--radius);
+  background:
+    linear-gradient(145deg,rgba(20,35,28,.9),rgba(10,18,14,.92));
+  box-shadow:0 14px 45px rgba(0,0,0,.16);
+  overflow:hidden;
+}
+
+.card-head{
+  padding:17px 18px;
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  align-items:center;
+  border-bottom:1px solid var(--border2);
+}
+
+.card-head h3{
+  font-size:14px;
+}
+
+.card-head span{
+  color:#78857d;
+  font-size:10px;
+}
+
+.card-body{
+  padding:18px;
+}
+
+/* =========================================================
+   TABLE
+   ========================================================= */
+
+.table-wrap{
+  overflow:auto;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:750px;
+}
+
+th{
+  color:#718077;
+  font-size:9px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  text-align:left;
+  padding:11px 13px;
+  border-bottom:1px solid var(--border2);
+}
+
+td{
+  padding:13px;
+  border-bottom:1px solid rgba(255,255,255,.045);
+  color:#b9c4be;
+  font-size:12px;
+}
+
+tr:hover td{
+  background:rgba(255,255,255,.018);
+}
+
+.entity{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.entity-avatar{
+  width:34px;
+  height:34px;
+  border-radius:9px;
+  display:grid;
+  place-items:center;
+  background:#1c3026;
+  color:var(--gold2);
+  font-size:11px;
+  font-weight:800;
+}
+
+.entity strong{
+  display:block;
+  color:#e6ece8;
+  font-size:12px;
+}
+
+.entity small{
+  display:block;
+  color:#68756e;
+  font-size:10px;
+  margin-top:3px;
+}
+
+/* =========================================================
+   STATUS
+   ========================================================= */
+
+.status{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  border-radius:30px;
+  padding:5px 8px;
+  font-size:9px;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:.07em;
+}
+
+.status:before{
+  content:"";
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:currentColor;
+}
+
+.status.active{
+  color:#82d2a1;
+  background:rgba(119,198,154,.09);
+}
+
+.status.pending{
+  color:#e7b970;
+  background:rgba(228,170,101,.09);
+}
+
+.status.blocked,
+.status.danger{
+  color:#e58b8b;
+  background:rgba(226,123,123,.09);
+}
+
+.status.info{
+  color:#83b6e9;
+  background:rgba(119,169,220,.09);
+}
+
+/* =========================================================
+   PROGRESS
+   ========================================================= */
+
+.progress{
+  height:7px;
+  background:#09110d;
+  border-radius:20px;
+  overflow:hidden;
+}
+
+.progress i{
+  display:block;
+  height:100%;
+  border-radius:20px;
+  background:linear-gradient(90deg,#947544,var(--gold2));
+}
+
+/* =========================================================
+   ACTIVITY
+   ========================================================= */
+
+.activity{
+  display:flex;
+  gap:12px;
+  padding:12px 0;
+  border-bottom:1px solid rgba(255,255,255,.045);
+}
+
+.activity:last-child{
+  border-bottom:0;
+}
+
+.activity-dot{
+  width:9px;
+  height:9px;
+  margin-top:5px;
+  border-radius:50%;
+  background:var(--gold);
+  box-shadow:0 0 0 5px rgba(215,183,122,.07);
+  flex:none;
+}
+
+.activity strong{
+  display:block;
+  color:#d8e0db;
+  font-size:12px;
+}
+
+.activity p{
+  color:#718078;
+  font-size:10px;
+  margin-top:4px;
+}
+
+.activity time{
+  display:block;
+  color:#59665f;
+  font-size:9px;
+  margin-top:4px;
+}
+
+/* =========================================================
+   CONTROL PANELS
+   ========================================================= */
+
+.control-list{
+  display:grid;
+  gap:9px;
+}
+
+.control-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+  padding:12px;
+  border:1px solid var(--border2);
+  border-radius:11px;
+  background:rgba(255,255,255,.018);
+}
+
+.control-row strong{
+  display:block;
+  font-size:12px;
+}
+
+.control-row small{
+  display:block;
+  margin-top:3px;
+  color:#707d75;
+  font-size:10px;
+}
+
+.switch{
+  position:relative;
+  width:40px;
+  height:22px;
+  flex:none;
+}
+
+.switch input{
+  display:none;
+}
+
+.slider{
+  position:absolute;
+  inset:0;
+  cursor:pointer;
+  border-radius:30px;
+  background:#27342e;
+  transition:.2s;
+}
+
+.slider:before{
+  content:"";
+  position:absolute;
+  width:16px;
+  height:16px;
+  left:3px;
+  top:3px;
+  border-radius:50%;
+  background:#829087;
+  transition:.2s;
+}
+
+.switch input:checked+.slider{
+  background:#715c35;
+}
+
+.switch input:checked+.slider:before{
+  transform:translateX(18px);
+  background:var(--gold2);
+}
+
+/* =========================================================
+   PERMISSION MATRIX
+   ========================================================= */
+
+.permission-grid{
+  display:grid;
+  grid-template-columns:220px repeat(5,1fr);
+  border:1px solid var(--border2);
+  border-radius:13px;
+  overflow:hidden;
+}
+
+.permission-grid>div{
+  min-height:48px;
+  padding:11px;
+  border-right:1px solid var(--border2);
+  border-bottom:1px solid var(--border2);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:11px;
+}
+
+.permission-grid>div:nth-child(6n+1){
+  justify-content:flex-start;
+  color:#d3dbd6;
+  font-weight:700;
+}
+
+.permission-grid .matrix-head{
+  color:#79867f;
+  font-size:9px;
+  text-transform:uppercase;
+  letter-spacing:.1em;
+  background:#0c1712;
+}
+
+.permission-check{
+  width:17px;
+  height:17px;
+  accent-color:#c5a66d;
+}
+
+/* =========================================================
+   SERVICE HEALTH
+   ========================================================= */
+
+.service{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  padding:12px 0;
+  border-bottom:1px solid rgba(255,255,255,.045);
+}
+
+.service:last-child{
+  border-bottom:0;
+}
+
+.service-icon{
+  width:35px;
+  height:35px;
+  display:grid;
+  place-items:center;
+  border-radius:10px;
+  background:#172820;
+}
+
+.service-info{
+  flex:1;
+}
+
+.service-info strong{
+  display:block;
+  font-size:12px;
+}
+
+.service-info small{
+  display:block;
+  color:#68756e;
+  font-size:9px;
+  margin-top:3px;
+}
+
+/* =========================================================
+   MODAL
+   ========================================================= */
+
+.modal{
+  position:fixed;
+  inset:0;
+  z-index:5000;
+  display:none;
+  place-items:center;
+  padding:20px;
+  background:rgba(0,0,0,.72);
+  backdrop-filter:blur(9px);
+}
+
+.modal.open{
+  display:grid;
+}
+
+.modal-card{
+  width:min(700px,100%);
+  max-height:90vh;
+  overflow:auto;
+  border:1px solid var(--border);
+  border-radius:20px;
+  background:#0d1913;
+  box-shadow:var(--shadow);
+}
+
+.modal-head{
+  padding:18px 20px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  border-bottom:1px solid var(--border2);
+}
+
+.modal-head h2{
+  font-size:17px;
+}
+
+.modal-body{
+  padding:20px;
+}
+
+.modal-foot{
+  padding:15px 20px;
+  display:flex;
+  justify-content:flex-end;
+  gap:8px;
+  border-top:1px solid var(--border2);
+}
+
+/* =========================================================
+   TOAST
+   ========================================================= */
+
+#toast{
+  position:fixed;
+  right:22px;
+  bottom:22px;
+  z-index:10000;
+  display:grid;
+  gap:8px;
+}
+
+.toast{
+  min-width:280px;
+  padding:13px 15px;
+  border-radius:12px;
+  border:1px solid var(--border);
+  background:#13231b;
+  box-shadow:var(--shadow);
+  font-size:12px;
+}
+
+.toast.success{
+  border-color:rgba(119,198,154,.3);
+}
+
+.toast.error{
+  border-color:rgba(226,123,123,.3);
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width:1200px){
+  .stats{
+    grid-template-columns:repeat(3,1fr);
+  }
+
+  .grid-2{
+    grid-template-columns:1fr;
+  }
+}
+
+@media (max-width:900px){
+  :root{
+    --sidebar:0px;
+  }
+
+  .sidebar{
+    transform:translateX(-100%);
+    transition:.25s ease;
+    width:280px;
+  }
+
+  body.menu-open .sidebar{
+    transform:translateX(0);
+  }
+
+  .main{
+    margin-left:0;
+  }
+
+  .mobile-menu{
+    display:grid;
+  }
+
+  .topbar{
+    padding:10px 14px;
+  }
+
+  .admin-user>div:last-child{
+    display:none;
+  }
+
+  .content{
+    padding:18px 14px;
+  }
+
+  .stats{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .page-head{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+
+  .grid-3{
+    grid-template-columns:1fr;
+  }
+}
+
+@media (max-width:550px){
+  .stats{
+    grid-template-columns:1fr;
+  }
+
+  .global-search{
+    display:none;
+  }
+
+  .login-card{
+    padding:27px 20px;
+  }
+
+  .page-head h1{
+    font-size:24px;
+  }
+
+  .top-actions .icon-btn:nth-child(2){
+    display:none;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- =========================================================
+     ADMIN LOGIN GATE
+     ========================================================= -->
+
+<section id="adminGate">
+
+  <div class="login-card">
+
+    <div class="brand-lockup">
+      <div class="brand-mark">G</div>
+
+      <div class="brand-text">
+        <strong>GHAR</strong>
+        <span>Central Administration</span>
+      </div>
+    </div>
+
+    <h1>Secure Control Center</h1>
+
+    <p>
+      Authenticate with your central administrator account.
+      Access is determined by server-side permissions and active session policy.
+    </p>
+
+    <form id="loginForm">
+
+      <div class="field">
+        <label>Administrator email</label>
+        <input
+          id="loginEmail"
+          type="email"
+          autocomplete="username"
+          required
+          placeholder="admin@yourdomain.com"
+        >
+      </div>
+
+      <div class="field">
+        <label>Password</label>
+        <input
+          id="loginPassword"
+          type="password"
+          autocomplete="current-password"
+          required
+          placeholder="••••••••••••"
+        >
+      </div>
+
+      <div class="login-actions">
+        <button class="btn primary" type="submit">
+          Authenticate
+        </button>
+      </div>
+
+    </form>
+
+    <div class="login-security">
+      🔐 Never store administrator passwords, API secrets or master tokens
+      inside this HTML file. Authentication and authorization must be enforced
+      by the GHAR backend.
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================================================
+     ADMIN APPLICATION
+     ========================================================= -->
+
+<div id="adminApp" class="hidden">
+
+  <!-- SIDEBAR -->
+
+  <aside class="sidebar">
+
+    <div class="sidebar-brand">
+      <div class="brand-mark">G</div>
+
+      <div>
+        <strong>GHAR</strong>
+        <span>Central Control</span>
+      </div>
+    </div>
+
+
+    <div class="nav-title">Command</div>
+
+    <button class="nav-item active" data-view="overview">
+      <span class="nav-icon">⌂</span>
+      Overview
+    </button>
+
+    <button class="nav-item" data-view="businesses">
+      <span class="nav-icon">◈</span>
+      Businesses
+    </button>
+
+    <button class="nav-item" data-view="users">
+      <span class="nav-icon">♙</span>
+      Users
+      <span class="nav-badge" id="userCount">0</span>
+    </button>
+
+    <button class="nav-item" data-view="sessions">
+      <span class="nav-icon">◉</span>
+      Sessions
+    </button>
+
+
+    <div class="nav-title">GHAR Operations</div>
+
+    <button class="nav-item" data-view="properties">
+      <span class="nav-icon">⌂</span>
+      Properties
+    </button>
+
+    <button class="nav-item" data-view="enquiries">
+      <span class="nav-icon">?</span>
+      Enquiries
+    </button>
+
+    <button class="nav-item" data-view="payments">
+      <span class="nav-icon">₹</span>
+      Payments
+    </button>
+
+    <button class="nav-item" data-view="documents">
+      <span class="nav-icon">▤</span>
+      Documents
+    </button>
+
+    <button class="nav-item" data-view="verification">
+      <span class="nav-icon">✓</span>
+      Verification
+    </button>
+
+
+    <div class="nav-title">Security</div>
+
+    <button class="nav-item" data-view="roles">
+      <span class="nav-icon">◇</span>
+      Roles & Permissions
+    </button>
+
+    <button class="nav-item" data-view="audit">
+      <span class="nav-icon">◫</span>
+      Audit Logs
+    </button>
+
+    <button class="nav-item" data-view="security">
+      <span class="nav-icon">◆</span>
+      Security
+    </button>
+
+
+    <div class="nav-title">Infrastructure</div>
+
+    <button class="nav-item" data-view="services">
+      <span class="nav-icon">⌁</span>
+      Services & APIs
+    </button>
+
+    <button class="nav-item" data-view="settings">
+      <span class="nav-icon">⚙</span>
+      System Settings
+    </button>
+
+  </aside>
+
+
+  <main class="main">
+
+    <!-- TOPBAR -->
+
+    <header class="topbar">
+
+      <button
+        class="icon-btn mobile-menu"
+        id="mobileMenu"
+        aria-label="Open menu"
+      >
+        ☰
+      </button>
+
+      <div class="global-search">
+        <span>⌕</span>
+        <input
+          id="globalSearch"
+          type="search"
+          placeholder="Search users, properties, sessions, businesses..."
+        >
+      </div>
+
+      <div class="top-actions">
+
+        <button class="icon-btn" id="refreshBtn" title="Refresh">
+          ↻
+        </button>
+
+        <button class="icon-btn" id="securityBtn" title="Security">
+          ◆
+        </button>
+
+        <div class="admin-user">
+
+          <div class="avatar" id="adminAvatar">
+            A
+          </div>
+
+          <div>
+            <strong id="adminName">Administrator</strong>
+            <small id="adminRole">SUPER ADMIN</small>
+          </div>
+
+        </div>
+
+        <button
+          class="btn small danger"
+          id="logoutBtn"
+        >
+          Logout
+        </button>
+
+      </div>
+
+    </header>
+
+
+    <div class="content">
+
+
+      <!-- =====================================================
+           OVERVIEW
+           ===================================================== -->
+
+      <section class="view active" id="view-overview">
+
+        <div class="page-head">
+
+          <div>
+            <div class="eyebrow">Central command</div>
+
+            <h1>GHAR Control Center</h1>
+
+            <p>
+              One administration layer for GHAR and connected businesses,
+              users, applications and services.
+            </p>
+          </div>
+
+          <div class="page-actions">
+            <button class="btn" onclick="openModal('businessModal')">
+              + Business
+            </button>
+
+            <button class="btn primary" onclick="openModal('userModal')">
+              + Create User
+            </button>
+          </div>
+
+        </div>
+
+
+        <div class="stats">
+
+          <div class="stat">
+            <div class="stat-top">
+              <span>Total Users</span>
+              <span class="stat-icon">♙</span>
+            </div>
+
+            <div class="stat-value" id="statUsers">--</div>
+
+            <div class="stat-foot">
+              Registered accounts
+            </div>
+          </div>
+
+
+          <div class="stat">
+            <div class="stat-top">
+              <span>Active Sessions</span>
+              <span class="stat-icon">◉</span>
+            </div>
+
+            <div class="stat-value" id="statSessions">--</div>
+
+            <div class="stat-foot">
+              Currently authenticated
+            </div>
+          </div>
+
+
+          <div class="stat">
+            <div class="stat-top">
+              <span>Properties</span>
+              <span class="stat-icon">⌂</span>
+            </div>
+
+            <div class="stat-value" id="statProperties">--</div>
+
+            <div class="stat-foot">
+              Across GHAR
+            </div>
+          </div>
+
+
+          <div class="stat">
+            <div class="stat-top">
+              <span>Open Enquiries</span>
+              <span class="stat-icon">?</span>
+            </div>
+
+            <div class="stat-value" id="statEnquiries">--</div>
+
+            <div class="stat-foot">
+              Require attention
+            </div>
+          </div>
+
+
+          <div class="stat">
+            <div class="stat-top">
+              <span>System Health</span>
+              <span class="stat-icon">♥</span>
+            </div>
+
+            <div class="stat-value up" id="statHealth">
+              --
+            </div>
+
+            <div class="stat-foot">
+              API / DB / Services
+            </div>
+          </div>
+
+        </div>
+
+
+        <div class="grid grid-2">
+
+          <div class="card">
+
+            <div class="card-head">
+              <h3>Recent administrative activity</h3>
+              <span>Live audit stream</span>
+            </div>
+
+            <div class="card-body" id="activityList">
+
+              <div class="activity">
+                <div class="activity-dot"></div>
+
+                <div>
+                  <strong>Waiting for audit data</strong>
+                  <p>
+                    Connect `/api/admin/audit`.
+                  </p>
+                  <time>System</time>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <div class="card">
+
+            <div class="card-head">
+              <h3>Service health</h3>
+              <span>Backend status</span>
+            </div>
+
+            <div class="card-body" id="serviceHealth">
+
+              <div class="service">
+                <div class="service-icon">DB</div>
+
+                <div class="service-info">
+                  <strong>Database</strong>
+                  <small>Waiting for API</small>
+                </div>
+
+                <span class="status pending">
+                  Checking
+                </span>
+              </div>
+
+
+              <div class="service">
+                <div class="service-icon">API</div>
+
+                <div class="service-info">
+                  <strong>GHAR API</strong>
+                  <small>/api/health</small>
+                </div>
+
+                <span class="status pending">
+                  Checking
+                </span>
+              </div>
+
+
+              <div class="service">
+                <div class="service-icon">AI</div>
+
+                <div class="service-info">
+                  <strong>AI Service</strong>
+                  <small>AI gateway</small>
+                </div>
+
+                <span class="status pending">
+                  Checking
+                </span>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- =====================================================
+           BUSINESSES
+           ===================================================== -->
+
+      <section class="view" id="view-businesses">
+
+        <div class="page-head">
+
+          <div>
+            <div class="eyebrow">Multi-business control</div>
+            <h1>Businesses & Applications</h1>
+            <p>
+              Control which administrators and users can access each business.
+            </p>
+          </div>
+
+          <button class="btn primary" onclick="openModal('businessModal')">
+            + Create Business
+          </button>
+
+        </div>
+
+
+        <div class="card">
+
+          <div class="card-head">
+            <h3>Registered businesses</h3>
+            <span id="businessCount">0 businesses</span>
+          </div>
+
+          <div class="table-wrap">
+
+            <table>
+
+              <thead>
+                <tr>
+                  <th>Business</th>
+                  <th>Code</th>
+                  <th>Users</th>
+                  <th>Status</th>
+                  <th>Access Policy</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+
+              <tbody id="businessTable">
+
+                <tr>
+                  <td colspan="6">
+                    No business data loaded.
+                  </td>
+                </tr>
+
+              </tbody>
+
+            </table>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- =====================================================
+           USERS
+           ===================================================== -->
+
+      <section class="view" id="view-users">
+
+        <div class="page-head">
+
+          <div>
+            <div class="eyebrow">Identity management</div>
+            <h1>Users</h1>
+            <p>
+              Create, suspend, inspect and control user access.
+            </p>
+          </div>
+
+          <button
+            class="btn primary"
+            onclick="openModal('userModal')"
+          >
+            + Create User
+          </button>
+
+        </div>
+
+
+        <div class="card">
+
+          <div class="card-head">
+            <h3>User directory</h3>
+
+            <select
+              class="btn small"
+              id="userFilter"
+            >
+              <option value="all">All users</option>
+              <option value="active">Active</option>
+              <option value="blocked">Blocked</option>
+              <option value="pending">Pending</option>
+            </select>
+          </div>
+
+          <div class="table-wrap">
+
+            <table>
+
+              <thead>
+                <tr>
+                  <th>User</th>
+                  <th>Role</th>
+                  <th>Business</th>
+                  <th>Status</th>
+                  <th>Last Active</th>
+                  <th>Access</th>
+                </tr>
+              </thead>
+
+              <tbody id="usersTable">
+
+                <tr>
+                  <td colspan="6">
+                    No user data loaded.
+                  </td>
+                </tr>
+
+              </tbody>
+
+            </table>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- =====================================================
+           SESSIONS
+           ===================================================== -->
+
+      <section class="view" id="view-sessions">
+
+        <div class="page-head">
+
+          <div>
+            <div class="eyebrow">Authentication control</div>
+            <h1>Sessions</h1>
+            <p>
+              Inspect active sessions and revoke access immediately.
+            </p>
+          </div>
+
+          <button
+            class="btn danger"
+            onclick="revokeAllSessions()"
+          >
+            Revoke All Sessions
+          </button>
+
+        </div>
+
+
+        <div class="card">
+
+          <div class="card-head">
+            <h3>Active sessions</h3>
+            <span>Server-side session state</span>
+          </div>
+
+          <div class="table-wrap">
+
+            <table>
+
+              <thead>
+                <tr>
+                  <th>User</th>
+                  <th>Device</th>
+                  <th>IP</th>
+                  <th>Created</th>
+                  <th>Last Activity</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+
+              <tbody id="sessionsTable">
+
+                <tr>
+                  <td colspan="6">
+                    No session data loaded.
+                  </td>
+                </tr>
+
+              </tbody>
+
+            </table>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- =====================================================
+           ROLES & PERMISSIONS
+           ===================================================== -->
+
+      <section class="view" id="view-roles">
+
+        <div class="page-head">
+
+          <div>
+            <div class="eyebrow">Authorization</div>
+
+            <h1>Roles & Permissions</h1>
+
+            <p>
+              Define exactly what each role can see and perform.
+            </p>
+          </div>
+
+          <button class="btn primary" onclick="openModal('roleModal')">
+            + Create Role
+          </button>
+
+        </div>
+
+
+        <div class="grid grid-2">
+
+          <div class="card">
+
+            <div class="card-head">
+              <h3>Roles</h3>
+              <span>RBAC</span>
+            </div>
+
+            <div class="card-body">
+
+              <div class="control-list">
+
+                <div class="control-row">
+                  <div>
+                    <strong>Super Administrator</strong>
+                    <small>Global administration</small>
+                  </div>
+
+                  <span class="status active">Global</span>
+                </div>
+
+
+                <div class="control-row">
+                  <div>
+                    <strong>Business Administrator</strong>
+                    <small>One business scope</small>
+                  </div>
+
+                  <span class="status info">Scoped</span>
+                </div>
+
+
+                <div class="control-row">
+                  <div>
+                    <strong>Operations Manager</strong>
+                    <small>Operational modules</small>
+                  </div>
+
+                  <span class="status info">Scoped</span>
+                </div>
+
+
+                <div class="control-row">
+                  <div>
+                    <strong>Support Agent</strong>
+                    <small>Support and enquiries</small>
+                  </div>
+
+                  <span class="status info">Limited</span>
+                </div>
+
+
+                <div class="control-row">
+                  <div>
+                    <strong>Read Only</strong>
+                    <small>View without mutation</small>
+                  </div>
+
+                  <span class="status pending">Read</span>
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <div class="card">
+
+            <div class="card-head">
+              <h3>Authorization model</h3>
+              <span>Recommended</span>
+            </div>
+
+            <div class="card-body">
+
+              <div class="permission-grid">
+
+                <div class="matrix-head">Resource</div>
+                <div class="matrix-head">View</div>
+                <div class="matrix-head">Create</div>
+                <div class="matrix-head">Edit</div>
+                <div class="matrix-head">Delete</div>
+                <div class="matrix-head">Admin</div>
+
+
+                <div>Users</div>
+                <div><input class="permission-check" type="checkbox" checked></div>
+                <div><input class="permission-check" type="checkbox"></div>
+                <div><input class="permission-check" type="checkbox"></div>
+                <div><input class="permission-check" type="checkbox"></div>
+                <div><input class="permission-check" type="checkbox"></div>
+
+
+                <div>Properties</div>
+                <div><input class="permission-check" type="checkbox" checked></div>
+                <div><input class="permission-check" type="checkbox"></div>
+                <div><input class="permission-check" type="checkbox"></div>
+                <div><input class="permission-check" type="checkbox"></div>
+                <div><input class="permission-check" type="checkbox"></div>
+
+
+                <div>Payments</div>
+                <div><input class="permission-check" type="checkbox" checked></div>
+                <div><input class="permission-check" type="checkbox"></div>
+                <div><input class="permission-check" type="checkbox"></div>
+                <div><input class="permission-check" type="checkbox"></div>
+                <div><input class="permission-check" type="checkbox"></div>
+
+
+                <div>Documents</div>
+                <div><input class="permission-check" type="checkbox" checked></div>
+                <div><input class="permission-check" type="checkbox"></div>
+                <div><input class="permission-check" type="checkbox"></div>
+                <div><input class="permission-check" type="checkbox"></div>
+                <div><input class="permission-check" type="checkbox"></div>
+
+
+                <div>Audit Logs</div>
+                <div><input class="permission-check" type="checkbox" checked></div>
+                <div><input class="permission-check" type="checkbox"></div>
+                <div><input class="permission-check" type="checkbox"></div>
+                <div><input class="permission-check" type="checkbox"></div>
+                <div><input class="permission-check" type="checkbox"></div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- =====================================================
+           GENERIC OPERATIONAL VIEWS
+           ===================================================== -->
+
+      <section class="view" id="view-properties">
+        <div class="page-head">
+          <div>
+            <div class="eyebrow">GHAR inventory</div>
+            <h1>Properties</h1>
+            <p>Manage property records across the platform.</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-body">
+            <p id="propertiesMessage">
+              Property management API will load here.
+            </p>
+          </div>
+        </div>
+      </section>
+
+
+      <section class="view" id="view-enquiries">
+        <div class="page-head">
+          <div>
+            <div class="eyebrow">Customer operations</div>
+            <h1>Enquiries</h1>
+            <p>Control buyer, renter and seller enquiries.</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-body">
+            <p>Enquiry API will load here.</p>
+          </div>
+        </div>
+      </section>
+
+
+      <section class="view" id="view-payments">
+        <div class="page-head">
+          <div>
+            <div class="eyebrow">Financial control</div>
+            <h1>Payments</h1>
+            <p>Monitor transactions, invoices and payment events.</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-body">
+            <p>Payment API will load here.</p>
+          </div>
+        </div>
+      </section>
+
+
+      <section class="view" id="view-documents">
+        <div class="page-head">
+          <div>
+            <div class="eyebrow">Document control</div>
+            <h1>Documents</h1>
+            <p>Review document metadata, verification state and access.</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-body">
+            <p>Document API will load here.</p>
+          </div>
+        </div>
+      </section>
+
+
+      <section class="view" id="view-verification">
+        <div class="page-head">
+          <div>
+            <div class="eyebrow">Trust layer</div>
+            <h1>Verification</h1>
+            <p>Manage identity, property and business verification.</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-body">
+            <p>Verification API will load here.</p>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- =====================================================
+           AUDIT
+           ===================================================== -->
+
+      <section class="view" id="view-audit">
+
+        <div class="page-head">
+
+          <div>
+            <div class="eyebrow">Immutable activity record</div>
+
+            <h1>Audit Logs</h1>
+
+            <p>
+              Every sensitive administrative action should be recorded server-side.
+            </p>
+          </div>
+
+        </div>
+
+
+        <div class="card">
+
+          <div class="card-head">
+            <h3>Audit stream</h3>
+            <span>Security events</span>
+          </div>
+
+          <div class="table-wrap">
+
+            <table>
+
+              <thead>
+                <tr>
+                  <th>Time</th>
+                  <th>Actor</th>
+                  <th>Action</th>
+                  <th>Resource</th>
+                  <th>IP</th>
+                  <th>Result</th>
+                </tr>
+              </thead>
+
+              <tbody id="auditTable">
+
+                <tr>
+                  <td colspan="6">
+                    No audit records loaded.
+                  </td>
+                </tr>
+
+              </tbody>
+
+            </table>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- =====================================================
+           SECURITY
+           ===================================================== -->
+
+      <section class="view" id="view-security">
+
+        <div class="page-head">
+
+          <div>
+            <div class="eyebrow">Security command</div>
+            <h1>Security</h1>
+            <p>
+              Control authentication, session lifetime and administrative safeguards.
+            </p>
+          </div>
+
+        </div>
+
+
+        <div class="grid grid-2">
+
+          <div class="card">
+
+            <div class="card-head">
+              <h3>Authentication policy</h3>
+              <span>Server enforced</span>
+            </div>
+
+            <div class="card-body">
+
+              <div class="control-list">
+
+                <div class="control-row">
+                  <div>
+                    <strong>Require MFA for administrators</strong>
+                    <small>Recommended for privileged accounts</small>
+                  </div>
+
+                  <label class="switch">
+                    <input
+                      type="checkbox"
+                      id="mfaSwitch"
+                      checked
+                    >
+                    <span class="slider"></span>
+                  </label>
+                </div>
+
+
+                <div class="control-row">
+                  <div>
+                    <strong>Limit concurrent sessions</strong>
+                    <small>Server-side session policy</small>
+                  </div>
+
+                  <label class="switch">
+                    <input
+                      type="checkbox"
+                      checked
+                    >
+                    <span class="slider"></span>
+                  </label>
+                </div>
+
+
+                <div class="control-row">
+                  <div>
+                    <strong>Record privileged actions</strong>
+                    <small>Audit log every mutation</small>
+                  </div>
+
+                  <label class="switch">
+                    <input
+                      type="checkbox"
+                      checked
+                    >
+                    <span class="slider"></span>
+                  </label>
+                </div>
+
+
+                <div class="control-row">
+                  <div>
+                    <strong>Automatic session expiry</strong>
+                    <small>Prevent indefinitely active sessions</small>
+                  </div>
+
+                  <label class="switch">
+                    <input
+                      type="checkbox"
+                      checked
+                    >
+                    <span class="slider"></span>
+                  </label>
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <div class="card">
+
+            <div class="card-head">
+              <h3>Emergency controls</h3>
+              <span>High privilege</span>
+            </div>
+
+            <div class="card-body">
+
+              <div class="control-list">
+
+                <div class="control-row">
+                  <div>
+                    <strong>Global maintenance mode</strong>
+                    <small>Restrict public mutations</small>
+                  </div>
+
+                  <button
+                    class="btn small"
+                    onclick="toggleMaintenance()"
+                  >
+                    Configure
+                  </button>
+                </div>
+
+
+                <div class="control-row">
+                  <div>
+                    <strong>Revoke administrator sessions</strong>
+                    <small>Immediately invalidate privileged sessions</small>
+                  </div>
+
+                  <button
+                    class="btn small danger"
+                    onclick="revokeAdminSessions()"
+                  >
+                    Revoke
+                  </button>
+                </div>
+
+
+                <div class="control-row">
+                  <div>
+                    <strong>Rotate API credentials</strong>
+                    <small>Backend operation only</small>
+                  </div>
+
+                  <button
+                    class="btn small"
+                    onclick="showToast('Credential rotation must be performed through the secure backend.','error')"
+                  >
+                    Open
+                  </button>
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- =====================================================
+           SERVICES
+           ===================================================== -->
+
+      <section class="view" id="view-services">
+
+        <div class="page-head">
+
+          <div>
+            <div class="eyebrow">Infrastructure</div>
+
+            <h1>Services & APIs</h1>
+
+            <p>
+              Monitor the systems connected to the GHAR control plane.
+            </p>
+          </div>
+
+          <button
+            class="btn"
+            onclick="checkHealth()"
+          >
+            Check Health
+          </button>
+
+        </div>
+
+
+        <div class="grid grid-3">
+
+          <div class="card">
+            <div class="card-head">
+              <h3>Backend API</h3>
+              <span>/api</span>
+            </div>
+
+            <div class="card-body">
+              <div class="progress">
+                <i style="width:96%"></i>
+              </div>
+
+              <p style="margin-top:10px;color:#7b8981;font-size:11px">
+                Health endpoint configured.
+              </p>
+            </div>
+          </div>
+
+
+          <div class="card">
+            <div class="card-head">
+              <h3>Database</h3>
+              <span>PostgreSQL</span>
+            </div>
+
+            <div class="card-body">
+              <div class="progress">
+                <i style="width:94%"></i>
+              </div>
+
+              <p style="margin-top:10px;color:#7b8981;font-size:11px">
+                Connection state is determined by backend.
+              </p>
+            </div>
+          </div>
+
+
+          <div class="card">
+            <div class="card-head">
+              <h3>AI Gateway</h3>
+              <span>Optional</span>
+            </div>
+
+            <div class="card-body">
+              <div class="progress">
+                <i style="width:70%"></i>
+              </div>
+
+              <p style="margin-top:10px;color:#7b8981;font-size:11px">
+                AI availability is backend controlled.
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- =====================================================
+           SETTINGS
+           ===================================================== -->
+
+      <section class="view" id="view-settings">
+
+        <div class="page-head">
+
+          <div>
+            <div class="eyebrow">Platform configuration</div>
+            <h1>System Settings</h1>
+
+            <p>
+              Central configuration for the GHAR administration layer.
+            </p>
+          </div>
+
+        </div>
+
+
+        <div class="grid grid-2">
+
+          <div class="card">
+
+            <div class="card-head">
+              <h3>Administration</h3>
+              <span>Core</span>
+            </div>
+
+            <div class="card-body">
+
+              <div class="field">
+                <label>Application name</label>
+                <input value="GHAR">
+              </div>
+
+              <div class="field">
+                <label>Admin API base URL</label>
+                <input
+                  id="apiBaseInput"
+                  value="/api"
+                >
+              </div>
+
+              <div class="field">
+                <label>Default session lifetime</label>
+
+                <select>
+                  <option>30 minutes</option>
+                  <option selected>8 hours</option>
+                  <option>24 hours</option>
+                  <option>7 days</option>
+                </select>
+              </div>
+
+              <button
+                class="btn primary"
+                onclick="saveSettings()"
+              >
+                Save Settings
+              </button>
+
+            </div>
+
+          </div>
+
+
+          <div class="card">
+
+            <div class="card-head">
+              <h3>Platform rules</h3>
+              <span>Controls</span>
+            </div>
+
+            <div class="card-body">
+
+              <div class="control-list">
+
+                <div class="control-row">
+                  <div>
+                    <strong>Allow new registrations</strong>
+                    <small>Public account creation</small>
+                  </div>
+
+                  <label class="switch">
+                    <input type="checkbox" checked>
+                    <span class="slider"></span>
+                  </label>
+                </div>
+
+
+                <div class="control-row">
+                  <div>
+                    <strong>Allow property submissions</strong>
+                    <small>Seller property creation</small>
+                  </div>
+
+                  <label class="switch">
+                    <input type="checkbox" checked>
+                    <span class="slider"></span>
+                  </label>
+                </div>
+
+
+                <div class="control-row">
+                  <div>
+                    <strong>Require property verification</strong>
+                    <small>Before public listing</small>
+                  </div>
+
+                  <label class="switch">
+                    <input type="checkbox" checked>
+                    <span class="slider"></span>
+                  </label>
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+    </div>
+
+  </main>
+
+</div>
+
+
+<!-- =========================================================
+     CREATE USER MODAL
+     ========================================================= -->
+
+<div class="modal" id="userModal">
+
+  <div class="modal-card">
+
+    <div class="modal-head">
+      <h2>Create User</h2>
+
+      <button
+        class="icon-btn"
+        onclick="closeModal('userModal')"
+      >
+        ×
+      </button>
+    </div>
+
+
+    <form id="createUserForm">
+
+      <div class="modal-body">
+
+        <div class="field">
+          <label>Full name</label>
+          <input name="name" required>
+        </div>
+
+        <div class="field">
+          <label>Email</label>
+          <input name="email" type="email" required>
+        </div>
+
+        <div class="field">
+          <label>Role</label>
+
+          <select name="role">
+
+            <option value="business_admin">
+              Business Administrator
+            </option>
+
+            <option value="operations">
+              Operations Manager
+            </option>
+
+            <option value="support">
+              Support Agent
+            </option>
+
+            <option value="readonly">
+              Read Only
+            </option>
+
+          </select>
+
+        </div>
+
+        <div class="field">
+          <label>Business scope</label>
+
+          <select name="businessId">
+
+            <option value="">
+              Select business
+            </option>
+
+            <option value="ghar">
+              GHAR
+            </option>
+
+          </select>
+
+        </div>
+
+      </div>
+
+
+      <div class="modal-foot">
+
+        <button
+          type="button"
+          class="btn"
+          onclick="closeModal('userModal')"
+        >
+          Cancel
+        </button>
+
+        <button
+          type="submit"
+          class="btn primary"
+        >
+          Create User
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</div>
+
+
+<!-- =========================================================
+     BUSINESS MODAL
+     ========================================================= -->
+
+<div class="modal" id="businessModal">
+
+  <div class="modal-card">
+
+    <div class="modal-head">
+
+      <h2>Create Business</h2>
+
+      <button
+        class="icon-btn"
+        onclick="closeModal('businessModal')"
+      >
+        ×
+      </button>
+
+    </div>
+
+
+    <form id="createBusinessForm">
+
+      <div class="modal-body">
+
+        <div class="field">
+          <label>Business name</label>
+          <input name="name" required>
+        </div>
+
+        <div class="field">
+          <label>Business code</label>
+          <input
+            name="code"
+            placeholder="MY-BUSINESS"
+            required
+          >
+        </div>
+
+        <div class="field">
+          <label>Description</label>
+          <textarea
+            name="description"
+            rows="4"
+          ></textarea>
+        </div>
+
+        <div class="field">
+          <label>Access policy</label>
+
+          <select name="accessPolicy">
+
+            <option value="restricted">
+              Restricted
+            </option>
+
+            <option value="invite_only">
+              Invite only
+            </option>
+
+            <option value="internal">
+              Internal
+            </option>
+
+          </select>
+
+        </div>
+
+      </div>
+
+
+      <div class="modal-foot">
+
+        <button
+          type="button"
+          class="btn"
+          onclick="closeModal('businessModal')"
+        >
+          Cancel
+        </button>
+
+        <button
+          type="submit"
+          class="btn primary"
+        >
+          Create Business
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</div>
+
+
+<!-- =========================================================
+     ROLE MODAL
+     ========================================================= -->
+
+<div class="modal" id="roleModal">
+
+  <div class="modal-card">
+
+    <div class="modal-head">
+
+      <h2>Create Role</h2>
+
+      <button
+        class="icon-btn"
+        onclick="closeModal('roleModal')"
+      >
+        ×
+      </button>
+
+    </div>
+
+
+    <form id="createRoleForm">
+
+      <div class="modal-body">
+
+        <div class="field">
+          <label>Role name</label>
+          <input
+            name="name"
+            placeholder="Marketing Manager"
+            required
+          >
+        </div>
+
+        <div class="field">
+          <label>Scope</label>
+
+          <select name="scope">
+
+            <option value="business">
+              Business
+            </option>
+
+            <option value="global">
+              Global
+            </option>
+
+          </select>
+
+        </div>
+
+        <div class="field">
+          <label>Description</label>
+
+          <textarea
+            name="description"
+            rows="4"
+          ></textarea>
+
+        </div>
+
+      </div>
+
+
+      <div class="modal-foot">
+
+        <button
+          type="button"
+          class="btn"
+          onclick="closeModal('roleModal')"
+        >
+          Cancel
+        </button>
+
+        <button
+          type="submit"
+          class="btn primary"
+        >
+          Create Role
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</div>
+
+
+<div id="toast"></div>
+
+
+<script>
+/* =========================================================
+   GHAR CENTRAL ADMIN JS
+   ========================================================= */
+
+(function(){
+
+"use strict";
+
+
+const state = {
+  apiBase: "/api",
+  token: null,
+  admin: null,
+  businesses: [],
+  users: [],
+  sessions: [],
+  audit: []
+};
+
+
+/* =========================================================
+   API
+   ========================================================= */
+
+async function api(path, options = {}){
+
+  const headers = {
+    "Content-Type":"application/json",
+    ...(options.headers || {})
+  };
+
+  /*
+    Prefer secure HttpOnly cookie authentication.
+
+    If your backend uses a bearer token instead,
+    the server can populate state.token after login.
+  */
+
+  if(state.token){
+    headers.Authorization = `Bearer ${state.token}`;
+  }
+
+  const response = await fetch(
+    state.apiBase + path,
+    {
+      credentials:"include",
+      ...options,
+      headers
+    }
+  );
+
+  let data = null;
+
+  try{
+    data = await response.json();
+  }catch{
+    data = {};
+  }
+
+  if(!response.ok){
+
+    if(response.status === 401){
+      showLogin();
+    }
+
+    throw new Error(
+      data.message ||
+      data.error ||
+      `Request failed (${response.status})`
+    );
+  }
+
+  return data;
+}
+
+
+/* =========================================================
+   LOGIN
+   ========================================================= */
+
+document
+  .getElementById("loginForm")
+  .addEventListener("submit", async function(e){
+
+    e.preventDefault();
+
+    const email =
+      document.getElementById("loginEmail").value.trim();
+
+    const password =
+      document.getElementById("loginPassword").value;
+
+    try{
+
+      const result = await api(
+        "/admin/auth/login",
+        {
+          method:"POST",
+          body:JSON.stringify({
+            email,
+            password
+          })
+        }
+      );
+
+      /*
+        Expected backend response:
+
+        {
+          authenticated:true,
+          admin:{
+            id,
+            name,
+            email,
+            role,
+            permissions
+          },
+          token?: "..."
+        }
+      */
+
+      state.admin = result.admin || null;
+      state.token = result.token || null;
+
+      if(result.authenticated === false){
+        throw new Error("Administrator authentication failed.");
+      }
+
+      showAdmin();
+
+      await loadDashboard();
+
+      showToast(
+        "Administrator session authenticated.",
+        "success"
+      );
+
+    }catch(error){
+
+      /*
+        No fake successful login.
+        Backend must authenticate the account.
+      */
+
+      showToast(
+        error.message ||
+        "Authentication failed.",
+        "error"
+      );
+
+    }
+
+});
+
+
+/* =========================================================
+   SHOW / HIDE
+   ========================================================= */
+
+function showAdmin(){
+
+  document
+    .getElementById("adminGate")
+    .classList.add("hidden");
+
+  document
+    .getElementById("adminApp")
+    .classList.remove("hidden");
+
+  updateAdminIdentity();
+}
+
+
+function showLogin(){
+
+  state.token = null;
+  state.admin = null;
+
+  document
+    .getElementById("adminApp")
+    .classList.add("hidden");
+
+  document
+    .getElementById("adminGate")
+    .classList.remove("hidden");
+}
+
+
+function updateAdminIdentity(){
+
+  if(!state.admin) return;
+
+  const name =
+    state.admin.name ||
+    state.admin.email ||
+    "Administrator";
+
+  document.getElementById("adminName").textContent = name;
+
+  document.getElementById("adminRole").textContent =
+    String(
+      state.admin.role ||
+      "ADMINISTRATOR"
+    ).replaceAll("_"," ").toUpperCase();
+
+  document.getElementById("adminAvatar").textContent =
+    name.substring(0,1).toUpperCase();
+}
+
+
+/* =========================================================
+   NAVIGATION
+   ========================================================= */
+
+document
+  .querySelectorAll(".nav-item")
+  .forEach(button => {
+
+    button.addEventListener("click", () => {
+
+      const view =
+        button.dataset.view;
+
+      openView(view);
+
+      document.body.classList.remove("menu-open");
+
+    });
+
+  });
+
+
+function openView(name){
+
+  document
+    .querySelectorAll(".view")
+    .forEach(view =>
+      view.classList.remove("active")
+    );
+
+  const target =
+    document.getElementById(
+      `view-${name}`
+    );
+
+  if(target){
+    target.classList.add("active");
+  }
+
+  document
+    .querySelectorAll(".nav-item")
+    .forEach(item =>
+      item.classList.toggle(
+        "active",
+        item.dataset.view === name
+      )
+    );
+}
+
+
+/* =========================================================
+   MOBILE MENU
+   ========================================================= */
+
+document
+  .getElementById("mobileMenu")
+  .addEventListener(
+    "click",
+    () => document.body.classList.toggle("menu-open")
+  );
+
+
+/* =========================================================
+   LOGOUT
+   ========================================================= */
+
+document
+  .getElementById("logoutBtn")
+  .addEventListener("click", async () => {
+
+    try{
+
+      await api(
+        "/admin/auth/logout",
+        {
+          method:"POST"
+        }
+      );
+
+    }catch(error){
+
+      console.warn(
+        "Logout endpoint unavailable:",
+        error.message
+      );
+
+    }finally{
+
+      showLogin();
+
+      showToast(
+        "Administrator session ended.",
+        "success"
+      );
+
+    }
+
+  });
+
+
+/* =========================================================
+   DASHBOARD
+   ========================================================= */
+
+async function loadDashboard(){
+
+  /*
+    All of these are intentionally API-driven.
+
+    Backend endpoints:
+
+    GET /api/admin/dashboard
+    GET /api/admin/businesses
+    GET /api/admin/users
+    GET /api/admin/sessions
+    GET /api/admin/audit
+    GET /api/health
+  */
+
+  try{
+
+    const dashboard =
+      await api("/admin/dashboard");
+
+    renderDashboard(dashboard);
+
+  }catch(error){
+
+    console.warn(
+      "Dashboard API:",
+      error.message
+    );
+
+    /*
+      Do not invent live statistics.
+      UI remains usable while backend is being connected.
+    */
+
+  }
+
+
+  await Promise.allSettled([
+    loadBusinesses(),
+    loadUsers(),
+    loadSessions(),
+    loadAudit(),
+    checkHealth()
+  ]);
+
+}
+
+
+function renderDashboard(data){
+
+  if(!data) return;
+
+  if(data.users != null){
+    document.getElementById("statUsers")
+      .textContent = formatNumber(data.users);
+  }
+
+  if(data.sessions != null){
+    document.getElementById("statSessions")
+      .textContent = formatNumber(data.sessions);
+  }
+
+  if(data.properties != null){
+    document.getElementById("statProperties")
+      .textContent = formatNumber(data.properties);
+  }
+
+  if(data.enquiries != null){
+    document.getElementById("statEnquiries")
+      .textContent = formatNumber(data.enquiries);
+  }
+
+  if(data.health != null){
+    document.getElementById("statHealth")
+      .textContent =
+      String(data.health).toUpperCase();
+  }
+
+}
+
+
+/* =========================================================
+   BUSINESSES
+   ========================================================= */
+
+async function loadBusinesses(){
+
+  try{
+
+    const result =
+      await api("/admin/businesses");
+
+    state.businesses =
+      result.businesses ||
+      result.data ||
+      [];
+
+    renderBusinesses();
+
+  }catch(error){
+
+    console.warn(
+      "Businesses:",
+      error.message
+    );
+
+  }
+
+}
+
+
+function renderBusinesses(){
+
+  const table =
+    document.getElementById("businessTable");
+
+  document.getElementById("businessCount")
+    .textContent =
+    `${state.businesses.length} businesses`;
+
+  if(!state.businesses.length){
+
+    table.innerHTML =
+      `<tr>
+        <td colspan="6">
+          No businesses found.
+        </td>
+      </tr>`;
+
+    return;
+  }
+
+  table.innerHTML =
+    state.businesses.map(b => `
+
+      <tr>
+
+        <td>
+          <div class="entity">
+            <div class="entity-avatar">
+              ${escapeHTML(
+                String(b.name || "?").substring(0,1)
+              )}
+            </div>
+
+            <div>
+              <strong>
+                ${escapeHTML(b.name || "Unnamed")}
+              </strong>
+
+              <small>
+                ${escapeHTML(b.description || "")}
+              </small>
+            </div>
+          </div>
+        </td>
+
+        <td>
+          ${escapeHTML(b.code || "--")}
+        </td>
+
+        <td>
+          ${escapeHTML(String(b.userCount ?? "--"))}
+        </td>
+
+        <td>
+          <span class="status ${
+            b.active === false
+              ? "blocked"
+              : "active"
+          }">
+            ${b.active === false
+              ? "Disabled"
+              : "Active"}
+          </span>
+        </td>
+
+        <td>
+          ${escapeHTML(
+            b.accessPolicy || "Restricted"
+          )}
+        </td>
+
+        <td>
+          <button
+            class="btn small"
+            onclick="inspectBusiness('${escapeAttr(b.id)}')"
+          >
+            Manage
+          </button>
+        </td>
+
+      </tr>
+
+    `).join("");
+
+}
+
+
+/* =========================================================
+   USERS
+   ========================================================= */
+
+async function loadUsers(){
+
+  try{
+
+    const result =
+      await api("/admin/users");
+
+    state.users =
+      result.users ||
+      result.data ||
+      [];
+
+    renderUsers();
+
+    document.getElementById("userCount")
+      .textContent =
+      state.users.length;
+
+  }catch(error){
+
+    console.warn(
+      "Users:",
+      error.message
+    );
+
+  }
+
+}
+
+
+function renderUsers(){
+
+  const table =
+    document.getElementById("usersTable");
+
+  if(!state.users.length){
+
+    table.innerHTML =
+      `<tr>
+        <td colspan="6">
+          No users found.
+        </td>
+      </tr>`;
+
+    return;
+  }
+
+  table.innerHTML =
+    state.users.map(u => `
+
+      <tr>
+
+        <td>
+
+          <div class="entity">
+
+            <div class="entity-avatar">
+              ${escapeHTML(
+                String(u.name || u.email || "?")
+                .substring(0,1)
+              )}
+            </div>
+
+            <div>
+
+              <strong>
+                ${escapeHTML(
+                  u.name ||
+                  "Unnamed user"
+                )}
+              </strong>
+
+              <small>
+                ${escapeHTML(
+                  u.email || ""
+                )}
+              </small>
+
+            </div>
+
+          </div>
+
+        </td>
+
+        <td>
+          ${escapeHTML(
+            u.role || "User"
+          )}
+        </td>
+
+        <td>
+          ${escapeHTML(
+            u.businessName ||
+            u.businessId ||
+            "--"
+          )}
+        </td>
+
+        <td>
+
+          <span class="status ${
+            u.status === "blocked"
+              ? "blocked"
+              : u.status === "pending"
+              ? "pending"
+              : "active"
+          }">
+
+            ${escapeHTML(
+              u.status || "active"
+            )}
+
+          </span>
+
+        </td>
+
+        <td>
+          ${escapeHTML(
+            u.lastActive || "--"
+          )}
+        </td>
+
+        <td>
+
+          <button
+            class="btn small"
+            onclick="inspectUser('${escapeAttr(u.id)}')"
+          >
+            Access
+          </button>
+
+        </td>
+
+      </tr>
+
+    `).join("");
+
+}
+
+
+/* =========================================================
+   SESSIONS
+   ========================================================= */
+
+async function loadSessions(){
+
+  try{
+
+    const result =
+      await api("/admin/sessions");
+
+    state.sessions =
+      result.sessions ||
+      result.data ||
+      [];
+
+    renderSessions();
+
+  }catch(error){
+
+    console.warn(
+      "Sessions:",
+      error.message
+    );
+
+  }
+
+}
+
+
+function renderSessions(){
+
+  const table =
+    document.getElementById("sessionsTable");
+
+  if(!state.sessions.length){
+
+    table.innerHTML =
+      `<tr>
+        <td colspan="6">
+          No active sessions found.
+        </td>
+      </tr>`;
+
+    return;
+  }
+
+  table.innerHTML =
+    state.sessions.map(s => `
+
+      <tr>
+
+        <td>
+          ${escapeHTML(
+            s.userName ||
+            s.userEmail ||
+            "Unknown"
+          )}
+        </td>
+
+        <td>
+          ${escapeHTML(
+            s.device ||
+            s.userAgent ||
+            "Unknown"
+          )}
+        </td>
+
+        <td>
+          ${escapeHTML(
+            s.ip ||
+            "Hidden"
+          )}
+        </td>
+
+        <td>
+          ${escapeHTML(
+            s.createdAt ||
+            "--"
+          )}
+        </td>
+
+        <td>
+          ${escapeHTML(
+            s.lastActivity ||
+            "--"
+          )}
+        </td>
+
+        <td>
+
+          <button
+            class="btn small danger"
+            onclick="revokeSession('${escapeAttr(s.id)}')"
+          >
+            Revoke
+          </button>
+
+        </td>
+
+      </tr>
+
+    `).join("");
+
+}
+
+
+/* =========================================================
+   AUDIT
+   ========================================================= */
+
+async function loadAudit(){
+
+  try{
+
+    const result =
+      await api("/admin/audit?limit=50");
+
+    state.audit =
+      result.logs ||
+      result.audit ||
+      result.data ||
+      [];
+
+    renderAudit();
+
+  }catch(error){
+
+    console.warn(
+      "Audit:",
+      error.message
+    );
+
+  }
+
+}
+
+
+function renderAudit(){
+
+  const table =
+    document.getElementById("auditTable");
+
+  if(!state.audit.length){
+
+    table.innerHTML =
+      `<tr>
+        <td colspan="6">
+          No audit records found.
+        </td>
+      </tr>`;
+
+    return;
+  }
+
+  table.innerHTML =
+    state.audit.map(log => `
+
+      <tr>
+
+        <td>
+          ${escapeHTML(
+            log.createdAt ||
+            log.time ||
+            "--"
+          )}
+        </td>
+
+        <td>
+          ${escapeHTML(
+            log.actor ||
+            log.actorEmail ||
+            "System"
+          )}
+        </td>
+
+        <td>
+          ${escapeHTML(
+            log.action ||
+            "--"
+          )}
+        </td>
+
+        <td>
+          ${escapeHTML(
+            log.resource ||
+            "--"
+          )}
+        </td>
+
+        <td>
+          ${escapeHTML(
+            log.ip ||
+            "--"
+          )}
+        </td>
+
+        <td>
+
+          <span class="status ${
+            log.success === false
+              ? "danger"
+              : "active"
+          }">
+
+            ${log.success === false
+              ? "Failed"
+              : "Success"}
+
+          </span>
+
+        </td>
+
+      </tr>
+
+    `).join("");
+
+
+  const activity =
+    document.getElementById("activityList");
+
+  activity.innerHTML =
+    state.audit.slice(0,6).map(log => `
+
+      <div class="activity">
+
+        <div class="activity-dot"></div>
+
+        <div>
+
+          <strong>
+            ${escapeHTML(
+              log.action ||
+              "Administrative action"
+            )}
+          </strong>
+
+          <p>
+            ${escapeHTML(
+              log.actor ||
+              "System"
+            )}
+          </p>
+
+          <time>
+            ${escapeHTML(
+              log.createdAt ||
+              log.time ||
+              ""
+            )}
+          </time>
+
+        </div>
+
+      </div>
+
+    `).join("");
+
+}
+
+
+/* =========================================================
+   HEALTH
+   ========================================================= */
+
+async function checkHealth(){
+
+  try{
+
+    const result =
+      await fetch(
+        state.apiBase + "/health",
+        {
+          credentials:"include"
+        }
+      );
+
+    const data =
+      await result.json();
+
+    const healthy =
+      result.ok &&
+      (
+        data.status === "ok" ||
+        data.healthy === true
+      );
+
+    document.getElementById("statHealth")
+      .textContent =
+      healthy
+        ? "OK"
+        : "CHECK";
+
+    showToast(
+      healthy
+        ? "Backend health check passed."
+        : "Backend returned an unhealthy state.",
+      healthy
+        ? "success"
+        : "error"
+    );
+
+  }catch(error){
+
+    document.getElementById("statHealth")
+      .textContent = "OFFLINE";
+
+    showToast(
+      "GHAR backend could not be reached.",
+      "error"
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   SESSION ACTIONS
+   ========================================================= */
+
+window.revokeSession = async function(id){
+
+  if(!confirm(
+    "Revoke this session immediately?"
+  )){
+    return;
+  }
+
+  try{
+
+    await api(
+      `/admin/sessions/${encodeURIComponent(id)}/revoke`,
+      {
+        method:"POST"
+      }
+    );
+
+    showToast(
+      "Session revoked.",
+      "success"
+    );
+
+    await loadSessions();
+
+  }catch(error){
+
+    showToast(
+      error.message,
+      "error"
+    );
+
+  }
+
+};
+
+
+window.revokeAllSessions = async function(){
+
+  if(!confirm(
+    "This will invalidate all active sessions. Continue?"
+  )){
+    return;
+  }
+
+  try{
+
+    await api(
+      "/admin/sessions/revoke-all",
+      {
+        method:"POST"
+      }
+    );
+
+    showToast(
+      "All sessions revoked.",
+      "success"
+    );
+
+    await loadSessions();
+
+  }catch(error){
+
+    showToast(
+      error.message,
+      "error"
+    );
+
+  }
+
+};
+
+
+window.revokeAdminSessions = async function(){
+
+  if(!confirm(
+    "Revoke all administrator sessions?"
+  )){
+    return;
+  }
+
+  try{
+
+    await api(
+      "/admin/sessions/revoke-admins",
+      {
+        method:"POST"
+      }
+    );
+
+    showToast(
+      "Administrator sessions revoked.",
+      "success"
+    );
+
+  }catch(error){
+
+    showToast(
+      error.message,
+      "error"
+    );
+
+  }
+
+};
+
+
+/* =========================================================
+   CREATE USER
+   ========================================================= */
+
+document
+  .getElementById("createUserForm")
+  .addEventListener("submit", async function(e){
+
+    e.preventDefault();
+
+    const form =
+      new FormData(e.currentTarget);
+
+    const payload =
+      Object.fromEntries(form.entries());
+
+    try{
+
+      await api(
+        "/admin/users",
+        {
+          method:"POST",
+          body:JSON.stringify(payload)
+        }
+      );
+
+      closeModal("userModal");
+
+      e.currentTarget.reset();
+
+      showToast(
+        "User created.",
+        "success"
+      );
+
+      await loadUsers();
+
+    }catch(error){
+
+      showToast(
+        error.message,
+        "error"
+      );
+
+    }
+
+});
+
+
+/* =========================================================
+   CREATE BUSINESS
+   ========================================================= */
+
+document
+  .getElementById("createBusinessForm")
+  .addEventListener("submit", async function(e){
+
+    e.preventDefault();
+
+    const form =
+      new FormData(e.currentTarget);
+
+    const payload =
+      Object.fromEntries(form.entries());
+
+    try{
+
+      await api(
+        "/admin/businesses",
+        {
+          method:"POST",
+          body:JSON.stringify(payload)
+        }
+      );
+
+      closeModal("businessModal");
+
+      e.currentTarget.reset();
+
+      showToast(
+        "Business created.",
+        "success"
+      );
+
+      await loadBusinesses();
+
+    }catch(error){
+
+      showToast(
+        error.message,
+        "error"
+      );
+
+    }
+
+});
+
+
+/* =========================================================
+   CREATE ROLE
+   ========================================================= */
+
+document
+  .getElementById("createRoleForm")
+  .addEventListener("submit", async function(e){
+
+    e.preventDefault();
+
+    const form =
+      new FormData(e.currentTarget);
+
+    const payload =
+      Object.fromEntries(form.entries());
+
+    try{
+
+      await api(
+        "/admin/roles",
+        {
+          method:"POST",
+          body:JSON.stringify(payload)
+        }
+      );
+
+      closeModal("roleModal");
+
+      e.currentTarget.reset();
+
+      showToast(
+        "Role created.",
+        "success"
+      );
+
+    }catch(error){
+
+      showToast(
+        error.message,
+        "error"
+      );
+
+    }
+
+});
+
+
+/* =========================================================
+   MODALS
+   ========================================================= */
+
+window.openModal = function(id){
+
+  document
+    .getElementById(id)
+    .classList.add("open");
+
+};
+
+
+window.closeModal = function(id){
+
+  document
+    .getElementById(id)
+    .classList.remove("open");
+
+};
+
+
+document
+  .querySelectorAll(".modal")
+  .forEach(modal => {
+
+    modal.addEventListener(
+      "click",
+      function(e){
+
+        if(e.target === modal){
+          modal.classList.remove("open");
+        }
+
+      }
+    );
+
+  });
+
+
+/* =========================================================
+   BUSINESS / USER INSPECTION
+   ========================================================= */
+
+window.inspectBusiness = function(id){
+
+  showToast(
+    `Business ${id} selected. Detailed permissions can be loaded from the API.`,
+    "success"
+  );
+
+};
+
+
+window.inspectUser = function(id){
+
+  showToast(
+    `User ${id} selected. User access controls can be loaded from the API.`,
+    "success"
+  );
+
+};
+
+
+/* =========================================================
+   SECURITY
+   ========================================================= */
+
+window.toggleMaintenance = async function(){
+
+  const confirmed =
+    confirm(
+      "Open maintenance-mode configuration?"
+    );
+
+  if(!confirmed) return;
+
+  try{
+
+    await api(
+      "/admin/system/maintenance",
+      {
+        method:"POST",
+        body:JSON.stringify({
+          action:"open-config"
+        })
+      }
+    );
+
+    showToast(
+      "Maintenance configuration opened.",
+      "success"
+    );
+
+  }catch(error){
+
+    showToast(
+      error.message,
+      "error"
+    );
+
+  }
+
+};
+
+
+window.saveSettings = async function(){
+
+  const base =
+    document
+      .getElementById("apiBaseInput")
+      .value.trim();
+
+  if(base){
+    state.apiBase = base;
+  }
+
+  showToast(
+    "Local admin configuration updated.",
+    "success"
+  );
+
+};
+
+
+/* =========================================================
+   REFRESH
+   ========================================================= */
+
+document
+  .getElementById("refreshBtn")
+  .addEventListener(
+    "click",
+    async () => {
+
+      showToast(
+        "Refreshing administration data...",
+        "success"
+      );
+
+      await loadDashboard();
+
+    }
+  );
+
+
+/* =========================================================
+   SECURITY SHORTCUT
+   ========================================================= */
+
+document
+  .getElementById("securityBtn")
+  .addEventListener(
+    "click",
+    () => openView("security")
+  );
+
+
+/* =========================================================
+   SEARCH
+   ========================================================= */
+
+document
+  .getElementById("globalSearch")
+  .addEventListener(
+    "keydown",
+    function(e){
+
+      if(e.key !== "Enter") return;
+
+      const query =
+        e.currentTarget.value.trim();
+
+      if(!query) return;
+
+      showToast(
+        `Search request: ${query}`,
+        "success"
+      );
+
+      /*
+        Later connect:
+
+        GET /api/admin/search?q=...
+      */
+
+    }
+  );
+
+
+/* =========================================================
+   HELPERS
+   ========================================================= */
+
+function formatNumber(value){
+
+  const n =
+    Number(value);
+
+  return Number.isFinite(n)
+    ? n.toLocaleString("en-IN")
+    : "--";
+
+}
+
+
+function escapeHTML(value){
+
+  return String(value ?? "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+
+}
+
+
+function escapeAttr(value){
+
+  return String(value ?? "")
+    .replaceAll("\\","\\\\")
+    .replaceAll("'","\\'");
+
+}
+
+
+function showToast(message,type="success"){
+
+  const container =
+    document.getElementById("toast");
+
+  const item =
+    document.createElement("div");
+
+  item.className =
+    `toast ${type}`;
+
+  item.textContent =
+    message;
+
+  container.appendChild(item);
+
+  setTimeout(
+    () => item.remove(),
+    4200
+  );
+
+}
+
+
+/* =========================================================
+   INITIAL SESSION CHECK
+   ========================================================= */
+
+async function checkExistingSession(){
+
+  try{
+
+    const result =
+      await api(
+        "/admin/auth/me"
+      );
+
+    if(result.authenticated){
+
+      state.admin =
+        result.admin || null;
+
+      state.token =
+        result.token || null;
+
+      showAdmin();
+
+      await loadDashboard();
+
+      return;
+    }
+
+  }catch(error){
+
+    console.info(
+      "No active admin session."
+    );
+
+  }
+
+  showLogin();
+
+}
+
+
+checkExistingSession();
+
+
+/* =========================================================
+   EXPOSE API STATE FOR FUTURE GHAR MODULES
+   ========================================================= */
+
+window.GHAR_ADMIN = {
+
+  state,
+
+  api,
+
+  openView,
+
+  loadDashboard,
+
+  loadUsers,
+
+  loadBusinesses,
+
+  loadSessions,
+
+  loadAudit,
+
+  checkHealth
+
+};
+
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,3050 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+
+<meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+>
+
+<meta
+    name="description"
+    content="GHAR Buyer Visits -- Manage property visits, scheduled viewings and appointments."
+>
+
+<meta name="theme-color" content="#10231d">
+
+<meta name="robots" content="noindex,nofollow">
+
+<title>My Visits · GHAR</title>
+
+<link rel="stylesheet" href="../assets/css/style.css">
+
+<style>
+
+/* =========================================================
+   GHAR -- BUYER VISITS
+   Premium homepage-aligned workspace
+========================================================= */
+
+:root{
+    --ghar-green:#10231d;
+    --ghar-green-2:#18372d;
+    --ghar-green-3:#254b3e;
+
+    --ghar-gold:#c9a96e;
+    --ghar-gold-soft:#ead9b8;
+
+    --ghar-cream:#f5efe4;
+    --ghar-sand:#e9dfcf;
+
+    --ghar-bg:#eef1eb;
+    --ghar-bg-2:#f7f3ea;
+
+    --ghar-text:#18221e;
+    --ghar-muted:#6f776f;
+
+    --ghar-border:rgba(16,35,29,.12);
+
+    --ghar-card:rgba(255,255,255,.68);
+
+    --ghar-shadow:
+        0 20px 60px rgba(16,35,29,.10);
+
+    --ghar-radius:24px;
+}
+
+*{
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    margin:0;
+    min-height:100vh;
+
+    color:var(--ghar-text);
+
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    background:
+        radial-gradient(
+            circle at 4% 0%,
+            rgba(201,169,110,.19),
+            transparent 28%
+        ),
+        radial-gradient(
+            circle at 96% 14%,
+            rgba(24,55,45,.12),
+            transparent 30%
+        ),
+        linear-gradient(
+            135deg,
+            #f8f3ea 0%,
+            #e8eee8 52%,
+            #f0e5d5 100%
+        );
+
+    overflow-x:hidden;
+}
+
+button,
+input,
+select{
+    font:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+a{
+    color:inherit;
+    text-decoration:none;
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.ghar-visits-header{
+    position:sticky;
+    top:0;
+    z-index:1000;
+
+    backdrop-filter:blur(22px);
+
+    background:
+        rgba(248,243,234,.88);
+
+    border-bottom:
+        1px solid var(--ghar-border);
+}
+
+.ghar-visits-header-inner{
+    width:min(
+        1400px,
+        calc(100% - 32px)
+    );
+
+    min-height:76px;
+
+    margin:auto;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    gap:20px;
+}
+
+.ghar-visits-brand{
+    display:flex;
+    align-items:center;
+    gap:12px;
+
+    font-weight:800;
+}
+
+.ghar-visits-logo{
+    width:44px;
+    height:44px;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:14px;
+
+    background:
+        linear-gradient(
+            145deg,
+            var(--ghar-green),
+            var(--ghar-green-2)
+        );
+
+    color:var(--ghar-gold);
+
+    font-weight:900;
+
+    box-shadow:
+        0 10px 25px
+        rgba(16,35,29,.18);
+}
+
+.ghar-visits-brand-name{
+    display:block;
+
+    font-size:1.2rem;
+    letter-spacing:.04em;
+}
+
+.ghar-visits-brand-subtitle{
+    display:block;
+
+    margin-top:2px;
+
+    color:var(--ghar-muted);
+
+    font-size:.64rem;
+    font-weight:700;
+
+    letter-spacing:.13em;
+    text-transform:uppercase;
+}
+
+.ghar-visits-nav{
+    display:flex;
+    align-items:center;
+    gap:5px;
+}
+
+.ghar-visits-nav a{
+    padding:10px 13px;
+
+    border-radius:11px;
+
+    font-size:.86rem;
+    font-weight:650;
+
+    transition:.2s ease;
+}
+
+.ghar-visits-nav a:hover,
+.ghar-visits-nav a.active{
+    background:
+        rgba(16,35,29,.08);
+
+    color:var(--ghar-green);
+}
+
+.ghar-visits-actions{
+    display:flex;
+    gap:8px;
+}
+
+.ghar-visits-icon{
+    width:42px;
+    height:42px;
+
+    display:grid;
+    place-items:center;
+
+    border:
+        1px solid var(--ghar-border);
+
+    border-radius:13px;
+
+    background:
+        rgba(255,255,255,.62);
+
+    color:var(--ghar-green);
+
+    transition:.2s ease;
+}
+
+.ghar-visits-icon:hover{
+    transform:translateY(-1px);
+
+    border-color:
+        rgba(201,169,110,.55);
+
+    box-shadow:
+        0 8px 22px
+        rgba(16,35,29,.08);
+}
+
+.ghar-visits-menu{
+    display:none;
+}
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+.ghar-visits-main{
+    width:min(
+        1400px,
+        calc(100% - 32px)
+    );
+
+    margin:auto;
+
+    padding:
+        34px 0 80px;
+}
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.visits-hero{
+    position:relative;
+    overflow:hidden;
+
+    min-height:280px;
+
+    padding:38px;
+
+    margin-bottom:22px;
+
+    border-radius:30px;
+
+    color:#fff;
+
+    background:
+        linear-gradient(
+            120deg,
+            rgba(16,35,29,.99),
+            rgba(24,55,45,.96)
+        );
+
+    box-shadow:
+        0 25px 70px
+        rgba(16,35,29,.18);
+}
+
+.visits-hero::before{
+    content:"";
+
+    position:absolute;
+
+    width:450px;
+    height:450px;
+
+    right:-170px;
+    top:-220px;
+
+    border-radius:50%;
+
+    border:
+        1px solid
+        rgba(201,169,110,.30);
+
+    box-shadow:
+        0 0 0 55px
+        rgba(201,169,110,.05),
+
+        0 0 0 110px
+        rgba(201,169,110,.025);
+}
+
+.visits-hero::after{
+    content:"";
+
+    position:absolute;
+
+    width:180px;
+    height:180px;
+
+    right:180px;
+    bottom:-120px;
+
+    border-radius:50%;
+
+    background:
+        rgba(201,169,110,.08);
+}
+
+.visits-hero-content{
+    position:relative;
+    z-index:2;
+
+    max-width:800px;
+}
+
+.visits-eyebrow{
+    margin-bottom:10px;
+
+    color:var(--ghar-gold);
+
+    font-size:.73rem;
+    font-weight:850;
+
+    letter-spacing:.17em;
+}
+
+.visits-hero h1{
+    margin:0 0 10px;
+
+    font-size:
+        clamp(
+            2rem,
+            4vw,
+            3.25rem
+        );
+
+    line-height:1.05;
+
+    letter-spacing:-.025em;
+}
+
+.visits-hero p{
+    max-width:700px;
+
+    margin:0;
+
+    color:
+        rgba(255,255,255,.73);
+
+    line-height:1.75;
+}
+
+.visits-hero-actions{
+    display:flex;
+    flex-wrap:wrap;
+
+    gap:10px;
+
+    margin-top:23px;
+}
+
+.visit-btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+
+    min-height:44px;
+
+    padding:
+        11px 17px;
+
+    border-radius:13px;
+
+    border:1px solid transparent;
+
+    font-size:.82rem;
+    font-weight:800;
+
+    transition:.2s ease;
+}
+
+.visit-btn:hover{
+    transform:translateY(-1px);
+}
+
+.visit-btn-primary{
+    background:var(--ghar-gold);
+    color:var(--ghar-green);
+}
+
+.visit-btn-secondary{
+    background:
+        rgba(255,255,255,.09);
+
+    border-color:
+        rgba(255,255,255,.17);
+
+    color:#fff;
+}
+
+/* =========================================================
+   STATS
+========================================================= */
+
+.visit-stats{
+    display:grid;
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+    gap:14px;
+
+    margin-bottom:22px;
+}
+
+.visit-stat{
+    position:relative;
+
+    padding:20px;
+
+    overflow:hidden;
+
+    border:
+        1px solid
+        var(--ghar-border);
+
+    border-radius:20px;
+
+    background:
+        rgba(255,255,255,.62);
+
+    box-shadow:
+        0 12px 40px
+        rgba(16,35,29,.06);
+}
+
+.visit-stat::after{
+    content:"";
+
+    position:absolute;
+
+    width:90px;
+    height:90px;
+
+    right:-35px;
+    bottom:-35px;
+
+    border-radius:50%;
+
+    background:
+        rgba(201,169,110,.09);
+}
+
+.visit-stat-label{
+    color:var(--ghar-muted);
+
+    font-size:.69rem;
+    font-weight:800;
+
+    letter-spacing:.09em;
+
+    text-transform:uppercase;
+}
+
+.visit-stat-value{
+    margin-top:7px;
+
+    color:var(--ghar-green);
+
+    font-size:1.75rem;
+    font-weight:900;
+}
+
+/* =========================================================
+   TOOLBAR
+========================================================= */
+
+.visits-toolbar{
+    padding:18px;
+
+    margin-bottom:20px;
+
+    border:
+        1px solid
+        var(--ghar-border);
+
+    border-radius:20px;
+
+    background:
+        rgba(255,255,255,.62);
+
+    box-shadow:
+        var(--ghar-shadow);
+}
+
+.visits-toolbar-inner{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    gap:15px;
+}
+
+.visits-toolbar h2{
+    margin:0;
+
+    font-size:1.15rem;
+}
+
+.visits-toolbar p{
+    margin:5px 0 0;
+
+    color:var(--ghar-muted);
+
+    font-size:.8rem;
+}
+
+.visit-filters{
+    display:flex;
+    flex-wrap:wrap;
+    gap:7px;
+}
+
+.visit-filter{
+    padding:
+        8px 13px;
+
+    border:
+        1px solid
+        var(--ghar-border);
+
+    border-radius:999px;
+
+    background:
+        rgba(255,255,255,.66);
+
+    color:var(--ghar-muted);
+
+    font-size:.74rem;
+    font-weight:750;
+
+    transition:.2s ease;
+}
+
+.visit-filter:hover,
+.visit-filter.active{
+    background:
+        var(--ghar-green);
+
+    border-color:
+        var(--ghar-green);
+
+    color:#fff;
+}
+
+/* =========================================================
+   CONTENT GRID
+========================================================= */
+
+.visits-layout{
+    display:grid;
+
+    grid-template-columns:
+        minmax(0,1.45fr)
+        minmax(280px,.75fr);
+
+    gap:22px;
+
+    align-items:start;
+}
+
+.visit-list{
+    display:grid;
+    gap:16px;
+}
+
+/* =========================================================
+   VISIT CARD
+========================================================= */
+
+.visit-card{
+    overflow:hidden;
+
+    border:
+        1px solid
+        var(--ghar-border);
+
+    border-radius:22px;
+
+    background:
+        rgba(255,255,255,.67);
+
+    box-shadow:
+        var(--ghar-shadow);
+
+    transition:
+        transform .22s ease,
+        box-shadow .22s ease;
+}
+
+.visit-card:hover{
+    transform:translateY(-2px);
+
+    box-shadow:
+        0 25px 70px
+        rgba(16,35,29,.13);
+}
+
+.visit-card-main{
+    display:grid;
+
+    grid-template-columns:
+        210px minmax(0,1fr);
+}
+
+.visit-image{
+    min-height:215px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--ghar-sand),
+            #ddd1bd
+        );
+}
+
+.visit-image img{
+    display:block;
+
+    width:100%;
+    height:100%;
+
+    object-fit:cover;
+}
+
+.visit-details{
+    padding:20px;
+}
+
+.visit-topline{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+
+    gap:15px;
+}
+
+.visit-title{
+    margin:0;
+
+    font-size:1.12rem;
+    font-weight:850;
+
+    line-height:1.3;
+}
+
+.visit-location{
+    margin-top:6px;
+
+    color:var(--ghar-muted);
+
+    font-size:.79rem;
+}
+
+.visit-status{
+    flex:0 0 auto;
+
+    padding:
+        7px 10px;
+
+    border-radius:999px;
+
+    font-size:.67rem;
+    font-weight:850;
+}
+
+.status-upcoming{
+    background:#dcebdc;
+    color:#285b37;
+}
+
+.status-pending{
+    background:#f3e7c8;
+    color:#705522;
+}
+
+.status-completed{
+    background:#e5e9e8;
+    color:#45534d;
+}
+
+.status-cancelled{
+    background:#f1dddd;
+    color:#783c3c;
+}
+
+.visit-schedule{
+    display:grid;
+
+    grid-template-columns:
+        repeat(2,minmax(0,1fr));
+
+    gap:10px;
+
+    margin-top:17px;
+}
+
+.visit-schedule-item{
+    padding:11px;
+
+    border-radius:13px;
+
+    background:
+        rgba(245,239,228,.78);
+}
+
+.visit-schedule-label{
+    color:var(--ghar-muted);
+
+    font-size:.65rem;
+    font-weight:750;
+
+    text-transform:uppercase;
+    letter-spacing:.06em;
+}
+
+.visit-schedule-value{
+    margin-top:4px;
+
+    color:var(--ghar-green);
+
+    font-size:.82rem;
+    font-weight:850;
+}
+
+.visit-meta{
+    display:flex;
+    flex-wrap:wrap;
+
+    gap:7px;
+
+    margin-top:13px;
+}
+
+.visit-meta span{
+    padding:
+        5px 8px;
+
+    border-radius:8px;
+
+    background:
+        var(--ghar-cream);
+
+    color:var(--ghar-muted);
+
+    font-size:.68rem;
+}
+
+.visit-card-footer{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    gap:12px;
+
+    padding:
+        14px 18px;
+
+    border-top:
+        1px solid
+        var(--ghar-border);
+}
+
+.visit-id{
+    color:var(--ghar-muted);
+
+    font-size:.7rem;
+}
+
+.visit-actions{
+    display:flex;
+    flex-wrap:wrap;
+
+    gap:7px;
+}
+
+.visit-action{
+    min-height:35px;
+
+    padding:
+        7px 11px;
+
+    border:
+        1px solid
+        var(--ghar-border);
+
+    border-radius:10px;
+
+    background:
+        rgba(255,255,255,.72);
+
+    color:var(--ghar-text);
+
+    font-size:.72rem;
+    font-weight:750;
+
+    transition:.2s ease;
+}
+
+.visit-action:hover{
+    border-color:
+        rgba(201,169,110,.65);
+}
+
+.visit-action.primary{
+    background:
+        var(--ghar-green);
+
+    border-color:
+        var(--ghar-green);
+
+    color:#fff;
+}
+
+/* =========================================================
+   SIDE CARDS
+========================================================= */
+
+.visit-side{
+    display:grid;
+    gap:18px;
+}
+
+.visit-side-card{
+    padding:21px;
+
+    border:
+        1px solid
+        var(--ghar-border);
+
+    border-radius:21px;
+
+    background:
+        rgba(255,255,255,.62);
+
+    box-shadow:
+        var(--ghar-shadow);
+}
+
+.visit-side-card h3{
+    margin:0 0 14px;
+
+    font-size:1rem;
+}
+
+.visit-step{
+    display:flex;
+
+    gap:11px;
+
+    padding:10px 0;
+}
+
+.visit-step-number{
+    width:29px;
+    height:29px;
+
+    flex:0 0 29px;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:50%;
+
+    background:
+        var(--ghar-green);
+
+    color:
+        var(--ghar-gold);
+
+    font-size:.7rem;
+    font-weight:850;
+}
+
+.visit-step strong{
+    display:block;
+
+    font-size:.79rem;
+}
+
+.visit-step span{
+    display:block;
+
+    margin-top:3px;
+
+    color:var(--ghar-muted);
+
+    font-size:.71rem;
+
+    line-height:1.5;
+}
+
+.visit-side-link{
+    display:inline-flex;
+
+    margin-top:4px;
+
+    color:
+        var(--ghar-green);
+
+    font-size:.81rem;
+    font-weight:800;
+}
+
+/* =========================================================
+   NEXT VISIT CARD
+========================================================= */
+
+.next-visit{
+    padding:20px;
+
+    border-radius:20px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(16,35,29,.98),
+            rgba(24,55,45,.95)
+        );
+
+    color:#fff;
+
+    box-shadow:
+        0 20px 50px
+        rgba(16,35,29,.15);
+}
+
+.next-visit-label{
+    color:var(--ghar-gold);
+
+    font-size:.68rem;
+    font-weight:850;
+
+    letter-spacing:.12em;
+    text-transform:uppercase;
+}
+
+.next-visit h3{
+    margin:9px 0 6px;
+
+    font-size:1.08rem;
+}
+
+.next-visit p{
+    margin:0;
+
+    color:
+        rgba(255,255,255,.68);
+
+    font-size:.76rem;
+
+    line-height:1.6;
+}
+
+.next-visit-date{
+    display:grid;
+
+    grid-template-columns:
+        58px 1fr;
+
+    gap:12px;
+
+    margin-top:18px;
+
+    padding-top:17px;
+
+    border-top:
+        1px solid
+        rgba(255,255,255,.12);
+}
+
+.next-visit-day{
+    display:grid;
+    place-items:center;
+
+    width:58px;
+    height:58px;
+
+    border-radius:16px;
+
+    background:
+        rgba(201,169,110,.14);
+
+    border:
+        1px solid
+        rgba(201,169,110,.25);
+
+    color:var(--ghar-gold);
+
+    font-size:1.25rem;
+    font-weight:900;
+}
+
+.next-visit-time strong{
+    display:block;
+
+    font-size:.84rem;
+}
+
+.next-visit-time span{
+    display:block;
+
+    margin-top:3px;
+
+    color:
+        rgba(255,255,255,.63);
+
+    font-size:.72rem;
+}
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+.visit-empty{
+    padding:55px 25px;
+
+    border:
+        1px dashed
+        rgba(16,35,29,.20);
+
+    border-radius:22px;
+
+    background:
+        rgba(255,255,255,.45);
+
+    text-align:center;
+}
+
+.visit-empty-icon{
+    width:62px;
+    height:62px;
+
+    margin:
+        0 auto 14px;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:19px;
+
+    background:
+        var(--ghar-green);
+
+    color:
+        var(--ghar-gold);
+
+    font-size:1.35rem;
+}
+
+.visit-empty h3{
+    margin:0;
+}
+
+.visit-empty p{
+    max-width:460px;
+
+    margin:
+        8px auto 19px;
+
+    color:
+        var(--ghar-muted);
+
+    line-height:1.6;
+
+    font-size:.83rem;
+}
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+.visits-toast{
+    position:fixed;
+
+    left:50%;
+    bottom:25px;
+
+    z-index:3000;
+
+    transform:
+        translate(-50%,20px);
+
+    opacity:0;
+
+    pointer-events:none;
+
+    padding:
+        12px 17px;
+
+    border-radius:13px;
+
+    background:
+        var(--ghar-green);
+
+    color:#fff;
+
+    box-shadow:
+        0 15px 45px
+        rgba(0,0,0,.20);
+
+    font-size:.78rem;
+    font-weight:700;
+
+    transition:.25s ease;
+}
+
+.visits-toast.show{
+    transform:
+        translate(-50%,0);
+
+    opacity:1;
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.ghar-visits-footer{
+    margin-top:15px;
+
+    padding:35px 0;
+
+    background:
+        var(--ghar-green);
+
+    color:
+        rgba(255,255,255,.70);
+}
+
+.ghar-visits-footer-inner{
+    width:min(
+        1400px,
+        calc(100% - 32px)
+    );
+
+    margin:auto;
+
+    display:flex;
+    justify-content:space-between;
+
+    flex-wrap:wrap;
+
+    gap:25px;
+}
+
+.ghar-visits-footer strong{
+    color:#fff;
+}
+
+.ghar-visits-footer-links{
+    display:flex;
+    flex-wrap:wrap;
+
+    gap:18px;
+
+    font-size:.78rem;
+}
+
+.ghar-visits-footer-links a:hover{
+    color:#fff;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:1120px){
+
+    .ghar-visits-nav{
+        display:none;
+    }
+
+    .ghar-visits-menu{
+        display:grid;
+    }
+
+    .visits-layout{
+        grid-template-columns:1fr;
+    }
+
+}
+
+@media(max-width:900px){
+
+    .visit-stats{
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+}
+
+@media(max-width:760px){
+
+    .ghar-visits-main{
+        width:calc(100% - 20px);
+
+        padding-top:18px;
+    }
+
+    .ghar-visits-header-inner{
+        width:calc(100% - 20px);
+    }
+
+    .visits-hero{
+        padding:26px 21px;
+
+        border-radius:23px;
+    }
+
+    .visits-toolbar-inner{
+        align-items:flex-start;
+
+        flex-direction:column;
+    }
+
+    .visit-card-main{
+        grid-template-columns:1fr;
+    }
+
+    .visit-image{
+        height:205px;
+        min-height:205px;
+    }
+
+    .visit-card-footer{
+        align-items:flex-start;
+
+        flex-direction:column;
+    }
+
+    .visit-actions{
+        width:100%;
+    }
+
+}
+
+@media(max-width:520px){
+
+    .ghar-visits-brand-subtitle{
+        display:none;
+    }
+
+    .visit-stats{
+        grid-template-columns:
+            repeat(2,1fr);
+
+        gap:9px;
+    }
+
+    .visit-stat{
+        padding:15px;
+    }
+
+    .visit-stat-value{
+        font-size:1.35rem;
+    }
+
+    .visit-topline{
+        flex-direction:column;
+    }
+
+    .visit-schedule{
+        grid-template-columns:1fr;
+    }
+
+    .visit-action{
+        flex:1;
+    }
+
+    .visit-actions{
+        display:grid;
+
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+    .ghar-visits-footer-inner{
+        width:calc(100% - 20px);
+    }
+
+}
+
+/* =========================================================
+   MOBILE NAV
+========================================================= */
+
+@media(max-width:1120px){
+
+    .ghar-visits-nav.mobile-open{
+        position:absolute;
+
+        top:76px;
+        left:10px;
+        right:10px;
+
+        display:flex;
+
+        flex-direction:column;
+
+        align-items:stretch;
+
+        padding:12px;
+
+        background:
+            rgba(248,243,234,.98);
+
+        border:
+            1px solid
+            var(--ghar-border);
+
+        border-radius:17px;
+
+        box-shadow:
+            0 20px 50px
+            rgba(16,35,29,.16);
+    }
+
+    .ghar-visits-nav.mobile-open a{
+        width:100%;
+    }
+
+}
+
+</style>
+</head>
+
+<body
+    data-root="../"
+    data-page="my-visits"
+>
+
+<!-- =========================================================
+     HEADER
+========================================================= -->
+
+<header class="ghar-visits-header">
+
+    <div class="ghar-visits-header-inner">
+
+        <a
+            href="../index.html"
+            class="ghar-visits-brand"
+        >
+
+            <span class="ghar-visits-logo">
+                G
+            </span>
+
+            <span>
+
+                <span class="ghar-visits-brand-name">
+                    GHAR
+                </span>
+
+                <span class="ghar-visits-brand-subtitle">
+                    Real Estate
+                </span>
+
+            </span>
+
+        </a>
+
+
+        <nav class="ghar-visits-nav">
+
+            <a href="buyer-dashboard.html">
+                Dashboard
+            </a>
+
+            <a href="../property/property-search.html">
+                Properties
+            </a>
+
+            <a href="saved-properties.html">
+                Saved
+            </a>
+
+            <a href="my-enquiries.html">
+                Enquiries
+            </a>
+
+            <a href="my-offers.html">
+                Offers
+            </a>
+
+            <a
+                href="my-visits.html"
+                class="active"
+            >
+                Visits
+            </a>
+
+        </nav>
+
+
+        <div class="ghar-visits-actions">
+
+            <button
+                type="button"
+                class="ghar-visits-icon"
+                id="visitNotifications"
+                aria-label="Notifications"
+            >
+                🔔
+            </button>
+
+            <button
+                type="button"
+                class="ghar-visits-icon"
+                id="visitProfile"
+                aria-label="Profile"
+            >
+                👤
+            </button>
+
+            <button
+                type="button"
+                class="ghar-visits-icon ghar-visits-menu"
+                id="visitMenu"
+                aria-label="Menu"
+                aria-expanded="false"
+            >
+                ☰
+            </button>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<!-- =========================================================
+     MAIN
+========================================================= -->
+
+<main class="ghar-visits-main">
+
+
+    <!-- HERO -->
+
+    <section class="visits-hero">
+
+        <div class="visits-hero-content">
+
+            <div class="visits-eyebrow">
+                GHAR BUYER WORKSPACE
+            </div>
+
+            <h1>
+                My Visits
+            </h1>
+
+            <p>
+                Keep your property viewings organized.
+                Review upcoming appointments, completed visits
+                and scheduled property tours from one secure
+                GHAR workspace.
+            </p>
+
+            <div class="visits-hero-actions">
+
+                <a
+                    href="../property/property-search.html"
+                    class="visit-btn visit-btn-primary"
+                >
+                    Find Properties
+                </a>
+
+                <a
+                    href="buyer-dashboard.html"
+                    class="visit-btn visit-btn-secondary"
+                >
+                    Buyer Dashboard
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- STATS -->
+
+    <section class="visit-stats">
+
+        <article class="visit-stat">
+
+            <div class="visit-stat-label">
+                Total Visits
+            </div>
+
+            <div
+                class="visit-stat-value"
+                id="totalVisits"
+            >
+                0
+            </div>
+
+        </article>
+
+
+        <article class="visit-stat">
+
+            <div class="visit-stat-label">
+                Upcoming
+            </div>
+
+            <div
+                class="visit-stat-value"
+                id="upcomingVisits"
+            >
+                0
+            </div>
+
+        </article>
+
+
+        <article class="visit-stat">
+
+            <div class="visit-stat-label">
+                Pending
+            </div>
+
+            <div
+                class="visit-stat-value"
+                id="pendingVisits"
+            >
+                0
+            </div>
+
+        </article>
+
+
+        <article class="visit-stat">
+
+            <div class="visit-stat-label">
+                Completed
+            </div>
+
+            <div
+                class="visit-stat-value"
+                id="completedVisits"
+            >
+                0
+            </div>
+
+        </article>
+
+    </section>
+
+
+    <!-- TOOLBAR -->
+
+    <section class="visits-toolbar">
+
+        <div class="visits-toolbar-inner">
+
+            <div>
+
+                <h2>
+                    Visit Activity
+                </h2>
+
+                <p>
+                    Manage your property viewing appointments.
+                </p>
+
+            </div>
+
+
+            <div class="visit-filters">
+
+                <button
+                    type="button"
+                    class="visit-filter active"
+                    data-filter="all"
+                >
+                    All
+                </button>
+
+                <button
+                    type="button"
+                    class="visit-filter"
+                    data-filter="upcoming"
+                >
+                    Upcoming
+                </button>
+
+                <button
+                    type="button"
+                    class="visit-filter"
+                    data-filter="pending"
+                >
+                    Pending
+                </button>
+
+                <button
+                    type="button"
+                    class="visit-filter"
+                    data-filter="completed"
+                >
+                    Completed
+                </button>
+
+                <button
+                    type="button"
+                    class="visit-filter"
+                    data-filter="cancelled"
+                >
+                    Cancelled
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- CONTENT -->
+
+    <section class="visits-layout">
+
+
+        <!-- VISIT LIST -->
+
+        <div
+            id="visitList"
+            class="visit-list"
+        >
+        </div>
+
+
+        <!-- SIDEBAR -->
+
+        <aside class="visit-side">
+
+
+            <!-- NEXT VISIT -->
+
+            <div
+                class="next-visit"
+                id="nextVisitCard"
+            >
+
+                <div class="next-visit-label">
+                    NEXT VISIT
+                </div>
+
+                <h3 id="nextVisitTitle">
+                    No upcoming visit
+                </h3>
+
+                <p id="nextVisitLocation">
+                    Your next scheduled property visit
+                    will appear here.
+                </p>
+
+                <div class="next-visit-date">
+
+                    <div
+                        class="next-visit-day"
+                        id="nextVisitDay"
+                    >
+                        --
+                    </div>
+
+                    <div class="next-visit-time">
+
+                        <strong id="nextVisitDate">
+                            --
+                        </strong>
+
+                        <span id="nextVisitTime">
+                            --
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- HOW IT WORKS -->
+
+            <div class="visit-side-card">
+
+                <h3>
+                    How visits work
+                </h3>
+
+
+                <div class="visit-step">
+
+                    <div class="visit-step-number">
+                        1
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Request a visit
+                        </strong>
+
+                        <span>
+                            Choose a property and request
+                            a convenient viewing time.
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="visit-step">
+
+                    <div class="visit-step-number">
+                        2
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Confirmation
+                        </strong>
+
+                        <span>
+                            GHAR or the relevant property
+                            representative confirms the appointment.
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="visit-step">
+
+                    <div class="visit-step-number">
+                        3
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Visit the property
+                        </strong>
+
+                        <span>
+                            Use your appointment details to
+                            attend the scheduled viewing.
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="visit-step">
+
+                    <div class="visit-step-number">
+                        4
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Continue your journey
+                        </strong>
+
+                        <span>
+                            Save the property, make an offer
+                            or continue through the enquiry flow.
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- SUPPORT -->
+
+            <div class="visit-side-card">
+
+                <h3>
+                    Need assistance?
+                </h3>
+
+                <p
+                    style="
+                        margin:0 0 12px;
+                        color:var(--ghar-muted);
+                        font-size:.78rem;
+                        line-height:1.65;
+                    "
+                >
+                    Need to change an appointment or ask
+                    something about a property visit?
+                    Contact GHAR through your secure
+                    communication workspace.
+                </p>
+
+                <a
+                    href="messages.html"
+                    class="visit-side-link"
+                >
+                    Open Messages →
+                </a>
+
+            </div>
+
+        </aside>
+
+    </section>
+
+</main>
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer class="ghar-visits-footer">
+
+    <div class="ghar-visits-footer-inner">
+
+        <div>
+
+            <strong>
+                GHAR
+            </strong>
+
+            <div>
+                A structured real-estate platform.
+            </div>
+
+        </div>
+
+
+        <div class="ghar-visits-footer-links">
+
+            <a href="../about.html">
+                About
+            </a>
+
+            <a href="../support/index.html">
+                Support
+            </a>
+
+            <a href="../legal/terms.html">
+                Terms
+            </a>
+
+            <a href="../legal/privacy.html">
+                Privacy
+            </a>
+
+            <a href="../index.html">
+                Home
+            </a>
+
+        </div>
+
+    </div>
+
+</footer>
+
+
+<div
+    class="visits-toast"
+    id="visitsToast"
+></div>
+
+
+<div class="ghar-global-toast"></div>
+
+
+<!-- =========================================================
+     CORE GHAR SCRIPTS
+========================================================= -->
+
+<script
+    src="../assets/js/main/site.js"
+    defer
+></script>
+
+<script
+    src="../assets/js/main/page.js"
+    defer
+></script>
+
+
+<!-- =========================================================
+     PAGE CONTROLLER
+========================================================= -->
+
+<script>
+
+(function(){
+
+"use strict";
+
+
+/* =========================================================
+   FALLBACK DATA
+========================================================= */
+
+const fallbackVisits = [
+
+    {
+        id:"GHAR-VIS-1001",
+
+        propertyId:"GHAR-P001",
+
+        title:"Luxury 3 BHK Residence",
+
+        location:"Sector 150, Noida",
+
+        image:"../images/ghar-house.jpg",
+
+        date:"12 October 2026",
+
+        time:"11:30 AM",
+
+        status:"upcoming",
+
+        type:"Apartment",
+
+        details:"3 BHK • 2,450 sq.ft.",
+
+        note:"Property viewing appointment"
+    },
+
+
+    {
+        id:"GHAR-VIS-1002",
+
+        propertyId:"GHAR-P014",
+
+        title:"Premium Independent House",
+
+        location:"Sector 132, Noida",
+
+        image:"../images/ghar-house.jpg",
+
+        date:"15 October 2026",
+
+        time:"3:00 PM",
+
+        status:"pending",
+
+        type:"Independent House",
+
+        details:"4 BHK • Premium Community",
+
+        note:"Awaiting confirmation"
+    },
+
+
+    {
+        id:"GHAR-VIS-1003",
+
+        propertyId:"GHAR-P021",
+
+        title:"Modern Family Villa",
+
+        location:"Greater Noida West",
+
+        image:"../images/ghar-house.jpg",
+
+        date:"28 September 2026",
+
+        time:"12:00 PM",
+
+        status:"completed",
+
+        type:"Villa",
+
+        details:"4 BHK • Family Residence",
+
+        note:"Visit completed"
+    }
+
+];
+
+
+/* =========================================================
+   STORAGE
+========================================================= */
+
+function getVisits(){
+
+    const keys = [
+
+        "ghar_visits",
+
+        "buyerVisits",
+
+        "myVisits",
+
+        "scheduledVisits"
+
+    ];
+
+
+    for(
+        const key of keys
+    ){
+
+        try{
+
+            const raw =
+                localStorage.getItem(key);
+
+            if(!raw){
+                continue;
+            }
+
+
+            const parsed =
+                JSON.parse(raw);
+
+
+            if(
+                Array.isArray(parsed)
+            ){
+
+                return parsed;
+
+            }
+
+        }catch(error){
+
+            console.warn(
+                "GHAR visit storage error:",
+                error
+            );
+
+        }
+
+    }
+
+
+    return fallbackVisits;
+
+}
+
+
+/* =========================================================
+   ESCAPE
+========================================================= */
+
+function escapeHTML(value){
+
+    return String(
+        value ?? ""
+    )
+
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+
+    .replace(
+        /</g,
+        "&lt;"
+    )
+
+    .replace(
+        />/g,
+        "&gt;"
+    )
+
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+
+    .replace(
+        /'/g,
+        "&#039;"
+    );
+
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+function statusLabel(status){
+
+    const labels = {
+
+        upcoming:"Upcoming",
+
+        pending:"Pending",
+
+        completed:"Completed",
+
+        cancelled:"Cancelled"
+
+    };
+
+
+    return labels[
+        status
+    ] || "Upcoming";
+
+}
+
+
+/* =========================================================
+   RENDER
+========================================================= */
+
+function renderVisits(){
+
+    const list =
+        document.getElementById(
+            "visitList"
+        );
+
+
+    if(!list){
+        return;
+    }
+
+
+    const visits =
+        getVisits();
+
+
+    updateStats(
+        visits
+    );
+
+
+    updateNextVisit(
+        visits
+    );
+
+
+    if(!visits.length){
+
+        list.innerHTML = `
+
+            <div class="visit-empty">
+
+                <div class="visit-empty-icon">
+                    📅
+                </div>
+
+                <h3>
+                    No property visits yet
+                </h3>
+
+                <p>
+                    When you schedule a property
+                    viewing through GHAR, your appointment
+                    will appear here.
+                </p>
+
+                <a
+                    href="../property/property-search.html"
+                    class="visit-btn visit-btn-primary"
+                >
+                    Find Properties
+                </a>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    list.innerHTML =
+        visits
+            .map(
+                renderVisit
+            )
+            .join("");
+
+
+    bindActions();
+
+}
+
+
+/* =========================================================
+   VISIT CARD
+========================================================= */
+
+function renderVisit(
+    visit
+){
+
+    const status =
+        String(
+            visit.status ||
+            "upcoming"
+        ).toLowerCase();
+
+
+    return `
+
+        <article
+            class="visit-card"
+            data-status="${escapeHTML(status)}"
+        >
+
+            <div class="visit-card-main">
+
+                <div class="visit-image">
+
+                    <img
+                        src="${escapeHTML(
+                            visit.image ||
+                            "../images/ghar-house.jpg"
+                        )}"
+                        alt="${escapeHTML(
+                            visit.title ||
+                            "GHAR Property"
+                        )}"
+                        loading="lazy"
+                        onerror="
+                            this.src='../images/ghar-house.jpg';
+                        "
+                    >
+
+                </div>
+
+
+                <div class="visit-details">
+
+                    <div class="visit-topline">
+
+                        <div>
+
+                            <h3 class="visit-title">
+
+                                ${escapeHTML(
+                                    visit.title ||
+                                    "GHAR Property"
+                                )}
+
+                            </h3>
+
+                            <div class="visit-location">
+
+                                📍
+
+                                ${escapeHTML(
+                                    visit.location ||
+                                    "Location available through GHAR"
+                                )}
+
+                            </div>
+
+                        </div>
+
+
+                        <span
+                            class="
+                                visit-status
+                                status-${escapeHTML(status)}
+                            "
+                        >
+
+                            ${escapeHTML(
+                                statusLabel(status)
+                            )}
+
+                        </span>
+
+                    </div>
+
+
+                    <div class="visit-schedule">
+
+                        <div class="visit-schedule-item">
+
+                            <div class="visit-schedule-label">
+                                Date
+                            </div>
+
+                            <div class="visit-schedule-value">
+
+                                ${escapeHTML(
+                                    visit.date ||
+                                    "Date pending"
+                                )}
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="visit-schedule-item">
+
+                            <div class="visit-schedule-label">
+                                Time
+                            </div>
+
+                            <div class="visit-schedule-value">
+
+                                ${escapeHTML(
+                                    visit.time ||
+                                    "Time pending"
+                                )}
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="visit-meta">
+
+                        <span>
+                            ${escapeHTML(
+                                visit.type ||
+                                "Property"
+                            )}
+                        </span>
+
+                        <span>
+                            ${escapeHTML(
+                                visit.details ||
+                                "Property details"
+                            )}
+                        </span>
+
+                        <span>
+                            ${escapeHTML(
+                                visit.note ||
+                                "GHAR Visit"
+                            )}
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="visit-card-footer">
+
+                <span class="visit-id">
+
+                    Visit ID:
+                    ${escapeHTML(
+                        visit.id ||
+                        "GHAR-VISIT"
+                    )}
+
+                </span>
+
+
+                <div class="visit-actions">
+
+                    <button
+                        type="button"
+                        class="visit-action"
+                        data-action="details"
+                        data-id="${escapeHTML(
+                            visit.id || ""
+                        )}"
+                    >
+                        View Details
+                    </button>
+
+
+                    ${
+                        status === "upcoming" ||
+                        status === "pending"
+
+                        ?
+
+                        `
+
+                        <button
+                            type="button"
+                            class="visit-action"
+                            data-action="reschedule"
+                            data-id="${escapeHTML(
+                                visit.id || ""
+                            )}"
+                        >
+                            Reschedule
+                        </button>
+
+                        `
+
+                        :
+
+                        ""
+                    }
+
+
+                    ${
+                        status !== "cancelled" &&
+                        status !== "completed"
+
+                        ?
+
+                        `
+
+                        <button
+                            type="button"
+                            class="
+                                visit-action
+                                primary
+                            "
+                            data-action="message"
+                            data-id="${escapeHTML(
+                                visit.id || ""
+                            )}"
+                        >
+                            Message
+                        </button>
+
+                        `
+
+                        :
+
+                        ""
+                    }
+
+                </div>
+
+            </div>
+
+        </article>
+
+    `;
+
+}
+
+
+/* =========================================================
+   STATS
+========================================================= */
+
+function updateStats(
+    visits
+){
+
+    const values = {
+
+        totalVisits:
+            visits.length,
+
+        upcomingVisits:
+            visits.filter(
+                visit =>
+                    String(
+                        visit.status
+                    ).toLowerCase()
+                    ===
+                    "upcoming"
+            ).length,
+
+        pendingVisits:
+            visits.filter(
+                visit =>
+                    String(
+                        visit.status
+                    ).toLowerCase()
+                    ===
+                    "pending"
+            ).length,
+
+        completedVisits:
+            visits.filter(
+                visit =>
+                    String(
+                        visit.status
+                    ).toLowerCase()
+                    ===
+                    "completed"
+            ).length
+
+    };
+
+
+    Object.entries(
+        values
+    )
+    .forEach(
+        ([id,value]) => {
+
+            const element =
+                document.getElementById(
+                    id
+                );
+
+
+            if(element){
+
+                element.textContent =
+                    value;
+
+            }
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   NEXT VISIT
+========================================================= */
+
+function updateNextVisit(
+    visits
+){
+
+    const upcoming =
+        visits.filter(
+            visit => {
+
+                const status =
+                    String(
+                        visit.status ||
+                        ""
+                    ).toLowerCase();
+
+                return (
+                    status === "upcoming" ||
+                    status === "pending"
+                );
+
+            }
+        );
+
+
+    const title =
+        document.getElementById(
+            "nextVisitTitle"
+        );
+
+    const location =
+        document.getElementById(
+            "nextVisitLocation"
+        );
+
+    const day =
+        document.getElementById(
+            "nextVisitDay"
+        );
+
+    const date =
+        document.getElementById(
+            "nextVisitDate"
+        );
+
+    const time =
+        document.getElementById(
+            "nextVisitTime"
+        );
+
+
+    if(!upcoming.length){
+
+        if(title)
+            title.textContent =
+                "No upcoming visit";
+
+        if(location)
+            location.textContent =
+                "Your next scheduled property visit will appear here.";
+
+        if(day)
+            day.textContent = "--";
+
+        if(date)
+            date.textContent = "--";
+
+        if(time)
+            time.textContent = "--";
+
+        return;
+
+    }
+
+
+    const next =
+        upcoming[0];
+
+
+    if(title)
+        title.textContent =
+            next.title ||
+            "GHAR Property";
+
+
+    if(location)
+        location.textContent =
+            next.location ||
+            "Property location";
+
+
+    if(day){
+
+        const match =
+            String(
+                next.date || ""
+            ).match(
+                /\b(\d{1,2})\b/
+            );
+
+
+        day.textContent =
+            match
+            ? match[1]
+            : "•";
+
+    }
+
+
+    if(date)
+        date.textContent =
+            next.date ||
+            "Date pending";
+
+
+    if(time)
+        time.textContent =
+            next.time ||
+            "Time pending";
+
+}
+
+
+/* =========================================================
+   FILTERS
+========================================================= */
+
+function initFilters(){
+
+    const filters =
+        document.querySelectorAll(
+            ".visit-filter"
+        );
+
+
+    filters.forEach(
+        filter => {
+
+            filter.addEventListener(
+                "click",
+                function(){
+
+                    filters.forEach(
+                        item =>
+                            item.classList
+                                .remove("active")
+                    );
+
+
+                    this.classList.add(
+                        "active"
+                    );
+
+
+                    const selected =
+                        this.dataset.filter;
+
+
+                    document
+                        .querySelectorAll(
+                            ".visit-card"
+                        )
+                        .forEach(
+                            card => {
+
+                                const status =
+                                    card.dataset.status;
+
+
+                                card.style.display =
+                                    selected === "all" ||
+                                    status === selected
+                                    ? ""
+                                    : "none";
+
+                            }
+                        );
+
+                }
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   ACTIONS
+========================================================= */
+
+function bindActions(){
+
+    document
+        .querySelectorAll(
+            "[data-action]"
+        )
+        .forEach(
+            button => {
+
+                button.addEventListener(
+                    "click",
+                    function(){
+
+                        const action =
+                            this.dataset.action;
+
+                        const id =
+                            this.dataset.id;
+
+
+                        if(
+                            action ===
+                            "details"
+                        ){
+
+                            window.location.href =
+                                `visit-details.html?id=${encodeURIComponent(id)}`;
+
+                            return;
+
+                        }
+
+
+                        if(
+                            action ===
+                            "message"
+                        ){
+
+                            window.location.href =
+                                `conversation.html?visit=${encodeURIComponent(id)}`;
+
+                            return;
+
+                        }
+
+
+                        if(
+                            action ===
+                            "reschedule"
+                        ){
+
+                            showToast(
+                                "Reschedule request started for " +
+                                id
+                            );
+
+                            setTimeout(
+                                () => {
+
+                                    window.location.href =
+                                        `conversation.html?visit=${encodeURIComponent(id)}&action=reschedule`;
+
+                                },
+                                600
+                            );
+
+                        }
+
+                    }
+                );
+
+            }
+        );
+
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+function showToast(
+    message
+){
+
+    const toast =
+        document.getElementById(
+            "visitsToast"
+        );
+
+
+    if(!toast){
+        return;
+    }
+
+
+    toast.textContent =
+        message;
+
+
+    toast.classList.add(
+        "show"
+    );
+
+
+    clearTimeout(
+        window.gharVisitToastTimer
+    );
+
+
+    window.gharVisitToastTimer =
+        setTimeout(
+            () => {
+
+                toast.classList.remove(
+                    "show"
+                );
+
+            },
+            2400
+        );
+
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+function initHeader(){
+
+    const profile =
+        document.getElementById(
+            "visitProfile"
+        );
+
+    const notifications =
+        document.getElementById(
+            "visitNotifications"
+        );
+
+    const menu =
+        document.getElementById(
+            "visitMenu"
+        );
+
+    const nav =
+        document.querySelector(
+            ".ghar-visits-nav"
+        );
+
+
+    if(profile){
+
+        profile.addEventListener(
+            "click",
+            () => {
+
+                window.location.href =
+                    "my-profile.html";
+
+            }
+        );
+
+    }
+
+
+    if(notifications){
+
+        notifications.addEventListener(
+            "click",
+            () => {
+
+                window.location.href =
+                    "../communication/notifications.html";
+
+            }
+        );
+
+    }
+
+
+    if(
+        menu &&
+        nav
+    ){
+
+        menu.addEventListener(
+            "click",
+            () => {
+
+                const open =
+                    nav.classList.toggle(
+                        "mobile-open"
+                    );
+
+
+                menu.setAttribute(
+                    "aria-expanded",
+                    String(open)
+                );
+
+            }
+        );
+
+
+        nav
+            .querySelectorAll("a")
+            .forEach(
+                link => {
+
+                    link.addEventListener(
+                        "click",
+                        () => {
+
+                            nav.classList.remove(
+                                "mobile-open"
+                            );
+
+                            menu.setAttribute(
+                                "aria-expanded",
+                                "false"
+                            );
+
+                        }
+                    );
+
+                }
+            );
+
+    }
+
+}
+
+
+/* =========================================================
+   INITIALIZE
+========================================================= */
+
+function initialize(){
+
+    renderVisits();
+
+    initFilters();
+
+    initHeader();
+
+    console.log(
+        "GHAR My Visits ready."
+    );
+
+}
+
+
+if(
+    document.readyState ===
+    "loading"
+){
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        initialize,
+        {once:true}
+    );
+
+}else{
+
+    initialize();
+
+}
+
+})();
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,75 @@
+# ============================================================
+# GHAR -- RENDER DEPLOYMENT CONFIGURATION
+# ============================================================
+
+services:
+
+  # ==========================================================
+  # GHAR API + FRONTEND
+  # ==========================================================
+
+  - type: web
+    name: ghar-api
+    runtime: node
+    plan: free
+
+    buildCommand: npm install
+
+    startCommand: npm start
+
+    healthCheckPath: /api/health
+
+    autoDeploy: true
+
+    envVars:
+
+      # ------------------------------------------------------
+      # APPLICATION
+      # ------------------------------------------------------
+
+      - key: NODE_ENV
+        value: production
+
+      - key: PORT
+        value: 10000
+
+      # ------------------------------------------------------
+      # AUTHENTICATION
+      # ------------------------------------------------------
+
+      - key: JWT_SECRET
+        sync: false
+
+      # ------------------------------------------------------
+      # DATABASE
+      # ------------------------------------------------------
+
+      - key: DATABASE_URL
+        sync: false
+
+      # ------------------------------------------------------
+      # FRONTEND / CORS
+      # ------------------------------------------------------
+
+      - key: CLIENT_URL
+        sync: false
+
+      - key: CORS_ORIGIN
+        sync: false
+
+      # ------------------------------------------------------
+      # PAYMENTS
+      # ------------------------------------------------------
+
+      - key: PAYMENT_PROVIDER
+        value: placeholder
+
+      # ------------------------------------------------------
+      # OPTIONAL FUTURE SERVICES
+      # ------------------------------------------------------
+
+      - key: STORAGE_PROVIDER
+        value: local
+
+      - key: AI_PROVIDER
+        value: placeholder

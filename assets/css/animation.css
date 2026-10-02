@@ -1,0 +1,1574 @@
+/* =========================================================
+   GHAR -- PREMIUM GLOBAL ANIMATION SYSTEM
+   ---------------------------------------------------------
+   Smooth • Premium • Lightweight • Responsive • Accessible
+
+   Designed to work with:
+   - GHAR cards
+   - Property listings
+   - Dashboard
+   - Hero sections
+   - Navigation
+   - Modals
+   - Dropdowns
+   - Toasts
+   - Forms
+   - Search
+   - Galleries
+   - Loading states
+
+   IMPORTANT:
+   This file controls MOTION only.
+   It should not define layout dimensions.
+   ========================================================= */
+
+
+/* =========================================================
+   01 -- MOTION TOKENS
+   ========================================================= */
+
+:root {
+
+    --ghar-ease:
+        cubic-bezier(.2,.7,.2,1);
+
+    --ghar-ease-soft:
+        cubic-bezier(.22,.61,.36,1);
+
+    --ghar-ease-spring:
+        cubic-bezier(.16,1,.3,1);
+
+    --ghar-ease-smooth:
+        cubic-bezier(.4,0,.2,1);
+
+    --ghar-duration-xs:
+        120ms;
+
+    --ghar-duration-fast:
+        170ms;
+
+    --ghar-duration:
+        260ms;
+
+    --ghar-duration-medium:
+        380ms;
+
+    --ghar-duration-slow:
+        520ms;
+
+    --ghar-motion-distance:
+        14px;
+
+    --ghar-motion-distance-lg:
+        22px;
+
+    --ghar-hover-lift:
+        -3px;
+
+    --ghar-hover-scale:
+        1.02;
+
+    --ghar-image-scale:
+        1.045;
+}
+
+
+/* =========================================================
+   02 -- MOTION-SAFE BASE
+   ---------------------------------------------------------
+   Do NOT apply transitions globally to every property.
+   This prevents inputs, layout and browser UI from feeling
+   sluggish.
+   ========================================================= */
+
+.btn,
+.ghar-btn,
+.icon-button,
+.ghar-card,
+.card,
+.panel,
+.surface,
+.property-card,
+.feature-card,
+.service-card,
+.category-card,
+.dashboard-panel,
+.dashboard-stat,
+.stat-card,
+.dashboard-action,
+.main-nav a,
+.navbar a,
+.dashboard-sidebar a,
+.admin-sidebar a,
+.ghar-footer-column a,
+.ghar-footer-links a,
+.badge,
+.status-badge,
+.tag {
+
+    transition:
+        transform var(--ghar-duration) var(--ghar-ease),
+        opacity var(--ghar-duration) var(--ghar-ease),
+        color var(--ghar-duration-fast) var(--ghar-ease),
+        background-color var(--ghar-duration-fast) var(--ghar-ease),
+        border-color var(--ghar-duration-fast) var(--ghar-ease),
+        box-shadow var(--ghar-duration) var(--ghar-ease),
+        filter var(--ghar-duration) var(--ghar-ease);
+}
+
+
+/* =========================================================
+   03 -- FORM MOTION
+   ========================================================= */
+
+input,
+textarea,
+select,
+button {
+
+    transition:
+        color var(--ghar-duration-fast) var(--ghar-ease),
+        background-color var(--ghar-duration-fast) var(--ghar-ease),
+        border-color var(--ghar-duration-fast) var(--ghar-ease),
+        box-shadow var(--ghar-duration-fast) var(--ghar-ease),
+        transform var(--ghar-duration-fast) var(--ghar-ease);
+}
+
+
+/* =========================================================
+   04 -- GPU / COMPOSITING HINTS
+   ========================================================= */
+
+.ghar-card,
+.card,
+.property-card,
+.feature-card,
+.service-card,
+.category-card,
+.dashboard-panel,
+.dashboard-stat,
+.stat-card,
+.hero,
+.page-hero,
+.property-gallery,
+.property-image,
+.ghar-toast {
+
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+
+/* =========================================================
+   05 -- PAGE ENTRANCE
+   ========================================================= */
+
+@keyframes ghar-page-in {
+
+    from {
+        opacity: 0;
+        transform:
+            translate3d(
+                0,
+                var(--ghar-motion-distance),
+                0
+            );
+    }
+
+    to {
+        opacity: 1;
+        transform:
+            translate3d(0,0,0);
+    }
+}
+
+
+.ghar-page,
+main,
+.page-content {
+
+    animation:
+        ghar-page-in
+        440ms
+        var(--ghar-ease-soft)
+        both;
+}
+
+
+/* =========================================================
+   06 -- HERO ENTRANCE
+   ========================================================= */
+
+@keyframes ghar-hero-in {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translate3d(
+                0,
+                var(--ghar-motion-distance-lg),
+                0
+            );
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translate3d(0,0,0);
+    }
+}
+
+
+.hero,
+.page-hero,
+.dashboard-header,
+.admin-header,
+.section-head {
+
+    animation:
+        ghar-hero-in
+        540ms
+        var(--ghar-ease-spring)
+        both;
+}
+
+
+/* =========================================================
+   07 -- HERO CONTENT SEQUENCE
+   ========================================================= */
+
+.hero h1,
+.page-hero h1 {
+
+    animation:
+        ghar-hero-in
+        540ms
+        60ms
+        var(--ghar-ease-spring)
+        both;
+}
+
+
+.hero p,
+.page-hero p {
+
+    animation:
+        ghar-hero-in
+        540ms
+        130ms
+        var(--ghar-ease-spring)
+        both;
+}
+
+
+.hero-actions,
+.page-hero-actions {
+
+    animation:
+        ghar-hero-in
+        540ms
+        200ms
+        var(--ghar-ease-spring)
+        both;
+}
+
+
+/* =========================================================
+   08 -- HERO DECORATIVE MOTION
+   ========================================================= */
+
+@keyframes ghar-soft-float {
+
+    0%,
+    100% {
+        transform:
+            translate3d(0,0,0);
+    }
+
+    50% {
+        transform:
+            translate3d(0,-7px,0);
+    }
+}
+
+
+.hero-decoration,
+.hero-orb,
+.background-orb,
+.decorative-orb {
+
+    animation:
+        ghar-soft-float
+        8s
+        ease-in-out
+        infinite;
+
+    pointer-events: none;
+
+    will-change:
+        transform;
+}
+
+
+/* =========================================================
+   09 -- CARD REVEAL
+   ========================================================= */
+
+@keyframes ghar-card-in {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translate3d(0,16px,0)
+            scale(.985);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translate3d(0,0,0)
+            scale(1);
+    }
+}
+
+
+.card,
+.panel,
+.surface,
+.dashboard-panel,
+.property-card,
+.stat-card,
+.feature-card,
+.service-card,
+.category-card,
+.admin-card {
+
+    animation:
+        ghar-card-in
+        420ms
+        var(--ghar-ease-spring)
+        both;
+}
+
+
+/* =========================================================
+   10 -- CONTROLLED CARD HOVER
+   ========================================================= */
+
+.card:hover,
+.panel:hover,
+.property-card:hover,
+.feature-card:hover,
+.service-card:hover,
+.category-card:hover,
+.dashboard-panel:hover,
+.dashboard-stat:hover,
+.stat-card:hover {
+
+    transform:
+        translate3d(
+            0,
+            var(--ghar-hover-lift),
+            0
+        );
+}
+
+
+/* =========================================================
+   11 -- CARD STAGGER
+   ---------------------------------------------------------
+   Limited to first 8 items so huge property grids do not
+   create unnecessary animation delays.
+   ========================================================= */
+
+.card:nth-child(2),
+.property-card:nth-child(2),
+.feature-card:nth-child(2),
+.service-card:nth-child(2),
+.category-card:nth-child(2) {
+    animation-delay: 45ms;
+}
+
+
+.card:nth-child(3),
+.property-card:nth-child(3),
+.feature-card:nth-child(3),
+.service-card:nth-child(3),
+.category-card:nth-child(3) {
+    animation-delay: 90ms;
+}
+
+
+.card:nth-child(4),
+.property-card:nth-child(4),
+.feature-card:nth-child(4),
+.service-card:nth-child(4),
+.category-card:nth-child(4) {
+    animation-delay: 135ms;
+}
+
+
+.card:nth-child(5),
+.property-card:nth-child(5),
+.feature-card:nth-child(5),
+.service-card:nth-child(5),
+.category-card:nth-child(5) {
+    animation-delay: 180ms;
+}
+
+
+.card:nth-child(6),
+.property-card:nth-child(6),
+.feature-card:nth-child(6),
+.service-card:nth-child(6),
+.category-card:nth-child(6) {
+    animation-delay: 225ms;
+}
+
+
+.card:nth-child(7),
+.property-card:nth-child(7),
+.feature-card:nth-child(7),
+.service-card:nth-child(7),
+.category-card:nth-child(7) {
+    animation-delay: 270ms;
+}
+
+
+.card:nth-child(8),
+.property-card:nth-child(8),
+.feature-card:nth-child(8),
+.service-card:nth-child(8),
+.category-card:nth-child(8) {
+    animation-delay: 315ms;
+}
+
+
+/* =========================================================
+   12 -- PROPERTY IMAGE MOTION
+   ========================================================= */
+
+.property-card img,
+.property-gallery img,
+.property-gallery-grid img,
+.property-image img,
+.property-media img {
+
+    transition:
+        transform
+        700ms
+        var(--ghar-ease-soft),
+
+        filter
+        420ms
+        var(--ghar-ease),
+
+        opacity
+        300ms
+        var(--ghar-ease);
+}
+
+
+.property-card:hover img,
+.property-gallery:hover img,
+.property-gallery-grid > *:hover img {
+
+    transform:
+        scale(
+            var(--ghar-image-scale)
+        );
+}
+
+
+.property-card:hover .property-image img {
+
+    filter:
+        saturate(1.04)
+        contrast(1.02);
+}
+
+
+/* =========================================================
+   13 -- IMAGE REVEAL
+   ========================================================= */
+
+@keyframes ghar-image-reveal {
+
+    from {
+        opacity: 0;
+
+        transform:
+            scale(1.025);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            scale(1);
+    }
+}
+
+
+img {
+
+    animation:
+        ghar-image-reveal
+        460ms
+        var(--ghar-ease-soft)
+        both;
+}
+
+
+/* Small UI images should not animate */
+
+.avatar img,
+.icon img,
+.logo img,
+.badge img,
+.icon-button img,
+.favicon img {
+
+    animation: none;
+}
+
+
+/* =========================================================
+   14 -- BUTTON MOTION
+   ========================================================= */
+
+.btn,
+.ghar-btn,
+button,
+[role="button"] {
+
+    transform:
+        translateZ(0);
+
+    will-change:
+        transform;
+}
+
+
+.btn:hover,
+.ghar-btn:hover,
+button:hover,
+[role="button"]:hover {
+
+    transform:
+        translate3d(0,-1px,0);
+}
+
+
+.btn:active,
+.ghar-btn:active,
+button:active,
+[role="button"]:active {
+
+    transform:
+        translate3d(0,0,0)
+        scale(.985);
+}
+
+
+/* =========================================================
+   15 -- BUTTON RIPPLE-LIKE LIGHT
+   ========================================================= */
+
+.btn-primary,
+.ghar-btn-primary,
+.btn-gold {
+
+    overflow: hidden;
+}
+
+
+.btn-primary::after,
+.ghar-btn-primary::after,
+.btn-gold::after {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        linear-gradient(
+            110deg,
+            transparent 25%,
+            rgba(255,255,255,.12) 50%,
+            transparent 75%
+        );
+
+    transform:
+        translateX(-120%);
+
+    transition:
+        transform
+        650ms
+        var(--ghar-ease-soft);
+
+    pointer-events: none;
+}
+
+
+.btn-primary:hover::after,
+.ghar-btn-primary:hover::after,
+.btn-gold:hover::after {
+
+    transform:
+        translateX(120%);
+}
+
+
+/* =========================================================
+   16 -- FOCUS STATES
+   ========================================================= */
+
+.btn:focus-visible,
+.ghar-btn:focus-visible,
+button:focus-visible,
+[role="button"]:focus-visible {
+
+    outline:
+        3px solid
+        rgba(66,107,89,.22);
+
+    outline-offset:
+        3px;
+}
+
+
+/* =========================================================
+   17 -- NAVIGATION
+   ========================================================= */
+
+.main-nav a,
+.navbar a,
+.dashboard-sidebar a,
+.admin-sidebar a {
+
+    transition:
+        color var(--ghar-duration-fast) var(--ghar-ease),
+        background-color var(--ghar-duration-fast) var(--ghar-ease),
+        border-color var(--ghar-duration-fast) var(--ghar-ease),
+        transform var(--ghar-duration-fast) var(--ghar-ease);
+}
+
+
+.main-nav a:hover,
+.navbar a:hover {
+
+    transform:
+        translate3d(0,-1px,0);
+}
+
+
+.dashboard-sidebar a:hover,
+.admin-sidebar a:hover {
+
+    transform:
+        translate3d(3px,0,0);
+}
+
+
+/* =========================================================
+   18 -- MOBILE NAVIGATION
+   ========================================================= */
+
+@keyframes ghar-menu-in {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translate3d(0,-8px,0);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translate3d(0,0,0);
+    }
+}
+
+
+[data-mobile-nav] {
+
+    transition:
+        opacity 240ms var(--ghar-ease),
+        transform 300ms var(--ghar-ease),
+        visibility 240ms var(--ghar-ease);
+}
+
+
+[data-mobile-nav].is-open {
+
+    animation:
+        ghar-menu-in
+        280ms
+        var(--ghar-ease-spring)
+        both;
+}
+
+
+/* =========================================================
+   19 -- DROPDOWNS
+   ========================================================= */
+
+[data-dropdown-menu] {
+
+    transform-origin:
+        top center;
+
+    opacity: 0;
+
+    transform:
+        translate3d(0,-7px,0)
+        scale(.98);
+
+    pointer-events:
+        none;
+
+    visibility:
+        hidden;
+
+    transition:
+        opacity 180ms var(--ghar-ease),
+        transform 220ms var(--ghar-ease-spring),
+        visibility 180ms linear;
+}
+
+
+[data-dropdown].is-open [data-dropdown-menu] {
+
+    opacity: 1;
+
+    transform:
+        translate3d(0,0,0)
+        scale(1);
+
+    pointer-events:
+        auto;
+
+    visibility:
+        visible;
+}
+
+
+/* =========================================================
+   20 -- MODAL
+   ========================================================= */
+
+[data-modal] {
+
+    opacity: 0;
+
+    visibility:
+        hidden;
+
+    transition:
+        opacity 220ms var(--ghar-ease),
+        visibility 220ms linear;
+}
+
+
+[data-modal].is-open {
+
+    opacity: 1;
+
+    visibility:
+        visible;
+}
+
+
+[data-modal] > * {
+
+    transform:
+        translate3d(0,14px,0)
+        scale(.98);
+
+    transition:
+        transform
+        320ms
+        var(--ghar-ease-spring);
+}
+
+
+[data-modal].is-open > * {
+
+    transform:
+        translate3d(0,0,0)
+        scale(1);
+}
+
+
+/* =========================================================
+   21 -- TOAST
+   ========================================================= */
+
+@keyframes ghar-toast-in {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translate3d(0,14px,0)
+            scale(.97);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translate3d(0,0,0)
+            scale(1);
+    }
+}
+
+
+@keyframes ghar-toast-out {
+
+    from {
+        opacity: 1;
+
+        transform:
+            translate3d(0,0,0);
+    }
+
+    to {
+        opacity: 0;
+
+        transform:
+            translate3d(0,10px,0);
+    }
+}
+
+
+.ghar-toast.is-visible {
+
+    animation:
+        ghar-toast-in
+        280ms
+        var(--ghar-ease-spring)
+        both;
+}
+
+
+.ghar-toast.is-closing {
+
+    animation:
+        ghar-toast-out
+        220ms
+        var(--ghar-ease)
+        both;
+}
+
+
+/* =========================================================
+   22 -- DASHBOARD
+   ========================================================= */
+
+.dashboard-sidebar {
+
+    animation:
+        ghar-sidebar-in
+        420ms
+        var(--ghar-ease-soft)
+        both;
+}
+
+
+@keyframes ghar-sidebar-in {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translate3d(-10px,0,0);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translate3d(0,0,0);
+    }
+}
+
+
+.stats-grid > *,
+.dashboard-content-grid > *,
+.dashboard-panel {
+
+    animation:
+        ghar-card-in
+        420ms
+        var(--ghar-ease-spring)
+        both;
+}
+
+
+/* =========================================================
+   23 -- DASHBOARD STAT NUMBERS
+   ========================================================= */
+
+@keyframes ghar-number-in {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translate3d(0,8px,0);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translate3d(0,0,0);
+    }
+}
+
+
+.stat-value,
+.stat-number,
+.dashboard-stat strong,
+.dashboard-stat-value,
+.stat-card-value {
+
+    animation:
+        ghar-number-in
+        500ms
+        100ms
+        var(--ghar-ease-spring)
+        both;
+}
+
+
+/* =========================================================
+   24 -- PROPERTY DETAIL
+   ========================================================= */
+
+@keyframes ghar-property-media {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translate3d(-15px,0,0);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translate3d(0,0,0);
+    }
+}
+
+
+@keyframes ghar-property-info {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translate3d(15px,0,0);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translate3d(0,0,0);
+    }
+}
+
+
+.property-gallery {
+
+    animation:
+        ghar-property-media
+        600ms
+        var(--ghar-ease-spring)
+        both;
+}
+
+
+.property-info {
+
+    animation:
+        ghar-property-info
+        550ms
+        100ms
+        var(--ghar-ease-spring)
+        both;
+}
+
+
+/* =========================================================
+   25 -- SEARCH EXPERIENCE
+   ========================================================= */
+
+@keyframes ghar-search-in {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translate3d(0,12px,0)
+            scale(.985);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translate3d(0,0,0)
+            scale(1);
+    }
+}
+
+
+.property-search-bar,
+.search-bar,
+.search-panel {
+
+    animation:
+        ghar-search-in
+        450ms
+        100ms
+        var(--ghar-ease-spring)
+        both;
+}
+
+
+/* =========================================================
+   26 -- FORM FOCUS
+   ========================================================= */
+
+.input:focus,
+.select:focus,
+.textarea:focus,
+input:focus,
+select:focus,
+textarea:focus {
+
+    transform:
+        translate3d(0,-1px,0);
+}
+
+
+/* =========================================================
+   27 -- FILE DROP
+   ========================================================= */
+
+.file-drop {
+
+    transition:
+        transform var(--ghar-duration) var(--ghar-ease),
+        border-color var(--ghar-duration-fast) var(--ghar-ease),
+        background-color var(--ghar-duration-fast) var(--ghar-ease),
+        box-shadow var(--ghar-duration) var(--ghar-ease);
+}
+
+
+.file-drop:hover {
+
+    transform:
+        translate3d(0,-2px,0);
+}
+
+
+.file-drop:focus-within {
+
+    border-color:
+        var(--green-600);
+
+    box-shadow:
+        0 0 0 4px
+        rgba(66,107,89,.08);
+}
+
+
+/* =========================================================
+   28 -- BADGES / STATUS
+   ========================================================= */
+
+.badge,
+.status-badge,
+.tag {
+
+    transition:
+        transform 180ms var(--ghar-ease),
+        background-color 180ms var(--ghar-ease),
+        color 180ms var(--ghar-ease);
+}
+
+
+.badge:hover,
+.status-badge:hover,
+.tag:hover {
+
+    transform:
+        translate3d(0,-1px,0);
+}
+
+
+/* =========================================================
+   29 -- BACK TO TOP
+   ========================================================= */
+
+[data-back-top] {
+
+    opacity: 0;
+
+    transform:
+        translate3d(0,12px,0)
+        scale(.92);
+
+    pointer-events:
+        none;
+
+    visibility:
+        hidden;
+
+    transition:
+        opacity 240ms var(--ghar-ease),
+        transform 240ms var(--ghar-ease),
+        visibility 240ms linear;
+}
+
+
+[data-back-top].is-visible {
+
+    opacity: 1;
+
+    transform:
+        translate3d(0,0,0)
+        scale(1);
+
+    pointer-events:
+        auto;
+
+    visibility:
+        visible;
+}
+
+
+/* =========================================================
+   30 -- SKELETON
+   ========================================================= */
+
+@keyframes ghar-shimmer {
+
+    from {
+        background-position:
+            -700px 0;
+    }
+
+    to {
+        background-position:
+            700px 0;
+    }
+}
+
+
+.ghar-skeleton,
+.skeleton {
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(22,45,37,.05) 25%,
+            rgba(255,255,255,.42) 50%,
+            rgba(22,45,37,.05) 75%
+        );
+
+    background-size:
+        700px 100%;
+
+    animation:
+        ghar-shimmer
+        1.6s
+        linear
+        infinite;
+}
+
+
+/* =========================================================
+   31 -- SUCCESS FEEDBACK
+   ========================================================= */
+
+@keyframes ghar-success {
+
+    0% {
+        transform:
+            scale(.98);
+    }
+
+    60% {
+        transform:
+            scale(1.015);
+    }
+
+    100% {
+        transform:
+            scale(1);
+    }
+}
+
+
+.is-success {
+
+    animation:
+        ghar-success
+        360ms
+        var(--ghar-ease-spring);
+}
+
+
+/* =========================================================
+   32 -- ERROR FEEDBACK
+   ========================================================= */
+
+@keyframes ghar-shake {
+
+    0%,
+    100% {
+        transform:
+            translate3d(0,0,0);
+    }
+
+    25% {
+        transform:
+            translate3d(-4px,0,0);
+    }
+
+    75% {
+        transform:
+            translate3d(4px,0,0);
+    }
+}
+
+
+.is-error {
+
+    animation:
+        ghar-shake
+        280ms
+        ease-in-out;
+}
+
+
+/* =========================================================
+   33 -- HOVER LIFT UTILITY
+   ========================================================= */
+
+.hover-lift {
+
+    transition:
+        transform 240ms var(--ghar-ease),
+        box-shadow 240ms var(--ghar-ease);
+}
+
+
+.hover-lift:hover {
+
+    transform:
+        translate3d(0,-4px,0);
+
+    box-shadow:
+        var(--shadow-md);
+}
+
+
+/* =========================================================
+   34 -- IMAGE ZOOM UTILITY
+   ========================================================= */
+
+.hover-zoom {
+
+    overflow:
+        hidden;
+}
+
+
+.hover-zoom img {
+
+    transition:
+        transform
+        650ms
+        var(--ghar-ease-soft);
+}
+
+
+.hover-zoom:hover img {
+
+    transform:
+        scale(1.045);
+}
+
+
+/* =========================================================
+   35 -- FADE UTILITIES
+   ========================================================= */
+
+.fade-in {
+
+    animation:
+        ghar-page-in
+        400ms
+        var(--ghar-ease-soft)
+        both;
+}
+
+
+.fade-up {
+
+    animation:
+        ghar-card-in
+        420ms
+        var(--ghar-ease-spring)
+        both;
+}
+
+
+/* =========================================================
+   36 -- OPTIONAL DELAY UTILITIES
+   ========================================================= */
+
+.motion-delay-1 {
+    animation-delay: 60ms !important;
+}
+
+.motion-delay-2 {
+    animation-delay: 120ms !important;
+}
+
+.motion-delay-3 {
+    animation-delay: 180ms !important;
+}
+
+.motion-delay-4 {
+    animation-delay: 240ms !important;
+}
+
+.motion-delay-5 {
+    animation-delay: 300ms !important;
+}
+
+
+/* =========================================================
+   37 -- MOBILE MOTION
+   ---------------------------------------------------------
+   Mobile gets shorter, lighter movement.
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+    .card:hover,
+    .property-card:hover,
+    .feature-card:hover,
+    .service-card:hover,
+    .category-card:hover,
+    .dashboard-panel:hover,
+    .dashboard-stat:hover,
+    .stat-card:hover {
+
+        transform:
+            translate3d(0,-1px,0);
+    }
+
+
+    .property-card:hover img,
+    .property-gallery:hover img {
+
+        transform:
+            scale(1.02);
+    }
+
+
+    .hero,
+    .page-hero {
+
+        animation-duration:
+            420ms;
+    }
+}
+
+
+/* =========================================================
+   38 -- SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 420px) {
+
+    .card,
+    .property-card,
+    .dashboard-panel,
+    .dashboard-stat,
+    .stat-card {
+
+        animation-duration:
+            340ms;
+    }
+
+
+    .hero,
+    .page-hero {
+
+        animation-duration:
+            360ms;
+    }
+
+
+    .hero-decoration,
+    .hero-orb,
+    .background-orb,
+    .decorative-orb {
+
+        animation-duration:
+            10s;
+    }
+}
+
+
+/* =========================================================
+   39 -- TOUCH DEVICES
+   ---------------------------------------------------------
+   Remove hover-dependent movement on touch screens.
+   ========================================================= */
+
+@media (hover: none) and (pointer: coarse) {
+
+    .btn:hover,
+    .ghar-btn:hover,
+    button:hover,
+    [role="button"]:hover {
+
+        transform:
+            none;
+    }
+
+
+    .card:hover,
+    .panel:hover,
+    .property-card:hover,
+    .feature-card:hover,
+    .service-card:hover,
+    .category-card:hover,
+    .dashboard-panel:hover,
+    .dashboard-stat:hover,
+    .stat-card:hover {
+
+        transform:
+            none;
+    }
+
+
+    .property-card:hover img,
+    .property-gallery:hover img {
+
+        transform:
+            none;
+    }
+
+
+    .hero-decoration,
+    .hero-orb,
+    .background-orb,
+    .decorative-orb {
+
+        animation-duration:
+            11s;
+    }
+}
+
+
+/* =========================================================
+   40 -- REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+
+        animation-duration:
+            .01ms !important;
+
+        animation-delay:
+            0ms !important;
+
+        animation-iteration-count:
+            1 !important;
+
+        scroll-behavior:
+            auto !important;
+
+        transition-duration:
+            .01ms !important;
+    }
+
+
+    .hero-decoration,
+    .hero-orb,
+    .background-orb,
+    .decorative-orb {
+
+        animation:
+            none !important;
+    }
+}
+
+
+/* =========================================================
+   41 -- JS READY CONTROL
+   ---------------------------------------------------------
+   Prevents entrance animation from flashing before the
+   application has initialized.
+   ========================================================= */
+
+html:not(.ghar-js-ready) .ghar-page,
+html:not(.ghar-js-ready) main,
+html:not(.ghar-js-ready) .hero,
+html:not(.ghar-js-ready) .page-hero,
+html:not(.ghar-js-ready) .card,
+html:not(.ghar-js-ready) .property-card,
+html:not(.ghar-js-ready) .dashboard-panel {
+
+    animation:
+        none !important;
+}
+
+
+/* =========================================================
+   42 -- PERFORMANCE SAFETY
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+    .ghar-skeleton,
+    .hero-decoration,
+    .hero-orb,
+    .background-orb,
+    .decorative-orb {
+
+        will-change:
+            transform;
+    }
+}
+
+
+/* =========================================================
+   END -- GHAR PREMIUM GLOBAL ANIMATION SYSTEM
+   ========================================================= */

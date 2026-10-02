@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Visit Status · GHAR</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+<style>
+body{
+margin:0;color:#18221e;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+background:linear-gradient(135deg,#f8f3ea,#e8eee8 52%,#f0e5d5);
+}
+.wrap{width:min(1000px,calc(100% - 24px));margin:auto;padding:35px 0 70px}
+.hero,.card{border:1px solid rgba(16,35,29,.12);border-radius:24px;background:rgba(255,255,255,.65);box-shadow:0 20px 60px rgba(16,35,29,.08)}
+.hero{padding:32px;background:linear-gradient(120deg,#10231d,#18372d);color:#fff}
+.eyebrow{color:#c9a96e;font-size:.72rem;font-weight:800;letter-spacing:.15em}
+h1{font-size:clamp(2rem,4vw,3rem);margin:10px 0}
+.hero p{color:rgba(255,255,255,.72);line-height:1.7}
+.card{margin-top:20px;padding:24px}
+.timeline{display:grid;gap:0}
+.step{display:grid;grid-template-columns:45px 1fr;gap:15px;padding:18px 0;border-bottom:1px solid rgba(16,35,29,.1)}
+.dot{width:34px;height:34px;border-radius:50%;background:#10231d;color:#c9a96e;display:grid;place-items:center;font-weight:800}
+.muted{color:#6f776f;font-size:.83rem;line-height:1.6}
+.btn{display:inline-block;margin-top:20px;padding:11px 15px;border-radius:11px;background:#10231d;color:#fff;text-decoration:none;font-weight:750}
+</style>
+</head>
+<body data-root="../" data-page="status">
+<div data-site-header></div>
+
+<main class="wrap">
+<section class="hero">
+<div class="eyebrow">GHAR VISIT MANAGEMENT</div>
+<h1>Visit Status</h1>
+<p>Track the current status and progress of your property visit request.</p>
+</section>
+
+<section class="card">
+<h2 id="property">Property Visit</h2>
+<p class="muted" id="visitId"></p>
+
+<div class="timeline">
+<div class="step"><div class="dot">1</div><div><strong>Request Created</strong><div class="muted">Your visit request has been recorded by GHAR.</div></div></div>
+<div class="step"><div class="dot">2</div><div><strong>Availability Review</strong><div class="muted">The requested date and time are being coordinated.</div></div></div>
+<div class="step"><div class="dot">3</div><div><strong>Visit Confirmation</strong><div class="muted">You will see the confirmed schedule here once available.</div></div></div>
+<div class="step"><div class="dot">4</div><div><strong>Visit Completed</strong><div class="muted">After the visit, the record can be retained in your GHAR account.</div></div></div>
+</div>
+
+<a class="btn" href="scheduled-lists.html">Back to Scheduled Visits</a>
+</section>
+</main>
+
+<div data-site-footer></div>
+<div class="ghar-global-toast"></div>
+
+<script src="../assets/js/main/site.js" defer></script>
+<script src="../assets/js/main/page.js" defer></script>
+<script>
+const params=new URLSearchParams(location.search);
+document.getElementById("visitId").textContent=
+"Visit ID: "+(params.get("id")||"GHAR-VISIT");
+</script>
+</body>
+</html>

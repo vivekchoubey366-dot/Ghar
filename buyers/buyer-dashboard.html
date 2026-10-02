@@ -1,0 +1,4166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="GHAR Buyer Dashboard -- Manage saved properties, enquiries, visits, offers, bookings and your property journey."
+    >
+
+    <meta
+        name="theme-color"
+        content="#10231d"
+    >
+
+    <meta
+        name="robots"
+        content="noindex,nofollow"
+    >
+
+    <title>Buyer Dashboard | GHAR</title>
+
+    <!-- =====================================================
+         GOOGLE FONTS
+    ====================================================== -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- =====================================================
+         GHAR GLOBAL CSS
+    ====================================================== -->
+
+    <link
+        rel="stylesheet"
+        href="../assets/css/style.css"
+    >
+
+    <!-- =====================================================
+         BUYER DASHBOARD PAGE CSS
+    ====================================================== -->
+
+    <style>
+
+        :root {
+
+            --ghar-green: #10231d;
+            --ghar-green-2: #162d25;
+            --ghar-green-3: #203b31;
+            --ghar-green-4: #315546;
+
+            --ghar-gold: #c9a96e;
+            --ghar-gold-2: #d8c29a;
+            --ghar-gold-dark: #a98243;
+
+            --ghar-cream: #f7f3ea;
+            --ghar-sand: #eee6d7;
+            --ghar-soft: #e4dccd;
+
+            --ghar-text: #17241f;
+            --ghar-muted: #6c756f;
+
+            --ghar-success: #46765b;
+            --ghar-danger: #a6534b;
+            --ghar-warning: #9a783c;
+            --ghar-info: #526d82;
+
+            --ghar-radius: 28px;
+            --ghar-radius-sm: 18px;
+
+            --ghar-shadow:
+                0 25px 70px rgba(16,35,29,.11);
+
+            --ghar-transition:
+                240ms cubic-bezier(.2,.8,.2,1);
+        }
+
+
+        /* =================================================
+           RESET
+        ================================================== */
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+
+            margin: 0;
+
+            color: var(--ghar-text);
+
+            font-family:
+                "DM Sans",
+                sans-serif;
+
+            background:
+                radial-gradient(
+                    circle at 8% 8%,
+                    rgba(216,194,154,.22),
+                    transparent 28%
+                ),
+                radial-gradient(
+                    circle at 92% 22%,
+                    rgba(49,85,70,.13),
+                    transparent 30%
+                ),
+                linear-gradient(
+                    135deg,
+                    #f7f3ea 0%,
+                    #eee6d7 50%,
+                    #e5ddcf 100%
+                );
+
+            overflow-x: hidden;
+        }
+
+        body.menu-open {
+            overflow: hidden;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button,
+        input,
+        select {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+
+        /* =================================================
+           GLOBAL CONTAINER
+        ================================================== */
+
+        .ghar-container {
+
+            width:
+                min(
+                    1240px,
+                    calc(100% - 40px)
+                );
+
+            margin-inline: auto;
+        }
+
+
+        /* =================================================
+           HEADER
+        ================================================== */
+
+        .ghar-header {
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 1000;
+
+            padding: 14px 0;
+
+            background:
+                rgba(247,243,234,.86);
+
+            border-bottom:
+                1px solid
+                rgba(16,35,29,.08);
+
+            backdrop-filter:
+                blur(22px);
+
+            -webkit-backdrop-filter:
+                blur(22px);
+        }
+
+        .ghar-header-inner {
+
+            min-height: 66px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 20px;
+        }
+
+
+        /* =================================================
+           BRAND
+        ================================================== */
+
+        .ghar-brand {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            flex-shrink: 0;
+        }
+
+        .ghar-brand-mark {
+
+            width: 46px;
+            height: 46px;
+
+            display: grid;
+
+            place-items: center;
+
+            overflow: hidden;
+
+            border-radius: 15px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    var(--ghar-green),
+                    var(--ghar-green-3)
+                );
+
+            box-shadow:
+                0 10px 30px
+                rgba(16,35,29,.20);
+        }
+
+        .ghar-brand-mark img {
+
+            width: 32px;
+            height: 32px;
+
+            object-fit: contain;
+        }
+
+        .ghar-brand-fallback {
+
+            color: var(--ghar-gold-2);
+
+            font-family:
+                "Playfair Display",
+                serif;
+
+            font-size: 22px;
+
+            font-weight: 700;
+        }
+
+        .ghar-brand-text {
+
+            display: flex;
+
+            flex-direction: column;
+
+            line-height: 1;
+        }
+
+        .ghar-brand-name {
+
+            color:
+                var(--ghar-green);
+
+            font-family:
+                "Playfair Display",
+                serif;
+
+            font-size: 25px;
+
+            font-weight: 700;
+
+            letter-spacing: .04em;
+        }
+
+        .ghar-brand-tagline {
+
+            margin-top: 5px;
+
+            color: var(--ghar-muted);
+
+            font-size: 9px;
+
+            font-weight: 700;
+
+            letter-spacing: .20em;
+
+            text-transform: uppercase;
+        }
+
+
+        /* =================================================
+           NAVIGATION
+        ================================================== */
+
+        .ghar-nav {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 4px;
+        }
+
+        .ghar-nav a {
+
+            position: relative;
+
+            padding: 11px 12px;
+
+            color: #4e5b54;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            border-radius: 12px;
+
+            transition:
+                color var(--ghar-transition),
+                background var(--ghar-transition);
+        }
+
+        .ghar-nav a:hover,
+        .ghar-nav a.active {
+
+            color:
+                var(--ghar-green);
+
+            background:
+                rgba(201,169,110,.14);
+        }
+
+        .ghar-nav a.active::after {
+
+            content: "";
+
+            position: absolute;
+
+            left: 14px;
+            right: 14px;
+
+            bottom: 5px;
+
+            height: 2px;
+
+            border-radius: 999px;
+
+            background:
+                var(--ghar-gold);
+        }
+
+
+        /* =================================================
+           HEADER ACTIONS
+        ================================================== */
+
+        .ghar-header-actions {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 9px;
+        }
+
+        .ghar-btn {
+
+            min-height: 44px;
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 8px;
+
+            padding: 0 17px;
+
+            border: 0;
+
+            border-radius: 999px;
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            transition:
+                transform var(--ghar-transition),
+                box-shadow var(--ghar-transition),
+                background var(--ghar-transition);
+        }
+
+        .ghar-btn:hover {
+
+            transform:
+                translateY(-2px);
+        }
+
+        .ghar-btn-primary {
+
+            color: #fff;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--ghar-green),
+                    var(--ghar-green-3)
+                );
+
+            box-shadow:
+                0 12px 28px
+                rgba(16,35,29,.20);
+        }
+
+        .ghar-btn-gold {
+
+            color:
+                var(--ghar-green);
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--ghar-gold-2),
+                    var(--ghar-gold)
+                );
+
+            box-shadow:
+                0 12px 28px
+                rgba(169,130,67,.18);
+        }
+
+        .ghar-btn-outline {
+
+            color:
+                var(--ghar-green);
+
+            background:
+                rgba(255,255,255,.40);
+
+            border:
+                1px solid
+                rgba(16,35,29,.13);
+        }
+
+        .ghar-menu-button {
+
+            display: none;
+
+            width: 45px;
+            height: 45px;
+
+            border:
+                1px solid
+                rgba(16,35,29,.12);
+
+            border-radius: 14px;
+
+            background:
+                rgba(255,255,255,.48);
+        }
+
+        .ghar-menu-button span {
+
+            width: 20px;
+            height: 2px;
+
+            display: block;
+
+            margin: 4px auto;
+
+            background:
+                var(--ghar-green);
+
+            border-radius: 10px;
+        }
+
+
+        /* =================================================
+           DASHBOARD HERO
+        ================================================== */
+
+        .dashboard-page {
+
+            padding:
+                52px 0 90px;
+        }
+
+        .dashboard-hero {
+
+            position: relative;
+
+            overflow: hidden;
+
+            padding: 42px;
+
+            border-radius: 34px;
+
+            color: #fff;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #10231d 0%,
+                    #1d3a2e 55%,
+                    #315546 100%
+                );
+
+            box-shadow:
+                0 35px 90px
+                rgba(16,35,29,.22);
+        }
+
+        .dashboard-hero::before {
+
+            content: "";
+
+            position: absolute;
+
+            width: 430px;
+            height: 430px;
+
+            right: -130px;
+            top: -220px;
+
+            border-radius: 50%;
+
+            border:
+                1px solid
+                rgba(216,194,154,.24);
+        }
+
+        .dashboard-hero::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 300px;
+            height: 300px;
+
+            left: 45%;
+            bottom: -240px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(201,169,110,.10);
+        }
+
+        .dashboard-hero-content {
+
+            position: relative;
+
+            z-index: 2;
+
+            display: flex;
+
+            align-items: flex-end;
+
+            justify-content: space-between;
+
+            gap: 30px;
+        }
+
+        .dashboard-eyebrow {
+
+            margin-bottom: 12px;
+
+            color:
+                var(--ghar-gold-2);
+
+            font-size: 11px;
+
+            font-weight: 800;
+
+            letter-spacing: .18em;
+
+            text-transform: uppercase;
+        }
+
+        .dashboard-hero h1 {
+
+            margin: 0;
+
+            color: #fff;
+
+            font-family:
+                "Playfair Display",
+                serif;
+
+            font-size:
+                clamp(38px, 5vw, 60px);
+
+            line-height: 1.02;
+
+            letter-spacing: -.025em;
+        }
+
+        .dashboard-hero p {
+
+            max-width: 680px;
+
+            margin:
+                15px 0 0;
+
+            color:
+                rgba(255,255,255,.68);
+
+            font-size: 16px;
+
+            line-height: 1.7;
+        }
+
+        .hero-actions {
+
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 10px;
+
+            flex-shrink: 0;
+        }
+
+
+        /* =================================================
+           QUICK STATS
+        ================================================== */
+
+        .dashboard-stats {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(5, 1fr);
+
+            gap: 14px;
+
+            margin-top: 22px;
+        }
+
+        .dashboard-stat {
+
+            padding: 23px;
+
+            border:
+                1px solid
+                rgba(16,35,29,.09);
+
+            border-radius: 22px;
+
+            background:
+                rgba(255,255,255,.43);
+
+            box-shadow:
+                0 15px 45px
+                rgba(16,35,29,.06);
+
+            backdrop-filter:
+                blur(12px);
+
+            transition:
+                transform var(--ghar-transition),
+                box-shadow var(--ghar-transition);
+        }
+
+        .dashboard-stat:hover {
+
+            transform:
+                translateY(-4px);
+
+            box-shadow:
+                0 20px 50px
+                rgba(16,35,29,.10);
+        }
+
+        .stat-icon {
+
+            width: 42px;
+            height: 42px;
+
+            display: grid;
+
+            place-items: center;
+
+            margin-bottom: 16px;
+
+            border-radius: 13px;
+
+            color:
+                var(--ghar-green);
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(216,194,154,.75),
+                    rgba(201,169,110,.48)
+                );
+
+            font-size: 18px;
+        }
+
+        .stat-value {
+
+            color:
+                var(--ghar-green);
+
+            font-family:
+                "Playfair Display",
+                serif;
+
+            font-size: 32px;
+
+            font-weight: 700;
+        }
+
+        .stat-label {
+
+            margin-top: 4px;
+
+            color:
+                var(--ghar-muted);
+
+            font-size: 12px;
+
+            line-height: 1.4;
+        }
+
+
+        /* =================================================
+           MAIN GRID
+        ================================================== */
+
+        .dashboard-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                minmax(0, 1.65fr)
+                minmax(290px, .75fr);
+
+            gap: 22px;
+
+            margin-top: 25px;
+        }
+
+
+        /* =================================================
+           PANEL
+        ================================================== */
+
+        .dashboard-panel {
+
+            overflow: hidden;
+
+            border:
+                1px solid
+                rgba(16,35,29,.09);
+
+            border-radius: 28px;
+
+            background:
+                rgba(255,255,255,.42);
+
+            box-shadow:
+                var(--ghar-shadow);
+
+            backdrop-filter:
+                blur(14px);
+        }
+
+        .panel-header {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 15px;
+
+            padding:
+                25px 27px;
+
+            border-bottom:
+                1px solid
+                rgba(16,35,29,.07);
+        }
+
+        .panel-title {
+
+            margin: 0;
+
+            color:
+                var(--ghar-green);
+
+            font-family:
+                "Playfair Display",
+                serif;
+
+            font-size: 25px;
+        }
+
+        .panel-subtitle {
+
+            margin: 5px 0 0;
+
+            color:
+                var(--ghar-muted);
+
+            font-size: 12px;
+        }
+
+        .panel-link {
+
+            color:
+                var(--ghar-gold-dark);
+
+            font-size: 12px;
+
+            font-weight: 800;
+
+            white-space: nowrap;
+        }
+
+        .panel-body {
+
+            padding: 24px 27px;
+        }
+
+
+        /* =================================================
+           PROPERTY CARDS
+        ================================================== */
+
+        .property-list {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+
+            gap: 16px;
+        }
+
+        .property-card {
+
+            overflow: hidden;
+
+            border:
+                1px solid
+                rgba(16,35,29,.08);
+
+            border-radius: 21px;
+
+            background:
+                rgba(247,243,234,.65);
+
+            transition:
+                transform var(--ghar-transition),
+                box-shadow var(--ghar-transition);
+        }
+
+        .property-card:hover {
+
+            transform:
+                translateY(-5px);
+
+            box-shadow:
+                0 18px 45px
+                rgba(16,35,29,.11);
+        }
+
+        .property-image {
+
+            position: relative;
+
+            height: 190px;
+
+            overflow: hidden;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #203b31,
+                    #c9a96e
+                );
+        }
+
+        .property-image img {
+
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+        }
+
+        .property-image-placeholder {
+
+            width: 100%;
+            height: 100%;
+
+            display: grid;
+
+            place-items: center;
+
+            color:
+                rgba(255,255,255,.85);
+
+            font-size: 40px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #10231d,
+                    #466956
+                );
+        }
+
+        .property-badge {
+
+            position: absolute;
+
+            top: 12px;
+            left: 12px;
+
+            padding:
+                7px 10px;
+
+            border-radius: 999px;
+
+            color:
+                var(--ghar-green);
+
+            background:
+                rgba(247,243,234,.91);
+
+            font-size: 10px;
+
+            font-weight: 800;
+
+            letter-spacing: .04em;
+        }
+
+        .property-save {
+
+            position: absolute;
+
+            top: 10px;
+            right: 10px;
+
+            width: 36px;
+            height: 36px;
+
+            display: grid;
+
+            place-items: center;
+
+            border: 0;
+
+            border-radius: 50%;
+
+            color: #fff;
+
+            background:
+                rgba(16,35,29,.65);
+
+            backdrop-filter:
+                blur(10px);
+        }
+
+        .property-info {
+
+            padding: 18px;
+        }
+
+        .property-title {
+
+            margin: 0;
+
+            color:
+                var(--ghar-green);
+
+            font-size: 15px;
+
+            font-weight: 800;
+
+            line-height: 1.35;
+        }
+
+        .property-location {
+
+            margin-top: 7px;
+
+            color:
+                var(--ghar-muted);
+
+            font-size: 12px;
+        }
+
+        .property-meta {
+
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 9px;
+
+            margin-top: 12px;
+
+            color:
+                #59655e;
+
+            font-size: 11px;
+        }
+
+        .property-price {
+
+            margin-top: 15px;
+
+            color:
+                var(--ghar-green);
+
+            font-family:
+                "Playfair Display",
+                serif;
+
+            font-size: 22px;
+
+            font-weight: 700;
+        }
+
+        .property-action {
+
+            display: flex;
+
+            gap: 8px;
+
+            margin-top: 14px;
+        }
+
+        .small-btn {
+
+            min-height: 37px;
+
+            padding:
+                0 12px;
+
+            border-radius: 10px;
+
+            border:
+                1px solid
+                rgba(16,35,29,.10);
+
+            background:
+                rgba(255,255,255,.52);
+
+            color:
+                var(--ghar-green);
+
+            font-size: 11px;
+
+            font-weight: 800;
+        }
+
+        .small-btn.primary {
+
+            color: #fff;
+
+            border: 0;
+
+            background:
+                var(--ghar-green);
+        }
+
+
+        /* =================================================
+           ACTIVITY
+        ================================================== */
+
+        .activity-list {
+
+            display: flex;
+
+            flex-direction: column;
+        }
+
+        .activity-item {
+
+            display: flex;
+
+            gap: 13px;
+
+            padding:
+                16px 0;
+
+            border-bottom:
+                1px solid
+                rgba(16,35,29,.07);
+        }
+
+        .activity-item:last-child {
+
+            border-bottom: 0;
+        }
+
+        .activity-icon {
+
+            width: 39px;
+            height: 39px;
+
+            display: grid;
+
+            place-items: center;
+
+            flex-shrink: 0;
+
+            border-radius: 12px;
+
+            color:
+                var(--ghar-green);
+
+            background:
+                rgba(201,169,110,.20);
+        }
+
+        .activity-content {
+
+            min-width: 0;
+        }
+
+        .activity-title {
+
+            color:
+                var(--ghar-green);
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            line-height: 1.4;
+        }
+
+        .activity-time {
+
+            margin-top: 3px;
+
+            color:
+                var(--ghar-muted);
+
+            font-size: 11px;
+        }
+
+
+        /* =================================================
+           UPCOMING VISITS
+        ================================================== */
+
+        .visit-card {
+
+            padding: 18px;
+
+            border-radius: 19px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(216,194,154,.24),
+                    rgba(255,255,255,.38)
+                );
+
+            border:
+                1px solid
+                rgba(201,169,110,.20);
+        }
+
+        .visit-date {
+
+            color:
+                var(--ghar-gold-dark);
+
+            font-size: 10px;
+
+            font-weight: 800;
+
+            letter-spacing: .12em;
+
+            text-transform: uppercase;
+        }
+
+        .visit-title {
+
+            margin-top: 8px;
+
+            color:
+                var(--ghar-green);
+
+            font-size: 14px;
+
+            font-weight: 800;
+        }
+
+        .visit-details {
+
+            margin-top: 7px;
+
+            color:
+                var(--ghar-muted);
+
+            font-size: 11px;
+
+            line-height: 1.6;
+        }
+
+        .visit-actions {
+
+            display: flex;
+
+            gap: 7px;
+
+            margin-top: 14px;
+        }
+
+
+        /* =================================================
+           QUICK ACTIONS
+        ================================================== */
+
+        .quick-actions {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 10px;
+        }
+
+        .quick-action {
+
+            min-height: 105px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: flex-start;
+
+            justify-content: space-between;
+
+            padding: 17px;
+
+            border:
+                1px solid
+                rgba(16,35,29,.08);
+
+            border-radius: 18px;
+
+            background:
+                rgba(255,255,255,.34);
+
+            transition:
+                transform var(--ghar-transition),
+                background var(--ghar-transition);
+        }
+
+        .quick-action:hover {
+
+            transform:
+                translateY(-3px);
+
+            background:
+                rgba(216,194,154,.18);
+        }
+
+        .quick-action-icon {
+
+            font-size: 21px;
+        }
+
+        .quick-action strong {
+
+            color:
+                var(--ghar-green);
+
+            font-size: 12px;
+        }
+
+        .quick-action span {
+
+            color:
+                var(--ghar-muted);
+
+            font-size: 10px;
+        }
+
+
+        /* =================================================
+           PROFILE COMPLETION
+        ================================================== */
+
+        .profile-progress {
+
+            margin-top: 6px;
+        }
+
+        .progress-header {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 10px;
+
+            margin-bottom: 9px;
+        }
+
+        .progress-header strong {
+
+            color:
+                var(--ghar-green);
+
+            font-size: 12px;
+        }
+
+        .progress-percent {
+
+            color:
+                var(--ghar-gold-dark);
+
+            font-size: 12px;
+
+            font-weight: 800;
+        }
+
+        .progress-track {
+
+            height: 9px;
+
+            overflow: hidden;
+
+            border-radius: 999px;
+
+            background:
+                rgba(16,35,29,.09);
+        }
+
+        .progress-fill {
+
+            width: 72%;
+
+            height: 100%;
+
+            border-radius: inherit;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    var(--ghar-green),
+                    var(--ghar-gold)
+                );
+        }
+
+        .profile-note {
+
+            margin-top: 12px;
+
+            color:
+                var(--ghar-muted);
+
+            font-size: 11px;
+
+            line-height: 1.6;
+        }
+
+
+        /* =================================================
+           EMPTY STATE
+        ================================================== */
+
+        .empty-state {
+
+            padding:
+                40px 20px;
+
+            text-align: center;
+
+            color:
+                var(--ghar-muted);
+        }
+
+        .empty-icon {
+
+            width: 55px;
+            height: 55px;
+
+            display: grid;
+
+            place-items: center;
+
+            margin:
+                0 auto 15px;
+
+            border-radius: 17px;
+
+            color:
+                var(--ghar-green);
+
+            background:
+                rgba(201,169,110,.18);
+
+            font-size: 24px;
+        }
+
+        .empty-state strong {
+
+            display: block;
+
+            color:
+                var(--ghar-green);
+
+            font-size: 14px;
+        }
+
+        .empty-state p {
+
+            max-width: 380px;
+
+            margin:
+                7px auto 17px;
+
+            font-size: 12px;
+
+            line-height: 1.6;
+        }
+
+
+        /* =================================================
+           FOOTER
+        ================================================== */
+
+        .ghar-footer {
+
+            padding:
+                70px 0 28px;
+
+            color:
+                rgba(255,255,255,.70);
+
+            background:
+                #0b1b16;
+        }
+
+        .footer-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                1.3fr repeat(3, 1fr);
+
+            gap: 45px;
+        }
+
+        .footer-brand p {
+
+            max-width: 360px;
+
+            margin:
+                18px 0 0;
+
+            color:
+                rgba(255,255,255,.55);
+
+            line-height: 1.7;
+
+            font-size: 13px;
+        }
+
+        .footer-column h4 {
+
+            margin:
+                0 0 18px;
+
+            color:
+                var(--ghar-gold-2);
+
+            font-size: 12px;
+
+            letter-spacing: .13em;
+
+            text-transform: uppercase;
+        }
+
+        .footer-column a {
+
+            display: block;
+
+            margin: 11px 0;
+
+            color:
+                rgba(255,255,255,.58);
+
+            font-size: 13px;
+
+            transition:
+                color var(--ghar-transition);
+        }
+
+        .footer-column a:hover {
+
+            color: #fff;
+        }
+
+        .footer-bottom {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 20px;
+
+            margin-top: 55px;
+
+            padding-top: 24px;
+
+            border-top:
+                1px solid
+                rgba(255,255,255,.09);
+
+            font-size: 11px;
+        }
+
+
+        /* =================================================
+           TOAST
+        ================================================== */
+
+        .ghar-toast {
+
+            position: fixed;
+
+            right: 22px;
+            bottom: 22px;
+
+            z-index: 5000;
+
+            max-width: 340px;
+
+            padding:
+                14px 17px;
+
+            color: #fff;
+
+            background:
+                rgba(16,35,29,.95);
+
+            border:
+                1px solid
+                rgba(216,194,154,.25);
+
+            border-radius: 15px;
+
+            box-shadow:
+                0 20px 50px
+                rgba(0,0,0,.20);
+
+            opacity: 0;
+
+            transform:
+                translateY(15px);
+
+            pointer-events: none;
+
+            transition:
+                opacity .25s ease,
+                transform .25s ease;
+
+            font-size: 12px;
+
+            line-height: 1.5;
+        }
+
+        .ghar-toast.show {
+
+            opacity: 1;
+
+            transform:
+                translateY(0);
+        }
+
+
+        /* =================================================
+           RESPONSIVE
+        ================================================== */
+
+        @media (max-width: 1100px) {
+
+            .ghar-nav a {
+
+                padding-inline: 8px;
+
+                font-size: 12px;
+            }
+
+            .dashboard-stats {
+
+                grid-template-columns:
+                    repeat(3, 1fr);
+            }
+
+            .dashboard-grid {
+
+                grid-template-columns: 1fr;
+            }
+        }
+
+
+        @media (max-width: 850px) {
+
+            .ghar-menu-button {
+
+                display: block;
+            }
+
+            .ghar-header-actions {
+
+                display: none;
+            }
+
+            .ghar-nav {
+
+                position: fixed;
+
+                left: 20px;
+                right: 20px;
+                top: 90px;
+
+                display: none;
+
+                flex-direction: column;
+
+                align-items: stretch;
+
+                padding: 16px;
+
+                border-radius: 24px;
+
+                background:
+                    rgba(247,243,234,.97);
+
+                border:
+                    1px solid
+                    rgba(16,35,29,.10);
+
+                box-shadow:
+                    0 25px 70px
+                    rgba(16,35,29,.18);
+
+                backdrop-filter:
+                    blur(20px);
+            }
+
+            .ghar-nav.open {
+
+                display: flex;
+            }
+
+            .ghar-nav a {
+
+                padding: 15px;
+            }
+
+            .ghar-nav a.active::after {
+
+                display: none;
+            }
+
+            .dashboard-hero-content {
+
+                align-items: flex-start;
+
+                flex-direction: column;
+            }
+
+            .hero-actions {
+
+                width: 100%;
+            }
+
+            .dashboard-stats {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .footer-grid {
+
+                grid-template-columns:
+                    1fr 1fr;
+            }
+
+            .footer-brand {
+
+                grid-column:
+                    1 / -1;
+            }
+        }
+
+
+        @media (max-width: 600px) {
+
+            .ghar-container {
+
+                width:
+                    calc(100% - 28px);
+            }
+
+            .ghar-brand-tagline {
+
+                display: none;
+            }
+
+            .ghar-brand-name {
+
+                font-size: 22px;
+            }
+
+            .dashboard-page {
+
+                padding-top: 28px;
+            }
+
+            .dashboard-hero {
+
+                padding: 28px 23px;
+
+                border-radius: 27px;
+            }
+
+            .dashboard-hero h1 {
+
+                font-size: 39px;
+            }
+
+            .dashboard-hero p {
+
+                font-size: 14px;
+            }
+
+            .hero-actions {
+
+                flex-direction: column;
+            }
+
+            .hero-actions .ghar-btn {
+
+                width: 100%;
+            }
+
+            .dashboard-stats {
+
+                grid-template-columns:
+                    1fr 1fr;
+            }
+
+            .dashboard-stat {
+
+                padding: 18px;
+            }
+
+            .stat-value {
+
+                font-size: 28px;
+            }
+
+            .dashboard-grid {
+
+                margin-top: 17px;
+            }
+
+            .panel-header,
+            .panel-body {
+
+                padding-left: 19px;
+                padding-right: 19px;
+            }
+
+            .property-list {
+
+                grid-template-columns: 1fr;
+            }
+
+            .property-image {
+
+                height: 200px;
+            }
+
+            .quick-actions {
+
+                grid-template-columns:
+                    1fr 1fr;
+            }
+
+            .footer-grid {
+
+                grid-template-columns: 1fr;
+            }
+
+            .footer-brand {
+
+                grid-column: auto;
+            }
+
+            .footer-bottom {
+
+                flex-direction: column;
+
+                align-items: flex-start;
+            }
+        }
+
+
+        @media (prefers-reduced-motion: reduce) {
+
+            html {
+
+                scroll-behavior: auto;
+            }
+
+            *,
+            *::before,
+            *::after {
+
+                animation-duration: .01ms !important;
+
+                animation-iteration-count: 1 !important;
+
+                transition-duration: .01ms !important;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     HEADER
+========================================================= -->
+
+<header
+    class="ghar-header"
+    id="gharHeader"
+>
+
+    <div class="ghar-container ghar-header-inner">
+
+
+        <!-- BRAND -->
+
+        <a
+            href="../index.html"
+            class="ghar-brand"
+            aria-label="GHAR Home"
+        >
+
+            <span class="ghar-brand-mark">
+
+                <img
+                    src="../assets/images/ghar-logo/png/ghar-logo.png"
+                    alt="GHAR"
+                    onerror="
+                        this.style.display='none';
+                        this.nextElementSibling.style.display='block';
+                    "
+                >
+
+                <span
+                    class="ghar-brand-fallback"
+                    style="display:none;"
+                >
+                    G
+                </span>
+
+            </span>
+
+            <span class="ghar-brand-text">
+
+                <span class="ghar-brand-name">
+                    GHAR
+                </span>
+
+                <span class="ghar-brand-tagline">
+                    Find. Live. Belong.
+                </span>
+
+            </span>
+
+        </a>
+
+
+        <!-- MOBILE MENU -->
+
+        <button
+            type="button"
+            class="ghar-menu-button"
+            id="gharMenuButton"
+            aria-label="Open navigation"
+            aria-expanded="false"
+            aria-controls="gharNav"
+        >
+
+            <span></span>
+            <span></span>
+            <span></span>
+
+        </button>
+
+
+        <!-- NAVIGATION -->
+
+        <nav
+            class="ghar-nav"
+            id="gharNav"
+            aria-label="Buyer navigation"
+        >
+
+            <a href="../index.html">
+                Home
+            </a>
+
+            <a href="../property/properties.html">
+                Properties
+            </a>
+
+            <a href="../property/property-search.html">
+                Search
+            </a>
+
+            <a
+                href="buyer-dashboard.html"
+                class="active"
+                aria-current="page"
+            >
+                Dashboard
+            </a>
+
+            <a href="saved-properties.html">
+                Saved
+            </a>
+
+            <a href="enquiries.html">
+                Enquiries
+            </a>
+
+        </nav>
+
+
+        <!-- ACTIONS -->
+
+        <div class="ghar-header-actions">
+
+            <a
+                href="buyer-profile.html"
+                class="ghar-btn ghar-btn-outline"
+            >
+                My Profile
+            </a>
+
+            <a
+                href="../property/property-search.html"
+                class="ghar-btn ghar-btn-primary"
+            >
+                Find Property
+            </a>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<!-- =========================================================
+     MAIN
+========================================================= -->
+
+<main class="dashboard-page">
+
+    <div class="ghar-container">
+
+
+        <!-- =================================================
+             DASHBOARD HERO
+        ================================================== -->
+
+        <section class="dashboard-hero">
+
+            <div class="dashboard-hero-content">
+
+                <div>
+
+                    <div class="dashboard-eyebrow">
+                        GHAR Buyer Space
+                    </div>
+
+                    <h1 id="buyerGreeting">
+                        Welcome back.
+                    </h1>
+
+                    <p>
+                        Manage your saved properties,
+                        enquiries, visits, offers and
+                        bookings from one connected
+                        property dashboard.
+                    </p>
+
+                </div>
+
+
+                <div class="hero-actions">
+
+                    <a
+                        href="../property/property-search.html"
+                        class="ghar-btn ghar-btn-gold"
+                    >
+                        + Find a Property
+                    </a>
+
+                    <a
+                        href="saved-properties.html"
+                        class="ghar-btn ghar-btn-outline"
+                        style="
+                            color:#fff;
+                            border-color:rgba(255,255,255,.20);
+                            background:rgba(255,255,255,.08);
+                        "
+                    >
+                        View Saved
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             STATS
+        ================================================== -->
+
+        <section
+            class="dashboard-stats"
+            aria-label="Buyer statistics"
+        >
+
+            <article class="dashboard-stat">
+
+                <div class="stat-icon">
+                    ♡
+                </div>
+
+                <div
+                    class="stat-value"
+                    id="savedCount"
+                >
+                    0
+                </div>
+
+                <div class="stat-label">
+                    Saved Properties
+                </div>
+
+            </article>
+
+
+            <article class="dashboard-stat">
+
+                <div class="stat-icon">
+                    ◇
+                </div>
+
+                <div
+                    class="stat-value"
+                    id="enquiryCount"
+                >
+                    0
+                </div>
+
+                <div class="stat-label">
+                    Active Enquiries
+                </div>
+
+            </article>
+
+
+            <article class="dashboard-stat">
+
+                <div class="stat-icon">
+                    ◷
+                </div>
+
+                <div
+                    class="stat-value"
+                    id="visitCount"
+                >
+                    0
+                </div>
+
+                <div class="stat-label">
+                    Upcoming Visits
+                </div>
+
+            </article>
+
+
+            <article class="dashboard-stat">
+
+                <div class="stat-icon">
+                    ₹
+                </div>
+
+                <div
+                    class="stat-value"
+                    id="offerCount"
+                >
+                    0
+                </div>
+
+                <div class="stat-label">
+                    Active Offers
+                </div>
+
+            </article>
+
+
+            <article class="dashboard-stat">
+
+                <div class="stat-icon">
+                    ✓
+                </div>
+
+                <div
+                    class="stat-value"
+                    id="bookingCount"
+                >
+                    0
+                </div>
+
+                <div class="stat-label">
+                    Bookings
+                </div>
+
+            </article>
+
+        </section>
+
+
+        <!-- =================================================
+             MAIN DASHBOARD GRID
+        ================================================== -->
+
+        <section class="dashboard-grid">
+
+
+            <!-- =================================================
+                 LEFT COLUMN
+            ================================================== -->
+
+            <div>
+
+
+                <!-- SAVED PROPERTIES -->
+
+                <section class="dashboard-panel">
+
+                    <div class="panel-header">
+
+                        <div>
+
+                            <h2 class="panel-title">
+                                Your Saved Properties
+                            </h2>
+
+                            <p class="panel-subtitle">
+                                Properties you have shortlisted.
+                            </p>
+
+                        </div>
+
+                        <a
+                            href="saved-properties.html"
+                            class="panel-link"
+                        >
+                            View all →
+                        </a>
+
+                    </div>
+
+
+                    <div
+                        class="panel-body"
+                        id="savedPropertiesContainer"
+                    >
+
+                        <div class="property-list">
+
+
+                            <!-- PROPERTY 1 -->
+
+                            <article class="property-card">
+
+                                <div class="property-image">
+
+                                    <div
+                                        class="property-image-placeholder"
+                                    >
+                                        ⌂
+                                    </div>
+
+                                    <span class="property-badge">
+                                        For Sale
+                                    </span>
+
+                                    <button
+                                        type="button"
+                                        class="property-save"
+                                        data-property-id="GHAR-P001"
+                                        aria-label="Remove saved property"
+                                    >
+                                        ♥
+                                    </button>
+
+                                </div>
+
+                                <div class="property-info">
+
+                                    <h3 class="property-title">
+                                        Premium 3 BHK Residence
+                                    </h3>
+
+                                    <div class="property-location">
+                                        Noida, Uttar Pradesh
+                                    </div>
+
+                                    <div class="property-meta">
+                                        <span>3 Beds</span>
+                                        <span>2 Baths</span>
+                                        <span>1,850 sq.ft.</span>
+                                    </div>
+
+                                    <div class="property-price">
+                                        ₹1.85 Cr
+                                    </div>
+
+                                    <div class="property-action">
+
+                                        <a
+                                            href="../property/property-details.html?id=GHAR-P001"
+                                            class="small-btn primary"
+                                        >
+                                            View
+                                        </a>
+
+                                        <button
+                                            type="button"
+                                            class="small-btn"
+                                            data-enquire-property="GHAR-P001"
+                                        >
+                                            Enquire
+                                        </button>
+
+                                    </div>
+
+                                </div>
+
+                            </article>
+
+
+                            <!-- PROPERTY 2 -->
+
+                            <article class="property-card">
+
+                                <div class="property-image">
+
+                                    <div
+                                        class="property-image-placeholder"
+                                    >
+                                        ⌂
+                                    </div>
+
+                                    <span class="property-badge">
+                                        For Sale
+                                    </span>
+
+                                    <button
+                                        type="button"
+                                        class="property-save"
+                                        data-property-id="GHAR-P002"
+                                        aria-label="Remove saved property"
+                                    >
+                                        ♥
+                                    </button>
+
+                                </div>
+
+                                <div class="property-info">
+
+                                    <h3 class="property-title">
+                                        Luxury 2 BHK Apartment
+                                    </h3>
+
+                                    <div class="property-location">
+                                        Greater Noida, Uttar Pradesh
+                                    </div>
+
+                                    <div class="property-meta">
+                                        <span>2 Beds</span>
+                                        <span>2 Baths</span>
+                                        <span>1,320 sq.ft.</span>
+                                    </div>
+
+                                    <div class="property-price">
+                                        ₹92 Lakh
+                                    </div>
+
+                                    <div class="property-action">
+
+                                        <a
+                                            href="../property/property-details.html?id=GHAR-P002"
+                                            class="small-btn primary"
+                                        >
+                                            View
+                                        </a>
+
+                                        <button
+                                            type="button"
+                                            class="small-btn"
+                                            data-enquire-property="GHAR-P002"
+                                        >
+                                            Enquire
+                                        </button>
+
+                                    </div>
+
+                                </div>
+
+                            </article>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- =================================================
+                     RECENT ACTIVITY
+                ================================================== -->
+
+                <section
+                    class="dashboard-panel"
+                    style="margin-top:22px;"
+                >
+
+                    <div class="panel-header">
+
+                        <div>
+
+                            <h2 class="panel-title">
+                                Recent Activity
+                            </h2>
+
+                            <p class="panel-subtitle">
+                                Your latest property activity.
+                            </p>
+
+                        </div>
+
+                        <a
+                            href="enquiries.html"
+                            class="panel-link"
+                        >
+                            View activity →
+                        </a>
+
+                    </div>
+
+
+                    <div class="panel-body">
+
+                        <div
+                            class="activity-list"
+                            id="activityList"
+                        >
+
+                            <div class="activity-item">
+
+                                <div class="activity-icon">
+                                    ♡
+                                </div>
+
+                                <div class="activity-content">
+
+                                    <div class="activity-title">
+                                        Property added to saved list
+                                    </div>
+
+                                    <div class="activity-time">
+                                        Recently
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="activity-item">
+
+                                <div class="activity-icon">
+                                    ◇
+                                </div>
+
+                                <div class="activity-content">
+
+                                    <div class="activity-title">
+                                        Continue exploring properties
+                                    </div>
+
+                                    <div class="activity-time">
+                                        Search for your next property
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="activity-item">
+
+                                <div class="activity-icon">
+                                    ✓
+                                </div>
+
+                                <div class="activity-content">
+
+                                    <div class="activity-title">
+                                        Buyer dashboard ready
+                                    </div>
+
+                                    <div class="activity-time">
+                                        GHAR account workspace
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+
+            <!-- =================================================
+                 RIGHT COLUMN
+            ================================================== -->
+
+            <aside>
+
+
+                <!-- PROFILE COMPLETION -->
+
+                <section class="dashboard-panel">
+
+                    <div class="panel-header">
+
+                        <div>
+
+                            <h2 class="panel-title">
+                                Your Profile
+                            </h2>
+
+                            <p class="panel-subtitle">
+                                Complete your buyer profile.
+                            </p>
+
+                        </div>
+
+                        <a
+                            href="buyer-profile.html"
+                            class="panel-link"
+                        >
+                            Edit
+                        </a>
+
+                    </div>
+
+
+                    <div class="panel-body">
+
+                        <div class="profile-progress">
+
+                            <div class="progress-header">
+
+                                <strong>
+                                    Profile completion
+                                </strong>
+
+                                <span
+                                    class="progress-percent"
+                                    id="profilePercent"
+                                >
+                                    72%
+                                </span>
+
+                            </div>
+
+                            <div class="progress-track">
+
+                                <div
+                                    class="progress-fill"
+                                    id="profileProgress"
+                                ></div>
+
+                            </div>
+
+                            <p class="profile-note">
+                                Add your preferred location,
+                                budget and property requirements
+                                to improve your GHAR experience.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- =================================================
+                     UPCOMING VISIT
+                ================================================== -->
+
+                <section
+                    class="dashboard-panel"
+                    style="margin-top:22px;"
+                >
+
+                    <div class="panel-header">
+
+                        <div>
+
+                            <h2 class="panel-title">
+                                Upcoming Visit
+                            </h2>
+
+                            <p class="panel-subtitle">
+                                Your scheduled property visits.
+                            </p>
+
+                        </div>
+
+                        <a
+                            href="visits.html"
+                            class="panel-link"
+                        >
+                            All visits
+                        </a>
+
+                    </div>
+
+
+                    <div class="panel-body">
+
+                        <div
+                            class="visit-card"
+                            id="upcomingVisit"
+                        >
+
+                            <div class="visit-date">
+                                No upcoming visit
+                            </div>
+
+                            <div class="visit-title">
+                                Schedule a property visit
+                            </div>
+
+                            <div class="visit-details">
+                                Explore properties and arrange
+                                a suitable visit from the
+                                property details page.
+                            </div>
+
+                            <div class="visit-actions">
+
+                                <a
+                                    href="../property/property-search.html"
+                                    class="small-btn primary"
+                                >
+                                    Find Property
+                                </a>
+
+                                <a
+                                    href="visits.html"
+                                    class="small-btn"
+                                >
+                                    Visits
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- =================================================
+                     QUICK ACTIONS
+                ================================================== -->
+
+                <section
+                    class="dashboard-panel"
+                    style="margin-top:22px;"
+                >
+
+                    <div class="panel-header">
+
+                        <div>
+
+                            <h2 class="panel-title">
+                                Quick Actions
+                            </h2>
+
+                            <p class="panel-subtitle">
+                                Continue your property journey.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="panel-body">
+
+                        <div class="quick-actions">
+
+
+                            <a
+                                href="../property/property-search.html"
+                                class="quick-action"
+                            >
+
+                                <span class="quick-action-icon">
+                                    ⌕
+                                </span>
+
+                                <strong>
+                                    Search
+                                </strong>
+
+                                <span>
+                                    Find properties
+                                </span>
+
+                            </a>
+
+
+                            <a
+                                href="saved-properties.html"
+                                class="quick-action"
+                            >
+
+                                <span class="quick-action-icon">
+                                    ♡
+                                </span>
+
+                                <strong>
+                                    Saved
+                                </strong>
+
+                                <span>
+                                    View shortlist
+                                </span>
+
+                            </a>
+
+
+                            <a
+                                href="enquiries.html"
+                                class="quick-action"
+                            >
+
+                                <span class="quick-action-icon">
+                                    ◇
+                                </span>
+
+                                <strong>
+                                    Enquiries
+                                </strong>
+
+                                <span>
+                                    Track enquiries
+                                </span>
+
+                            </a>
+
+
+                            <a
+                                href="offers.html"
+                                class="quick-action"
+                            >
+
+                                <span class="quick-action-icon">
+                                    ₹
+                                </span>
+
+                                <strong>
+                                    Offers
+                                </strong>
+
+                                <span>
+                                    Manage offers
+                                </span>
+
+                            </a>
+
+
+                            <a
+                                href="bookings.html"
+                                class="quick-action"
+                            >
+
+                                <span class="quick-action-icon">
+                                    ✓
+                                </span>
+
+                                <strong>
+                                    Bookings
+                                </strong>
+
+                                <span>
+                                    View bookings
+                                </span>
+
+                            </a>
+
+
+                            <a
+                                href="buyer-profile.html"
+                                class="quick-action"
+                            >
+
+                                <span class="quick-action-icon">
+                                    ◎
+                                </span>
+
+                                <strong>
+                                    Profile
+                                </strong>
+
+                                <span>
+                                    Update details
+                                </span>
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+            </aside>
+
+        </section>
+
+
+        <!-- =================================================
+             BOTTOM CTA
+        ================================================== -->
+
+        <section
+            class="dashboard-panel"
+            style="
+                margin-top:25px;
+                padding:32px;
+                background:
+                    linear-gradient(
+                        135deg,
+                        rgba(16,35,29,.97),
+                        rgba(49,85,70,.96)
+                    );
+                border-color:
+                    rgba(216,194,154,.18);
+            "
+        >
+
+            <div
+                style="
+                    display:flex;
+                    align-items:center;
+                    justify-content:space-between;
+                    gap:25px;
+                    flex-wrap:wrap;
+                "
+            >
+
+                <div>
+
+                    <div
+                        style="
+                            color:var(--ghar-gold-2);
+                            font-size:10px;
+                            font-weight:800;
+                            letter-spacing:.17em;
+                            text-transform:uppercase;
+                            margin-bottom:10px;
+                        "
+                    >
+                        FIND YOUR GHAR
+                    </div>
+
+                    <h2
+                        style="
+                            margin:0;
+                            color:#fff;
+                            font-family:'Playfair Display',serif;
+                            font-size:clamp(28px,4vw,42px);
+                            line-height:1.05;
+                        "
+                    >
+                        Ready to discover your next place?
+                    </h2>
+
+                    <p
+                        style="
+                            margin:12px 0 0;
+                            color:rgba(255,255,255,.64);
+                            font-size:13px;
+                            line-height:1.7;
+                        "
+                    >
+                        Search properties based on your
+                        location, budget and requirements.
+                    </p>
+
+                </div>
+
+
+                <a
+                    href="../property/property-search.html"
+                    class="ghar-btn ghar-btn-gold"
+                >
+                    Explore Properties
+                </a>
+
+            </div>
+
+        </section>
+
+    </div>
+
+</main>
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer class="ghar-footer">
+
+    <div class="ghar-container">
+
+        <div class="footer-grid">
+
+
+            <!-- BRAND -->
+
+            <div class="footer-brand">
+
+                <a
+                    href="../index.html"
+                    class="ghar-brand"
+                >
+
+                    <span class="ghar-brand-mark">
+
+                        <img
+                            src="../assets/images/ghar-logo/png/ghar-logo.png"
+                            alt="GHAR"
+                            onerror="
+                                this.style.display='none';
+                                this.nextElementSibling.style.display='block';
+                            "
+                        >
+
+                        <span
+                            class="ghar-brand-fallback"
+                            style="display:none;"
+                        >
+                            G
+                        </span>
+
+                    </span>
+
+                    <span class="ghar-brand-text">
+
+                        <span
+                            class="ghar-brand-name"
+                            style="color:#fff;"
+                        >
+                            GHAR
+                        </span>
+
+                        <span class="ghar-brand-tagline">
+                            Find. Live. Belong.
+                        </span>
+
+                    </span>
+
+                </a>
+
+                <p>
+                    A connected real-estate experience for
+                    discovering, managing and moving toward
+                    your next property.
+                </p>
+
+            </div>
+
+
+            <!-- EXPLORE -->
+
+            <div class="footer-column">
+
+                <h4>
+                    Explore
+                </h4>
+
+                <a href="../property/properties.html">
+                    Properties
+                </a>
+
+                <a href="../property/property-search.html">
+                    Property Search
+                </a>
+
+                <a href="../property/property-search.html?intent=rent">
+                    Rent
+                </a>
+
+                <a href="../property/add-property.html">
+                    Sell Property
+                </a>
+
+            </div>
+
+
+            <!-- BUYER -->
+
+            <div class="footer-column">
+
+                <h4>
+                    Buyer
+                </h4>
+
+                <a href="buyer-dashboard.html">
+                    Dashboard
+                </a>
+
+                <a href="saved-properties.html">
+                    Saved Properties
+                </a>
+
+                <a href="enquiries.html">
+                    Enquiries
+                </a>
+
+                <a href="visits.html">
+                    Visits
+                </a>
+
+            </div>
+
+
+            <!-- ACCOUNT -->
+
+            <div class="footer-column">
+
+                <h4>
+                    Account
+                </h4>
+
+                <a href="buyer-profile.html">
+                    Buyer Profile
+                </a>
+
+                <a href="offers.html">
+                    Offers
+                </a>
+
+                <a href="bookings.html">
+                    Bookings
+                </a>
+
+                <a href="../security/index.html">
+                    Security
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="footer-bottom">
+
+            <span>
+                ©
+                <span id="gharYear"></span>
+                GHAR. All rights reserved.
+            </span>
+
+            <span>
+                Premium Real Estate Platform
+            </span>
+
+        </div>
+
+    </div>
+
+</footer>
+
+
+<!-- =========================================================
+     TOAST
+========================================================= -->
+
+<div
+    class="ghar-toast"
+    id="gharToast"
+    role="status"
+    aria-live="polite"
+></div>
+
+
+<!-- =========================================================
+     GHAR JAVASCRIPT STACK
+========================================================= -->
+
+
+<!-- =========================================================
+     01. CORE CONFIGURATION
+========================================================= -->
+
+<script
+    src="../assets/js/constants.js"
+    defer
+></script>
+
+<script
+    src="../assets/js/config.js"
+    defer
+></script>
+
+<script
+    src="../assets/js/storage.js"
+    defer
+></script>
+
+
+<!-- =========================================================
+     02. API + AUTHENTICATION
+========================================================= -->
+
+<script
+    src="../assets/js/api.js"
+    defer
+></script>
+
+<script
+    src="../assets/js/auth.js"
+    defer
+></script>
+
+
+<!-- =========================================================
+     03. CORE APPLICATION
+========================================================= -->
+
+<script
+    src="../assets/js/core.js"
+    defer
+></script>
+
+<script
+    src="../assets/js/components.js"
+    defer
+></script>
+
+<script
+    src="../assets/js/components/global.js"
+    defer
+></script>
+
+
+<!-- =========================================================
+     04. PROFILE
+========================================================= -->
+
+<script
+    src="../assets/js/profile.js"
+    defer
+></script>
+
+
+<!-- =========================================================
+     05. DASHBOARD
+========================================================= -->
+
+<script
+    src="../assets/js/dashboard.js"
+    defer
+></script>
+
+
+<!-- =========================================================
+     06. BUYER MODULES
+========================================================= -->
+
+<script
+    src="../assets/js/buyer/buyer-dashboard.js"
+    defer
+></script>
+
+<script
+    src="../assets/js/buyer/buyer-profile.js"
+    defer
+></script>
+
+<script
+    src="../assets/js/buyer/enquiries.js"
+    defer
+></script>
+
+<script
+    src="../assets/js/buyer/offers.js"
+    defer
+></script>
+
+<script
+    src="../assets/js/buyer/visits.js"
+    defer
+></script>
+
+<script
+    src="../assets/js/buyer/bookings.js"
+    defer
+></script>
+
+<script
+    src="../assets/js/buyer/saved-properties.js"
+    defer
+></script>
+
+<script
+    src="../assets/js/buyer/saved-searches.js"
+    defer
+></script>
+
+
+<!-- =========================================================
+     07. BUYER DASHBOARD PAGE INITIALIZER
+========================================================= -->
+
+<script>
+
+(function () {
+
+    "use strict";
+
+
+    /* =====================================================
+       SAFE STORAGE
+    ====================================================== */
+
+    function safeStorageGet(key) {
+
+        try {
+
+            return localStorage.getItem(key);
+
+        } catch (error) {
+
+            return null;
+
+        }
+
+    }
+
+
+    function safeStorageParse(key, fallback) {
+
+        try {
+
+            const value =
+                localStorage.getItem(key);
+
+            if (!value) {
+                return fallback;
+            }
+
+            const parsed =
+                JSON.parse(value);
+
+            return parsed ?? fallback;
+
+        } catch (error) {
+
+            return fallback;
+
+        }
+
+    }
+
+
+    /* =====================================================
+       TOAST
+    ====================================================== */
+
+    function showToast(message) {
+
+        const toast =
+            document.getElementById(
+                "gharToast"
+            );
+
+        if (!toast) {
+            return;
+        }
+
+        toast.textContent =
+            String(message);
+
+        toast.classList.add("show");
+
+        window.clearTimeout(
+            toast.__timer
+        );
+
+        toast.__timer =
+            window.setTimeout(
+                function () {
+
+                    toast.classList.remove(
+                        "show"
+                    );
+
+                },
+                2800
+            );
+    }
+
+
+    /* =====================================================
+       YEAR
+    ====================================================== */
+
+    function initYear() {
+
+        const year =
+            document.getElementById(
+                "gharYear"
+            );
+
+        if (year) {
+
+            year.textContent =
+                new Date().getFullYear();
+
+        }
+
+    }
+
+
+    /* =====================================================
+       MOBILE NAVIGATION
+    ====================================================== */
+
+    function initNavigation() {
+
+        const button =
+            document.getElementById(
+                "gharMenuButton"
+            );
+
+        const nav =
+            document.getElementById(
+                "gharNav"
+            );
+
+        if (!button || !nav) {
+            return;
+        }
+
+
+        button.addEventListener(
+            "click",
+            function () {
+
+                const open =
+                    nav.classList.toggle(
+                        "open"
+                    );
+
+                document.body.classList.toggle(
+                    "menu-open",
+                    open
+                );
+
+                button.setAttribute(
+                    "aria-expanded",
+                    String(open)
+                );
+
+            }
+        );
+
+
+        nav.querySelectorAll("a")
+            .forEach(
+                function (link) {
+
+                    link.addEventListener(
+                        "click",
+                        function () {
+
+                            nav.classList.remove(
+                                "open"
+                            );
+
+                            document.body.classList.remove(
+                                "menu-open"
+                            );
+
+                            button.setAttribute(
+                                "aria-expanded",
+                                "false"
+                            );
+
+                        }
+                    );
+
+                }
+            );
+
+    }
+
+
+    /* =====================================================
+       BUYER NAME
+    ====================================================== */
+
+    function initBuyerGreeting() {
+
+        const greeting =
+            document.getElementById(
+                "buyerGreeting"
+            );
+
+        if (!greeting) {
+            return;
+        }
+
+
+        let name = "";
+
+
+        const possibleObjects = [
+
+            safeStorageParse(
+                "gharUser",
+                null
+            ),
+
+            safeStorageParse(
+                "user",
+                null
+            ),
+
+            safeStorageParse(
+                "ghar_user",
+                null
+            ),
+
+            safeStorageParse(
+                "profile",
+                null
+            )
+
+        ];
+
+
+        for (
+            let i = 0;
+            i < possibleObjects.length;
+            i++
+        ) {
+
+            const object =
+                possibleObjects[i];
+
+            if (
+                object &&
+                typeof object === "object"
+            ) {
+
+                name =
+                    object.firstName ||
+                    object.first_name ||
+                    object.name ||
+                    object.fullName ||
+                    "";
+
+                if (name) {
+                    break;
+                }
+
+            }
+
+        }
+
+
+        const firstName =
+            String(name)
+                .trim()
+                .split(/\s+/)[0];
+
+
+        greeting.textContent =
+            firstName
+                ? "Welcome back, " + firstName + "."
+                : "Welcome back.";
+
+    }
+
+
+    /* =====================================================
+       DASHBOARD COUNTS
+    ====================================================== */
+
+    function getArrayFromStorage(keys) {
+
+        for (
+            let i = 0;
+            i < keys.length;
+            i++
+        ) {
+
+            const value =
+                safeStorageParse(
+                    keys[i],
+                    null
+                );
+
+            if (Array.isArray(value)) {
+
+                return value;
+
+            }
+
+        }
+
+        return [];
+
+    }
+
+
+    function setText(id, value) {
+
+        const element =
+            document.getElementById(id);
+
+        if (element) {
+
+            element.textContent =
+                String(value);
+
+        }
+
+    }
+
+
+    function initCounts() {
+
+        const saved =
+            getArrayFromStorage([
+                "gharSavedProperties",
+                "savedProperties",
+                "ghar_saved_properties"
+            ]);
+
+        const enquiries =
+            getArrayFromStorage([
+                "gharEnquiries",
+                "enquiries",
+                "ghar_enquiries"
+            ]);
+
+        const visits =
+            getArrayFromStorage([
+                "gharVisits",
+                "visits",
+                "ghar_visits"
+            ]);
+
+        const offers =
+            getArrayFromStorage([
+                "gharOffers",
+                "offers",
+                "ghar_offers"
+            ]);
+
+        const bookings =
+            getArrayFromStorage([
+                "gharBookings",
+                "bookings",
+                "ghar_bookings"
+            ]);
+
+
+        /*
+         * Keep the page usable when backend/local
+         * collections are not populated yet.
+         */
+
+        setText(
+            "savedCount",
+            saved.length
+        );
+
+        setText(
+            "enquiryCount",
+            enquiries.length
+        );
+
+        setText(
+            "visitCount",
+            visits.filter(
+                function (item) {
+
+                    return (
+                        item &&
+                        item.status !== "cancelled" &&
+                        item.status !== "completed"
+                    );
+
+                }
+            ).length
+        );
+
+        setText(
+            "offerCount",
+            offers.filter(
+                function (item) {
+
+                    return (
+                        item &&
+                        item.status !== "rejected" &&
+                        item.status !== "withdrawn"
+                    );
+
+                }
+            ).length
+        );
+
+        setText(
+            "bookingCount",
+            bookings.filter(
+                function (item) {
+
+                    return (
+                        item &&
+                        item.status !== "cancelled"
+                    );
+
+                }
+            ).length
+        );
+
+    }
+
+
+    /* =====================================================
+       PROFILE PROGRESS
+    ====================================================== */
+
+    function initProfileProgress() {
+
+        const profile =
+            safeStorageParse(
+                "gharUser",
+                null
+            ) ||
+            safeStorageParse(
+                "profile",
+                null
+            );
+
+
+        let completion = 72;
+
+
+        if (
+            profile &&
+            typeof profile === "object"
+        ) {
+
+            const fields = [
+
+                "name",
+                "fullName",
+                "email",
+                "phone",
+                "city",
+                "preferredLocation",
+                "budget",
+                "propertyType"
+
+            ];
+
+
+            let filled = 0;
+
+            fields.forEach(
+                function (field) {
+
+                    if (
+                        profile[field] !== undefined &&
+                        profile[field] !== null &&
+                        String(profile[field]).trim()
+                    ) {
+
+                        filled++;
+
+                    }
+
+                }
+            );
+
+
+            if (filled > 0) {
+
+                completion =
+                    Math.round(
+                        (
+                            filled /
+                            fields.length
+                        ) * 100
+                    );
+
+            }
+
+        }
+
+
+        completion =
+            Math.max(
+                0,
+                Math.min(
+                    100,
+                    completion
+                )
+            );
+
+
+        const percent =
+            document.getElementById(
+                "profilePercent"
+            );
+
+        const progress =
+            document.getElementById(
+                "profileProgress"
+            );
+
+
+        if (percent) {
+
+            percent.textContent =
+                completion + "%";
+
+        }
+
+        if (progress) {
+
+            progress.style.width =
+                completion + "%";
+
+        }
+
+    }
+
+
+    /* =====================================================
+       SAVED PROPERTY BUTTONS
+    ====================================================== */
+
+    function initSavedPropertyButtons() {
+
+        document
+            .querySelectorAll(
+                ".property-save"
+            )
+            .forEach(
+                function (button) {
+
+                    button.addEventListener(
+                        "click",
+                        function () {
+
+                            const propertyId =
+                                button.getAttribute(
+                                    "data-property-id"
+                                );
+
+                            if (!propertyId) {
+                                return;
+                            }
+
+
+                            let saved =
+                                getArrayFromStorage([
+                                    "gharSavedProperties",
+                                    "savedProperties",
+                                    "ghar_saved_properties"
+                                ]);
+
+
+                            saved =
+                                saved.filter(
+                                    function (item) {
+
+                                        const id =
+                                            typeof item === "object"
+                                                ? (
+                                                    item.id ||
+                                                    item.propertyId
+                                                )
+                                                : item;
+
+                                        return (
+                                            String(id) !==
+                                            String(propertyId)
+                                        );
+
+                                    }
+                                );
+
+
+                            try {
+
+                                localStorage.setItem(
+                                    "gharSavedProperties",
+                                    JSON.stringify(saved)
+                                );
+
+                            } catch (error) {
+
+                                console.warn(
+                                    "Unable to update saved properties.",
+                                    error
+                                );
+
+                            }
+
+
+                            const card =
+                                button.closest(
+                                    ".property-card"
+                                );
+
+
+                            if (card) {
+
+                                card.style.opacity =
+                                    ".45";
+
+                                card.style.transform =
+                                    "scale(.98)";
+
+                            }
+
+
+                            showToast(
+                                "Property removed from your saved list."
+                            );
+
+
+                            setTimeout(
+                                function () {
+
+                                    if (card) {
+
+                                        card.remove();
+
+                                    }
+
+                                    initCounts();
+
+                                },
+                                250
+                            );
+
+                        }
+                    );
+
+                }
+            );
+
+    }
+
+
+    /* =====================================================
+       ENQUIRY BUTTONS
+    ====================================================== */
+
+    function initEnquiryButtons() {
+
+        document
+            .querySelectorAll(
+                "[data-enquire-property]"
+            )
+            .forEach(
+                function (button) {
+
+                    button.addEventListener(
+                        "click",
+                        function () {
+
+                            const propertyId =
+                                button.getAttribute(
+                                    "data-enquire-property"
+                                );
+
+
+                            if (!propertyId) {
+                                return;
+                            }
+
+
+                            let enquiries =
+                                getArrayFromStorage([
+                                    "gharEnquiries",
+                                    "enquiries",
+                                    "ghar_enquiries"
+                                ]);
+
+
+                            const exists =
+                                enquiries.some(
+                                    function (item) {
+
+                                        if (
+                                            !item ||
+                                            typeof item !== "object"
+                                        ) {
+                                            return false;
+                                        }
+
+                                        return (
+                                            String(
+                                                item.propertyId
+                                            ) ===
+                                            String(propertyId)
+                                        );
+
+                                    }
+                                );
+
+
+                            if (!exists) {
+
+                                enquiries.push({
+
+                                    id:
+                                        "ENQ-" +
+                                        Date.now(),
+
+                                    propertyId:
+                                        propertyId,
+
+                                    status:
+                                        "new",
+
+                                    createdAt:
+                                        new Date().toISOString()
+
+                                });
+
+
+                                try {
+
+                                    localStorage.setItem(
+                                        "gharEnquiries",
+                                        JSON.stringify(
+                                            enquiries
+                                        )
+                                    );
+
+                                } catch (error) {
+
+                                    console.warn(
+                                        "Unable to save enquiry.",
+                                        error
+                                    );
+
+                                }
+
+
+                                showToast(
+                                    "Enquiry created. You can track it from Enquiries."
+                                );
+
+                                initCounts();
+
+                            } else {
+
+                                showToast(
+                                    "You already have an enquiry for this property."
+                                );
+
+                            }
+
+                        }
+                    );
+
+                }
+            );
+
+    }
+
+
+    /* =====================================================
+       GLOBAL GHAR CORE
+    ====================================================== */
+
+    function initGlobalGHAR() {
+
+        try {
+
+            if (
+                window.GHAR &&
+                typeof window.GHAR.init ===
+                    "function"
+            ) {
+
+                window.GHAR.init();
+
+            }
+
+        } catch (error) {
+
+            console.error(
+                "GHAR core initialization error:",
+                error
+            );
+
+        }
+
+
+        try {
+
+            if (
+                window.GHARComponents &&
+                typeof window.GHARComponents.init ===
+                    "function"
+            ) {
+
+                window.GHARComponents.init();
+
+            }
+
+        } catch (error) {
+
+            console.error(
+                "GHAR component initialization error:",
+                error
+            );
+
+        }
+
+
+        try {
+
+            if (
+                window.GHARAuth &&
+                typeof window.GHARAuth.init ===
+                    "function"
+            ) {
+
+                window.GHARAuth.init();
+
+            }
+
+        } catch (error) {
+
+            console.error(
+                "GHAR authentication initialization error:",
+                error
+            );
+
+        }
+
+
+        try {
+
+            if (
+                window.GHARBuyer &&
+                typeof window.GHARBuyer.init ===
+                    "function"
+            ) {
+
+                window.GHARBuyer.init();
+
+            }
+
+        } catch (error) {
+
+            console.error(
+                "GHAR buyer initialization error:",
+                error
+            );
+
+        }
+
+
+        try {
+
+            if (
+                window.GHARBuyerDashboard &&
+                typeof window.GHARBuyerDashboard.init ===
+                    "function"
+            ) {
+
+                window.GHARBuyerDashboard.init();
+
+            }
+
+        } catch (error) {
+
+            console.error(
+                "GHAR buyer dashboard module error:",
+                error
+            );
+
+        }
+
+    }
+
+
+    /* =====================================================
+       PAGE INITIALIZER
+    ====================================================== */
+
+    function initBuyerDashboard() {
+
+        console.log(
+            "GHAR Buyer Dashboard initializing..."
+        );
+
+
+        initYear();
+
+        initNavigation();
+
+        initBuyerGreeting();
+
+        initCounts();
+
+        initProfileProgress();
+
+        initSavedPropertyButtons();
+
+        initEnquiryButtons();
+
+        initGlobalGHAR();
+
+
+        console.log(
+            "GHAR Buyer Dashboard ready."
+        );
+
+    }
+
+
+    /* =====================================================
+       DOM READY
+    ====================================================== */
+
+    if (
+        document.readyState ===
+        "loading"
+    ) {
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            initBuyerDashboard,
+            {
+                once: true
+            }
+        );
+
+    } else {
+
+        initBuyerDashboard();
+
+    }
+
+})();
+
+</script>
+
+
+</body>
+</html>

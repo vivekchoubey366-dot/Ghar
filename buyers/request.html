@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="GHAR Buyer Property Request">
+<title>Property Request · GHAR</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+
+<style>
+body{
+margin:0;color:#18221e;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+background:linear-gradient(135deg,#f8f3ea,#e8eee8 52%,#f0e5d5);
+}
+.wrap{width:min(950px,calc(100% - 24px));margin:auto;padding:35px 0 70px}
+.hero,.form{border:1px solid rgba(16,35,29,.12);border-radius:25px;box-shadow:0 20px 60px rgba(16,35,29,.08)}
+.hero{padding:34px;background:linear-gradient(120deg,#10231d,#18372d);color:#fff}
+.eyebrow{color:#c9a96e;font-size:.72rem;font-weight:800;letter-spacing:.15em}
+h1{font-size:clamp(2rem,4vw,3rem);margin:10px 0}
+.hero p{color:rgba(255,255,255,.72);line-height:1.7}
+.form{margin-top:20px;padding:25px;background:rgba(255,255,255,.67)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+label{display:block;margin:12px 0 7px;font-size:.78rem;font-weight:750}
+input,select,textarea{
+width:100%;padding:12px;border-radius:12px;border:1px solid rgba(16,35,29,.14);background:rgba(255,255,255,.8);
+}
+textarea{min-height:130px;resize:vertical}
+button{
+margin-top:18px;border:0;padding:13px 18px;border-radius:12px;background:#10231d;color:#fff;font-weight:800;cursor:pointer;
+}
+.success{display:none;margin-top:16px;padding:14px;border-radius:13px;background:#dcebdc;color:#285b37}
+@media(max-width:650px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+
+<body data-root="../" data-page="request">
+<div data-site-header></div>
+
+<main class="wrap">
+
+<section class="hero">
+<div class="eyebrow">GHAR BUYER ASSISTANCE</div>
+<h1>Request a Property</h1>
+<p>Tell GHAR what kind of property you are looking for and our platform can organize your requirement for follow-up.</p>
+</section>
+
+<form class="form" id="requestForm">
+
+<div class="grid">
+
+<div>
+<label>Property Type</label>
+<select id="type" required>
+<option value="">Select property type</option>
+<option>Apartment</option>
+<option>Independent House</option>
+<option>Villa</option>
+<option>Plot / Land</option>
+<option>Commercial</option>
+<option>Office</option>
+</select>
+</div>
+
+<div>
+<label>Purpose</label>
+<select id="purpose" required>
+<option value="">Select purpose</option>
+<option>Buy</option>
+<option>Rent</option>
+</select>
+</div>
+
+<div>
+<label>Preferred City</label>
+<input id="city" placeholder="e.g. Noida" required>
+</div>
+
+<div>
+<label>Preferred Locality</label>
+<input id="locality" placeholder="Sector / locality">
+</div>
+
+<div>
+<label>Bedrooms</label>
+<select id="bedrooms">
+<option value="">Any</option>
+<option>1 BHK</option>
+<option>2 BHK</option>
+<option>3 BHK</option>
+<option>4 BHK</option>
+<option>5+ BHK</option>
+</select>
+</div>
+
+<div>
+<label>Budget</label>
+<select id="budget">
+<option value="">Select budget</option>
+<option>Up to ₹50 Lakh</option>
+<option>₹50 Lakh – ₹1 Cr</option>
+<option>₹1 Cr – ₹2 Cr</option>
+<option>₹2 Cr – ₹5 Cr</option>
+<option>₹5 Cr+</option>
+</select>
+</div>
+
+</div>
+
+<label>Additional Requirements</label>
+<textarea id="requirements" placeholder="Describe your preferred size, amenities, location, possession timeline, etc."></textarea>
+
+<button type="submit">Submit Property Request</button>
+
+<div class="success" id="success">
+Your property requirement has been saved. For production, connect this form to the GHAR API/backend.
+</div>
+
+</form>
+</main>
+
+<div data-site-footer></div>
+<div class="ghar-global-toast"></div>
+
+<script src="../assets/js/main/site.js" defer></script>
+<script src="../assets/js/main/page.js" defer></script>
+
+<script>
+document.getElementById("requestForm").addEventListener("submit",e=>{
+e.preventDefault();
+
+const request={
+id:"GHAR-REQ-"+Date.now(),
+type:document.getElementById("type").value,
+purpose:document.getElementById("purpose").value,
+city:document.getElementById("city").value,
+locality:document.getElementById("locality").value,
+bedrooms:document.getElementById("bedrooms").value,
+budget:document.getElementById("budget").value,
+requirements:document.getElementById("requirements").value,
+createdAt:new Date().toISOString(),
+status:"submitted"
+};
+
+const old=JSON.parse(localStorage.getItem("ghar_property_requests")||"[]");
+old.push(request);
+localStorage.setItem("ghar_property_requests",JSON.stringify(old));
+
+document.getElementById("success").style.display="block";
+});
+</script>
+</body>
+</html>
