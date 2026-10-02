@@ -1,1 +1,3635 @@
-m
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<meta name="description"
+content="GHAR Seller Offers -- Manage property offers, buyer proposals, negotiations and offer status.">
+
+<meta name="theme-color" content="#090b16">
+
+<title>Seller Offers · GHAR</title>
+
+<link rel="stylesheet" href="../assets/css/style.css">
+
+<style>
+/* =========================================================
+   GHAR SELLER OFFERS
+   ROYAL LUXURY DESIGN SYSTEM
+   SAME DESIGN AS seller-properties.html
+========================================================= */
+*
+:root{
+  --royal-950:#070914;
+  --royal-900:#0a0d1d;
+  --royal-850:#10152d;
+  --royal-800:#171d3c;
+  --royal-700:#252b59;
+
+  --gold:#c9a45c;
+  --gold-2:#ead39a;
+  --gold-3:#9d7835;
+
+  --cream:#fffaf0;
+  --cream-2:#f6efdf;
+  --sand:#e9ddc5;
+
+  --ink:#161a2b;
+  --muted:#707487;
+
+  --green:#285d4a;
+  --green-2:#dceee5;
+
+  --blue:#365c91;
+  --blue-2:#dfe9f8;
+
+  --red:#963e45;
+  --red-2:#f5dddd;
+
+  --orange:#996a24;
+  --orange-2:#f4e7c7;
+
+  --border:rgba(12,16,36,.12);
+  --white-border:rgba(255,255,255,.14);
+
+  --shadow:
+    0 25px 70px rgba(7,9,20,.13);
+
+  --shadow-soft:
+    0 12px 38px rgba(7,9,20,.08);
+
+  --radius:24px;
+}
+
+/* =========================================================
+   RESET
+========================================================= */
+
+*{
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  margin:0;
+  min-height:100vh;
+
+  color:var(--ink);
+
+  background:
+    radial-gradient(
+      circle at 5% 4%,
+      rgba(201,164,92,.20),
+      transparent 25%
+    ),
+    radial-gradient(
+      circle at 95% 10%,
+      rgba(53,59,117,.16),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 50% 100%,
+      rgba(201,164,92,.11),
+      transparent 30%
+    ),
+    linear-gradient(
+      135deg,
+      #fbf5e9 0%,
+      #eee4d0 42%,
+      #f8f0df 100%
+    );
+
+  font-family:
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+}
+
+button,
+input,
+select,
+textarea{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+a{
+  color:inherit;
+}
+
+/* =========================================================
+   PAGE
+========================================================= */
+
+.seller-offers-page{
+  width:min(1480px,calc(100% - 32px));
+  margin:auto;
+  padding:34px 0 75px;
+}
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero{
+  position:relative;
+  overflow:hidden;
+
+  border:
+    1px solid rgba(234,211,154,.20);
+
+  border-radius:32px;
+
+  padding:38px;
+
+  color:#fff;
+
+  background:
+    radial-gradient(
+      circle at 88% 15%,
+      rgba(201,164,92,.25),
+      transparent 24%
+    ),
+    radial-gradient(
+      circle at 20% 100%,
+      rgba(83,73,150,.24),
+      transparent 32%
+    ),
+    linear-gradient(
+      135deg,
+      #070914 0%,
+      #11162f 45%,
+      #1d2348 100%
+    );
+
+  box-shadow:
+    0 30px 90px rgba(7,9,20,.28);
+
+  margin-bottom:24px;
+}
+
+.hero:before{
+  content:"";
+
+  position:absolute;
+
+  width:330px;
+  height:330px;
+
+  right:-150px;
+  top:-170px;
+
+  border-radius:50%;
+
+  border:1px solid rgba(234,211,154,.18);
+
+  box-shadow:
+    0 0 0 35px rgba(201,164,92,.025),
+    0 0 0 70px rgba(201,164,92,.02);
+}
+
+.hero:after{
+  content:"";
+
+  position:absolute;
+
+  left:-80px;
+  bottom:-180px;
+
+  width:350px;
+  height:350px;
+
+  border-radius:50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(201,164,92,.11),
+      transparent 67%
+    );
+}
+
+.hero-content{
+  position:relative;
+  z-index:2;
+
+  display:flex;
+
+  align-items:flex-end;
+  justify-content:space-between;
+
+  gap:30px;
+}
+
+.eyebrow{
+  color:var(--gold-2);
+
+  font-size:12px;
+  font-weight:900;
+
+  letter-spacing:.18em;
+  text-transform:uppercase;
+
+  margin-bottom:10px;
+}
+
+h1{
+  margin:0;
+
+  font-size:
+    clamp(32px,5vw,56px);
+
+  line-height:1.02;
+
+  letter-spacing:-.045em;
+}
+
+.hero p{
+  max-width:760px;
+
+  color:rgba(255,255,255,.72);
+
+  line-height:1.75;
+
+  margin:14px 0 0;
+}
+
+.hero-actions{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.ghar-btn{
+  min-height:45px;
+
+  border:0;
+  border-radius:14px;
+
+  padding:12px 17px;
+
+  display:inline-flex;
+
+  align-items:center;
+  justify-content:center;
+
+  gap:8px;
+
+  text-decoration:none;
+
+  font-size:13px;
+  font-weight:900;
+
+  transition:
+    transform .2s ease,
+    box-shadow .2s ease,
+    opacity .2s ease;
+}
+
+.ghar-btn:hover{
+  transform:translateY(-2px);
+}
+
+.ghar-btn.primary{
+  color:#18130a;
+
+  background:
+    linear-gradient(
+      135deg,
+      #f0d99e,
+      #c39a4d
+    );
+
+  box-shadow:
+    0 8px 25px rgba(201,164,92,.18);
+}
+
+.ghar-btn.secondary{
+  color:#fff;
+
+  background:
+    rgba(255,255,255,.075);
+
+  border:
+    1px solid rgba(255,255,255,.16);
+}
+
+.ghar-btn.dark{
+  color:#fff;
+
+  background:
+    linear-gradient(
+      135deg,
+      #11162f,
+      #252b59
+    );
+}
+
+.ghar-btn.green{
+  color:#fff;
+
+  background:
+    linear-gradient(
+      135deg,
+      #285d4a,
+      #387b62
+    );
+}
+
+.ghar-btn.red{
+  color:#fff;
+
+  background:
+    linear-gradient(
+      135deg,
+      #963e45,
+      #b6535c
+    );
+}
+
+/* =========================================================
+   STATS
+========================================================= */
+
+.stats{
+  display:grid;
+
+  grid-template-columns:
+    repeat(5,minmax(0,1fr));
+
+  gap:14px;
+
+  margin-bottom:24px;
+}
+
+.stat{
+  position:relative;
+
+  overflow:hidden;
+
+  border:1px solid var(--border);
+
+  border-radius:20px;
+
+  padding:20px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,250,240,.94),
+      rgba(242,232,211,.82)
+    );
+
+  box-shadow:var(--shadow-soft);
+}
+
+.stat:after{
+  content:"";
+
+  position:absolute;
+
+  right:-35px;
+  bottom:-50px;
+
+  width:120px;
+  height:120px;
+
+  border-radius:50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(201,164,92,.15),
+      transparent 70%
+    );
+}
+
+.stat-label{
+  position:relative;
+  z-index:1;
+
+  color:var(--muted);
+
+  font-size:11px;
+  font-weight:900;
+
+  text-transform:uppercase;
+  letter-spacing:.09em;
+}
+
+.stat-value{
+  position:relative;
+  z-index:1;
+
+  margin-top:8px;
+
+  color:var(--royal-850);
+
+  font-size:30px;
+  font-weight:950;
+}
+
+/* =========================================================
+   TOOLBAR
+========================================================= */
+
+.toolbar{
+  display:flex;
+
+  align-items:center;
+  justify-content:space-between;
+
+  gap:12px;
+
+  margin-bottom:20px;
+}
+
+.filters{
+  display:flex;
+
+  flex-wrap:wrap;
+
+  gap:10px;
+
+  flex:1;
+}
+
+.field{
+  min-height:45px;
+
+  border:
+    1px solid var(--border);
+
+  border-radius:13px;
+
+  padding:0 13px;
+
+  color:var(--ink);
+
+  outline:none;
+
+  background:
+    rgba(255,250,240,.90);
+
+  box-shadow:
+    0 5px 20px rgba(7,9,20,.035);
+}
+
+.field:focus{
+  border-color:
+    rgba(201,164,92,.72);
+
+  box-shadow:
+    0 0 0 3px
+    rgba(201,164,92,.12);
+}
+
+.search{
+  width:min(390px,100%);
+}
+
+.toolbar-actions{
+  display:flex;
+  gap:9px;
+  flex-wrap:wrap;
+}
+
+/* =========================================================
+   OFFERS GRID
+========================================================= */
+
+.offers-grid{
+  display:grid;
+
+  grid-template-columns:
+    repeat(3,minmax(0,1fr));
+
+  gap:19px;
+}
+
+/* =========================================================
+   OFFER CARD
+========================================================= */
+
+.offer-card{
+  overflow:hidden;
+
+  border:
+    1px solid var(--border);
+
+  border-radius:24px;
+
+  background:
+    rgba(255,250,240,.91);
+
+  box-shadow:
+    0 14px 42px rgba(7,9,20,.075);
+
+  transition:
+    transform .22s ease,
+    box-shadow .22s ease;
+
+  display:flex;
+
+  flex-direction:column;
+}
+
+.offer-card:hover{
+  transform:translateY(-4px);
+
+  box-shadow:
+    0 25px 60px rgba(7,9,20,.14);
+}
+
+/* =========================================================
+   OFFER TOP
+========================================================= */
+
+.offer-top{
+  position:relative;
+
+  padding:20px;
+
+  color:#fff;
+
+  background:
+    radial-gradient(
+      circle at 88% 5%,
+      rgba(201,164,92,.22),
+      transparent 30%
+    ),
+    linear-gradient(
+      135deg,
+      #0a0d1d,
+      #252b59
+    );
+}
+
+.offer-top-row{
+  display:flex;
+
+  align-items:flex-start;
+  justify-content:space-between;
+
+  gap:12px;
+}
+
+.offer-property-id{
+  color:var(--gold-2);
+
+  font-size:10px;
+
+  font-weight:900;
+
+  letter-spacing:.10em;
+
+  text-transform:uppercase;
+}
+
+.offer-property-name{
+  margin-top:7px;
+
+  font-size:20px;
+
+  font-weight:950;
+
+  line-height:1.2;
+}
+
+.offer-location{
+  margin-top:6px;
+
+  color:rgba(255,255,255,.64);
+
+  font-size:11px;
+}
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+.status{
+  display:inline-flex;
+
+  align-items:center;
+  justify-content:center;
+
+  min-height:28px;
+
+  padding:6px 10px;
+
+  border-radius:999px;
+
+  font-size:10px;
+
+  font-weight:950;
+
+  text-transform:uppercase;
+
+  letter-spacing:.05em;
+
+  white-space:nowrap;
+}
+
+.status.new{
+  color:#18130a;
+
+  background:
+    #ead39a;
+}
+
+.status.countered{
+  color:#6f4d13;
+
+  background:
+    #f4e7c7;
+}
+
+.status.accepted{
+  color:#fff;
+
+  background:
+    #285d4a;
+}
+
+.status.rejected{
+  color:#fff;
+
+  background:
+    #963e45;
+}
+
+.status.withdrawn{
+  color:#fff;
+
+  background:
+    #4b4f64;
+}
+
+.status.expired{
+  color:#fff;
+
+  background:
+    #6e6571;
+}
+
+.status.pending{
+  color:#6f4d13;
+
+  background:
+    #f4e7c7;
+}
+
+/* =========================================================
+   OFFER BODY
+========================================================= */
+
+.offer-body{
+  padding:20px;
+
+  display:flex;
+
+  flex-direction:column;
+
+  flex:1;
+}
+
+.buyer-label{
+  color:var(--muted);
+
+  font-size:10px;
+
+  font-weight:900;
+
+  letter-spacing:.08em;
+
+  text-transform:uppercase;
+}
+
+.buyer-name{
+  margin-top:5px;
+
+  color:var(--royal-850);
+
+  font-size:18px;
+
+  font-weight:950;
+}
+
+.offer-amount{
+  margin-top:16px;
+
+  color:var(--royal-850);
+
+  font-size:29px;
+
+  font-weight:950;
+
+  letter-spacing:-.025em;
+}
+
+.offer-amount small{
+  color:var(--muted);
+
+  font-size:10px;
+
+  font-weight:800;
+}
+
+.offer-grid{
+  display:grid;
+
+  grid-template-columns:
+    repeat(2,minmax(0,1fr));
+
+  gap:8px;
+
+  margin-top:16px;
+}
+
+.offer-detail{
+  padding:11px;
+
+  border-radius:12px;
+
+  background:
+    rgba(233,221,197,.54);
+}
+
+.offer-detail-label{
+  color:var(--muted);
+
+  font-size:9px;
+
+  font-weight:800;
+
+  text-transform:uppercase;
+}
+
+.offer-detail-value{
+  margin-top:4px;
+
+  color:var(--royal-850);
+
+  font-size:12px;
+
+  font-weight:950;
+}
+
+/* =========================================================
+   OFFER MESSAGE
+========================================================= */
+
+.offer-message{
+  margin-top:15px;
+
+  padding:13px;
+
+  border-left:
+    3px solid var(--gold);
+
+  border-radius:10px;
+
+  color:#575b6d;
+
+  background:
+    rgba(246,239,223,.72);
+
+  font-size:11px;
+
+  line-height:1.55;
+}
+
+/* =========================================================
+   OFFER FOOT
+========================================================= */
+
+.offer-foot{
+  display:flex;
+
+  align-items:center;
+  justify-content:space-between;
+
+  gap:10px;
+
+  margin-top:auto;
+
+  padding-top:17px;
+
+  border-top:
+    1px solid var(--border);
+}
+
+.offer-date{
+  color:var(--muted);
+
+  font-size:10px;
+}
+
+.offer-actions{
+  display:flex;
+
+  gap:7px;
+
+  flex-wrap:wrap;
+
+  justify-content:flex-end;
+}
+
+.action{
+  min-height:35px;
+
+  border:
+    1px solid var(--border);
+
+  border-radius:10px;
+
+  padding:8px 10px;
+
+  color:var(--royal-850);
+
+  background:
+    var(--cream);
+
+  font-size:11px;
+
+  font-weight:900;
+
+  transition:.18s ease;
+}
+
+.action:hover{
+  transform:translateY(-1px);
+
+  border-color:
+    rgba(201,164,92,.55);
+}
+
+.action.view{
+  color:#fff;
+
+  background:
+    linear-gradient(
+      135deg,
+      #171d3c,
+      #343b72
+    );
+}
+
+.action.accept{
+  color:#fff;
+
+  background:
+    linear-gradient(
+      135deg,
+      #285d4a,
+      #39785f
+    );
+}
+
+.action.counter{
+  color:#6f4d13;
+
+  background:
+    var(--orange-2);
+}
+
+.action.reject{
+  color:var(--red);
+
+  background:
+    var(--red-2);
+}
+
+/* =========================================================
+   EMPTY / LOADING
+========================================================= */
+
+.empty,
+.loading{
+  grid-column:1/-1;
+
+  min-height:280px;
+
+  display:flex;
+
+  flex-direction:column;
+
+  align-items:center;
+
+  justify-content:center;
+
+  text-align:center;
+
+  border:
+    1px dashed
+    rgba(7,9,20,.18);
+
+  border-radius:24px;
+
+  background:
+    rgba(255,250,240,.68);
+
+  color:var(--muted);
+
+  line-height:1.6;
+}
+
+.empty-icon{
+  font-size:48px;
+
+  margin-bottom:10px;
+}
+
+.empty h3{
+  margin:0 0 7px;
+
+  color:var(--royal-850);
+
+  font-size:22px;
+}
+
+/* =========================================================
+   NEGOTIATION STRIP
+========================================================= */
+
+.negotiation-strip{
+  margin-top:22px;
+
+  padding:20px;
+
+  border:
+    1px dashed
+    rgba(201,164,92,.48);
+
+  border-radius:20px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255,250,240,.75),
+      rgba(233,221,197,.42)
+    );
+}
+
+.negotiation-title{
+  color:var(--royal-850);
+
+  font-size:13px;
+
+  font-weight:950;
+}
+
+.negotiation-text{
+  color:var(--muted);
+
+  margin-top:5px;
+
+  font-size:11px;
+
+  line-height:1.6;
+}
+
+/* =========================================================
+   AI
+========================================================= */
+
+.ai-launcher{
+  position:fixed;
+
+  right:22px;
+  bottom:22px;
+
+  z-index:9998;
+
+  width:61px;
+  height:61px;
+
+  border:
+    1px solid
+    rgba(234,211,154,.42);
+
+  border-radius:50%;
+
+  color:#fff;
+
+  font-size:23px;
+
+  background:
+    radial-gradient(
+      circle at 30% 20%,
+      #343b72,
+      #0a0d1d 72%
+    );
+
+  box-shadow:
+    0 18px 45px rgba(7,9,20,.32);
+
+  transition:.2s ease;
+}
+
+.ai-launcher:hover{
+  transform:
+    translateY(-3px) scale(1.03);
+}
+
+.ai-panel{
+  position:fixed;
+
+  right:22px;
+  bottom:22px;
+
+  z-index:9999;
+
+  width:min(410px,calc(100vw - 28px));
+
+  max-height:650px;
+
+  display:none;
+
+  flex-direction:column;
+
+  overflow:hidden;
+
+  border:
+    1px solid
+    rgba(201,164,92,.35);
+
+  border-radius:25px;
+
+  background:
+    var(--cream);
+
+  box-shadow:
+    0 30px 100px rgba(0,0,0,.32);
+}
+
+.ai-panel.open{
+  display:flex;
+}
+
+.ai-head{
+  padding:17px;
+
+  color:#fff;
+
+  background:
+    radial-gradient(
+      circle at 90% 10%,
+      rgba(201,164,92,.25),
+      transparent 30%
+    ),
+    linear-gradient(
+      135deg,
+      #070914,
+      #252b59
+    );
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:space-between;
+}
+
+.ai-title{
+  font-weight:950;
+
+  letter-spacing:.03em;
+}
+
+.ai-sub{
+  margin-top:3px;
+
+  color:rgba(255,255,255,.63);
+
+  font-size:10px;
+}
+
+.ai-close{
+  width:35px;
+  height:35px;
+
+  border:0;
+
+  border-radius:50%;
+
+  color:#fff;
+
+  background:
+    rgba(255,255,255,.09);
+
+  font-size:20px;
+}
+
+.ai-messages{
+  padding:15px;
+
+  min-height:300px;
+  max-height:440px;
+
+  overflow:auto;
+}
+
+.ai-msg{
+  margin-bottom:9px;
+
+  padding:11px 13px;
+
+  border-radius:14px;
+
+  font-size:13px;
+
+  line-height:1.55;
+}
+
+.ai-msg.bot{
+  background:
+    #eee5d4;
+}
+
+.ai-msg.user{
+  margin-left:28px;
+
+  color:#fff;
+
+  background:
+    #171d3c;
+}
+
+.ai-form{
+  display:flex;
+
+  gap:8px;
+
+  padding:12px;
+
+  border-top:
+    1px solid var(--border);
+}
+
+.ai-form input{
+  flex:1;
+
+  min-width:0;
+
+  border:
+    1px solid var(--border);
+
+  border-radius:12px;
+
+  padding:11px 12px;
+
+  outline:none;
+
+  background:#fff;
+}
+
+.ai-form button{
+  border:0;
+
+  border-radius:12px;
+
+  padding:0 16px;
+
+  color:#18130a;
+
+  background:
+    linear-gradient(
+      135deg,
+      #ead39a,
+      #bd9147
+    );
+
+  font-weight:950;
+}
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+.toast{
+  position:fixed;
+
+  left:50%;
+  bottom:25px;
+
+  z-index:10000;
+
+  transform:
+    translate(-50%,20px);
+
+  opacity:0;
+
+  pointer-events:none;
+
+  padding:12px 18px;
+
+  border-radius:13px;
+
+  color:#fff;
+
+  background:
+    #090d1d;
+
+  box-shadow:
+    0 15px 40px rgba(0,0,0,.25);
+
+  font-size:12px;
+
+  font-weight:900;
+
+  transition:.25s ease;
+}
+
+.toast.show{
+  opacity:1;
+
+  transform:
+    translate(-50%,0);
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width:1180px){
+
+  .offers-grid{
+    grid-template-columns:
+      repeat(2,minmax(0,1fr));
+  }
+
+  .stats{
+    grid-template-columns:
+      repeat(3,minmax(0,1fr));
+  }
+}
+
+@media (max-width:800px){
+
+  .seller-offers-page{
+    width:calc(100% - 20px);
+
+    padding-top:20px;
+  }
+
+  .hero{
+    padding:25px;
+
+    border-radius:24px;
+  }
+
+  .hero-content{
+    flex-direction:column;
+
+    align-items:flex-start;
+  }
+
+  .stats{
+    grid-template-columns:
+      repeat(2,minmax(0,1fr));
+  }
+
+  .offers-grid{
+    grid-template-columns:1fr;
+  }
+
+  .toolbar{
+    align-items:stretch;
+
+    flex-direction:column;
+  }
+
+  .filters{
+    width:100%;
+  }
+
+  .search{
+    width:100%;
+  }
+
+  .toolbar-actions{
+    width:100%;
+  }
+
+  .toolbar-actions .ghar-btn{
+    flex:1;
+  }
+}
+
+@media (max-width:520px){
+
+  .stats{
+    gap:9px;
+  }
+
+  .stat{
+    padding:15px;
+  }
+
+  .stat-value{
+    font-size:24px;
+  }
+
+  .offer-body{
+    padding:16px;
+  }
+
+  .offer-property-name{
+    font-size:18px;
+  }
+
+  .offer-amount{
+    font-size:25px;
+  }
+
+  .offer-foot{
+    align-items:flex-start;
+
+    flex-direction:column;
+  }
+
+  .offer-actions{
+    width:100%;
+
+    justify-content:flex-start;
+  }
+
+  .action{
+    flex:1;
+  }
+
+  .ai-launcher{
+    right:14px;
+    bottom:14px;
+  }
+
+  .ai-panel{
+    right:10px;
+    bottom:10px;
+  }
+}
+
+@media (max-width:380px){
+
+  .stats{
+    grid-template-columns:
+      1fr 1fr;
+  }
+
+  .hero{
+    padding:21px;
+  }
+
+  h1{
+    font-size:31px;
+  }
+}
+</style>
+</head>
+
+<body
+  data-root="../"
+  data-page="seller-offers">
+
+<!-- =======================================================
+     SHARED GHAR HEADER
+======================================================== -->
+
+<div data-site-header></div>
+
+
+<main class="seller-offers-page">
+
+<!-- =======================================================
+     HERO
+======================================================== -->
+
+<section class="hero">
+
+  <div class="hero-content">
+
+    <div>
+
+      <div class="eyebrow">
+        GHAR WORKFLOW · SELLER
+      </div>
+
+      <h1>
+        Property Offers
+      </h1>
+
+      <p>
+        Review buyer proposals, compare offer amounts,
+        manage negotiations and respond to property offers
+        from your GHAR seller workspace.
+      </p>
+
+    </div>
+
+
+    <div class="hero-actions">
+
+      <a
+        class="ghar-btn secondary"
+        href="seller-dashboard.html">
+
+        ← Seller Dashboard
+
+      </a>
+
+      <a
+        class="ghar-btn primary"
+        href="seller-properties.html">
+
+        My Properties
+
+      </a>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =======================================================
+     STATISTICS
+======================================================== -->
+
+<section class="stats">
+
+  <div class="stat">
+
+    <div class="stat-label">
+      Total Offers
+    </div>
+
+    <div
+      class="stat-value"
+      id="totalOffers">
+      0
+    </div>
+
+  </div>
+
+
+  <div class="stat">
+
+    <div class="stat-label">
+      New
+    </div>
+
+    <div
+      class="stat-value"
+      id="newOffers">
+      0
+    </div>
+
+  </div>
+
+
+  <div class="stat">
+
+    <div class="stat-label">
+      Countered
+    </div>
+
+    <div
+      class="stat-value"
+      id="counteredOffers">
+      0
+    </div>
+
+  </div>
+
+
+  <div class="stat">
+
+    <div class="stat-label">
+      Accepted
+    </div>
+
+    <div
+      class="stat-value"
+      id="acceptedOffers">
+      0
+    </div>
+
+  </div>
+
+
+  <div class="stat">
+
+    <div class="stat-label">
+      Rejected
+    </div>
+
+    <div
+      class="stat-value"
+      id="rejectedOffers">
+      0
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =======================================================
+     TOOLBAR
+======================================================== -->
+
+<section class="toolbar">
+
+  <div class="filters">
+
+    <input
+      id="offerSearch"
+      class="field search"
+      type="search"
+      placeholder="Search buyer, property, offer ID..."
+      autocomplete="off"
+    >
+
+
+    <select
+      id="statusFilter"
+      class="field">
+
+      <option value="all">
+        All statuses
+      </option>
+
+      <option value="new">
+        New
+      </option>
+
+      <option value="countered">
+        Countered
+      </option>
+
+      <option value="accepted">
+        Accepted
+      </option>
+
+      <option value="rejected">
+        Rejected
+      </option>
+
+      <option value="withdrawn">
+        Withdrawn
+      </option>
+
+      <option value="expired">
+        Expired
+      </option>
+
+    </select>
+
+
+    <select
+      id="listingFilter"
+      class="field">
+
+      <option value="all">
+        Sale + Rent
+      </option>
+
+      <option value="sale">
+        Sale
+      </option>
+
+      <option value="rent">
+        Rent
+      </option>
+
+    </select>
+
+  </div>
+
+
+  <div class="toolbar-actions">
+
+    <button
+      class="ghar-btn dark"
+      id="refreshOffers">
+
+      ↻ Refresh
+
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- =======================================================
+     OFFERS GRID
+======================================================== -->
+
+<section
+  id="offersGrid"
+  class="offers-grid"
+  aria-live="polite">
+
+  <div class="loading">
+    Loading seller offers...
+  </div>
+
+</section>
+
+
+<!-- =======================================================
+     NEGOTIATION INFRASTRUCTURE
+======================================================== -->
+
+<section class="negotiation-strip">
+
+  <div class="negotiation-title">
+    Offer & Negotiation Infrastructure
+  </div>
+
+  <div class="negotiation-text">
+    Reserved for buyer proposal history, counter-offers,
+    negotiation timelines, document verification,
+    payment milestones, booking status and transaction
+    workflows when connected to the GHAR transaction API.
+  </div>
+
+</section>
+
+</main>
+
+
+<!-- =======================================================
+     SHARED GHAR FOOTER
+======================================================== -->
+
+<div data-site-footer>
+
+<footer
+style="
+margin-top:20px;
+padding:45px 22px;
+background:
+radial-gradient(circle at 85% 10%,rgba(201,164,92,.18),transparent 25%),
+linear-gradient(135deg,#070914,#171d3c);
+color:#fff;
+border-top:1px solid rgba(234,211,154,.18);
+">
+
+<div
+style="
+width:min(1480px,100%);
+margin:auto;
+display:grid;
+grid-template-columns:1.3fr repeat(3,1fr);
+gap:30px;
+">
+
+<div>
+
+<div
+style="
+font-size:25px;
+font-weight:950;
+letter-spacing:.08em;
+">
+GHAR
+</div>
+
+<p
+style="
+color:rgba(255,255,255,.62);
+line-height:1.7;
+font-size:12px;
+max-width:390px;
+">
+
+A premium property ecosystem connecting buyers,
+sellers, owners and tenants through one trusted
+digital platform.
+
+</p>
+
+</div>
+
+
+<div>
+
+<strong>Seller</strong>
+
+<div
+style="
+margin-top:13px;
+line-height:2;
+font-size:12px;
+">
+
+<a href="seller-dashboard.html">
+Dashboard
+</a><br>
+
+<a href="seller-properties.html">
+Properties
+</a><br>
+
+<a href="seller-visits.html">
+Visits
+</a><br>
+
+<a href="seller-offers.html">
+Offers
+</a>
+
+</div>
+
+</div>
+
+
+<div>
+
+<strong>Property</strong>
+
+<div
+style="
+margin-top:13px;
+line-height:2;
+font-size:12px;
+">
+
+<a href="add-property.html">
+Add Property
+</a><br>
+
+<a href="property-search.html">
+Find Property
+</a><br>
+
+<a href="../contact.html">
+Contact GHAR
+</a>
+
+</div>
+
+</div>
+
+
+<div>
+
+<strong>Account</strong>
+
+<div
+style="
+margin-top:13px;
+line-height:2;
+font-size:12px;
+">
+
+<a href="../profile.html">
+Profile
+</a><br>
+
+<a href="../payments.html">
+Payments
+</a><br>
+
+<a href="../notifications.html">
+Notifications
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div
+style="
+width:min(1480px,100%);
+margin:28px auto 0;
+padding-top:18px;
+border-top:1px solid rgba(255,255,255,.10);
+color:rgba(255,255,255,.48);
+font-size:10px;
+">
+
+© GHAR · Seller Workspace · All rights reserved.
+
+</div>
+
+</footer>
+
+</div>
+
+
+<!-- =======================================================
+     GHAR AI LAUNCHER
+======================================================== -->
+
+<button
+id="aiLauncher"
+class="ai-launcher"
+aria-label="Open GHAR AI"
+title="GHAR AI">
+
+✦
+
+</button>
+
+
+<!-- =======================================================
+     GHAR AI PANEL
+======================================================== -->
+
+<aside
+id="aiPanel"
+class="ai-panel"
+aria-label="GHAR AI Seller Assistant">
+
+<div class="ai-head">
+
+<div>
+
+<div class="ai-title">
+GHAR AI
+</div>
+
+<div class="ai-sub">
+Seller Offers Assistant
+</div>
+
+</div>
+
+
+<button
+id="aiClose"
+class="ai-close"
+aria-label="Close GHAR AI">
+
+×
+
+</button>
+
+</div>
+
+
+<div
+id="aiMessages"
+class="ai-messages">
+
+<div class="ai-msg bot">
+
+Welcome to GHAR AI. I can help you understand
+your offers, buyer proposals, counter-offers,
+accepted offers and seller negotiation workflow.
+
+</div>
+
+</div>
+
+
+<form
+id="aiForm"
+class="ai-form">
+
+<input
+id="aiInput"
+type="text"
+placeholder="Ask about your offers..."
+autocomplete="off"
+>
+
+<button type="submit">
+Send
+</button>
+
+</form>
+
+</aside>
+
+
+<div
+id="toast"
+class="toast">
+</div>
+
+
+<!-- =======================================================
+     SHARED GHAR INFRASTRUCTURE
+======================================================== -->
+
+<script
+src="../assets/js/main/site.js"
+defer>
+</script>
+
+<script
+src="../assets/js/main/page.js"
+defer>
+</script>
+
+<script
+src="../assets/js/main/api.js"
+defer>
+</script>
+
+<script
+src="../assets/js/main/auth.js"
+defer>
+</script>
+
+
+<!-- Seller offers infrastructure -->
+
+<script
+src="../assets/js/seller/offers.js"
+defer>
+</script>
+
+
+<!-- GHAR AI -->
+
+<script
+src="../assets/js/ai/ghar-ai.js"
+defer>
+</script>
+
+
+<!-- =======================================================
+     PAGE CONTROLLER
+======================================================== -->
+
+<script>
+(() => {
+
+"use strict";
+
+
+/* =========================================================
+   CONFIG
+========================================================= */
+
+const API_BASE =
+  window.GHAR_API_BASE ||
+  window.API_BASE ||
+  "/api";
+
+
+/* =========================================================
+   STATE
+========================================================= */
+
+const state = {
+
+  offers:[],
+
+  filtered:[]
+
+};
+
+
+/* =========================================================
+   SHORTCUT
+========================================================= */
+
+const $ =
+  id => document.getElementById(id);
+
+
+/* =========================================================
+   ESCAPE
+========================================================= */
+
+function escapeHTML(value){
+
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+function showToast(message){
+
+  const toast =
+    $("toast");
+
+  if(!toast) return;
+
+  toast.textContent =
+    message;
+
+  toast.classList.add("show");
+
+  clearTimeout(
+    window.__gharOfferToast
+  );
+
+  window.__gharOfferToast =
+    setTimeout(
+      () => toast.classList.remove("show"),
+      2700
+    );
+
+}
+
+
+/* =========================================================
+   SELLER ID
+========================================================= */
+
+function getSellerId(){
+
+  try{
+
+    const sources = [
+
+      localStorage.getItem("gharUser"),
+
+      localStorage.getItem("user"),
+
+      localStorage.getItem("currentUser")
+
+    ];
+
+    for(const raw of sources){
+
+      if(!raw) continue;
+
+      const user =
+        JSON.parse(raw);
+
+      if(
+        user?.sellerId ||
+        user?.id ||
+        user?.userId
+      ){
+
+        return (
+          user.sellerId ||
+          user.id ||
+          user.userId
+        );
+
+      }
+
+    }
+
+  }catch(error){
+
+    console.warn(
+      "GHAR seller identity:",
+      error
+    );
+
+  }
+
+  return (
+    localStorage.getItem("sellerId") ||
+    ""
+  );
+
+}
+
+
+/* =========================================================
+   NORMALISE OFFER
+========================================================= */
+
+function normaliseOffer(o){
+
+  return {
+
+    id:
+      o.id ||
+      o.offerId ||
+      o.offer_id ||
+      "GHAR-O-" +
+      Math.random()
+        .toString(36)
+        .slice(2,8)
+        .toUpperCase(),
+
+    propertyId:
+      o.propertyId ||
+      o.property_id ||
+      o.property?.id ||
+      "--",
+
+    propertyTitle:
+      o.propertyTitle ||
+      o.propertyName ||
+      o.property?.title ||
+      "Property",
+
+    location:
+      o.location ||
+      o.property?.location ||
+      "Location not specified",
+
+    buyerName:
+      o.buyerName ||
+      o.buyer?.name ||
+      o.user?.name ||
+      "Buyer",
+
+    amount:
+      o.amount ||
+      o.offerAmount ||
+      o.offer_amount ||
+      "--",
+
+    askingPrice:
+      o.askingPrice ||
+      o.property?.price ||
+      "--",
+
+    listingType:
+      String(
+        o.listingType ||
+        o.purpose ||
+        "sale"
+      ).toLowerCase(),
+
+    status:
+      String(
+        o.status ||
+        "new"
+      ).toLowerCase(),
+
+    financing:
+      o.financing ||
+      o.paymentMethod ||
+      "Not specified",
+
+    message:
+      o.message ||
+      o.note ||
+      "",
+
+    createdAt:
+      o.createdAt ||
+      o.created_at ||
+      "",
+
+    expiresAt:
+      o.expiresAt ||
+      o.expires_at ||
+      ""
+
+  };
+
+}
+
+
+/* =========================================================
+   DEMO OFFERS
+========================================================= */
+
+function demoOffers(){
+
+  return [
+
+    {
+
+      id:"GHAR-O001",
+
+      propertyId:"GHAR-P001",
+
+      propertyTitle:
+        "Royal 3 BHK Apartment",
+
+      location:
+        "Sector 137, Noida",
+
+      buyerName:
+        "Aarav Mehta",
+
+      amount:
+        "₹1.72 Cr",
+
+      askingPrice:
+        "₹1.85 Cr",
+
+      listingType:
+        "sale",
+
+      status:
+        "new",
+
+      financing:
+        "Home Loan",
+
+      message:
+        "Interested in completing the transaction quickly.",
+
+      createdAt:
+        "2026-10-02"
+
+    },
+
+
+    {
+
+      id:"GHAR-O002",
+
+      propertyId:"GHAR-P002",
+
+      propertyTitle:
+        "Luxury Independent House",
+
+      location:
+        "Sector 18, Noida",
+
+      buyerName:
+        "Rohan Sharma",
+
+      amount:
+        "₹3.05 Cr",
+
+      askingPrice:
+        "₹3.20 Cr",
+
+      listingType:
+        "sale",
+
+      status:
+        "countered",
+
+      financing:
+        "Bank Transfer",
+
+      message:
+        "Buyer has requested a revised price after viewing.",
+
+      createdAt:
+        "2026-10-01"
+
+    },
+
+
+    {
+
+      id:"GHAR-O003",
+
+      propertyId:"GHAR-P003",
+
+      propertyTitle:
+        "Premium 2 BHK Flat",
+
+      location:
+        "Sector 75, Noida",
+
+      buyerName:
+        "Priya Kapoor",
+
+      amount:
+        "₹36,000 / month",
+
+      askingPrice:
+        "₹38,000 / month",
+
+      listingType:
+        "rent",
+
+      status:
+        "accepted",
+
+      financing:
+        "Monthly Rent",
+
+      message:
+        "Ready for agreement and documentation.",
+
+      createdAt:
+        "2026-09-30"
+
+    },
+
+
+    {
+
+      id:"GHAR-O004",
+
+      propertyId:"GHAR-P004",
+
+      propertyTitle:
+        "Modern 4 BHK Villa",
+
+      location:
+        "Greater Noida West",
+
+      buyerName:
+        "Kabir Verma",
+
+      amount:
+        "₹4.30 Cr",
+
+      askingPrice:
+        "₹4.75 Cr",
+
+      listingType:
+        "sale",
+
+      status:
+        "rejected",
+
+      financing:
+        "Home Loan",
+
+      message:
+        "Offer was below the seller's acceptable range.",
+
+      createdAt:
+        "2026-09-29"
+
+    },
+
+
+    {
+
+      id:"GHAR-O005",
+
+      propertyId:"GHAR-P001",
+
+      propertyTitle:
+        "Royal 3 BHK Apartment",
+
+      location:
+        "Sector 137, Noida",
+
+      buyerName:
+        "Neha Singh",
+
+      amount:
+        "₹1.78 Cr",
+
+      askingPrice:
+        "₹1.85 Cr",
+
+      listingType:
+        "sale",
+
+      status:
+        "new",
+
+      financing:
+        "Cash + Loan",
+
+      message:
+        "Requested a second property visit before final confirmation.",
+
+      createdAt:
+        "2026-09-28"
+
+    }
+
+  ];
+
+}
+
+
+/* =========================================================
+   LOAD OFFERS
+========================================================= */
+
+async function loadOffers(){
+
+  $("offersGrid").innerHTML =
+    `
+    <div class="loading">
+      Loading seller offers...
+    </div>
+    `;
+
+
+  const sellerId =
+    getSellerId();
+
+
+  const query =
+    sellerId
+      ? `?sellerId=${encodeURIComponent(sellerId)}`
+      : "";
+
+
+  const endpoints = [
+
+    `${API_BASE}/seller/offers${query}`,
+
+    `${API_BASE}/offers/seller${query}`,
+
+    `${API_BASE}/offers${query}`
+
+  ];
+
+
+  let loaded =
+    false;
+
+
+  for(const endpoint of endpoints){
+
+    try{
+
+      const response =
+        await fetch(
+          endpoint,
+          {
+
+            credentials:"include",
+
+            headers:{
+              "Accept":
+                "application/json"
+            }
+
+          }
+        );
+
+
+      if(!response.ok){
+
+        continue;
+
+      }
+
+
+      const payload =
+        await response.json();
+
+
+      const list =
+
+        Array.isArray(payload)
+          ? payload
+
+          : payload.offers ||
+
+            payload.data ||
+
+            payload.results ||
+
+            [];
+
+
+      if(Array.isArray(list)){
+
+        state.offers =
+          list.map(
+            normaliseOffer
+          );
+
+        loaded =
+          true;
+
+        break;
+
+      }
+
+    }catch(error){
+
+      console.warn(
+        "GHAR offers API:",
+        endpoint,
+        error
+      );
+
+    }
+
+  }
+
+
+  if(!loaded){
+
+    state.offers =
+      demoOffers()
+        .map(normaliseOffer);
+
+  }
+
+
+  applyFilters();
+
+}
+
+
+/* =========================================================
+   STATS
+========================================================= */
+
+function updateStats(){
+
+  const list =
+    state.offers;
+
+
+  $("totalOffers")
+    .textContent =
+    list.length;
+
+
+  $("newOffers")
+    .textContent =
+    list.filter(
+      o => o.status === "new"
+    ).length;
+
+
+  $("counteredOffers")
+    .textContent =
+    list.filter(
+      o => o.status === "countered"
+    ).length;
+
+
+  $("acceptedOffers")
+    .textContent =
+    list.filter(
+      o => o.status === "accepted"
+    ).length;
+
+
+  $("rejectedOffers")
+    .textContent =
+    list.filter(
+      o => o.status === "rejected"
+    ).length;
+
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+function statusBadge(status){
+
+  const allowed = [
+
+    "new",
+    "countered",
+    "accepted",
+    "rejected",
+    "withdrawn",
+    "expired",
+    "pending"
+
+  ];
+
+
+  const safe =
+    allowed.includes(status)
+      ? status
+      : "pending";
+
+
+  return `
+    <span class="status ${safe}">
+      ${escapeHTML(safe)}
+    </span>
+  `;
+
+}
+
+
+/* =========================================================
+   LISTING TYPE
+========================================================= */
+
+function listingLabel(type){
+
+  return type === "rent"
+    ? "Rent"
+    : "Sale";
+
+}
+
+
+/* =========================================================
+   OFFER CARD
+========================================================= */
+
+function offerCard(o){
+
+  return `
+
+  <article
+    class="offer-card"
+    data-offer-id="${escapeHTML(o.id)}">
+
+
+    <div class="offer-top">
+
+      <div class="offer-top-row">
+
+        <div>
+
+          <div class="offer-property-id">
+            ${escapeHTML(o.propertyId)}
+          </div>
+
+          <div class="offer-property-name">
+            ${escapeHTML(o.propertyTitle)}
+          </div>
+
+          <div class="offer-location">
+            📍 ${escapeHTML(o.location)}
+          </div>
+
+        </div>
+
+
+        <div>
+
+          ${statusBadge(o.status)}
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="offer-body">
+
+      <div class="buyer-label">
+        Buyer / Tenant
+      </div>
+
+      <div class="buyer-name">
+        ${escapeHTML(o.buyerName)}
+      </div>
+
+
+      <div class="offer-amount">
+        ${escapeHTML(o.amount)}
+
+        <small>
+          OFFER
+        </small>
+      </div>
+
+
+      <div class="offer-grid">
+
+        <div class="offer-detail">
+
+          <div class="offer-detail-label">
+            Asking Price
+          </div>
+
+          <div class="offer-detail-value">
+            ${escapeHTML(o.askingPrice)}
+          </div>
+
+        </div>
+
+
+        <div class="offer-detail">
+
+          <div class="offer-detail-label">
+            Listing
+          </div>
+
+          <div class="offer-detail-value">
+            ${escapeHTML(
+              listingLabel(o.listingType)
+            )}
+          </div>
+
+        </div>
+
+
+        <div class="offer-detail">
+
+          <div class="offer-detail-label">
+            Payment
+          </div>
+
+          <div class="offer-detail-value">
+            ${escapeHTML(o.financing)}
+          </div>
+
+        </div>
+
+
+        <div class="offer-detail">
+
+          <div class="offer-detail-label">
+            Offer ID
+          </div>
+
+          <div class="offer-detail-value">
+            ${escapeHTML(o.id)}
+          </div>
+
+        </div>
+
+      </div>
+
+
+      ${
+        o.message
+
+        ? `
+
+          <div class="offer-message">
+
+            ${escapeHTML(o.message)}
+
+          </div>
+
+        `
+
+        : ""
+
+      }
+
+
+      <div class="offer-foot">
+
+        <div class="offer-date">
+
+          Received:
+          ${escapeHTML(
+            o.createdAt
+              ? String(o.createdAt)
+                  .slice(0,10)
+              : "Recently"
+          )}
+
+        </div>
+
+
+        <div class="offer-actions">
+
+          <button
+            class="action view"
+            data-action="view"
+            data-id="${escapeHTML(o.id)}">
+
+            View
+
+          </button>
+
+
+          ${
+            o.status === "new" ||
+            o.status === "countered"
+
+            ? `
+
+              <button
+                class="action accept"
+                data-action="accept"
+                data-id="${escapeHTML(o.id)}">
+
+                Accept
+
+              </button>
+
+              <button
+                class="action counter"
+                data-action="counter"
+                data-id="${escapeHTML(o.id)}">
+
+                Counter
+
+              </button>
+
+              <button
+                class="action reject"
+                data-action="reject"
+                data-id="${escapeHTML(o.id)}">
+
+                Reject
+
+              </button>
+
+            `
+
+            : ""
+
+          }
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </article>
+
+  `;
+
+}
+
+
+/* =========================================================
+   FILTERS
+========================================================= */
+
+function applyFilters(){
+
+  const query =
+    $("offerSearch")
+      .value
+      .trim()
+      .toLowerCase();
+
+
+  const status =
+    $("statusFilter")
+      .value;
+
+
+  const listing =
+    $("listingFilter")
+      .value;
+
+
+  state.filtered =
+    state.offers.filter(o => {
+
+      const searchable = [
+
+        o.id,
+
+        o.propertyId,
+
+        o.propertyTitle,
+
+        o.location,
+
+        o.buyerName,
+
+        o.amount
+
+      ]
+      .join(" ")
+      .toLowerCase();
+
+
+      if(
+        query &&
+        !searchable.includes(query)
+      ){
+
+        return false;
+
+      }
+
+
+      if(
+        status !== "all" &&
+        o.status !== status
+      ){
+
+        return false;
+
+      }
+
+
+      if(
+        listing !== "all" &&
+        o.listingType !== listing
+      ){
+
+        return false;
+
+      }
+
+
+      return true;
+
+    });
+
+
+  renderOffers();
+
+  updateStats();
+
+}
+
+
+/* =========================================================
+   RENDER
+========================================================= */
+
+function renderOffers(){
+
+  const grid =
+    $("offersGrid");
+
+
+  if(!state.filtered.length){
+
+    grid.innerHTML = `
+
+      <div class="empty">
+
+        <div class="empty-icon">
+          🤝
+        </div>
+
+        <h3>
+          No offers found
+        </h3>
+
+        <p>
+          No buyer or tenant offers match your
+          current filters.
+        </p>
+
+        <a
+          class="ghar-btn primary"
+          href="seller-properties.html"
+          style="margin-top:18px">
+
+          View My Properties
+
+        </a>
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  grid.innerHTML =
+    state.filtered
+      .map(offerCard)
+      .join("");
+
+}
+
+
+/* =========================================================
+   OFFER ACTION
+========================================================= */
+
+async function offerAction(
+  action,
+  id
+){
+
+  const offer =
+    state.offers.find(
+      o => o.id === id
+    );
+
+
+  if(!offer){
+
+    return;
+
+  }
+
+
+  if(action === "view"){
+
+    window.location.href =
+      `offer-details.html?id=${encodeURIComponent(id)}`;
+
+    return;
+
+  }
+
+
+  if(action === "accept"){
+
+    await changeStatus(
+      id,
+      "accepted"
+    );
+
+    return;
+
+  }
+
+
+  if(action === "reject"){
+
+    await changeStatus(
+      id,
+      "rejected"
+    );
+
+    return;
+
+  }
+
+
+  if(action === "counter"){
+
+    window.location.href =
+      `offer-details.html?id=${encodeURIComponent(id)}&action=counter`;
+
+    return;
+
+  }
+
+}
+
+
+/* =========================================================
+   STATUS UPDATE
+========================================================= */
+
+async function changeStatus(
+  id,
+  status
+){
+
+  const offer =
+    state.offers.find(
+      o => o.id === id
+    );
+
+
+  if(!offer){
+
+    return;
+
+  }
+
+
+  const previous =
+    offer.status;
+
+
+  offer.status =
+    status;
+
+
+  applyFilters();
+
+
+  try{
+
+    const response =
+      await fetch(
+        `${API_BASE}/seller/offers/${encodeURIComponent(id)}`,
+        {
+
+          method:"PATCH",
+
+          credentials:"include",
+
+          headers:{
+            "Content-Type":
+              "application/json",
+
+            "Accept":
+              "application/json"
+          },
+
+          body:JSON.stringify({
+            status
+          })
+
+        }
+      );
+
+
+    if(!response.ok){
+
+      throw new Error(
+        "Offer update failed"
+      );
+
+    }
+
+
+    showToast(
+      `Offer ${status}.`
+    );
+
+
+  }catch(error){
+
+    if(
+      String(id)
+        .startsWith("GHAR-O")
+    ){
+
+      showToast(
+        `Offer ${status}. Local demo updated.`
+      );
+
+      return;
+
+    }
+
+
+    offer.status =
+      previous;
+
+    applyFilters();
+
+
+    showToast(
+      "Could not update offer."
+    );
+
+
+    console.error(error);
+
+  }
+
+}
+
+
+/* =========================================================
+   EVENTS
+========================================================= */
+
+$("offerSearch")
+  .addEventListener(
+    "input",
+    applyFilters
+  );
+
+
+$("statusFilter")
+  .addEventListener(
+    "change",
+    applyFilters
+  );
+
+
+$("listingFilter")
+  .addEventListener(
+    "change",
+    applyFilters
+  );
+
+
+$("refreshOffers")
+  .addEventListener(
+    "click",
+    loadOffers
+  );
+
+
+$("offersGrid")
+  .addEventListener(
+    "click",
+    event => {
+
+      const button =
+        event.target.closest(
+          "[data-action]"
+        );
+
+
+      if(!button){
+
+        return;
+
+      }
+
+
+      offerAction(
+        button.dataset.action,
+        button.dataset.id
+      );
+
+    }
+  );
+
+
+/* =========================================================
+   GHAR AI
+========================================================= */
+
+const aiLauncher =
+  $("aiLauncher");
+
+const aiPanel =
+  $("aiPanel");
+
+const aiClose =
+  $("aiClose");
+
+const aiForm =
+  $("aiForm");
+
+const aiInput =
+  $("aiInput");
+
+const aiMessages =
+  $("aiMessages");
+
+
+aiLauncher.addEventListener(
+  "click",
+  () => {
+
+    aiPanel.classList.add(
+      "open"
+    );
+
+    aiInput.focus();
+
+  }
+);
+
+
+aiClose.addEventListener(
+  "click",
+  () => {
+
+    aiPanel.classList.remove(
+      "open"
+    );
+
+  }
+);
+
+
+/* =========================================================
+   AI MESSAGE
+========================================================= */
+
+function addAIMessage(
+  text,
+  type
+){
+
+  const message =
+    document.createElement(
+      "div"
+    );
+
+  message.className =
+    `ai-msg ${type}`;
+
+  message.textContent =
+    text;
+
+  aiMessages.appendChild(
+    message
+  );
+
+  aiMessages.scrollTop =
+    aiMessages.scrollHeight;
+
+}
+
+
+/* =========================================================
+   AI REQUEST
+========================================================= */
+
+async function askGHARAI(
+  message
+){
+
+  if(
+    window.GHARAI &&
+    typeof window.GHARAI.ask ===
+      "function"
+  ){
+
+    return await
+      window.GHARAI.ask(
+        message,
+        {
+          page:
+            "seller-offers",
+
+          role:
+            "seller",
+
+          offers:
+            state.offers
+
+        }
+      );
+
+  }
+
+
+  try{
+
+    const response =
+      await fetch(
+        `${API_BASE}/ai/chat`,
+        {
+
+          method:"POST",
+
+          credentials:"include",
+
+          headers:{
+            "Content-Type":
+              "application/json",
+
+            "Accept":
+              "application/json"
+          },
+
+          body:JSON.stringify({
+
+            message,
+
+            context:{
+
+              page:
+                "seller-offers",
+
+              role:
+                "seller",
+
+              offers:
+                state.offers
+
+            }
+
+          })
+
+        }
+      );
+
+
+    if(response.ok){
+
+      const data =
+        await response.json();
+
+
+      return (
+        data.reply ||
+        data.message ||
+        data.answer ||
+        "I could not generate a response."
+      );
+
+    }
+
+  }catch(error){
+
+    console.warn(
+      "GHAR AI API:",
+      error
+    );
+
+  }
+
+
+  /* =======================================================
+     LOCAL FALLBACK
+  ======================================================= */
+
+  const text =
+    message.toLowerCase();
+
+
+  const total =
+    state.offers.length;
+
+
+  const fresh =
+    state.offers.filter(
+      o => o.status === "new"
+    ).length;
+
+
+  const countered =
+    state.offers.filter(
+      o => o.status === "countered"
+    ).length;
+
+
+  const accepted =
+    state.offers.filter(
+      o => o.status === "accepted"
+    ).length;
+
+
+  const rejected =
+    state.offers.filter(
+      o => o.status === "rejected"
+    ).length;
+
+
+  if(
+    text.includes("total") ||
+    text.includes("how many")
+  ){
+
+    return `
+      You currently have ${total} offers:
+      ${fresh} new,
+      ${countered} countered,
+      ${accepted} accepted,
+      and ${rejected} rejected.
+    `;
+
+  }
+
+
+  if(
+    text.includes("new") ||
+    text.includes("pending")
+  ){
+
+    return `
+      You currently have
+      ${fresh} new offer${fresh === 1 ? "" : "s"} awaiting action.
+    `;
+
+  }
+
+
+  if(
+    text.includes("counter")
+  ){
+
+    return `
+      There are ${countered} countered offer${countered === 1 ? "" : "s"}
+      in your current seller offer data.
+    `;
+
+  }
+
+
+  if(
+    text.includes("accept")
+  ){
+
+    return `
+      ${accepted} offer${accepted === 1 ? " is" : "s are"}
+      currently marked as accepted.
+    `;
+
+  }
+
+
+  if(
+    text.includes("reject")
+  ){
+
+    return `
+      ${rejected} offer${rejected === 1 ? " is" : "s are"}
+      currently marked as rejected.
+    `;
+
+  }
+
+
+  if(
+    text.includes("buyer") ||
+    text.includes("tenant")
+  ){
+
+    return `
+      I can help you review buyer or tenant names,
+      property offers, offer status, payment method,
+      asking price and negotiation information.
+    `;
+
+  }
+
+
+  return `
+    I can help with new offers, counter-offers,
+    accepted or rejected offers, buyer information,
+    offer amounts and seller negotiations.
+  `;
+
+}
+
+
+/* =========================================================
+   AI FORM
+========================================================= */
+
+aiForm.addEventListener(
+  "submit",
+  async event => {
+
+    event.preventDefault();
+
+
+    const message =
+      aiInput.value.trim();
+
+
+    if(!message){
+
+      return;
+
+    }
+
+
+    aiInput.value = "";
+
+
+    addAIMessage(
+      message,
+      "user"
+    );
+
+
+    const typing =
+      document.createElement(
+        "div"
+      );
+
+    typing.className =
+      "ai-msg bot";
+
+    typing.textContent =
+      "GHAR AI is thinking...";
+
+
+    aiMessages.appendChild(
+      typing
+    );
+
+
+    aiMessages.scrollTop =
+      aiMessages.scrollHeight;
+
+
+    try{
+
+      const answer =
+        await askGHARAI(
+          message
+        );
+
+
+      typing.remove();
+
+
+      addAIMessage(
+        answer ||
+        "I could not process that request.",
+        "bot"
+      );
+
+
+    }catch(error){
+
+      typing.remove();
+
+
+      addAIMessage(
+        "GHAR AI is temporarily unavailable.",
+        "bot"
+      );
+
+
+      console.error(error);
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   INITIAL LOAD
+========================================================= */
+
+loadOffers();
+
+
+})();
+</script>
+
+</body>
+</html>

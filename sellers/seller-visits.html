@@ -5,64 +5,71 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
 <meta name="description"
-content="GHAR Seller Visits -- Manage buyer visit requests, schedules, confirmations and visit history.">
+content="GHAR Seller Visits -- Manage property visits, scheduled appointments, buyers, tenants and seller visit requests.">
 
-<meta name="theme-color" content="#07150f">
+<meta name="theme-color" content="#090b16">
 
 <title>Seller Visits · GHAR</title>
 
-<!-- =========================================================
-     GHAR SHARED CSS
-========================================================= -->
 <link rel="stylesheet" href="../assets/css/style.css">
 
-<!-- =========================================================
-     PAGE-SELF-CONTAINED CSS
-========================================================= -->
 <style>
-
 /* =========================================================
    GHAR SELLER VISITS
    ROYAL LUXURY DESIGN SYSTEM
+   SELF-CONTAINED CSS
 ========================================================= */
-
+*
 :root{
-  --g-black:#030906;
-  --g-black2:#07130e;
-  --g-green:#0a2118;
-  --g-green2:#103526;
-  --g-green3:#174a36;
+  --royal-950:#070914;
+  --royal-900:#0a0d1d;
+  --royal-850:#10152d;
+  --royal-800:#171d3c;
+  --royal-700:#252b59;
 
-  --g-gold:#b89145;
-  --g-gold2:#d8bd78;
-  --g-gold3:#f0dda9;
+  --gold:#c9a45c;
+  --gold-2:#ead39a;
+  --gold-3:#9d7835;
 
-  --g-cream:#f8f0e1;
-  --g-cream2:#eee1ca;
-  --g-sand:#e5d5b7;
+  --cream:#fffaf0;
+  --cream-2:#f6efdf;
+  --sand:#e9ddc5;
 
-  --g-text:#18241e;
-  --g-muted:#6d776f;
+  --ink:#161a2b;
+  --muted:#707487;
 
-  --g-border:rgba(185,145,69,.22);
+  --green:#285d4a;
+  --green-2:#dceee5;
 
-  --g-shadow:
-    0 24px 70px rgba(3,15,9,.14);
+  --blue:#365c91;
+  --blue-2:#dfe9f8;
 
-  --g-shadow-small:
-    0 12px 35px rgba(3,15,9,.09);
+  --red:#963e45;
+  --red-2:#f5dddd;
 
-  --g-radius:22px;
+  --orange:#996a24;
+  --orange-2:#f4e7c7;
+
+  --purple:#65518d;
+  --purple-2:#ebe5f6;
+
+  --border:rgba(12,16,36,.12);
+  --white-border:rgba(255,255,255,.14);
+
+  --shadow:
+    0 25px 70px rgba(7,9,20,.13);
+
+  --shadow-soft:
+    0 12px 38px rgba(7,9,20,.08);
+
+  --radius:24px;
 }
-
 
 /* =========================================================
    RESET
 ========================================================= */
 
-*,
-*::before,
-*::after{
+*{
   box-sizing:border-box;
 }
 
@@ -74,7 +81,30 @@ body{
   margin:0;
   min-height:100vh;
 
-  color:var(--g-text);
+  color:var(--ink);
+
+  background:
+    radial-gradient(
+      circle at 5% 4%,
+      rgba(201,164,92,.20),
+      transparent 25%
+    ),
+    radial-gradient(
+      circle at 95% 10%,
+      rgba(53,59,117,.16),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 50% 100%,
+      rgba(201,164,92,.11),
+      transparent 30%
+    ),
+    linear-gradient(
+      135deg,
+      #fbf5e9 0%,
+      #eee4d0 42%,
+      #f8f0df 100%
+    );
 
   font-family:
     Inter,
@@ -84,495 +114,243 @@ body{
     BlinkMacSystemFont,
     "Segoe UI",
     sans-serif;
-
-  background:
-    radial-gradient(
-      circle at 7% 7%,
-      rgba(216,189,120,.24),
-      transparent 25%
-    ),
-    radial-gradient(
-      circle at 94% 16%,
-      rgba(23,74,54,.16),
-      transparent 28%
-    ),
-    radial-gradient(
-      circle at 48% 100%,
-      rgba(185,145,69,.10),
-      transparent 30%
-    ),
-    linear-gradient(
-      135deg,
-      #fbf4e7 0%,
-      #eee3d0 45%,
-      #f8efdf 100%
-    );
-
-  overflow-x:hidden;
 }
 
 button,
 input,
-select{
+select,
+textarea{
   font:inherit;
 }
 
-button,
-a{
-  -webkit-tap-highlight-color:transparent;
+button{
+  cursor:pointer;
 }
 
 a{
   color:inherit;
 }
 
-
 /* =========================================================
-   SHARED HEADER FALLBACK
-========================================================= */
-
-.gh-fallback-header{
-  position:sticky;
-  top:0;
-  z-index:9000;
-
-  background:
-    rgba(3,10,7,.96);
-
-  backdrop-filter:blur(18px);
-
-  border-bottom:
-    1px solid rgba(216,189,120,.16);
-
-  box-shadow:
-    0 10px 35px rgba(0,0,0,.16);
-}
-
-.gh-header-inner{
-  width:min(1440px,calc(100% - 32px));
-  min-height:70px;
-  margin:auto;
-
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:20px;
-}
-
-.gh-brand{
-  display:flex;
-  align-items:center;
-  gap:12px;
-
-  text-decoration:none;
-}
-
-.gh-brand-mark{
-  width:38px;
-  height:38px;
-
-  display:grid;
-  place-items:center;
-
-  border-radius:12px;
-
-  color:#111a13;
-
-  background:
-    linear-gradient(
-      135deg,
-      var(--g-gold3),
-      var(--g-gold)
-    );
-
-  font-weight:950;
-}
-
-.gh-brand-text{
-  color:#f3dfad;
-
-  font-size:18px;
-  font-weight:950;
-
-  letter-spacing:.20em;
-}
-
-.gh-header-nav{
-  display:flex;
-  align-items:center;
-  gap:7px;
-}
-
-.gh-header-nav a{
-  color:rgba(255,255,255,.68);
-  text-decoration:none;
-
-  padding:9px 11px;
-
-  border-radius:10px;
-
-  font-size:12px;
-  font-weight:750;
-}
-
-.gh-header-nav a:hover,
-.gh-header-nav a.active{
-  color:#f0dba4;
-  background:rgba(255,255,255,.06);
-}
-
-.gh-mobile-menu{
-  display:none;
-
-  width:42px;
-  height:42px;
-
-  border:1px solid rgba(216,189,120,.22);
-  border-radius:12px;
-
-  color:#fff;
-
-  background:rgba(255,255,255,.05);
-
-  cursor:pointer;
-}
-
-
-/* =========================================================
-   MAIN CONTAINER
+   PAGE
 ========================================================= */
 
 .seller-visits-page{
-  width:min(1440px,calc(100% - 32px));
-
+  width:min(1480px,calc(100% - 32px));
   margin:auto;
-
-  padding:
-    30px
-    0
-    70px;
+  padding:34px 0 75px;
 }
-
 
 /* =========================================================
    HERO
 ========================================================= */
 
-.visit-hero{
+.hero{
   position:relative;
-
-  min-height:330px;
-
   overflow:hidden;
 
-  margin-bottom:24px;
+  border:1px solid rgba(234,211,154,.20);
 
-  border:
-    1px solid rgba(216,189,120,.24);
+  border-radius:32px;
 
-  border-radius:30px;
-
-  background:
-    radial-gradient(
-      circle at 80% 15%,
-      rgba(216,189,120,.20),
-      transparent 25%
-    ),
-    radial-gradient(
-      circle at 15% 90%,
-      rgba(29,94,67,.27),
-      transparent 31%
-    ),
-    linear-gradient(
-      135deg,
-      #020805,
-      #081b13 45%,
-      #123c2b 100%
-    );
+  padding:38px;
 
   color:#fff;
 
-  box-shadow:
-    0 32px 90px rgba(2,12,7,.28);
-}
-
-.visit-hero::before{
-  content:"";
-
-  position:absolute;
-  inset:0;
-
   background:
+    radial-gradient(
+      circle at 88% 15%,
+      rgba(201,164,92,.25),
+      transparent 24%
+    ),
+    radial-gradient(
+      circle at 20% 100%,
+      rgba(83,73,150,.24),
+      transparent 32%
+    ),
     linear-gradient(
-      120deg,
-      transparent 25%,
-      rgba(240,221,169,.07) 50%,
-      transparent 75%
+      135deg,
+      #070914 0%,
+      #11162f 45%,
+      #1d2348 100%
     );
 
-  pointer-events:none;
+  box-shadow:
+    0 30px 90px rgba(7,9,20,.28);
+
+  margin-bottom:24px;
 }
 
-.visit-hero::after{
+.hero:before{
   content:"";
 
   position:absolute;
 
-  width:420px;
-  height:420px;
+  width:330px;
+  height:330px;
 
-  right:-160px;
-  top:-190px;
+  right:-150px;
+  top:-170px;
 
   border-radius:50%;
 
-  border:
-    1px solid rgba(216,189,120,.17);
+  border:1px solid rgba(234,211,154,.18);
 
   box-shadow:
-    0 0 0 50px rgba(216,189,120,.025),
-    0 0 0 100px rgba(216,189,120,.015);
+    0 0 0 35px rgba(201,164,92,.025),
+    0 0 0 70px rgba(201,164,92,.02);
 }
 
-.hero-grid{
+.hero:after{
+  content:"";
+
+  position:absolute;
+
+  left:-80px;
+  bottom:-180px;
+
+  width:350px;
+  height:350px;
+
+  border-radius:50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(201,164,92,.11),
+      transparent 67%
+    );
+}
+
+.hero-content{
   position:relative;
   z-index:2;
 
-  min-height:330px;
+  display:flex;
 
-  display:grid;
-
-  grid-template-columns:
-    minmax(0,1.4fr)
-    minmax(300px,.8fr);
+  align-items:flex-end;
+  justify-content:space-between;
 
   gap:30px;
-
-  align-items:center;
-
-  padding:42px;
 }
 
-.hero-copy{
-  max-width:760px;
-}
+.eyebrow{
+  color:var(--gold-2);
 
-.hero-eyebrow{
-  display:inline-flex;
+  font-size:12px;
+  font-weight:900;
 
-  align-items:center;
-  gap:8px;
+  letter-spacing:.18em;
 
-  margin-bottom:14px;
-
-  color:var(--g-gold2);
-
-  font-size:11px;
-  font-weight:950;
-
-  letter-spacing:.17em;
   text-transform:uppercase;
+
+  margin-bottom:10px;
 }
 
-.hero-eyebrow::before{
-  content:"";
-
-  width:27px;
-  height:1px;
-
-  background:var(--g-gold2);
-}
-
-.hero-title{
+h1{
   margin:0;
 
   font-size:
-    clamp(34px,5vw,60px);
+    clamp(32px,5vw,56px);
 
-  line-height:.98;
+  line-height:1.02;
 
   letter-spacing:-.045em;
-
-  font-weight:950;
 }
 
-.hero-description{
-  max-width:700px;
+.hero p{
+  max-width:760px;
 
-  margin:18px 0 0;
+  color:rgba(255,255,255,.72);
 
-  color:rgba(255,255,255,.69);
-
-  font-size:15px;
   line-height:1.75;
+
+  margin:14px 0 0;
 }
 
 .hero-actions{
   display:flex;
-  flex-wrap:wrap;
 
   gap:10px;
 
-  margin-top:25px;
+  flex-wrap:wrap;
 }
-
 
 /* =========================================================
    BUTTONS
 ========================================================= */
 
-.gh-btn{
-  min-height:44px;
+.ghar-btn{
+  min-height:45px;
 
-  padding:
-    0
-    16px;
+  border:0;
 
-  border-radius:13px;
+  border-radius:14px;
+
+  padding:12px 17px;
 
   display:inline-flex;
+
   align-items:center;
   justify-content:center;
-  gap:8px;
 
-  border:1px solid transparent;
+  gap:8px;
 
   text-decoration:none;
 
-  cursor:pointer;
-
-  font-size:12px;
+  font-size:13px;
   font-weight:900;
 
   transition:
     transform .2s ease,
     box-shadow .2s ease,
-    border-color .2s ease,
-    background .2s ease;
+    opacity .2s ease;
 }
 
-.gh-btn:hover{
+.ghar-btn:hover{
   transform:translateY(-2px);
 }
 
-.gh-btn-gold{
-  color:#11180f;
+.ghar-btn.primary{
+  color:#18130a;
 
   background:
     linear-gradient(
       135deg,
-      #f0dda9,
-      #b89145
+      #f0d99e,
+      #c39a4d
     );
 
   box-shadow:
-    0 10px 30px rgba(185,145,69,.20);
+    0 8px 25px rgba(201,164,92,.18);
 }
 
-.gh-btn-outline{
-  color:#f4e5bd;
-
-  border-color:
-    rgba(216,189,120,.25);
+.ghar-btn.secondary{
+  color:#fff;
 
   background:
-    rgba(255,255,255,.055);
+    rgba(255,255,255,.075);
+
+  border:
+    1px solid rgba(255,255,255,.16);
 }
 
-.gh-btn-dark{
+.ghar-btn.dark{
   color:#fff;
 
   background:
     linear-gradient(
       135deg,
-      #174a36,
-      #07150e
+      #11162f,
+      #252b59
     );
 }
-
-
-/* =========================================================
-   HERO IMAGE SLOT
-========================================================= */
-
-.hero-media{
-  min-height:235px;
-
-  position:relative;
-
-  overflow:hidden;
-
-  border-radius:22px;
-
-  border:
-    1px solid rgba(216,189,120,.23);
-
-  background:
-    linear-gradient(
-      135deg,
-      rgba(255,255,255,.09),
-      rgba(255,255,255,.025)
-    );
-
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.06);
-}
-
-.hero-media img{
-  width:100%;
-  height:100%;
-  min-height:235px;
-
-  display:block;
-
-  object-fit:cover;
-}
-
-.hero-media-placeholder{
-  position:absolute;
-  inset:0;
-
-  display:grid;
-  place-items:center;
-
-  text-align:center;
-
-  padding:20px;
-
-  color:rgba(255,255,255,.48);
-
-  background:
-    radial-gradient(
-      circle,
-      rgba(216,189,120,.09),
-      transparent 55%
-    );
-}
-
-.hero-media-placeholder strong{
-  display:block;
-
-  color:#dec68a;
-
-  font-size:12px;
-
-  letter-spacing:.13em;
-}
-
-.hero-media-placeholder span{
-  display:block;
-
-  margin-top:7px;
-
-  font-size:11px;
-}
-
 
 /* =========================================================
    STATS
 ========================================================= */
 
-.stats-grid{
+.stats{
   display:grid;
 
   grid-template-columns:
@@ -583,149 +361,74 @@ a{
   margin-bottom:24px;
 }
 
-.stat-card{
+.stat{
   position:relative;
-
-  min-height:135px;
 
   overflow:hidden;
 
-  padding:20px;
-
-  border:
-    1px solid rgba(185,145,69,.17);
+  border:1px solid var(--border);
 
   border-radius:20px;
+
+  padding:20px;
 
   background:
     linear-gradient(
       145deg,
-      rgba(255,250,241,.97),
-      rgba(238,225,201,.82)
+      rgba(255,250,240,.94),
+      rgba(242,232,211,.82)
     );
 
-  box-shadow:var(--g-shadow-small);
-
-  transition:.22s ease;
+  box-shadow:var(--shadow-soft);
 }
 
-.stat-card::after{
+.stat:after{
   content:"";
 
   position:absolute;
 
-  width:110px;
-  height:110px;
+  right:-35px;
+  bottom:-50px;
 
-  right:-40px;
-  top:-40px;
+  width:120px;
+  height:120px;
 
   border-radius:50%;
 
   background:
     radial-gradient(
       circle,
-      rgba(185,145,69,.18),
-      transparent 68%
+      rgba(201,164,92,.15),
+      transparent 70%
     );
-}
-
-.stat-card:hover{
-  transform:translateY(-3px);
-
-  box-shadow:
-    0 20px 55px rgba(3,15,9,.14);
-}
-
-.stat-icon{
-  width:38px;
-  height:38px;
-
-  display:grid;
-  place-items:center;
-
-  margin-bottom:12px;
-
-  border-radius:12px;
-
-  color:#e8d19b;
-
-  background:
-    linear-gradient(
-      135deg,
-      #123a2b,
-      #06130d
-    );
-
-  font-size:16px;
 }
 
 .stat-label{
   position:relative;
   z-index:1;
 
-  color:#81704f;
+  color:var(--muted);
 
-  font-size:10px;
+  font-size:11px;
   font-weight:900;
 
-  letter-spacing:.09em;
   text-transform:uppercase;
+
+  letter-spacing:.09em;
 }
 
 .stat-value{
   position:relative;
   z-index:1;
 
-  margin-top:5px;
+  margin-top:8px;
 
-  color:#0c291d;
+  color:var(--royal-850);
 
   font-size:30px;
-  line-height:1;
 
   font-weight:950;
 }
-
-
-/* =========================================================
-   SECTION HEADER
-========================================================= */
-
-.workspace-header{
-  display:flex;
-
-  align-items:flex-end;
-  justify-content:space-between;
-
-  gap:20px;
-
-  margin:
-    34px
-    0
-    16px;
-}
-
-.section-eyebrow{
-  color:#967542;
-
-  font-size:10px;
-  font-weight:950;
-
-  letter-spacing:.15em;
-  text-transform:uppercase;
-}
-
-.section-title{
-  margin:5px 0 0;
-
-  color:#10281d;
-
-  font-size:27px;
-
-  letter-spacing:-.025em;
-}
-
 
 /* =========================================================
    TOOLBAR
@@ -739,70 +442,59 @@ a{
 
   gap:12px;
 
-  padding:14px;
-
-  border:
-    1px solid rgba(185,145,69,.17);
-
-  border-radius:19px;
-
-  background:
-    linear-gradient(
-      135deg,
-      rgba(255,250,241,.94),
-      rgba(239,225,200,.75)
-    );
-
-  box-shadow:var(--g-shadow-small);
-
-  margin-bottom:18px;
+  margin-bottom:20px;
 }
 
 .filters{
-  width:100%;
-
   display:flex;
+
   flex-wrap:wrap;
 
-  gap:9px;
+  gap:10px;
+
+  flex:1;
 }
 
 .field{
   min-height:45px;
 
-  padding:
-    0
-    13px;
+  border:1px solid var(--border);
 
-  border:
-    1px solid rgba(185,145,69,.19);
+  border-radius:13px;
 
-  border-radius:12px;
+  padding:0 13px;
+
+  color:var(--ink);
 
   outline:none;
 
-  color:var(--g-text);
-
   background:
-    rgba(255,250,241,.95);
+    rgba(255,250,240,.90);
 
-  transition:.2s ease;
+  box-shadow:
+    0 5px 20px rgba(7,9,20,.035);
 }
 
 .field:focus{
-  border-color:var(--g-gold);
+  border-color:
+    rgba(201,164,92,.72);
 
   box-shadow:
-    0 0 0 3px rgba(185,145,69,.12);
+    0 0 0 3px
+    rgba(201,164,92,.12);
 }
 
 .search{
-  flex:1;
-
-  min-width:
-    min(340px,100%);
+  width:min(360px,100%);
 }
 
+.toolbar-actions{
+  display:flex;
+
+  gap:9px;
+
+  flex-wrap:wrap;
+}
 
 /* =========================================================
    VISIT GRID
@@ -812,11 +504,10 @@ a{
   display:grid;
 
   grid-template-columns:
-    repeat(2,minmax(0,1fr));
+    repeat(3,minmax(0,1fr));
 
-  gap:18px;
+  gap:19px;
 }
-
 
 /* =========================================================
    VISIT CARD
@@ -827,497 +518,413 @@ a{
 
   overflow:hidden;
 
-  border:
-    1px solid rgba(185,145,69,.18);
+  border:1px solid var(--border);
 
-  border-radius:23px;
+  border-radius:24px;
 
   background:
-    linear-gradient(
-      145deg,
-      rgba(255,250,241,.97),
-      rgba(238,225,201,.86)
-    );
+    rgba(255,250,240,.91);
 
-  box-shadow:var(--g-shadow-small);
+  box-shadow:
+    0 14px 42px rgba(7,9,20,.075);
 
   transition:
     transform .22s ease,
-    box-shadow .22s ease,
-    border-color .22s ease;
-}
-
-.visit-card::before{
-  content:"";
-
-  position:absolute;
-
-  left:0;
-  top:0;
-  right:0;
-
-  height:3px;
-
-  background:
-    linear-gradient(
-      90deg,
-      transparent,
-      var(--g-gold),
-      var(--g-gold2),
-      var(--g-gold),
-      transparent
-    );
-
-  opacity:.75;
+    box-shadow .22s ease;
 }
 
 .visit-card:hover{
   transform:translateY(-4px);
 
-  border-color:
-    rgba(185,145,69,.40);
-
   box-shadow:
-    0 27px 70px rgba(3,15,9,.16);
+    0 25px 60px rgba(7,9,20,.14);
 }
 
-
 /* =========================================================
-   PROPERTY IMAGE
+   VISIT TOP
 ========================================================= */
 
-.property-image{
+.visit-top{
   position:relative;
 
-  height:210px;
+  min-height:150px;
 
-  overflow:hidden;
+  padding:20px;
+
+  color:#fff;
 
   background:
+    radial-gradient(
+      circle at 85% 10%,
+      rgba(201,164,92,.23),
+      transparent 28%
+    ),
     linear-gradient(
       135deg,
-      #092319,
-      #1a4d38
+      #11162f,
+      #292f60
     );
 }
 
-.property-image img{
-  width:100%;
-  height:100%;
-
-  display:block;
-
-  object-fit:cover;
-
-  transition:
-    transform .45s ease;
-}
-
-.visit-card:hover .property-image img{
-  transform:scale(1.035);
-}
-
-.property-image::after{
-  content:"PROPERTY";
+.visit-top:after{
+  content:"";
 
   position:absolute;
 
-  left:13px;
-  bottom:13px;
+  width:150px;
+  height:150px;
 
-  padding:
-    6px
-    9px;
+  right:-55px;
+  bottom:-75px;
 
-  border-radius:999px;
+  border-radius:50%;
 
-  color:#f1dda8;
-
-  background:
-    rgba(3,10,7,.72);
-
-  border:
-    1px solid rgba(216,189,120,.25);
-
-  font-size:9px;
-  font-weight:950;
-
-  letter-spacing:.13em;
-}
-
-.image-fallback{
-  position:absolute;
-  inset:0;
-
-  display:grid;
-  place-items:center;
-
-  color:rgba(255,255,255,.48);
-
-  text-align:center;
-}
-
-.image-fallback div{
-  font-size:34px;
-}
-
-.image-fallback small{
-  display:block;
-
-  margin-top:8px;
-
-  color:#d8bd78;
-
-  font-weight:850;
-
-  letter-spacing:.08em;
-}
-
-
-/* =========================================================
-   CARD CONTENT
-========================================================= */
-
-.visit-content{
-  padding:20px;
-}
-
-.visit-top{
-  display:flex;
-
-  align-items:flex-start;
-  justify-content:space-between;
-
-  gap:15px;
-
-  margin-bottom:15px;
+  border:1px solid rgba(234,211,154,.16);
 }
 
 .visit-id{
-  color:#89734d;
+  color:var(--gold-2);
 
   font-size:10px;
-  font-weight:900;
 
-  letter-spacing:.08em;
+  font-weight:950;
+
+  letter-spacing:.09em;
+
+  text-transform:uppercase;
 }
 
-.property-name{
-  margin-top:5px;
+.visit-title{
+  position:relative;
+  z-index:2;
 
-  color:#0b2a1d;
+  margin:7px 0 0;
 
-  font-size:20px;
-  line-height:1.18;
+  font-size:21px;
+
+  line-height:1.2;
 
   font-weight:950;
 }
 
+.visit-property{
+  position:relative;
+  z-index:2;
+
+  margin-top:8px;
+
+  color:rgba(255,255,255,.68);
+
+  font-size:11px;
+
+  line-height:1.5;
+}
+
+.visit-status-row{
+  position:absolute;
+
+  left:20px;
+  right:20px;
+  bottom:17px;
+
+  display:flex;
+
+  justify-content:space-between;
+
+  align-items:center;
+
+  gap:8px;
+
+  z-index:3;
+}
 
 /* =========================================================
-   STATUS
+   BADGES
 ========================================================= */
 
-.status{
+.badge{
   display:inline-flex;
 
   align-items:center;
+
   justify-content:center;
 
   min-height:28px;
 
-  padding:
-    0
-    10px;
+  padding:6px 10px;
 
   border-radius:999px;
 
-  white-space:nowrap;
+  font-size:10px;
 
-  font-size:9px;
   font-weight:950;
 
-  letter-spacing:.07em;
-
   text-transform:uppercase;
+
+  letter-spacing:.05em;
 }
 
-.status.pending{
-  color:#75531a;
+.badge.confirmed{
+  color:#fff;
 
-  background:#f3e4c1;
-
-  border:1px solid rgba(185,145,69,.20);
+  background:
+    rgba(41,93,74,.95);
 }
 
-.status.confirmed{
-  color:#20583c;
+.badge.requested{
+  color:#6f4d13;
 
-  background:#dcecdf;
+  background:
+    rgba(244,231,199,.97);
 }
 
-.status.completed{
-  color:#244c67;
+.badge.completed{
+  color:#fff;
 
-  background:#dce9f3;
+  background:
+    rgba(54,92,145,.95);
 }
 
-.status.cancelled{
-  color:#813d37;
+.badge.cancelled{
+  color:#fff;
 
-  background:#f2dcd9;
+  background:
+    rgba(150,62,69,.95);
 }
 
+.badge.rescheduled{
+  color:#fff;
+
+  background:
+    rgba(101,81,141,.96);
+}
+
+.badge.no-show{
+  color:#fff;
+
+  background:
+    rgba(117,79,38,.95);
+}
+
+.visit-type{
+  color:#fff;
+
+  background:
+    rgba(0,0,0,.30);
+
+  backdrop-filter:blur(8px);
+}
 
 /* =========================================================
-   BUYER
+   VISIT BODY
 ========================================================= */
 
-.buyer{
+.visit-body{
+  padding:20px;
+}
+
+.detail-list{
+  display:grid;
+
+  gap:11px;
+}
+
+.detail{
+  display:flex;
+
+  align-items:flex-start;
+
+  gap:11px;
+}
+
+.detail-icon{
+  width:34px;
+  height:34px;
+
+  flex:0 0 34px;
+
   display:flex;
 
   align-items:center;
+  justify-content:center;
 
-  gap:12px;
+  border-radius:10px;
 
-  margin-bottom:15px;
-
-  padding:12px;
-
-  border:
-    1px solid rgba(185,145,69,.13);
-
-  border-radius:15px;
+  color:var(--royal-850);
 
   background:
-    rgba(255,250,241,.58);
+    rgba(233,221,197,.60);
+
+  font-size:15px;
 }
 
-.avatar{
-  width:46px;
-  height:46px;
-
-  flex:none;
-
-  overflow:hidden;
-
-  display:grid;
-  place-items:center;
-
-  border-radius:50%;
-
-  color:#fff;
-
-  font-size:13px;
-  font-weight:950;
-
-  background:
-    linear-gradient(
-      135deg,
-      #0a2118,
-      #32634d
-    );
-
-  border:
-    1px solid rgba(216,189,120,.38);
-
-  box-shadow:
-    0 8px 20px rgba(3,15,9,.16);
-}
-
-.avatar img{
-  width:100%;
-  height:100%;
-
-  display:block;
-
-  object-fit:cover;
-}
-
-.buyer-name{
-  color:#142a20;
-
-  font-size:14px;
-  font-weight:900;
-}
-
-.buyer-contact{
-  margin-top:3px;
-
-  color:var(--g-muted);
-
-  font-size:11px;
-}
-
-
-/* =========================================================
-   INFORMATION GRID
-========================================================= */
-
-.visit-info{
-  display:grid;
-
-  grid-template-columns:
-    repeat(2,minmax(0,1fr));
-
-  gap:9px;
-
-  margin-bottom:15px;
-}
-
-.info{
+.detail-content{
   min-width:0;
-
-  padding:11px;
-
-  border:
-    1px solid rgba(185,145,69,.11);
-
-  border-radius:13px;
-
-  background:
-    linear-gradient(
-      135deg,
-      rgba(239,227,204,.74),
-      rgba(255,250,241,.55)
-    );
 }
 
-.info small{
-  display:block;
-
-  margin-bottom:4px;
-
-  color:#8a754f;
+.detail-label{
+  color:var(--muted);
 
   font-size:9px;
-  font-weight:800;
 
-  letter-spacing:.05em;
+  font-weight:900;
 
   text-transform:uppercase;
+
+  letter-spacing:.07em;
 }
 
-.info strong{
-  display:block;
+.detail-value{
+  margin-top:2px;
 
-  overflow:hidden;
-
-  color:#1b2a22;
+  color:var(--royal-850);
 
   font-size:12px;
 
-  line-height:1.35;
+  font-weight:850;
 
-  text-overflow:ellipsis;
+  line-height:1.45;
+
+  word-break:break-word;
 }
 
-
 /* =========================================================
-   NOTES
+   DATE / TIME FEATURE
 ========================================================= */
 
-.visit-note{
-  margin-bottom:15px;
+.visit-datetime{
+  margin-top:17px;
 
-  padding:12px;
+  padding:15px;
 
-  border-radius:13px;
-
-  color:#4c584f;
-
-  background:
-    rgba(231,217,190,.43);
+  border-radius:15px;
 
   border:
-    1px solid rgba(185,145,69,.10);
+    1px solid
+    rgba(201,164,92,.25);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(246,239,223,.88),
+      rgba(233,221,197,.52)
+    );
+}
+
+.visit-date{
+  color:var(--royal-850);
+
+  font-size:18px;
+
+  font-weight:950;
+}
+
+.visit-time{
+  margin-top:3px;
+
+  color:var(--gold-3);
+
+  font-size:12px;
+
+  font-weight:900;
+}
+
+.visit-note{
+  margin-top:13px;
+
+  color:var(--muted);
 
   font-size:11px;
 
   line-height:1.55;
 }
 
-.visit-note strong{
-  display:block;
+/* =========================================================
+   VISIT FOOT
+========================================================= */
 
-  margin-bottom:4px;
+.visit-foot{
+  display:flex;
 
-  color:#7e6946;
+  align-items:center;
 
-  font-size:9px;
+  justify-content:space-between;
 
-  letter-spacing:.08em;
+  gap:10px;
 
-  text-transform:uppercase;
+  margin-top:18px;
+
+  padding-top:16px;
+
+  border-top:
+    1px solid var(--border);
 }
 
+.visit-created{
+  color:var(--muted);
 
-/* =========================================================
-   CARD ACTIONS
-========================================================= */
+  font-size:10px;
+}
 
 .card-actions{
   display:flex;
 
   flex-wrap:wrap;
 
-  gap:8px;
+  justify-content:flex-end;
+
+  gap:7px;
 }
 
 .action{
-  min-height:38px;
+  min-height:35px;
 
-  padding:
-    0
-    12px;
+  border:1px solid var(--border);
 
-  border:
-    1px solid rgba(185,145,69,.19);
+  border-radius:10px;
 
-  border-radius:11px;
+  padding:8px 10px;
 
-  color:#173426;
+  color:var(--royal-850);
 
-  background:
-    rgba(255,250,241,.80);
-
-  cursor:pointer;
+  background:var(--cream);
 
   font-size:11px;
+
   font-weight:900;
 
-  transition:.2s ease;
+  transition:.18s ease;
 }
 
 .action:hover{
   transform:translateY(-1px);
 
   border-color:
-    rgba(185,145,69,.43);
+    rgba(201,164,92,.55);
+}
+
+.action.primary{
+  color:#fff;
+
+  background:
+    linear-gradient(
+      135deg,
+      #171d3c,
+      #343b72
+    );
 }
 
 .action.confirm{
-  color:#21593d;
+  color:#fff;
 
-  background:
-    linear-gradient(
-      135deg,
-      #e6f2e7,
-      #d3e8d6
-    );
+  background:var(--green);
 }
 
 .action.cancel{
-  color:#813d37;
+  color:var(--red);
 
-  background:
-    linear-gradient(
-      135deg,
-      #f5e1de,
-      #ecd3cf
-    );
+  background:var(--red-2);
 }
-
 
 /* =========================================================
    EMPTY / LOADING
@@ -1327,181 +934,266 @@ a{
 .loading{
   grid-column:1/-1;
 
-  min-height:220px;
+  min-height:280px;
 
-  display:grid;
-  place-items:center;
+  display:flex;
+
+  flex-direction:column;
+
+  align-items:center;
+
+  justify-content:center;
 
   text-align:center;
 
-  padding:35px;
-
   border:
-    1px dashed rgba(185,145,69,.30);
+    1px dashed
+    rgba(7,9,20,.18);
 
-  border-radius:22px;
+  border-radius:24px;
 
   background:
-    linear-gradient(
-      135deg,
-      rgba(255,250,241,.85),
-      rgba(238,225,201,.65)
-    );
-
-  color:var(--g-muted);
+    rgba(255,250,240,.68);
 }
 
 .empty-icon{
-  font-size:38px;
-  margin-bottom:8px;
+  font-size:48px;
+
+  margin-bottom:10px;
 }
 
 .empty h3{
-  margin:0 0 6px;
+  margin:0 0 7px;
 
-  color:#173225;
+  color:var(--royal-850);
+
+  font-size:22px;
 }
 
 .empty p{
+  color:var(--muted);
+
+  line-height:1.6;
+
   margin:0;
-
-  font-size:12px;
 }
-
 
 /* =========================================================
-   IMAGE SHOWCASE
+   VISIT INFRASTRUCTURE
 ========================================================= */
 
-.image-showcase{
-  margin-top:34px;
-
-  display:grid;
-
-  grid-template-columns:
-    repeat(3,minmax(0,1fr));
-
-  gap:15px;
-}
-
-.showcase-card{
-  position:relative;
-
-  min-height:190px;
-
-  overflow:hidden;
+.media-slot{
+  margin-top:22px;
 
   border:
-    1px solid rgba(185,145,69,.17);
+    1px dashed
+    rgba(201,164,92,.48);
 
   border-radius:20px;
+
+  padding:20px;
 
   background:
     linear-gradient(
       135deg,
-      #0b2419,
-      #174b36
+      rgba(255,250,240,.75),
+      rgba(233,221,197,.42)
     );
-
-  box-shadow:var(--g-shadow-small);
 }
 
-.showcase-card img{
-  width:100%;
-  height:100%;
+.media-slot-title{
+  color:var(--royal-850);
 
-  min-height:190px;
+  font-size:13px;
 
-  object-fit:cover;
-
-  display:block;
-
-  opacity:.82;
+  font-weight:950;
 }
 
-.showcase-overlay{
-  position:absolute;
-  inset:auto 0 0 0;
+.media-slot-text{
+  color:var(--muted);
 
-  padding:18px;
+  margin-top:5px;
+
+  font-size:11px;
+
+  line-height:1.6;
+}
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+.modal-backdrop{
+  position:fixed;
+
+  inset:0;
+
+  z-index:10000;
+
+  display:none;
+
+  align-items:center;
+  justify-content:center;
+
+  padding:20px;
+
+  background:
+    rgba(7,9,20,.68);
+
+  backdrop-filter:blur(8px);
+}
+
+.modal-backdrop.open{
+  display:flex;
+}
+
+.modal{
+  width:min(560px,100%);
+
+  max-height:
+    calc(100vh - 40px);
+
+  overflow:auto;
+
+  border:
+    1px solid
+    rgba(201,164,92,.32);
+
+  border-radius:25px;
+
+  background:
+    var(--cream);
+
+  box-shadow:
+    0 35px 110px rgba(0,0,0,.40);
+}
+
+.modal-head{
+  display:flex;
+
+  align-items:center;
+  justify-content:space-between;
+
+  gap:15px;
+
+  padding:19px;
+
+  color:#fff;
 
   background:
     linear-gradient(
-      transparent,
-      rgba(3,10,7,.92)
+      135deg,
+      #070914,
+      #252b59
     );
 }
 
-.showcase-overlay strong{
-  color:#f0dda9;
+.modal-title{
+  font-size:18px;
 
-  font-size:14px;
+  font-weight:950;
 }
 
-.showcase-overlay span{
-  display:block;
+.modal-close{
+  width:36px;
+  height:36px;
 
-  margin-top:4px;
+  border:0;
 
-  color:rgba(255,255,255,.60);
+  border-radius:50%;
 
-  font-size:10px;
+  color:#fff;
+
+  background:
+    rgba(255,255,255,.09);
+
+  font-size:20px;
 }
 
+.modal-body{
+  padding:20px;
+}
+
+.modal-info{
+  padding:14px;
+
+  border-radius:14px;
+
+  background:
+    rgba(233,221,197,.45);
+
+  color:var(--muted);
+
+  font-size:12px;
+
+  line-height:1.65;
+}
+
+.modal-actions{
+  display:flex;
+
+  justify-content:flex-end;
+
+  gap:9px;
+
+  flex-wrap:wrap;
+
+  margin-top:18px;
+}
 
 /* =========================================================
-   GHAR AI
+   AI
 ========================================================= */
 
 .ai-launcher{
   position:fixed;
 
-  right:24px;
-  bottom:24px;
+  right:22px;
+  bottom:22px;
 
   z-index:9998;
 
-  width:62px;
-  height:62px;
+  width:61px;
+  height:61px;
 
   border:
-    1px solid rgba(216,189,120,.43);
+    1px solid
+    rgba(234,211,154,.42);
 
   border-radius:50%;
 
-  color:#f4e1ad;
+  color:#fff;
+
+  font-size:23px;
 
   background:
     radial-gradient(
       circle at 30% 20%,
-      #32664d,
-      #06140d 70%
+      #343b72,
+      #0a0d1d 72%
     );
 
   box-shadow:
-    0 17px 42px rgba(3,15,9,.34);
-
-  cursor:pointer;
-
-  font-size:23px;
+    0 18px 45px rgba(7,9,20,.32);
 
   transition:.2s ease;
 }
 
 .ai-launcher:hover{
-  transform:translateY(-3px) scale(1.03);
+  transform:
+    translateY(-3px)
+    scale(1.03);
 }
 
 .ai-panel{
   position:fixed;
 
-  right:24px;
-  bottom:24px;
+  right:22px;
+  bottom:22px;
 
   z-index:9999;
 
-  width:
-    min(410px,calc(100vw - 28px));
+  width:min(410px,calc(100vw - 28px));
 
   max-height:650px;
 
@@ -1512,19 +1204,16 @@ a{
   overflow:hidden;
 
   border:
-    1px solid rgba(185,145,69,.35);
+    1px solid
+    rgba(201,164,92,.35);
 
-  border-radius:23px;
+  border-radius:25px;
 
   background:
-    linear-gradient(
-      145deg,
-      #fffaf1,
-      #eee1c8
-    );
+    var(--cream);
 
   box-shadow:
-    0 30px 90px rgba(3,12,7,.36);
+    0 30px 100px rgba(0,0,0,.32);
 }
 
 .ai-panel.open{
@@ -1534,37 +1223,36 @@ a{
 .ai-head{
   padding:17px;
 
-  display:flex;
-
-  align-items:center;
-  justify-content:space-between;
-
   color:#fff;
 
   background:
     radial-gradient(
-      circle at 85% 0,
-      rgba(216,189,120,.20),
+      circle at 90% 10%,
+      rgba(201,164,92,.25),
       transparent 30%
     ),
     linear-gradient(
       135deg,
-      #030a07,
-      #123d2d
+      #070914,
+      #252b59
     );
+
+  display:flex;
+
+  align-items:center;
+  justify-content:space-between;
 }
 
 .ai-title{
-  color:#f0dda9;
-
-  font-size:15px;
   font-weight:950;
+
+  letter-spacing:.03em;
 }
 
 .ai-sub{
   margin-top:3px;
 
-  color:rgba(255,255,255,.55);
+  color:rgba(255,255,255,.63);
 
   font-size:10px;
 }
@@ -1580,53 +1268,42 @@ a{
   color:#fff;
 
   background:
-    rgba(255,255,255,.08);
+    rgba(255,255,255,.09);
 
-  cursor:pointer;
+  font-size:20px;
 }
 
 .ai-messages{
-  min-height:280px;
-  max-height:430px;
+  padding:15px;
+
+  min-height:300px;
+  max-height:440px;
 
   overflow:auto;
-
-  padding:15px;
 }
 
 .ai-msg{
-  max-width:92%;
-
   margin-bottom:9px;
 
-  padding:
-    10px
-    12px;
+  padding:11px 13px;
 
   border-radius:14px;
 
-  font-size:12px;
+  font-size:13px;
 
   line-height:1.55;
 }
 
 .ai-msg.bot{
-  color:#3d4a42;
-
-  background:#eee3d0;
+  background:#eee5d4;
 }
 
 .ai-msg.user{
-  margin-left:auto;
+  margin-left:28px;
 
   color:#fff;
 
-  background:
-    linear-gradient(
-      135deg,
-      #194632,
-      #092016
-    );
+  background:#171d3c;
 }
 
 .ai-form{
@@ -1637,7 +1314,7 @@ a{
   padding:12px;
 
   border-top:
-    1px solid rgba(185,145,69,.17);
+    1px solid var(--border);
 }
 
 .ai-form input{
@@ -1645,49 +1322,36 @@ a{
 
   min-width:0;
 
-  height:42px;
-
-  padding:
-    0
-    12px;
-
   border:
-    1px solid rgba(185,145,69,.20);
+    1px solid var(--border);
 
   border-radius:12px;
 
+  padding:11px 12px;
+
   outline:none;
 
-  color:var(--g-text);
-
-  background:#fffaf1;
+  background:#fff;
 }
 
 .ai-form button{
-  height:42px;
-
-  padding:
-    0
-    15px;
-
   border:0;
 
   border-radius:12px;
 
-  color:#fff;
+  padding:0 16px;
+
+  color:#18130a;
 
   background:
     linear-gradient(
       135deg,
-      #194632,
-      #06130d
+      #ead39a,
+      #bd9147
     );
 
-  cursor:pointer;
-
-  font-weight:900;
+  font-weight:950;
 }
-
 
 /* =========================================================
    TOAST
@@ -1699,40 +1363,31 @@ a{
   left:50%;
   bottom:25px;
 
-  z-index:10000;
+  z-index:10001;
 
-  max-width:
-    calc(100% - 30px);
-
-  padding:
-    12px
-    17px;
-
-  border-radius:13px;
-
-  color:#fff;
-
-  background:
-    linear-gradient(
-      135deg,
-      #173d2c,
-      #06140d
-    );
-
-  box-shadow:
-    0 15px 40px rgba(3,15,9,.30);
+  transform:
+    translate(-50%,20px);
 
   opacity:0;
 
   pointer-events:none;
 
-  transform:
-    translate(-50%,20px);
+  padding:12px 18px;
 
-  transition:.25s ease;
+  border-radius:13px;
+
+  color:#fff;
+
+  background:#090d1d;
+
+  box-shadow:
+    0 15px 40px rgba(0,0,0,.25);
 
   font-size:12px;
-  font-weight:850;
+
+  font-weight:900;
+
+  transition:.25s ease;
 }
 
 .toast.show{
@@ -1742,382 +1397,111 @@ a{
     translate(-50%,0);
 }
 
-
-/* =========================================================
-   FOOTER
-========================================================= */
-
-.seller-footer{
-  position:relative;
-
-  overflow:hidden;
-
-  color:#fff;
-
-  background:
-    radial-gradient(
-      circle at 88% 10%,
-      rgba(216,189,120,.14),
-      transparent 25%
-    ),
-    radial-gradient(
-      circle at 8% 90%,
-      rgba(26,88,62,.24),
-      transparent 30%
-    ),
-    linear-gradient(
-      135deg,
-      #020805,
-      #071a12 48%,
-      #0e3023 100%
-    );
-
-  border-top:
-    1px solid rgba(216,189,120,.18);
-
-  box-shadow:
-    0 -25px 75px rgba(3,12,7,.14);
-}
-
-.seller-footer::before{
-  content:"";
-
-  position:absolute;
-
-  top:0;
-  left:0;
-  right:0;
-
-  height:2px;
-
-  background:
-    linear-gradient(
-      90deg,
-      transparent,
-      #b89145,
-      #f0dda9,
-      #b89145,
-      transparent
-    );
-}
-
-.footer-main{
-  width:min(1440px,calc(100% - 40px));
-
-  margin:auto;
-
-  padding:
-    54px
-    0
-    42px;
-
-  display:grid;
-
-  grid-template-columns:
-    1.5fr
-    1fr
-    1fr
-    1fr;
-
-  gap:45px;
-}
-
-.footer-brand{
-  max-width:400px;
-}
-
-.footer-logo{
-  display:flex;
-
-  align-items:center;
-
-  gap:12px;
-
-  margin-bottom:15px;
-}
-
-.footer-logo-mark{
-  width:42px;
-  height:42px;
-
-  display:grid;
-  place-items:center;
-
-  border-radius:13px;
-
-  color:#121a11;
-
-  background:
-    linear-gradient(
-      135deg,
-      #f0dda9,
-      #b89145
-    );
-
-  font-weight:950;
-}
-
-.footer-logo-name{
-  color:#ead5a0;
-
-  font-size:23px;
-  font-weight:950;
-
-  letter-spacing:.20em;
-}
-
-.footer-brand p{
-  max-width:360px;
-
-  margin:0;
-
-  color:rgba(255,255,255,.56);
-
-  font-size:12px;
-
-  line-height:1.7;
-}
-
-.footer-workspace{
-  display:inline-flex;
-
-  align-items:center;
-
-  gap:7px;
-
-  margin-top:19px;
-
-  padding:
-    7px
-    10px;
-
-  border:
-    1px solid rgba(216,189,120,.19);
-
-  border-radius:999px;
-
-  color:#e6d09b;
-
-  background:rgba(255,255,255,.035);
-
-  font-size:8px;
-  font-weight:950;
-
-  letter-spacing:.12em;
-}
-
-.footer-workspace::before{
-  content:"";
-
-  width:6px;
-  height:6px;
-
-  border-radius:50%;
-
-  background:#84ad91;
-
-  box-shadow:
-    0 0 10px rgba(132,173,145,.7);
-}
-
-.footer-col{
-  display:flex;
-
-  flex-direction:column;
-
-  gap:10px;
-}
-
-.footer-col h3{
-  margin:0 0 9px;
-
-  color:#d8bd78;
-
-  font-size:10px;
-  font-weight:950;
-
-  letter-spacing:.15em;
-}
-
-.footer-col a{
-  color:rgba(255,255,255,.63);
-
-  text-decoration:none;
-
-  font-size:12px;
-
-  transition:.2s ease;
-}
-
-.footer-col a:hover{
-  color:#f0dda9;
-
-  transform:translateX(3px);
-}
-
-.footer-bottom{
-  width:min(1440px,calc(100% - 40px));
-
-  margin:auto;
-
-  padding:
-    18px
-    0
-    23px;
-
-  border-top:
-    1px solid rgba(255,255,255,.07);
-
-  display:flex;
-
-  align-items:center;
-  justify-content:space-between;
-
-  gap:15px;
-
-  color:rgba(255,255,255,.40);
-
-  font-size:10px;
-}
-
-.footer-online{
-  display:flex;
-
-  align-items:center;
-
-  gap:7px;
-}
-
-.footer-online span{
-  width:6px;
-  height:6px;
-
-  border-radius:50%;
-
-  background:#77a989;
-
-  box-shadow:
-    0 0 10px rgba(119,169,137,.7);
-}
-
-
 /* =========================================================
    RESPONSIVE
 ========================================================= */
 
-@media(max-width:1100px){
+@media (max-width:1180px){
 
-  .stats-grid{
+  .visits-grid{
+    grid-template-columns:
+      repeat(2,minmax(0,1fr));
+  }
+
+  .stats{
     grid-template-columns:
       repeat(3,minmax(0,1fr));
   }
+}
 
-  .hero-grid{
-    grid-template-columns:1fr;
+@media (max-width:800px){
+
+  .seller-visits-page{
+    width:calc(100% - 20px);
+
+    padding-top:20px;
   }
 
-  .hero-media{
-    display:none;
+  .hero{
+    padding:25px;
+
+    border-radius:24px;
+  }
+
+  .hero-content{
+    flex-direction:column;
+
+    align-items:flex-start;
+  }
+
+  .stats{
+    grid-template-columns:
+      repeat(2,minmax(0,1fr));
   }
 
   .visits-grid{
     grid-template-columns:1fr;
   }
 
-  .footer-main{
-    grid-template-columns:
-      1.4fr
-      1fr
-      1fr;
+  .toolbar{
+    align-items:stretch;
+
+    flex-direction:column;
   }
 
-  .footer-brand{
-    grid-column:1/-1;
-    max-width:650px;
+  .filters{
+    width:100%;
+  }
+
+  .search{
+    width:100%;
+  }
+
+  .toolbar-actions{
+    width:100%;
+  }
+
+  .toolbar-actions .ghar-btn{
+    flex:1;
   }
 }
 
+@media (max-width:520px){
 
-@media(max-width:760px){
-
-  .seller-visits-page{
-    width:calc(100% - 20px);
-
-    padding-top:18px;
-  }
-
-  .gh-header-inner{
-    width:calc(100% - 20px);
-  }
-
-  .gh-header-nav{
-    display:none;
-  }
-
-  .gh-mobile-menu{
-    display:block;
-  }
-
-  .hero-grid{
-    padding:28px 22px;
-
-    min-height:0;
-  }
-
-  .visit-hero{
-    border-radius:23px;
-  }
-
-  .hero-title{
-    font-size:39px;
-  }
-
-  .stats-grid{
-    grid-template-columns:
-      repeat(2,minmax(0,1fr));
-
+  .stats{
     gap:9px;
   }
 
-  .stat-card{
-    min-height:120px;
-
+  .stat{
     padding:15px;
   }
 
   .stat-value{
-    font-size:25px;
+    font-size:24px;
   }
 
-  .workspace-header{
-    margin-top:27px;
+  .visit-body{
+    padding:16px;
+  }
 
+  .visit-title{
+    font-size:19px;
+  }
+
+  .visit-foot{
     align-items:flex-start;
 
     flex-direction:column;
   }
 
-  .toolbar{
-    padding:10px;
-  }
-
-  .filters{
-    flex-direction:column;
-  }
-
-  .field,
-  .search{
+  .card-actions{
     width:100%;
 
-    min-width:0;
+    justify-content:flex-start;
   }
 
-  .visit-info{
-    grid-template-columns:1fr;
-  }
-
-  .image-showcase{
-    grid-template-columns:1fr;
+  .action{
+    flex:1;
   }
 
   .ai-launcher{
@@ -2129,716 +1513,540 @@ a{
     right:10px;
     bottom:10px;
   }
+}
 
-  .footer-main{
-    width:calc(100% - 28px);
+@media (max-width:380px){
 
+  .stats{
     grid-template-columns:
-      repeat(2,minmax(0,1fr));
-
-    gap:30px 20px;
+      1fr 1fr;
   }
 
-  .footer-brand{
-    grid-column:1/-1;
+  .hero{
+    padding:21px;
   }
 
-  .footer-bottom{
-    width:calc(100% - 28px);
-
-    align-items:flex-start;
-
-    flex-direction:column;
+  h1{
+    font-size:31px;
   }
 }
-
-
-@media(max-width:460px){
-
-  .hero-actions{
-    width:100%;
-  }
-
-  .hero-actions .gh-btn{
-    width:100%;
-  }
-
-  .property-image{
-    height:185px;
-  }
-
-  .visit-content{
-    padding:15px;
-  }
-
-  .visit-top{
-    flex-direction:column;
-  }
-
-  .card-actions .action{
-    flex:1;
-  }
-
-  .footer-main{
-    grid-template-columns:1fr;
-  }
-
-  .footer-brand{
-    grid-column:auto;
-  }
-}
-
 </style>
 </head>
 
+<body
+  data-root="../"
+  data-page="seller-visits">
 
-<body data-root="../" data-page="seller-visits">
-
-
-<!-- =========================================================
+<!-- =======================================================
      SHARED GHAR HEADER
-========================================================= -->
+======================================================== -->
+<div data-site-header></div>
 
-<div data-site-header>
-
-  <!-- Fallback header.
-       site.js may replace/populate this area. -->
-
-  <header class="gh-fallback-header">
-
-    <div class="gh-header-inner">
-
-      <a class="gh-brand" href="seller-dashboard.html">
-
-        <div class="gh-brand-mark">G</div>
-
-        <div class="gh-brand-text">
-          GHAR
-        </div>
-
-      </a>
-
-      <nav class="gh-header-nav">
-
-        <a href="seller-dashboard.html">
-          Dashboard
-        </a>
-
-        <a href="seller-properties.html">
-          Properties
-        </a>
-
-        <a class="active" href="seller-visits.html">
-          Visits
-        </a>
-
-        <a href="seller-requests.html">
-          Requests
-        </a>
-
-        <a href="seller-offers.html">
-          Offers
-        </a>
-
-      </nav>
-
-      <button
-        class="gh-mobile-menu"
-        type="button"
-        aria-label="Seller menu"
-        onclick="window.location.href='seller-dashboard.html'"
-      >
-        ☰
-      </button>
-
-    </div>
-
-  </header>
-
-</div>
-
-
-<!-- =========================================================
-     MAIN
-========================================================= -->
 
 <main class="seller-visits-page">
 
+<!-- =======================================================
+     HERO
+======================================================== -->
 
-  <!-- =======================================================
-       HERO
-  ======================================================== -->
+<section class="hero">
 
-  <section class="visit-hero">
-
-    <div class="hero-grid">
-
-      <div class="hero-copy">
-
-        <div class="hero-eyebrow">
-          GHAR WORKFLOW · SELLER
-        </div>
-
-        <h1 class="hero-title">
-          Seller Visits
-        </h1>
-
-        <p class="hero-description">
-          Manage buyer visit requests, confirm schedules,
-          coordinate property viewings and keep your complete
-          visit history organised from one premium workspace.
-        </p>
-
-        <div class="hero-actions">
-
-          <a
-            href="seller-dashboard.html"
-            class="gh-btn gh-btn-outline"
-          >
-            ← Seller Dashboard
-          </a>
-
-          <button
-            type="button"
-            class="gh-btn gh-btn-gold"
-            id="refreshVisits"
-          >
-            ↻ Refresh Visits
-          </button>
-
-        </div>
-
-      </div>
-
-
-      <!-- ===================================================
-           HERO IMAGE SLOT
-      ==================================================== -->
-
-      <div class="hero-media">
-
-        <!--
-          OPTIONAL IMAGE:
-          ../assets/images/seller/seller-visits.webp
-
-          Replace this image with your own.
-        -->
-
-        <img
-          src="../assets/images/seller/seller-visits.webp"
-          alt="GHAR seller property visits"
-          loading="eager"
-          onerror="
-            this.style.display='none';
-            this.nextElementSibling.style.display='grid';
-          "
-        >
-
-        <div
-          class="hero-media-placeholder"
-          style="display:none"
-        >
-
-          <div>
-
-            <strong>
-              SELLER VISITS IMAGE
-            </strong>
-
-            <span>
-              Add seller workspace / property viewing artwork
-            </span>
-
-          </div>
-
-        </div>
-
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- =======================================================
-       STATS
-  ======================================================== -->
-
-  <section
-    class="stats-grid"
-    aria-label="Seller visit statistics"
-  >
-
-    <article class="stat-card">
-
-      <div class="stat-icon">
-        ◫
-      </div>
-
-      <div class="stat-label">
-        Total Visits
-      </div>
-
-      <div
-        class="stat-value"
-        id="totalVisits"
-      >
-        0
-      </div>
-
-    </article>
-
-
-    <article class="stat-card">
-
-      <div class="stat-icon">
-        ◷
-      </div>
-
-      <div class="stat-label">
-        Pending
-      </div>
-
-      <div
-        class="stat-value"
-        id="pendingVisits"
-      >
-        0
-      </div>
-
-    </article>
-
-
-    <article class="stat-card">
-
-      <div class="stat-icon">
-        ✓
-      </div>
-
-      <div class="stat-label">
-        Confirmed
-      </div>
-
-      <div
-        class="stat-value"
-        id="confirmedVisits"
-      >
-        0
-      </div>
-
-    </article>
-
-
-    <article class="stat-card">
-
-      <div class="stat-icon">
-        ◆
-      </div>
-
-      <div class="stat-label">
-        Completed
-      </div>
-
-      <div
-        class="stat-value"
-        id="completedVisits"
-      >
-        0
-      </div>
-
-    </article>
-
-
-    <article class="stat-card">
-
-      <div class="stat-icon">
-        ×
-      </div>
-
-      <div class="stat-label">
-        Cancelled
-      </div>
-
-      <div
-        class="stat-value"
-        id="cancelledVisits"
-      >
-        0
-      </div>
-
-    </article>
-
-  </section>
-
-
-  <!-- =======================================================
-       WORKSPACE HEADER
-  ======================================================== -->
-
-  <section class="workspace-header">
+  <div class="hero-content">
 
     <div>
 
-      <div class="section-eyebrow">
-        VISIT MANAGEMENT
+      <div class="eyebrow">
+        GHAR WORKFLOW · SELLER
       </div>
 
-      <h2 class="section-title">
-        Buyer Visit Schedule
-      </h2>
+      <h1>
+        Property Visits
+      </h1>
+
+      <p>
+        Manage buyer and tenant visit requests, confirmed
+        appointments, rescheduled visits, completed tours and
+        seller follow-ups from one premium GHAR workspace.
+      </p>
 
     </div>
 
-  </section>
+    <div class="hero-actions">
 
+      <a
+        class="ghar-btn secondary"
+        href="seller-dashboard.html">
+        ← Seller Dashboard
+      </a>
 
-  <!-- =======================================================
-       FILTERS
-  ======================================================== -->
-
-  <section class="toolbar">
-
-    <div class="filters">
-
-      <input
-        id="visitSearch"
-        class="field search"
-        type="search"
-        placeholder="Search buyer, property or visit ID..."
-        autocomplete="off"
-        aria-label="Search visits"
-      >
-
-      <select
-        id="statusFilter"
-        class="field"
-        aria-label="Filter by status"
-      >
-
-        <option value="all">
-          All statuses
-        </option>
-
-        <option value="pending">
-          Pending
-        </option>
-
-        <option value="confirmed">
-          Confirmed
-        </option>
-
-        <option value="completed">
-          Completed
-        </option>
-
-        <option value="cancelled">
-          Cancelled
-        </option>
-
-      </select>
-
-
-      <select
-        id="dateFilter"
-        class="field"
-        aria-label="Filter by date"
-      >
-
-        <option value="all">
-          All dates
-        </option>
-
-        <option value="today">
-          Today
-        </option>
-
-        <option value="upcoming">
-          Upcoming
-        </option>
-
-        <option value="past">
-          Past
-        </option>
-
-      </select>
+      <a
+        class="ghar-btn primary"
+        href="seller-properties.html">
+        My Properties
+      </a>
 
     </div>
 
-  </section>
+  </div>
+
+</section>
 
 
-  <!-- =======================================================
-       VISITS
-  ======================================================== -->
+<!-- =======================================================
+     STATISTICS
+======================================================== -->
 
-  <section
-    id="visitsGrid"
-    class="visits-grid"
-    aria-live="polite"
-  >
+<section class="stats">
 
-    <div class="loading">
-      <div>
-        <div style="font-size:30px;margin-bottom:8px">
-          ◌
-        </div>
+  <div class="stat">
 
-        Loading seller visits...
-      </div>
+    <div class="stat-label">
+      Total Visits
     </div>
 
-  </section>
+    <div
+      class="stat-value"
+      id="totalVisits">
+      0
+    </div>
+
+  </div>
 
 
-  <!-- =======================================================
-       OPTIONAL IMAGE SHOWCASE
-  ======================================================== -->
+  <div class="stat">
 
-  <section class="image-showcase">
+    <div class="stat-label">
+      Requested
+    </div>
 
-    <article class="showcase-card">
+    <div
+      class="stat-value"
+      id="requestedVisits">
+      0
+    </div>
 
-      <img
-        src="../assets/images/properties/apartment.webp"
-        alt="Apartment property"
-        loading="lazy"
-        onerror="this.style.display='none'"
-      >
-
-      <div class="showcase-overlay">
-
-        <strong>
-          Apartments
-        </strong>
-
-        <span>
-          Premium residential visits
-        </span>
-
-      </div>
-
-    </article>
+  </div>
 
 
-    <article class="showcase-card">
+  <div class="stat">
 
-      <img
-        src="../assets/images/properties/villa.webp"
-        alt="Villa property"
-        loading="lazy"
-        onerror="this.style.display='none'"
-      >
+    <div class="stat-label">
+      Confirmed
+    </div>
 
-      <div class="showcase-overlay">
+    <div
+      class="stat-value"
+      id="confirmedVisits">
+      0
+    </div>
 
-        <strong>
-          Villas
-        </strong>
-
-        <span>
-          Luxury property viewings
-        </span>
-
-      </div>
-
-    </article>
+  </div>
 
 
-    <article class="showcase-card">
+  <div class="stat">
 
-      <img
-        src="../assets/images/properties/independent-house.webp"
-        alt="Independent house"
-        loading="lazy"
-        onerror="this.style.display='none'"
-      >
+    <div class="stat-label">
+      Completed
+    </div>
 
-      <div class="showcase-overlay">
+    <div
+      class="stat-value"
+      id="completedVisits">
+      0
+    </div>
 
-        <strong>
-          Independent Homes
-        </strong>
+  </div>
 
-        <span>
-          Private property appointments
-        </span>
 
-      </div>
+  <div class="stat">
 
-    </article>
+    <div class="stat-label">
+      Cancelled
+    </div>
 
-  </section>
+    <div
+      class="stat-value"
+      id="cancelledVisits">
+      0
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =======================================================
+     TOOLBAR
+======================================================== -->
+
+<section class="toolbar">
+
+  <div class="filters">
+
+    <input
+      id="visitSearch"
+      class="field search"
+      type="search"
+      placeholder="Search buyer, property, visit ID..."
+      autocomplete="off"
+    >
+
+
+    <select
+      id="statusFilter"
+      class="field">
+
+      <option value="all">
+        All statuses
+      </option>
+
+      <option value="requested">
+        Requested
+      </option>
+
+      <option value="confirmed">
+        Confirmed
+      </option>
+
+      <option value="rescheduled">
+        Rescheduled
+      </option>
+
+      <option value="completed">
+        Completed
+      </option>
+
+      <option value="cancelled">
+        Cancelled
+      </option>
+
+      <option value="no-show">
+        No Show
+      </option>
+
+    </select>
+
+
+    <select
+      id="visitTypeFilter"
+      class="field">
+
+      <option value="all">
+        All visit types
+      </option>
+
+      <option value="buyer">
+        Buyer
+      </option>
+
+      <option value="tenant">
+        Tenant
+      </option>
+
+      <option value="agent">
+        Agent
+      </option>
+
+    </select>
+
+
+    <select
+      id="dateFilter"
+      class="field">
+
+      <option value="all">
+        All dates
+      </option>
+
+      <option value="today">
+        Today
+      </option>
+
+      <option value="upcoming">
+        Upcoming
+      </option>
+
+      <option value="past">
+        Past
+      </option>
+
+    </select>
+
+  </div>
+
+
+  <div class="toolbar-actions">
+
+    <button
+      class="ghar-btn dark"
+      id="refreshVisits">
+      ↻ Refresh
+    </button>
+
+    <a
+      class="ghar-btn primary"
+      href="seller-properties.html">
+      My Properties
+    </a>
+
+  </div>
+
+</section>
+
+
+<!-- =======================================================
+     VISIT GRID
+======================================================== -->
+
+<section
+  id="visitsGrid"
+  class="visits-grid"
+  aria-live="polite">
+
+  <div class="loading">
+    Loading seller visits...
+  </div>
+
+</section>
+
+
+<!-- =======================================================
+     INFRASTRUCTURE
+======================================================== -->
+
+<section class="media-slot">
+
+  <div class="media-slot-title">
+    Visit & Appointment Infrastructure
+  </div>
+
+  <div class="media-slot-text">
+    This workspace is prepared for calendar synchronization,
+    buyer verification, appointment reminders, map directions,
+    property access instructions, visit notes, agent coordination,
+    digital check-in, feedback and post-visit offers.
+  </div>
+
+</section>
 
 </main>
 
 
-<!-- =========================================================
-     SHARED FOOTER
-========================================================= -->
+<!-- =======================================================
+     SHARED GHAR FOOTER
+======================================================== -->
 
 <div data-site-footer>
 
-  <footer class="seller-footer">
+<footer
+style="
+  margin-top:20px;
+  padding:45px 22px;
+  background:
+    radial-gradient(
+      circle at 85% 10%,
+      rgba(201,164,92,.18),
+      transparent 25%
+    ),
+    linear-gradient(
+      135deg,
+      #070914,
+      #171d3c
+    );
+  color:#fff;
+  border-top:
+    1px solid
+    rgba(234,211,154,.18);
+"
+>
 
-    <div class="footer-main">
+  <div
+    style="
+      width:min(1480px,100%);
+      margin:auto;
+      display:grid;
+      grid-template-columns:
+        1.3fr repeat(3,1fr);
+      gap:30px;
+    "
+  >
 
+    <div>
 
-      <!-- BRAND -->
-
-      <div class="footer-brand">
-
-        <div class="footer-logo">
-
-          <div class="footer-logo-mark">
-            G
-          </div>
-
-          <div class="footer-logo-name">
-            GHAR
-          </div>
-
-        </div>
-
-        <p>
-          A structured real-estate workspace for sellers,
-          buyers, renters and property transactions.
-        </p>
-
-        <div class="footer-workspace">
-          SELLER WORKSPACE
-        </div>
-
+      <div
+        style="
+          font-size:25px;
+          font-weight:950;
+          letter-spacing:.08em;
+        "
+      >
+        GHAR
       </div>
 
+      <p
+        style="
+          color:rgba(255,255,255,.62);
+          line-height:1.7;
+          font-size:12px;
+          max-width:390px;
+        "
+      >
+        A premium property ecosystem connecting buyers,
+        sellers, owners and tenants through one trusted
+        digital platform.
+      </p>
 
-      <!-- SELLER -->
+    </div>
 
-      <div class="footer-col">
 
-        <h3>
-          SELLER
-        </h3>
+    <div>
+
+      <strong>
+        Seller
+      </strong>
+
+      <div
+        style="
+          margin-top:13px;
+          line-height:2;
+          font-size:12px;
+        "
+      >
 
         <a href="seller-dashboard.html">
-          Seller Dashboard
+          Dashboard
         </a>
-
-        <a href="add-property.html">
-          Add Property
-        </a>
+        <br>
 
         <a href="seller-properties.html">
-          My Properties
+          Properties
         </a>
+        <br>
 
         <a href="seller-visits.html">
-          Scheduled Visits
+          Visits
         </a>
-
-      </div>
-
-
-      <!-- WORKSPACE -->
-
-      <div class="footer-col">
-
-        <h3>
-          WORKSPACE
-        </h3>
-
-        <a href="seller-requests.html">
-          Requests
-        </a>
+        <br>
 
         <a href="seller-offers.html">
           Offers
         </a>
 
-        <a href="seller-reschedule.html">
-          Reschedule
+      </div>
+
+    </div>
+
+
+    <div>
+
+      <strong>
+        Property
+      </strong>
+
+      <div
+        style="
+          margin-top:13px;
+          line-height:2;
+          font-size:12px;
+        "
+      >
+
+        <a href="add-property.html">
+          Add Property
+        </a>
+        <br>
+
+        <a href="property-search.html">
+          Find Property
+        </a>
+        <br>
+
+        <a href="../contact.html">
+          Contact GHAR
         </a>
 
-        <a href="seller-notifications.html">
+      </div>
+
+    </div>
+
+
+    <div>
+
+      <strong>
+        Account
+      </strong>
+
+      <div
+        style="
+          margin-top:13px;
+          line-height:2;
+          font-size:12px;
+        "
+      >
+
+        <a href="../profile.html">
+          Profile
+        </a>
+        <br>
+
+        <a href="../payments.html">
+          Payments
+        </a>
+        <br>
+
+        <a href="../notifications.html">
           Notifications
         </a>
 
       </div>
 
-
-      <!-- GHAR -->
-
-      <div class="footer-col">
-
-        <h3>
-          GHAR
-        </h3>
-
-        <a href="../about.html">
-          About GHAR
-        </a>
-
-        <a href="../support.html">
-          Support Centre
-        </a>
-
-        <a href="../terms.html">
-          Terms
-        </a>
-
-        <a href="../privacy.html">
-          Privacy
-        </a>
-
-      </div>
-
     </div>
 
+  </div>
 
-    <div class="footer-bottom">
 
-      <div>
-        © 2026 GHAR. All rights reserved.
-      </div>
+  <div
+    style="
+      width:min(1480px,100%);
+      margin:28px auto 0;
+      padding-top:18px;
+      border-top:
+        1px solid
+        rgba(255,255,255,.10);
+      color:
+        rgba(255,255,255,.48);
+      font-size:10px;
+    "
+  >
+    © GHAR · Seller Workspace · All rights reserved.
+  </div>
 
-      <div class="footer-online">
-
-        <span></span>
-
-        Seller workspace connected
-
-      </div>
-
-    </div>
-
-  </footer>
+</footer>
 
 </div>
 
 
-<!-- =========================================================
+<!-- =======================================================
      GHAR AI LAUNCHER
-========================================================= -->
+======================================================== -->
 
 <button
   id="aiLauncher"
   class="ai-launcher"
-  type="button"
   aria-label="Open GHAR AI"
-  title="GHAR AI"
->
+  title="GHAR AI">
   ✦
 </button>
 
 
-<!-- =========================================================
-     GHAR AI PANEL
-========================================================= -->
+<!-- =======================================================
+     GHAR AI
+======================================================== -->
 
 <aside
   id="aiPanel"
   class="ai-panel"
-  aria-label="GHAR AI Assistant"
->
+  aria-label="GHAR AI Seller Visit Assistant">
 
   <div class="ai-head">
 
@@ -2857,9 +2065,7 @@ a{
     <button
       id="aiClose"
       class="ai-close"
-      type="button"
-      aria-label="Close GHAR AI"
-    >
+      aria-label="Close GHAR AI">
       ×
     </button>
 
@@ -2868,13 +2074,12 @@ a{
 
   <div
     id="aiMessages"
-    class="ai-messages"
-  >
+    class="ai-messages">
 
     <div class="ai-msg bot">
-      Hello. I can help you understand pending requests,
-      confirmed visits, completed visits, today's schedule
-      and seller visit workflow.
+      Welcome to GHAR AI. I can help you understand
+      scheduled visits, requested appointments,
+      confirmed visits, completed tours and cancellations.
     </div>
 
   </div>
@@ -2882,8 +2087,7 @@ a{
 
   <form
     id="aiForm"
-    class="ai-form"
-  >
+    class="ai-form">
 
     <input
       id="aiInput"
@@ -2901,58 +2105,104 @@ a{
 </aside>
 
 
-<!-- =========================================================
+<!-- =======================================================
+     VISIT DETAILS MODAL
+======================================================== -->
+
+<div
+  id="visitModal"
+  class="modal-backdrop"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="visitModalTitle"
+>
+
+  <div class="modal">
+
+    <div class="modal-head">
+
+      <div
+        id="visitModalTitle"
+        class="modal-title">
+        Visit Details
+      </div>
+
+      <button
+        id="modalClose"
+        class="modal-close"
+        aria-label="Close">
+        ×
+      </button>
+
+    </div>
+
+
+    <div
+      id="modalBody"
+      class="modal-body">
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- =======================================================
      TOAST
-========================================================= -->
+======================================================== -->
 
 <div
   id="toast"
-  class="toast"
-  role="status"
-  aria-live="polite"
-></div>
+  class="toast">
+</div>
 
 
-<!-- =========================================================
-     GHAR CORE INFRASTRUCTURE
-========================================================= -->
+<!-- =======================================================
+     SHARED GHAR INFRASTRUCTURE
+======================================================== -->
 
-<script src="../assets/js/main/site.js" defer></script>
+<script
+  src="../assets/js/main/site.js"
+  defer>
+</script>
 
-<script src="../assets/js/main/page.js" defer></script>
+<script
+  src="../assets/js/main/page.js"
+  defer>
+</script>
 
-<script src="../assets/js/main/api.js" defer></script>
+<script
+  src="../assets/js/main/api.js"
+  defer>
+</script>
 
-<script src="../assets/js/main/auth.js" defer></script>
+<script
+  src="../assets/js/main/auth.js"
+  defer>
+</script>
+
+<script
+  src="../assets/js/seller/visits.js"
+  defer>
+</script>
+
+<script
+  src="../assets/js/ai/ghar-ai.js"
+  defer>
+</script>
 
 
-<!-- =========================================================
-     SELLER VISITS DATA
-========================================================= -->
-
-<script src="../assets/js/seller/visits.js" defer></script>
-
-
-<!-- =========================================================
-     GHAR AI
-========================================================= -->
-
-<script src="../assets/js/ai/ghar-ai.js" defer></script>
-
-
-<!-- =========================================================
+<!-- =======================================================
      PAGE CONTROLLER
-========================================================= -->
+======================================================== -->
 
 <script>
-
 (() => {
 
 "use strict";
 
-
 /* =========================================================
-   CONFIGURATION
+   CONFIG
 ========================================================= */
 
 const API_BASE =
@@ -2967,27 +2217,28 @@ const API_BASE =
 
 const state = {
 
-  visits: [],
+  visits:[],
 
-  filtered: [],
-
-  apiConnected: false
+  filtered:[]
 
 };
 
 
 /* =========================================================
-   HELPERS
+   SHORTCUT
 ========================================================= */
 
 const $ = id =>
   document.getElementById(id);
 
 
+/* =========================================================
+   ESCAPE
+========================================================= */
+
 function escapeHTML(value){
 
   return String(value ?? "")
-
     .replace(/&/g,"&amp;")
     .replace(/</g,"&lt;")
     .replace(/>/g,"&gt;")
@@ -2997,24 +2248,34 @@ function escapeHTML(value){
 }
 
 
+/* =========================================================
+   TOAST
+========================================================= */
+
 function showToast(message){
 
-  const toast = $("toast");
+  const toast =
+    $("toast");
 
-  if(!toast) return;
+  if(!toast){
+    return;
+  }
 
-  toast.textContent = message;
+  toast.textContent =
+    message;
 
   toast.classList.add("show");
 
   clearTimeout(
-    window.__GHAR_TOAST_TIMER
+    window.__gharVisitToast
   );
 
-  window.__GHAR_TOAST_TIMER =
+  window.__gharVisitToast =
     setTimeout(() => {
 
-      toast.classList.remove("show");
+      toast.classList.remove(
+        "show"
+      );
 
     },2700);
 
@@ -3027,356 +2288,513 @@ function showToast(message){
 
 function getSellerId(){
 
-  const possibleKeys = [
+  try{
 
-    "gharUser",
-    "user",
-    "currentUser",
-    "ghar_user",
-    "current_user"
+    const sources = [
 
-  ];
+      localStorage.getItem(
+        "gharUser"
+      ),
 
-  for(const key of possibleKeys){
+      localStorage.getItem(
+        "user"
+      ),
 
-    try{
+      localStorage.getItem(
+        "currentUser"
+      )
 
-      const raw =
-        localStorage.getItem(key);
+    ];
 
-      if(!raw) continue;
+
+    for(
+      const raw of sources
+    ){
+
+      if(!raw){
+        continue;
+      }
+
 
       const user =
         JSON.parse(raw);
 
-      const id =
+
+      if(
         user?.sellerId ||
-        user?.userId ||
-        user?.id;
-
-      if(id) return id;
-
-    }catch(error){
-
-      console.warn(
-        "GHAR user parse:",
-        error
-      );
-
-    }
-
-  }
-
-
-  return (
-
-    localStorage.getItem("sellerId") ||
-
-    localStorage.getItem("seller_id") ||
-
-    ""
-
-  );
-
-}
-
-
-/* =========================================================
-   NORMALISE API VISIT
-========================================================= */
-
-function normaliseVisit(v){
-
-  return {
-
-    id:
-      v.id ||
-      v.visitId ||
-      v.bookingId ||
-      v.referenceId ||
-      `VIS-${Date.now()}`,
-
-    propertyId:
-      v.propertyId ||
-      v.property?.id ||
-      "",
-
-    property:
-      v.propertyName ||
-      v.propertyTitle ||
-      v.property?.title ||
-      v.property?.name ||
-      "Property Visit",
-
-    propertyImage:
-      v.propertyImage ||
-      v.property?.image ||
-      v.property?.coverImage ||
-      v.property?.images?.[0] ||
-      "",
-
-    buyer:
-      v.buyerName ||
-      v.buyer?.name ||
-      v.user?.name ||
-      "Buyer",
-
-    buyerImage:
-      v.buyerImage ||
-      v.buyer?.image ||
-      v.buyer?.avatar ||
-      v.user?.avatar ||
-      "",
-
-    phone:
-      v.buyerPhone ||
-      v.buyer?.phone ||
-      v.user?.phone ||
-      "",
-
-    email:
-      v.buyerEmail ||
-      v.buyer?.email ||
-      v.user?.email ||
-      "",
-
-    date:
-      v.date ||
-      v.visitDate ||
-      v.scheduledDate ||
-      "",
-
-    time:
-      v.time ||
-      v.visitTime ||
-      v.scheduledTime ||
-      "",
-
-    status:
-      String(
-        v.status ||
-        "pending"
-      ).toLowerCase(),
-
-    location:
-      v.location ||
-      v.property?.location ||
-      "Location protected",
-
-    notes:
-      v.notes ||
-      v.message ||
-      v.buyerMessage ||
-      "",
-
-    createdAt:
-      v.createdAt ||
-      v.created_at ||
-      ""
-
-  };
-
-}
-
-
-/* =========================================================
-   DEVELOPMENT FALLBACK
-========================================================= */
-
-function demoVisits(){
-
-  const today =
-    new Date();
-
-  const dateToday =
-    today.toISOString().slice(0,10);
-
-  const tomorrow =
-    new Date(
-      Date.now()+86400000
-    )
-    .toISOString()
-    .slice(0,10);
-
-  const yesterday =
-    new Date(
-      Date.now()-86400000
-    )
-    .toISOString()
-    .slice(0,10);
-
-
-  return [
-
-    {
-
-      id:"VIS-GHAR-1001",
-
-      propertyId:"GHAR-P001",
-
-      property:"Royal 3 BHK Residence",
-
-      propertyImage:
-        "../assets/images/properties/3bhk.webp",
-
-      buyer:"Rahul Sharma",
-
-      buyerImage:
-        "../assets/images/users/buyer-placeholder.webp",
-
-      phone:"+91 98XXXXXX21",
-
-      email:"rahul@example.com",
-
-      date:dateToday,
-
-      time:"11:30 AM",
-
-      status:"pending",
-
-      location:"Noida, Uttar Pradesh",
-
-      notes:
-        "Buyer requested a morning viewing."
-
-    },
-
-
-    {
-
-      id:"VIS-GHAR-1002",
-
-      propertyId:"GHAR-P002",
-
-      property:"Luxury Independent House",
-
-      propertyImage:
-        "../assets/images/properties/independent-house.webp",
-
-      buyer:"Ananya Verma",
-
-      buyerImage:
-        "../assets/images/users/buyer-placeholder.webp",
-
-      phone:"+91 97XXXXXX32",
-
-      email:"ananya@example.com",
-
-      date:tomorrow,
-
-      time:"03:00 PM",
-
-      status:"confirmed",
-
-      location:"Sector 18, Noida",
-
-      notes:
-        "Family visit scheduled."
-
-    },
-
-
-    {
-
-      id:"VIS-GHAR-1003",
-
-      propertyId:"GHAR-P003",
-
-      property:"Signature 4 BHK Villa",
-
-      propertyImage:
-        "../assets/images/properties/villa.webp",
-
-      buyer:"Amit Gupta",
-
-      buyerImage:
-        "../assets/images/users/buyer-placeholder.webp",
-
-      phone:"+91 99XXXXXX43",
-
-      email:"amit@example.com",
-
-      date:yesterday,
-
-      time:"05:30 PM",
-
-      status:"completed",
-
-      location:"Greater Noida",
-
-      notes:
-        "Visit completed successfully."
-
-    }
-
-  ];
-
-}
-
-
-/* =========================================================
-   API REQUEST HELPER
-========================================================= */
-
-async function apiRequest(
-
-  url,
-
-  options={}
-
-){
-
-  const headers = {
-
-    Accept:"application/json",
-
-    ...(options.headers || {})
-
-  };
-
-
-  try{
-
-    if(
-      window.GHARAPI &&
-      typeof window.GHARAPI.request === "function"
-    ){
-
-      return await window.GHARAPI.request(
-        url,
-        {
-          ...options,
-          headers
-        }
-      );
+        user?.id ||
+        user?.userId
+      ){
+
+        return (
+          user.sellerId ||
+          user.id ||
+          user.userId
+        );
+
+      }
 
     }
 
   }catch(error){
 
     console.warn(
-      "GHARAPI failed:",
+      "GHAR seller identity:",
       error
     );
 
   }
 
 
-  return fetch(
+  return (
+    localStorage.getItem(
+      "sellerId"
+    ) || ""
+  );
 
-    url,
+}
+
+
+/* =========================================================
+   DATE HELPERS
+========================================================= */
+
+function parseDate(value){
+
+  if(!value){
+    return null;
+  }
+
+  const date =
+    new Date(value);
+
+  if(
+    Number.isNaN(
+      date.getTime()
+    )
+  ){
+    return null;
+  }
+
+  return date;
+
+}
+
+
+function dateKey(date){
+
+  return [
+    date.getFullYear(),
+    String(
+      date.getMonth()+1
+    ).padStart(2,"0"),
+    String(
+      date.getDate()
+    ).padStart(2,"0")
+  ].join("-");
+
+}
+
+
+function todayKey(){
+
+  return dateKey(
+    new Date()
+  );
+
+}
+
+
+function formatDate(value){
+
+  const date =
+    parseDate(value);
+
+  if(!date){
+    return "Date not specified";
+  }
+
+  return date.toLocaleDateString(
+    "en-IN",
+    {
+      weekday:"short",
+      day:"2-digit",
+      month:"short",
+      year:"numeric"
+    }
+  );
+
+}
+
+
+function formatTime(value){
+
+  const date =
+    parseDate(value);
+
+  if(!date){
+    return "Time not specified";
+  }
+
+  return date.toLocaleTimeString(
+    "en-IN",
+    {
+      hour:"2-digit",
+      minute:"2-digit"
+    }
+  );
+
+}
+
+
+/* =========================================================
+   NORMALISE VISIT
+========================================================= */
+
+function normaliseVisit(v){
+
+  const dateTime =
+    v.visitDateTime ||
+    v.visit_datetime ||
+    v.scheduledAt ||
+    v.scheduled_at ||
+    v.visitAt ||
+    v.visit_at ||
+    v.dateTime ||
+    "";
+
+
+  return {
+
+    id:
+      v.id ||
+      v.visitId ||
+      v.visit_id ||
+      "GHAR-V-" +
+      Math.random()
+        .toString(36)
+        .slice(2,8)
+        .toUpperCase(),
+
+    propertyId:
+      v.propertyId ||
+      v.property_id ||
+      v.property?.id ||
+      "",
+
+    propertyTitle:
+      v.propertyTitle ||
+      v.propertyName ||
+      v.property?.title ||
+      "GHAR Property",
+
+    buyerName:
+      v.buyerName ||
+      v.customerName ||
+      v.tenantName ||
+      v.user?.name ||
+      v.buyer?.name ||
+      "Guest Visitor",
+
+    buyerPhone:
+      v.buyerPhone ||
+      v.customerPhone ||
+      v.tenantPhone ||
+      v.user?.phone ||
+      v.buyer?.phone ||
+      "",
+
+    buyerEmail:
+      v.buyerEmail ||
+      v.customerEmail ||
+      v.tenantEmail ||
+      v.user?.email ||
+      v.buyer?.email ||
+      "",
+
+    visitType:
+      String(
+        v.visitType ||
+        v.visitorType ||
+        v.role ||
+        "buyer"
+      ).toLowerCase(),
+
+    status:
+      String(
+        v.status ||
+        "requested"
+      ).toLowerCase(),
+
+    dateTime,
+
+    location:
+      v.location ||
+      v.propertyLocation ||
+      v.address ||
+      v.property?.location ||
+      "Location not specified",
+
+    note:
+      v.note ||
+      v.notes ||
+      v.message ||
+      v.visitNote ||
+      "",
+
+    createdAt:
+      v.createdAt ||
+      v.created_at ||
+      dateTime
+
+  };
+
+}
+
+
+/* =========================================================
+   DEMO DATA
+========================================================= */
+
+function demoVisits(){
+
+  const now =
+    new Date();
+
+
+  const tomorrow =
+    new Date(now);
+
+  tomorrow.setDate(
+    tomorrow.getDate()+1
+  );
+
+  tomorrow.setHours(
+    11,30,0,0
+  );
+
+
+  const dayAfter =
+    new Date(now);
+
+  dayAfter.setDate(
+    dayAfter.getDate()+2
+  );
+
+  dayAfter.setHours(
+    16,0,0,0
+  );
+
+
+  const past =
+    new Date(now);
+
+  past.setDate(
+    past.getDate()-2
+  );
+
+  past.setHours(
+    14,0,0,0
+  );
+
+
+  return [
 
     {
 
-      credentials:"include",
+      id:"GHAR-V001",
 
-      ...options,
+      propertyId:"GHAR-P001",
 
-      headers
+      propertyTitle:
+        "Royal 3 BHK Apartment",
+
+      buyerName:
+        "Aarav Sharma",
+
+      buyerPhone:
+        "+91 98XXXXXX21",
+
+      buyerEmail:
+        "aarav@example.com",
+
+      visitType:
+        "buyer",
+
+      status:
+        "confirmed",
+
+      dateTime:
+        tomorrow.toISOString(),
+
+      location:
+        "Sector 137, Noida",
+
+      note:
+        "Buyer requested afternoon follow-up.",
+
+      createdAt:
+        now.toISOString()
+
+    },
+
+
+    {
+
+      id:"GHAR-V002",
+
+      propertyId:"GHAR-P002",
+
+      propertyTitle:
+        "Luxury Independent House",
+
+      buyerName:
+        "Priya Mehta",
+
+      buyerPhone:
+        "+91 97XXXXXX43",
+
+      buyerEmail:
+        "priya@example.com",
+
+      visitType:
+        "buyer",
+
+      status:
+        "requested",
+
+      dateTime:
+        dayAfter.toISOString(),
+
+      location:
+        "Sector 18, Noida",
+
+      note:
+        "Interested in family residence.",
+
+      createdAt:
+        now.toISOString()
+
+    },
+
+
+    {
+
+      id:"GHAR-V003",
+
+      propertyId:"GHAR-P003",
+
+      propertyTitle:
+        "Premium 2 BHK Flat",
+
+      buyerName:
+        "Rahul Verma",
+
+      buyerPhone:
+        "+91 99XXXXXX54",
+
+      buyerEmail:
+        "rahul@example.com",
+
+      visitType:
+        "tenant",
+
+      status:
+        "rescheduled",
+
+      dateTime:
+        dayAfter.toISOString(),
+
+      location:
+        "Sector 75, Noida",
+
+      note:
+        "Visit moved to the requested time.",
+
+      createdAt:
+        now.toISOString()
+
+    },
+
+
+    {
+
+      id:"GHAR-V004",
+
+      propertyId:"GHAR-P004",
+
+      propertyTitle:
+        "Modern 4 BHK Villa",
+
+      buyerName:
+        "Neha Kapoor",
+
+      buyerPhone:
+        "+91 96XXXXXX18",
+
+      buyerEmail:
+        "neha@example.com",
+
+      visitType:
+        "buyer",
+
+      status:
+        "completed",
+
+      dateTime:
+        past.toISOString(),
+
+      location:
+        "Greater Noida West",
+
+      note:
+        "Property tour completed.",
+
+      createdAt:
+        past.toISOString()
+
+    },
+
+
+    {
+
+      id:"GHAR-V005",
+
+      propertyId:"GHAR-P001",
+
+      propertyTitle:
+        "Royal 3 BHK Apartment",
+
+      buyerName:
+        "Karan Singh",
+
+      buyerPhone:
+        "+91 95XXXXXX72",
+
+      buyerEmail:
+        "karan@example.com",
+
+      visitType:
+        "agent",
+
+      status:
+        "cancelled",
+
+      dateTime:
+        tomorrow.toISOString(),
+
+      location:
+        "Sector 137, Noida",
+
+      note:
+        "Visitor cancelled the appointment.",
+
+      createdAt:
+        now.toISOString()
 
     }
 
-  );
+  ];
 
 }
 
@@ -3387,32 +2805,12 @@ async function apiRequest(
 
 async function loadVisits(){
 
-  const grid =
-    $("visitsGrid");
-
-
-  grid.innerHTML = `
-
+  $("visitsGrid").innerHTML =
+    `
     <div class="loading">
-
-      <div>
-
-        <div
-          style="
-            font-size:30px;
-            margin-bottom:8px
-          "
-        >
-          ◌
-        </div>
-
-        Loading seller visits...
-
-      </div>
-
+      Loading seller visits...
     </div>
-
-  `;
+    `;
 
 
   const sellerId =
@@ -3421,7 +2819,9 @@ async function loadVisits(){
 
   const query =
     sellerId
-      ? `?sellerId=${encodeURIComponent(sellerId)}`
+      ? `?sellerId=${encodeURIComponent(
+          sellerId
+        )}`
       : "";
 
 
@@ -3431,14 +2831,13 @@ async function loadVisits(){
 
     `${API_BASE}/visits/seller${query}`,
 
-    `${API_BASE}/visits${query}`,
-
-    `${API_BASE}/seller/visit-requests${query}`
+    `${API_BASE}/visits${query}`
 
   ];
 
 
-  state.apiConnected = false;
+  let loaded =
+    false;
 
 
   for(
@@ -3448,15 +2847,21 @@ async function loadVisits(){
     try{
 
       const response =
-        await apiRequest(
-          endpoint
+        await fetch(
+          endpoint,
+          {
+            credentials:"include",
+
+            headers:{
+              Accept:
+                "application/json"
+            }
+          }
         );
 
 
       if(!response.ok){
-
         continue;
-
       }
 
 
@@ -3467,36 +2872,15 @@ async function loadVisits(){
       const list =
 
         Array.isArray(payload)
-
           ? payload
 
-          :
+          : payload.visits ||
 
-        Array.isArray(payload.visits)
+            payload.data ||
 
-          ? payload.visits
+            payload.results ||
 
-          :
-
-        Array.isArray(payload.data)
-
-          ? payload.data
-
-          :
-
-        Array.isArray(payload.results)
-
-          ? payload.results
-
-          :
-
-        Array.isArray(payload.items)
-
-          ? payload.items
-
-          :
-
-        [];
+            [];
 
 
       if(
@@ -3508,19 +2892,17 @@ async function loadVisits(){
             normaliseVisit
           );
 
-        state.apiConnected =
+        loaded =
           true;
 
-        applyFilters();
-
-        return;
+        break;
 
       }
 
     }catch(error){
 
       console.warn(
-        "GHAR visits endpoint:",
+        "GHAR visits API:",
         endpoint,
         error
       );
@@ -3530,21 +2912,15 @@ async function loadVisits(){
   }
 
 
-  /*
-    API unavailable.
+  if(!loaded){
 
-    Demo fallback allows the page
-    to remain usable during frontend
-    development.
-  */
+    state.visits =
+      demoVisits()
+        .map(
+          normaliseVisit
+        );
 
-  state.visits =
-    demoVisits();
-
-
-  showToast(
-    "API unavailable -- showing local development data."
-  );
+  }
 
 
   applyFilters();
@@ -3553,89 +2929,379 @@ async function loadVisits(){
 
 
 /* =========================================================
-   UPDATE STATISTICS
+   STATS
 ========================================================= */
 
 function updateStats(){
 
-  const visits =
+  const list =
     state.visits;
 
 
-  $("totalVisits").textContent =
-    visits.length;
+  $("totalVisits")
+    .textContent =
+    list.length;
 
 
-  $("pendingVisits").textContent =
-    visits.filter(
-      v => v.status === "pending"
+  $("requestedVisits")
+    .textContent =
+    list.filter(
+      v =>
+        v.status ===
+        "requested"
     ).length;
 
 
-  $("confirmedVisits").textContent =
-    visits.filter(
-      v => v.status === "confirmed"
+  $("confirmedVisits")
+    .textContent =
+    list.filter(
+      v =>
+        v.status ===
+        "confirmed"
     ).length;
 
 
-  $("completedVisits").textContent =
-    visits.filter(
-      v => v.status === "completed"
+  $("completedVisits")
+    .textContent =
+    list.filter(
+      v =>
+        v.status ===
+        "completed"
     ).length;
 
 
-  $("cancelledVisits").textContent =
-    visits.filter(
-      v => v.status === "cancelled"
+  $("cancelledVisits")
+    .textContent =
+    list.filter(
+      v =>
+        v.status ===
+        "cancelled"
     ).length;
 
 }
 
 
 /* =========================================================
-   DATE PARSER
+   STATUS BADGE
 ========================================================= */
 
-function dateValue(value){
+function statusBadge(status){
 
-  if(!value)
-    return null;
+  const valid = [
 
+    "requested",
+    "confirmed",
+    "completed",
+    "cancelled",
+    "rescheduled",
+    "no-show"
 
-  const d =
-    new Date(value);
-
-
-  if(!Number.isNaN(d.getTime()))
-    return d;
-
-
-  const parts =
-    String(value).split("-");
+  ];
 
 
-  if(parts.length === 3){
+  const safe =
+    valid.includes(status)
+      ? status
+      : "requested";
 
-    return new Date(
 
-      Number(parts[0]),
+  return `
+    <span class="badge ${safe}">
+      ${escapeHTML(
+        safe.replace(
+          "-",
+          " "
+        )
+      )}
+    </span>
+  `;
 
-      Number(parts[1])-1,
+}
 
-      Number(parts[2])
 
+/* =========================================================
+   VISIT CARD
+========================================================= */
+
+function visitCard(v){
+
+  const title =
+    escapeHTML(
+      v.buyerName
     );
+
+
+  const property =
+    escapeHTML(
+      v.propertyTitle
+    );
+
+
+  const location =
+    escapeHTML(
+      v.location
+    );
+
+
+  const type =
+    escapeHTML(
+      v.visitType
+    );
+
+
+  const date =
+    escapeHTML(
+      formatDate(
+        v.dateTime
+      )
+    );
+
+
+  const time =
+    escapeHTML(
+      formatTime(
+        v.dateTime
+      )
+    );
+
+
+  let actions = `
+
+    <button
+      class="action"
+      data-action="view"
+      data-id="${escapeHTML(v.id)}">
+      View
+    </button>
+
+  `;
+
+
+  if(
+    v.status ===
+    "requested"
+  ){
+
+    actions += `
+
+      <button
+        class="action confirm"
+        data-action="confirm"
+        data-id="${escapeHTML(v.id)}">
+        Confirm
+      </button>
+
+      <button
+        class="action cancel"
+        data-action="cancel"
+        data-id="${escapeHTML(v.id)}">
+        Cancel
+      </button>
+
+    `;
 
   }
 
 
-  return null;
+  if(
+    v.status ===
+    "confirmed" ||
+    v.status ===
+    "rescheduled"
+  ){
+
+    actions += `
+
+      <button
+        class="action primary"
+        data-action="complete"
+        data-id="${escapeHTML(v.id)}">
+        Complete
+      </button>
+
+      <button
+        class="action cancel"
+        data-action="cancel"
+        data-id="${escapeHTML(v.id)}">
+        Cancel
+      </button>
+
+    `;
+
+  }
+
+
+  return `
+
+  <article
+    class="visit-card"
+    data-visit-id="${escapeHTML(v.id)}">
+
+    <div class="visit-top">
+
+      <div class="visit-id">
+        ${escapeHTML(v.id)}
+      </div>
+
+
+      <h2 class="visit-title">
+        ${title}
+      </h2>
+
+
+      <div class="visit-property">
+        Viewing:
+        ${property}
+      </div>
+
+
+      <div class="visit-status-row">
+
+        <div>
+          ${statusBadge(v.status)}
+        </div>
+
+        <div class="badge visit-type">
+          ${type}
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="visit-body">
+
+      <div class="detail-list">
+
+        <div class="detail">
+
+          <div class="detail-icon">
+            🏡
+          </div>
+
+          <div class="detail-content">
+
+            <div class="detail-label">
+              Property
+            </div>
+
+            <div class="detail-value">
+              ${property}
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="detail">
+
+          <div class="detail-icon">
+            📍
+          </div>
+
+          <div class="detail-content">
+
+            <div class="detail-label">
+              Location
+            </div>
+
+            <div class="detail-value">
+              ${location}
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="detail">
+
+          <div class="detail-icon">
+            👤
+          </div>
+
+          <div class="detail-content">
+
+            <div class="detail-label">
+              Visitor
+            </div>
+
+            <div class="detail-value">
+              ${title}
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="visit-datetime">
+
+        <div class="visit-date">
+          ${date}
+        </div>
+
+        <div class="visit-time">
+          ${time}
+        </div>
+
+      </div>
+
+
+      ${
+        v.note
+
+          ? `
+
+            <div class="visit-note">
+              ${escapeHTML(v.note)}
+            </div>
+
+          `
+
+          : ""
+      }
+
+
+      <div class="visit-foot">
+
+        <div class="visit-created">
+
+          Created:
+          ${escapeHTML(
+            v.createdAt
+              ? String(
+                  v.createdAt
+                ).slice(0,10)
+              : "Recently"
+          )}
+
+        </div>
+
+
+        <div class="card-actions">
+
+          ${actions}
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </article>
+
+  `;
 
 }
 
 
 /* =========================================================
-   FILTER
+   FILTERS
 ========================================================= */
 
 function applyFilters(){
@@ -3652,46 +3318,58 @@ function applyFilters(){
       .value;
 
 
+  const visitType =
+    $("visitTypeFilter")
+      .value;
+
+
   const dateFilter =
     $("dateFilter")
       .value;
 
 
-  const today =
+  const now =
     new Date();
 
 
-  today.setHours(
-    0,0,0,0
-  );
+  const today =
+    todayKey();
 
 
   state.filtered =
     state.visits.filter(
-      visit => {
-
+      v => {
 
         const searchable = [
 
-          visit.id,
+          v.id,
 
-          visit.property,
+          v.propertyId,
 
-          visit.buyer,
+          v.propertyTitle,
 
-          visit.location,
+          v.buyerName,
 
-          visit.propertyId
+          v.buyerPhone,
+
+          v.buyerEmail,
+
+          v.location,
+
+          v.visitType,
+
+          v.status
 
         ]
-
         .join(" ")
         .toLowerCase();
 
 
         if(
           query &&
-          !searchable.includes(query)
+          !searchable.includes(
+            query
+          )
         ){
 
           return false;
@@ -3701,7 +3379,7 @@ function applyFilters(){
 
         if(
           status !== "all" &&
-          visit.status !== status
+          v.status !== status
         ){
 
           return false;
@@ -3709,63 +3387,78 @@ function applyFilters(){
         }
 
 
-        const d =
-          dateValue(
-            visit.date
-          );
-
-
         if(
-          dateFilter === "today"
+          visitType !== "all" &&
+          v.visitType !==
+            visitType
         ){
 
-          if(!d)
-            return false;
-
-
-          d.setHours(
-            0,0,0,0
-          );
-
-
-          if(
-            d.getTime() !==
-            today.getTime()
-          ){
-
-            return false;
-
-          }
+          return false;
 
         }
 
 
         if(
-          dateFilter === "upcoming"
+          dateFilter !==
+          "all"
         ){
 
+          const date =
+            parseDate(
+              v.dateTime
+            );
+
+
+          if(!date){
+            return false;
+          }
+
+
           if(
-            !d ||
-            d < today
+            dateFilter ===
+            "today"
           ){
 
-            return false;
+            if(
+              dateKey(date) !==
+              today
+            ){
+
+              return false;
+
+            }
 
           }
 
-        }
-
-
-        if(
-          dateFilter === "past"
-        ){
 
           if(
-            !d ||
-            d >= today
+            dateFilter ===
+            "upcoming"
           ){
 
-            return false;
+            if(
+              date <= now
+            ){
+
+              return false;
+
+            }
+
+          }
+
+
+          if(
+            dateFilter ===
+            "past"
+          ){
+
+            if(
+              date >= now
+            ){
+
+              return false;
+
+            }
 
           }
 
@@ -3786,7 +3479,7 @@ function applyFilters(){
 
 
 /* =========================================================
-   RENDER VISITS
+   RENDER
 ========================================================= */
 
 function renderVisits(){
@@ -3803,21 +3496,27 @@ function renderVisits(){
 
       <div class="empty">
 
-        <div>
-
-          <div class="empty-icon">
-            ⌂
-          </div>
-
-          <h3>
-            No visits found
-          </h3>
-
-          <p>
-            No seller visits match the selected filters.
-          </p>
-
+        <div class="empty-icon">
+          📅
         </div>
+
+        <h3>
+          No visits found
+        </h3>
+
+        <p>
+          There are no property visits matching
+          your current filters.
+        </p>
+
+        <a
+          class="ghar-btn primary"
+          href="seller-properties.html"
+          style="margin-top:18px">
+
+          View My Properties
+
+        </a>
 
       </div>
 
@@ -3828,10 +3527,33 @@ function renderVisits(){
   }
 
 
+  const sorted =
+    [...state.filtered]
+      .sort(
+        (a,b) => {
+
+          const da =
+            parseDate(
+              a.dateTime
+            )?.getTime() ||
+            0;
+
+          const db =
+            parseDate(
+              b.dateTime
+            )?.getTime() ||
+            0;
+
+          return da - db;
+
+        }
+      );
+
+
   grid.innerHTML =
-    state.filtered
+    sorted
       .map(
-        renderVisitCard
+        visitCard
       )
       .join("");
 
@@ -3839,393 +3561,236 @@ function renderVisits(){
 
 
 /* =========================================================
-   VISIT CARD
+   VIEW DETAILS
 ========================================================= */
 
-function renderVisitCard(v){
+function openVisitModal(id){
 
-  const safeStatus =
+  const visit =
+    state.visits.find(
+      v =>
+        v.id === id
+    );
 
-    [
 
-      "pending",
+  if(!visit){
+    return;
+  }
 
-      "confirmed",
 
-      "completed",
+  $("modalBody").innerHTML = `
 
-      "cancelled"
+    <div class="modal-info">
 
-    ].includes(v.status)
+      <strong>
+        ${escapeHTML(
+          visit.propertyTitle
+        )}
+      </strong>
 
-      ? v.status
+      <br><br>
 
-      : "pending";
+      <strong>
+        Visitor
+      </strong>
 
+      <br>
 
-  const initials =
+      ${escapeHTML(
+        visit.buyerName
+      )}
 
-    String(v.buyer || "Buyer")
+      ${
+        visit.buyerPhone
+          ? `
+            <br>
+            ${escapeHTML(
+              visit.buyerPhone
+            )}
+          `
+          : ""
+      }
 
-      .split(/\s+/)
+      ${
+        visit.buyerEmail
+          ? `
+            <br>
+            ${escapeHTML(
+              visit.buyerEmail
+            )}
+          `
+          : ""
+      }
 
-      .map(
-        x => x[0]
-      )
+      <br><br>
 
-      .join("")
+      <strong>
+        Visit
+      </strong>
 
-      .slice(0,2)
+      <br>
 
-      .toUpperCase();
+      ${escapeHTML(
+        formatDate(
+          visit.dateTime
+        )
+      )}
 
+      ·
 
-  const propertyImage =
-    v.propertyImage ||
-    "../assets/images/properties/property-placeholder.webp";
+      ${escapeHTML(
+        formatTime(
+          visit.dateTime
+        )
+      )}
 
+      <br><br>
 
-  return `
+      <strong>
+        Location
+      </strong>
 
-    <article
-      class="visit-card"
-      data-visit-id="${escapeHTML(v.id)}"
-    >
+      <br>
 
+      ${escapeHTML(
+        visit.location
+      )}
 
-      <!-- PROPERTY IMAGE -->
+      ${
+        visit.note
+          ? `
 
-      <div class="property-image">
-
-        <img
-
-          src="${escapeHTML(propertyImage)}"
-
-          alt="${escapeHTML(v.property)}"
-
-          loading="lazy"
-
-          onerror="
-            this.style.display='none';
-            this.nextElementSibling.style.display='grid';
-          "
-        >
-
-        <div
-          class="image-fallback"
-          style="display:none"
-        >
-
-          <div>
-            ⌂
-          </div>
-
-          <small>
-            PROPERTY IMAGE
-          </small>
-
-        </div>
-
-      </div>
-
-
-      <div class="visit-content">
-
-
-        <!-- TOP -->
-
-        <div class="visit-top">
-
-          <div>
-
-            <div class="visit-id">
-              ${escapeHTML(v.id)}
-            </div>
-
-            <div class="property-name">
-              ${escapeHTML(v.property)}
-            </div>
-
-          </div>
-
-
-          <span
-            class="status ${safeStatus}"
-          >
-            ${escapeHTML(safeStatus)}
-          </span>
-
-        </div>
-
-
-        <!-- BUYER -->
-
-        <div class="buyer">
-
-          <div class="avatar">
-
-            ${
-              v.buyerImage
-
-                ? `
-
-                  <img
-
-                    src="${escapeHTML(v.buyerImage)}"
-
-                    alt="${escapeHTML(v.buyer)}"
-
-                    loading="lazy"
-
-                    onerror="
-                      this.style.display='none';
-                    "
-                  >
-
-                `
-
-                : escapeHTML(initials)
-
-            }
-
-          </div>
-
-
-          <div>
-
-            <div class="buyer-name">
-
-              ${escapeHTML(v.buyer)}
-
-            </div>
-
-
-            <div class="buyer-contact">
-
-              ${
-                escapeHTML(
-                  v.phone ||
-                  v.email ||
-                  "Buyer contact protected"
-                )
-              }
-
-            </div>
-
-          </div>
-
-        </div>
-
-
-        <!-- INFO -->
-
-        <div class="visit-info">
-
-
-          <div class="info">
-
-            <small>
-              Date
-            </small>
+            <br><br>
 
             <strong>
-              ${
-                escapeHTML(
-                  v.date ||
-                  "Not scheduled"
-                )
-              }
+              Note
             </strong>
 
-          </div>
-
-
-          <div class="info">
-
-            <small>
-              Time
-            </small>
-
-            <strong>
-              ${
-                escapeHTML(
-                  v.time ||
-                  "Not scheduled"
-                )
-              }
-            </strong>
-
-          </div>
-
-
-          <div class="info">
-
-            <small>
-              Location
-            </small>
-
-            <strong>
-              ${
-                escapeHTML(
-                  v.location
-                )
-              }
-            </strong>
-
-          </div>
-
-
-          <div class="info">
-
-            <small>
-              Property ID
-            </small>
-
-            <strong>
-              ${
-                escapeHTML(
-                  v.propertyId ||
-                  "--"
-                )
-              }
-            </strong>
-
-          </div>
-
-
-        </div>
-
-
-        ${
-          v.notes
-
-            ? `
-
-              <div class="visit-note">
-
-                <strong>
-                  Buyer Note
-                </strong>
-
-                ${escapeHTML(v.notes)}
-
-              </div>
-
-            `
-
-            : ""
-
-        }
-
-
-        <!-- ACTIONS -->
-
-        <div class="card-actions">
-
-
-          ${
-            safeStatus === "pending"
-
-              ? `
-
-                <button
-
-                  type="button"
-
-                  class="action confirm"
-
-                  data-action="confirm"
-
-                  data-id="${escapeHTML(v.id)}"
-
-                >
-                  ✓ Confirm
-                </button>
-
-              `
-
-              : ""
-
-          }
-
-
-          ${
-            safeStatus === "pending" ||
-            safeStatus === "confirmed"
-
-              ? `
-
-                <button
-
-                  type="button"
-
-                  class="action cancel"
-
-                  data-action="cancel"
-
-                  data-id="${escapeHTML(v.id)}"
-
-                >
-                  Cancel
-                </button>
-
-              `
-
-              : ""
-
-          }
-
-
-          <button
-
-            type="button"
-
-            class="action"
-
-            data-action="details"
-
-            data-id="${escapeHTML(v.id)}"
-
-          >
-            View Details
-          </button>
-
-
-        </div>
-
-
-      </div>
-
-    </article>
+            <br>
+
+            ${escapeHTML(
+              visit.note
+            )}
+
+          `
+          : ""
+      }
+
+    </div>
+
+
+    <div class="modal-actions">
+
+      ${
+        visit.status ===
+        "requested"
+
+          ? `
+
+            <button
+              class="ghar-btn primary"
+              data-modal-action="confirm"
+              data-id="${escapeHTML(
+                visit.id
+              )}">
+              Confirm Visit
+            </button>
+
+            <button
+              class="ghar-btn dark"
+              data-modal-action="cancel"
+              data-id="${escapeHTML(
+                visit.id
+              )}">
+              Cancel Visit
+            </button>
+
+          `
+
+          : ""
+      }
+
+
+      ${
+        visit.status ===
+          "confirmed" ||
+        visit.status ===
+          "rescheduled"
+
+          ? `
+
+            <button
+              class="ghar-btn primary"
+              data-modal-action="complete"
+              data-id="${escapeHTML(
+                visit.id
+              )}">
+              Mark Completed
+            </button>
+
+            <button
+              class="ghar-btn dark"
+              data-modal-action="cancel"
+              data-id="${escapeHTML(
+                visit.id
+              )}">
+              Cancel Visit
+            </button>
+
+          `
+
+          : ""
+      }
+
+    </div>
 
   `;
+
+
+  $("visitModal")
+    .classList.add(
+      "open"
+    );
 
 }
 
 
 /* =========================================================
-   UPDATE VISIT STATUS
+   CLOSE MODAL
 ========================================================= */
 
-async function updateVisitStatus(
+function closeModal(){
 
+  $("visitModal")
+    .classList.remove(
+      "open"
+    );
+
+}
+
+
+/* =========================================================
+   CHANGE STATUS
+========================================================= */
+
+async function changeVisitStatus(
   id,
-
   status
-
 ){
 
   const visit =
     state.visits.find(
-      v => v.id === id
+      v =>
+        v.id === id
     );
 
 
-  if(!visit)
+  if(!visit){
     return;
+  }
 
 
-  const oldStatus =
+  const previous =
     visit.status;
 
 
@@ -4236,71 +3801,72 @@ async function updateVisitStatus(
   applyFilters();
 
 
+  closeModal();
+
+
   try{
 
     const response =
-      await apiRequest(
-
+      await fetch(
         `${API_BASE}/seller/visits/${encodeURIComponent(id)}`,
-
         {
 
           method:"PATCH",
 
+          credentials:"include",
+
           headers:{
             "Content-Type":
+              "application/json",
+
+            "Accept":
               "application/json"
           },
 
           body:JSON.stringify({
-
             status
-
           })
 
         }
-
       );
 
 
     if(!response.ok){
 
       throw new Error(
-        "Status update failed"
+        "Visit update failed"
       );
 
     }
 
 
     showToast(
-      `Visit ${status}.`
-    );
-
-
-    /*
-      Refresh from server so the
-      frontend reflects authoritative data.
-    */
-
-    setTimeout(
-      loadVisits,
-      400
+      `Visit ${status.replace(
+        "-",
+        " "
+      )}.`
     );
 
 
   }catch(error){
 
     /*
-      Keep local development data usable.
+      Demo records continue to work
+      without a backend.
     */
 
     if(
       String(id)
-        .startsWith("VIS-GHAR-")
+        .startsWith(
+          "GHAR-V"
+        )
     ){
 
       showToast(
-        `Visit ${status}. Local demo updated.`
+        `Visit ${status.replace(
+          "-",
+          " "
+        )}. Local demo updated.`
       );
 
       return;
@@ -4309,19 +3875,18 @@ async function updateVisitStatus(
 
 
     visit.status =
-      oldStatus;
+      previous;
 
 
     applyFilters();
 
 
     showToast(
-      "Could not update the visit."
+      "Could not update visit."
     );
 
 
     console.error(
-      "GHAR status update:",
       error
     );
 
@@ -4331,41 +3896,98 @@ async function updateVisitStatus(
 
 
 /* =========================================================
-   DETAILS
+   CARD EVENTS
 ========================================================= */
 
-function viewDetails(id){
+$("visitsGrid")
+  .addEventListener(
+    "click",
+    event => {
 
-  const visit =
-    state.visits.find(
-      v => v.id === id
-    );
+      const button =
+        event.target.closest(
+          "[data-action]"
+        );
 
 
-  if(!visit)
-    return;
+      if(!button){
+        return;
+      }
 
 
-  /*
-    Dedicated page if present.
-  */
+      const action =
+        button.dataset.action;
 
-  window.location.href =
-    `seller-visit-details.html?id=${encodeURIComponent(id)}`;
 
-}
+      const id =
+        button.dataset.id;
+
+
+      if(
+        action ===
+        "view"
+      ){
+
+        openVisitModal(
+          id
+        );
+
+        return;
+
+      }
+
+
+      if(
+        action ===
+        "confirm"
+      ){
+
+        changeVisitStatus(
+          id,
+          "confirmed"
+        );
+
+        return;
+
+      }
+
+
+      if(
+        action ===
+        "complete"
+      ){
+
+        changeVisitStatus(
+          id,
+          "completed"
+        );
+
+        return;
+
+      }
+
+
+      if(
+        action ===
+        "cancel"
+      ){
+
+        changeVisitStatus(
+          id,
+          "cancelled"
+        );
+
+        return;
+
+      }
+
+    }
+  );
 
 
 /* =========================================================
-   EVENT LISTENERS
+   FILTER EVENTS
 ========================================================= */
-
-$("refreshVisits")
-  .addEventListener(
-    "click",
-    loadVisits
-  );
-
 
 $("visitSearch")
   .addEventListener(
@@ -4381,6 +4003,13 @@ $("statusFilter")
   );
 
 
+$("visitTypeFilter")
+  .addEventListener(
+    "change",
+    applyFilters
+  );
+
+
 $("dateFilter")
   .addEventListener(
     "change",
@@ -4388,74 +4017,76 @@ $("dateFilter")
   );
 
 
-$("visitsGrid")
+$("refreshVisits")
+  .addEventListener(
+    "click",
+    loadVisits
+  );
+
+
+/* =========================================================
+   MODAL EVENTS
+========================================================= */
+
+$("modalClose")
+  .addEventListener(
+    "click",
+    closeModal
+  );
+
+
+$("visitModal")
   .addEventListener(
     "click",
     event => {
 
-      const button =
-        event.target.closest(
-          "[data-action]"
-        );
+      if(
+        event.target ===
+        $("visitModal")
+      ){
 
+        closeModal();
 
-      if(!button)
         return;
 
-
-      const action =
-        button.dataset.action;
+      }
 
 
-      const id =
-        button.dataset.id;
-
-
-      if(
-        action === "confirm"
-      ){
-
-        updateVisitStatus(
-          id,
-          "confirmed"
+      const button =
+        event.target.closest(
+          "[data-modal-action]"
         );
 
+
+      if(!button){
+        return;
       }
 
 
-      if(
-        action === "cancel"
-      ){
-
-        if(
-          !confirm(
-            "Cancel this buyer visit?"
-          )
-        ){
-
-          return;
-
-        }
-
-
-        updateVisitStatus(
-          id,
-          "cancelled"
-        );
-
-      }
-
-
-      if(
-        action === "details"
-      ){
-
-        viewDetails(id);
-
-      }
+      changeVisitStatus(
+        button.dataset.id,
+        button.dataset.modalAction
+      );
 
     }
   );
+
+
+document.addEventListener(
+  "keydown",
+  event => {
+
+    if(
+      event.key ===
+      "Escape"
+    ){
+
+      closeModal();
+
+    }
+
+  }
+);
 
 
 /* =========================================================
@@ -4512,29 +4143,26 @@ aiClose.addEventListener(
 ========================================================= */
 
 function addAIMessage(
-
   text,
-
   type
-
 ){
 
-  const div =
+  const message =
     document.createElement(
       "div"
     );
 
 
-  div.className =
+  message.className =
     `ai-msg ${type}`;
 
 
-  div.textContent =
+  message.textContent =
     text;
 
 
   aiMessages.appendChild(
-    div
+    message
   );
 
 
@@ -4549,32 +4177,19 @@ function addAIMessage(
 ========================================================= */
 
 async function askGHARAI(
-
   message
-
 ){
 
-  /*
-    1. Shared GHAR AI
-  */
-
   if(
-
     window.GHARAI &&
-
     typeof window.GHARAI.ask ===
       "function"
-
   ){
 
-    try{
-
-      return await window.GHARAI.ask(
-
+    return await
+      window.GHARAI.ask(
         message,
-
         {
-
           page:
             "seller-visits",
 
@@ -4583,40 +4198,28 @@ async function askGHARAI(
 
           visits:
             state.visits
-
         }
-
       );
-
-    }catch(error){
-
-      console.warn(
-        "Shared GHAR AI failed:",
-        error
-      );
-
-    }
 
   }
 
 
-  /*
-    2. Backend AI
-  */
-
   try{
 
     const response =
-      await apiRequest(
-
+      await fetch(
         `${API_BASE}/ai/chat`,
-
         {
 
           method:"POST",
 
+          credentials:"include",
+
           headers:{
             "Content-Type":
+              "application/json",
+
+            "Accept":
               "application/json"
           },
 
@@ -4633,42 +4236,13 @@ async function askGHARAI(
                 "seller",
 
               visits:
-                state.visits,
-
-              statistics:{
-
-                total:
-                  state.visits.length,
-
-                pending:
-                  state.visits.filter(
-                    v =>
-                      v.status ===
-                      "pending"
-                  ).length,
-
-                confirmed:
-                  state.visits.filter(
-                    v =>
-                      v.status ===
-                      "confirmed"
-                  ).length,
-
-                completed:
-                  state.visits.filter(
-                    v =>
-                      v.status ===
-                      "completed"
-                  ).length
-
-              }
+                state.visits
 
             }
 
           })
 
         }
-
       );
 
 
@@ -4679,15 +4253,10 @@ async function askGHARAI(
 
 
       return (
-
         data.reply ||
-
         data.message ||
-
         data.answer ||
-
         "I could not generate a response."
-
       );
 
     }
@@ -4702,123 +4271,112 @@ async function askGHARAI(
   }
 
 
-  /*
-    3. Local AI fallback
-  */
-
-  return localAI(
-    message
-  );
-
-}
-
-
-/* =========================================================
-   LOCAL AI
-========================================================= */
-
-function localAI(message){
+  /* =======================================================
+     LOCAL AI FALLBACK
+  ======================================================= */
 
   const text =
-    String(message)
+    message
       .toLowerCase();
 
 
-  const pending =
+  const total =
+    state.visits.length;
+
+
+  const requested =
     state.visits.filter(
       v =>
-        v.status === "pending"
+        v.status ===
+        "requested"
     ).length;
 
 
   const confirmed =
     state.visits.filter(
       v =>
-        v.status === "confirmed"
+        v.status ===
+        "confirmed"
     ).length;
 
 
   const completed =
     state.visits.filter(
       v =>
-        v.status === "completed"
+        v.status ===
+        "completed"
     ).length;
 
 
   const cancelled =
     state.visits.filter(
       v =>
-        v.status === "cancelled"
-    ).length;
-
-
-  const todayKey =
-    new Date()
-      .toISOString()
-      .slice(0,10);
-
-
-  const today =
-    state.visits.filter(
-      v =>
-        v.date === todayKey
+        v.status ===
+        "cancelled"
     ).length;
 
 
   if(
-    text.includes("pending") ||
-    text.includes("request")
+    text.includes("total") ||
+    text.includes("how many")
   ){
 
-    return (
-
-      `You currently have ${pending} ` +
-
-      `pending visit request` +
-
-      (pending === 1 ? "" : "s") +
-
-      `. Review each request and confirm ` +
-
-      `only after the proposed schedule is suitable.`
-
-    );
+    return `
+      Your current seller workspace contains
+      ${total} visit records.
+      ${requested} are requested,
+      ${confirmed} are confirmed,
+      ${completed} are completed,
+      and ${cancelled} are cancelled.
+    `;
 
   }
 
 
   if(
-    text.includes("confirmed") ||
-    text.includes("schedule")
+    text.includes("requested")
   ){
 
-    return (
-
-      `There are ${confirmed} confirmed ` +
-
-      `visit${confirmed === 1 ? "" : "s"} ` +
-
-      `in the current seller workspace.`
-
-    );
+    return `
+      You currently have
+      ${requested} requested visit${
+        requested === 1
+          ? ""
+          : "s"
+      } waiting for seller action.
+    `;
 
   }
 
 
   if(
-    text.includes("completed") ||
-    text.includes("history")
+    text.includes("confirmed")
   ){
 
-    return (
+    return `
+      You currently have
+      ${confirmed} confirmed visit${
+        confirmed === 1
+          ? ""
+          : "s"
+      }.
+    `;
 
-      `There are ${completed} completed ` +
+  }
 
-      `visit${completed === 1 ? "" : "s"} ` +
 
-      `in the current visit history.`
+  if(
+    text.includes("completed")
+  ){
 
-    );
+    return `
+      You currently have
+      ${completed} completed visit${
+        completed === 1
+          ? ""
+          : "s"
+      }.
+    `;
 
   }
 
@@ -4827,13 +4385,14 @@ function localAI(message){
     text.includes("cancel")
   ){
 
-    return (
-
-      `There are ${cancelled} cancelled ` +
-
-      `visit${cancelled === 1 ? "" : "s"}.`
-
-    );
+    return `
+      You currently have
+      ${cancelled} cancelled visit${
+        cancelled === 1
+          ? ""
+          : "s"
+      }.
+    `;
 
   }
 
@@ -4842,74 +4401,80 @@ function localAI(message){
     text.includes("today")
   ){
 
-    return (
+    const count =
+      state.visits.filter(
+        v => {
 
-      `I found ${today} visit` +
+          const date =
+            parseDate(
+              v.dateTime
+            );
 
-      (today === 1 ? "" : "s") +
+          return date &&
+            dateKey(date) ===
+            todayKey();
 
-      ` scheduled for today.`
-
-    );
-
-  }
+        }
+      ).length;
 
 
-  if(
-    text.includes("total") ||
-    text.includes("summary")
-  ){
-
-    return (
-
-      `Seller visit summary: ` +
-
-      `${state.visits.length} total, ` +
-
-      `${pending} pending, ` +
-
-      `${confirmed} confirmed, ` +
-
-      `${completed} completed and ` +
-
-      `${cancelled} cancelled.`
-
-    );
+    return `
+      There are ${count} visit${
+        count === 1
+          ? ""
+          : "s"
+      } scheduled for today.
+    `;
 
   }
 
 
   if(
-    text.includes("what can you do") ||
-    text.includes("help")
+    text.includes("upcoming") ||
+    text.includes("next")
   ){
 
-    return (
+    const now =
+      new Date();
 
-      "I can help with pending requests, " +
 
-      "confirmed schedules, today's visits, " +
+    const upcoming =
+      state.visits.filter(
+        v => {
 
-      "completed history, cancellations and " +
+          const date =
+            parseDate(
+              v.dateTime
+            );
 
-      "seller visit workflow."
+          return date &&
+            date > now &&
+            v.status !==
+              "cancelled";
 
-    );
+        }
+      );
+
+
+    return `
+      You currently have
+      ${upcoming.length}
+      upcoming visit${
+        upcoming.length === 1
+          ? ""
+          : "s"
+      }.
+    `;
 
   }
 
 
-  return (
-
-    "I can help you with your seller visits. " +
-
-    "Ask me about pending requests, " +
-
-    "confirmed visits, today's schedule, " +
-
-    "completed visits or visit history."
-
-  );
+  return `
+    I can help with total visits,
+    requested appointments, confirmed visits,
+    upcoming visits, completed visits,
+    cancelled visits and seller visit workflow.
+  `;
 
 }
 
@@ -4929,8 +4494,9 @@ aiForm.addEventListener(
       aiInput.value.trim();
 
 
-    if(!message)
+    if(!message){
       return;
+    }
 
 
     aiInput.value =
@@ -4978,12 +4544,9 @@ aiForm.addEventListener(
 
 
       addAIMessage(
-
         answer ||
-        "I couldn't process that request.",
-
+        "I could not process that request.",
         "bot"
-
       );
 
     }catch(error){
@@ -4992,16 +4555,12 @@ aiForm.addEventListener(
 
 
       addAIMessage(
-
-        "I couldn't connect to the AI service right now.",
-
+        "GHAR AI is temporarily unavailable.",
         "bot"
-
       );
 
 
       console.error(
-        "GHAR AI:",
         error
       );
 
@@ -5012,102 +4571,14 @@ aiForm.addEventListener(
 
 
 /* =========================================================
-   INITIALISE
+   INITIAL LOAD
 ========================================================= */
 
 loadVisits();
 
 
 })();
-
 </script>
-
-
-<!-- =========================================================
-     FALLBACK FOR EMPTY SHARED HEADER
-========================================================= -->
-
-<script>
-
-document.addEventListener(
-  "DOMContentLoaded",
-  () => {
-
-    const header =
-      document.querySelector(
-        "[data-site-header]"
-      );
-
-
-    /*
-      The page already contains a header.
-      This check prevents accidental blank
-      header areas if site.js changes its
-      contents.
-    */
-
-    if(
-      header &&
-      !header.children.length
-    ){
-
-      header.innerHTML = `
-
-        <header class="gh-fallback-header">
-
-          <div class="gh-header-inner">
-
-            <a
-              class="gh-brand"
-              href="seller-dashboard.html"
-            >
-
-              <div class="gh-brand-mark">
-                G
-              </div>
-
-              <div class="gh-brand-text">
-                GHAR
-              </div>
-
-            </a>
-
-            <nav class="gh-header-nav">
-
-              <a href="seller-dashboard.html">
-                Dashboard
-              </a>
-
-              <a href="seller-properties.html">
-                Properties
-              </a>
-
-              <a
-                href="seller-visits.html"
-                class="active"
-              >
-                Visits
-              </a>
-
-              <a href="seller-requests.html">
-                Requests
-              </a>
-
-            </nav>
-
-          </div>
-
-        </header>
-
-      `;
-
-    }
-
-  }
-);
-
-</script>
-
 
 </body>
 </html>
