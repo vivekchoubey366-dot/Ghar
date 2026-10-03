@@ -1,40 +1,26 @@
 <!doctype html>
 <html lang="en">
 <head>
-
 <meta charset="utf-8">
-
-<meta
-  name="viewport"
-  content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 
 <meta
   name="description"
-  content="GHAR Buyer Dashboard -- Manage property searches, shortlisted homes, enquiries, visits, bookings, offers and buyer activity.">
+  content="GHAR Buyer Dashboard -- Manage property requests, saved properties, enquiries, offers, scheduled visits and conversations."
+>
 
-<meta
-  name="theme-color"
-  content="#090b1d">
+<meta name="theme-color" content="#090b1d">
 
 <title>Buyer Dashboard · GHAR</title>
 
-<link
-  rel="stylesheet"
-  href="../assets/css/style.css">
+<link rel="stylesheet" href="../assets/css/style.css">
 
 <style>
-
-/* =========================================================
-   GHAR BUYER DASHBOARD
-   ROYAL SAPPHIRE + BURGUNDY LUXURY SYSTEM
-========================================================= */
-
 *{
   box-sizing:border-box;
 }
 
 :root{
-
   --royal-950:#070817;
   --royal-900:#090b1d;
   --royal-850:#10152e;
@@ -61,35 +47,25 @@
   --success:#24614e;
   --success-soft:#dceee7;
 
-  --warning:#916d2c;
-  --warning-soft:#f4e8c8;
+  --warning:#80651f;
+  --warning-soft:#f5e9bd;
 
   --danger:#923f50;
   --danger-soft:#f5dfe4;
 
   --border:rgba(10,14,36,.12);
-
-  --shadow:
-    0 28px 75px rgba(7,8,23,.13);
-
-  --shadow-soft:
-    0 13px 38px rgba(7,8,23,.08);
+  --shadow:0 28px 75px rgba(7,8,23,.13);
+  --shadow-soft:0 13px 38px rgba(7,8,23,.08);
 
   --radius:24px;
 }
-
-/* =========================================================
-   BASE
-========================================================= */
 
 html{
   scroll-behavior:smooth;
 }
 
 body{
-
   margin:0;
-
   min-height:100vh;
 
   color:var(--ink);
@@ -104,25 +80,21 @@ body{
     sans-serif;
 
   background:
-
     radial-gradient(
       circle at 7% 5%,
       rgba(38,63,120,.17),
       transparent 25%
     ),
-
     radial-gradient(
       circle at 93% 8%,
       rgba(101,31,53,.15),
       transparent 27%
     ),
-
     radial-gradient(
       circle at 50% 100%,
       rgba(231,201,130,.13),
       transparent 31%
     ),
-
     linear-gradient(
       135deg,
       #fbf6eb 0%,
@@ -146,12 +118,7 @@ a{
   color:inherit;
 }
 
-/* =========================================================
-   PAGE
-========================================================= */
-
 .buyer-dashboard-page{
-
   width:min(
     1480px,
     calc(100% - 32px)
@@ -159,23 +126,23 @@ a{
 
   margin:auto;
 
-  padding:
-    34px 0 75px;
+  padding:34px 0 75px;
 }
 
 /* =========================================================
-   TOP DASHBOARD HERO
+   HERO
 ========================================================= */
 
-.dashboard-hero{
-
+.hero{
   position:relative;
-
   overflow:hidden;
 
   min-height:330px;
 
-  padding:36px;
+  display:flex;
+  align-items:center;
+
+  padding:42px;
 
   border:
     1px solid
@@ -186,29 +153,25 @@ a{
   color:#fff;
 
   background:
-
     radial-gradient(
-      circle at 92% 8%,
+      circle at 90% 12%,
       rgba(231,201,130,.25),
       transparent 25%
     ),
-
     radial-gradient(
-      circle at 8% 95%,
-      rgba(139,49,75,.30),
+      circle at 14% 100%,
+      rgba(139,49,75,.28),
       transparent 34%
     ),
-
     radial-gradient(
-      circle at 62% 40%,
-      rgba(64,94,157,.25),
+      circle at 60% 45%,
+      rgba(64,94,157,.22),
       transparent 35%
     ),
-
     linear-gradient(
       135deg,
       #070817 0%,
-      #111735 48%,
+      #111735 47%,
       #3a1830 100%
     );
 
@@ -219,94 +182,67 @@ a{
   margin-bottom:24px;
 }
 
-.dashboard-hero:before{
-
+.hero:before{
   content:"";
 
   position:absolute;
 
-  width:420px;
-  height:420px;
+  width:390px;
+  height:390px;
 
-  right:-220px;
-  top:-240px;
+  right:-180px;
+  top:-210px;
 
   border-radius:50%;
 
   border:
     1px solid
-    rgba(243,223,170,.18);
+    rgba(243,223,170,.20);
 
   box-shadow:
-
     0 0 0 38px
     rgba(231,201,130,.025),
-
     0 0 0 76px
     rgba(231,201,130,.018);
 }
 
-.dashboard-hero:after{
-
-  content:"";
-
-  position:absolute;
-
-  width:460px;
-  height:460px;
-
-  left:-280px;
-  bottom:-310px;
-
-  border-radius:50%;
-
-  background:
-    radial-gradient(
-      circle,
-      rgba(64,94,157,.23),
-      transparent 68%
-    );
-}
-
-.dashboard-hero-inner{
-
+.hero-inner{
   position:relative;
-
   z-index:2;
+
+  width:100%;
 
   display:grid;
 
   grid-template-columns:
     minmax(0,1.25fr)
-    minmax(290px,.75fr);
-
-  align-items:center;
+    minmax(250px,.75fr);
 
   gap:35px;
+
+  align-items:center;
 }
 
-.eyebrow{
-
-  color:var(--champagne-2);
-
-  font-size:11px;
-
+.eyebrow,
+.section-eyebrow{
+  font-size:10px;
   font-weight:950;
-
-  letter-spacing:.19em;
-
+  letter-spacing:.16em;
   text-transform:uppercase;
 }
 
-.dashboard-title{
+.eyebrow{
+  color:var(--champagne-2);
+  font-size:12px;
+  margin-bottom:11px;
+}
 
-  margin:9px 0 0;
-
-  max-width:800px;
+.hero h1{
+  margin:0;
 
   font-size:
     clamp(
-      35px,
+      34px,
       5vw,
       58px
     );
@@ -316,208 +252,137 @@ a{
   letter-spacing:-.055em;
 }
 
-.dashboard-description{
-
-  max-width:690px;
-
-  margin:
-    15px 0 0;
+.hero p{
+  max-width:720px;
 
   color:
     rgba(255,255,255,.70);
 
   font-size:14px;
 
-  line-height:1.75;
+  line-height:1.8;
+
+  margin:16px 0 0;
 }
 
-.dashboard-actions{
-
+.hero-actions{
   display:flex;
-
   flex-wrap:wrap;
-
   gap:10px;
 
-  margin-top:23px;
+  margin-top:22px;
 }
 
 /* =========================================================
-   PROFILE CARD
+   BUYER ORBIT
 ========================================================= */
 
-.profile-card{
+.buyer-orbit{
+  justify-self:end;
 
-  position:relative;
-
-  overflow:hidden;
-
-  padding:23px;
-
-  border:
-    1px solid
-    rgba(243,223,170,.25);
-
-  border-radius:24px;
-
-  background:
-    rgba(255,255,255,.065);
-
-  backdrop-filter:
-    blur(14px);
-}
-
-.profile-top{
-
-  display:flex;
-
-  align-items:center;
-
-  gap:14px;
-}
-
-.profile-avatar{
-
-  width:66px;
-  height:66px;
-
-  display:flex;
-
-  align-items:center;
-
-  justify-content:center;
-
-  flex:0 0 auto;
+  width:235px;
+  height:235px;
 
   border-radius:50%;
 
-  color:#18130a;
+  display:flex;
 
-  font-size:24px;
+  align-items:center;
+  justify-content:center;
 
-  font-weight:950;
+  text-align:center;
+
+  background:
+    radial-gradient(
+      circle at 30% 22%,
+      #596fae,
+      #26355f 37%,
+      #111735 72%
+    );
+
+  border:
+    1px solid
+    rgba(243,223,170,.40);
+
+  box-shadow:
+    0 0 0 15px
+    rgba(231,201,130,.045),
+    0 0 0 32px
+    rgba(231,201,130,.025),
+    0 30px 70px
+    rgba(0,0,0,.30);
+}
+
+.buyer-icon{
+  width:84px;
+  height:84px;
+
+  margin:auto;
+
+  border-radius:50%;
+
+  display:flex;
+
+  align-items:center;
+  justify-content:center;
+
+  color:#17130b;
 
   background:
     linear-gradient(
       135deg,
-      #f3dfaa,
-      #b48b3d
+      #ead39a,
+      #a87932
     );
 
+  font-size:34px;
+  font-weight:950;
+
   box-shadow:
-    0 12px 30px
-    rgba(231,201,130,.16);
+    0 14px 35px
+    rgba(0,0,0,.25);
 }
 
-.profile-name{
+.buyer-orbit-title{
+  margin-top:12px;
 
-  font-size:19px;
+  color:#fff;
 
   font-weight:950;
+
+  font-size:16px;
 }
 
-.profile-role{
-
+.buyer-orbit-sub{
   margin-top:4px;
 
   color:
-    rgba(255,255,255,.55);
+    rgba(255,255,255,.58);
 
   font-size:10px;
-
-  text-transform:uppercase;
 
   letter-spacing:.12em;
-}
-
-.profile-status{
-
-  margin-top:18px;
-
-  display:flex;
-
-  align-items:center;
-
-  justify-content:space-between;
-
-  gap:10px;
-
-  padding-top:15px;
-
-  border-top:
-    1px solid
-    rgba(255,255,255,.10);
-}
-
-.profile-status-text{
-
-  color:
-    rgba(255,255,255,.61);
-
-  font-size:10px;
-}
-
-.status-badge{
-
-  display:inline-flex;
-
-  align-items:center;
-
-  gap:6px;
-
-  padding:
-    7px 10px;
-
-  border-radius:999px;
-
-  color:#dff6eb;
-
-  background:
-    rgba(36,97,78,.35);
-
-  border:
-    1px solid
-    rgba(130,220,190,.20);
-
-  font-size:9px;
-
-  font-weight:950;
 
   text-transform:uppercase;
-
-  letter-spacing:.08em;
-}
-
-.status-dot{
-
-  width:7px;
-  height:7px;
-
-  border-radius:50%;
-
-  background:#7ed5b5;
 }
 
 /* =========================================================
    BUTTONS
 ========================================================= */
 
-.ghar-btn{
-
-  min-height:45px;
+.btn{
+  min-height:44px;
 
   display:inline-flex;
 
   align-items:center;
-
   justify-content:center;
 
   gap:8px;
 
-  padding:
-    11px 16px;
+  padding:11px 16px;
 
-  border-radius:14px;
+  border-radius:13px;
 
   border:0;
 
@@ -527,19 +392,14 @@ a{
 
   font-weight:950;
 
-  transition:
-    transform .2s ease,
-    box-shadow .2s ease;
+  transition:.2s ease;
 }
 
-.ghar-btn:hover{
-
-  transform:
-    translateY(-2px);
+.btn:hover{
+  transform:translateY(-2px);
 }
 
-.ghar-btn.primary{
-
+.primary{
   color:#18130a;
 
   background:
@@ -554,8 +414,7 @@ a{
     rgba(231,201,130,.18);
 }
 
-.ghar-btn.secondary{
-
+.secondary{
   color:#fff;
 
   background:
@@ -566,8 +425,7 @@ a{
     rgba(255,255,255,.17);
 }
 
-.ghar-btn.dark{
-
+.dark{
   color:#fff;
 
   background:
@@ -578,8 +436,7 @@ a{
     );
 }
 
-.ghar-btn.burgundy{
-
+.burgundy{
   color:#fff;
 
   background:
@@ -590,16 +447,35 @@ a{
     );
 }
 
-.ghar-btn.small{
+.success{
+  color:#fff;
 
-  min-height:37px;
+  background:
+    linear-gradient(
+      135deg,
+      #24614e,
+      #347963
+    );
+}
 
-  padding:
-    8px 12px;
+/* =========================================================
+   MAIN GRID
+========================================================= */
 
-  border-radius:11px;
+.main-grid{
+  display:grid;
 
-  font-size:10px;
+  grid-template-columns:
+    minmax(0,1.35fr)
+    minmax(300px,.65fr);
+
+  gap:24px;
+}
+
+.left-column,
+.right-column{
+  display:grid;
+  gap:24px;
 }
 
 /* =========================================================
@@ -607,13 +483,11 @@ a{
 ========================================================= */
 
 .section{
-
-  margin-top:24px;
-
-  padding:28px;
+  padding:29px;
 
   border:
-    1px solid var(--border);
+    1px solid
+    var(--border);
 
   border-radius:26px;
 
@@ -628,42 +502,18 @@ a{
     var(--shadow-soft);
 }
 
-.section-heading{
-
-  display:flex;
-
-  align-items:flex-end;
-
-  justify-content:space-between;
-
-  gap:20px;
-
-  margin-bottom:20px;
-}
-
-.section-eyebrow{
-
-  color:
-    var(--burgundy);
-
-  font-size:10px;
-
-  font-weight:950;
-
-  letter-spacing:.15em;
-
-  text-transform:uppercase;
-}
-
 .section-title{
-
   margin:6px 0 0;
 
   color:
     var(--royal-850);
 
   font-size:
-    clamp(24px,4vw,35px);
+    clamp(
+      25px,
+      4vw,
+      37px
+    );
 
   line-height:1.1;
 
@@ -671,10 +521,9 @@ a{
 }
 
 .section-description{
+  max-width:720px;
 
-  max-width:700px;
-
-  margin:8px 0 0;
+  margin:9px 0 0;
 
   color:var(--muted);
 
@@ -684,275 +533,40 @@ a{
 }
 
 /* =========================================================
-   STAT CARDS
+   STATS
 ========================================================= */
 
 .stats-grid{
-
   display:grid;
 
   grid-template-columns:
-    repeat(5,minmax(0,1fr));
+    repeat(4,minmax(0,1fr));
 
   gap:12px;
+
+  margin-top:20px;
 }
 
 .stat-card{
-
-  position:relative;
-
-  overflow:hidden;
-
-  min-height:145px;
-
   padding:18px;
 
   border:
-    1px solid var(--border);
+    1px solid
+    var(--border);
 
-  border-radius:19px;
-
-  background:
-    linear-gradient(
-      145deg,
-      rgba(255,250,240,.94),
-      rgba(242,232,211,.82)
-    );
-
-  box-shadow:
-    var(--shadow-soft);
-
-  transition:
-    transform .2s ease,
-    box-shadow .2s ease;
-}
-
-.stat-card:hover{
-
-  transform:
-    translateY(-3px);
-
-  box-shadow:
-    0 20px 45px
-    rgba(7,8,23,.11);
-}
-
-.stat-card:after{
-
-  content:"";
-
-  position:absolute;
-
-  width:110px;
-  height:110px;
-
-  right:-45px;
-  bottom:-45px;
-
-  border-radius:50%;
+  border-radius:18px;
 
   background:
-    radial-gradient(
-      circle,
-      rgba(38,63,120,.14),
-      transparent 70%
-    );
+    rgba(255,255,255,.58);
 }
 
 .stat-icon{
-
-  position:relative;
-
-  z-index:1;
-
-  width:40px;
-  height:40px;
+  width:38px;
+  height:38px;
 
   display:flex;
 
   align-items:center;
-
-  justify-content:center;
-
-  border-radius:12px;
-
-  color:
-    var(--champagne-3);
-
-  background:
-    rgba(231,201,130,.18);
-
-  font-size:17px;
-}
-
-.stat-label{
-
-  position:relative;
-
-  z-index:1;
-
-  margin-top:13px;
-
-  color:var(--muted);
-
-  font-size:9px;
-
-  font-weight:950;
-
-  letter-spacing:.07em;
-
-  text-transform:uppercase;
-}
-
-.stat-value{
-
-  position:relative;
-
-  z-index:1;
-
-  margin-top:4px;
-
-  color:
-    var(--royal-850);
-
-  font-size:24px;
-
-  font-weight:950;
-}
-
-.stat-link{
-
-  position:relative;
-
-  z-index:1;
-
-  display:inline-block;
-
-  margin-top:7px;
-
-  color:
-    var(--burgundy);
-
-  font-size:9px;
-
-  font-weight:950;
-
-  text-decoration:none;
-}
-
-/* =========================================================
-   MAIN DASHBOARD GRID
-========================================================= */
-
-.dashboard-grid{
-
-  display:grid;
-
-  grid-template-columns:
-    minmax(0,1.45fr)
-    minmax(310px,.75fr);
-
-  gap:18px;
-
-  margin-top:22px;
-}
-
-/* =========================================================
-   ACTIVITY PANEL
-========================================================= */
-
-.panel{
-
-  min-width:0;
-
-  padding:22px;
-
-  border:
-    1px solid var(--border);
-
-  border-radius:21px;
-
-  background:
-    rgba(255,250,240,.82);
-
-  box-shadow:
-    0 13px 36px
-    rgba(7,8,23,.065);
-}
-
-.panel-heading{
-
-  display:flex;
-
-  align-items:center;
-
-  justify-content:space-between;
-
-  gap:12px;
-
-  margin-bottom:16px;
-}
-
-.panel-title{
-
-  color:
-    var(--royal-850);
-
-  font-size:16px;
-
-  font-weight:950;
-}
-
-.panel-link{
-
-  color:
-    var(--burgundy);
-
-  font-size:10px;
-
-  font-weight:950;
-
-  text-decoration:none;
-}
-
-.activity-list{
-
-  display:grid;
-
-  gap:10px;
-}
-
-.activity{
-
-  display:flex;
-
-  align-items:flex-start;
-
-  gap:12px;
-
-  padding:14px;
-
-  border:
-    1px solid
-    rgba(10,14,36,.08);
-
-  border-radius:15px;
-
-  background:
-    rgba(255,255,255,.52);
-}
-
-.activity-icon{
-
-  flex:0 0 auto;
-
-  width:39px;
-  height:39px;
-
-  display:flex;
-
-  align-items:center;
-
   justify-content:center;
 
   border-radius:12px;
@@ -966,108 +580,63 @@ a{
       var(--burgundy)
     );
 
-  font-size:15px;
+  font-weight:950;
 }
 
-.activity-body{
-
-  min-width:0;
-
-  flex:1;
-}
-
-.activity-title{
+.stat-value{
+  margin-top:12px;
 
   color:
     var(--royal-850);
 
-  font-size:11px;
+  font-size:25px;
+
+  line-height:1;
 
   font-weight:950;
 }
 
-.activity-text{
-
-  margin-top:4px;
+.stat-label{
+  margin-top:7px;
 
   color:var(--muted);
 
-  font-size:10px;
-
-  line-height:1.55;
-}
-
-.activity-time{
-
-  margin-top:5px;
-
-  color:#9a9cab;
-
-  font-size:8px;
-}
-
-.activity-status{
-
-  flex:0 0 auto;
-
-  padding:
-    6px 8px;
-
-  border-radius:999px;
-
-  font-size:8px;
+  font-size:9px;
 
   font-weight:950;
 
+  letter-spacing:.08em;
+
   text-transform:uppercase;
-}
-
-.activity-status.success{
-
-  color:#24614e;
-
-  background:#dceee7;
-}
-
-.activity-status.pending{
-
-  color:#916d2c;
-
-  background:#f4e8c8;
-}
-
-.activity-status.info{
-
-  color:#314c88;
-
-  background:#e1e7f5;
 }
 
 /* =========================================================
    QUICK ACTIONS
 ========================================================= */
 
-.quick-actions{
-
+.actions-grid{
   display:grid;
 
   grid-template-columns:
-    repeat(2,minmax(0,1fr));
+    repeat(3,minmax(0,1fr));
 
-  gap:10px;
+  gap:11px;
+
+  margin-top:19px;
 }
 
-.quick-action{
-
-  min-height:96px;
-
+.action{
   display:flex;
 
-  flex-direction:column;
+  align-items:center;
 
-  justify-content:space-between;
+  gap:11px;
 
-  padding:15px;
+  min-height:68px;
+
+  padding:12px;
+
+  text-decoration:none;
 
   border:
     1px solid
@@ -1075,64 +644,59 @@ a{
 
   border-radius:16px;
 
-  color:var(--ink);
-
-  text-decoration:none;
-
   background:
-    rgba(255,255,255,.55);
+    rgba(255,255,255,.60);
 
-  transition:
-    transform .2s ease,
-    box-shadow .2s ease;
+  transition:.2s ease;
 }
 
-.quick-action:hover{
+.action:hover{
+  transform:translateY(-3px);
 
-  transform:
-    translateY(-3px);
+  border-color:
+    rgba(38,63,120,.20);
+
+  background:#fff;
 
   box-shadow:
-    0 14px 32px
-    rgba(7,8,23,.09);
+    0 10px 25px
+    rgba(7,8,23,.06);
 }
 
-.quick-action-icon{
+.action-icon{
+  width:39px;
+  height:39px;
 
-  width:35px;
-  height:35px;
+  flex:0 0 auto;
 
   display:flex;
 
   align-items:center;
-
   justify-content:center;
 
-  border-radius:10px;
+  border-radius:12px;
 
   color:#fff;
 
   background:
     linear-gradient(
       135deg,
-      var(--sapphire),
-      var(--burgundy)
+      #171d3d,
+      #405e9d
     );
 }
 
-.quick-action-title{
-
-  margin-top:11px;
+.action strong{
+  display:block;
 
   color:
     var(--royal-850);
 
   font-size:10px;
-
-  font-weight:950;
 }
 
-.quick-action-text{
+.action span{
+  display:block;
 
   margin-top:3px;
 
@@ -1142,326 +706,222 @@ a{
 }
 
 /* =========================================================
-   BOOKING CARD
+   CURRENT REQUEST
 ========================================================= */
 
-.booking-card{
+.request-box{
+  margin-top:19px;
 
-  position:relative;
+  padding:19px;
 
-  overflow:hidden;
-
-  padding:21px;
-
-  border-radius:20px;
-
-  color:#fff;
-
-  background:
-
-    radial-gradient(
-      circle at 95% 5%,
-      rgba(231,201,130,.23),
-      transparent 27%
-    ),
-
-    linear-gradient(
-      135deg,
-      #090b1d,
-      #263f78 55%,
-      #651f35
-    );
-
-  box-shadow:
-    0 20px 50px
-    rgba(7,8,23,.18);
-}
-
-.booking-card:after{
-
-  content:"";
-
-  position:absolute;
-
-  width:170px;
-  height:170px;
-
-  right:-95px;
-  bottom:-95px;
-
-  border-radius:50%;
+  border-radius:18px;
 
   border:
     1px solid
-    rgba(243,223,170,.20);
+    var(--border);
+
+  background:
+    rgba(255,255,255,.56);
 }
 
-.booking-label{
+.request-top{
+  display:flex;
 
+  justify-content:space-between;
+
+  gap:14px;
+
+  align-items:flex-start;
+}
+
+.request-id{
   color:
-    var(--champagne-2);
+    var(--champagne-3);
 
   font-size:9px;
 
   font-weight:950;
 
-  letter-spacing:.15em;
+  letter-spacing:.10em;
 
   text-transform:uppercase;
 }
 
-.booking-title{
-
-  margin-top:8px;
-
-  font-size:20px;
-
-  font-weight:950;
-}
-
-.booking-property{
-
+.request-name{
   margin-top:5px;
 
   color:
-    rgba(255,255,255,.63);
+    var(--royal-850);
 
-  font-size:10px;
-}
-
-.booking-meta{
-
-  display:grid;
-
-  grid-template-columns:
-    repeat(2,minmax(0,1fr));
-
-  gap:8px;
-
-  margin-top:17px;
-}
-
-.booking-meta-item{
-
-  padding:10px;
-
-  border-radius:12px;
-
-  background:
-    rgba(255,255,255,.07);
-
-  border:
-    1px solid
-    rgba(255,255,255,.09);
-}
-
-.booking-meta-label{
-
-  color:
-    rgba(255,255,255,.45);
-
-  font-size:8px;
-
-  text-transform:uppercase;
-}
-
-.booking-meta-value{
-
-  margin-top:4px;
-
-  font-size:10px;
+  font-size:17px;
 
   font-weight:950;
 }
 
-.booking-card .ghar-btn{
+.status-pill{
+  display:inline-flex;
 
-  margin-top:15px;
+  align-items:center;
+
+  padding:6px 9px;
+
+  border-radius:999px;
+
+  font-size:8px;
+
+  font-weight:950;
+
+  letter-spacing:.06em;
+
+  text-transform:uppercase;
+}
+
+.status-active{
+  color:#205844;
+  background:#dceee7;
+}
+
+.status-pending{
+  color:#765b18;
+  background:#f4e5b9;
+}
+
+.status-closed{
+  color:#7a3344;
+  background:#f2dfe4;
+}
+
+.request-meta{
+  display:flex;
+
+  flex-wrap:wrap;
+
+  gap:7px;
+
+  margin-top:12px;
+}
+
+.meta-pill{
+  padding:6px 9px;
+
+  border-radius:999px;
+
+  color:#626675;
+
+  background:#eee6d8;
+
+  font-size:8px;
+
+  font-weight:900;
+}
+
+.request-footer{
+  display:flex;
+
+  align-items:center;
+
+  justify-content:space-between;
+
+  gap:12px;
+
+  margin-top:17px;
+
+  padding-top:14px;
+
+  border-top:
+    1px solid
+    var(--border);
+}
+
+.request-date{
+  color:#8a8d99;
+
+  font-size:9px;
 }
 
 /* =========================================================
-   SHORTLISTED PROPERTY CARDS
+   PROPERTY CARDS
 ========================================================= */
 
 .property-grid{
-
   display:grid;
 
   grid-template-columns:
     repeat(3,minmax(0,1fr));
 
-  gap:14px;
+  gap:13px;
+
+  margin-top:19px;
 }
 
 .property-card{
-
   overflow:hidden;
 
   border:
-    1px solid var(--border);
+    1px solid
+    var(--border);
 
-  border-radius:19px;
+  border-radius:18px;
 
   background:
-    rgba(255,250,240,.90);
+    rgba(255,255,255,.63);
 
-  box-shadow:
-    0 12px 30px
-    rgba(7,8,23,.06);
-
-  transition:
-    transform .2s ease,
-    box-shadow .2s ease;
+  transition:.2s ease;
 }
 
 .property-card:hover{
-
-  transform:
-    translateY(-4px);
+  transform:translateY(-3px);
 
   box-shadow:
-    0 22px 46px
-    rgba(7,8,23,.12);
+    0 15px 35px
+    rgba(7,8,23,.08);
 }
 
 .property-image{
-
-  position:relative;
-
-  height:155px;
+  min-height:145px;
 
   display:flex;
 
   align-items:center;
-
   justify-content:center;
-
-  color:rgba(255,255,255,.75);
-
-  font-size:37px;
-
-  background:
-
-    radial-gradient(
-      circle at 80% 20%,
-      rgba(231,201,130,.25),
-      transparent 27%
-    ),
-
-    linear-gradient(
-      135deg,
-      #111735,
-      #263f78,
-      #651f35
-    );
-}
-
-.property-image.two{
-
-  background:
-    radial-gradient(
-      circle at 15% 20%,
-      rgba(231,201,130,.22),
-      transparent 30%
-    ),
-    linear-gradient(
-      135deg,
-      #651f35,
-      #3b1930,
-      #111735
-    );
-}
-
-.property-image.three{
-
-  background:
-    radial-gradient(
-      circle at 85% 15%,
-      rgba(231,201,130,.22),
-      transparent 30%
-    ),
-    linear-gradient(
-      135deg,
-      #405e9d,
-      #171d3d,
-      #651f35
-    );
-}
-
-.property-badge{
-
-  position:absolute;
-
-  top:11px;
-  left:11px;
-
-  padding:
-    6px 8px;
-
-  border-radius:999px;
-
-  color:#18130a;
-
-  background:
-    var(--champagne-2);
-
-  font-size:8px;
-
-  font-weight:950;
-
-  text-transform:uppercase;
-}
-
-.property-heart{
-
-  position:absolute;
-
-  top:9px;
-  right:9px;
-
-  width:31px;
-  height:31px;
-
-  display:flex;
-
-  align-items:center;
-
-  justify-content:center;
-
-  border-radius:50%;
 
   color:#fff;
 
+  font-size:31px;
+
   background:
-    rgba(7,8,23,.35);
-
-  border:
-    1px solid
-    rgba(255,255,255,.13);
+    radial-gradient(
+      circle at 20% 20%,
+      rgba(231,201,130,.35),
+      transparent 30%
+    ),
+    linear-gradient(
+      135deg,
+      #10152e,
+      #405e9d,
+      #651f35
+    );
 }
 
-.property-body{
-
-  padding:15px;
+.property-content{
+  padding:14px;
 }
 
-.property-type{
-
+.property-tag{
   color:
-    var(--burgundy);
+    var(--champagne-3);
 
   font-size:8px;
 
   font-weight:950;
 
-  letter-spacing:.12em;
+  letter-spacing:.1em;
 
   text-transform:uppercase;
 }
 
 .property-title{
-
-  margin-top:5px;
+  margin-top:6px;
 
   color:
     var(--royal-850);
@@ -1472,165 +932,396 @@ a{
 }
 
 .property-location{
-
-  margin-top:4px;
+  margin-top:5px;
 
   color:var(--muted);
 
   font-size:9px;
 }
 
-.property-details{
-
-  display:flex;
-
-  flex-wrap:wrap;
-
-  gap:7px;
-
-  margin-top:11px;
-
-  color:#626575;
-
-  font-size:8px;
-}
-
 .property-price{
-
-  margin-top:13px;
+  margin-top:10px;
 
   color:
     var(--royal-850);
 
-  font-size:16px;
+  font-size:15px;
 
   font-weight:950;
 }
 
-.property-footer{
-
+.property-meta{
   display:flex;
 
-  align-items:center;
+  flex-wrap:wrap;
 
-  justify-content:space-between;
+  gap:5px;
 
-  gap:8px;
-
-  margin-top:12px;
+  margin-top:8px;
 }
 
-/* =========================================================
-   PROGRESS
-========================================================= */
-
-.progress-wrap{
-
-  margin-top:15px;
-}
-
-.progress-head{
-
-  display:flex;
-
-  align-items:center;
-
-  justify-content:space-between;
-
-  color:var(--muted);
-
-  font-size:9px;
-}
-
-.progress-bar{
-
-  height:7px;
-
-  margin-top:7px;
-
-  overflow:hidden;
+.property-meta span{
+  padding:5px 7px;
 
   border-radius:999px;
 
-  background:#e8dfcf;
+  background:#eee6d8;
+
+  color:#646877;
+
+  font-size:7px;
+
+  font-weight:900;
 }
 
-.progress-fill{
+/* =========================================================
+   ACTIVITY
+========================================================= */
 
+.activity-list{
+  display:grid;
+
+  gap:10px;
+
+  margin-top:19px;
+}
+
+.activity{
+  display:grid;
+
+  grid-template-columns:
+    38px 1fr auto;
+
+  gap:11px;
+
+  align-items:center;
+
+  padding:13px;
+
+  border-radius:15px;
+
+  border:
+    1px solid
+    var(--border);
+
+  background:
+    rgba(255,255,255,.55);
+}
+
+.activity-icon{
+  width:38px;
+  height:38px;
+
+  display:flex;
+
+  align-items:center;
+  justify-content:center;
+
+  border-radius:12px;
+
+  color:#fff;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--sapphire),
+      var(--burgundy)
+    );
+}
+
+.activity-title{
+  color:
+    var(--royal-850);
+
+  font-size:10px;
+
+  font-weight:950;
+}
+
+.activity-description{
+  margin-top:3px;
+
+  color:var(--muted);
+
+  font-size:8px;
+
+  line-height:1.45;
+}
+
+.activity-time{
+  color:#8a8d99;
+
+  font-size:8px;
+
+  white-space:nowrap;
+}
+
+/* =========================================================
+   SIDEBAR CARDS
+========================================================= */
+
+.side-card{
+  padding:23px;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:24px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,250,240,.94),
+      rgba(242,232,211,.82)
+    );
+
+  box-shadow:
+    var(--shadow-soft);
+}
+
+.side-title{
+  margin:6px 0 0;
+
+  font-size:21px;
+
+  line-height:1.15;
+
+  color:
+    var(--royal-850);
+
+  letter-spacing:-.025em;
+}
+
+/* =========================================================
+   PROFILE COMPLETION
+========================================================= */
+
+.profile-progress{
+  margin-top:17px;
+
+  padding:16px;
+
+  border-radius:16px;
+
+  border:
+    1px solid
+    var(--border);
+
+  background:
+    rgba(255,255,255,.56);
+}
+
+.progress-head{
+  display:flex;
+
+  align-items:center;
+
+  justify-content:space-between;
+}
+
+.progress-title{
+  color:
+    var(--royal-850);
+
+  font-size:10px;
+
+  font-weight:950;
+}
+
+.progress-value{
+  color:var(--muted);
+
+  font-size:9px;
+
+  font-weight:900;
+}
+
+.progress{
+  height:7px;
+
+  overflow:hidden;
+
+  margin-top:10px;
+
+  border-radius:999px;
+
+  background:#e4dac9;
+}
+
+.progress-bar{
   width:72%;
 
   height:100%;
 
-  border-radius:inherit;
+  border-radius:999px;
 
   background:
     linear-gradient(
       90deg,
       var(--sapphire),
-      var(--champagne-3)
+      var(--champagne-3),
+      var(--burgundy)
     );
 }
 
-/* =========================================================
-   EMPTY / INFO
-========================================================= */
-
-.info-box{
-
-  padding:18px;
-
-  border-radius:17px;
-
-  border:
-    1px dashed
-    rgba(38,63,120,.18);
+.profile-message{
+  margin-top:11px;
 
   color:var(--muted);
+
+  font-size:9px;
+
+  line-height:1.55;
+}
+
+/* =========================================================
+   WORKFLOW
+========================================================= */
+
+.workflow{
+  display:grid;
+
+  gap:9px;
+
+  margin-top:17px;
+}
+
+.workflow-item{
+  display:flex;
+
+  align-items:center;
+
+  gap:10px;
+
+  padding:10px;
+
+  border-radius:13px;
+
+  background:
+    rgba(255,255,255,.52);
+}
+
+.workflow-number{
+  width:28px;
+  height:28px;
+
+  display:flex;
+
+  align-items:center;
+  justify-content:center;
+
+  flex:0 0 auto;
+
+  border-radius:50%;
+
+  color:#18130a;
 
   background:
     linear-gradient(
       135deg,
-      rgba(38,63,120,.045),
-      rgba(101,31,53,.045)
+      #ead39a,
+      #b88639
     );
 
   font-size:10px;
 
-  line-height:1.65;
+  font-weight:950;
+}
+
+.workflow-item strong{
+  display:block;
+
+  color:
+    var(--royal-850);
+
+  font-size:9px;
+}
+
+.workflow-item span{
+  display:block;
+
+  margin-top:2px;
+
+  color:var(--muted);
+
+  font-size:8px;
 }
 
 /* =========================================================
-   CTA
+   UPCOMING
 ========================================================= */
 
-.cta{
+.schedule-list{
+  display:grid;
 
-  position:relative;
+  gap:10px;
 
-  overflow:hidden;
+  margin-top:17px;
+}
 
-  margin-top:24px;
+.schedule{
+  padding:13px;
 
-  padding:34px;
+  border-radius:15px;
 
-  border-radius:27px;
-
-  color:#fff;
+  border:
+    1px solid
+    var(--border);
 
   background:
+    rgba(255,255,255,.56);
+}
 
+.schedule-date{
+  color:
+    var(--champagne-3);
+
+  font-size:8px;
+
+  font-weight:950;
+
+  letter-spacing:.1em;
+
+  text-transform:uppercase;
+}
+
+.schedule-title{
+  margin-top:5px;
+
+  color:
+    var(--royal-850);
+
+  font-size:11px;
+
+  font-weight:950;
+}
+
+.schedule-meta{
+  margin-top:4px;
+
+  color:var(--muted);
+
+  font-size:8px;
+}
+
+/* =========================================================
+   SUPPORT
+========================================================= */
+
+.support{
+  color:#fff;
+
+  padding:23px;
+
+  border-radius:24px;
+
+  background:
     radial-gradient(
-      circle at 90% 20%,
+      circle at 90% 10%,
       rgba(231,201,130,.25),
-      transparent 25%
+      transparent 28%
     ),
-
-    radial-gradient(
-      circle at 10% 90%,
-      rgba(139,49,75,.24),
-      transparent 30%
-    ),
-
     linear-gradient(
       135deg,
       #090b1d,
@@ -1639,82 +1330,49 @@ a{
     );
 
   box-shadow:
-    0 25px 65px
-    rgba(7,8,23,.20);
+    var(--shadow-soft);
 }
 
-.cta-content{
+.support h3{
+  margin:7px 0 0;
 
-  position:relative;
-
-  z-index:2;
-
-  display:flex;
-
-  align-items:center;
-
-  justify-content:space-between;
-
-  gap:25px;
+  font-size:23px;
 }
 
-.cta h2{
-
-  margin:0;
-
-  font-size:
-    clamp(25px,4vw,38px);
-
-  letter-spacing:-.035em;
-}
-
-.cta p{
-
-  max-width:680px;
-
-  margin:9px 0 0;
+.support p{
+  margin:9px 0 17px;
 
   color:
-    rgba(255,255,255,.68);
+    rgba(255,255,255,.65);
 
-  font-size:12px;
+  font-size:10px;
 
   line-height:1.65;
 }
 
-.cta-actions{
-
-  display:flex;
-
-  flex-wrap:wrap;
-
-  gap:9px;
+.support .btn{
+  width:100%;
 }
 
 /* =========================================================
    FOOTER
 ========================================================= */
 
-.buyer-footer{
-
+.footer{
   margin-top:24px;
 
-  padding:
-    45px 22px;
+  padding:43px 22px;
 
-  border-radius:
-    27px 27px 0 0;
+  border-radius:27px 27px 0 0;
 
   color:#fff;
 
   background:
-
     radial-gradient(
       circle at 85% 10%,
       rgba(231,201,130,.17),
       transparent 25%
     ),
-
     linear-gradient(
       135deg,
       #070817,
@@ -1724,7 +1382,6 @@ a{
 }
 
 .footer-grid{
-
   width:min(
     1480px,
     100%
@@ -1742,16 +1399,14 @@ a{
 }
 
 .footer-logo{
-
   font-size:25px;
 
   font-weight:950;
 
-  letter-spacing:.10em;
+  letter-spacing:.1em;
 }
 
 .footer-description{
-
   max-width:390px;
 
   color:
@@ -1765,7 +1420,6 @@ a{
 }
 
 .footer-title{
-
   font-size:12px;
 
   font-weight:950;
@@ -1775,7 +1429,6 @@ a{
 }
 
 .footer-links{
-
   margin-top:12px;
 
   line-height:2;
@@ -1787,25 +1440,21 @@ a{
 }
 
 .footer-links a{
-
   text-decoration:none;
 }
 
 .footer-links a:hover{
-
   color:
     var(--champagne-2);
 }
 
 .footer-bottom{
-
   width:min(
     1480px,
     100%
   );
 
-  margin:
-    28px auto 0;
+  margin:28px auto 0;
 
   padding-top:18px;
 
@@ -1824,7 +1473,6 @@ a{
 ========================================================= */
 
 .ai-launcher{
-
   position:fixed;
 
   right:22px;
@@ -1846,7 +1494,6 @@ a{
   font-size:23px;
 
   background:
-
     radial-gradient(
       circle at 30% 20%,
       #405e9d,
@@ -1861,14 +1508,12 @@ a{
 }
 
 .ai-launcher:hover{
-
   transform:
     translateY(-3px)
     scale(1.03);
 }
 
 .ai-panel{
-
   position:fixed;
 
   right:22px;
@@ -1905,12 +1550,10 @@ a{
 }
 
 .ai-panel.open{
-
   display:flex;
 }
 
 .ai-head{
-
   padding:17px;
 
   display:flex;
@@ -1922,13 +1565,11 @@ a{
   color:#fff;
 
   background:
-
     radial-gradient(
       circle at 90% 10%,
       rgba(231,201,130,.25),
       transparent 30%
     ),
-
     linear-gradient(
       135deg,
       #070817,
@@ -1938,14 +1579,12 @@ a{
 }
 
 .ai-title{
-
   font-weight:950;
 
   letter-spacing:.03em;
 }
 
 .ai-sub{
-
   margin-top:3px;
 
   color:
@@ -1955,7 +1594,6 @@ a{
 }
 
 .ai-close{
-
   width:35px;
   height:35px;
 
@@ -1972,8 +1610,8 @@ a{
 }
 
 .ai-messages{
-
   min-height:300px;
+
   max-height:440px;
 
   overflow:auto;
@@ -1982,7 +1620,6 @@ a{
 }
 
 .ai-msg{
-
   margin-bottom:9px;
 
   padding:
@@ -1996,23 +1633,18 @@ a{
 }
 
 .ai-msg.bot{
-
-  background:
-    #eee5d4;
+  background:#eee5d4;
 }
 
 .ai-msg.user{
-
   margin-left:28px;
 
   color:#fff;
 
-  background:
-    #171d3d;
+  background:#171d3d;
 }
 
 .ai-form{
-
   display:flex;
 
   gap:8px;
@@ -2020,17 +1652,18 @@ a{
   padding:12px;
 
   border-top:
-    1px solid var(--border);
+    1px solid
+    var(--border);
 }
 
 .ai-form input{
-
   flex:1;
 
   min-width:0;
 
   border:
-    1px solid var(--border);
+    1px solid
+    var(--border);
 
   border-radius:12px;
 
@@ -2043,7 +1676,6 @@ a{
 }
 
 .ai-form button{
-
   border:0;
 
   border-radius:12px;
@@ -2067,1757 +1699,1220 @@ a{
    RESPONSIVE
 ========================================================= */
 
-@media (max-width:1200px){
+@media(max-width:1150px){
+
+  .main-grid{
+    grid-template-columns:1fr;
+  }
 
   .stats-grid{
-
     grid-template-columns:
-      repeat(3,minmax(0,1fr));
+      repeat(4,minmax(0,1fr));
+  }
+
+}
+
+@media(max-width:900px){
+
+  .hero{
+    padding:31px;
+  }
+
+  .hero-inner{
+    grid-template-columns:1fr;
+  }
+
+  .buyer-orbit{
+    justify-self:start;
   }
 
   .property-grid{
-
     grid-template-columns:
       repeat(2,minmax(0,1fr));
   }
 
-}
-
-@media (max-width:1050px){
-
-  .dashboard-hero-inner{
-
-    grid-template-columns:
-      1fr 310px;
-  }
-
-  .dashboard-grid{
-
-    grid-template-columns:1fr;
-  }
-
-}
-
-@media (max-width:900px){
-
-  .dashboard-hero{
-
-    padding:29px;
-
-    min-height:auto;
-  }
-
-  .dashboard-hero-inner{
-
-    grid-template-columns:1fr;
-  }
-
-  .profile-card{
-
-    max-width:480px;
-  }
-
-  .stats-grid{
-
+  .actions-grid{
     grid-template-columns:
       repeat(2,minmax(0,1fr));
   }
 
   .footer-grid{
-
     grid-template-columns:
       repeat(2,minmax(0,1fr));
   }
 
-  .cta-content{
-
-    align-items:flex-start;
-
-    flex-direction:column;
-  }
-
 }
 
-@media (max-width:650px){
+@media(max-width:650px){
 
   .buyer-dashboard-page{
-
     width:
       calc(100% - 20px);
 
     padding-top:20px;
   }
 
-  .dashboard-hero{
-
-    padding:23px;
+  .hero{
+    padding:24px;
 
     border-radius:24px;
   }
 
-  .dashboard-title{
-
+  .hero h1{
     font-size:39px;
   }
 
-  .section{
+  .buyer-orbit{
+    width:185px;
+    height:185px;
+  }
 
+  .buyer-icon{
+    width:75px;
+    height:75px;
+    font-size:28px;
+  }
+
+  .section{
     padding:21px;
   }
 
-  .property-grid{
+  .stats-grid{
+    grid-template-columns:
+      repeat(2,minmax(0,1fr));
+  }
 
+  .property-grid{
     grid-template-columns:1fr;
   }
 
-  .quick-actions{
-
-    grid-template-columns:
-      1fr 1fr;
+  .request-top{
+    flex-direction:column;
   }
 
-  .cta{
+  .activity{
+    grid-template-columns:
+      38px 1fr;
+  }
 
-    padding:25px;
+  .activity-time{
+    grid-column:2;
+  }
+
+  .footer-grid{
+    grid-template-columns:1fr;
   }
 
 }
 
-@media (max-width:520px){
+@media(max-width:520px){
 
-  .stats-grid{
-
-    grid-template-columns:
-      1fr 1fr;
-
-    gap:9px;
-  }
-
-  .stat-card{
-
-    padding:14px;
-
-    min-height:130px;
-  }
-
-  .stat-value{
-
-    font-size:20px;
-  }
-
-  .dashboard-title{
-
+  .hero h1{
     font-size:34px;
   }
 
-  .dashboard-description{
-
-    font-size:12px;
-  }
-
-  .dashboard-actions{
-
+  .hero-actions{
     width:100%;
   }
 
-  .dashboard-actions .ghar-btn{
-
+  .hero-actions .btn{
     flex:1;
   }
 
-  .booking-meta{
-
-    grid-template-columns:
-      1fr 1fr;
-  }
-
-  .activity{
-
-    align-items:flex-start;
-  }
-
-  .activity-status{
-
-    display:none;
-  }
-
-  .footer-grid{
-
+  .actions-grid{
     grid-template-columns:1fr;
   }
 
-  .ai-launcher{
+  .form-actions{
+    flex-direction:column;
+  }
 
+  .ai-launcher{
     right:14px;
     bottom:14px;
   }
 
   .ai-panel{
-
     right:10px;
     bottom:10px;
   }
 
 }
 
-@media (max-width:380px){
+@media(max-width:380px){
 
-  .dashboard-hero{
-
-    padding:19px;
+  .hero{
+    padding:20px;
   }
 
-  .dashboard-title{
-
+  .hero h1{
     font-size:30px;
   }
 
-  .quick-actions{
-
+  .stats-grid{
     grid-template-columns:1fr;
   }
 
 }
-
-/* =========================================================
-   REDUCED MOTION
-========================================================= */
-
-@media(prefers-reduced-motion:reduce){
-
-  *{
-
-    scroll-behavior:auto !important;
-
-    transition:none !important;
-  }
-
-}
-
 </style>
-
 </head>
-
 
 <body
   data-root="../"
-  data-page="buyer-dashboard">
-
-
-<!-- =======================================================
-     SHARED HEADER
-======================================================== -->
+  data-page="buyer-dashboard"
+>
 
 <div data-site-header></div>
 
-
 <main class="buyer-dashboard-page">
 
-
 <!-- =======================================================
-     DASHBOARD HERO
+     HERO
 ======================================================== -->
 
-<section class="dashboard-hero">
+<section class="hero">
 
-  <div class="dashboard-hero-inner">
+<div class="hero-inner">
 
+<div>
 
-    <div>
+<div class="eyebrow">
+GHAR · BUYER WORKSPACE
+</div>
 
-      <div class="eyebrow">
-        GHAR · BUYER WORKSPACE
-      </div>
+<h1>
+Welcome back to your GHAR.
+</h1>
 
-      <h1 class="dashboard-title">
-        Welcome back,
-        <br>
-        <span id="buyerName">Buyer</span>.
-      </h1>
+<p>
+Manage your property requirements, discover homes,
+track enquiries, review offers, schedule visits and
+communicate securely from one buyer workspace.
+</p>
 
-      <p class="dashboard-description">
+<div class="hero-actions">
 
-        Manage your property journey from one
-        connected workspace -- discover homes,
-        shortlist properties, schedule visits,
-        track enquiries, manage offers and continue
-        toward your next GHAR.
+<a
+  class="btn primary"
+  href="property-search.html"
+>
+Find Properties
+</a>
 
-      </p>
+<a
+  class="btn secondary"
+  href="request.html"
+>
+Create Property Request
+</a>
 
+</div>
 
-      <div class="dashboard-actions">
-
-        <a
-          class="ghar-btn primary"
-          href="property-search.html">
-
-          ⌕ &nbsp; Find Property
-
-        </a>
-
-        <a
-          class="ghar-btn secondary"
-          href="booking.html">
-
-          ◷ &nbsp; My Bookings
-
-        </a>
-
-        <a
-          class="ghar-btn secondary"
-          href="shortlisted.html">
-
-          ♡ &nbsp; Shortlisted
-
-        </a>
-
-      </div>
-
-    </div>
+</div>
 
 
-    <!-- PROFILE -->
+<div class="buyer-orbit">
 
-    <div class="profile-card">
+<div>
 
-      <div class="profile-top">
+<div class="buyer-icon">
+⌂
+</div>
 
-        <div
-          class="profile-avatar"
-          id="buyerAvatar">
+<div class="buyer-orbit-title">
+Buyer Dashboard
+</div>
 
-          B
+<div class="buyer-orbit-sub">
+YOUR GHAR WORKSPACE
+</div>
 
-        </div>
+</div>
 
-        <div>
+</div>
 
-          <div
-            class="profile-name"
-            id="buyerProfileName">
-
-            Buyer Account
-
-          </div>
-
-          <div class="profile-role">
-            GHAR BUYER
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <div class="profile-status">
-
-        <div class="profile-status-text">
-          Account status
-        </div>
-
-        <div class="status-badge">
-
-          <span class="status-dot"></span>
-
-          Active
-
-        </div>
-
-      </div>
-
-
-      <a
-        href="profile.html"
-        class="ghar-btn primary"
-        style="
-          width:100%;
-          margin-top:15px;
-        ">
-
-        Manage Profile
-
-      </a>
-
-    </div>
-
-
-  </div>
+</div>
 
 </section>
 
 
 <!-- =======================================================
-     BUYER STATS
+     MAIN
 ======================================================== -->
+
+<div class="main-grid">
+
+<div class="left-column">
+
+<!-- =====================================================
+     OVERVIEW
+===================================================== -->
 
 <section class="section">
 
-  <div class="section-heading">
+<div class="section-eyebrow">
+BUYER OVERVIEW
+</div>
 
-    <div>
+<h2 class="section-title">
+Your property journey.
+</h2>
 
-      <div class="section-eyebrow">
-        YOUR ACTIVITY
-      </div>
+<p class="section-description">
+A consolidated view of your current GHAR buyer activity.
+</p>
 
-      <h2 class="section-title">
-        Your property journey at a glance.
-      </h2>
 
-      <p class="section-description">
+<div class="stats-grid">
 
-        A quick overview of your current buyer
-        activity across GHAR.
+<div class="stat-card">
 
-      </p>
+<div class="stat-icon">
+⌂
+</div>
 
-    </div>
+<div
+  class="stat-value"
+  id="statRequests"
+>
+0
+</div>
 
-  </div>
-
-
-  <div class="stats-grid">
-
-
-    <article class="stat-card">
-
-      <div class="stat-icon">
-        ♡
-      </div>
-
-      <div class="stat-label">
-        Shortlisted
-      </div>
-
-      <div
-        class="stat-value"
-        id="shortlistedCount">
-
-        12
-
-      </div>
-
-      <a
-        href="shortlisted.html"
-        class="stat-link">
-
-        View shortlist →
-
-      </a>
-
-    </article>
-
-
-    <article class="stat-card">
-
-      <div class="stat-icon">
-        ◎
-      </div>
-
-      <div class="stat-label">
-        Enquiries
-      </div>
-
-      <div
-        class="stat-value"
-        id="enquiryCount">
-
-        05
-
-      </div>
-
-      <a
-        href="enquiries.html"
-        class="stat-link">
-
-        View enquiries →
-
-      </a>
-
-    </article>
-
-
-    <article class="stat-card">
-
-      <div class="stat-icon">
-        ◷
-      </div>
-
-      <div class="stat-label">
-        Visits
-      </div>
-
-      <div
-        class="stat-value"
-        id="visitCount">
-
-        03
-
-      </div>
-
-      <a
-        href="booking.html"
-        class="stat-link">
-
-        View bookings →
-
-      </a>
-
-    </article>
-
-
-    <article class="stat-card">
-
-      <div class="stat-icon">
-        ⇄
-      </div>
-
-      <div class="stat-label">
-        Offers
-      </div>
-
-      <div
-        class="stat-value"
-        id="offerCount">
-
-        02
-
-      </div>
-
-      <a
-        href="offers.html"
-        class="stat-link">
-
-        View offers →
-
-      </a>
-
-    </article>
-
-
-    <article class="stat-card">
-
-      <div class="stat-icon">
-        ✓
-      </div>
-
-      <div class="stat-label">
-        Completed
-      </div>
-
-      <div
-        class="stat-value"
-        id="completedCount">
-
-        01
-
-      </div>
-
-      <a
-        href="transactions.html"
-        class="stat-link">
-
-        Transactions →
-
-      </a>
-
-    </article>
-
-
-  </div>
-
-</section>
-
-
-<!-- =======================================================
-     MAIN DASHBOARD
-======================================================== -->
-
-<section class="dashboard-grid">
-
-
-<!-- =====================================================
-     LEFT COLUMN
-===================================================== -->
-
-<div>
-
-
-  <!-- RECENT ACTIVITY -->
-
-  <div class="panel">
-
-    <div class="panel-heading">
-
-      <div>
-
-        <div class="section-eyebrow">
-          RECENT ACTIVITY
-        </div>
-
-        <div class="panel-title">
-          What is happening with your properties?
-        </div>
-
-      </div>
-
-      <a
-        href="activity.html"
-        class="panel-link">
-
-        View all →
-
-      </a>
-
-    </div>
-
-
-    <div class="activity-list">
-
-
-      <div class="activity">
-
-        <div class="activity-icon">
-          ◷
-        </div>
-
-        <div class="activity-body">
-
-          <div class="activity-title">
-            Property visit scheduled
-          </div>
-
-          <div class="activity-text">
-
-            Your viewing for
-            <strong>Skyline Residences</strong>
-            has been scheduled.
-
-          </div>
-
-          <div class="activity-time">
-            Today · 10:30 AM
-          </div>
-
-        </div>
-
-        <div class="activity-status success">
-          Confirmed
-        </div>
-
-      </div>
-
-
-      <div class="activity">
-
-        <div class="activity-icon">
-          ⇄
-        </div>
-
-        <div class="activity-body">
-
-          <div class="activity-title">
-            Offer submitted
-          </div>
-
-          <div class="activity-text">
-
-            Your offer has been submitted for
-            <strong>Royal Greens Villa</strong>.
-
-          </div>
-
-          <div class="activity-time">
-            Yesterday · 06:45 PM
-          </div>
-
-        </div>
-
-        <div class="activity-status pending">
-          Pending
-        </div>
-
-      </div>
-
-
-      <div class="activity">
-
-        <div class="activity-icon">
-          ♡
-        </div>
-
-        <div class="activity-body">
-
-          <div class="activity-title">
-            Property added to shortlist
-          </div>
-
-          <div class="activity-text">
-
-            <strong>Emerald Heights</strong>
-            was added to your shortlisted properties.
-
-          </div>
-
-          <div class="activity-time">
-            Yesterday · 03:15 PM
-          </div>
-
-        </div>
-
-        <div class="activity-status info">
-          Saved
-        </div>
-
-      </div>
-
-
-      <div class="activity">
-
-        <div class="activity-icon">
-          ◎
-        </div>
-
-        <div class="activity-body">
-
-          <div class="activity-title">
-            Enquiry received
-          </div>
-
-          <div class="activity-text">
-
-            A response was received regarding
-            your property enquiry.
-
-          </div>
-
-          <div class="activity-time">
-            2 days ago
-          </div>
-
-        </div>
-
-        <div class="activity-status success">
-          Replied
-        </div>
-
-      </div>
-
-
-    </div>
-
-  </div>
-
-
-  <!-- SHORTLISTED -->
-
-  <div class="panel" style="margin-top:18px">
-
-    <div class="panel-heading">
-
-      <div>
-
-        <div class="section-eyebrow">
-          SHORTLISTED PROPERTIES
-        </div>
-
-        <div class="panel-title">
-          Properties you are considering
-        </div>
-
-      </div>
-
-      <a
-        href="shortlisted.html"
-        class="panel-link">
-
-        View all →
-
-      </a>
-
-    </div>
-
-
-    <div class="property-grid">
-
-
-      <article class="property-card">
-
-        <div class="property-image">
-
-          <div class="property-badge">
-            Shortlisted
-          </div>
-
-          <div class="property-heart">
-            ♥
-          </div>
-
-          ▦
-
-        </div>
-
-
-        <div class="property-body">
-
-          <div class="property-type">
-            Apartment · 3 BHK
-          </div>
-
-          <div class="property-title">
-            Skyline Residences
-          </div>
-
-          <div class="property-location">
-            Sector 137 · Noida
-          </div>
-
-          <div class="property-details">
-
-            <span>3 Beds</span>
-            ·
-            <span>3 Baths</span>
-            ·
-            <span>1,850 sq.ft.</span>
-
-          </div>
-
-          <div class="property-price">
-            ₹1.35 Cr
-          </div>
-
-          <div class="property-footer">
-
-            <a
-              href="property-details.html?id=GHAR-P001"
-              class="ghar-btn dark small">
-
-              View
-
-            </a>
-
-            <a
-              href="booking.html?property=GHAR-P001"
-              class="ghar-btn burgundy small">
-
-              Visit
-
-            </a>
-
-          </div>
-
-        </div>
-
-      </article>
-
-
-      <article class="property-card">
-
-        <div class="property-image two">
-
-          <div class="property-badge">
-            Shortlisted
-          </div>
-
-          <div class="property-heart">
-            ♥
-          </div>
-
-          ⌂
-
-        </div>
-
-
-        <div class="property-body">
-
-          <div class="property-type">
-            Villa · 4 BHK
-          </div>
-
-          <div class="property-title">
-            Royal Greens Villa
-          </div>
-
-          <div class="property-location">
-            Sector 150 · Noida
-          </div>
-
-          <div class="property-details">
-
-            <span>4 Beds</span>
-            ·
-            <span>5 Baths</span>
-            ·
-            <span>3,100 sq.ft.</span>
-
-          </div>
-
-          <div class="property-price">
-            ₹2.85 Cr
-          </div>
-
-          <div class="property-footer">
-
-            <a
-              href="property-details.html?id=GHAR-P002"
-              class="ghar-btn dark small">
-
-              View
-
-            </a>
-
-            <a
-              href="booking.html?property=GHAR-P002"
-              class="ghar-btn burgundy small">
-
-              Visit
-
-            </a>
-
-          </div>
-
-        </div>
-
-      </article>
-
-
-      <article class="property-card">
-
-        <div class="property-image three">
-
-          <div class="property-badge">
-            Shortlisted
-          </div>
-
-          <div class="property-heart">
-            ♥
-          </div>
-
-          ◇
-
-        </div>
-
-
-        <div class="property-body">
-
-          <div class="property-type">
-            Independent Home · 4 BHK
-          </div>
-
-          <div class="property-title">
-            Emerald Heights
-          </div>
-
-          <div class="property-location">
-            Greater Noida West
-          </div>
-
-          <div class="property-details">
-
-            <span>4 Beds</span>
-            ·
-            <span>4 Baths</span>
-            ·
-            <span>2,650 sq.ft.</span>
-
-          </div>
-
-          <div class="property-price">
-            ₹1.95 Cr
-          </div>
-
-          <div class="property-footer">
-
-            <a
-              href="property-details.html?id=GHAR-P003"
-              class="ghar-btn dark small">
-
-              View
-
-            </a>
-
-            <a
-              href="booking.html?property=GHAR-P003"
-              class="ghar-btn burgundy small">
-
-              Visit
-
-            </a>
-
-          </div>
-
-        </div>
-
-      </article>
-
-
-    </div>
-
-  </div>
-
+<div class="stat-label">
+Requests
+</div>
 
 </div>
 
 
-<!-- =====================================================
-     RIGHT COLUMN
-===================================================== -->
+<div class="stat-card">
 
-<div>
+<div class="stat-icon">
+♥
+</div>
 
+<div
+  class="stat-value"
+  id="statSaved"
+>
+0
+</div>
 
-  <!-- NEXT BOOKING -->
+<div class="stat-label">
+Saved Properties
+</div>
 
-  <div class="booking-card">
+</div>
 
-    <div class="booking-label">
-      NEXT PROPERTY VISIT
-    </div>
 
-    <div class="booking-title">
-      Skyline Residences
-    </div>
+<div class="stat-card">
 
-    <div class="booking-property">
-      3 BHK Apartment · Sector 137, Noida
-    </div>
+<div class="stat-icon">
+?
+</div>
 
+<div
+  class="stat-value"
+  id="statEnquiries"
+>
+0
+</div>
 
-    <div class="booking-meta">
+<div class="stat-label">
+Enquiries
+</div>
 
-      <div class="booking-meta-item">
+</div>
 
-        <div class="booking-meta-label">
-          Date
-        </div>
 
-        <div class="booking-meta-value">
-          05 Oct 2026
-        </div>
+<div class="stat-card">
 
-      </div>
+<div class="stat-icon">
+₹
+</div>
 
+<div
+  class="stat-value"
+  id="statOffers"
+>
+0
+</div>
 
-      <div class="booking-meta-item">
+<div class="stat-label">
+Offers
+</div>
 
-        <div class="booking-meta-label">
-          Time
-        </div>
-
-        <div class="booking-meta-value">
-          11:30 AM
-        </div>
-
-      </div>
-
-
-      <div class="booking-meta-item">
-
-        <div class="booking-meta-label">
-          Booking ID
-        </div>
-
-        <div class="booking-meta-value">
-          GH-BK-10284
-        </div>
-
-      </div>
-
-
-      <div class="booking-meta-item">
-
-        <div class="booking-meta-label">
-          Status
-        </div>
-
-        <div class="booking-meta-value">
-          Confirmed
-        </div>
-
-      </div>
-
-    </div>
-
-
-    <a
-      href="booking-confirmation.html?id=GH-BK-10284"
-      class="ghar-btn primary">
-
-      View Booking
-
-    </a>
-
-  </div>
-
-
-  <!-- QUICK ACTIONS -->
-
-  <div class="panel" style="margin-top:18px">
-
-    <div class="panel-heading">
-
-      <div>
-
-        <div class="section-eyebrow">
-          QUICK ACTIONS
-        </div>
-
-        <div class="panel-title">
-          Continue your journey
-        </div>
-
-      </div>
-
-    </div>
-
-
-    <div class="quick-actions">
-
-
-      <a
-        href="property-search.html"
-        class="quick-action">
-
-        <div class="quick-action-icon">
-          ⌕
-        </div>
-
-        <div>
-
-          <div class="quick-action-title">
-            Find Property
-          </div>
-
-          <div class="quick-action-text">
-            Search available homes
-          </div>
-
-        </div>
-
-      </a>
-
-
-      <a
-        href="booking.html"
-        class="quick-action">
-
-        <div class="quick-action-icon">
-          ◷
-        </div>
-
-        <div>
-
-          <div class="quick-action-title">
-            Book Visit
-          </div>
-
-          <div class="quick-action-text">
-            Schedule a viewing
-          </div>
-
-        </div>
-
-      </a>
-
-
-      <a
-        href="enquiries.html"
-        class="quick-action">
-
-        <div class="quick-action-icon">
-          ◎
-        </div>
-
-        <div>
-
-          <div class="quick-action-title">
-            Enquiries
-          </div>
-
-          <div class="quick-action-text">
-            Manage conversations
-          </div>
-
-        </div>
-
-      </a>
-
-
-      <a
-        href="offers.html"
-        class="quick-action">
-
-        <div class="quick-action-icon">
-          ⇄
-        </div>
-
-        <div>
-
-          <div class="quick-action-title">
-            My Offers
-          </div>
-
-          <div class="quick-action-text">
-            Track negotiations
-          </div>
-
-        </div>
-
-      </a>
-
-
-      <a
-        href="documents.html"
-        class="quick-action">
-
-        <div class="quick-action-icon">
-          ▤
-        </div>
-
-        <div>
-
-          <div class="quick-action-title">
-            Documents
-          </div>
-
-          <div class="quick-action-text">
-            Manage your files
-          </div>
-
-        </div>
-
-      </a>
-
-
-      <a
-        href="payments.html"
-        class="quick-action">
-
-        <div class="quick-action-icon">
-          ₹
-        </div>
-
-        <div>
-
-          <div class="quick-action-title">
-            Payments
-          </div>
-
-          <div class="quick-action-text">
-            View payment activity
-          </div>
-
-        </div>
-
-      </a>
-
-
-    </div>
-
-  </div>
-
-
-  <!-- BUYER JOURNEY -->
-
-  <div class="panel" style="margin-top:18px">
-
-    <div class="panel-heading">
-
-      <div>
-
-        <div class="section-eyebrow">
-          BUYER PROGRESS
-        </div>
-
-        <div class="panel-title">
-          Your GHAR journey
-        </div>
-
-      </div>
-
-    </div>
-
-
-    <div class="progress-wrap">
-
-      <div class="progress-head">
-
-        <span>
-          Overall progress
-        </span>
-
-        <strong>
-          72%
-        </strong>
-
-      </div>
-
-      <div class="progress-bar">
-
-        <div class="progress-fill"></div>
-
-      </div>
-
-    </div>
-
-
-    <div
-      class="info-box"
-      style="margin-top:15px">
-
-      <strong
-        style="color:#171a2c">
-
-        Next recommended step:
-
-      </strong>
-
-      <br>
-
-      Complete your property preferences and
-      continue reviewing your shortlisted
-      properties before scheduling additional visits.
-
-    </div>
-
-
-    <a
-      href="profile.html"
-      class="ghar-btn dark small"
-      style="
-        margin-top:13px;
-        width:100%;
-      ">
-
-      Update Preferences
-
-    </a>
-
-  </div>
-
+</div>
 
 </div>
 
 </section>
 
 
-<!-- =======================================================
+<!-- =====================================================
+     QUICK ACTIONS
+===================================================== -->
+
+<section class="section">
+
+<div class="section-eyebrow">
+QUICK ACTIONS
+</div>
+
+<h2 class="section-title">
+Continue where you left off.
+</h2>
+
+<div class="actions-grid">
+
+<a
+  class="action"
+  href="property-search.html"
+>
+
+<div class="action-icon">
+⌕
+</div>
+
+<div>
+
+<strong>
+Find Properties
+</strong>
+
+<span>
+Search GHAR listings
+</span>
+
+</div>
+
+</a>
+
+
+<a
+  class="action"
+  href="request.html"
+>
+
+<div class="action-icon">
+⌂
+</div>
+
+<div>
+
+<strong>
+Property Request
+</strong>
+
+<span>
+Tell GHAR what you need
+</span>
+
+</div>
+
+</a>
+
+
+<a
+  class="action"
+  href="saved-properties.html"
+>
+
+<div class="action-icon">
+♥
+</div>
+
+<div>
+
+<strong>
+Saved Properties
+</strong>
+
+<span>
+Review your favourites
+</span>
+
+</div>
+
+</a>
+
+
+<a
+  class="action"
+  href="enquiries.html"
+>
+
+<div class="action-icon">
+?
+</div>
+
+<div>
+
+<strong>
+My Enquiries
+</strong>
+
+<span>
+Track conversations
+</span>
+
+</div>
+
+</a>
+
+
+<a
+  class="action"
+  href="offers.html"
+>
+
+<div class="action-icon">
+₹
+</div>
+
+<div>
+
+<strong>
+My Offers
+</strong>
+
+<span>
+Review submitted offers
+</span>
+
+</div>
+
+</a>
+
+
+<a
+  class="action"
+  href="scheduled-lists.html"
+>
+
+<div class="action-icon">
+◷
+</div>
+
+<div>
+
+<strong>
+Scheduled Visits
+</strong>
+
+<span>
+View upcoming visits
+</span>
+
+</div>
+
+</a>
+
+
+<a
+  class="action"
+  href="conversations.html"
+>
+
+<div class="action-icon">
+✉
+</div>
+
+<div>
+
+<strong>
+Conversations
+</strong>
+
+<span>
+Open secure messages
+</span>
+
+</div>
+
+</a>
+
+
+<a
+  class="action"
+  href="status.html"
+>
+
+<div class="action-icon">
+✓
+</div>
+
+<div>
+
+<strong>
+Request Status
+</strong>
+
+<span>
+Track your requests
+</span>
+
+</div>
+
+</a>
+
+
+<a
+  class="action"
+  href="my-profile.html"
+>
+
+<div class="action-icon">
+●
+</div>
+
+<div>
+
+<strong>
+My Profile
+</strong>
+
+<span>
+Manage buyer details
+</span>
+
+</div>
+
+</a>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     CURRENT REQUEST
+===================================================== -->
+
+<section class="section">
+
+<div class="section-eyebrow">
+CURRENT REQUIREMENT
+</div>
+
+<h2 class="section-title">
+Your latest property request.
+</h2>
+
+<p class="section-description">
+The most recently submitted requirement from your GHAR
+buyer workspace.
+</p>
+
+
+<div
+  id="currentRequest"
+  class="request-box"
+>
+
+<div class="request-top">
+
+<div>
+
+<div class="request-id">
+NO ACTIVE REQUEST
+</div>
+
+<div class="request-name">
+Create your first property requirement.
+</div>
+
+</div>
+
+<span class="status-pill status-pending">
+Draft
+</span>
+
+</div>
+
+
+<div class="request-meta">
+
+<span class="meta-pill">
+No request submitted
+</span>
+
+</div>
+
+
+<div class="request-footer">
+
+<div class="request-date">
+Your property request will appear here.
+</div>
+
+<a
+  class="btn primary"
+  href="request.html"
+>
+Create Request
+</a>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
      RECOMMENDED PROPERTIES
-======================================================== -->
+===================================================== -->
 
 <section class="section">
 
-  <div class="section-heading">
+<div class="section-eyebrow">
+PROPERTY DISCOVERY
+</div>
 
-    <div>
+<h2 class="section-title">
+Properties for your journey.
+</h2>
 
-      <div class="section-eyebrow">
-        RECOMMENDED FOR YOU
-      </div>
+<p class="section-description">
+Explore representative GHAR property categories. Your
+connected property-search workflow can replace these
+cards with live listings.
+</p>
 
-      <h2 class="section-title">
-        Properties worth exploring.
-      </h2>
 
-      <p class="section-description">
+<div class="property-grid">
 
-        Suggestions can be generated from your
-        search activity, preferences and shortlisted
-        property types when recommendation features
-        are enabled.
+<article class="property-card">
 
-      </p>
+<div class="property-image">
+⌂
+</div>
 
-    </div>
+<div class="property-content">
 
+<div class="property-tag">
+APARTMENT
+</div>
 
-    <a
-      href="property-search.html"
-      class="ghar-btn dark">
+<div class="property-title">
+Premium 3 BHK Residence
+</div>
 
-      Explore All
+<div class="property-location">
+Sector 150 · Noida
+</div>
 
-    </a>
+<div class="property-price">
+₹1.45 Cr
+</div>
 
-  </div>
+<div class="property-meta">
 
+<span>
+3 BHK
+</span>
 
-  <div class="property-grid">
+<span>
+1850 Sq. Ft.
+</span>
 
+<span>
+Ready
+</span>
 
-    <article class="property-card">
+</div>
 
-      <div class="property-image">
+</div>
 
-        <div class="property-badge">
-          Recommended
-        </div>
+</article>
 
-        ⌂
 
-      </div>
+<article class="property-card">
 
-      <div class="property-body">
+<div class="property-image">
+◆
+</div>
 
-        <div class="property-type">
-          Apartment · 2 BHK
-        </div>
+<div class="property-content">
 
-        <div class="property-title">
-          Sapphire Heights
-        </div>
+<div class="property-tag">
+VILLA
+</div>
 
-        <div class="property-location">
-          Sector 150 · Noida
-        </div>
+<div class="property-title">
+Luxury Independent Villa
+</div>
 
-        <div class="property-details">
-          <span>2 Beds</span>
-          ·
-          <span>2 Baths</span>
-          ·
-          <span>1,250 sq.ft.</span>
-        </div>
+<div class="property-location">
+Greater Noida West
+</div>
 
-        <div class="property-price">
-          ₹88 Lakh
-        </div>
+<div class="property-price">
+₹2.85 Cr
+</div>
 
-        <div class="property-footer">
+<div class="property-meta">
 
-          <a
-            href="property-details.html?id=GHAR-P101"
-            class="ghar-btn dark small">
+<span>
+4 BHK
+</span>
 
-            Details
+<span>
+3200 Sq. Ft.
+</span>
 
-          </a>
+<span>
+New
+</span>
 
-          <a
-            href="booking.html?property=GHAR-P101"
-            class="ghar-btn burgundy small">
+</div>
 
-            Visit
+</div>
 
-          </a>
+</article>
 
-        </div>
 
-      </div>
+<article class="property-card">
 
-    </article>
+<div class="property-image">
+◇
+</div>
 
+<div class="property-content">
 
-    <article class="property-card">
+<div class="property-tag">
+INDEPENDENT HOUSE
+</div>
 
-      <div class="property-image two">
+<div class="property-title">
+Family Independent Home
+</div>
 
-        <div class="property-badge">
-          Recommended
-        </div>
+<div class="property-location">
+Sector 62 · Noida
+</div>
 
-        ⌂
+<div class="property-price">
+₹1.95 Cr
+</div>
 
-      </div>
+<div class="property-meta">
 
-      <div class="property-body">
+<span>
+3 BHK
+</span>
 
-        <div class="property-type">
-          Villa · 3 BHK
-        </div>
+<span>
+2400 Sq. Ft.
+</span>
 
-        <div class="property-title">
-          Burgundy Villas
-        </div>
+<span>
+Resale
+</span>
 
-        <div class="property-location">
-          Greater Noida
-        </div>
+</div>
 
-        <div class="property-details">
-          <span>3 Beds</span>
-          ·
-          <span>4 Baths</span>
-          ·
-          <span>2,350 sq.ft.</span>
-        </div>
+</div>
 
-        <div class="property-price">
-          ₹1.72 Cr
-        </div>
+</article>
 
-        <div class="property-footer">
+</div>
 
-          <a
-            href="property-details.html?id=GHAR-P102"
-            class="ghar-btn dark small">
 
-            Details
+<div style="margin-top:18px;">
 
-          </a>
+<a
+  class="btn dark"
+  href="property-search.html"
+>
+Explore All Properties
+</a>
 
-          <a
-            href="booking.html?property=GHAR-P102"
-            class="ghar-btn burgundy small">
-
-            Visit
-
-          </a>
-
-        </div>
-
-      </div>
-
-    </article>
-
-
-    <article class="property-card">
-
-      <div class="property-image three">
-
-        <div class="property-badge">
-          Recommended
-        </div>
-
-        ▱
-
-      </div>
-
-      <div class="property-body">
-
-        <div class="property-type">
-          Plot · Residential
-        </div>
-
-        <div class="property-title">
-          Green Valley Plots
-        </div>
-
-        <div class="property-location">
-          Yamuna Expressway
-        </div>
-
-        <div class="property-details">
-          <span>1,500 sq.ft.</span>
-          ·
-          <span>Residential</span>
-        </div>
-
-        <div class="property-price">
-          ₹48 Lakh
-        </div>
-
-        <div class="property-footer">
-
-          <a
-            href="property-details.html?id=GHAR-P103"
-            class="ghar-btn dark small">
-
-            Details
-
-          </a>
-
-          <a
-            href="booking.html?property=GHAR-P103"
-            class="ghar-btn burgundy small">
-
-            Visit
-
-          </a>
-
-        </div>
-
-      </div>
-
-    </article>
-
-
-  </div>
+</div>
 
 </section>
 
 
-<!-- =======================================================
-     DOCUMENT / TRANSACTION STATUS
-======================================================== -->
+<!-- =====================================================
+     ACTIVITY
+===================================================== -->
 
 <section class="section">
 
-  <div class="section-heading">
+<div class="section-eyebrow">
+RECENT ACTIVITY
+</div>
 
-    <div>
-
-      <div class="section-eyebrow">
-        TRANSACTION WORKSPACE
-      </div>
-
-      <h2 class="section-title">
-        Keep your important steps organised.
-      </h2>
-
-    </div>
-
-  </div>
+<h2 class="section-title">
+Your latest activity.
+</h2>
 
 
-  <div class="stats-grid"
-       style="
-         grid-template-columns:
-         repeat(4,minmax(0,1fr));
-       ">
+<div
+  id="activityList"
+  class="activity-list"
+>
 
+<div class="activity">
 
-    <a
-      href="documents.html"
-      class="stat-card"
-      style="text-decoration:none">
+<div class="activity-icon">
+⌂
+</div>
 
-      <div class="stat-icon">
-        ▤
-      </div>
+<div>
 
-      <div class="stat-label">
-        Documents
-      </div>
+<div class="activity-title">
+Buyer workspace created
+</div>
 
-      <div class="stat-value">
-        08
-      </div>
+<div class="activity-description">
+Start by searching properties or creating a property request.
+</div>
 
-      <div class="stat-link">
-        Manage files →
-      </div>
+</div>
 
-    </a>
+<div class="activity-time">
+Now
+</div>
 
+</div>
 
-    <a
-      href="payments.html"
-      class="stat-card"
-      style="text-decoration:none">
-
-      <div class="stat-icon">
-        ₹
-      </div>
-
-      <div class="stat-label">
-        Payments
-      </div>
-
-      <div class="stat-value">
-        02
-      </div>
-
-      <div class="stat-link">
-        View payments →
-      </div>
-
-    </a>
-
-
-    <a
-      href="offers.html"
-      class="stat-card"
-      style="text-decoration:none">
-
-      <div class="stat-icon">
-        ⇄
-      </div>
-
-      <div class="stat-label">
-        Active Offers
-      </div>
-
-      <div class="stat-value">
-        01
-      </div>
-
-      <div class="stat-link">
-        Manage offers →
-      </div>
-
-    </a>
-
-
-    <a
-      href="transactions.html"
-      class="stat-card"
-      style="text-decoration:none">
-
-      <div class="stat-icon">
-        ✓
-      </div>
-
-      <div class="stat-label">
-        Transactions
-      </div>
-
-      <div class="stat-value">
-        01
-      </div>
-
-      <div class="stat-link">
-        View workspace →
-      </div>
-
-    </a>
-
-
-  </div>
+</div>
 
 </section>
+
+</div>
 
 
 <!-- =======================================================
-     CTA
+     RIGHT COLUMN
 ======================================================== -->
 
-<section class="cta">
+<div class="right-column">
 
-  <div class="cta-content">
+<!-- =====================================================
+     PROFILE
+===================================================== -->
 
-    <div>
+<section class="side-card">
 
-      <h2>
-        Ready to find your GHAR?
-      </h2>
+<div class="section-eyebrow">
+BUYER PROFILE
+</div>
 
-      <p>
+<h2 class="side-title">
+Complete your profile.
+</h2>
 
-        Continue exploring properties, compare your
-        shortlist and schedule your next property visit
-        from the buyer workspace.
+<div class="profile-progress">
 
-      </p>
+<div class="progress-head">
 
-    </div>
+<span class="progress-title">
+Profile Completion
+</span>
 
+<span
+  class="progress-value"
+  id="profilePercent"
+>
+72%
+</span>
 
-    <div class="cta-actions">
+</div>
 
-      <a
-        href="property-search.html"
-        class="ghar-btn primary">
+<div class="progress">
 
-        Explore Properties
+<div
+  class="progress-bar"
+  id="profileBar"
+></div>
 
-      </a>
+</div>
 
-      <a
-        href="booking.html"
-        class="ghar-btn secondary">
+<div class="profile-message">
+A more complete profile can help organise your
+buyer requirements and communication preferences.
+</div>
 
-        Book a Visit
+<div style="margin-top:13px;">
 
-      </a>
+<a
+  class="btn dark"
+  href="my-profile.html"
+>
+Complete Profile
+</a>
 
-    </div>
+</div>
 
-  </div>
+</div>
 
 </section>
 
+
+<!-- =====================================================
+     BUYER WORKFLOW
+===================================================== -->
+
+<section class="side-card">
+
+<div class="section-eyebrow">
+BUYER WORKFLOW
+</div>
+
+<h2 class="side-title">
+How your GHAR journey works.
+</h2>
+
+<div class="workflow">
+
+<div class="workflow-item">
+
+<div class="workflow-number">
+1
+</div>
+
+<div>
+
+<strong>
+Create Requirement
+</strong>
+
+<span>
+Tell GHAR what property you need.
+</span>
+
+</div>
+
+</div>
+
+
+<div class="workflow-item">
+
+<div class="workflow-number">
+2
+</div>
+
+<div>
+
+<strong>
+Discover Properties
+</strong>
+
+<span>
+Search and save suitable listings.
+</span>
+
+</div>
+
+</div>
+
+
+<div class="workflow-item">
+
+<div class="workflow-number">
+3
+</div>
+
+<div>
+
+<strong>
+Send Enquiries
+</strong>
+
+<span>
+Connect about properties you like.
+</span>
+
+</div>
+
+</div>
+
+
+<div class="workflow-item">
+
+<div class="workflow-number">
+4
+</div>
+
+<div>
+
+<strong>
+Schedule Visits
+</strong>
+
+<span>
+Manage property viewing appointments.
+</span>
+
+</div>
+
+</div>
+
+
+<div class="workflow-item">
+
+<div class="workflow-number">
+5
+</div>
+
+<div>
+
+<strong>
+Make Offers
+</strong>
+
+<span>
+Manage your submitted property offers.
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     UPCOMING
+===================================================== -->
+
+<section class="side-card">
+
+<div class="section-eyebrow">
+SCHEDULED LIST
+</div>
+
+<h2 class="side-title">
+Upcoming visits.
+</h2>
+
+<div
+  id="scheduleList"
+  class="schedule-list"
+>
+
+<div class="schedule">
+
+<div class="schedule-date">
+NO UPCOMING VISITS
+</div>
+
+<div class="schedule-title">
+No property visit scheduled.
+</div>
+
+<div class="schedule-meta">
+Your scheduled property visits will appear here.
+</div>
+
+</div>
+
+</div>
+
+
+<div style="margin-top:14px;">
+
+<a
+  class="btn dark"
+  href="scheduled-lists.html"
+>
+View Scheduled Visits
+</a>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     MESSAGES
+===================================================== -->
+
+<section class="side-card">
+
+<div class="section-eyebrow">
+COMMUNICATION
+</div>
+
+<h2 class="side-title">
+Conversations.
+</h2>
+
+<div
+  id="conversationPreview"
+  style="margin-top:16px;"
+>
+
+<div class="schedule">
+
+<div class="schedule-date">
+GHAR MESSAGES
+</div>
+
+<div class="schedule-title">
+No new conversations.
+</div>
+
+<div class="schedule-meta">
+Secure buyer communication will appear here.
+</div>
+
+</div>
+
+</div>
+
+
+<div style="margin-top:14px;">
+
+<a
+  class="btn burgundy"
+  href="conversations.html"
+>
+Open Conversations
+</a>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     SUPPORT
+===================================================== -->
+
+<section class="support">
+
+<div class="eyebrow">
+GHAR SUPPORT
+</div>
+
+<h3>
+Need assistance?
+</h3>
+
+<p>
+Use the secure communication workspace for help with
+your property requirements, enquiries, offers,
+appointments or account.
+</p>
+
+<a
+  class="btn primary"
+  href="conversations.html"
+>
+Open Messages
+</a>
+
+</section>
+
+</div>
+
+</div>
 
 </main>
 
@@ -3826,133 +2921,138 @@ a{
      FOOTER
 ======================================================== -->
 
-<footer class="buyer-footer">
+<footer class="footer">
 
-  <div class="footer-grid">
+<div class="footer-grid">
 
+<div>
 
-    <div>
+<div class="footer-logo">
+GHAR
+</div>
 
-      <div class="footer-logo">
-        GHAR
-      </div>
+<div class="footer-description">
+A structured real-estate workspace connecting
+buyers, sellers, renters and property transactions
+through one premium digital experience.
+</div>
 
-      <div class="footer-description">
-
-        A structured real-estate workspace connecting
-        buyers, sellers, renters and property transactions
-        through one premium digital experience.
-
-      </div>
-
-    </div>
+</div>
 
 
-    <div>
+<div>
 
-      <div class="footer-title">
-        BUYER
-      </div>
+<div class="footer-title">
+BUYER
+</div>
 
-      <div class="footer-links">
+<div class="footer-links">
 
-        <a href="buyer-dashboard.html">
-          Buyer Dashboard
-        </a>
-        <br>
+<a href="buyer-dashboard.html">
+Dashboard
+</a>
 
-        <a href="property-search.html">
-          Find Property
-        </a>
-        <br>
+<br>
 
-        <a href="shortlisted.html">
-          Shortlisted
-        </a>
-        <br>
+<a href="property-search.html">
+Find Property
+</a>
 
-        <a href="enquiries.html">
-          My Enquiries
-        </a>
+<br>
 
-      </div>
+<a href="saved-properties.html">
+Saved Properties
+</a>
 
-    </div>
+<br>
 
+<a href="request.html">
+Property Request
+</a>
 
-    <div>
+</div>
 
-      <div class="footer-title">
-        TRANSACTION
-      </div>
-
-      <div class="footer-links">
-
-        <a href="booking.html">
-          Bookings
-        </a>
-        <br>
-
-        <a href="offers.html">
-          Offers
-        </a>
-        <br>
-
-        <a href="documents.html">
-          Documents
-        </a>
-        <br>
-
-        <a href="payments.html">
-          Payments
-        </a>
-
-      </div>
-
-    </div>
+</div>
 
 
-    <div>
+<div>
 
-      <div class="footer-title">
-        GHAR
-      </div>
+<div class="footer-title">
+ACCOUNT
+</div>
 
-      <div class="footer-links">
+<div class="footer-links">
 
-        <a href="about.html">
-          About GHAR
-        </a>
-        <br>
+<a href="my-profile.html">
+My Profile
+</a>
 
-        <a href="../contact.html">
-          Contact
-        </a>
-        <br>
+<br>
 
-        <a href="../terms.html">
-          Terms
-        </a>
-        <br>
+<a href="enquiries.html">
+My Enquiries
+</a>
 
-        <a href="../privacy.html">
-          Privacy
-        </a>
+<br>
 
-      </div>
+<a href="offers.html">
+My Offers
+</a>
 
-    </div>
+<br>
+
+<a href="conversations.html">
+Messages
+</a>
+
+</div>
+
+</div>
 
 
-  </div>
+<div>
+
+<div class="footer-title">
+GHAR
+</div>
+
+<div class="footer-links">
+
+<a href="about.html">
+About GHAR
+</a>
+
+<br>
+
+<a href="../contact.html">
+Contact
+</a>
+
+<br>
+
+<a href="../terms.html">
+Terms
+</a>
+
+<br>
+
+<a href="../privacy.html">
+Privacy
+</a>
+
+</div>
+
+</div>
+
+</div>
 
 
-  <div class="footer-bottom">
+<div class="footer-bottom">
 
-    © 2026 GHAR. All rights reserved.
-    · Buyer workspace connected.
+© 2026 GHAR. All rights reserved.
+· Buyer dashboard workspace connected.
 
-  </div>
+</div>
 
 </footer>
 
@@ -3965,77 +3065,77 @@ a{
   id="aiLauncher"
   class="ai-launcher"
   aria-label="Open GHAR AI"
-  title="GHAR AI">
-
-  ✦
-
+  title="GHAR AI"
+>
+✦
 </button>
 
 
 <aside
   id="aiPanel"
   class="ai-panel"
-  aria-label="GHAR AI Buyer Assistant">
+  aria-label="GHAR AI Buyer Dashboard Assistant"
+>
+
+<div class="ai-head">
+
+<div>
+
+<div class="ai-title">
+GHAR AI
+</div>
+
+<div class="ai-sub">
+Buyer Dashboard Assistant
+</div>
+
+</div>
 
 
-  <div class="ai-head">
+<button
+  id="aiClose"
+  class="ai-close"
+  type="button"
+  aria-label="Close GHAR AI"
+>
+×
+</button>
 
-    <div>
-
-      <div class="ai-title">
-        GHAR AI
-      </div>
-
-      <div class="ai-sub">
-        Buyer Property Assistant
-      </div>
-
-    </div>
+</div>
 
 
-    <button
-      id="aiClose"
-      class="ai-close"
-      aria-label="Close GHAR AI">
+<div
+  id="aiMessages"
+  class="ai-messages"
+>
 
-      ×
+<div class="ai-msg bot">
+Welcome to GHAR AI.
+I can help you understand your buyer dashboard,
+property requests, saved properties, enquiries,
+offers, visits and conversations.
+</div>
 
-    </button>
-
-  </div>
-
-
-  <div
-    id="aiMessages"
-    class="ai-messages">
-
-    <div class="ai-msg bot">
-
-      Welcome back to GHAR AI.
-      I can help you navigate your buyer
-      dashboard, properties, bookings,
-      enquiries, offers and transactions.
-
-    </div>
-
-  </div>
+</div>
 
 
-  <form
-    id="aiForm"
-    class="ai-form">
+<form
+  id="aiForm"
+  class="ai-form"
+>
 
-    <input
-      id="aiInput"
-      type="text"
-      placeholder="Ask about your dashboard..."
-      autocomplete="off">
+<input
+  id="aiInput"
+  type="text"
+  placeholder="Ask about your buyer dashboard..."
+  autocomplete="off"
+>
 
-    <button type="submit">
-      Send
-    </button>
+<button type="submit">
+Send
+</button>
 
-  </form>
+</form>
 
 </aside>
 
@@ -4046,38 +3146,34 @@ a{
 
 <script
   src="../assets/js/main/site.js"
-  defer>
-</script>
+  defer
+></script>
 
 <script
   src="../assets/js/main/page.js"
-  defer>
-</script>
+  defer
+></script>
 
 <script
   src="../assets/js/main/api.js"
-  defer>
-</script>
+  defer
+></script>
 
 <script
   src="../assets/js/main/auth.js"
-  defer>
-</script>
+  defer
+></script>
 
 <script
   src="../assets/js/buyer/buyer.js"
-  defer>
-</script>
+  defer
+></script>
 
 <script
   src="../assets/js/ai/ghar-ai.js"
-  defer>
-</script>
+  defer
+></script>
 
-
-<!-- =======================================================
-     DASHBOARD CONTROLLER
-======================================================== -->
 
 <script>
 
@@ -4087,336 +3183,1070 @@ a{
 
 
 /* =========================================================
-   USER PROFILE
+   STORAGE KEYS
 ========================================================= */
 
-function getStoredBuyer(){
+const REQUEST_KEY =
+  "ghar_buyer_requests";
 
-  const keys = [
-    "ghar_user",
-    "GHAR_USER",
-    "buyer",
-    "buyerProfile",
-    "user"
-  ];
+const SAVED_KEY =
+  "ghar_saved_properties";
 
-  for(const key of keys){
+const ENQUIRY_KEY =
+  "ghar_buyer_enquiries";
 
-    try{
+const OFFER_KEY =
+  "ghar_buyer_offers";
 
-      const raw =
-        localStorage.getItem(key);
+const SCHEDULE_KEY =
+  "ghar_buyer_schedules";
 
-      if(!raw){
-        continue;
-      }
+const CONVERSATION_KEY =
+  "ghar_buyer_conversations";
 
-      const data =
-        JSON.parse(raw);
-
-      if(data && typeof data === "object"){
-        return data;
-      }
-
-    }catch(error){
-
-      console.warn(
-        "GHAR buyer profile:",
-        error
-      );
-
-    }
-
-  }
-
-  return null;
-
-}
-
-
-const buyer =
-  getStoredBuyer();
-
-
-if(buyer){
-
-  const name =
-    buyer.name ||
-    buyer.fullName ||
-    buyer.full_name ||
-    buyer.username ||
-    "Buyer";
-
-
-  const firstName =
-    String(name)
-      .trim()
-      .split(/\s+/)[0] ||
-      "Buyer";
-
-
-  const buyerName =
-    document.getElementById(
-      "buyerName"
-    );
-
-  const profileName =
-    document.getElementById(
-      "buyerProfileName"
-    );
-
-  const avatar =
-    document.getElementById(
-      "buyerAvatar"
-    );
-
-
-  if(buyerName){
-
-    buyerName.textContent =
-      firstName;
-
-  }
-
-
-  if(profileName){
-
-    profileName.textContent =
-      name;
-
-  }
-
-
-  if(avatar){
-
-    avatar.textContent =
-      firstName
-        .charAt(0)
-        .toUpperCase();
-
-  }
-
-}
+const PROFILE_KEY =
+  "ghar_buyer_profile";
 
 
 /* =========================================================
-   DASHBOARD API DATA
+   HELPERS
 ========================================================= */
 
-async function loadDashboard(){
-
-  try{
-
-    const apiBase =
-      window.GHAR_API_BASE ||
-      window.API_BASE ||
-      "/api";
-
-
-    const response =
-      await fetch(
-        `${apiBase}/buyer/dashboard`,
-        {
-          method:"GET",
-          credentials:"include",
-          headers:{
-            "Accept":
-              "application/json"
-          }
-        }
-      );
-
-
-    if(!response.ok){
-
-      return;
-
-    }
-
-
-    const data =
-      await response.json();
-
-
-    if(!data){
-
-      return;
-
-    }
-
-
-    updateStat(
-      "shortlistedCount",
-      data.shortlisted
-    );
-
-    updateStat(
-      "enquiryCount",
-      data.enquiries
-    );
-
-    updateStat(
-      "visitCount",
-      data.visits
-    );
-
-    updateStat(
-      "offerCount",
-      data.offers
-    );
-
-    updateStat(
-      "completedCount",
-      data.completed
-    );
-
-
-  }catch(error){
-
-    console.warn(
-      "GHAR dashboard API:",
-      error
-    );
-
-  }
-
-}
-
-
-function updateStat(
-  id,
-  value
-){
-
-  if(
-    value === undefined ||
-    value === null
-  ){
-
-    return;
-
-  }
-
-
-  const element =
+const $ =
+  id =>
     document.getElementById(id);
 
 
-  if(!element){
+function readJSON(
+  key,
+  fallback
+){
+
+  try{
+
+    const value =
+      JSON.parse(
+        localStorage.getItem(key) || ""
+      );
+
+    return value;
+
+  }catch(error){
+
+    return fallback;
+
+  }
+
+}
+
+
+function arrayFromStorage(
+  key
+){
+
+  const value =
+    readJSON(
+      key,
+      []
+    );
+
+  return Array.isArray(value)
+    ? value
+    : [];
+
+}
+
+
+/* =========================================================
+   REQUEST DATA
+========================================================= */
+
+function getRequests(){
+
+  return arrayFromStorage(
+    REQUEST_KEY
+  );
+
+}
+
+
+function latestRequest(){
+
+  const requests =
+    getRequests();
+
+  return requests.length
+    ? requests[0]
+    : null;
+
+}
+
+
+/* =========================================================
+   COUNTS
+========================================================= */
+
+function updateStats(){
+
+  const requests =
+    getRequests();
+
+  const saved =
+    arrayFromStorage(
+      SAVED_KEY
+    );
+
+  const enquiries =
+    arrayFromStorage(
+      ENQUIRY_KEY
+    );
+
+  const offers =
+    arrayFromStorage(
+      OFFER_KEY
+    );
+
+
+  $("statRequests").textContent =
+    requests.length;
+
+
+  $("statSaved").textContent =
+    saved.length;
+
+
+  $("statEnquiries").textContent =
+    enquiries.length;
+
+
+  $("statOffers").textContent =
+    offers.length;
+
+}
+
+
+/* =========================================================
+   LABELS
+========================================================= */
+
+const propertyLabels = {
+
+  apartment:"Apartment",
+
+  flat:"Flat",
+
+  villa:"Villa",
+
+  "independent-house":
+    "Independent House",
+
+  "builder-floor":
+    "Builder Floor",
+
+  plot:
+    "Plot / Land",
+
+  studio:
+    "Studio",
+
+  office:
+    "Office",
+
+  commercial:
+    "Commercial Property"
+
+};
+
+
+const purposeLabels = {
+
+  buy:"Buy",
+
+  rent:"Rent",
+
+  investment:"Investment"
+
+};
+
+
+function propertyLabel(
+  value
+){
+
+  return (
+    propertyLabels[value] ||
+    value ||
+    "Property"
+  );
+
+}
+
+
+function purposeLabel(
+  value
+){
+
+  return (
+    purposeLabels[value] ||
+    value ||
+    "Requirement"
+  );
+
+}
+
+
+/* =========================================================
+   BUDGET
+========================================================= */
+
+const budgetLabels = {
+
+  "25l":
+    "₹25 Lakh",
+
+  "50l":
+    "₹50 Lakh",
+
+  "1cr":
+    "₹1 Crore",
+
+  "2cr":
+    "₹2 Crore",
+
+  "5cr":
+    "₹5 Crore",
+
+  "10cr":
+    "₹10 Crore",
+
+  "10cr-plus":
+    "₹10 Crore+"
+
+};
+
+
+function budgetText(
+  request
+){
+
+  if(!request){
+
+    return "Budget not set";
+
+  }
+
+
+  const min =
+    budgetLabels[
+      request.minBudget
+    ] || "";
+
+
+  const max =
+    budgetLabels[
+      request.maxBudget
+    ] || "";
+
+
+  if(min && max){
+
+    return (
+      min +
+      " – " +
+      max
+    );
+
+  }
+
+
+  if(max){
+
+    return (
+      "Up to " +
+      max
+    );
+
+  }
+
+
+  if(min){
+
+    return (
+      "From " +
+      min
+    );
+
+  }
+
+
+  return "Budget not set";
+
+}
+
+
+/* =========================================================
+   CURRENT REQUEST
+========================================================= */
+
+function renderCurrentRequest(){
+
+  const container =
+    $("currentRequest");
+
+  if(!container){
 
     return;
 
   }
 
 
-  element.textContent =
-    Number(value)
-      .toLocaleString(
-        "en-IN"
-      );
+  const request =
+    latestRequest();
+
+
+  if(!request){
+
+    container.innerHTML = `
+
+      <div class="request-top">
+
+        <div>
+
+          <div class="request-id">
+            NO ACTIVE REQUEST
+          </div>
+
+          <div class="request-name">
+            Create your first property requirement.
+          </div>
+
+        </div>
+
+        <span class="status-pill status-pending">
+          Draft
+        </span>
+
+      </div>
+
+      <div class="request-meta">
+
+        <span class="meta-pill">
+          No request submitted
+        </span>
+
+      </div>
+
+      <div class="request-footer">
+
+        <div class="request-date">
+          Your property request will appear here.
+        </div>
+
+        <a
+          class="btn primary"
+          href="request.html"
+        >
+          Create Request
+        </a>
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  const location =
+    [
+      request.locality,
+      request.city
+    ]
+    .filter(Boolean)
+    .join(", ");
+
+
+  const date =
+    request.createdAt
+      ? new Date(
+          request.createdAt
+        ).toLocaleDateString(
+          "en-IN",
+          {
+            day:"2-digit",
+            month:"short",
+            year:"numeric"
+          }
+        )
+      : "Date unavailable";
+
+
+  const status =
+    request.status === "submitted"
+      ? "Submitted"
+      : "Draft";
+
+
+  container.innerHTML = `
+
+    <div class="request-top">
+
+      <div>
+
+        <div class="request-id">
+          ${escapeHTML(
+            request.id ||
+            "GHAR-REQUEST"
+          )}
+        </div>
+
+        <div class="request-name">
+          ${escapeHTML(
+            request.requestTitle ||
+            "Property Requirement"
+          )}
+        </div>
+
+      </div>
+
+      <span
+        class="status-pill ${
+          status === "Submitted"
+            ? "status-active"
+            : "status-pending"
+        }"
+      >
+        ${status}
+      </span>
+
+    </div>
+
+
+    <div class="request-meta">
+
+      <span class="meta-pill">
+        ${escapeHTML(
+          propertyLabel(
+            request.propertyType
+          )
+        )}
+      </span>
+
+      <span class="meta-pill">
+        ${escapeHTML(
+          purposeLabel(
+            request.propertyPurpose
+          )
+        )}
+      </span>
+
+      <span class="meta-pill">
+        ${escapeHTML(
+          location ||
+          "Location not set"
+        )}
+      </span>
+
+      <span class="meta-pill">
+        ${escapeHTML(
+          budgetText(
+            request
+          )
+        )}
+      </span>
+
+    </div>
+
+
+    <div class="request-footer">
+
+      <div class="request-date">
+        Submitted ${date}
+      </div>
+
+      <a
+        class="btn dark"
+        href="request.html"
+      >
+        Manage Request
+      </a>
+
+    </div>
+
+  `;
 
 }
 
 
-loadDashboard();
-
-
 /* =========================================================
-   AI ELEMENTS
+   PROFILE
 ========================================================= */
 
-const aiLauncher =
-  document.getElementById(
-    "aiLauncher"
-  );
+function calculateProfileProgress(){
 
-const aiPanel =
-  document.getElementById(
-    "aiPanel"
-  );
-
-const aiClose =
-  document.getElementById(
-    "aiClose"
-  );
-
-const aiForm =
-  document.getElementById(
-    "aiForm"
-  );
-
-const aiInput =
-  document.getElementById(
-    "aiInput"
-  );
-
-const aiMessages =
-  document.getElementById(
-    "aiMessages"
-  );
+  const profile =
+    readJSON(
+      PROFILE_KEY,
+      null
+    );
 
 
-/* =========================================================
-   OPEN AI
-========================================================= */
+  if(!profile){
 
-if(aiLauncher){
+    return 72;
 
-  aiLauncher.addEventListener(
-    "click",
-    () => {
+  }
 
-      aiPanel.classList.add(
-        "open"
-      );
 
-      if(aiInput){
+  const keys = [
 
-        aiInput.focus();
+    "name",
+    "email",
+    "phone",
+    "city",
+    "address",
+    "occupation",
+    "budget",
+    "preferredLocation"
+
+  ];
+
+
+  let complete = 0;
+
+
+  keys.forEach(
+    key => {
+
+      if(
+        profile[key] != null &&
+        String(
+          profile[key]
+        ).trim()
+      ){
+
+        complete++;
 
       }
 
     }
   );
 
-}
 
-
-/* =========================================================
-   CLOSE AI
-========================================================= */
-
-if(aiClose){
-
-  aiClose.addEventListener(
-    "click",
-    () => {
-
-      aiPanel.classList.remove(
-        "open"
-      );
-
-    }
+  return Math.round(
+    (complete / keys.length) * 100
   );
 
 }
 
 
+function updateProfile(){
+
+  const percent =
+    calculateProfileProgress();
+
+
+  $("profilePercent").textContent =
+    percent + "%";
+
+
+  $("profileBar").style.width =
+    percent + "%";
+
+}
+
+
 /* =========================================================
-   ADD MESSAGE
+   SCHEDULES
 ========================================================= */
+
+function renderSchedules(){
+
+  const container =
+    $("scheduleList");
+
+  if(!container){
+
+    return;
+
+  }
+
+
+  const schedules =
+    arrayFromStorage(
+      SCHEDULE_KEY
+    );
+
+
+  if(!schedules.length){
+
+    container.innerHTML = `
+
+      <div class="schedule">
+
+        <div class="schedule-date">
+          NO UPCOMING VISITS
+        </div>
+
+        <div class="schedule-title">
+          No property visit scheduled.
+        </div>
+
+        <div class="schedule-meta">
+          Your scheduled property visits will appear here.
+        </div>
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  container.innerHTML =
+    schedules
+      .slice(0,5)
+      .map(
+        item => {
+
+          const date =
+            item.date ||
+            item.scheduledDate ||
+            "Date pending";
+
+          const title =
+            item.propertyTitle ||
+            item.title ||
+            "Property Visit";
+
+          const location =
+            item.location ||
+            item.city ||
+            "Location pending";
+
+          return `
+
+            <div class="schedule">
+
+              <div class="schedule-date">
+                ${escapeHTML(
+                  date
+                )}
+              </div>
+
+              <div class="schedule-title">
+                ${escapeHTML(
+                  title
+                )}
+              </div>
+
+              <div class="schedule-meta">
+                ${escapeHTML(
+                  location
+                )}
+              </div>
+
+            </div>
+
+          `;
+
+        }
+      )
+      .join("");
+
+}
+
+
+/* =========================================================
+   CONVERSATIONS
+========================================================= */
+
+function renderConversationPreview(){
+
+  const container =
+    $("conversationPreview");
+
+  if(!container){
+
+    return;
+
+  }
+
+
+  const conversations =
+    arrayFromStorage(
+      CONVERSATION_KEY
+    );
+
+
+  if(!conversations.length){
+
+    return;
+
+  }
+
+
+  const latest =
+    conversations[0];
+
+
+  container.innerHTML = `
+
+    <div class="schedule">
+
+      <div class="schedule-date">
+        ${escapeHTML(
+          latest.sender ||
+          latest.type ||
+          "GHAR MESSAGE"
+        )}
+      </div>
+
+      <div class="schedule-title">
+        ${escapeHTML(
+          latest.subject ||
+          latest.title ||
+          "New conversation"
+        )}
+      </div>
+
+      <div class="schedule-meta">
+        ${escapeHTML(
+          latest.message ||
+          latest.preview ||
+          "Open conversations to view messages."
+        )}
+      </div>
+
+    </div>
+
+  `;
+
+}
+
+
+/* =========================================================
+   ACTIVITY
+========================================================= */
+
+function renderActivity(){
+
+  const container =
+    $("activityList");
+
+  if(!container){
+
+    return;
+
+  }
+
+
+  const activity = [];
+
+
+  const requests =
+    getRequests();
+
+
+  if(requests.length){
+
+    activity.push({
+
+      icon:"⌂",
+
+      title:
+        "Property request submitted",
+
+      description:
+        requests[0].requestTitle ||
+        "Your latest property requirement is active.",
+
+      time:
+        requests[0].createdAt
+
+    });
+
+  }
+
+
+  const saved =
+    arrayFromStorage(
+      SAVED_KEY
+    );
+
+
+  if(saved.length){
+
+    activity.push({
+
+      icon:"♥",
+
+      title:
+        "Property saved",
+
+      description:
+        "You have properties saved in your GHAR workspace.",
+
+      time:
+        saved[0].createdAt
+
+    });
+
+  }
+
+
+  const enquiries =
+    arrayFromStorage(
+      ENQUIRY_KEY
+    );
+
+
+  if(enquiries.length){
+
+    activity.push({
+
+      icon:"?",
+
+      title:
+        "Property enquiry created",
+
+      description:
+        "You have an active property enquiry.",
+
+      time:
+        enquiries[0].createdAt
+
+    });
+
+  }
+
+
+  const offers =
+    arrayFromStorage(
+      OFFER_KEY
+    );
+
+
+  if(offers.length){
+
+    activity.push({
+
+      icon:"₹",
+
+      title:
+        "Property offer created",
+
+      description:
+        "You have submitted an offer through GHAR.",
+
+      time:
+        offers[0].createdAt
+
+    });
+
+  }
+
+
+  if(!activity.length){
+
+    return;
+
+  }
+
+
+  container.innerHTML =
+    activity
+      .slice(0,5)
+      .map(
+        item => {
+
+          let time =
+            "Recent";
+
+
+          if(item.time){
+
+            try{
+
+              time =
+                new Date(
+                  item.time
+                ).toLocaleDateString(
+                  "en-IN",
+                  {
+                    day:"2-digit",
+                    month:"short"
+                  }
+                );
+
+            }catch(error){}
+
+          }
+
+
+          return `
+
+            <div class="activity">
+
+              <div class="activity-icon">
+                ${escapeHTML(
+                  item.icon
+                )}
+              </div>
+
+              <div>
+
+                <div class="activity-title">
+                  ${escapeHTML(
+                    item.title
+                  )}
+                </div>
+
+                <div class="activity-description">
+                  ${escapeHTML(
+                    item.description
+                  )}
+                </div>
+
+              </div>
+
+              <div class="activity-time">
+                ${escapeHTML(
+                  time
+                )}
+              </div>
+
+            </div>
+
+          `;
+
+        }
+      )
+      .join("");
+
+}
+
+
+/* =========================================================
+   ESCAPE HTML
+========================================================= */
+
+function escapeHTML(
+  value
+){
+
+  return String(value)
+    .replaceAll(
+      "&",
+      "&amp;"
+    )
+    .replaceAll(
+      "<",
+      "&lt;"
+    )
+    .replaceAll(
+      ">",
+      "&gt;"
+    )
+    .replaceAll(
+      '"',
+      "&quot;"
+    )
+    .replaceAll(
+      "'",
+      "&#039;"
+    );
+
+}
+
+
+/* =========================================================
+   REFRESH DASHBOARD
+========================================================= */
+
+function refreshDashboard(){
+
+  updateStats();
+
+  renderCurrentRequest();
+
+  updateProfile();
+
+  renderSchedules();
+
+  renderConversationPreview();
+
+  renderActivity();
+
+}
+
+
+/* =========================================================
+   STORAGE SYNC
+========================================================= */
+
+window.addEventListener(
+  "storage",
+  refreshDashboard
+);
+
+
+/* =========================================================
+   AI
+========================================================= */
+
+const launcher =
+  $("aiLauncher");
+
+const panel =
+  $("aiPanel");
+
+const close =
+  $("aiClose");
+
+const aiForm =
+  $("aiForm");
+
+const input =
+  $("aiInput");
+
+const messages =
+  $("aiMessages");
+
+
+launcher?.addEventListener(
+  "click",
+  () => {
+
+    panel.classList.add(
+      "open"
+    );
+
+    input.focus();
+
+  }
+);
+
+
+close?.addEventListener(
+  "click",
+  () => {
+
+    panel.classList.remove(
+      "open"
+    );
+
+  }
+);
+
 
 function addMessage(
   message,
   type
 ){
-
-  if(!aiMessages){
-
-    return;
-
-  }
-
 
   const element =
     document.createElement(
@@ -4425,26 +4255,26 @@ function addMessage(
 
 
   element.className =
-    `ai-msg ${type}`;
+    "ai-msg " + type;
 
 
   element.textContent =
     message;
 
 
-  aiMessages.appendChild(
+  messages.appendChild(
     element
   );
 
 
-  aiMessages.scrollTop =
-    aiMessages.scrollHeight;
+  messages.scrollTop =
+    messages.scrollHeight;
 
 }
 
 
 /* =========================================================
-   ASK AI
+   AI FALLBACK
 ========================================================= */
 
 async function askAI(
@@ -4461,30 +4291,29 @@ async function askAI(
       window.GHARAI.ask(
         message,
         {
-
           page:
             "buyer-dashboard",
 
           role:
             "buyer"
-
         }
       );
 
   }
 
 
+  const apiBase =
+    window.GHAR_API_BASE ||
+    window.API_BASE ||
+    "/api";
+
+
   try{
-
-    const apiBase =
-      window.GHAR_API_BASE ||
-      window.API_BASE ||
-      "/api";
-
 
     const response =
       await fetch(
-        `${apiBase}/ai/chat`,
+        apiBase +
+        "/ai/chat",
         {
 
           method:"POST",
@@ -4499,21 +4328,22 @@ async function askAI(
               "application/json"
           },
 
-          body:JSON.stringify({
+          body:
+            JSON.stringify({
 
-            message,
+              message,
 
-            context:{
+              context:{
 
-              page:
-                "buyer-dashboard",
+                page:
+                  "buyer-dashboard",
 
-              role:
-                "buyer"
+                role:
+                  "buyer"
 
-            }
+              }
 
-          })
+            })
 
         }
       );
@@ -4554,37 +4384,35 @@ async function askAI(
   ){
 
     return `
-      Open Find Property to search available
-      homes using location, budget, property
-      type and other preferences.
-    `;
+Use Find Properties to search available GHAR
+listings. You can also create a Property Request
+to describe the type of home you are looking for.
+`;
 
   }
 
 
   if(
-    text.includes("booking") ||
-    text.includes("visit")
+    text.includes("request")
   ){
 
     return `
-      Your upcoming property visits are shown
-      in the dashboard. Open My Bookings to
-      review booking details and scheduled visits.
-    `;
+Open Property Request to create or manage your
+buyer requirement. Your submitted requests are
+also summarised on this dashboard.
+`;
 
   }
 
 
   if(
-    text.includes("shortlist")
+    text.includes("saved")
   ){
 
     return `
-      Your shortlisted properties are shown in
-      the dashboard. Open Shortlisted to compare
-      and manage saved properties.
-    `;
+Saved Properties contains the properties you have
+stored for later review.
+`;
 
   }
 
@@ -4594,44 +4422,44 @@ async function askAI(
   ){
 
     return `
-      Open My Offers to review active offers,
-      counter-offers and negotiation information
-      when those features are enabled.
-    `;
+My Offers lets you review offers you have submitted
+and follow their current status.
+`;
 
   }
 
 
   if(
-    text.includes("payment")
+    text.includes("visit") ||
+    text.includes("schedule")
   ){
 
     return `
-      Open Payments to review payment activity,
-      milestones and transaction-related payment
-      information.
-    `;
+Scheduled Visits contains your upcoming property
+viewing appointments and their associated details.
+`;
 
   }
 
 
   if(
-    text.includes("document")
+    text.includes("message") ||
+    text.includes("conversation")
   ){
 
     return `
-      Open Documents to manage the files associated
-      with your buyer and transaction workflow.
-    `;
+Conversations is your secure communication area
+for buyer-property discussions.
+`;
 
   }
 
 
   return `
-    I can help you navigate your GHAR buyer
-    dashboard, properties, shortlist, bookings,
-    enquiries, offers, documents and payments.
-  `;
+I can help you navigate the GHAR buyer dashboard,
+including property searches, requests, saved
+properties, enquiries, offers, visits and messages.
+`;
 
 }
 
@@ -4640,107 +4468,103 @@ async function askAI(
    AI FORM
 ========================================================= */
 
-if(aiForm){
+aiForm?.addEventListener(
+  "submit",
+  async event => {
 
-  aiForm.addEventListener(
-    "submit",
-    async event => {
-
-      event.preventDefault();
+    event.preventDefault();
 
 
-      const message =
-        aiInput.value.trim();
+    const message =
+      input.value.trim();
 
 
-      if(!message){
+    if(!message){
 
-        return;
+      return;
 
-      }
+    }
 
 
-      aiInput.value = "";
+    input.value =
+      "";
+
+
+    addMessage(
+      message,
+      "user"
+    );
+
+
+    const typing =
+      document.createElement(
+        "div"
+      );
+
+
+    typing.className =
+      "ai-msg bot";
+
+
+    typing.textContent =
+      "GHAR AI is thinking...";
+
+
+    messages.appendChild(
+      typing
+    );
+
+
+    try{
+
+      const answer =
+        await askAI(
+          message
+        );
+
+
+      typing.remove();
 
 
       addMessage(
-        message,
-        "user"
+        answer,
+        "bot"
       );
 
+    }catch(error){
 
-      const typing =
-        document.createElement(
-          "div"
-        );
+      typing.remove();
 
 
-      typing.className =
-        "ai-msg bot";
-
-
-      typing.textContent =
-        "GHAR AI is thinking...";
-
-
-      aiMessages.appendChild(
-        typing
+      addMessage(
+        "GHAR AI is temporarily unavailable.",
+        "bot"
       );
 
-
-      try{
-
-        const answer =
-          await askAI(
-            message
-          );
-
-
-        typing.remove();
-
-
-        addMessage(
-          answer,
-          "bot"
-        );
-
-      }catch(error){
-
-        typing.remove();
-
-
-        addMessage(
-          "GHAR AI is temporarily unavailable.",
-          "bot"
-        );
-
-
-        console.error(
-          error
-        );
-
-      }
+      console.error(
+        error
+      );
 
     }
-  );
 
-}
+  }
+);
 
 
 /* =========================================================
-   PAGE READY
+   INITIALIZE
 ========================================================= */
 
-document.documentElement
-  .classList.add(
-    "ghar-buyer-dashboard-ready"
-  );
+refreshDashboard();
 
+
+document.documentElement.classList.add(
+  "ghar-buyer-dashboard-ready"
+);
 
 })();
 
 </script>
-
 
 </body>
 </html>
