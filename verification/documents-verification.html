@@ -1,0 +1,667 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<meta name="description"
+content="GHAR Document Verification -- Submit and verify property and transaction documents.">
+
+<meta name="theme-color" content="#111827">
+
+<title>Document Verification · GHAR</title>
+
+<link rel="stylesheet" href="../assets/css/style.css">
+
+<style>
+*{box-sizing:border-box}
+
+:root{
+ --ink:#182235;
+ --muted:#6d7787;
+ --navy:#111827;
+ --blue:#5379b7;
+ --blue2:#a9c4ed;
+ --card:#f5f8fd;
+ --card2:#e6edf8;
+ --border:rgba(24,34,53,.13);
+ --success:#356b63;
+}
+
+body{
+ margin:0;
+ min-height:100vh;
+ color:var(--ink);
+ font-family:Inter,ui-sans-serif,system-ui,sans-serif;
+ background:
+ radial-gradient(circle at 5% 5%,rgba(83,121,183,.18),transparent 27%),
+ radial-gradient(circle at 95% 8%,rgba(169,196,237,.23),transparent 25%),
+ linear-gradient(135deg,#f8faff,#e4eaf4,#f0f4fa);
+}
+
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+
+.page{
+ width:min(1480px,calc(100% - 32px));
+ margin:auto;
+ padding:34px 0 70px;
+}
+
+.hero{
+ padding:44px;
+ min-height:300px;
+ border-radius:32px;
+ color:white;
+ background:
+ radial-gradient(circle at 88% 10%,rgba(169,196,237,.32),transparent 25%),
+ linear-gradient(135deg,#111827,#25395e,#46689c);
+ box-shadow:0 35px 90px rgba(17,24,39,.27);
+}
+
+.hero-grid{
+ display:grid;
+ grid-template-columns:1fr 250px;
+ gap:35px;
+ align-items:center;
+}
+
+.eyebrow{
+ color:#c9daf5;
+ font-size:10px;
+ font-weight:950;
+ letter-spacing:.17em;
+ text-transform:uppercase;
+}
+
+.hero h1{
+ margin:12px 0 0;
+ font-size:clamp(36px,5vw,60px);
+ line-height:1;
+ letter-spacing:-.055em;
+}
+
+.hero p{
+ max-width:700px;
+ color:rgba(255,255,255,.68);
+ font-size:14px;
+ line-height:1.8;
+}
+
+.orbit{
+ width:215px;
+ height:215px;
+ border-radius:50%;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ text-align:center;
+ background:radial-gradient(circle at 30% 20%,#8eacd9,#354f7c 60%,#111827);
+ border:1px solid rgba(201,218,245,.4);
+ box-shadow:0 0 0 18px rgba(83,121,183,.06),0 30px 65px rgba(0,0,0,.28);
+}
+
+.icon{
+ width:76px;
+ height:76px;
+ margin:auto;
+ border-radius:50%;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ background:linear-gradient(135deg,#c9daf5,#7193c5);
+ color:#122039;
+ font-size:28px;
+ font-weight:950;
+}
+
+.orbit-title{margin-top:11px;font-size:15px;font-weight:950}
+.orbit-sub{margin-top:4px;color:rgba(255,255,255,.55);font-size:9px;letter-spacing:.12em}
+
+.grid{
+ display:grid;
+ grid-template-columns:minmax(0,1.3fr) minmax(300px,.7fr);
+ gap:24px;
+ margin-top:24px;
+}
+
+.card{
+ padding:29px;
+ border:1px solid var(--border);
+ border-radius:26px;
+ background:linear-gradient(145deg,rgba(250,252,255,.96),rgba(226,234,246,.9));
+ box-shadow:0 15px 45px rgba(17,24,39,.08);
+}
+
+.card h2{
+ margin:7px 0 0;
+ font-size:30px;
+ letter-spacing:-.04em;
+}
+
+.description{
+ color:var(--muted);
+ font-size:12px;
+ line-height:1.7;
+}
+
+.notice{
+ display:flex;
+ gap:12px;
+ padding:14px;
+ margin-top:18px;
+ border-radius:15px;
+ background:#e4edf9;
+ color:#51667f;
+ font-size:10px;
+ line-height:1.6;
+}
+
+.notice-icon{
+ width:28px;
+ height:28px;
+ flex:0 0 auto;
+ border-radius:50%;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ color:white;
+ background:#5379b7;
+ font-weight:950;
+}
+
+.form-grid{
+ display:grid;
+ grid-template-columns:repeat(2,minmax(0,1fr));
+ gap:14px;
+ margin-top:20px;
+}
+
+.field{display:grid;gap:7px}
+.field.full{grid-column:1/-1}
+
+label{
+ font-size:10px;
+ font-weight:950;
+ letter-spacing:.08em;
+ text-transform:uppercase;
+ color:#596679;
+}
+
+input,select,textarea{
+ width:100%;
+ padding:12px 13px;
+ border:1px solid var(--border);
+ border-radius:13px;
+ outline:none;
+ background:rgba(255,255,255,.86);
+}
+
+textarea{min-height:105px;resize:vertical}
+
+input:focus,select:focus,textarea:focus{
+ border-color:var(--blue);
+ box-shadow:0 0 0 3px rgba(83,121,183,.12);
+}
+
+.actions{
+ display:flex;
+ justify-content:flex-end;
+ gap:9px;
+ flex-wrap:wrap;
+ margin-top:20px;
+ padding-top:17px;
+ border-top:1px solid var(--border);
+}
+
+.btn{
+ min-height:44px;
+ padding:11px 17px;
+ border:0;
+ border-radius:13px;
+ font-size:11px;
+ font-weight:950;
+ text-decoration:none;
+ display:inline-flex;
+ align-items:center;
+ justify-content:center;
+}
+
+.primary{
+ color:#122039;
+ background:linear-gradient(135deg,#c9daf5,#7193c5);
+}
+
+.dark{
+ color:#fff;
+ background:linear-gradient(135deg,#111827,#354f7c);
+}
+
+.status{
+ margin-top:18px;
+ padding:18px;
+ border-radius:17px;
+ background:rgba(255,255,255,.58);
+ border:1px solid var(--border);
+}
+
+.status-head{
+ display:flex;
+ justify-content:space-between;
+ font-size:10px;
+}
+
+.pill{
+ padding:6px 10px;
+ border-radius:999px;
+ color:#69521b;
+ background:#f3e7bd;
+ font-size:8px;
+ font-weight:950;
+}
+
+.progress{
+ height:8px;
+ margin-top:12px;
+ overflow:hidden;
+ border-radius:999px;
+ background:#d8e0eb;
+}
+
+.bar{
+ width:25%;
+ height:100%;
+ background:linear-gradient(90deg,#5379b7,#a9c4ed);
+}
+
+.document-list{
+ display:grid;
+ gap:9px;
+ margin-top:17px;
+}
+
+.document{
+ display:flex;
+ align-items:center;
+ gap:10px;
+ padding:12px;
+ border-radius:13px;
+ background:rgba(255,255,255,.58);
+ font-size:10px;
+}
+
+.document-icon{
+ width:30px;
+ height:30px;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ border-radius:9px;
+ background:#dce7f6;
+ color:#45699f;
+ font-weight:950;
+}
+
+.quick{
+ display:grid;
+ gap:8px;
+ margin-top:16px;
+}
+
+.quick a{
+ padding:12px;
+ border-radius:12px;
+ background:rgba(255,255,255,.58);
+ text-decoration:none;
+ font-size:10px;
+ font-weight:900;
+}
+
+.support{
+ padding:23px;
+ border-radius:24px;
+ color:#fff;
+ background:linear-gradient(135deg,#111827,#46689c,#25395e);
+}
+
+.support h3{margin:7px 0;font-size:23px}
+.support p{color:rgba(255,255,255,.65);font-size:10px;line-height:1.7}
+.support .btn{width:100%}
+
+.footer{
+ margin-top:24px;
+ padding:42px 22px;
+ color:#fff;
+ background:linear-gradient(135deg,#111827,#25395e,#46689c);
+}
+
+.footer-grid{
+ width:min(1480px,100%);
+ margin:auto;
+ display:grid;
+ grid-template-columns:1.3fr repeat(3,1fr);
+ gap:30px;
+}
+
+.footer-logo{font-size:25px;font-weight:950;letter-spacing:.1em}
+.footer-title{color:#c9daf5;font-size:11px;font-weight:950}
+.footer-links,.footer p{font-size:10px;line-height:1.8;color:rgba(255,255,255,.58)}
+.footer a{text-decoration:none;color:inherit}
+.footer-bottom{
+ width:min(1480px,100%);
+ margin:27px auto 0;
+ padding-top:17px;
+ border-top:1px solid rgba(255,255,255,.1);
+ color:rgba(255,255,255,.4);
+ font-size:9px;
+}
+
+@media(max-width:900px){.grid{grid-template-columns:1fr}}
+@media(max-width:700px){
+ .page{width:calc(100% - 20px);padding-top:20px}
+ .hero{padding:25px}
+ .hero-grid{grid-template-columns:1fr}
+ .orbit{width:180px;height:180px}
+ .form-grid{grid-template-columns:1fr}
+ .field.full{grid-column:auto}
+ .card{padding:21px}
+ .footer-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:480px){
+ .hero h1{font-size:35px}
+ .footer-grid{grid-template-columns:1fr}
+ .actions{flex-direction:column}
+ .actions .btn{width:100%}
+}
+</style>
+</head>
+
+<body data-root="../" data-page="document-verification">
+
+<div data-site-header></div>
+
+<main class="page">
+
+<section class="hero">
+
+<div class="hero-grid">
+
+<div>
+<div class="eyebrow">GHAR · DOCUMENT VERIFICATION</div>
+
+<h1>Verify your GHAR documents.</h1>
+
+<p>
+Organise document verification for identity, property,
+transaction or supporting records.
+</p>
+
+<div style="margin-top:22px">
+<a class="btn primary" href="../documents/documents.html">Document Center</a>
+</div>
+</div>
+
+<div class="orbit">
+<div>
+<div class="icon">▣</div>
+<div class="orbit-title">Document Review</div>
+<div class="orbit-sub">DOCUMENT WORKSPACE</div>
+</div>
+</div>
+
+</div>
+
+</section>
+
+<div class="grid">
+
+<div>
+
+<section class="card">
+
+<div class="eyebrow" style="color:#5379b7">DOCUMENT DETAILS</div>
+
+<h2>Submit verification request</h2>
+
+<p class="description">
+Provide the document information required for verification.
+</p>
+
+<div class="notice">
+<div class="notice-icon">✓</div>
+<div>
+Make sure the document reference and category match the
+document submitted through your GHAR document workflow.
+</div>
+</div>
+
+<form id="documentForm">
+
+<div class="form-grid">
+
+<div class="field">
+<label>Document Name</label>
+<input id="documentName" required placeholder="Example: Sale Agreement">
+</div>
+
+<div class="field">
+<label>Document Type</label>
+<select id="documentType" required>
+<option value="">Select type</option>
+<option>Identity Document</option>
+<option>Address Proof</option>
+<option>Property Document</option>
+<option>Sale Agreement</option>
+<option>Payment Proof</option>
+<option>Bank Document</option>
+<option>Other</option>
+</select>
+</div>
+
+<div class="field">
+<label>Document Reference</label>
+<input id="documentReference" required placeholder="Document reference">
+</div>
+
+<div class="field">
+<label>Property ID</label>
+<input id="propertyId" placeholder="GHAR-P001">
+</div>
+
+<div class="field">
+<label>Uploaded Date</label>
+<input id="uploadedDate" type="date">
+</div>
+
+<div class="field">
+<label>Document Version</label>
+<input id="version" placeholder="v1">
+</div>
+
+<div class="field full">
+<label>Verification Notes</label>
+<textarea id="notes" placeholder="Enter document-related information"></textarea>
+</div>
+
+</div>
+
+<div class="actions">
+<button type="reset" class="btn dark">Clear</button>
+<button type="submit" class="btn primary">Submit Document</button>
+</div>
+
+</form>
+
+</section>
+
+</div>
+
+<aside>
+
+<section class="card">
+
+<div class="eyebrow" style="color:#5379b7">STATUS</div>
+
+<h2 style="font-size:23px">Document review</h2>
+
+<div class="status">
+
+<div class="status-head">
+<strong>Current Status</strong>
+<span id="status" class="pill">Pending</span>
+</div>
+
+<div class="progress">
+<div id="bar" class="bar"></div>
+</div>
+
+</div>
+
+<div class="document-list">
+
+<div class="document">
+<div class="document-icon">01</div>
+Document received
+</div>
+
+<div class="document">
+<div class="document-icon">02</div>
+Format / information review
+</div>
+
+<div class="document">
+<div class="document-icon">03</div>
+Verification review
+</div>
+
+<div class="document">
+<div class="document-icon">04</div>
+Verification result
+</div>
+
+</div>
+
+</section>
+
+<section class="card">
+
+<div class="eyebrow" style="color:#5379b7">QUICK ACCESS</div>
+
+<h2 style="font-size:23px">Documents</h2>
+
+<div class="quick">
+<a href="../documents/documents.html">Document Center</a>
+<a href="../documents/forms.html">Forms</a>
+<a href="../documents/invoice.html">Invoices</a>
+<a href="../documents/payments.html">Payments</a>
+</div>
+
+</section>
+
+<section class="support">
+
+<div class="eyebrow">GHAR SUPPORT</div>
+
+<h3>Document assistance</h3>
+
+<p>
+Contact the GHAR communication workspace if you need help
+with document verification.
+</p>
+
+<a class="btn primary" href="../buyers/conversations.html">
+Open Conversations
+</a>
+
+</section>
+
+</aside>
+
+</div>
+
+</main>
+
+<footer class="footer">
+
+<div class="footer-grid">
+
+<div>
+<div class="footer-logo">GHAR</div>
+<p>Premium property, document and transaction infrastructure.</p>
+</div>
+
+<div>
+<div class="footer-title">DOCUMENTS</div>
+<div class="footer-links">
+<a href="../documents/documents.html">Documents</a><br>
+<a href="../documents/forms.html">Forms</a><br>
+<a href="../documents/invoice.html">Invoices</a>
+</div>
+</div>
+
+<div>
+<div class="footer-title">VERIFICATION</div>
+<div class="footer-links">
+<a href="buyer-verification.html">Buyer</a><br>
+<a href="seller-verification.html">Seller</a><br>
+<a href="property-verification.html">Property</a>
+</div>
+</div>
+
+<div>
+<div class="footer-title">GHAR</div>
+<div class="footer-links">
+<a href="../about.html">About</a><br>
+<a href="../contact.html">Contact</a><br>
+<a href="../privacy.html">Privacy</a>
+</div>
+</div>
+
+</div>
+
+<div class="footer-bottom">
+© 2026 GHAR · Document Verification Workspace
+</div>
+
+</footer>
+
+<script src="../assets/js/main/site.js" defer></script>
+<script src="../assets/js/main/page.js" defer></script>
+<script src="../assets/js/main/api.js" defer></script>
+<script src="../assets/js/main/auth.js" defer></script>
+
+<script>
+(() => {
+const form=document.getElementById("documentForm");
+
+form?.addEventListener("submit",e=>{
+ e.preventDefault();
+
+ if(!form.checkValidity()){
+  form.reportValidity();
+  return;
+ }
+
+ const data={
+  documentName:document.getElementById("documentName").value,
+  documentType:document.getElementById("documentType").value,
+  documentReference:document.getElementById("documentReference").value,
+  propertyId:document.getElementById("propertyId").value,
+  uploadedDate:document.getElementById("uploadedDate").value,
+  version:document.getElementById("version").value,
+  notes:document.getElementById("notes").value,
+  submittedAt:new Date().toISOString()
+ };
+
+ localStorage.setItem("ghar_document_verification",JSON.stringify(data));
+
+ document.getElementById("status").textContent="Submitted";
+ document.getElementById("bar").style.width="65%";
+
+ alert("Document verification submitted successfully.");
+});
+})();
+</script>
+
+</body>
+</html>

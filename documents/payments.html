@@ -1,0 +1,606 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<meta name="description"
+content="GHAR Payments -- Manage property payments, transactions, receipts and payment history.">
+
+<meta name="theme-color" content="#090b1d">
+
+<title>Payments · GHAR</title>
+
+<link rel="stylesheet" href="../assets/css/style.css">
+
+<style>
+*{box-sizing:border-box}
+
+:root{
+  --navy:#090b1d;
+  --navy2:#171d3d;
+  --blue:#263f78;
+  --burgundy:#651f35;
+  --gold:#e7c982;
+  --gold2:#f3dfaa;
+  --cream:#fffaf0;
+  --ink:#171a2c;
+  --muted:#737789;
+  --border:rgba(10,14,36,.12);
+  --green:#24614e;
+  --red:#923f50;
+  --yellow:#80651f;
+  --shadow:0 25px 70px rgba(7,8,23,.12);
+  --soft:0 12px 35px rgba(7,8,23,.08);
+}
+
+body{
+  margin:0;
+  min-height:100vh;
+  color:var(--ink);
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  background:
+    radial-gradient(circle at 5% 5%,rgba(38,63,120,.15),transparent 25%),
+    radial-gradient(circle at 95% 8%,rgba(101,31,53,.13),transparent 27%),
+    linear-gradient(135deg,#fbf6eb,#eee3d0,#f8efdf);
+}
+
+button{font:inherit;cursor:pointer}
+
+.page{
+  width:min(1450px,calc(100% - 32px));
+  margin:auto;
+  padding:34px 0 70px;
+}
+
+.hero{
+  padding:40px;
+  border-radius:30px;
+  color:#fff;
+  background:
+    radial-gradient(circle at 90% 10%,rgba(231,201,130,.25),transparent 28%),
+    linear-gradient(135deg,#070817,#263f78 55%,#651f35);
+  box-shadow:var(--shadow);
+}
+
+.eyebrow{
+  color:var(--gold2);
+  font-size:10px;
+  font-weight:950;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+}
+
+h1{
+  margin:10px 0 0;
+  font-size:clamp(36px,5vw,58px);
+  line-height:1;
+  letter-spacing:-.055em;
+}
+
+.hero p{
+  max-width:720px;
+  margin:15px 0 0;
+  color:rgba(255,255,255,.67);
+  font-size:13px;
+  line-height:1.75;
+}
+
+.actions{
+  display:flex;
+  gap:9px;
+  flex-wrap:wrap;
+  margin-top:22px;
+}
+
+.btn{
+  min-height:43px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:10px 15px;
+  border-radius:12px;
+  border:0;
+  text-decoration:none;
+  font-size:11px;
+  font-weight:950;
+}
+
+.primary{
+  color:#18130a;
+  background:linear-gradient(135deg,#f2dda2,#bd9147);
+}
+
+.secondary{
+  color:#fff;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.15);
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:13px;
+  margin-top:24px;
+}
+
+.stat{
+  padding:20px;
+  border-radius:19px;
+  background:linear-gradient(145deg,rgba(255,250,240,.95),rgba(243,232,212,.85));
+  border:1px solid var(--border);
+  box-shadow:var(--soft);
+}
+
+.stat-icon{
+  width:37px;
+  height:37px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:11px;
+  color:#fff;
+  background:linear-gradient(135deg,var(--blue),var(--burgundy));
+}
+
+.stat-value{
+  margin-top:12px;
+  color:var(--navy2);
+  font-size:20px;
+  font-weight:950;
+}
+
+.stat-label{
+  margin-top:4px;
+  color:var(--muted);
+  font-size:9px;
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+}
+
+.card{
+  margin-top:24px;
+  padding:27px;
+  border-radius:25px;
+  border:1px solid var(--border);
+  background:linear-gradient(145deg,rgba(255,250,240,.96),rgba(243,232,212,.84));
+  box-shadow:var(--soft);
+}
+
+.card h2{
+  margin:7px 0 0;
+  color:var(--navy2);
+  font-size:28px;
+  letter-spacing:-.035em;
+}
+
+.card p{
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.7;
+}
+
+.filters{
+  display:grid;
+  grid-template-columns:1fr 190px 190px auto;
+  gap:10px;
+  margin-top:19px;
+}
+
+input,select{
+  width:100%;
+  min-height:43px;
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:10px 12px;
+  background:rgba(255,255,255,.75);
+  outline:none;
+}
+
+input:focus,select:focus{
+  border-color:rgba(38,63,120,.45);
+  box-shadow:0 0 0 3px rgba(38,63,120,.07);
+}
+
+.table-wrap{
+  overflow:auto;
+  margin-top:20px;
+}
+
+table{
+  width:100%;
+  min-width:760px;
+  border-collapse:collapse;
+}
+
+th{
+  padding:12px;
+  text-align:left;
+  background:#eee5d5;
+  color:#707485;
+  font-size:9px;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+}
+
+td{
+  padding:15px 12px;
+  border-bottom:1px solid rgba(10,14,36,.08);
+  font-size:10px;
+}
+
+td strong{
+  color:var(--navy2);
+}
+
+.amount{
+  font-weight:950;
+  text-align:right;
+}
+
+.badge{
+  display:inline-flex;
+  padding:6px 9px;
+  border-radius:999px;
+  font-size:8px;
+  font-weight:950;
+  text-transform:uppercase;
+}
+
+.paid{background:#dceee7;color:#205844}
+.pending{background:#f5e9bd;color:#765b18}
+.failed{background:#f3dfe4;color:#7a3344}
+
+.receipt{
+  color:var(--blue);
+  text-decoration:none;
+  font-weight:900;
+}
+
+.footer{
+  margin-top:24px;
+  padding:38px 22px;
+  color:#fff;
+  border-radius:27px 27px 0 0;
+  background:linear-gradient(135deg,#070817,#171d3d,#32172a);
+}
+
+.footer-grid{
+  width:min(1450px,100%);
+  margin:auto;
+  display:grid;
+  grid-template-columns:1.4fr repeat(3,1fr);
+  gap:30px;
+}
+
+.logo{
+  font-size:25px;
+  font-weight:950;
+  letter-spacing:.1em;
+}
+
+.footer-title{
+  color:var(--gold2);
+  font-size:11px;
+  font-weight:950;
+}
+
+.footer-links{
+  margin-top:10px;
+  color:rgba(255,255,255,.62);
+  font-size:10px;
+  line-height:2;
+}
+
+.footer-links a{text-decoration:none;color:inherit}
+
+.bottom{
+  margin-top:25px;
+  padding-top:16px;
+  border-top:1px solid rgba(255,255,255,.1);
+  color:rgba(255,255,255,.4);
+  font-size:9px;
+}
+
+@media(max-width:950px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .filters{grid-template-columns:1fr 1fr}
+}
+
+@media(max-width:600px){
+  .page{width:calc(100% - 20px);padding-top:20px}
+  .hero,.card{padding:21px}
+  .stats{grid-template-columns:1fr}
+  .filters{grid-template-columns:1fr}
+  .footer-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+
+<body data-root="../" data-page="payments">
+
+<div data-site-header></div>
+
+<main class="page">
+
+<section class="hero">
+
+<div class="eyebrow">GHAR · FINANCIAL WORKSPACE</div>
+
+<h1>Payments.</h1>
+
+<p>
+Track property-related payments, transaction references,
+payment status and receipts from one structured GHAR
+financial workspace.
+</p>
+
+<div class="actions">
+<a class="btn primary" href="invoice.html">
+View Latest Invoice
+</a>
+
+<a class="btn secondary" href="subscription.html">
+Manage Subscription
+</a>
+
+<a class="btn secondary" href="../dashboard.html">
+Dashboard
+</a>
+</div>
+
+</section>
+
+
+<section class="stats">
+
+<div class="stat">
+<div class="stat-icon">₹</div>
+<div class="stat-value" id="totalPaid">₹6,490</div>
+<div class="stat-label">Total Paid</div>
+</div>
+
+<div class="stat">
+<div class="stat-icon">✓</div>
+<div class="stat-value" id="successfulCount">1</div>
+<div class="stat-label">Successful</div>
+</div>
+
+<div class="stat">
+<div class="stat-icon">◷</div>
+<div class="stat-value" id="pendingCount">0</div>
+<div class="stat-label">Pending</div>
+</div>
+
+<div class="stat">
+<div class="stat-icon">▤</div>
+<div class="stat-value" id="transactionCount">1</div>
+<div class="stat-label">Transactions</div>
+</div>
+
+</section>
+
+
+<section class="card">
+
+<div class="eyebrow">TRANSACTION HISTORY</div>
+
+<h2>Payment records</h2>
+
+<p>
+Search and filter your GHAR payment activity. The table
+can later be populated directly from your payment API.
+</p>
+
+<div class="filters">
+
+<input
+id="search"
+type="search"
+placeholder="Search transaction or property..."
+>
+
+<select id="statusFilter">
+<option value="all">All Status</option>
+<option value="paid">Paid</option>
+<option value="pending">Pending</option>
+<option value="failed">Failed</option>
+</select>
+
+<select id="typeFilter">
+<option value="all">All Types</option>
+<option value="property">Property Service</option>
+<option value="subscription">Subscription</option>
+<option value="booking">Booking</option>
+</select>
+
+<button class="btn primary" id="clearFilters">
+Reset
+</button>
+
+</div>
+
+<div class="table-wrap">
+
+<table>
+
+<thead>
+<tr>
+<th>Date</th>
+<th>Transaction</th>
+<th>Property</th>
+<th>Type</th>
+<th>Status</th>
+<th class="amount">Amount</th>
+<th>Receipt</th>
+</tr>
+</thead>
+
+<tbody id="paymentRows">
+
+<tr
+data-status="paid"
+data-type="property"
+>
+<td>04 Oct 2026</td>
+<td><strong>GHAR-TXN-0001</strong></td>
+<td>GHAR-P001</td>
+<td>Property Service</td>
+<td><span class="badge paid">Paid</span></td>
+<td class="amount">₹6,490</td>
+<td>
+<a class="receipt" href="invoice.html">View</a>
+</td>
+</tr>
+
+<tr
+data-status="pending"
+data-type="subscription"
+>
+<td>02 Oct 2026</td>
+<td><strong>GHAR-TXN-0002</strong></td>
+<td>--</td>
+<td>Subscription</td>
+<td><span class="badge pending">Pending</span></td>
+<td class="amount">₹999</td>
+<td>--</td>
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</section>
+
+
+<section class="card">
+
+<div class="eyebrow">PAYMENT INFORMATION</div>
+
+<h2>Secure transaction records.</h2>
+
+<p>
+Payment status, transaction IDs, invoice numbers and
+receipts should be verified against the connected GHAR
+server and payment gateway before treating a transaction
+as final.
+</p>
+
+</section>
+
+</main>
+
+
+<footer class="footer">
+
+<div class="footer-grid">
+
+<div>
+<div class="logo">GHAR</div>
+<div class="footer-links">
+Structured real-estate payments and transaction management.
+</div>
+</div>
+
+<div>
+<div class="footer-title">DOCUMENTS</div>
+<div class="footer-links">
+<a href="documents.html">Documents</a><br>
+<a href="forms.html">Forms</a><br>
+<a href="invoice.html">Invoice</a>
+</div>
+</div>
+
+<div>
+<div class="footer-title">PAYMENTS</div>
+<div class="footer-links">
+<a href="payments.html">Payments</a><br>
+<a href="subscription.html">Subscription</a>
+</div>
+</div>
+
+<div>
+<div class="footer-title">ACCOUNT</div>
+<div class="footer-links">
+<a href="../dashboard.html">Dashboard</a><br>
+<a href="../contact.html">Contact</a>
+</div>
+</div>
+
+</div>
+
+<div class="bottom">
+© 2026 GHAR. All rights reserved.
+</div>
+
+</footer>
+
+
+<script src="../assets/js/main/site.js" defer></script>
+<script src="../assets/js/main/page.js" defer></script>
+<script src="../assets/js/main/api.js" defer></script>
+<script src="../assets/js/main/auth.js" defer></script>
+
+<script>
+(() => {
+
+"use strict";
+
+const search=document.getElementById("search");
+const status=document.getElementById("statusFilter");
+const type=document.getElementById("typeFilter");
+const rows=[...document.querySelectorAll("#paymentRows tr")];
+
+function filter(){
+
+  const query=search.value.toLowerCase().trim();
+  const selectedStatus=status.value;
+  const selectedType=type.value;
+
+  rows.forEach(row=>{
+
+    const text=row.textContent.toLowerCase();
+
+    const matchSearch=!query || text.includes(query);
+    const matchStatus=
+      selectedStatus==="all" ||
+      row.dataset.status===selectedStatus;
+
+    const matchType=
+      selectedType==="all" ||
+      row.dataset.type===selectedType;
+
+    row.style.display=
+      matchSearch && matchStatus && matchType
+        ? ""
+        : "none";
+
+  });
+
+}
+
+[search,status,type].forEach(el=>{
+  el?.addEventListener("input",filter);
+  el?.addEventListener("change",filter);
+});
+
+document.getElementById("clearFilters")?.addEventListener(
+"click",
+()=>{
+
+  search.value="";
+  status.value="all";
+  type.value="all";
+
+  filter();
+
+});
+
+})();
+</script>
+
+</body>
+</html>

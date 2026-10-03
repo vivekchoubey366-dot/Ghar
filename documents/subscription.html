@@ -1,0 +1,904 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<meta name="description"
+content="GHAR Subscription -- Manage your GHAR plan, billing cycle, subscription status and payment details.">
+
+<meta name="theme-color" content="#090b1d">
+
+<title>Subscription · GHAR</title>
+
+<link rel="stylesheet" href="../assets/css/style.css">
+
+<style>
+*{box-sizing:border-box}
+
+:root{
+  --navy:#090b1d;
+  --navy2:#171d3d;
+  --blue:#263f78;
+  --burgundy:#651f35;
+  --gold:#e7c982;
+  --gold2:#f3dfaa;
+  --cream:#fffaf0;
+  --ink:#171a2c;
+  --muted:#737789;
+  --border:rgba(10,14,36,.12);
+  --green:#24614e;
+  --shadow:0 25px 70px rgba(7,8,23,.12);
+  --soft:0 12px 35px rgba(7,8,23,.08);
+}
+
+body{
+  margin:0;
+  min-height:100vh;
+  color:var(--ink);
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  background:
+    radial-gradient(circle at 5% 5%,rgba(38,63,120,.15),transparent 25%),
+    radial-gradient(circle at 95% 8%,rgba(101,31,53,.13),transparent 27%),
+    linear-gradient(135deg,#fbf6eb,#eee3d0,#f8efdf);
+}
+
+button{font:inherit;cursor:pointer}
+
+.page{
+  width:min(1450px,calc(100% - 32px));
+  margin:auto;
+  padding:34px 0 70px;
+}
+
+.hero{
+  position:relative;
+  overflow:hidden;
+  padding:40px;
+  border-radius:30px;
+  color:#fff;
+  background:
+    radial-gradient(circle at 90% 10%,rgba(231,201,130,.25),transparent 28%),
+    radial-gradient(circle at 10% 100%,rgba(139,49,75,.28),transparent 35%),
+    linear-gradient(135deg,#070817,#263f78 55%,#651f35);
+  box-shadow:var(--shadow);
+}
+
+.eyebrow{
+  color:var(--gold2);
+  font-size:10px;
+  font-weight:950;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+}
+
+h1{
+  margin:10px 0 0;
+  font-size:clamp(36px,5vw,58px);
+  line-height:1;
+  letter-spacing:-.055em;
+}
+
+.hero p{
+  max-width:730px;
+  margin:15px 0 0;
+  color:rgba(255,255,255,.67);
+  font-size:13px;
+  line-height:1.75;
+}
+
+.hero-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:9px;
+  margin-top:22px;
+}
+
+.btn{
+  min-height:43px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:10px 15px;
+  border-radius:12px;
+  border:0;
+  text-decoration:none;
+  font-size:11px;
+  font-weight:950;
+}
+
+.primary{
+  color:#18130a;
+  background:linear-gradient(135deg,#f2dda2,#bd9147);
+}
+
+.secondary{
+  color:#fff;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.15);
+}
+
+.layout{
+  display:grid;
+  grid-template-columns:minmax(0,1.3fr) minmax(300px,.7fr);
+  gap:24px;
+  margin-top:24px;
+}
+
+.card{
+  padding:27px;
+  border:1px solid var(--border);
+  border-radius:25px;
+  background:linear-gradient(145deg,rgba(255,250,240,.96),rgba(243,232,212,.84));
+  box-shadow:var(--soft);
+}
+
+.card+.card{margin-top:24px}
+
+.card-title{
+  margin:7px 0 0;
+  color:var(--navy2);
+  font-size:28px;
+  letter-spacing:-.035em;
+}
+
+.description{
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.7;
+}
+
+.current-plan{
+  position:relative;
+  overflow:hidden;
+  margin-top:20px;
+  padding:26px;
+  border-radius:21px;
+  color:#fff;
+  background:
+    radial-gradient(circle at 85% 15%,rgba(231,201,130,.25),transparent 28%),
+    linear-gradient(135deg,#090b1d,#263f78,#651f35);
+}
+
+.plan-head{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:20px;
+}
+
+.plan-name{
+  font-size:27px;
+  font-weight:950;
+}
+
+.plan-price{
+  margin-top:7px;
+  font-size:13px;
+  color:rgba(255,255,255,.65);
+}
+
+.active{
+  padding:7px 10px;
+  border-radius:999px;
+  color:#205844;
+  background:#dceee7;
+  font-size:8px;
+  font-weight:950;
+  text-transform:uppercase;
+}
+
+.plan-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  margin-top:23px;
+}
+
+.plan-stat{
+  padding:13px;
+  border-radius:13px;
+  background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.1);
+}
+
+.plan-stat span{
+  display:block;
+  color:rgba(255,255,255,.52);
+  font-size:8px;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+}
+
+.plan-stat strong{
+  display:block;
+  margin-top:5px;
+  font-size:11px;
+}
+
+.features{
+  display:grid;
+  gap:9px;
+  margin-top:19px;
+}
+
+.feature{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  padding:12px;
+  border-radius:13px;
+  background:rgba(255,255,255,.07);
+}
+
+.feature-icon{
+  width:28px;
+  height:28px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:9px;
+  color:#18130a;
+  background:var(--gold2);
+  font-weight:950;
+}
+
+.feature span{
+  color:rgba(255,255,255,.78);
+  font-size:10px;
+}
+
+.plan-options{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+  margin-top:20px;
+}
+
+.plan-option{
+  padding:19px;
+  border-radius:18px;
+  border:1px solid var(--border);
+  background:rgba(255,255,255,.58);
+}
+
+.plan-option.selected{
+  border-color:rgba(38,63,120,.35);
+  box-shadow:0 0 0 3px rgba(38,63,120,.06);
+}
+
+.option-name{
+  color:var(--navy2);
+  font-size:15px;
+  font-weight:950;
+}
+
+.option-price{
+  margin-top:8px;
+  font-size:20px;
+  font-weight:950;
+}
+
+.option-price small{
+  color:var(--muted);
+  font-size:9px;
+}
+
+.option-description{
+  min-height:54px;
+  margin-top:8px;
+  color:var(--muted);
+  font-size:9px;
+  line-height:1.6;
+}
+
+.option-btn{
+  width:100%;
+  margin-top:13px;
+  padding:10px;
+  border:0;
+  border-radius:10px;
+  color:#fff;
+  background:linear-gradient(135deg,#171d3d,#405e9d);
+  font-size:9px;
+  font-weight:950;
+}
+
+.billing{
+  display:grid;
+  gap:11px;
+  margin-top:19px;
+}
+
+.billing-row{
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+  padding:13px;
+  border-radius:13px;
+  background:rgba(255,255,255,.55);
+  font-size:10px;
+}
+
+.billing-row span{color:var(--muted)}
+.billing-row strong{color:var(--navy2)}
+
+.side-link{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:12px;
+  margin-top:8px;
+  border-radius:13px;
+  text-decoration:none;
+  background:rgba(255,255,255,.55);
+}
+
+.side-icon{
+  width:33px;
+  height:33px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:10px;
+  color:#fff;
+  background:linear-gradient(135deg,#171d3d,#405e9d);
+}
+
+.side-link strong{
+  display:block;
+  font-size:10px;
+}
+
+.side-link span{
+  display:block;
+  margin-top:2px;
+  color:var(--muted);
+  font-size:8px;
+}
+
+.warning{
+  margin-top:17px;
+  padding:14px;
+  border-radius:14px;
+  color:#675719;
+  background:#f5e9bd;
+  font-size:9px;
+  line-height:1.6;
+}
+
+.footer{
+  margin-top:24px;
+  padding:38px 22px;
+  color:#fff;
+  border-radius:27px 27px 0 0;
+  background:linear-gradient(135deg,#070817,#171d3d,#32172a);
+}
+
+.footer-grid{
+  width:min(1450px,100%);
+  margin:auto;
+  display:grid;
+  grid-template-columns:1.4fr repeat(3,1fr);
+  gap:30px;
+}
+
+.logo{
+  font-size:25px;
+  font-weight:950;
+  letter-spacing:.1em;
+}
+
+.footer-title{
+  color:var(--gold2);
+  font-size:11px;
+  font-weight:950;
+}
+
+.footer-links{
+  margin-top:10px;
+  color:rgba(255,255,255,.62);
+  font-size:10px;
+  line-height:2;
+}
+
+.footer-links a{
+  color:inherit;
+  text-decoration:none;
+}
+
+.bottom{
+  margin-top:25px;
+  padding-top:16px;
+  border-top:1px solid rgba(255,255,255,.1);
+  color:rgba(255,255,255,.4);
+  font-size:9px;
+}
+
+@media(max-width:950px){
+  .layout{grid-template-columns:1fr}
+}
+
+@media(max-width:750px){
+  .plan-options{grid-template-columns:1fr}
+  .plan-grid{grid-template-columns:1fr}
+}
+
+@media(max-width:600px){
+  .page{width:calc(100% - 20px);padding-top:20px}
+  .hero,.card{padding:21px}
+  .plan-head{flex-direction:column}
+  .footer-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+
+<body data-root="../" data-page="subscription">
+
+<div data-site-header></div>
+
+<main class="page">
+
+<section class="hero">
+
+<div class="eyebrow">GHAR · MEMBERSHIP</div>
+
+<h1>Your subscription.</h1>
+
+<p>
+Manage your GHAR membership, billing cycle, plan features
+and subscription status from one premium account workspace.
+</p>
+
+<div class="hero-actions">
+
+<a class="btn primary" href="payments.html">
+Payment History
+</a>
+
+<a class="btn secondary" href="invoice.html">
+Latest Invoice
+</a>
+
+<a class="btn secondary" href="../dashboard.html">
+Dashboard
+</a>
+
+</div>
+
+</section>
+
+
+<div class="layout">
+
+<div>
+
+<section class="card">
+
+<div class="eyebrow">CURRENT PLAN</div>
+
+<h2 class="card-title">
+Membership overview.
+</h2>
+
+<p class="description">
+Your currently selected GHAR membership plan and its
+billing information.
+</p>
+
+<div class="current-plan">
+
+<div class="plan-head">
+
+<div>
+<div class="plan-name">GHAR Premium</div>
+
+<div class="plan-price">
+₹999 / month · GST applicable where required
+</div>
+</div>
+
+<span class="active">
+Active
+</span>
+
+</div>
+
+
+<div class="plan-grid">
+
+<div class="plan-stat">
+<span>Next Billing</span>
+<strong id="nextBilling">04 Nov 2026</strong>
+</div>
+
+<div class="plan-stat">
+<span>Started</span>
+<strong>04 Oct 2026</strong>
+</div>
+
+<div class="plan-stat">
+<span>Auto Renewal</span>
+<strong id="renewalStatus">Enabled</strong>
+</div>
+
+</div>
+
+
+<div class="features">
+
+<div class="feature">
+<div class="feature-icon">✓</div>
+<span>Buyer and property workspace access</span>
+</div>
+
+<div class="feature">
+<div class="feature-icon">✓</div>
+<span>Document and transaction management</span>
+</div>
+
+<div class="feature">
+<div class="feature-icon">✓</div>
+<span>Saved properties and enquiry tools</span>
+</div>
+
+<div class="feature">
+<div class="feature-icon">✓</div>
+<span>GHAR communication workspace</span>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<section class="card">
+
+<div class="eyebrow">AVAILABLE PLANS</div>
+
+<h2 class="card-title">
+Choose your plan.
+</h2>
+
+<p class="description">
+Plan selection can be connected to your subscription API
+and payment gateway.
+</p>
+
+
+<div class="plan-options">
+
+<div class="plan-option">
+
+<div class="option-name">
+Basic
+</div>
+
+<div class="option-price">
+₹0 <small>/ month</small>
+</div>
+
+<div class="option-description">
+Basic property discovery and account features.
+</div>
+
+<button
+class="option-btn"
+data-plan="basic"
+>
+Select Plan
+</button>
+
+</div>
+
+
+<div class="plan-option selected">
+
+<div class="option-name">
+Premium
+</div>
+
+<div class="option-price">
+₹999 <small>/ month</small>
+</div>
+
+<div class="option-description">
+Extended buyer workspace and transaction tools.
+</div>
+
+<button
+class="option-btn"
+data-plan="premium"
+>
+Current Plan
+</button>
+
+</div>
+
+
+<div class="plan-option">
+
+<div class="option-name">
+Professional
+</div>
+
+<div class="option-price">
+₹2,499 <small>/ month</small>
+</div>
+
+<div class="option-description">
+Advanced workspace capabilities for frequent users.
+</div>
+
+<button
+class="option-btn"
+data-plan="professional"
+>
+Select Plan
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+
+<section class="card">
+
+<div class="eyebrow">BILLING</div>
+
+<h2 class="card-title">
+Billing details.
+</h2>
+
+<div class="billing">
+
+<div class="billing-row">
+<span>Current plan</span>
+<strong>GHAR Premium</strong>
+</div>
+
+<div class="billing-row">
+<span>Billing cycle</span>
+<strong>Monthly</strong>
+</div>
+
+<div class="billing-row">
+<span>Subscription fee</span>
+<strong>₹999</strong>
+</div>
+
+<div class="billing-row">
+<span>Auto renewal</span>
+<strong id="billingRenewal">
+Enabled
+</strong>
+</div>
+
+</div>
+
+<button
+class="btn primary"
+id="renewalButton"
+style="margin-top:17px"
+>
+Disable Auto Renewal
+</button>
+
+</section>
+
+</div>
+
+
+<aside>
+
+<section class="card">
+
+<div class="eyebrow">ACCOUNT</div>
+
+<h2 class="card-title" style="font-size:22px">
+Subscription tools.
+</h2>
+
+<a class="side-link" href="payments.html">
+<div class="side-icon">₹</div>
+<div>
+<strong>Payments</strong>
+<span>View transaction history</span>
+</div>
+</a>
+
+<a class="side-link" href="invoice.html">
+<div class="side-icon">▤</div>
+<div>
+<strong>Invoices</strong>
+<span>View billing invoices</span>
+</div>
+</a>
+
+<a class="side-link" href="documents.html">
+<div class="side-icon">▣</div>
+<div>
+<strong>Documents</strong>
+<span>Manage documents</span>
+</div>
+</a>
+
+<a class="side-link" href="../dashboard.html">
+<div class="side-icon">⌂</div>
+<div>
+<strong>Dashboard</strong>
+<span>Return to dashboard</span>
+</div>
+</a>
+
+</section>
+
+
+<section class="card">
+
+<div class="eyebrow">IMPORTANT</div>
+
+<h2 class="card-title" style="font-size:21px">
+Subscription billing.
+</h2>
+
+<p class="description">
+Subscription status displayed on this page should be
+synchronised with the GHAR server and payment provider
+when the production billing system is enabled.
+</p>
+
+<div class="warning">
+Do not treat a browser-only subscription status as proof
+of payment. Server-side verification should be used for
+production transactions.
+</div>
+
+</section>
+
+</aside>
+
+</div>
+
+</main>
+
+
+<footer class="footer">
+
+<div class="footer-grid">
+
+<div>
+<div class="logo">GHAR</div>
+<div class="footer-links">
+Premium property and transaction workspace.
+</div>
+</div>
+
+<div>
+<div class="footer-title">DOCUMENTS</div>
+<div class="footer-links">
+<a href="documents.html">Documents</a><br>
+<a href="forms.html">Forms</a><br>
+<a href="invoice.html">Invoice</a>
+</div>
+</div>
+
+<div>
+<div class="footer-title">PAYMENTS</div>
+<div class="footer-links">
+<a href="payments.html">Payments</a><br>
+<a href="subscription.html">Subscription</a>
+</div>
+</div>
+
+<div>
+<div class="footer-title">GHAR</div>
+<div class="footer-links">
+<a href="../about.html">About</a><br>
+<a href="../contact.html">Contact</a><br>
+<a href="../privacy.html">Privacy</a>
+</div>
+</div>
+
+</div>
+
+<div class="bottom">
+© 2026 GHAR. All rights reserved.
+</div>
+
+</footer>
+
+
+<script src="../assets/js/main/site.js" defer></script>
+<script src="../assets/js/main/page.js" defer></script>
+<script src="../assets/js/main/api.js" defer></script>
+<script src="../assets/js/main/auth.js" defer></script>
+
+<script>
+(() => {
+
+"use strict";
+
+const renewalButton=
+document.getElementById("renewalButton");
+
+const renewalStatus=
+document.getElementById("renewalStatus");
+
+const billingRenewal=
+document.getElementById("billingRenewal");
+
+let enabled=
+localStorage.getItem("ghar_auto_renewal") !== "false";
+
+function updateRenewal(){
+
+  renewalStatus.textContent=
+    enabled ? "Enabled" : "Disabled";
+
+  billingRenewal.textContent=
+    enabled ? "Enabled" : "Disabled";
+
+  renewalButton.textContent=
+    enabled
+      ? "Disable Auto Renewal"
+      : "Enable Auto Renewal";
+
+}
+
+renewalButton?.addEventListener(
+"click",
+()=>{
+
+  enabled=!enabled;
+
+  localStorage.setItem(
+    "ghar_auto_renewal",
+    String(enabled)
+  );
+
+  updateRenewal();
+
+});
+
+document.querySelectorAll(
+"[data-plan]"
+).forEach(button=>{
+
+  button.addEventListener(
+  "click",
+  ()=>{
+
+    const plan=
+      button.dataset.plan;
+
+    if(plan==="premium"){
+
+      alert(
+        "GHAR Premium is already your current plan."
+      );
+
+      return;
+    }
+
+    alert(
+      "Plan selected: "+
+      plan+
+      ". Connect this action to your subscription and payment API."
+    );
+
+  });
+
+});
+
+updateRenewal();
+
+})();
+</script>
+
+</body>
+</html>

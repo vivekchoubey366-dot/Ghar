@@ -1,0 +1,796 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<meta name="description"
+content="GHAR Invoice -- View, download and manage property transaction invoices.">
+
+<meta name="theme-color" content="#090b1d">
+
+<title>Invoice · GHAR</title>
+
+<link rel="stylesheet" href="../assets/css/style.css">
+
+<style>
+*{box-sizing:border-box}
+
+:root{
+  --navy:#090b1d;
+  --navy2:#171d3d;
+  --blue:#263f78;
+  --burgundy:#651f35;
+  --gold:#e7c982;
+  --gold2:#f3dfaa;
+  --cream:#fffaf0;
+  --cream2:#f1e6d2;
+  --ink:#171a2c;
+  --muted:#737789;
+  --border:rgba(10,14,36,.12);
+  --green:#24614e;
+  --red:#923f50;
+  --shadow:0 25px 70px rgba(7,8,23,.12);
+  --soft:0 12px 35px rgba(7,8,23,.08);
+}
+
+html{scroll-behavior:smooth}
+
+body{
+  margin:0;
+  min-height:100vh;
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  color:var(--ink);
+  background:
+    radial-gradient(circle at 5% 5%,rgba(38,63,120,.15),transparent 25%),
+    radial-gradient(circle at 95% 8%,rgba(101,31,53,.13),transparent 27%),
+    linear-gradient(135deg,#fbf6eb,#eee3d0,#f8efdf);
+}
+
+button,input,select{font:inherit}
+button{cursor:pointer}
+
+.page{
+  width:min(1450px,calc(100% - 32px));
+  margin:auto;
+  padding:34px 0 70px;
+}
+
+.hero{
+  position:relative;
+  overflow:hidden;
+  padding:38px;
+  border-radius:30px;
+  color:#fff;
+  background:
+    radial-gradient(circle at 90% 10%,rgba(231,201,130,.25),transparent 27%),
+    radial-gradient(circle at 10% 100%,rgba(139,49,75,.3),transparent 32%),
+    linear-gradient(135deg,#070817,#171d3d 52%,#3a1830);
+  box-shadow:var(--shadow);
+}
+
+.hero-grid{
+  display:grid;
+  grid-template-columns:1fr auto;
+  align-items:center;
+  gap:30px;
+}
+
+.eyebrow{
+  font-size:10px;
+  font-weight:950;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:var(--gold2);
+}
+
+h1{
+  margin:9px 0 0;
+  font-size:clamp(35px,5vw,58px);
+  line-height:1;
+  letter-spacing:-.055em;
+}
+
+.hero p{
+  max-width:700px;
+  margin:15px 0 0;
+  color:rgba(255,255,255,.68);
+  line-height:1.75;
+  font-size:13px;
+}
+
+.hero-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:9px;
+  margin-top:22px;
+}
+
+.btn{
+  min-height:43px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  padding:10px 15px;
+  border:0;
+  border-radius:12px;
+  font-size:11px;
+  font-weight:950;
+  text-decoration:none;
+  transition:.2s;
+}
+
+.btn:hover{transform:translateY(-2px)}
+
+.primary{
+  color:#18130a;
+  background:linear-gradient(135deg,#f2dda2,#bd9147);
+}
+
+.secondary{
+  color:#fff;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.16);
+}
+
+.dark{
+  color:#fff;
+  background:linear-gradient(135deg,#121832,#303b73);
+}
+
+.invoice-badge{
+  width:185px;
+  height:185px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  text-align:center;
+  background:radial-gradient(circle at 30% 20%,#6074ad,#26355f 40%,#10152e 75%);
+  border:1px solid rgba(243,223,170,.4);
+  box-shadow:0 0 0 15px rgba(231,201,130,.04),0 25px 60px rgba(0,0,0,.28);
+}
+
+.badge-inner strong{
+  display:block;
+  color:var(--gold2);
+  font-size:31px;
+}
+
+.badge-inner span{
+  display:block;
+  margin-top:7px;
+  color:#fff;
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:.1em;
+}
+
+.layout{
+  display:grid;
+  grid-template-columns:minmax(0,1.35fr) minmax(300px,.65fr);
+  gap:24px;
+  margin-top:24px;
+}
+
+.card{
+  padding:27px;
+  border:1px solid var(--border);
+  border-radius:25px;
+  background:linear-gradient(145deg,rgba(255,250,240,.96),rgba(243,232,212,.84));
+  box-shadow:var(--soft);
+}
+
+.card+.card{margin-top:24px}
+
+.card-title{
+  margin:6px 0 0;
+  color:var(--navy2);
+  font-size:28px;
+  letter-spacing:-.035em;
+}
+
+.muted{
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.7;
+}
+
+.invoice{
+  background:#fff;
+  border:1px solid #e5dfd4;
+  border-radius:18px;
+  overflow:hidden;
+  margin-top:20px;
+  box-shadow:0 10px 35px rgba(0,0,0,.05);
+}
+
+.invoice-head{
+  padding:24px;
+  color:#fff;
+  background:linear-gradient(135deg,#090b1d,#263f78,#651f35);
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+}
+
+.logo{
+  font-size:25px;
+  font-weight:950;
+  letter-spacing:.1em;
+}
+
+.invoice-number{
+  text-align:right;
+  font-size:10px;
+  color:rgba(255,255,255,.7);
+}
+
+.invoice-number strong{
+  display:block;
+  color:#fff;
+  font-size:15px;
+  margin-top:4px;
+}
+
+.invoice-body{padding:25px}
+
+.info-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:22px;
+}
+
+.info-label{
+  color:#8a8d99;
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+}
+
+.info-value{
+  margin-top:5px;
+  font-size:12px;
+  font-weight:850;
+  color:var(--navy2);
+}
+
+.table-wrap{
+  overflow:auto;
+  margin-top:27px;
+}
+
+table{
+  width:100%;
+  min-width:600px;
+  border-collapse:collapse;
+}
+
+th{
+  padding:11px;
+  text-align:left;
+  color:#777b89;
+  background:#f5efe4;
+  font-size:9px;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+}
+
+td{
+  padding:13px 11px;
+  border-bottom:1px solid #eee8dd;
+  font-size:11px;
+}
+
+.amount{text-align:right;font-weight:900}
+
+.total{
+  display:flex;
+  justify-content:flex-end;
+  margin-top:18px;
+}
+
+.total-box{
+  min-width:260px;
+  padding:17px;
+  border-radius:15px;
+  background:#f5efe2;
+}
+
+.total-row{
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+  padding:5px 0;
+  font-size:11px;
+}
+
+.total-row.final{
+  margin-top:8px;
+  padding-top:12px;
+  border-top:1px solid #dcd2c2;
+  font-size:17px;
+  font-weight:950;
+}
+
+.status{
+  display:inline-flex;
+  padding:6px 10px;
+  border-radius:999px;
+  background:#dceee7;
+  color:#205844;
+  font-size:9px;
+  font-weight:950;
+  text-transform:uppercase;
+}
+
+.side-list{
+  display:grid;
+  gap:9px;
+  margin-top:17px;
+}
+
+.side-link{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:12px;
+  border-radius:13px;
+  text-decoration:none;
+  background:rgba(255,255,255,.55);
+  border:1px solid transparent;
+}
+
+.side-link:hover{
+  border-color:rgba(38,63,120,.13);
+  background:#fff;
+}
+
+.side-icon{
+  width:33px;
+  height:33px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:10px;
+  color:#fff;
+  background:linear-gradient(135deg,#171d3d,#405e9d);
+}
+
+.side-link strong{
+  display:block;
+  font-size:10px;
+}
+
+.side-link span{
+  display:block;
+  margin-top:2px;
+  color:var(--muted);
+  font-size:8px;
+}
+
+.note{
+  margin-top:20px;
+  padding:14px;
+  border-radius:14px;
+  color:#5d625e;
+  background:#e8f1eb;
+  font-size:10px;
+  line-height:1.6;
+}
+
+.footer{
+  margin-top:24px;
+  padding:38px 22px;
+  border-radius:27px 27px 0 0;
+  color:#fff;
+  background:linear-gradient(135deg,#070817,#171d3d,#32172a);
+}
+
+.footer-grid{
+  width:min(1450px,100%);
+  margin:auto;
+  display:grid;
+  grid-template-columns:1.4fr repeat(3,1fr);
+  gap:30px;
+}
+
+.footer-title{
+  color:var(--gold2);
+  font-size:11px;
+  font-weight:950;
+}
+
+.footer-links{
+  margin-top:10px;
+  color:rgba(255,255,255,.62);
+  font-size:10px;
+  line-height:2;
+}
+
+.footer-links a{text-decoration:none}
+
+.bottom{
+  margin-top:25px;
+  padding-top:16px;
+  border-top:1px solid rgba(255,255,255,.1);
+  color:rgba(255,255,255,.4);
+  font-size:9px;
+}
+
+@media(max-width:950px){
+  .layout{grid-template-columns:1fr}
+}
+
+@media(max-width:700px){
+  .hero-grid{grid-template-columns:1fr}
+  .invoice-badge{width:145px;height:145px}
+  .info-grid{grid-template-columns:1fr}
+  .footer-grid{grid-template-columns:1fr 1fr}
+}
+
+@media(max-width:520px){
+  .page{width:calc(100% - 20px);padding-top:20px}
+  .hero,.card{padding:21px}
+  .invoice-head{flex-direction:column}
+  .invoice-number{text-align:left}
+  .footer-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+
+<body data-root="../" data-page="invoice">
+
+<div data-site-header></div>
+
+<main class="page">
+
+<section class="hero">
+  <div class="hero-grid">
+
+    <div>
+      <div class="eyebrow">GHAR · DOCUMENT CENTER</div>
+
+      <h1>Your invoice.</h1>
+
+      <p>
+        Review your GHAR transaction invoice, payment summary,
+        billing information and property-related charges from
+        one structured workspace.
+      </p>
+
+      <div class="hero-actions">
+        <button class="btn primary" id="printInvoice">
+          Print Invoice
+        </button>
+
+        <a class="btn secondary" href="payments.html">
+          Payment History
+        </a>
+
+        <a class="btn secondary" href="documents.html">
+          Documents
+        </a>
+      </div>
+    </div>
+
+    <div class="invoice-badge">
+      <div class="badge-inner">
+        <strong>₹</strong>
+        <span>INVOICE</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="layout">
+
+<div>
+
+<section class="card">
+
+<div class="eyebrow">TRANSACTION INVOICE</div>
+
+<h2 class="card-title">Invoice details</h2>
+
+<p class="muted">
+Your current GHAR billing record is shown below.
+Replace the demo transaction values with your API data
+when the payment service is connected.
+</p>
+
+<div class="invoice" id="invoice">
+
+<div class="invoice-head">
+
+<div>
+  <div class="logo">GHAR</div>
+  <div style="font-size:10px;color:rgba(255,255,255,.6);margin-top:5px">
+    Premium Real Estate Workspace
+  </div>
+</div>
+
+<div class="invoice-number">
+  INVOICE NUMBER
+  <strong id="invoiceNumber">GHAR-INV-2026-0001</strong>
+  <div style="margin-top:4px" id="invoiceDate">
+    04 Oct 2026
+  </div>
+</div>
+
+</div>
+
+<div class="invoice-body">
+
+<div class="info-grid">
+
+<div>
+<div class="info-label">Billed To</div>
+<div class="info-value" id="customerName">
+GHAR Buyer
+</div>
+</div>
+
+<div>
+<div class="info-label">Payment Status</div>
+<div class="info-value">
+<span class="status" id="paymentStatus">
+Paid
+</span>
+</div>
+</div>
+
+<div>
+<div class="info-label">Property Reference</div>
+<div class="info-value" id="propertyReference">
+GHAR-P001
+</div>
+</div>
+
+<div>
+<div class="info-label">Transaction Reference</div>
+<div class="info-value" id="transactionReference">
+GHAR-TXN-0001
+</div>
+</div>
+
+</div>
+
+<div class="table-wrap">
+
+<table>
+
+<thead>
+<tr>
+<th>Description</th>
+<th>Qty</th>
+<th>Rate</th>
+<th class="amount">Amount</th>
+</tr>
+</thead>
+
+<tbody>
+
+<tr>
+<td>GHAR Property Service</td>
+<td>1</td>
+<td>₹5,000</td>
+<td class="amount">₹5,000</td>
+</tr>
+
+<tr>
+<td>Platform Service Charge</td>
+<td>1</td>
+<td>₹500</td>
+<td class="amount">₹500</td>
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+<div class="total">
+
+<div class="total-box">
+
+<div class="total-row">
+<span>Subtotal</span>
+<strong>₹5,500</strong>
+</div>
+
+<div class="total-row">
+<span>Tax</span>
+<strong>₹990</strong>
+</div>
+
+<div class="total-row final">
+<span>Total</span>
+<strong>₹6,490</strong>
+</div>
+
+</div>
+
+</div>
+
+<div class="note">
+This invoice is generated for the GHAR digital workspace.
+Final tax, transaction and billing information should be
+validated against the connected payment provider and server.
+</div>
+
+</div>
+</div>
+
+</section>
+
+</div>
+
+<aside>
+
+<section class="card">
+
+<div class="eyebrow">DOCUMENT ACTIONS</div>
+
+<h2 class="card-title" style="font-size:23px">
+Invoice workspace
+</h2>
+
+<div class="side-list">
+
+<a class="side-link" href="payments.html">
+<div class="side-icon">₹</div>
+<div>
+<strong>Payments</strong>
+<span>View payment records</span>
+</div>
+</a>
+
+<a class="side-link" href="subscription.html">
+<div class="side-icon">◆</div>
+<div>
+<strong>Subscription</strong>
+<span>Manage your plan</span>
+</div>
+</a>
+
+<a class="side-link" href="forms.html">
+<div class="side-icon">▤</div>
+<div>
+<strong>Forms</strong>
+<span>Manage submitted forms</span>
+</div>
+</a>
+
+<a class="side-link" href="../dashboard.html">
+<div class="side-icon">⌂</div>
+<div>
+<strong>Dashboard</strong>
+<span>Return to GHAR dashboard</span>
+</div>
+</a>
+
+</div>
+
+</section>
+
+<section class="card">
+
+<div class="eyebrow">BILLING NOTE</div>
+
+<h2 class="card-title" style="font-size:22px">
+Keep your records organised.
+</h2>
+
+<p class="muted">
+Invoices, receipts and payment references should be
+retained for your transaction records.
+</p>
+
+</section>
+
+</aside>
+
+</div>
+
+</main>
+
+<footer class="footer">
+
+<div class="footer-grid">
+
+<div>
+<div class="logo">GHAR</div>
+<div class="footer-links">
+Premium real-estate transaction and property workspace.
+</div>
+</div>
+
+<div>
+<div class="footer-title">DOCUMENTS</div>
+<div class="footer-links">
+<a href="documents.html">Documents</a><br>
+<a href="forms.html">Forms</a><br>
+<a href="invoice.html">Invoice</a>
+</div>
+</div>
+
+<div>
+<div class="footer-title">PAYMENTS</div>
+<div class="footer-links">
+<a href="payments.html">Payments</a><br>
+<a href="subscription.html">Subscription</a>
+</div>
+</div>
+
+<div>
+<div class="footer-title">GHAR</div>
+<div class="footer-links">
+<a href="../about.html">About</a><br>
+<a href="../contact.html">Contact</a><br>
+<a href="../privacy.html">Privacy</a>
+</div>
+</div>
+
+</div>
+
+<div class="bottom">
+© 2026 GHAR. All rights reserved.
+</div>
+
+</footer>
+
+<script src="../assets/js/main/site.js" defer></script>
+<script src="../assets/js/main/page.js" defer></script>
+<script src="../assets/js/main/api.js" defer></script>
+<script src="../assets/js/main/auth.js" defer></script>
+
+<script>
+(() => {
+"use strict";
+
+const printButton=document.getElementById("printInvoice");
+
+printButton?.addEventListener("click",()=>{
+  window.print();
+});
+
+const savedUser=localStorage.getItem("ghar_user");
+
+try{
+  if(savedUser){
+    const user=JSON.parse(savedUser);
+    if(user?.name){
+      document.getElementById("customerName").textContent=user.name;
+    }
+  }
+}catch(e){}
+
+const invoiceData=JSON.parse(
+  localStorage.getItem("ghar_invoice") || "null"
+);
+
+if(invoiceData){
+
+  if(invoiceData.number)
+    document.getElementById("invoiceNumber").textContent=invoiceData.number;
+
+  if(invoiceData.property)
+    document.getElementById("propertyReference").textContent=invoiceData.property;
+
+  if(invoiceData.transaction)
+    document.getElementById("transactionReference").textContent=invoiceData.transaction;
+
+  if(invoiceData.customer)
+    document.getElementById("customerName").textContent=invoiceData.customer;
+}
+
+})();
+</script>
+
+</body>
+</html>
