@@ -1,0 +1,662 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<meta name="description"
+content="GHAR Buyer Conversations -- Secure property conversations and buyer communication workspace.">
+
+<title>Conversations · GHAR Buyer</title>
+
+<link rel="stylesheet" href="../assets/css/style.css">
+
+<style>
+*{box-sizing:border-box}
+
+:root{
+--dark:#090b1d;
+--dark2:#171d3d;
+--blue:#263f78;
+--burgundy:#651f35;
+--gold:#e7c982;
+--gold2:#f3dfaa;
+--cream:#fffaf0;
+--ink:#171a2c;
+--muted:#707488;
+--border:rgba(10,14,36,.12);
+}
+
+body{
+margin:0;
+min-height:100vh;
+font-family:Inter,system-ui,sans-serif;
+color:var(--ink);
+background:
+radial-gradient(circle at 5% 5%,rgba(38,63,120,.17),transparent 25%),
+radial-gradient(circle at 95% 5%,rgba(101,31,53,.14),transparent 27%),
+linear-gradient(135deg,#fbf6eb,#eee3d0,#f8efdf);
+}
+
+.page{
+width:min(1450px,calc(100% - 32px));
+margin:auto;
+padding:34px 0 70px;
+}
+
+.hero{
+padding:42px;
+border-radius:32px;
+color:#fff;
+background:
+radial-gradient(circle at 90% 10%,rgba(231,201,130,.25),transparent 25%),
+linear-gradient(135deg,#070817,#111735,#3a1830);
+box-shadow:0 32px 90px rgba(7,8,23,.28);
+}
+
+.eyebrow{
+color:var(--gold2);
+font-size:10px;
+font-weight:950;
+letter-spacing:.16em;
+text-transform:uppercase;
+}
+
+h1{
+margin:10px 0 0;
+font-size:clamp(36px,5vw,58px);
+line-height:1;
+letter-spacing:-.055em;
+}
+
+.hero p{
+max-width:720px;
+color:rgba(255,255,255,.67);
+font-size:14px;
+line-height:1.8;
+}
+
+.layout{
+display:grid;
+grid-template-columns:minmax(0,1.35fr) minmax(280px,.65fr);
+gap:24px;
+margin-top:24px;
+}
+
+.card,.side{
+border:1px solid var(--border);
+border-radius:26px;
+background:linear-gradient(145deg,rgba(255,250,240,.95),rgba(244,234,216,.85));
+box-shadow:0 13px 38px rgba(7,8,23,.08);
+}
+
+.card{padding:25px}
+.side{padding:23px;margin-bottom:24px}
+
+.toolbar{
+display:flex;
+gap:8px;
+flex-wrap:wrap;
+margin-top:18px;
+}
+
+.filter{
+border:1px solid var(--border);
+border-radius:11px;
+padding:9px 12px;
+background:#fff;
+font-size:10px;
+font-weight:900;
+}
+
+.search{
+width:100%;
+margin-top:12px;
+padding:12px 13px;
+border:1px solid var(--border);
+border-radius:13px;
+outline:none;
+background:rgba(255,255,255,.8);
+}
+
+.conversations{
+display:grid;
+gap:10px;
+margin-top:18px;
+}
+
+.conversation{
+display:grid;
+grid-template-columns:auto 1fr auto;
+gap:12px;
+align-items:center;
+padding:15px;
+border:1px solid var(--border);
+border-radius:17px;
+background:rgba(255,255,255,.58);
+cursor:pointer;
+transition:.2s;
+}
+
+.conversation:hover{
+transform:translateY(-1px);
+background:#fff;
+}
+
+.avatar{
+width:42px;
+height:42px;
+display:flex;
+align-items:center;
+justify-content:center;
+border-radius:50%;
+color:#fff;
+font-size:13px;
+font-weight:950;
+background:linear-gradient(135deg,#263f78,#651f35);
+}
+
+.name{
+font-size:12px;
+font-weight:950;
+color:var(--dark2);
+}
+
+.preview{
+margin-top:4px;
+color:var(--muted);
+font-size:9px;
+white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis;
+max-width:500px;
+}
+
+.property{
+margin-top:5px;
+color:#9a7939;
+font-size:8px;
+font-weight:900;
+}
+
+.right{
+text-align:right;
+}
+
+.time{
+color:#8a8d99;
+font-size:8px;
+}
+
+.unread{
+margin-top:6px;
+display:inline-flex;
+min-width:19px;
+height:19px;
+align-items:center;
+justify-content:center;
+border-radius:50%;
+color:#fff;
+background:#651f35;
+font-size:8px;
+font-weight:950;
+}
+
+.side h3{
+margin:7px 0 0;
+font-size:21px;
+color:var(--dark2);
+}
+
+.quick{
+display:grid;
+gap:8px;
+margin-top:15px;
+}
+
+.quick a{
+display:flex;
+align-items:center;
+gap:10px;
+padding:11px;
+border-radius:13px;
+background:rgba(255,255,255,.55);
+text-decoration:none;
+}
+
+.icon{
+width:32px;
+height:32px;
+display:flex;
+align-items:center;
+justify-content:center;
+border-radius:10px;
+color:#fff;
+background:linear-gradient(135deg,#171d3d,#405e9d);
+}
+
+.quick strong{
+display:block;
+font-size:10px;
+}
+
+.quick span{
+display:block;
+margin-top:2px;
+font-size:8px;
+color:var(--muted);
+}
+
+.notice{
+margin-top:18px;
+padding:13px 14px;
+border-radius:14px;
+background:#e4f0e9;
+color:#52685f;
+font-size:9px;
+line-height:1.6;
+}
+
+.footer{
+margin-top:24px;
+padding:42px 22px;
+color:#fff;
+background:linear-gradient(135deg,#070817,#171d3d,#32172a);
+}
+
+.footer-grid{
+width:min(1450px,100%);
+margin:auto;
+display:grid;
+grid-template-columns:1.3fr repeat(3,1fr);
+gap:30px;
+}
+
+.footer-logo{
+font-size:25px;
+font-weight:950;
+letter-spacing:.1em;
+}
+
+.footer-title{
+font-size:12px;
+font-weight:950;
+color:var(--gold2);
+}
+
+.footer-links{
+margin-top:10px;
+font-size:11px;
+line-height:2;
+color:rgba(255,255,255,.6);
+}
+
+.footer-links a{text-decoration:none}
+
+@media(max-width:950px){
+.layout{grid-template-columns:1fr}
+}
+
+@media(max-width:650px){
+.page{width:calc(100% - 20px);padding-top:20px}
+.hero{padding:25px}
+.card{padding:18px}
+.conversation{grid-template-columns:auto 1fr}
+.right{
+grid-column:2;
+text-align:left;
+}
+.footer-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+
+<body data-root="../" data-page="buyer-conversations">
+
+<div data-site-header></div>
+
+<main class="page">
+
+<section class="hero">
+
+<div class="eyebrow">GHAR · BUYER COMMUNICATION</div>
+
+<h1>Conversations.</h1>
+
+<p>
+Keep your property-related communication organised.
+Review conversations connected with properties,
+enquiries, offers and the GHAR buyer workflow.
+</p>
+
+</section>
+
+<div class="layout">
+
+<section class="card">
+
+<div class="eyebrow">MESSAGES</div>
+
+<h2>Buyer conversations.</h2>
+
+<input
+id="search"
+class="search"
+type="search"
+placeholder="Search conversations..."
+>
+
+<div class="toolbar">
+
+<button class="filter" data-filter="all">
+All
+</button>
+
+<button class="filter" data-filter="unread">
+Unread
+</button>
+
+<button class="filter" data-filter="property">
+Property
+</button>
+
+<button class="filter" data-filter="offer">
+Offers
+</button>
+
+</div>
+
+<div id="conversationList" class="conversations"></div>
+
+</section>
+
+<aside>
+
+<section class="side">
+
+<div class="eyebrow">QUICK ACCESS</div>
+
+<h3>Buyer workspace.</h3>
+
+<div class="quick">
+
+<a href="buyer-dashboard.html">
+<div class="icon">⌂</div>
+<div>
+<strong>Dashboard</strong>
+<span>Buyer overview</span>
+</div>
+</a>
+
+<a href="property-search.html">
+<div class="icon">⌕</div>
+<div>
+<strong>Find Properties</strong>
+<span>Explore listings</span>
+</div>
+</a>
+
+<a href="request.html">
+<div class="icon">✓</div>
+<div>
+<strong>Property Request</strong>
+<span>Manage requirement</span>
+</div>
+</a>
+
+<a href="my-offers.html">
+<div class="icon">₹</div>
+<div>
+<strong>My Offers</strong>
+<span>Manage offers</span>
+</div>
+</a>
+
+<a href="status.html">
+<div class="icon">◉</div>
+<div>
+<strong>Status</strong>
+<span>Buyer journey</span>
+</div>
+</a>
+
+</div>
+
+<div class="notice">
+GHAR communication should be used for property-related
+discussions. Avoid sharing passwords, OTPs or other
+authentication credentials.
+</div>
+
+</section>
+
+</aside>
+
+</div>
+
+</main>
+
+<footer class="footer">
+
+<div class="footer-grid">
+
+<div>
+<div class="footer-logo">GHAR</div>
+</div>
+
+<div>
+<div class="footer-title">BUYER</div>
+<div class="footer-links">
+<a href="buyer-dashboard.html">Dashboard</a><br>
+<a href="property-search.html">Find Property</a><br>
+<a href="request.html">Property Request</a>
+</div>
+</div>
+
+<div>
+<div class="footer-title">ACCOUNT</div>
+<div class="footer-links">
+<a href="my-profile.html">Profile</a><br>
+<a href="my-offers.html">My Offers</a><br>
+<a href="conversations.html">Conversations</a>
+</div>
+</div>
+
+<div>
+<div class="footer-title">GHAR</div>
+<div class="footer-links">
+<a href="../contact.html">Contact</a><br>
+<a href="../terms.html">Terms</a><br>
+<a href="../privacy.html">Privacy</a>
+</div>
+</div>
+
+</div>
+
+</footer>
+
+<script src="../assets/js/main/site.js" defer></script>
+<script src="../assets/js/main/page.js" defer></script>
+<script src="../assets/js/main/api.js" defer></script>
+<script src="../assets/js/main/auth.js" defer></script>
+<script src="../assets/js/buyer/buyer.js" defer></script>
+
+<script>
+(() => {
+
+"use strict";
+
+const conversations=[
+{
+name:"GHAR Property Team",
+initials:"GH",
+property:"3 BHK Premium Apartment · Sector 150",
+preview:"Your property enquiry has been received.",
+time:"10:42 PM",
+unread:2,
+type:"property"
+},
+{
+name:"Property Representative",
+initials:"PR",
+property:"4 BHK Independent House · Sector 47",
+preview:"The requested viewing time is available.",
+time:"7:15 PM",
+unread:1,
+type:"property"
+},
+{
+name:"Offer Discussion",
+initials:"OD",
+property:"2 BHK Apartment · Sector 137",
+preview:"Your offer status has been updated.",
+time:"Yesterday",
+unread:0,
+type:"offer"
+},
+{
+name:"GHAR Support",
+initials:"GS",
+property:"Buyer Account",
+preview:"Your buyer account verification is complete.",
+time:"29 Sep",
+unread:0,
+type:"support"
+}
+];
+
+let activeFilter="all";
+
+const list=
+document.getElementById("conversationList");
+
+const search=
+document.getElementById("search");
+
+function escapeHTML(value){
+return String(value)
+.replaceAll("&","&amp;")
+.replaceAll("<","&lt;")
+.replaceAll(">","&gt;")
+.replaceAll('"',"&quot;")
+.replaceAll("'","&#039;");
+}
+
+function render(){
+
+const query=
+search.value.trim().toLowerCase();
+
+const filtered=
+conversations.filter(item=>{
+
+const filterMatch=
+activeFilter==="all" ||
+(activeFilter==="unread" && item.unread>0) ||
+activeFilter===item.type;
+
+const text=
+(
+item.name+" "+
+item.property+" "+
+item.preview
+).toLowerCase();
+
+return filterMatch &&
+(!query || text.includes(query));
+
+});
+
+if(!filtered.length){
+
+list.innerHTML=`
+<div class="notice">
+No conversations match your current search or filter.
+</div>
+`;
+
+return;
+}
+
+list.innerHTML=
+filtered.map(item=>`
+
+<div
+class="conversation"
+onclick="openConversation('${escapeHTML(item.name)}')"
+>
+
+<div class="avatar">
+${escapeHTML(item.initials)}
+</div>
+
+<div>
+
+<div class="name">
+${escapeHTML(item.name)}
+</div>
+
+<div class="property">
+${escapeHTML(item.property)}
+</div>
+
+<div class="preview">
+${escapeHTML(item.preview)}
+</div>
+
+</div>
+
+<div class="right">
+
+<div class="time">
+${escapeHTML(item.time)}
+</div>
+
+${
+item.unread
+?`<div class="unread">${item.unread}</div>`
+:""
+}
+
+</div>
+
+</div>
+
+`).join("");
+
+}
+
+window.openConversation=function(name){
+
+alert(
+"Conversation selected: "+name+
+"\n\nConnect this interface to your GHAR messaging API to open the full conversation."
+);
+
+};
+
+document.querySelectorAll(".filter").forEach(button=>{
+
+button.addEventListener("click",()=>{
+
+activeFilter=
+button.dataset.filter;
+
+render();
+
+});
+
+});
+
+search.addEventListener(
+"input",
+render
+);
+
+render();
+
+})();
+</script>
+
+</body>
+</html>
