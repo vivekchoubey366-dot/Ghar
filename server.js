@@ -1,7 +1,10 @@
 // ============================================================
 // GHAR -- REAL ESTATE PLATFORM
-// Production-Ready Express API Foundation
+// Production Express API
+// server.js
 // ============================================================
+
+"use strict";
 
 require("dotenv").config();
 
@@ -14,12 +17,13 @@ const bcrypt = require("bcryptjs");
 const { Pool } = require("pg");
 
 // ============================================================
-// APP CONFIGURATION
+// CONFIG
 // ============================================================
 
 const app = express();
 
-const PORT = Number(process.env.PORT) || 5000;
+const PORT =
+    Number(process.env.PORT) || 5000;
 
 const NODE_ENV =
     process.env.NODE_ENV || "development";
@@ -29,30 +33,45 @@ const IS_PRODUCTION =
 
 const JWT_SECRET =
     process.env.JWT_SECRET ||
-    "development-jwt-secret-change-me";
+    "development-only-change-this-secret";
+
+const JWT_EXPIRES_IN =
+    process.env.JWT_EXPIRES_IN || "7d";
 
 const CLIENT_URL =
     process.env.CLIENT_URL ||
     `http://localhost:${PORT}`;
 
-const JWT_EXPIRES_IN =
-    process.env.JWT_EXPIRES_IN || "7d";
+const DB_POOL_MAX =
+    Number(process.env.DB_POOL_MAX) || 10;
 
 
 // ============================================================
-// SECURITY CHECK
+// PRODUCTION SECURITY CHECK
 // ============================================================
 
-if (
-    IS_PRODUCTION &&
-    (!process.env.JWT_SECRET ||
-        process.env.JWT_SECRET.length < 32)
-) {
-    console.error(
-        "ERROR: A strong JWT_SECRET is required in production."
-    );
+if (IS_PRODUCTION) {
 
-    process.exit(1);
+    if (
+        !process.env.JWT_SECRET ||
+        process.env.JWT_SECRET.length < 32
+    ) {
+
+        console.error(
+            "ERROR: JWT_SECRET must contain at least 32 characters."
+        );
+
+        process.exit(1);
+    }
+
+    if (!process.env.DATABASE_URL) {
+
+        console.error(
+            "ERROR: DATABASE_URL is required in production."
+        );
+
+        process.exit(1);
+    }
 }
 
 
@@ -71,22 +90,28 @@ const pool = new Pool({
             : false,
 
     max:
-        Number(process.env.DB_POOL_MAX) || 10,
+        DB_POOL_MAX,
 
-    idleTimeoutMillis: 30000,
+    idleTimeoutMillis:
+        30000,
 
-    connectionTimeoutMillis: 10000
-});
-
-
-pool.on("error", error => {
-
-    console.error(
-        "PostgreSQL pool error:",
-        error
-    );
+    connectionTimeoutMillis:
+        10000
 
 });
+
+
+pool.on(
+    "error",
+    error => {
+
+        console.error(
+            "PostgreSQL pool error:",
+            error
+        );
+
+    }
+);
 
 
 // ============================================================
@@ -96,25 +121,48 @@ pool.on("error", error => {
 const allowedOrigins =
     (process.env.CORS_ORIGINS || CLIENT_URL)
         .split(",")
-        .map(origin => origin.trim())
+        .map(value => value.trim())
         .filter(Boolean);
 
 
 app.use(
     cors({
 
-        origin(origin, callback) {
+        origin(
+            origin,
+            callback
+        ) {
 
-            // Allow server-to-server / same-origin requests
+            // Server-to-server / curl / Postman
             if (!origin) {
-                return callback(null, true);
+
+                return callback(
+                    null,
+                    true
+                );
+
             }
 
+            // Development
+            if (!IS_PRODUCTION) {
+
+                return callback(
+                    null,
+                    true
+                );
+
+            }
+
+            // Production whitelist
             if (
-                !IS_PRODUCTION ||
                 allowedOrigins.includes(origin)
             ) {
-                return callback(null, true);
+
+                return callback(
+                    null,
+                    true
+                );
+
             }
 
             return callback(
@@ -122,35 +170,66 @@ app.use(
                     "CORS origin not allowed"
                 )
             );
+
         },
 
         credentials: true
+
     })
 );
 
 
 // ============================================================
-// SECURITY / BODY
+// SECURITY
 // ============================================================
 
 app.use(
     helmet({
-        contentSecurityPolicy: false
+
+        contentSecurityPolicy:
+            false
+
     })
 );
 
-app.disable("x-powered-by");
+app.disable(
+    "x-powered-by"
+);
+
+
+if (IS_PRODUCTION) {
+
+    app.set(
+        "trust proxy",
+        1
+    );
+
+}
+
+
+// ============================================================
+// BODY PARSING
+// ============================================================
 
 app.use(
     express.json({
-        limit: "10mb"
+
+        limit:
+            "10mb"
+
     })
 );
 
+
 app.use(
     express.urlencoded({
-        extended: true,
-        limit: "10mb"
+
+        extended:
+            true,
+
+        limit:
+            "10mb"
+
     })
 );
 
@@ -159,93 +238,73 @@ app.use(
 // REQUEST LOGGER
 // ============================================================
 
-app.use((req, res, next) => {
+app.use(
+    (req, res, next) => {
 
-    const started =
-        Date.now();
+        const started =
+            Date.now();
 
-    res.on("finish", () => {
 
-        const duration =
-            Date.now() - started;
+        res.on(
+            "finish",
+            () => {
 
-        console.log(
-            `${new Date().toISOString()} ` +
-            `${req.method} ` +
-            `${req.originalUrl} ` +
-            `${res.statusCode} ` +
-            `${duration}ms`
+                const duration =
+                    Date.now() - started;
+
+
+                console.log(
+
+                    `${new Date().toISOString()} ` +
+                    `${req.method} ` +
+                    `${req.originalUrl} ` +
+                    `${res.statusCode} ` +
+                    `${duration}ms`
+
+                );
+
+            }
         );
 
-    });
 
-    next();
-});
+        next();
+
+    }
+);
 
 
 // ============================================================
-// STATIC FRONTEND
+// STATIC GHAR FRONTEND
 // ============================================================
+
+const FRONTEND_ROOT =
+    __dirname;
+
 
 app.use(
     express.static(
-        path.join(__dirname)
+        FRONTEND_ROOT,
+        {
+
+            index:
+                false,
+
+            extensions:
+                false,
+
+            maxAge:
+                IS_PRODUCTION
+                    ? "1h"
+                    : 0
+
+        }
     )
 );
 
 
 // ============================================================
-// COMMON HELPERS
+// HELPERS
 // ============================================================
-
-function isValidId(value) {
-
-    return (
-        value !== undefined &&
-        value !== null &&
-        String(value).trim() !== "" &&
-        Number.isInteger(Number(value))
-    );
-}
-
-
-function parsePositiveInt(
-    value,
-    fallback
-) {
-
-    const number =
-        Number(value);
-
-    if (
-        !Number.isInteger(number) ||
-        number < 1
-    ) {
-        return fallback;
-    }
-
-    return number;
-}
-
-
-function parseNonNegativeInt(
-    value,
-    fallback = 0
-) {
-
-    const number =
-        Number(value);
-
-    if (
-        !Number.isInteger(number) ||
-        number < 0
-    ) {
-        return fallback;
-    }
-
-    return number;
-}
-
 
 function sendError(
     res,
@@ -255,18 +314,191 @@ function sendError(
 ) {
 
     if (error) {
+
         console.error(
             message,
             error
         );
+
     }
 
-    return res.status(status).json({
 
-        success: false,
+    return res.status(
+        status
+    ).json({
+
+        success:
+            false,
 
         message
+
     });
+
+}
+
+
+function isValidId(
+    value
+) {
+
+    if (
+        value === undefined ||
+        value === null ||
+        String(value).trim() === ""
+    ) {
+
+        return false;
+
+    }
+
+
+    const number =
+        Number(value);
+
+
+    return (
+        Number.isInteger(number) &&
+        number > 0
+    );
+
+}
+
+
+function toId(
+    value
+) {
+
+    return Number(value);
+
+}
+
+
+function positiveNumber(
+    value
+) {
+
+    const number =
+        Number(value);
+
+
+    if (
+        !Number.isFinite(number) ||
+        number <= 0
+    ) {
+
+        return null;
+
+    }
+
+
+    return number;
+
+}
+
+
+function optionalPositiveNumber(
+    value
+) {
+
+    if (
+        value === undefined ||
+        value === null ||
+        value === ""
+    ) {
+
+        return null;
+
+    }
+
+
+    return positiveNumber(
+        value
+    );
+
+}
+
+
+function parseLimit(
+    value,
+    fallback = 20
+) {
+
+    const number =
+        Number(value);
+
+
+    if (
+        !Number.isInteger(number) ||
+        number < 1
+    ) {
+
+        return fallback;
+
+    }
+
+
+    return Math.min(
+        number,
+        100
+    );
+
+}
+
+
+function parseOffset(
+    value
+) {
+
+    const number =
+        Number(value);
+
+
+    if (
+        !Number.isInteger(number) ||
+        number < 0
+    ) {
+
+        return 0;
+
+    }
+
+
+    return number;
+
+}
+
+
+function cleanString(
+    value,
+    maxLength = 5000
+) {
+
+    if (
+        value === undefined ||
+        value === null
+    ) {
+
+        return null;
+
+    }
+
+
+    const string =
+        String(value).trim();
+
+
+    if (!string) {
+
+        return null;
+
+    }
+
+
+    return string.slice(
+        0,
+        maxLength
+    );
+
 }
 
 
@@ -276,7 +508,10 @@ function sendError(
 
 app.get(
     "/api/health",
-    async (req, res) => {
+    async (
+        req,
+        res
+    ) => {
 
         try {
 
@@ -285,12 +520,17 @@ app.get(
                     "SELECT NOW() AS time"
                 );
 
-            res.json({
 
-                success: true,
+            return res.json({
+
+                success:
+                    true,
 
                 service:
                     "GHAR API",
+
+                version:
+                    "3.0.0",
 
                 status:
                     "healthy",
@@ -308,7 +548,7 @@ app.get(
 
         } catch (error) {
 
-            sendError(
+            return sendError(
                 res,
                 503,
                 "Database unavailable",
@@ -316,6 +556,7 @@ app.get(
             );
 
         }
+
     }
 );
 
@@ -326,17 +567,21 @@ app.get(
 
 app.get(
     "/api",
-    (req, res) => {
+    (
+        req,
+        res
+    ) => {
 
         res.json({
 
-            success: true,
+            success:
+                true,
 
             name:
                 "GHAR API",
 
             version:
-                "2.0.0",
+                "3.0.0",
 
             status:
                 "running",
@@ -397,11 +642,15 @@ function authenticateToken(
     const authorization =
         req.headers.authorization;
 
+
     if (!authorization) {
 
-        return res.status(401).json({
+        return res.status(
+            401
+        ).json({
 
-            success: false,
+            success:
+                false,
 
             message:
                 "Authentication required"
@@ -410,17 +659,24 @@ function authenticateToken(
 
     }
 
+
     const parts =
-        authorization.split(" ");
+        authorization
+            .trim()
+            .split(/\s+/);
+
 
     if (
         parts.length !== 2 ||
-        parts[0] !== "Bearer"
+        parts[0].toLowerCase() !== "bearer"
     ) {
 
-        return res.status(401).json({
+        return res.status(
+            401
+        ).json({
 
-            success: false,
+            success:
+                false,
 
             message:
                 "Invalid authorization format"
@@ -428,6 +684,7 @@ function authenticateToken(
         });
 
     }
+
 
     try {
 
@@ -437,16 +694,21 @@ function authenticateToken(
                 JWT_SECRET
             );
 
+
         req.user =
             decoded;
+
 
         next();
 
     } catch (error) {
 
-        return res.status(401).json({
+        return res.status(
+            401
+        ).json({
 
-            success: false,
+            success:
+                false,
 
             message:
                 "Invalid or expired token"
@@ -454,6 +716,7 @@ function authenticateToken(
         });
 
     }
+
 }
 
 
@@ -469,9 +732,12 @@ function requireAdmin(
 
     if (!req.user) {
 
-        return res.status(401).json({
+        return res.status(
+            401
+        ).json({
 
-            success: false,
+            success:
+                false,
 
             message:
                 "Authentication required"
@@ -480,13 +746,17 @@ function requireAdmin(
 
     }
 
+
     if (
         req.user.role !== "admin"
     ) {
 
-        return res.status(403).json({
+        return res.status(
+            403
+        ).json({
 
-            success: false,
+            success:
+                false,
 
             message:
                 "Administrator access required"
@@ -495,7 +765,9 @@ function requireAdmin(
 
     }
 
+
     next();
+
 }
 
 
@@ -505,7 +777,10 @@ function requireAdmin(
 
 app.post(
     "/api/auth/signup",
-    async (req, res) => {
+    async (
+        req,
+        res
+    ) => {
 
         try {
 
@@ -518,15 +793,40 @@ app.post(
             } = req.body;
 
 
+            const safeName =
+                cleanString(
+                    name,
+                    150
+                );
+
+
+            const normalizedEmail =
+                String(
+                    email || ""
+                )
+                    .trim()
+                    .toLowerCase();
+
+
+            const safePhone =
+                cleanString(
+                    phone,
+                    30
+                );
+
+
             if (
-                !name ||
-                !email ||
+                !safeName ||
+                !normalizedEmail ||
                 !password
             ) {
 
-                return res.status(400).json({
+                return res.status(
+                    400
+                ).json({
 
-                    success: false,
+                    success:
+                        false,
 
                     message:
                         "Name, email and password are required"
@@ -540,9 +840,12 @@ app.post(
                 password.length < 8
             ) {
 
-                return res.status(400).json({
+                return res.status(
+                    400
+                ).json({
 
-                    success: false,
+                    success:
+                        false,
 
                     message:
                         "Password must contain at least 8 characters"
@@ -552,36 +855,36 @@ app.post(
             }
 
 
-            const normalizedEmail =
-                String(email)
-                    .trim()
-                    .toLowerCase();
+            const allowedRoles = [
 
+                "buyer",
+                "seller",
+                "tenant",
+                "agent"
 
-            /*
-             * IMPORTANT:
-             * Users can never create themselves
-             * as admin.
-             */
+            ];
+
 
             const safeRole =
-                [
-                    "buyer",
-                    "seller",
-                    "tenant",
-                    "agent"
-                ].includes(role)
+                allowedRoles.includes(
+                    role
+                )
                     ? role
                     : "buyer";
 
 
             const existing =
                 await pool.query(
+
                     `SELECT id
                      FROM users
-                     WHERE LOWER(email) = LOWER($1)
+                     WHERE LOWER(email) = $1
                      LIMIT 1`,
-                    [normalizedEmail]
+
+                    [
+                        normalizedEmail
+                    ]
+
                 );
 
 
@@ -589,9 +892,12 @@ app.post(
                 existing.rows.length
             ) {
 
-                return res.status(409).json({
+                return res.status(
+                    409
+                ).json({
 
-                    success: false,
+                    success:
+                        false,
 
                     message:
                         "Email is already registered"
@@ -618,10 +924,21 @@ app.post(
                         password_hash,
                         phone,
                         role,
-                        status
+                        status,
+                        created_at,
+                        updated_at
                     )
                     VALUES
-                    ($1,$2,$3,$4,$5,$6)
+                    (
+                        $1,
+                        $2,
+                        $3,
+                        $4,
+                        $5,
+                        'active',
+                        NOW(),
+                        NOW()
+                    )
                     RETURNING
                         id,
                         name,
@@ -632,13 +949,15 @@ app.post(
                         created_at`,
 
                     [
-                        name.trim(),
+
+                        safeName,
                         normalizedEmail,
                         passwordHash,
-                        phone || null,
-                        safeRole,
-                        "active"
+                        safePhone,
+                        safeRole
+
                     ]
+
                 );
 
 
@@ -650,6 +969,7 @@ app.post(
                 jwt.sign(
 
                     {
+
                         id:
                             user.id,
 
@@ -658,20 +978,27 @@ app.post(
 
                         role:
                             user.role
+
                     },
 
                     JWT_SECRET,
 
                     {
+
                         expiresIn:
                             JWT_EXPIRES_IN
+
                     }
+
                 );
 
 
-            res.status(201).json({
+            return res.status(
+                201
+            ).json({
 
-                success: true,
+                success:
+                    true,
 
                 message:
                     "Account created successfully",
@@ -684,7 +1011,7 @@ app.post(
 
         } catch (error) {
 
-            sendError(
+            return sendError(
                 res,
                 500,
                 "Unable to create account",
@@ -692,6 +1019,7 @@ app.post(
             );
 
         }
+
     }
 );
 
@@ -702,14 +1030,23 @@ app.post(
 
 app.post(
     "/api/auth/login",
-    async (req, res) => {
+    async (
+        req,
+        res
+    ) => {
 
         try {
 
-            const {
-                email,
-                password
-            } = req.body;
+            const email =
+                String(
+                    req.body.email || ""
+                )
+                    .trim()
+                    .toLowerCase();
+
+
+            const password =
+                req.body.password;
 
 
             if (
@@ -717,9 +1054,12 @@ app.post(
                 !password
             ) {
 
-                return res.status(400).json({
+                return res.status(
+                    400
+                ).json({
 
-                    success: false,
+                    success:
+                        false,
 
                     message:
                         "Email and password are required"
@@ -739,16 +1079,19 @@ app.post(
                         password_hash,
                         phone,
                         role,
-                        status
+                        status,
+                        created_at
+
                      FROM users
-                     WHERE LOWER(email) = LOWER($1)
+
+                     WHERE LOWER(email) = $1
+
                      LIMIT 1`,
 
                     [
-                        String(email)
-                            .trim()
-                            .toLowerCase()
+                        email
                     ]
+
                 );
 
 
@@ -756,9 +1099,12 @@ app.post(
                 !result.rows.length
             ) {
 
-                return res.status(401).json({
+                return res.status(
+                    401
+                ).json({
 
-                    success: false,
+                    success:
+                        false,
 
                     message:
                         "Invalid email or password"
@@ -781,9 +1127,12 @@ app.post(
 
             if (!valid) {
 
-                return res.status(401).json({
+                return res.status(
+                    401
+                ).json({
 
-                    success: false,
+                    success:
+                        false,
 
                     message:
                         "Invalid email or password"
@@ -798,9 +1147,12 @@ app.post(
                 user.status !== "active"
             ) {
 
-                return res.status(403).json({
+                return res.status(
+                    403
+                ).json({
 
-                    success: false,
+                    success:
+                        false,
 
                     message:
                         "Your account is not active"
@@ -814,6 +1166,7 @@ app.post(
                 jwt.sign(
 
                     {
+
                         id:
                             user.id,
 
@@ -822,23 +1175,28 @@ app.post(
 
                         role:
                             user.role
+
                     },
 
                     JWT_SECRET,
 
                     {
+
                         expiresIn:
                             JWT_EXPIRES_IN
+
                     }
+
                 );
 
 
             delete user.password_hash;
 
 
-            res.json({
+            return res.json({
 
-                success: true,
+                success:
+                    true,
 
                 message:
                     "Login successful",
@@ -851,7 +1209,7 @@ app.post(
 
         } catch (error) {
 
-            sendError(
+            return sendError(
                 res,
                 500,
                 "Unable to login",
@@ -859,6 +1217,7 @@ app.post(
             );
 
         }
+
     }
 );
 
@@ -870,7 +1229,10 @@ app.post(
 app.get(
     "/api/auth/me",
     authenticateToken,
-    async (req, res) => {
+    async (
+        req,
+        res
+    ) => {
 
         try {
 
@@ -884,12 +1246,19 @@ app.get(
                         phone,
                         role,
                         status,
-                        created_at
+                        created_at,
+                        updated_at
+
                      FROM users
+
                      WHERE id = $1
+
                      LIMIT 1`,
 
-                    [req.user.id]
+                    [
+                        req.user.id
+                    ]
+
                 );
 
 
@@ -897,9 +1266,12 @@ app.get(
                 !result.rows.length
             ) {
 
-                return res.status(404).json({
+                return res.status(
+                    404
+                ).json({
 
-                    success: false,
+                    success:
+                        false,
 
                     message:
                         "User not found"
@@ -909,9 +1281,10 @@ app.get(
             }
 
 
-            res.json({
+            return res.json({
 
-                success: true,
+                success:
+                    true,
 
                 user:
                     result.rows[0]
@@ -920,7 +1293,7 @@ app.get(
 
         } catch (error) {
 
-            sendError(
+            return sendError(
                 res,
                 500,
                 "Unable to retrieve user",
@@ -928,6 +1301,7 @@ app.get(
             );
 
         }
+
     }
 );
 
@@ -939,7 +1313,10 @@ app.get(
 app.get(
     "/api/users/profile",
     authenticateToken,
-    async (req, res) => {
+    async (
+        req,
+        res
+    ) => {
 
         try {
 
@@ -953,17 +1330,24 @@ app.get(
                         phone,
                         role,
                         status,
-                        created_at
+                        created_at,
+                        updated_at
+
                      FROM users
+
                      WHERE id = $1`,
 
-                    [req.user.id]
+                    [
+                        req.user.id
+                    ]
+
                 );
 
 
-            res.json({
+            return res.json({
 
-                success: true,
+                success:
+                    true,
 
                 user:
                     result.rows[0] || null
@@ -972,7 +1356,7 @@ app.get(
 
         } catch (error) {
 
-            sendError(
+            return sendError(
                 res,
                 500,
                 "Unable to load profile",
@@ -980,6 +1364,7 @@ app.get(
             );
 
         }
+
     }
 );
 
@@ -991,26 +1376,38 @@ app.get(
 app.patch(
     "/api/users/profile",
     authenticateToken,
-    async (req, res) => {
+    async (
+        req,
+        res
+    ) => {
 
         try {
 
-            const {
-                name,
-                phone
-            } = req.body;
+            const name =
+                cleanString(
+                    req.body.name,
+                    150
+                );
+
+
+            const phone =
+                cleanString(
+                    req.body.phone,
+                    30
+                );
 
 
             const result =
                 await pool.query(
 
                     `UPDATE users
+
                      SET
                         name =
-                            COALESCE($1,name),
+                            COALESCE($1, name),
 
                         phone =
-                            COALESCE($2,phone),
+                            COALESCE($2, phone),
 
                         updated_at =
                             NOW()
@@ -1024,19 +1421,43 @@ app.patch(
                         phone,
                         role,
                         status,
-                        created_at`,
+                        created_at,
+                        updated_at`,
 
                     [
-                        name || null,
-                        phone || null,
+
+                        name,
+                        phone,
                         req.user.id
+
                     ]
+
                 );
 
 
-            res.json({
+            if (
+                !result.rows.length
+            ) {
 
-                success: true,
+                return res.status(
+                    404
+                ).json({
+
+                    success:
+                        false,
+
+                    message:
+                        "User not found"
+
+                });
+
+            }
+
+
+            return res.json({
+
+                success:
+                    true,
 
                 message:
                     "Profile updated successfully",
@@ -1048,7 +1469,7 @@ app.patch(
 
         } catch (error) {
 
-            sendError(
+            return sendError(
                 res,
                 500,
                 "Unable to update profile",
@@ -1056,17 +1477,21 @@ app.patch(
             );
 
         }
+
     }
 );
 
 
 // ============================================================
-// PROPERTIES -- LIST
+// PROPERTIES -- PUBLIC LIST
 // ============================================================
 
 app.get(
     "/api/properties",
-    async (req, res) => {
+    async (
+        req,
+        res
+    ) => {
 
         try {
 
@@ -1077,59 +1502,49 @@ app.get(
                 state,
                 minPrice,
                 maxPrice,
-                bedrooms,
-                status = "approved"
+                bedrooms
             } = req.query;
 
 
             const limit =
-                Math.min(
-                    parsePositiveInt(
-                        req.query.limit,
-                        20
-                    ),
-                    100
+                parseLimit(
+                    req.query.limit
                 );
 
 
             const offset =
-                parseNonNegativeInt(
+                parseOffset(
                     req.query.offset
                 );
 
 
-            const conditions = [];
+            const conditions = [
+
+                "status = 'approved'"
+
+            ];
+
+
             const values = [];
 
 
-            function add(
+            function addCondition(
                 sql,
                 value
             ) {
 
-                values.push(value);
+                values.push(
+                    value
+                );
+
 
                 conditions.push(
+
                     sql.replace(
                         "?",
                         `$${values.length}`
                     )
-                );
 
-            }
-
-
-            /*
-             * Public property search should
-             * normally only show approved
-             * properties.
-             */
-
-            if (status) {
-
-                add(
-                    "status = ?",
-                    status
                 );
 
             }
@@ -1137,9 +1552,12 @@ app.get(
 
             if (type) {
 
-                add(
+                addCondition(
                     "property_type = ?",
-                    type
+                    cleanString(
+                        type,
+                        100
+                    )
                 );
 
             }
@@ -1147,9 +1565,12 @@ app.get(
 
             if (listingType) {
 
-                add(
+                addCondition(
                     "listing_type = ?",
-                    listingType
+                    cleanString(
+                        listingType,
+                        50
+                    )
                 );
 
             }
@@ -1157,9 +1578,12 @@ app.get(
 
             if (city) {
 
-                add(
+                addCondition(
                     "LOWER(city) = LOWER(?)",
-                    city
+                    cleanString(
+                        city,
+                        100
+                    )
                 );
 
             }
@@ -1167,71 +1591,119 @@ app.get(
 
             if (state) {
 
-                add(
+                addCondition(
                     "LOWER(state) = LOWER(?)",
-                    state
+                    cleanString(
+                        state,
+                        100
+                    )
                 );
 
             }
 
 
-            if (minPrice) {
+            const minimumPrice =
+                optionalPositiveNumber(
+                    minPrice
+                );
 
-                add(
+
+            if (
+                minimumPrice !== null
+            ) {
+
+                addCondition(
                     "price >= ?",
-                    Number(minPrice)
+                    minimumPrice
                 );
 
             }
 
 
-            if (maxPrice) {
+            const maximumPrice =
+                optionalPositiveNumber(
+                    maxPrice
+                );
 
-                add(
+
+            if (
+                maximumPrice !== null
+            ) {
+
+                addCondition(
                     "price <= ?",
-                    Number(maxPrice)
+                    maximumPrice
                 );
 
             }
 
 
-            if (bedrooms) {
+            const bedroomCount =
+                optionalPositiveNumber(
+                    bedrooms
+                );
 
-                add(
+
+            if (
+                bedroomCount !== null
+            ) {
+
+                addCondition(
                     "bedrooms = ?",
-                    Number(bedrooms)
+                    bedroomCount
                 );
 
             }
 
 
             const where =
-                conditions.length
-                    ? `WHERE ${conditions.join(" AND ")}`
-                    : "";
+                `WHERE ${conditions.join(
+                    " AND "
+                )}`;
 
 
-            values.push(limit);
-            values.push(offset);
+            const limitParameter =
+                values.length + 1;
+
+
+            values.push(
+                limit
+            );
+
+
+            const offsetParameter =
+                values.length + 1;
+
+
+            values.push(
+                offset
+            );
 
 
             const result =
                 await pool.query(
 
                     `SELECT *
+
                      FROM properties
+
                      ${where}
+
                      ORDER BY created_at DESC
-                     LIMIT $${values.length - 1}
-                     OFFSET $${values.length}`,
+
+                     LIMIT $${limitParameter}
+
+                     OFFSET $${offsetParameter}`,
 
                     values
+
                 );
 
 
-            res.json({
+            return res.json({
 
-                success: true,
+                success:
+                    true,
 
                 count:
                     result.rows.length,
@@ -1247,7 +1719,7 @@ app.get(
 
         } catch (error) {
 
-            sendError(
+            return sendError(
                 res,
                 500,
                 "Unable to load properties",
@@ -1255,6 +1727,7 @@ app.get(
             );
 
         }
+
     }
 );
 
@@ -1265,17 +1738,25 @@ app.get(
 
 app.get(
     "/api/properties/:id",
-    async (req, res) => {
+    async (
+        req,
+        res
+    ) => {
 
         try {
 
             if (
-                !isValidId(req.params.id)
+                !isValidId(
+                    req.params.id
+                )
             ) {
 
-                return res.status(400).json({
+                return res.status(
+                    400
+                ).json({
 
-                    success: false,
+                    success:
+                        false,
 
                     message:
                         "Invalid property ID"
@@ -1289,15 +1770,22 @@ app.get(
                 await pool.query(
 
                     `SELECT *
+
                      FROM properties
+
                      WHERE id = $1
+                     AND status = 'approved'
+
                      LIMIT 1`,
 
                     [
-                        Number(
+
+                        toId(
                             req.params.id
                         )
+
                     ]
+
                 );
 
 
@@ -1305,9 +1793,12 @@ app.get(
                 !result.rows.length
             ) {
 
-                return res.status(404).json({
+                return res.status(
+                    404
+                ).json({
 
-                    success: false,
+                    success:
+                        false,
 
                     message:
                         "Property not found"
@@ -1317,9 +1808,10 @@ app.get(
             }
 
 
-            res.json({
+            return res.json({
 
-                success: true,
+                success:
+                    true,
 
                 property:
                     result.rows[0]
@@ -1328,7 +1820,7 @@ app.get(
 
         } catch (error) {
 
-            sendError(
+            return sendError(
                 res,
                 500,
                 "Unable to load property",
@@ -1336,6 +1828,7 @@ app.get(
             );
 
         }
+
     }
 );
 
@@ -1347,7 +1840,10 @@ app.get(
 app.post(
     "/api/properties",
     authenticateToken,
-    async (req, res) => {
+    async (
+        req,
+        res
+    ) => {
 
         try {
 
@@ -1372,24 +1868,75 @@ app.post(
             } = req.body;
 
 
+            const safeTitle =
+                cleanString(
+                    title,
+                    250
+                );
+
+
+            const safeCity =
+                cleanString(
+                    city,
+                    100
+                );
+
+
+            const safePropertyType =
+                cleanString(
+                    propertyType,
+                    100
+                );
+
+
+            const safeListingType =
+                cleanString(
+                    listingType,
+                    50
+                );
+
+
+            const propertyPrice =
+                positiveNumber(
+                    price
+                );
+
+
             if (
-                !title ||
-                !propertyType ||
-                !listingType ||
-                price === undefined ||
-                !city
+                !safeTitle ||
+                !safePropertyType ||
+                !safeListingType ||
+                propertyPrice === null ||
+                !safeCity
             ) {
 
-                return res.status(400).json({
+                return res.status(
+                    400
+                ).json({
 
-                    success: false,
+                    success:
+                        false,
 
                     message:
-                        "Title, property type, listing type, price and city are required"
+                        "Title, property type, listing type, valid price and city are required"
 
                 });
 
             }
+
+
+            const propertyImages =
+                Array.isArray(images)
+                    ? images
+                        .filter(
+                            image =>
+                                typeof image === "string"
+                        )
+                        .slice(
+                            0,
+                            50
+                        )
+                    : [];
 
 
             const result =
@@ -1417,62 +1964,88 @@ app.post(
                         created_at,
                         updated_at
                     )
+
                     VALUES
                     (
                         $1,$2,$3,$4,$5,$6,$7,$8,$9,$10,
-                        $11,$12,$13,$14,$15,$16,$17,
-                        NOW(),NOW()
+                        $11,$12,$13,$14,$15,$16,
+                        'pending',
+                        NOW(),
+                        NOW()
                     )
+
                     RETURNING *`,
 
                     [
 
                         req.user.id,
 
-                        title.trim(),
+                        safeTitle,
 
-                        description || null,
+                        cleanString(
+                            description,
+                            10000
+                        ),
 
-                        propertyType,
+                        safePropertyType,
 
-                        listingType,
+                        safeListingType,
 
-                        Number(price),
+                        propertyPrice,
 
-                        bedrooms || null,
+                        optionalPositiveNumber(
+                            bedrooms
+                        ),
 
-                        bathrooms || null,
+                        optionalPositiveNumber(
+                            bathrooms
+                        ),
 
-                        area || null,
+                        optionalPositiveNumber(
+                            area
+                        ),
 
-                        address || null,
+                        cleanString(
+                            address,
+                            500
+                        ),
 
-                        city,
+                        safeCity,
 
-                        state || null,
+                        cleanString(
+                            state,
+                            100
+                        ),
 
-                        pincode || null,
+                        cleanString(
+                            pincode,
+                            20
+                        ),
 
-                        latitude || null,
+                        optionalPositiveNumber(
+                            latitude
+                        ),
 
-                        longitude || null,
+                        optionalPositiveNumber(
+                            longitude
+                        ),
 
-                        Array.isArray(images)
-                            ? images
-                            : [],
-
-                        "pending"
+                        propertyImages
 
                     ]
+
                 );
 
 
-            res.status(201).json({
+            return res.status(
+                201
+            ).json({
 
-                success: true,
+                success:
+                    true,
 
                 message:
-                    "Property submitted successfully",
+                    "Property submitted successfully and is awaiting approval",
 
                 property:
                     result.rows[0]
@@ -1481,7 +2054,7 @@ app.post(
 
         } catch (error) {
 
-            sendError(
+            return sendError(
                 res,
                 500,
                 "Unable to create property",
@@ -1489,6 +2062,7 @@ app.post(
             );
 
         }
+
     }
 );
 
@@ -1500,7 +2074,10 @@ app.post(
 app.get(
     "/api/properties/my",
     authenticateToken,
-    async (req, res) => {
+    async (
+        req,
+        res
+    ) => {
 
         try {
 
@@ -1508,17 +2085,24 @@ app.get(
                 await pool.query(
 
                     `SELECT *
+
                      FROM properties
+
                      WHERE owner_id = $1
+
                      ORDER BY created_at DESC`,
 
-                    [req.user.id]
+                    [
+                        req.user.id
+                    ]
+
                 );
 
 
-            res.json({
+            return res.json({
 
-                success: true,
+                success:
+                    true,
 
                 properties:
                     result.rows
@@ -1527,7 +2111,7 @@ app.get(
 
         } catch (error) {
 
-            sendError(
+            return sendError(
                 res,
                 500,
                 "Unable to load your properties",
@@ -1535,6 +2119,7 @@ app.get(
             );
 
         }
+
     }
 );
 
@@ -1546,17 +2131,25 @@ app.get(
 app.put(
     "/api/properties/:id",
     authenticateToken,
-    async (req, res) => {
+    async (
+        req,
+        res
+    ) => {
 
         try {
 
             if (
-                !isValidId(req.params.id)
+                !isValidId(
+                    req.params.id
+                )
             ) {
 
-                return res.status(400).json({
+                return res.status(
+                    400
+                ).json({
 
-                    success: false,
+                    success:
+                        false,
 
                     message:
                         "Invalid property ID"
@@ -1583,6 +2176,20 @@ app.put(
             } = req.body;
 
 
+            const safeImages =
+                Array.isArray(images)
+                    ? images
+                        .filter(
+                            image =>
+                                typeof image === "string"
+                        )
+                        .slice(
+                            0,
+                            50
+                        )
+                    : null;
+
+
             const result =
                 await pool.query(
 
@@ -1591,37 +2198,77 @@ app.put(
                      SET
 
                         title =
-                            COALESCE($1,title),
+                            COALESCE(
+                                $1,
+                                title
+                            ),
 
                         description =
-                            COALESCE($2,description),
+                            COALESCE(
+                                $2,
+                                description
+                            ),
 
                         price =
-                            COALESCE($3,price),
+                            COALESCE(
+                                $3,
+                                price
+                            ),
 
                         bedrooms =
-                            COALESCE($4,bedrooms),
+                            COALESCE(
+                                $4,
+                                bedrooms
+                            ),
 
                         bathrooms =
-                            COALESCE($5,bathrooms),
+                            COALESCE(
+                                $5,
+                                bathrooms
+                            ),
 
                         area =
-                            COALESCE($6,area),
+                            COALESCE(
+                                $6,
+                                area
+                            ),
 
                         address =
-                            COALESCE($7,address),
+                            COALESCE(
+                                $7,
+                                address
+                            ),
 
                         city =
-                            COALESCE($8,city),
+                            COALESCE(
+                                $8,
+                                city
+                            ),
 
                         state =
-                            COALESCE($9,state),
+                            COALESCE(
+                                $9,
+                                state
+                            ),
 
                         pincode =
-                            COALESCE($10,pincode),
+                            COALESCE(
+                                $10,
+                                pincode
+                            ),
 
                         images =
-                            COALESCE($11,images),
+                            COALESCE(
+                                $11,
+                                images
+                            ),
+
+                        status =
+                            CASE
+                                WHEN status = 'approved'
+                                THEN 'pending'
+                                ELSE status
+                            END,
 
                         updated_at =
                             NOW()
@@ -1633,39 +2280,62 @@ app.put(
 
                     [
 
-                        title || null,
+                        cleanString(
+                            title,
+                            250
+                        ),
 
-                        description || null,
+                        cleanString(
+                            description,
+                            10000
+                        ),
 
-                        price !== undefined
-                            ? Number(price)
-                            : null,
+                        optionalPositiveNumber(
+                            price
+                        ),
 
-                        bedrooms || null,
+                        optionalPositiveNumber(
+                            bedrooms
+                        ),
 
-                        bathrooms || null,
+                        optionalPositiveNumber(
+                            bathrooms
+                        ),
 
-                        area || null,
+                        optionalPositiveNumber(
+                            area
+                        ),
 
-                        address || null,
+                        cleanString(
+                            address,
+                            500
+                        ),
 
-                        city || null,
+                        cleanString(
+                            city,
+                            100
+                        ),
 
-                        state || null,
+                        cleanString(
+                            state,
+                            100
+                        ),
 
-                        pincode || null,
+                        cleanString(
+                            pincode,
+                            20
+                        ),
 
-                        Array.isArray(images)
-                            ? images
-                            : null,
+                        safeImages,
 
-                        Number(
+                        toId(
                             req.params.id
                         ),
 
                         req.user.id
 
                     ]
+
                 );
 
 
@@ -1673,9 +2343,12 @@ app.put(
                 !result.rows.length
             ) {
 
-                return res.status(404).json({
+                return res.status(
+                    404
+                ).json({
 
-                    success: false,
+                    success:
+                        false,
 
                     message:
                         "Property not found or you are not the owner"
@@ -1685,9 +2358,10 @@ app.put(
             }
 
 
-            res.json({
+            return res.json({
 
-                success: true,
+                success:
+                    true,
 
                 message:
                     "Property updated successfully",
@@ -1699,7 +2373,7 @@ app.put(
 
         } catch (error) {
 
-            sendError(
+            return sendError(
                 res,
                 500,
                 "Unable to update property",
@@ -1707,6 +2381,7 @@ app.put(
             );
 
         }
+
     }
 );
 
@@ -1718,17 +2393,25 @@ app.put(
 app.delete(
     "/api/properties/:id",
     authenticateToken,
-    async (req, res) => {
+    async (
+        req,
+        res
+    ) => {
 
         try {
 
             if (
-                !isValidId(req.params.id)
+                !isValidId(
+                    req.params.id
+                )
             ) {
 
-                return res.status(400).json({
+                return res.status(
+                    400
+                ).json({
 
-                    success: false,
+                    success:
+                        false,
 
                     message:
                         "Invalid property ID"
@@ -1749,12 +2432,15 @@ app.delete(
                      RETURNING id`,
 
                     [
-                        Number(
+
+                        toId(
                             req.params.id
                         ),
 
                         req.user.id
+
                     ]
+
                 );
 
 
@@ -1762,9 +2448,12 @@ app.delete(
                 !result.rows.length
             ) {
 
-                return res.status(404).json({
+                return res.status(
+                    404
+                ).json({
 
-                    success: false,
+                    success:
+                        false,
 
                     message:
                         "Property not found"
@@ -1774,9 +2463,10 @@ app.delete(
             }
 
 
-            res.json({
+            return res.json({
 
-                success: true,
+                success:
+                    true,
 
                 message:
                     "Property deleted successfully"
@@ -1785,7 +2475,7 @@ app.delete(
 
         } catch (error) {
 
-            sendError(
+            return sendError(
                 res,
                 500,
                 "Unable to delete property",
@@ -1793,6 +2483,7 @@ app.delete(
             );
 
         }
+
     }
 );
 
@@ -1804,28 +2495,47 @@ app.delete(
 app.post(
     "/api/enquiries",
     authenticateToken,
-    async (req, res) => {
+    async (
+        req,
+        res
+    ) => {
 
         try {
 
-            const {
-                propertyId,
-                message,
-                phone
-            } = req.body;
+            const propertyId =
+                req.body.propertyId;
+
+
+            const message =
+                cleanString(
+                    req.body.message,
+                    5000
+                );
+
+
+            const phone =
+                cleanString(
+                    req.body.phone,
+                    30
+                );
 
 
             if (
-                !propertyId ||
+                !isValidId(
+                    propertyId
+                ) ||
                 !message
             ) {
 
-                return res.status(400).json({
+                return res.status(
+                    400
+                ).json({
 
-                    success: false,
+                    success:
+                        false,
 
                     message:
-                        "Property and message are required"
+                        "Valid property ID and message are required"
 
                 });
 
@@ -1835,12 +2545,23 @@ app.post(
             const property =
                 await pool.query(
 
-                    `SELECT id
+                    `SELECT
+                        id,
+                        owner_id,
+                        status
+
                      FROM properties
+
                      WHERE id = $1
+
                      LIMIT 1`,
 
-                    [propertyId]
+                    [
+                        toId(
+                            propertyId
+                        )
+                    ]
+
                 );
 
 
@@ -1848,9 +2569,12 @@ app.post(
                 !property.rows.length
             ) {
 
-                return res.status(404).json({
+                return res.status(
+                    404
+                ).json({
 
-                    success: false,
+                    success:
+                        false,
 
                     message:
                         "Property not found"
@@ -1872,29 +2596,35 @@ app.post(
                         status,
                         created_at
                     )
+
                     VALUES
-                    ($1,$2,$3,$4,$5,NOW())
+                    ($1,$2,$3,$4,'new',NOW())
+
                     RETURNING *`,
 
                     [
 
-                        Number(propertyId),
+                        toId(
+                            propertyId
+                        ),
 
                         req.user.id,
 
-                        message.trim(),
+                        message,
 
-                        phone || null,
-
-                        "new"
+                        phone
 
                     ]
+
                 );
 
 
-            res.status(201).json({
+            return res.status(
+                201
+            ).json({
 
-                success: true,
+                success:
+                    true,
 
                 message:
                     "Enquiry submitted successfully",
@@ -1906,7 +2636,7 @@ app.post(
 
         } catch (error) {
 
-            sendError(
+            return sendError(
                 res,
                 500,
                 "Unable to submit enquiry",
@@ -1914,6 +2644,7 @@ app.post(
             );
 
         }
+
     }
 );
 
@@ -1925,7 +2656,10 @@ app.post(
 app.get(
     "/api/enquiries/my",
     authenticateToken,
-    async (req, res) => {
+    async (
+        req,
+        res
+    ) => {
 
         try {
 
@@ -1946,13 +2680,17 @@ app.get(
                      ORDER BY
                         e.created_at DESC`,
 
-                    [req.user.id]
+                    [
+                        req.user.id
+                    ]
+
                 );
 
 
-            res.json({
+            return res.json({
 
-                success: true,
+                success:
+                    true,
 
                 enquiries:
                     result.rows
@@ -1961,7 +2699,7 @@ app.get(
 
         } catch (error) {
 
-            sendError(
+            return sendError(
                 res,
                 500,
                 "Unable to load enquiries",
@@ -1969,6 +2707,7 @@ app.get(
             );
 
         }
+
     }
 );
 
@@ -1980,28 +2719,81 @@ app.get(
 app.post(
     "/api/bookings",
     authenticateToken,
-    async (req, res) => {
+    async (
+        req,
+        res
+    ) => {
 
         try {
 
-            const {
-                propertyId,
-                visitDate,
-                notes
-            } = req.body;
+            const propertyId =
+                req.body.propertyId;
+
+
+            const visitDate =
+                req.body.visitDate;
+
+
+            const notes =
+                cleanString(
+                    req.body.notes,
+                    3000
+                );
 
 
             if (
-                !propertyId ||
+                !isValidId(
+                    propertyId
+                ) ||
                 !visitDate
             ) {
 
-                return res.status(400).json({
+                return res.status(
+                    400
+                ).json({
 
-                    success: false,
+                    success:
+                        false,
 
                     message:
                         "Property and visit date are required"
+
+                });
+
+            }
+
+
+            const property =
+                await pool.query(
+
+                    `SELECT id
+                     FROM properties
+                     WHERE id = $1
+                     AND status = 'approved'
+                     LIMIT 1`,
+
+                    [
+                        toId(
+                            propertyId
+                        )
+                    ]
+
+                );
+
+
+            if (
+                !property.rows.length
+            ) {
+
+                return res.status(
+                    404
+                ).json({
+
+                    success:
+                        false,
+
+                    message:
+                        "Approved property not found"
 
                 });
 
@@ -2020,29 +2812,35 @@ app.post(
                         status,
                         created_at
                     )
+
                     VALUES
-                    ($1,$2,$3,$4,$5,NOW())
+                    ($1,$2,$3,$4,'pending',NOW())
+
                     RETURNING *`,
 
                     [
 
-                        Number(propertyId),
+                        toId(
+                            propertyId
+                        ),
 
                         req.user.id,
 
                         visitDate,
 
-                        notes || null,
-
-                        "pending"
+                        notes
 
                     ]
+
                 );
 
 
-            res.status(201).json({
+            return res.status(
+                201
+            ).json({
 
-                success: true,
+                success:
+                    true,
 
                 message:
                     "Visit request submitted",
@@ -2054,7 +2852,7 @@ app.post(
 
         } catch (error) {
 
-            sendError(
+            return sendError(
                 res,
                 500,
                 "Unable to create booking",
@@ -2062,6 +2860,7 @@ app.post(
             );
 
         }
+
     }
 );
 
@@ -2073,7 +2872,10 @@ app.post(
 app.get(
     "/api/bookings/my",
     authenticateToken,
-    async (req, res) => {
+    async (
+        req,
+        res
+    ) => {
 
         try {
 
@@ -2094,13 +2896,17 @@ app.get(
                      ORDER BY
                         b.created_at DESC`,
 
-                    [req.user.id]
+                    [
+                        req.user.id
+                    ]
+
                 );
 
 
-            res.json({
+            return res.json({
 
-                success: true,
+                success:
+                    true,
 
                 bookings:
                     result.rows
@@ -2109,7 +2915,7 @@ app.get(
 
         } catch (error) {
 
-            sendError(
+            return sendError(
                 res,
                 500,
                 "Unable to load bookings",
@@ -2117,6 +2923,7 @@ app.get(
             );
 
         }
+
     }
 );
 
@@ -2128,28 +2935,47 @@ app.get(
 app.post(
     "/api/payments",
     authenticateToken,
-    async (req, res) => {
+    async (
+        req,
+        res
+    ) => {
 
         try {
 
-            const {
-                amount,
-                purpose,
-                reference
-            } = req.body;
+            const amount =
+                positiveNumber(
+                    req.body.amount
+                );
+
+
+            const purpose =
+                cleanString(
+                    req.body.purpose,
+                    200
+                );
+
+
+            const reference =
+                cleanString(
+                    req.body.reference,
+                    200
+                );
 
 
             if (
-                amount === undefined ||
+                amount === null ||
                 !purpose
             ) {
 
-                return res.status(400).json({
+                return res.status(
+                    400
+                ).json({
 
-                    success: false,
+                    success:
+                        false,
 
                     message:
-                        "Amount and payment purpose are required"
+                        "Valid amount and payment purpose are required"
 
                 });
 
@@ -2168,29 +2994,33 @@ app.post(
                         status,
                         created_at
                     )
+
                     VALUES
-                    ($1,$2,$3,$4,$5,NOW())
+                    ($1,$2,$3,$4,'pending',NOW())
+
                     RETURNING *`,
 
                     [
 
                         req.user.id,
 
-                        Number(amount),
+                        amount,
 
                         purpose,
 
-                        reference || null,
-
-                        "pending"
+                        reference
 
                     ]
+
                 );
 
 
-            res.status(201).json({
+            return res.status(
+                201
+            ).json({
 
-                success: true,
+                success:
+                    true,
 
                 message:
                     "Payment record created",
@@ -2202,7 +3032,7 @@ app.post(
 
         } catch (error) {
 
-            sendError(
+            return sendError(
                 res,
                 500,
                 "Unable to create payment",
@@ -2210,6 +3040,7 @@ app.post(
             );
 
         }
+
     }
 );
 
@@ -2221,7 +3052,10 @@ app.post(
 app.get(
     "/api/payments/my",
     authenticateToken,
-    async (req, res) => {
+    async (
+        req,
+        res
+    ) => {
 
         try {
 
@@ -2229,17 +3063,25 @@ app.get(
                 await pool.query(
 
                     `SELECT *
-                     FROM payments
-                     WHERE user_id = $1
-                     ORDER BY created_at DESC`,
 
-                    [req.user.id]
+                     FROM payments
+
+                     WHERE user_id = $1
+
+                     ORDER BY
+                        created_at DESC`,
+
+                    [
+                        req.user.id
+                    ]
+
                 );
 
 
-            res.json({
+            return res.json({
 
-                success: true,
+                success:
+                    true,
 
                 payments:
                     result.rows
@@ -2248,7 +3090,7 @@ app.get(
 
         } catch (error) {
 
-            sendError(
+            return sendError(
                 res,
                 500,
                 "Unable to load payments",
@@ -2256,6 +3098,7 @@ app.get(
             );
 
         }
+
     }
 );
 
@@ -2267,15 +3110,32 @@ app.get(
 app.post(
     "/api/documents",
     authenticateToken,
-    async (req, res) => {
+    async (
+        req,
+        res
+    ) => {
 
         try {
 
-            const {
-                name,
-                fileUrl,
-                documentType
-            } = req.body;
+            const name =
+                cleanString(
+                    req.body.name,
+                    250
+                );
+
+
+            const fileUrl =
+                cleanString(
+                    req.body.fileUrl,
+                    2000
+                );
+
+
+            const documentType =
+                cleanString(
+                    req.body.documentType,
+                    100
+                );
 
 
             if (
@@ -2284,9 +3144,12 @@ app.post(
                 !documentType
             ) {
 
-                return res.status(400).json({
+                return res.status(
+                    400
+                ).json({
 
-                    success: false,
+                    success:
+                        false,
 
                     message:
                         "Document name, URL and type are required"
@@ -2308,8 +3171,10 @@ app.post(
                         status,
                         created_at
                     )
+
                     VALUES
-                    ($1,$2,$3,$4,$5,NOW())
+                    ($1,$2,$3,$4,'submitted',NOW())
+
                     RETURNING *`,
 
                     [
@@ -2320,17 +3185,19 @@ app.post(
 
                         fileUrl,
 
-                        documentType,
-
-                        "submitted"
+                        documentType
 
                     ]
+
                 );
 
 
-            res.status(201).json({
+            return res.status(
+                201
+            ).json({
 
-                success: true,
+                success:
+                    true,
 
                 message:
                     "Document submitted",
@@ -2342,7 +3209,7 @@ app.post(
 
         } catch (error) {
 
-            sendError(
+            return sendError(
                 res,
                 500,
                 "Unable to submit document",
@@ -2350,6 +3217,7 @@ app.post(
             );
 
         }
+
     }
 );
 
@@ -2361,7 +3229,10 @@ app.post(
 app.get(
     "/api/documents/my",
     authenticateToken,
-    async (req, res) => {
+    async (
+        req,
+        res
+    ) => {
 
         try {
 
@@ -2369,17 +3240,25 @@ app.get(
                 await pool.query(
 
                     `SELECT *
-                     FROM documents
-                     WHERE user_id = $1
-                     ORDER BY created_at DESC`,
 
-                    [req.user.id]
+                     FROM documents
+
+                     WHERE user_id = $1
+
+                     ORDER BY
+                        created_at DESC`,
+
+                    [
+                        req.user.id
+                    ]
+
                 );
 
 
-            res.json({
+            return res.json({
 
-                success: true,
+                success:
+                    true,
 
                 documents:
                     result.rows
@@ -2388,7 +3267,7 @@ app.get(
 
         } catch (error) {
 
-            sendError(
+            return sendError(
                 res,
                 500,
                 "Unable to load documents",
@@ -2396,6 +3275,7 @@ app.get(
             );
 
         }
+
     }
 );
 
@@ -2407,7 +3287,10 @@ app.get(
 app.get(
     "/api/notifications",
     authenticateToken,
-    async (req, res) => {
+    async (
+        req,
+        res
+    ) => {
 
         try {
 
@@ -2415,17 +3298,25 @@ app.get(
                 await pool.query(
 
                     `SELECT *
-                     FROM notifications
-                     WHERE user_id = $1
-                     ORDER BY created_at DESC`,
 
-                    [req.user.id]
+                     FROM notifications
+
+                     WHERE user_id = $1
+
+                     ORDER BY
+                        created_at DESC`,
+
+                    [
+                        req.user.id
+                    ]
+
                 );
 
 
-            res.json({
+            return res.json({
 
-                success: true,
+                success:
+                    true,
 
                 notifications:
                     result.rows
@@ -2434,7 +3325,7 @@ app.get(
 
         } catch (error) {
 
-            sendError(
+            return sendError(
                 res,
                 500,
                 "Unable to load notifications",
@@ -2442,25 +3333,51 @@ app.get(
             );
 
         }
+
     }
 );
 
 
 // ============================================================
-// NOTIFICATIONS -- MARK READ
+// NOTIFICATION -- MARK READ
 // ============================================================
 
 app.patch(
     "/api/notifications/:id/read",
     authenticateToken,
-    async (req, res) => {
+    async (
+        req,
+        res
+    ) => {
 
         try {
+
+            if (
+                !isValidId(
+                    req.params.id
+                )
+            ) {
+
+                return res.status(
+                    400
+                ).json({
+
+                    success:
+                        false,
+
+                    message:
+                        "Invalid notification ID"
+
+                });
+
+            }
+
 
             const result =
                 await pool.query(
 
                     `UPDATE notifications
+
                      SET
                         is_read = TRUE
 
@@ -2471,13 +3388,14 @@ app.patch(
 
                     [
 
-                        Number(
+                        toId(
                             req.params.id
                         ),
 
                         req.user.id
 
                     ]
+
                 );
 
 
@@ -2485,9 +3403,12 @@ app.patch(
                 !result.rows.length
             ) {
 
-                return res.status(404).json({
+                return res.status(
+                    404
+                ).json({
 
-                    success: false,
+                    success:
+                        false,
 
                     message:
                         "Notification not found"
@@ -2497,9 +3418,10 @@ app.patch(
             }
 
 
-            res.json({
+            return res.json({
 
-                success: true,
+                success:
+                    true,
 
                 notification:
                     result.rows[0]
@@ -2508,7 +3430,7 @@ app.patch(
 
         } catch (error) {
 
-            sendError(
+            return sendError(
                 res,
                 500,
                 "Unable to update notification",
@@ -2516,33 +3438,41 @@ app.patch(
             );
 
         }
+
     }
 );
 
 
 // ============================================================
-// SAVED PROPERTIES
+// SAVED PROPERTIES -- SAVE
 // ============================================================
 
 app.post(
     "/api/saved",
     authenticateToken,
-    async (req, res) => {
+    async (
+        req,
+        res
+    ) => {
 
         try {
 
-            const {
-                propertyId
-            } = req.body;
+            const propertyId =
+                req.body.propertyId;
 
 
             if (
-                !isValidId(propertyId)
+                !isValidId(
+                    propertyId
+                )
             ) {
 
-                return res.status(400).json({
+                return res.status(
+                    400
+                ).json({
 
-                    success: false,
+                    success:
+                        false,
 
                     message:
                         "Valid property ID is required"
@@ -2552,11 +3482,42 @@ app.post(
             }
 
 
-            /*
-             * Requires:
-             * saved_properties
-             * (user_id, property_id)
-             */
+            const property =
+                await pool.query(
+
+                    `SELECT id
+                     FROM properties
+                     WHERE id = $1
+                     AND status = 'approved'
+                     LIMIT 1`,
+
+                    [
+                        toId(
+                            propertyId
+                        )
+                    ]
+
+                );
+
+
+            if (
+                !property.rows.length
+            ) {
+
+                return res.status(
+                    404
+                ).json({
+
+                    success:
+                        false,
+
+                    message:
+                        "Approved property not found"
+
+                });
+
+            }
+
 
             const result =
                 await pool.query(
@@ -2567,13 +3528,16 @@ app.post(
                         property_id,
                         created_at
                     )
+
                     VALUES
                     ($1,$2,NOW())
+
                     ON CONFLICT
                     (
                         user_id,
                         property_id
                     )
+
                     DO NOTHING
 
                     RETURNING *`,
@@ -2582,15 +3546,21 @@ app.post(
 
                         req.user.id,
 
-                        Number(propertyId)
+                        toId(
+                            propertyId
+                        )
 
                     ]
+
                 );
 
 
-            res.status(201).json({
+            return res.status(
+                201
+            ).json({
 
-                success: true,
+                success:
+                    true,
 
                 message:
                     result.rows.length
@@ -2604,7 +3574,7 @@ app.post(
 
         } catch (error) {
 
-            sendError(
+            return sendError(
                 res,
                 500,
                 "Unable to save property",
@@ -2612,6 +3582,7 @@ app.post(
             );
 
         }
+
     }
 );
 
@@ -2623,7 +3594,10 @@ app.post(
 app.get(
     "/api/saved",
     authenticateToken,
-    async (req, res) => {
+    async (
+        req,
+        res
+    ) => {
 
         try {
 
@@ -2631,7 +3605,8 @@ app.get(
                 await pool.query(
 
                     `SELECT
-                        sp.*,
+                        sp.id AS saved_id,
+                        sp.created_at AS saved_at,
                         p.*
 
                      FROM saved_properties sp
@@ -2644,13 +3619,17 @@ app.get(
                      ORDER BY
                         sp.created_at DESC`,
 
-                    [req.user.id]
+                    [
+                        req.user.id
+                    ]
+
                 );
 
 
-            res.json({
+            return res.json({
 
-                success: true,
+                success:
+                    true,
 
                 properties:
                     result.rows
@@ -2659,7 +3638,7 @@ app.get(
 
         } catch (error) {
 
-            sendError(
+            return sendError(
                 res,
                 500,
                 "Unable to load saved properties",
@@ -2667,6 +3646,7 @@ app.get(
             );
 
         }
+
     }
 );
 
@@ -2678,9 +3658,33 @@ app.get(
 app.delete(
     "/api/saved/:propertyId",
     authenticateToken,
-    async (req, res) => {
+    async (
+        req,
+        res
+    ) => {
 
         try {
+
+            if (
+                !isValidId(
+                    req.params.propertyId
+                )
+            ) {
+
+                return res.status(
+                    400
+                ).json({
+
+                    success:
+                        false,
+
+                    message:
+                        "Invalid property ID"
+
+                });
+
+            }
+
 
             await pool.query(
 
@@ -2693,17 +3697,19 @@ app.delete(
 
                     req.user.id,
 
-                    Number(
+                    toId(
                         req.params.propertyId
                     )
 
                 ]
+
             );
 
 
-            res.json({
+            return res.json({
 
-                success: true,
+                success:
+                    true,
 
                 message:
                     "Property removed from saved list"
@@ -2712,7 +3718,7 @@ app.delete(
 
         } catch (error) {
 
-            sendError(
+            return sendError(
                 res,
                 500,
                 "Unable to remove saved property",
@@ -2720,6 +3726,7 @@ app.delete(
             );
 
         }
+
     }
 );
 
@@ -2732,7 +3739,10 @@ app.get(
     "/api/admin/dashboard",
     authenticateToken,
     requireAdmin,
-    async (req, res) => {
+    async (
+        req,
+        res
+    ) => {
 
         try {
 
@@ -2776,9 +3786,10 @@ app.get(
             ]);
 
 
-            res.json({
+            return res.json({
 
-                success: true,
+                success:
+                    true,
 
                 dashboard: {
 
@@ -2818,7 +3829,7 @@ app.get(
 
         } catch (error) {
 
-            sendError(
+            return sendError(
                 res,
                 500,
                 "Unable to load admin dashboard",
@@ -2826,6 +3837,7 @@ app.get(
             );
 
         }
+
     }
 );
 
@@ -2838,7 +3850,10 @@ app.get(
     "/api/admin/users",
     authenticateToken,
     requireAdmin,
-    async (req, res) => {
+    async (
+        req,
+        res
+    ) => {
 
         try {
 
@@ -2852,7 +3867,8 @@ app.get(
                         phone,
                         role,
                         status,
-                        created_at
+                        created_at,
+                        updated_at
 
                      FROM users
 
@@ -2860,12 +3876,14 @@ app.get(
                         created_at DESC
 
                      LIMIT 500`
+
                 );
 
 
-            res.json({
+            return res.json({
 
-                success: true,
+                success:
+                    true,
 
                 users:
                     result.rows
@@ -2874,7 +3892,7 @@ app.get(
 
         } catch (error) {
 
-            sendError(
+            return sendError(
                 res,
                 500,
                 "Unable to load users",
@@ -2882,19 +3900,23 @@ app.get(
             );
 
         }
+
     }
 );
 
 
 // ============================================================
-// ADMIN -- PROPERTY LIST
+// ADMIN -- PROPERTIES
 // ============================================================
 
 app.get(
     "/api/admin/properties",
     authenticateToken,
     requireAdmin,
-    async (req, res) => {
+    async (
+        req,
+        res
+    ) => {
 
         try {
 
@@ -2904,7 +3926,8 @@ app.get(
                     `SELECT
                         p.*,
                         u.name AS owner_name,
-                        u.email AS owner_email
+                        u.email AS owner_email,
+                        u.phone AS owner_phone
 
                      FROM properties p
 
@@ -2915,12 +3938,14 @@ app.get(
                         p.created_at DESC
 
                      LIMIT 500`
+
                 );
 
 
-            res.json({
+            return res.json({
 
-                success: true,
+                success:
+                    true,
 
                 properties:
                     result.rows
@@ -2929,7 +3954,7 @@ app.get(
 
         } catch (error) {
 
-            sendError(
+            return sendError(
                 res,
                 500,
                 "Unable to load admin properties",
@@ -2937,6 +3962,7 @@ app.get(
             );
 
         }
+
     }
 );
 
@@ -2949,30 +3975,48 @@ app.patch(
     "/api/admin/properties/:id/status",
     authenticateToken,
     requireAdmin,
-    async (req, res) => {
+    async (
+        req,
+        res
+    ) => {
 
         try {
 
-            const {
-                status
-            } = req.body;
+            if (
+                !isValidId(
+                    req.params.id
+                )
+            ) {
+
+                return res.status(
+                    400
+                ).json({
+
+                    success:
+                        false,
+
+                    message:
+                        "Invalid property ID"
+
+                });
+
+            }
 
 
             const allowedStatuses = [
 
                 "pending",
-
                 "approved",
-
                 "rejected",
-
                 "sold",
-
                 "rented",
-
                 "inactive"
 
             ];
+
+
+            const status =
+                req.body.status;
 
 
             if (
@@ -2981,9 +4025,12 @@ app.patch(
                 )
             ) {
 
-                return res.status(400).json({
+                return res.status(
+                    400
+                ).json({
 
-                    success: false,
+                    success:
+                        false,
 
                     message:
                         "Invalid property status"
@@ -3010,11 +4057,12 @@ app.patch(
 
                         status,
 
-                        Number(
+                        toId(
                             req.params.id
                         )
 
                     ]
+
                 );
 
 
@@ -3022,9 +4070,12 @@ app.patch(
                 !result.rows.length
             ) {
 
-                return res.status(404).json({
+                return res.status(
+                    404
+                ).json({
 
-                    success: false,
+                    success:
+                        false,
 
                     message:
                         "Property not found"
@@ -3034,9 +4085,10 @@ app.patch(
             }
 
 
-            res.json({
+            return res.json({
 
-                success: true,
+                success:
+                    true,
 
                 message:
                     "Property status updated",
@@ -3048,7 +4100,7 @@ app.patch(
 
         } catch (error) {
 
-            sendError(
+            return sendError(
                 res,
                 500,
                 "Unable to update property status",
@@ -3056,6 +4108,7 @@ app.patch(
             );
 
         }
+
     }
 );
 
@@ -3068,7 +4121,10 @@ app.get(
     "/api/admin/enquiries",
     authenticateToken,
     requireAdmin,
-    async (req, res) => {
+    async (
+        req,
+        res
+    ) => {
 
         try {
 
@@ -3079,7 +4135,8 @@ app.get(
                         e.*,
                         p.title AS property_title,
                         u.name AS user_name,
-                        u.email AS user_email
+                        u.email AS user_email,
+                        u.phone AS user_phone
 
                      FROM enquiries e
 
@@ -3093,12 +4150,14 @@ app.get(
                         e.created_at DESC
 
                      LIMIT 500`
+
                 );
 
 
-            res.json({
+            return res.json({
 
-                success: true,
+                success:
+                    true,
 
                 enquiries:
                     result.rows
@@ -3107,7 +4166,7 @@ app.get(
 
         } catch (error) {
 
-            sendError(
+            return sendError(
                 res,
                 500,
                 "Unable to load enquiries",
@@ -3115,6 +4174,7 @@ app.get(
             );
 
         }
+
     }
 );
 
@@ -3127,7 +4187,10 @@ app.get(
     "/api/admin/bookings",
     authenticateToken,
     requireAdmin,
-    async (req, res) => {
+    async (
+        req,
+        res
+    ) => {
 
         try {
 
@@ -3138,7 +4201,8 @@ app.get(
                         b.*,
                         p.title AS property_title,
                         u.name AS user_name,
-                        u.email AS user_email
+                        u.email AS user_email,
+                        u.phone AS user_phone
 
                      FROM bookings b
 
@@ -3152,12 +4216,14 @@ app.get(
                         b.created_at DESC
 
                      LIMIT 500`
+
                 );
 
 
-            res.json({
+            return res.json({
 
-                success: true,
+                success:
+                    true,
 
                 bookings:
                     result.rows
@@ -3166,7 +4232,7 @@ app.get(
 
         } catch (error) {
 
-            sendError(
+            return sendError(
                 res,
                 500,
                 "Unable to load bookings",
@@ -3174,40 +4240,60 @@ app.get(
             );
 
         }
+
     }
 );
 
 
 // ============================================================
-// ADMIN -- UPDATE BOOKING
+// ADMIN -- BOOKING STATUS
 // ============================================================
 
 app.patch(
     "/api/admin/bookings/:id/status",
     authenticateToken,
     requireAdmin,
-    async (req, res) => {
+    async (
+        req,
+        res
+    ) => {
 
         try {
 
-            const {
-                status
-            } = req.body;
+            if (
+                !isValidId(
+                    req.params.id
+                )
+            ) {
+
+                return res.status(
+                    400
+                ).json({
+
+                    success:
+                        false,
+
+                    message:
+                        "Invalid booking ID"
+
+                });
+
+            }
 
 
             const allowed = [
 
                 "pending",
-
                 "confirmed",
-
                 "completed",
-
                 "cancelled",
-
                 "rejected"
 
             ];
+
+
+            const status =
+                req.body.status;
 
 
             if (
@@ -3216,9 +4302,12 @@ app.patch(
                 )
             ) {
 
-                return res.status(400).json({
+                return res.status(
+                    400
+                ).json({
 
-                    success: false,
+                    success:
+                        false,
 
                     message:
                         "Invalid booking status"
@@ -3244,11 +4333,12 @@ app.patch(
 
                         status,
 
-                        Number(
+                        toId(
                             req.params.id
                         )
 
                     ]
+
                 );
 
 
@@ -3256,9 +4346,12 @@ app.patch(
                 !result.rows.length
             ) {
 
-                return res.status(404).json({
+                return res.status(
+                    404
+                ).json({
 
-                    success: false,
+                    success:
+                        false,
 
                     message:
                         "Booking not found"
@@ -3268,9 +4361,10 @@ app.patch(
             }
 
 
-            res.json({
+            return res.json({
 
-                success: true,
+                success:
+                    true,
 
                 message:
                     "Booking status updated",
@@ -3282,7 +4376,7 @@ app.patch(
 
         } catch (error) {
 
-            sendError(
+            return sendError(
                 res,
                 500,
                 "Unable to update booking",
@@ -3290,19 +4384,23 @@ app.patch(
             );
 
         }
+
     }
 );
 
 
 // ============================================================
-// ADMIN -- PAYMENT LIST
+// ADMIN -- PAYMENTS
 // ============================================================
 
 app.get(
     "/api/admin/payments",
     authenticateToken,
     requireAdmin,
-    async (req, res) => {
+    async (
+        req,
+        res
+    ) => {
 
         try {
 
@@ -3323,12 +4421,14 @@ app.get(
                         p.created_at DESC
 
                      LIMIT 500`
+
                 );
 
 
-            res.json({
+            return res.json({
 
-                success: true,
+                success:
+                    true,
 
                 payments:
                     result.rows
@@ -3337,7 +4437,7 @@ app.get(
 
         } catch (error) {
 
-            sendError(
+            return sendError(
                 res,
                 500,
                 "Unable to load payments",
@@ -3345,38 +4445,59 @@ app.get(
             );
 
         }
+
     }
 );
 
 
 // ============================================================
-// ADMIN -- UPDATE USER STATUS
+// ADMIN -- USER STATUS
 // ============================================================
 
 app.patch(
     "/api/admin/users/:id/status",
     authenticateToken,
     requireAdmin,
-    async (req, res) => {
+    async (
+        req,
+        res
+    ) => {
 
         try {
 
-            const {
-                status
-            } = req.body;
+            if (
+                !isValidId(
+                    req.params.id
+                )
+            ) {
+
+                return res.status(
+                    400
+                ).json({
+
+                    success:
+                        false,
+
+                    message:
+                        "Invalid user ID"
+
+                });
+
+            }
 
 
             const allowed = [
 
                 "active",
-
                 "inactive",
-
                 "suspended",
-
                 "blocked"
 
             ];
+
+
+            const status =
+                req.body.status;
 
 
             if (
@@ -3385,12 +4506,39 @@ app.patch(
                 )
             ) {
 
-                return res.status(400).json({
+                return res.status(
+                    400
+                ).json({
 
-                    success: false,
+                    success:
+                        false,
 
                     message:
                         "Invalid user status"
+
+                });
+
+            }
+
+
+            if (
+                Number(
+                    req.params.id
+                ) ===
+                Number(
+                    req.user.id
+                )
+            ) {
+
+                return res.status(
+                    400
+                ).json({
+
+                    success:
+                        false,
+
+                    message:
+                        "You cannot change your own account status"
 
                 });
 
@@ -3414,17 +4562,20 @@ app.patch(
                         email,
                         phone,
                         role,
-                        status`,
+                        status,
+                        created_at,
+                        updated_at`,
 
                     [
 
                         status,
 
-                        Number(
+                        toId(
                             req.params.id
                         )
 
                     ]
+
                 );
 
 
@@ -3432,9 +4583,12 @@ app.patch(
                 !result.rows.length
             ) {
 
-                return res.status(404).json({
+                return res.status(
+                    404
+                ).json({
 
-                    success: false,
+                    success:
+                        false,
 
                     message:
                         "User not found"
@@ -3444,9 +4598,10 @@ app.patch(
             }
 
 
-            res.json({
+            return res.json({
 
-                success: true,
+                success:
+                    true,
 
                 message:
                     "User status updated",
@@ -3458,7 +4613,7 @@ app.patch(
 
         } catch (error) {
 
-            sendError(
+            return sendError(
                 res,
                 500,
                 "Unable to update user",
@@ -3466,6 +4621,7 @@ app.patch(
             );
 
         }
+
     }
 );
 
@@ -3476,11 +4632,17 @@ app.patch(
 
 app.use(
     "/api",
-    (req, res) => {
+    (
+        req,
+        res
+    ) => {
 
-        res.status(404).json({
+        return res.status(
+            404
+        ).json({
 
-            success: false,
+            success:
+                false,
 
             message:
                 "API endpoint not found",
@@ -3495,11 +4657,123 @@ app.use(
 
 
 // ============================================================
+// FRONTEND ROUTING
+// ============================================================
+
+// Root
+app.get(
+    "/",
+    (
+        req,
+        res
+    ) => {
+
+        res.sendFile(
+            path.join(
+                FRONTEND_ROOT,
+                "index.html"
+            )
+        );
+
+    }
+);
+
+
+// Existing HTML files
+app.get(
+    "/*.html",
+    (
+        req,
+        res,
+        next
+    ) => {
+
+        const requestedFile =
+            path.join(
+                FRONTEND_ROOT,
+                req.path
+            );
+
+
+        res.sendFile(
+            requestedFile,
+            error => {
+
+                if (error) {
+
+                    next();
+
+                }
+
+            }
+        );
+
+    }
+);
+
+
+// Frontend route fallback
+app.get(
+    "*splat",
+    (
+        req,
+        res,
+        next
+    ) => {
+
+        if (
+            req.originalUrl.startsWith(
+                "/api/"
+            )
+        ) {
+
+            return next();
+
+        }
+
+
+        if (
+            path.extname(
+                req.path
+            )
+        ) {
+
+            return next();
+
+        }
+
+
+        return res.sendFile(
+            path.join(
+                FRONTEND_ROOT,
+                "index.html"
+            ),
+            error => {
+
+                if (error) {
+
+                    next(error);
+
+                }
+
+            }
+        );
+
+    }
+);
+
+
+// ============================================================
 // GLOBAL ERROR HANDLER
 // ============================================================
 
 app.use(
-    (error, req, res, next) => {
+    (
+        error,
+        req,
+        res,
+        next
+    ) => {
 
         console.error(
             "Unhandled server error:",
@@ -3507,9 +4781,21 @@ app.use(
         );
 
 
-        res.status(500).json({
+        if (
+            res.headersSent
+        ) {
 
-            success: false,
+            return next(error);
+
+        }
+
+
+        return res.status(
+            error.status || 500
+        ).json({
+
+            success:
+                false,
 
             message:
                 IS_PRODUCTION
@@ -3517,30 +4803,6 @@ app.use(
                     : error.message
 
         });
-
-    }
-);
-
-
-// ============================================================
-// FRONTEND FALLBACK
-// ============================================================
-
-app.get(
-    "*",
-    (req, res) => {
-
-        /*
-         * API routes have already been handled above.
-         * Unknown browser routes fall back to index.html.
-         */
-
-        res.sendFile(
-            path.join(
-                __dirname,
-                "index.html"
-            )
-        );
 
     }
 );
@@ -3570,8 +4832,9 @@ async function startServer() {
                 () => {
 
                     console.log("");
+
                     console.log(
-                        "=============================================="
+                        "================================================"
                     );
 
                     console.log(
@@ -3579,7 +4842,7 @@ async function startServer() {
                     );
 
                     console.log(
-                        "=============================================="
+                        "================================================"
                     );
 
                     console.log(
@@ -3595,15 +4858,15 @@ async function startServer() {
                     );
 
                     console.log(
-                        `API         : http://localhost:${PORT}/api`
+                        `API         : ${CLIENT_URL}/api`
                     );
 
                     console.log(
-                        `Health      : http://localhost:${PORT}/api/health`
+                        `Health      : ${CLIENT_URL}/api/health`
                     );
 
                     console.log(
-                        "=============================================="
+                        "================================================"
                     );
 
                     console.log("");
@@ -3616,51 +4879,81 @@ async function startServer() {
         // GRACEFUL SHUTDOWN
         // ====================================================
 
-        const shutdown =
-            async signal => {
+        async function shutdown(
+            signal
+        ) {
 
-                console.log(
-                    `${signal} received.`
-                );
+            console.log(
+                `${signal} received. Shutting down...`
+            );
 
 
-                server.close(
-                    async () => {
+            server.close(
+                async error => {
 
-                        try {
+                    if (error) {
 
-                            await pool.end();
-
-                            console.log(
-                                "Database pool closed."
-                            );
-
-                            process.exit(0);
-
-                        } catch (error) {
-
-                            console.error(
-                                error
-                            );
-
-                            process.exit(1);
-
-                        }
+                        console.error(
+                            "Server shutdown error:",
+                            error
+                        );
 
                     }
-                );
-
-            };
 
 
-        process.on(
+                    try {
+
+                        await pool.end();
+
+
+                        console.log(
+                            "PostgreSQL pool closed."
+                        );
+
+
+                        process.exit(
+                            error
+                                ? 1
+                                : 0
+                        );
+
+                    } catch (
+                        dbError
+                    ) {
+
+                        console.error(
+                            "Database shutdown error:",
+                            dbError
+                        );
+
+
+                        process.exit(
+                            1
+                        );
+
+                    }
+
+                }
+            );
+
+        }
+
+
+        process.once(
             "SIGTERM",
-            () => shutdown("SIGTERM")
+            () =>
+                shutdown(
+                    "SIGTERM"
+                )
         );
 
-        process.on(
+
+        process.once(
             "SIGINT",
-            () => shutdown("SIGINT")
+            () =>
+                shutdown(
+                    "SIGINT"
+                )
         );
 
 
@@ -3670,11 +4963,15 @@ async function startServer() {
             "Unable to connect to PostgreSQL."
         );
 
+
         console.error(
-            error.message
+            error
         );
 
-        process.exit(1);
+
+        process.exit(
+            1
+        );
 
     }
 
