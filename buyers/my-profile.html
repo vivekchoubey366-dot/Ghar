@@ -2,949 +2,738 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 
 <meta
-    name="viewport"
-    content="width=device-width,initial-scale=1"
+  name="description"
+  content="GHAR Buyer Profile -- Manage personal information, property preferences and buyer account settings."
 >
 
-<meta
-    name="description"
-    content="GHAR Buyer Profile -- Manage your profile, preferences, verification and account information."
->
+<meta name="theme-color" content="#090b1d">
 
-<meta
-    name="theme-color"
-    content="#10231d"
->
-
-<meta
-    name="robots"
-    content="noindex,nofollow"
->
-
-<title>My Profile · GHAR</title>
+<title>My Profile · GHAR Buyer</title>
 
 <link rel="stylesheet" href="../assets/css/style.css">
 
 <style>
-
-/* =========================================================
-   GHAR BUYER PROFILE
-   Premium visual system aligned with GHAR homepage
-========================================================= */
+*{
+  box-sizing:border-box;
+}
 
 :root{
-    --ghar-green:#10231d;
-    --ghar-green-2:#18372d;
-    --ghar-green-3:#25483b;
+  --royal-950:#070817;
+  --royal-900:#090b1d;
+  --royal-850:#10152e;
+  --royal-800:#171d3d;
+  --royal-700:#292f5e;
 
-    --ghar-gold:#c9a96e;
-    --ghar-gold-light:#e5d1a7;
+  --sapphire:#263f78;
+  --sapphire-2:#405e9d;
 
-    --ghar-cream:#f5efe4;
-    --ghar-sand:#e9dfcf;
-    --ghar-bg:#eef1eb;
+  --burgundy:#651f35;
+  --burgundy-2:#8b314b;
 
-    --ghar-text:#18221e;
-    --ghar-muted:#6f776f;
+  --champagne:#e7c982;
+  --champagne-2:#f3dfaa;
+  --champagne-3:#b48b3d;
 
-    --ghar-border:rgba(16,35,29,.12);
-    --ghar-card:rgba(255,255,255,.68);
+  --cream:#fffaf0;
+  --cream-2:#f6eddd;
+  --sand:#eadcc4;
 
-    --ghar-shadow:
-        0 20px 60px rgba(16,35,29,.10);
+  --ink:#171a2c;
+  --muted:#707488;
 
-    --ghar-radius:22px;
+  --success:#24614e;
+  --success-soft:#dceee7;
+
+  --danger:#923f50;
+  --danger-soft:#f5dfe4;
+
+  --border:rgba(10,14,36,.12);
+  --white-border:rgba(255,255,255,.14);
+
+  --shadow:
+    0 28px 75px rgba(7,8,23,.13);
+
+  --shadow-soft:
+    0 13px 38px rgba(7,8,23,.08);
+
+  --radius:24px;
 }
 
-*{
-    box-sizing:border-box;
-}
+/* =========================================================
+   BASE
+========================================================= */
 
 html{
-    scroll-behavior:smooth;
+  scroll-behavior:smooth;
 }
 
 body{
-    margin:0;
-    min-height:100vh;
+  margin:0;
+  min-height:100vh;
 
-    color:var(--ghar-text);
+  color:var(--ink);
 
-    font-family:
-        Inter,
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        sans-serif;
+  font-family:
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
 
-    background:
-        radial-gradient(
-            circle at 4% 0%,
-            rgba(201,169,110,.18),
-            transparent 30%
-        ),
-        radial-gradient(
-            circle at 96% 12%,
-            rgba(24,55,45,.12),
-            transparent 28%
-        ),
-        radial-gradient(
-            circle at 50% 100%,
-            rgba(201,169,110,.09),
-            transparent 32%
-        ),
-        linear-gradient(
-            135deg,
-            #f8f3ea,
-            #e8eee8 52%,
-            #f0e5d5
-        );
+  background:
+
+    radial-gradient(
+      circle at 7% 5%,
+      rgba(38,63,120,.17),
+      transparent 25%
+    ),
+
+    radial-gradient(
+      circle at 93% 8%,
+      rgba(101,31,53,.15),
+      transparent 27%
+    ),
+
+    radial-gradient(
+      circle at 50% 100%,
+      rgba(231,201,130,.13),
+      transparent 31%
+    ),
+
+    linear-gradient(
+      135deg,
+      #fbf6eb 0%,
+      #eee3d0 46%,
+      #f8efdf 100%
+    );
 }
 
 button,
 input,
 select,
 textarea{
-    font:inherit;
+  font:inherit;
 }
 
 button{
-    cursor:pointer;
+  cursor:pointer;
 }
 
 a{
-    color:inherit;
-    text-decoration:none;
+  color:inherit;
 }
 
 /* =========================================================
-   HEADER
+   PAGE
 ========================================================= */
 
-.ghar-profile-header{
-    position:sticky;
-    top:0;
-    z-index:1000;
+.buyer-profile-page{
+  width:min(
+    1480px,
+    calc(100% - 32px)
+  );
 
-    backdrop-filter:blur(22px);
+  margin:auto;
 
-    background:
-        rgba(248,243,234,.88);
-
-    border-bottom:
-        1px solid var(--ghar-border);
-}
-
-.ghar-profile-header-inner{
-    width:min(1400px,calc(100% - 32px));
-    min-height:76px;
-
-    margin:auto;
-
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-
-    gap:20px;
-}
-
-.ghar-brand{
-    display:flex;
-    align-items:center;
-    gap:12px;
-
-    font-weight:800;
-}
-
-.ghar-logo{
-    width:44px;
-    height:44px;
-
-    border-radius:14px;
-
-    display:grid;
-    place-items:center;
-
-    background:var(--ghar-green);
-    color:var(--ghar-gold);
-
-    font-size:1.1rem;
-    font-weight:900;
-
-    box-shadow:
-        0 10px 25px rgba(16,35,29,.18);
-}
-
-.ghar-brand-name{
-    display:block;
-
-    font-size:1.2rem;
-    letter-spacing:.04em;
-}
-
-.ghar-brand-subtitle{
-    display:block;
-
-    margin-top:2px;
-
-    color:var(--ghar-muted);
-
-    font-size:.65rem;
-    font-weight:650;
-
-    letter-spacing:.12em;
-    text-transform:uppercase;
-}
-
-.ghar-profile-nav{
-    display:flex;
-    align-items:center;
-    gap:5px;
-}
-
-.ghar-profile-nav a{
-    padding:10px 12px;
-
-    border-radius:11px;
-
-    font-size:.86rem;
-    font-weight:650;
-
-    transition:.2s ease;
-}
-
-.ghar-profile-nav a:hover,
-.ghar-profile-nav a.active{
-    background:
-        rgba(16,35,29,.08);
-
-    color:var(--ghar-green);
-}
-
-.ghar-header-actions{
-    display:flex;
-    align-items:center;
-    gap:8px;
-}
-
-.ghar-header-icon{
-    width:42px;
-    height:42px;
-
-    border:
-        1px solid var(--ghar-border);
-
-    border-radius:13px;
-
-    background:
-        rgba(255,255,255,.60);
-
-    display:grid;
-    place-items:center;
-
-    color:var(--ghar-green);
-
-    transition:.2s ease;
-}
-
-.ghar-header-icon:hover{
-    transform:translateY(-1px);
-
-    background:
-        rgba(255,255,255,.90);
-}
-
-.ghar-menu{
-    display:none;
-}
-
-/* =========================================================
-   MAIN
-========================================================= */
-
-.profile-main{
-    width:min(1400px,calc(100% - 32px));
-
-    margin:auto;
-
-    padding:
-        34px 0 70px;
+  padding:
+    34px 0 75px;
 }
 
 /* =========================================================
    HERO
 ========================================================= */
 
-.profile-hero{
-    position:relative;
+.hero{
+  position:relative;
 
-    overflow:hidden;
+  overflow:hidden;
 
-    padding:34px;
+  min-height:300px;
 
-    margin-bottom:22px;
+  display:flex;
 
-    border-radius:28px;
+  align-items:center;
 
-    color:#fff;
+  padding:42px;
 
-    background:
-        linear-gradient(
-            120deg,
-            rgba(16,35,29,.99),
-            rgba(24,55,45,.96)
-        );
+  border:
+    1px solid
+    rgba(243,223,170,.22);
 
-    box-shadow:var(--ghar-shadow);
+  border-radius:32px;
+
+  color:#fff;
+
+  background:
+
+    radial-gradient(
+      circle at 90% 12%,
+      rgba(231,201,130,.25),
+      transparent 25%
+    ),
+
+    radial-gradient(
+      circle at 14% 100%,
+      rgba(139,49,75,.28),
+      transparent 34%
+    ),
+
+    radial-gradient(
+      circle at 60% 45%,
+      rgba(64,94,157,.22),
+      transparent 35%
+    ),
+
+    linear-gradient(
+      135deg,
+      #070817 0%,
+      #111735 47%,
+      #3a1830 100%
+    );
+
+  box-shadow:
+    0 32px 95px
+    rgba(7,8,23,.28);
+
+  margin-bottom:24px;
 }
 
-.profile-hero::before{
-    content:"";
+.hero:before{
+  content:"";
 
-    position:absolute;
+  position:absolute;
 
-    width:420px;
-    height:420px;
+  width:390px;
+  height:390px;
 
-    right:-180px;
-    top:-210px;
+  right:-180px;
+  top:-210px;
 
-    border-radius:50%;
+  border-radius:50%;
 
-    border:
-        1px solid rgba(201,169,110,.30);
+  border:
+    1px solid
+    rgba(243,223,170,.20);
 
-    box-shadow:
-        0 0 0 55px rgba(201,169,110,.05),
-        0 0 0 110px rgba(201,169,110,.025);
+  box-shadow:
+
+    0 0 0 38px
+    rgba(231,201,130,.025),
+
+    0 0 0 76px
+    rgba(231,201,130,.018);
 }
 
-.profile-hero::after{
-    content:"";
+.hero-inner{
+  position:relative;
 
-    position:absolute;
+  z-index:2;
 
-    width:180px;
-    height:180px;
+  width:100%;
 
-    left:-100px;
-    bottom:-100px;
+  display:grid;
 
-    border-radius:50%;
+  grid-template-columns:
+    minmax(0,1.25fr)
+    minmax(250px,.75fr);
 
-    background:
-        rgba(201,169,110,.08);
+  gap:35px;
+
+  align-items:center;
 }
 
-.profile-hero-content{
-    position:relative;
-    z-index:2;
-
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-
-    gap:25px;
+.eyebrow,
+.section-eyebrow{
+  font-size:10px;
+  font-weight:950;
+  letter-spacing:.16em;
+  text-transform:uppercase;
 }
 
-.profile-identity{
-    display:flex;
-    align-items:center;
-
-    gap:18px;
+.eyebrow{
+  color:var(--champagne-2);
+  font-size:12px;
+  margin-bottom:11px;
 }
 
-.profile-avatar{
-    width:92px;
-    height:92px;
+.hero h1{
+  margin:0;
 
-    flex:0 0 92px;
+  font-size:
+    clamp(
+      34px,
+      5vw,
+      58px
+    );
 
-    border-radius:28px;
+  line-height:1.02;
 
-    display:grid;
-    place-items:center;
-
-    overflow:hidden;
-
-    background:
-        linear-gradient(
-            145deg,
-            #d9c18d,
-            #a8864e
-        );
-
-    color:var(--ghar-green);
-
-    font-size:2rem;
-    font-weight:900;
-
-    border:
-        3px solid rgba(255,255,255,.22);
-
-    box-shadow:
-        0 15px 35px rgba(0,0,0,.20);
+  letter-spacing:-.055em;
 }
 
-.profile-avatar img{
-    width:100%;
-    height:100%;
+.hero p{
+  max-width:690px;
 
-    object-fit:cover;
+  color:
+    rgba(255,255,255,.70);
+
+  font-size:14px;
+
+  line-height:1.8;
+
+  margin:
+    16px 0 0;
 }
 
-.profile-eyebrow{
-    margin-bottom:7px;
-
-    color:var(--ghar-gold);
-
-    font-size:.72rem;
-    font-weight:800;
-
-    letter-spacing:.16em;
-}
-
-.profile-hero h1{
-    margin:0;
-
-    font-size:
-        clamp(1.9rem,4vw,3rem);
-
-    line-height:1.05;
-}
-
-.profile-hero p{
-    margin:9px 0 0;
-
-    color:
-        rgba(255,255,255,.70);
-
-    line-height:1.6;
-}
-
-.profile-hero-actions{
-    display:flex;
-    flex-wrap:wrap;
-    gap:9px;
-}
-
-.profile-btn{
-    border:0;
-
-    border-radius:13px;
-
-    padding:12px 17px;
-
-    font-weight:750;
-
-    transition:.2s ease;
-}
-
-.profile-btn:hover{
-    transform:translateY(-1px);
-}
-
-.profile-btn-gold{
-    background:var(--ghar-gold);
-    color:var(--ghar-green);
-}
-
-.profile-btn-light{
-    background:
-        rgba(255,255,255,.10);
-
-    border:
-        1px solid rgba(255,255,255,.18);
-
-    color:#fff;
+.hero-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:22px;
 }
 
 /* =========================================================
-   LAYOUT
+   PROFILE BADGE
 ========================================================= */
 
-.profile-layout{
-    display:grid;
+.profile-badge{
+  justify-self:end;
 
-    grid-template-columns:
-        1.55fr .75fr;
+  width:225px;
+  height:225px;
 
-    gap:22px;
+  border-radius:50%;
 
-    align-items:start;
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  text-align:center;
+
+  background:
+
+    radial-gradient(
+      circle at 30% 22%,
+      #596fae,
+      #26355f 37%,
+      #111735 72%
+    );
+
+  border:
+    1px solid
+    rgba(243,223,170,.40);
+
+  box-shadow:
+
+    0 0 0 15px
+    rgba(231,201,130,.045),
+
+    0 0 0 32px
+    rgba(231,201,130,.025),
+
+    0 30px 70px
+    rgba(0,0,0,.30);
 }
 
-.profile-left{
-    display:grid;
-    gap:18px;
+.avatar{
+  width:92px;
+  height:92px;
+
+  margin:auto;
+
+  border-radius:50%;
+
+  display:flex;
+
+  align-items:center;
+  justify-content:center;
+
+  background:
+    linear-gradient(
+      135deg,
+      #ead39a,
+      #a87932
+    );
+
+  color:#17130b;
+
+  font-size:34px;
+
+  font-weight:950;
+
+  box-shadow:
+    0 14px 35px
+    rgba(0,0,0,.25);
 }
 
-.profile-right{
-    display:grid;
-    gap:18px;
+.badge-name{
+  margin-top:12px;
+
+  color:#fff;
+
+  font-weight:950;
+
+  font-size:15px;
+}
+
+.badge-role{
+  margin-top:4px;
+
+  color:
+    rgba(255,255,255,.58);
+
+  font-size:10px;
+
+  letter-spacing:.12em;
+
+  text-transform:uppercase;
 }
 
 /* =========================================================
-   CARD
+   BUTTONS
 ========================================================= */
 
-.profile-card{
-    overflow:hidden;
+.btn{
+  min-height:44px;
 
-    border:
-        1px solid var(--ghar-border);
+  display:inline-flex;
 
-    border-radius:22px;
+  align-items:center;
+  justify-content:center;
 
-    background:
-        rgba(255,255,255,.65);
+  gap:8px;
 
-    box-shadow:
-        var(--ghar-shadow);
+  padding:
+    11px 16px;
+
+  border-radius:13px;
+
+  border:0;
+
+  text-decoration:none;
+
+  font-size:12px;
+
+  font-weight:950;
+
+  transition:.2s ease;
 }
 
-.profile-card-header{
-    padding:20px 21px;
-
-    border-bottom:
-        1px solid var(--ghar-border);
-
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-
-    gap:15px;
+.btn:hover{
+  transform:
+    translateY(-2px);
 }
 
-.profile-card-header h2{
-    margin:0;
+.primary{
+  color:#18130a;
 
-    color:var(--ghar-green);
+  background:
+    linear-gradient(
+      135deg,
+      #f2dda2,
+      #bf954a
+    );
 
-    font-size:1.05rem;
+  box-shadow:
+    0 10px 28px
+    rgba(231,201,130,.18);
 }
 
-.profile-card-header p{
-    margin:4px 0 0;
+.secondary{
+  color:#fff;
 
-    color:var(--ghar-muted);
+  background:
+    rgba(255,255,255,.075);
 
-    font-size:.76rem;
+  border:
+    1px solid
+    rgba(255,255,255,.17);
 }
 
-.profile-card-body{
-    padding:21px;
+.dark{
+  color:#fff;
+
+  background:
+    linear-gradient(
+      135deg,
+      #121832,
+      #303b73
+    );
+}
+
+.burgundy{
+  color:#fff;
+
+  background:
+    linear-gradient(
+      135deg,
+      #651f35,
+      #92344f
+    );
+}
+
+.danger{
+  color:#fff;
+
+  background:
+    linear-gradient(
+      135deg,
+      #7b2d43,
+      #a64259
+    );
 }
 
 /* =========================================================
-   PROFILE FORM
+   MAIN GRID
 ========================================================= */
 
-.profile-grid{
-    display:grid;
+.grid-main{
+  display:grid;
 
-    grid-template-columns:
-        repeat(2,minmax(0,1fr));
+  grid-template-columns:
+    minmax(0,1.35fr)
+    minmax(300px,.65fr);
 
-    gap:16px;
+  gap:24px;
 }
 
-.profile-field{
-    display:grid;
-    gap:7px;
-}
-
-.profile-field.full{
-    grid-column:1 / -1;
-}
-
-.profile-field label{
-    color:var(--ghar-muted);
-
-    font-size:.72rem;
-    font-weight:750;
-
-    letter-spacing:.04em;
-}
-
-.profile-field input,
-.profile-field select,
-.profile-field textarea{
-    width:100%;
-
-    min-height:46px;
-
-    padding:
-        11px 13px;
-
-    border:
-        1px solid var(--ghar-border);
-
-    border-radius:12px;
-
-    outline:none;
-
-    background:
-        rgba(255,255,255,.72);
-
-    color:var(--ghar-text);
-
-    transition:
-        border-color .2s ease,
-        box-shadow .2s ease;
-}
-
-.profile-field textarea{
-    min-height:100px;
-
-    resize:vertical;
-}
-
-.profile-field input:focus,
-.profile-field select:focus,
-.profile-field textarea:focus{
-    border-color:
-        rgba(201,169,110,.85);
-
-    box-shadow:
-        0 0 0 3px
-        rgba(201,169,110,.13);
-}
-
-.profile-field input[readonly]{
-    background:
-        rgba(233,223,207,.45);
-
-    cursor:not-allowed;
-}
-
-.field-note{
-    color:var(--ghar-muted);
-
-    font-size:.67rem;
-}
-
-.profile-form-actions{
-    display:flex;
-    justify-content:flex-end;
-
-    gap:9px;
-
-    margin-top:20px;
-
-    padding-top:18px;
-
-    border-top:
-        1px solid var(--ghar-border);
-}
-
-.save-btn{
-    border:0;
-
-    border-radius:12px;
-
-    padding:12px 18px;
-
-    background:
-        var(--ghar-green);
-
-    color:#fff;
-
-    font-weight:750;
-}
-
-.cancel-btn{
-    border:
-        1px solid var(--ghar-border);
-
-    border-radius:12px;
-
-    padding:12px 18px;
-
-    background:
-        rgba(255,255,255,.65);
-
-    color:var(--ghar-green);
-
-    font-weight:700;
+.side-stack{
+  display:grid;
+  gap:24px;
 }
 
 /* =========================================================
-   VERIFICATION
+   SECTION
 ========================================================= */
 
-.verification-banner{
-    display:flex;
-    align-items:center;
+.section{
+  margin-top:24px;
 
-    gap:13px;
+  padding:29px;
 
-    padding:14px;
+  border:
+    1px solid
+    var(--border);
 
-    margin-bottom:18px;
+  border-radius:26px;
 
-    border-radius:15px;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,250,240,.95),
+      rgba(244,234,216,.85)
+    );
 
-    background:
-        rgba(220,235,220,.70);
-
-    border:
-        1px solid rgba(40,91,55,.13);
+  box-shadow:
+    var(--shadow-soft);
 }
 
-.verification-icon{
-    width:40px;
-    height:40px;
-
-    flex:0 0 40px;
-
-    border-radius:12px;
-
-    display:grid;
-    place-items:center;
-
-    background:
-        var(--ghar-green);
-
-    color:var(--ghar-gold);
-
-    font-weight:900;
+.section:first-child{
+  margin-top:0;
 }
 
-.verification-banner strong{
-    display:block;
+.section-title{
+  margin:
+    6px 0 0;
 
-    color:#285b37;
+  color:
+    var(--royal-850);
 
-    font-size:.82rem;
+  font-size:
+    clamp(
+      25px,
+      4vw,
+      37px
+    );
+
+  line-height:1.1;
+
+  letter-spacing:-.035em;
 }
 
-.verification-banner span{
-    display:block;
+.section-description{
+  max-width:720px;
 
-    margin-top:3px;
+  margin:
+    9px 0 0;
 
-    color:var(--ghar-muted);
+  color:var(--muted);
 
-    font-size:.7rem;
+  font-size:12px;
+
+  line-height:1.7;
 }
 
 /* =========================================================
-   SIDE PROFILE CARD
+   FORM
 ========================================================= */
 
-.profile-summary{
-    text-align:center;
+.form-grid{
+  display:grid;
 
-    padding:25px 20px;
+  grid-template-columns:
+    repeat(2,minmax(0,1fr));
+
+  gap:14px;
+
+  margin-top:20px;
 }
 
-.summary-avatar{
-    width:82px;
-    height:82px;
-
-    margin:0 auto 12px;
-
-    border-radius:25px;
-
-    display:grid;
-    place-items:center;
-
-    background:
-        linear-gradient(
-            145deg,
-            var(--ghar-gold-light),
-            var(--ghar-gold)
-        );
-
-    color:var(--ghar-green);
-
-    font-size:1.7rem;
-    font-weight:900;
-
-    box-shadow:
-        0 12px 30px rgba(16,35,29,.12);
+.field{
+  display:grid;
+  gap:7px;
 }
 
-.summary-name{
-    color:var(--ghar-green);
-
-    font-size:1.12rem;
-    font-weight:850;
+.field.full{
+  grid-column:1/-1;
 }
 
-.summary-role{
-    margin-top:4px;
+.field label{
+  font-size:10px;
 
-    color:var(--ghar-muted);
+  font-weight:950;
 
-    font-size:.73rem;
+  letter-spacing:.08em;
+
+  text-transform:uppercase;
+
+  color:#55596b;
 }
 
-.summary-status{
-    display:inline-flex;
-    align-items:center;
+.field input,
+.field select,
+.field textarea{
+  width:100%;
 
-    gap:6px;
+  border:
+    1px solid
+    rgba(10,14,36,.13);
 
-    margin-top:13px;
+  border-radius:13px;
 
-    padding:7px 10px;
+  padding:
+    12px 13px;
 
-    border-radius:999px;
+  outline:none;
 
-    background:
-        rgba(220,235,220,.75);
+  color:var(--ink);
 
-    color:#285b37;
+  background:
+    rgba(255,255,255,.82);
 
-    font-size:.68rem;
-    font-weight:800;
+  box-shadow:
+    inset
+    0 1px 0
+    rgba(255,255,255,.8);
+
+  transition:.2s;
 }
 
-.status-dot{
-    width:7px;
-    height:7px;
+.field textarea{
+  min-height:105px;
 
-    border-radius:50%;
+  resize:vertical;
+}
 
-    background:#4c8b5b;
+.field input:focus,
+.field select:focus,
+.field textarea:focus{
+  border-color:
+    rgba(38,63,120,.48);
+
+  box-shadow:
+    0 0 0 3px
+    rgba(38,63,120,.08);
+}
+
+.field small{
+  font-size:9px;
+
+  color:#8a8d99;
+
+  line-height:1.5;
+}
+
+.form-actions{
+  display:flex;
+
+  justify-content:flex-end;
+
+  flex-wrap:wrap;
+
+  gap:9px;
+
+  margin-top:18px;
+
+  padding-top:17px;
+
+  border-top:
+    1px solid
+    var(--border);
 }
 
 /* =========================================================
-   QUICK LINKS
+   NOTICE
 ========================================================= */
 
-.quick-links{
-    display:grid;
-    gap:7px;
+.notice{
+  display:flex;
+
+  align-items:flex-start;
+
+  gap:12px;
+
+  padding:
+    13px 15px;
+
+  border-radius:14px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #e4f0e9,
+      #edf5e9
+    );
+
+  border:
+    1px solid
+    rgba(36,97,78,.12);
+
+  color:#52685f;
+
+  font-size:10px;
+
+  line-height:1.6;
+
+  margin-top:18px;
 }
 
-.quick-link{
-    display:flex;
-    align-items:center;
+.notice-icon{
+  flex:0 0 auto;
 
-    gap:11px;
+  width:27px;
+  height:27px;
 
-    padding:12px;
+  display:flex;
 
-    border-radius:13px;
+  align-items:center;
+  justify-content:center;
 
-    background:
-        rgba(245,239,228,.58);
+  border-radius:50%;
 
-    border:
-        1px solid transparent;
+  color:#fff;
 
-    transition:.2s ease;
-}
+  background:
+    var(--success);
 
-.quick-link:hover{
-    border-color:
-        var(--ghar-border);
-
-    background:
-        rgba(255,255,255,.78);
-
-    transform:translateX(2px);
-}
-
-.quick-link-icon{
-    width:34px;
-    height:34px;
-
-    flex:0 0 34px;
-
-    display:grid;
-    place-items:center;
-
-    border-radius:10px;
-
-    background:
-        var(--ghar-green);
-
-    color:var(--ghar-gold);
-
-    font-size:.85rem;
-}
-
-.quick-link strong{
-    display:block;
-
-    color:var(--ghar-green);
-
-    font-size:.77rem;
-}
-
-.quick-link span{
-    display:block;
-
-    margin-top:2px;
-
-    color:var(--ghar-muted);
-
-    font-size:.66rem;
-}
-
-/* =========================================================
-   ACCOUNT STATUS
-========================================================= */
-
-.account-row{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-
-    gap:12px;
-
-    padding:12px 0;
-
-    border-bottom:
-        1px solid var(--ghar-border);
-}
-
-.account-row:last-child{
-    border-bottom:0;
-}
-
-.account-row-label{
-    color:var(--ghar-muted);
-
-    font-size:.74rem;
-}
-
-.account-row-value{
-    color:var(--ghar-green);
-
-    font-size:.75rem;
-    font-weight:750;
-
-    text-align:right;
-}
-
-.badge{
-    display:inline-flex;
-
-    align-items:center;
-
-    padding:6px 9px;
-
-    border-radius:999px;
-
-    font-size:.65rem;
-    font-weight:800;
-}
-
-.badge-verified{
-    background:#dcebdc;
-    color:#285b37;
-}
-
-.badge-pending{
-    background:#f3e7c8;
-    color:#705522;
+  font-weight:950;
 }
 
 /* =========================================================
@@ -952,2357 +741,2532 @@ a{
 ========================================================= */
 
 .activity-grid{
-    display:grid;
+  display:grid;
 
-    grid-template-columns:
-        repeat(3,1fr);
+  grid-template-columns:
+    repeat(3,minmax(0,1fr));
 
-    gap:10px;
+  gap:11px;
+
+  margin-top:18px;
 }
 
-.activity-box{
-    padding:15px;
+.activity{
+  padding:17px;
 
-    border-radius:15px;
+  border:
+    1px solid
+    var(--border);
 
-    background:
-        rgba(245,239,228,.65);
+  border-radius:17px;
 
-    border:
-        1px solid var(--ghar-border);
+  background:
+    rgba(255,250,240,.78);
+}
+
+.activity-top{
+  display:flex;
+
+  align-items:center;
+
+  justify-content:space-between;
+
+  gap:8px;
+}
+
+.activity-icon{
+  width:36px;
+  height:36px;
+
+  border-radius:11px;
+
+  display:flex;
+
+  align-items:center;
+  justify-content:center;
+
+  color:#fff;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--sapphire),
+      var(--burgundy)
+    );
+
+  font-size:15px;
+}
+
+.activity-number{
+  font-size:22px;
+
+  font-weight:950;
+
+  color:
+    var(--royal-850);
 }
 
 .activity-label{
-    color:var(--ghar-muted);
+  margin-top:11px;
 
-    font-size:.66rem;
-    font-weight:750;
+  font-size:9px;
 
-    text-transform:uppercase;
+  font-weight:950;
 
-    letter-spacing:.05em;
-}
+  letter-spacing:.1em;
 
-.activity-value{
-    margin-top:6px;
+  text-transform:uppercase;
 
-    color:var(--ghar-green);
-
-    font-size:1.35rem;
-    font-weight:900;
+  color:var(--muted);
 }
 
 /* =========================================================
-   DANGER ZONE
+   SIDE CARDS
 ========================================================= */
 
-.danger-card{
-    border-color:
-        rgba(120,60,60,.16);
+.side-card{
+  padding:23px;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:24px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,250,240,.94),
+      rgba(242,232,211,.82)
+    );
+
+  box-shadow:
+    var(--shadow-soft);
 }
 
-.danger-card .profile-card-header h2{
-    color:#783c3c;
+.side-title{
+  margin:
+    6px 0 0;
+
+  font-size:21px;
+
+  line-height:1.15;
+
+  color:
+    var(--royal-850);
+
+  letter-spacing:-.025em;
 }
 
-.danger-content{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
+/* =========================================================
+   ACCOUNT
+========================================================= */
 
-    gap:15px;
+.account-head{
+  display:flex;
+
+  align-items:center;
+
+  gap:13px;
+
+  padding-bottom:16px;
+
+  border-bottom:
+    1px solid
+    var(--border);
 }
 
-.danger-content p{
-    margin:0;
+.mini-avatar{
+  width:51px;
+  height:51px;
 
-    color:var(--ghar-muted);
+  border-radius:50%;
 
-    font-size:.74rem;
-    line-height:1.6;
+  display:flex;
+
+  align-items:center;
+  justify-content:center;
+
+  color:#18130a;
+
+  background:
+    linear-gradient(
+      135deg,
+      #f2dda2,
+      #bf954a
+    );
+
+  font-weight:950;
+
+  font-size:18px;
 }
 
-.logout-btn{
-    flex:0 0 auto;
+.account-name{
+  font-size:14px;
 
-    border:
-        1px solid rgba(120,60,60,.20);
+  font-weight:950;
 
-    border-radius:11px;
+  color:
+    var(--royal-850);
+}
 
-    padding:10px 14px;
+.account-sub{
+  font-size:9px;
 
-    background:
-        rgba(241,221,221,.55);
+  color:var(--muted);
 
-    color:#783c3c;
+  margin-top:3px;
+}
 
-    font-weight:750;
+.status-list{
+  display:grid;
+
+  gap:9px;
+
+  margin-top:16px;
+}
+
+.status-row{
+  display:flex;
+
+  align-items:center;
+
+  justify-content:space-between;
+
+  gap:10px;
+
+  padding:10px 11px;
+
+  border-radius:12px;
+
+  background:
+    rgba(255,255,255,.55);
+}
+
+.status-label{
+  font-size:10px;
+
+  color:#5f6372;
+
+  font-weight:800;
+}
+
+.pill{
+  padding:5px 8px;
+
+  border-radius:999px;
+
+  font-size:8px;
+
+  font-weight:950;
+
+  letter-spacing:.06em;
+
+  text-transform:uppercase;
+}
+
+.pill.pending{
+  color:#765b18;
+
+  background:#f4e5b9;
+}
+
+.pill.active{
+  color:#205844;
+
+  background:#dceee7;
+}
+
+.account-actions{
+  display:flex;
+
+  gap:9px;
+
+  margin-top:16px;
+}
+
+.account-actions .btn{
+  flex:1;
+}
+
+/* =========================================================
+   QUICK ACCESS
+========================================================= */
+
+.quick-list{
+  display:grid;
+
+  gap:8px;
+
+  margin-top:16px;
+}
+
+.quick{
+  display:flex;
+
+  align-items:center;
+
+  gap:11px;
+
+  padding:11px;
+
+  border-radius:13px;
+
+  text-decoration:none;
+
+  border:
+    1px solid
+    transparent;
+
+  background:
+    rgba(255,255,255,.55);
+
+  transition:.2s;
+}
+
+.quick:hover{
+  transform:
+    translateX(3px);
+
+  border-color:
+    rgba(38,63,120,.12);
+
+  background:#fff;
+}
+
+.quick-icon{
+  width:32px;
+  height:32px;
+
+  flex:0 0 auto;
+
+  border-radius:10px;
+
+  display:flex;
+
+  align-items:center;
+  justify-content:center;
+
+  color:#fff;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--royal-800),
+      var(--sapphire)
+    );
+}
+
+.quick strong{
+  display:block;
+
+  font-size:10px;
+
+  color:
+    var(--royal-850);
+}
+
+.quick span{
+  display:block;
+
+  margin-top:2px;
+
+  color:var(--muted);
+
+  font-size:8px;
+}
+
+/* =========================================================
+   SUPPORT
+========================================================= */
+
+.support{
+  color:#fff;
+
+  padding:23px;
+
+  border-radius:24px;
+
+  background:
+
+    radial-gradient(
+      circle at 90% 10%,
+      rgba(231,201,130,.25),
+      transparent 28%
+    ),
+
+    linear-gradient(
+      135deg,
+      #090b1d,
+      #263f78 55%,
+      #651f35
+    );
+
+  box-shadow:
+    var(--shadow-soft);
+}
+
+.support h3{
+  margin:
+    7px 0 0;
+
+  font-size:23px;
+}
+
+.support p{
+  margin:
+    9px 0 17px;
+
+  color:
+    rgba(255,255,255,.65);
+
+  font-size:10px;
+
+  line-height:1.65;
+}
+
+.support .btn{
+  width:100%;
 }
 
 /* =========================================================
    FOOTER
 ========================================================= */
 
-.profile-footer{
-    margin-top:10px;
+.footer{
+  margin-top:24px;
 
-    padding:36px 0;
+  padding:
+    43px 22px;
 
-    background:
-        var(--ghar-green);
+  border-radius:
+    27px 27px 0 0;
 
-    color:
-        rgba(255,255,255,.70);
+  color:#fff;
+
+  background:
+
+    radial-gradient(
+      circle at 85% 10%,
+      rgba(231,201,130,.17),
+      transparent 25%
+    ),
+
+    linear-gradient(
+      135deg,
+      #070817,
+      #171d3d,
+      #32172a
+    );
 }
 
-.profile-footer-inner{
-    width:min(1400px,calc(100% - 32px));
+.footer-grid{
+  width:min(
+    1480px,
+    100%
+  );
 
-    margin:auto;
+  margin:auto;
 
-    display:grid;
+  display:grid;
 
-    grid-template-columns:
-        1.3fr repeat(3,1fr);
+  grid-template-columns:
+    1.3fr
+    repeat(3,1fr);
 
-    gap:30px;
+  gap:30px;
 }
 
-.profile-footer strong{
-    color:#fff;
+.footer-logo{
+  font-size:25px;
+
+  font-weight:950;
+
+  letter-spacing:.1em;
+}
+
+.footer-description{
+  max-width:390px;
+
+  color:
+    rgba(255,255,255,.61);
+
+  font-size:11px;
+
+  line-height:1.7;
+
+  margin-top:12px;
 }
 
 .footer-title{
-    margin-bottom:10px;
+  font-size:12px;
 
-    color:#fff;
+  font-weight:950;
 
-    font-size:.78rem;
-    font-weight:800;
+  color:
+    var(--champagne-2);
 }
 
 .footer-links{
-    display:grid;
-    gap:7px;
+  margin-top:12px;
 
-    font-size:.72rem;
+  line-height:2;
+
+  font-size:11px;
+
+  color:
+    rgba(255,255,255,.63);
+}
+
+.footer-links a{
+  text-decoration:none;
 }
 
 .footer-links a:hover{
-    color:var(--ghar-gold-light);
+  color:
+    var(--champagne-2);
+}
+
+.footer-bottom{
+  width:min(
+    1480px,
+    100%
+  );
+
+  margin:
+    28px auto 0;
+
+  padding-top:18px;
+
+  border-top:
+    1px solid
+    rgba(255,255,255,.10);
+
+  color:
+    rgba(255,255,255,.42);
+
+  font-size:10px;
 }
 
 /* =========================================================
-   TOAST
+   AI
 ========================================================= */
 
-.profile-toast{
-    position:fixed;
+.ai-launcher{
+  position:fixed;
 
-    right:20px;
-    bottom:20px;
+  right:22px;
+  bottom:22px;
 
-    z-index:3000;
+  z-index:9998;
 
-    max-width:340px;
+  width:61px;
+  height:61px;
 
-    padding:13px 16px;
+  border:
+    1px solid
+    rgba(243,223,170,.42);
 
-    border-radius:13px;
+  border-radius:50%;
 
-    background:
-        var(--ghar-green);
+  color:#fff;
 
-    color:#fff;
+  font-size:23px;
 
-    box-shadow:
-        0 15px 40px rgba(16,35,29,.25);
+  background:
 
-    font-size:.78rem;
-    font-weight:650;
+    radial-gradient(
+      circle at 30% 20%,
+      #405e9d,
+      #090b1d 72%
+    );
 
-    opacity:0;
+  box-shadow:
+    0 18px 45px
+    rgba(7,8,23,.32);
 
-    transform:
-        translateY(15px);
-
-    pointer-events:none;
-
-    transition:.25s ease;
+  transition:.2s ease;
 }
 
-.profile-toast.show{
-    opacity:1;
+.ai-launcher:hover{
+  transform:
+    translateY(-3px)
+    scale(1.03);
+}
 
-    transform:
-        translateY(0);
+.ai-panel{
+  position:fixed;
+
+  right:22px;
+  bottom:22px;
+
+  z-index:9999;
+
+  width:
+    min(
+      410px,
+      calc(100vw - 28px)
+    );
+
+  max-height:650px;
+
+  display:none;
+
+  flex-direction:column;
+
+  overflow:hidden;
+
+  border:
+    1px solid
+    rgba(231,201,130,.35);
+
+  border-radius:25px;
+
+  background:
+    var(--cream);
+
+  box-shadow:
+    0 30px 100px
+    rgba(0,0,0,.32);
+}
+
+.ai-panel.open{
+  display:flex;
+}
+
+.ai-head{
+  padding:17px;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:space-between;
+
+  color:#fff;
+
+  background:
+
+    radial-gradient(
+      circle at 90% 10%,
+      rgba(231,201,130,.25),
+      transparent 30%
+    ),
+
+    linear-gradient(
+      135deg,
+      #070817,
+      #263f78,
+      #651f35
+    );
+}
+
+.ai-title{
+  font-weight:950;
+
+  letter-spacing:.03em;
+}
+
+.ai-sub{
+  margin-top:3px;
+
+  color:
+    rgba(255,255,255,.61);
+
+  font-size:10px;
+}
+
+.ai-close{
+  width:35px;
+  height:35px;
+
+  border:0;
+
+  border-radius:50%;
+
+  color:#fff;
+
+  background:
+    rgba(255,255,255,.09);
+
+  font-size:20px;
+}
+
+.ai-messages{
+  min-height:300px;
+
+  max-height:440px;
+
+  overflow:auto;
+
+  padding:15px;
+}
+
+.ai-msg{
+  margin-bottom:9px;
+
+  padding:
+    11px 13px;
+
+  border-radius:14px;
+
+  font-size:12px;
+
+  line-height:1.55;
+}
+
+.ai-msg.bot{
+  background:
+    #eee5d4;
+}
+
+.ai-msg.user{
+  margin-left:28px;
+
+  color:#fff;
+
+  background:
+    #171d3d;
+}
+
+.ai-form{
+  display:flex;
+
+  gap:8px;
+
+  padding:12px;
+
+  border-top:
+    1px solid
+    var(--border);
+}
+
+.ai-form input{
+  flex:1;
+
+  min-width:0;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:12px;
+
+  padding:
+    11px 12px;
+
+  outline:none;
+
+  background:#fff;
+}
+
+.ai-form button{
+  border:0;
+
+  border-radius:12px;
+
+  padding:
+    0 16px;
+
+  color:#18130a;
+
+  background:
+    linear-gradient(
+      135deg,
+      #ead39a,
+      #bd9147
+    );
+
+  font-weight:950;
 }
 
 /* =========================================================
    RESPONSIVE
 ========================================================= */
 
-@media(max-width:1120px){
+@media (max-width:1100px){
 
-    .ghar-profile-nav{
-        display:none;
-    }
+  .hero-inner{
+    grid-template-columns:
+      1fr 230px;
+  }
 
-    .ghar-menu{
-        display:grid;
-    }
-
-    .profile-layout{
-        grid-template-columns:1fr;
-    }
-
-    .profile-right{
-        grid-template-columns:
-            repeat(2,minmax(0,1fr));
-    }
-
-    .profile-summary{
-        text-align:left;
-
-        display:flex;
-        align-items:center;
-
-        gap:15px;
-    }
-
-    .summary-avatar{
-        margin:0;
-    }
+  .grid-main{
+    grid-template-columns:1fr;
+  }
 
 }
 
-@media(max-width:760px){
+@media (max-width:850px){
 
-    .profile-main{
-        width:calc(100% - 20px);
+  .hero{
+    padding:31px;
+  }
 
-        padding-top:18px;
-    }
+  .hero-inner{
+    grid-template-columns:1fr;
+  }
 
-    .ghar-profile-header-inner{
-        width:calc(100% - 20px);
-    }
+  .profile-badge{
+    justify-self:start;
+  }
 
-    .profile-hero{
-        padding:24px 20px;
-
-        border-radius:22px;
-    }
-
-    .profile-hero-content{
-        align-items:flex-start;
-
-        flex-direction:column;
-    }
-
-    .profile-identity{
-        align-items:flex-start;
-    }
-
-    .profile-avatar{
-        width:72px;
-        height:72px;
-
-        flex-basis:72px;
-
-        border-radius:21px;
-    }
-
-    .profile-hero-actions{
-        width:100%;
-    }
-
-    .profile-btn{
-        flex:1;
-        text-align:center;
-    }
-
-    .profile-grid{
-        grid-template-columns:1fr;
-    }
-
-    .profile-field.full{
-        grid-column:auto;
-    }
-
-    .profile-right{
-        grid-template-columns:1fr;
-    }
-
-    .profile-footer-inner{
-        grid-template-columns:
-            1fr 1fr;
-    }
+  .footer-grid{
+    grid-template-columns:
+      repeat(2,minmax(0,1fr));
+  }
 
 }
 
-@media(max-width:480px){
+@media (max-width:650px){
 
-    .ghar-brand-subtitle{
-        display:none;
-    }
+  .buyer-profile-page{
+    width:
+      calc(100% - 20px);
 
-    .ghar-brand-name{
-        font-size:1rem;
-    }
+    padding-top:20px;
+  }
 
-    .ghar-logo{
-        width:40px;
-        height:40px;
-    }
+  .hero{
+    padding:24px;
+    border-radius:24px;
+  }
 
-    .profile-identity{
-        gap:12px;
-    }
+  .hero h1{
+    font-size:39px;
+  }
 
-    .profile-avatar{
-        width:62px;
-        height:62px;
+  .profile-badge{
+    width:185px;
+    height:185px;
+  }
 
-        flex-basis:62px;
+  .avatar{
+    width:75px;
+    height:75px;
+    font-size:28px;
+  }
 
-        font-size:1.4rem;
-    }
+  .section{
+    padding:21px;
+  }
 
-    .profile-hero h1{
-        font-size:1.9rem;
-    }
+  .form-grid{
+    grid-template-columns:1fr;
+  }
 
-    .profile-hero-actions{
-        flex-direction:column;
-    }
+  .field.full{
+    grid-column:auto;
+  }
 
-    .profile-card-header,
-    .profile-card-body{
-        padding:17px;
-    }
+  .activity-grid{
+    grid-template-columns:1fr;
+  }
 
-    .activity-grid{
-        grid-template-columns:1fr;
-    }
-
-    .profile-form-actions{
-        flex-direction:column-reverse;
-    }
-
-    .save-btn,
-    .cancel-btn{
-        width:100%;
-    }
-
-    .danger-content{
-        align-items:flex-start;
-        flex-direction:column;
-    }
-
-    .logout-btn{
-        width:100%;
-    }
-
-    .profile-footer-inner{
-        grid-template-columns:1fr;
-    }
+  .footer-grid{
+    grid-template-columns:1fr;
+  }
 
 }
 
-/* =========================================================
-   MOBILE NAV
-========================================================= */
+@media (max-width:520px){
 
-@media(max-width:1120px){
+  .hero h1{
+    font-size:34px;
+  }
 
-    .ghar-profile-nav.mobile-open{
-        display:flex;
+  .hero-actions{
+    width:100%;
+  }
 
-        position:absolute;
+  .hero-actions .btn{
+    flex:1;
+  }
 
-        top:76px;
-        left:10px;
-        right:10px;
+  .form-actions{
+    flex-direction:column;
+  }
 
-        padding:10px;
+  .form-actions .btn{
+    width:100%;
+  }
 
-        flex-direction:column;
-        align-items:stretch;
+  .ai-launcher{
+    right:14px;
+    bottom:14px;
+  }
 
-        background:
-            rgba(248,243,234,.98);
-
-        border:
-            1px solid var(--ghar-border);
-
-        border-radius:16px;
-
-        box-shadow:
-            0 20px 50px rgba(16,35,29,.15);
-    }
-
-    .ghar-profile-nav.mobile-open a{
-        width:100%;
-    }
+  .ai-panel{
+    right:10px;
+    bottom:10px;
+  }
 
 }
 
+@media(max-width:380px){
+
+  .hero{
+    padding:20px;
+  }
+
+  .hero h1{
+    font-size:30px;
+  }
+
+}
 </style>
 </head>
 
 <body
-    data-root="../"
-    data-page="my-profile"
+  data-root="../"
+  data-page="buyer-profile"
 >
 
-<!-- =========================================================
-     HEADER
-========================================================= -->
-
-<header class="ghar-profile-header">
-
-    <div class="ghar-profile-header-inner">
+<div data-site-header></div>
 
-        <a
-            href="../index.html"
-            class="ghar-brand"
-        >
+<main class="buyer-profile-page">
 
-            <span class="ghar-logo">
-                G
-            </span>
+<section class="hero">
 
-            <span>
-                <span class="ghar-brand-name">
-                    GHAR
-                </span>
+<div class="hero-inner">
 
-                <span class="ghar-brand-subtitle">
-                    Real Estate
-                </span>
-            </span>
+<div>
 
-        </a>
+<div class="eyebrow">
+GHAR · BUYER PROFILE
+</div>
 
+<h1>
+Make your GHAR profile work for you.
+</h1>
 
-        <nav
-            class="ghar-profile-nav"
-            id="profileNav"
-        >
+<p>
+Manage your personal information, buyer preferences,
+preferred locations and property requirements from
+one connected buyer workspace.
+</p>
 
-            <a href="buyer-dashboard.html">
-                Dashboard
-            </a>
+<div class="hero-actions">
 
-            <a href="../property/property-search.html">
-                Properties
-            </a>
+<a
+  class="btn primary"
+  href="property-search.html"
+>
+Find Properties
+</a>
 
-            <a href="saved-properties.html">
-                Saved
-            </a>
+<a
+  class="btn secondary"
+  href="buyer-dashboard.html"
+>
+Buyer Dashboard
+</a>
 
-            <a href="my-enquiries.html">
-                Enquiries
-            </a>
+</div>
 
-            <a href="my-offers.html">
-                Offers
-            </a>
+</div>
 
-            <a href="my-visits.html">
-                Visits
-            </a>
+<div class="profile-badge">
 
-            <a
-                href="my-profile.html"
-                class="active"
-            >
-                Profile
-            </a>
+<div>
 
-        </nav>
+<div
+  class="avatar"
+  id="heroAvatar"
+>
+G
+</div>
 
+<div
+  class="badge-name"
+  id="heroName"
+>
+GHAR Buyer
+</div>
 
-        <div class="ghar-header-actions">
+<div class="badge-role">
+BUYER ACCOUNT
+</div>
 
-            <button
-                type="button"
-                class="ghar-header-icon"
-                id="profileNotifications"
-                aria-label="Notifications"
-            >
-                🔔
-            </button>
+</div>
 
-            <button
-                type="button"
-                class="ghar-header-icon"
-                id="profileAccount"
-                aria-label="Account"
-            >
-                👤
-            </button>
+</div>
 
-            <button
-                type="button"
-                class="ghar-header-icon ghar-menu"
-                id="profileMenu"
-                aria-label="Open menu"
-                aria-expanded="false"
-            >
-                ☰
-            </button>
+</div>
 
-        </div>
+</section>
 
-    </div>
 
-</header>
+<div class="grid-main">
 
+<div>
 
-<!-- =========================================================
-     MAIN
-========================================================= -->
 
-<main class="profile-main">
+<section class="section">
 
+<div class="section-eyebrow">
+PERSONAL INFORMATION
+</div>
 
-    <!-- =====================================================
-         HERO
-    ===================================================== -->
+<h2 class="section-title">
+Your buyer profile.
+</h2>
 
-    <section class="profile-hero">
+<p class="section-description">
+Keep your contact details and property preferences
+up to date so the GHAR buyer workspace can stay
+connected to your requirements.
+</p>
 
-        <div class="profile-hero-content">
 
-            <div class="profile-identity">
+<div class="notice">
 
-                <div
-                    class="profile-avatar"
-                    id="heroAvatar"
-                >
-                    G
-                </div>
+<div class="notice-icon">
+✓
+</div>
 
-                <div>
+<div>
+Your profile information is stored locally by this
+page unless your connected GHAR account/API workflow
+is configured to synchronize it with the server.
+</div>
 
-                    <div class="profile-eyebrow">
-                        GHAR BUYER ACCOUNT
-                    </div>
+</div>
 
-                    <h1 id="heroName">
-                        My Profile
-                    </h1>
 
-                    <p>
-                        Manage your personal information,
-                        preferences and GHAR account.
-                    </p>
+<form
+  id="profileForm"
+  autocomplete="on"
+>
 
-                </div>
+<div class="form-grid">
 
-            </div>
+<div class="field">
 
+<label for="firstName">
+First Name
+</label>
 
-            <div class="profile-hero-actions">
+<input
+  id="firstName"
+  name="firstName"
+  type="text"
+  placeholder="Enter first name"
+>
 
-                <button
-                    type="button"
-                    class="profile-btn profile-btn-gold"
-                    id="editProfileButton"
-                >
-                    Edit Profile
-                </button>
+</div>
 
-                <a
-                    href="buyer-dashboard.html"
-                    class="profile-btn profile-btn-light"
-                >
-                    Dashboard
-                </a>
 
-            </div>
+<div class="field">
 
-        </div>
+<label for="lastName">
+Last Name
+</label>
 
-    </section>
+<input
+  id="lastName"
+  name="lastName"
+  type="text"
+  placeholder="Enter last name"
+>
 
+</div>
 
-    <!-- =====================================================
-         LAYOUT
-    ===================================================== -->
 
-    <section class="profile-layout">
+<div class="field">
 
+<label for="email">
+Email Address
+</label>
 
-        <!-- =================================================
-             LEFT
-        ================================================= -->
+<input
+  id="email"
+  name="email"
+  type="email"
+  placeholder="you@example.com"
+>
 
-        <div class="profile-left">
+</div>
 
 
-            <!-- PERSONAL INFORMATION -->
+<div class="field">
 
-            <section class="profile-card">
+<label for="mobile">
+Mobile Number
+</label>
 
-                <div class="profile-card-header">
+<input
+  id="mobile"
+  name="mobile"
+  type="tel"
+  placeholder="+91 XXXXX XXXXX"
+>
 
-                    <div>
+</div>
 
-                        <h2>
-                            Personal Information
-                        </h2>
 
-                        <p>
-                            Keep your buyer profile information
-                            accurate and up to date.
-                        </p>
+<div class="field">
 
-                    </div>
+<label for="city">
+City
+</label>
 
-                </div>
+<input
+  id="city"
+  name="city"
+  type="text"
+  placeholder="Noida"
+>
 
+</div>
 
-                <div class="profile-card-body">
 
-                    <div class="verification-banner">
+<div class="field">
 
-                        <div class="verification-icon">
-                            ✓
-                        </div>
+<label for="state">
+State
+</label>
 
-                        <div>
+<input
+  id="state"
+  name="state"
+  type="text"
+  placeholder="Uttar Pradesh"
+>
 
-                            <strong>
-                                Profile information protected
-                            </strong>
+</div>
 
-                            <span>
-                                Your account information is used
-                                to manage your GHAR buyer workflow.
-                            </span>
 
-                        </div>
+<div class="field">
 
-                    </div>
+<label for="buyerType">
+Buyer Type
+</label>
 
+<select
+  id="buyerType"
+  name="buyerType"
+>
 
-                    <form id="profileForm">
+<option value="">
+Select buyer type
+</option>
 
-                        <div class="profile-grid">
+<option value="first-time">
+First-Time Buyer
+</option>
 
+<option value="investor">
+Property Investor
+</option>
 
-                            <div class="profile-field">
+<option value="end-user">
+End User
+</option>
 
-                                <label for="firstName">
-                                    First Name
-                                </label>
+<option value="family">
+Family Buyer
+</option>
 
-                                <input
-                                    id="firstName"
-                                    name="firstName"
-                                    type="text"
-                                    placeholder="Enter first name"
-                                    autocomplete="given-name"
-                                >
+<option value="nri">
+NRI Buyer
+</option>
 
-                            </div>
+</select>
 
+</div>
 
-                            <div class="profile-field">
 
-                                <label for="lastName">
-                                    Last Name
-                                </label>
+<div class="field">
 
-                                <input
-                                    id="lastName"
-                                    name="lastName"
-                                    type="text"
-                                    placeholder="Enter last name"
-                                    autocomplete="family-name"
-                                >
+<label for="budget">
+Preferred Budget
+</label>
 
-                            </div>
+<select
+  id="budget"
+  name="budget"
+>
 
+<option value="">
+Select budget
+</option>
 
-                            <div class="profile-field">
+<option value="under-50l">
+Under ₹50 Lakh
+</option>
 
-                                <label for="email">
-                                    Email Address
-                                </label>
+<option value="50l-1cr">
+₹50 Lakh – ₹1 Crore
+</option>
 
-                                <input
-                                    id="email"
-                                    name="email"
-                                    type="email"
-                                    placeholder="name@example.com"
-                                    autocomplete="email"
-                                >
+<option value="1cr-2cr">
+₹1 Crore – ₹2 Crore
+</option>
 
-                            </div>
+<option value="2cr-5cr">
+₹2 Crore – ₹5 Crore
+</option>
 
+<option value="5cr-plus">
+₹5 Crore+
+</option>
 
-                            <div class="profile-field">
+</select>
 
-                                <label for="phone">
-                                    Mobile Number
-                                </label>
+</div>
 
-                                <input
-                                    id="phone"
-                                    name="phone"
-                                    type="tel"
-                                    placeholder="+91 XXXXX XXXXX"
-                                    autocomplete="tel"
-                                >
 
-                            </div>
+<div class="field full">
 
+<label for="locations">
+Preferred Locations
+</label>
 
-                            <div class="profile-field">
+<input
+  id="locations"
+  name="locations"
+  type="text"
+  placeholder="Example: Noida, Greater Noida, Gurugram"
+>
 
-                                <label for="city">
-                                    City
-                                </label>
+<small>
+Add locations where you are actively looking
+for property.
+</small>
 
-                                <input
-                                    id="city"
-                                    name="city"
-                                    type="text"
-                                    placeholder="Your city"
-                                    autocomplete="address-level2"
-                                >
+</div>
 
-                            </div>
 
+<div class="field full">
 
-                            <div class="profile-field">
+<label for="requirements">
+About / Requirements
+</label>
 
-                                <label for="state">
-                                    State
-                                </label>
+<textarea
+  id="requirements"
+  name="requirements"
+  placeholder="Tell GHAR about your property requirements..."
+></textarea>
 
-                                <input
-                                    id="state"
-                                    name="state"
-                                    type="text"
-                                    placeholder="Your state"
-                                    autocomplete="address-level1"
-                                >
+</div>
 
-                            </div>
+</div>
 
 
-                            <div class="profile-field">
+<div class="form-actions">
 
-                                <label for="buyerType">
-                                    Buyer Type
-                                </label>
+<button
+  type="button"
+  class="btn dark"
+  id="cancelBtn"
+>
+Cancel
+</button>
 
-                                <select
-                                    id="buyerType"
-                                    name="buyerType"
-                                >
+<button
+  type="submit"
+  class="btn primary"
+>
+Save Changes
+</button>
 
-                                    <option value="Individual">
-                                        Individual Buyer
-                                    </option>
+</div>
 
-                                    <option value="Investor">
-                                        Investor
-                                    </option>
+</form>
 
-                                    <option value="NRI">
-                                        NRI Buyer
-                                    </option>
+</section>
 
-                                    <option value="Family">
-                                        Family Buyer
-                                    </option>
 
-                                    <option value="Business">
-                                        Business Buyer
-                                    </option>
+<section class="section">
 
-                                </select>
+<div class="section-eyebrow">
+BUYER ACTIVITY
+</div>
 
-                            </div>
+<h2 class="section-title">
+Your GHAR activity.
+</h2>
 
+<p class="section-description">
+Your current GHAR property activity.
+</p>
 
-                            <div class="profile-field">
+<div class="activity-grid">
 
-                                <label for="budget">
-                                    Preferred Budget
-                                </label>
+<div class="activity">
 
-                                <select
-                                    id="budget"
-                                    name="budget"
-                                >
+<div class="activity-top">
 
-                                    <option value="">
-                                        Select budget
-                                    </option>
+<div class="activity-icon">
+♥
+</div>
 
-                                    <option value="Below ₹1 Cr">
-                                        Below ₹1 Cr
-                                    </option>
+<div
+  class="activity-number"
+  id="savedCount"
+>
+0
+</div>
 
-                                    <option value="₹1 Cr – ₹2 Cr">
-                                        ₹1 Cr – ₹2 Cr
-                                    </option>
+</div>
 
-                                    <option value="₹2 Cr – ₹3 Cr">
-                                        ₹2 Cr – ₹3 Cr
-                                    </option>
+<div class="activity-label">
+Saved Properties
+</div>
 
-                                    <option value="₹3 Cr – ₹5 Cr">
-                                        ₹3 Cr – ₹5 Cr
-                                    </option>
+</div>
 
-                                    <option value="₹5 Cr+">
-                                        ₹5 Cr+
-                                    </option>
 
-                                </select>
+<div class="activity">
 
-                            </div>
+<div class="activity-top">
 
+<div class="activity-icon">
+?
+</div>
 
-                            <div class="profile-field full">
+<div
+  class="activity-number"
+  id="enquiryCount"
+>
+0
+</div>
 
-                                <label for="preferredLocation">
-                                    Preferred Location
-                                </label>
+</div>
 
-                                <input
-                                    id="preferredLocation"
-                                    name="preferredLocation"
-                                    type="text"
-                                    placeholder="Example: Noida, Greater Noida, Gurugram"
-                                >
+<div class="activity-label">
+Enquiries
+</div>
 
-                                <span class="field-note">
-                                    Add locations where you are actively
-                                    looking for property.
-                                </span>
+</div>
 
-                            </div>
 
+<div class="activity">
 
-                            <div class="profile-field full">
+<div class="activity-top">
 
-                                <label for="about">
-                                    About / Requirements
-                                </label>
+<div class="activity-icon">
+₹
+</div>
 
-                                <textarea
-                                    id="about"
-                                    name="about"
-                                    placeholder="Tell GHAR about your property requirements..."
-                                ></textarea>
+<div
+  class="activity-number"
+  id="offerCount"
+>
+0
+</div>
 
-                            </div>
+</div>
 
-                        </div>
+<div class="activity-label">
+Offers
+</div>
 
+</div>
 
-                        <div class="profile-form-actions">
+</div>
 
-                            <button
-                                type="button"
-                                class="cancel-btn"
-                                id="cancelProfile"
-                            >
-                                Cancel
-                            </button>
+</section>
 
-                            <button
-                                type="submit"
-                                class="save-btn"
-                            >
-                                Save Changes
-                            </button>
+</div>
 
-                        </div>
 
-                    </form>
+<aside class="side-stack">
 
-                </div>
 
-            </section>
+<section class="side-card">
 
+<div class="section-eyebrow">
+ACCOUNT
+</div>
 
-            <!-- ACTIVITY -->
+<h2 class="side-title">
+GHAR Buyer
+</h2>
 
-            <section class="profile-card">
+<div
+  class="account-head"
+  style="margin-top:17px"
+>
 
-                <div class="profile-card-header">
+<div
+  class="mini-avatar"
+  id="miniAvatar"
+>
+G
+</div>
 
-                    <div>
+<div>
 
-                        <h2>
-                            Buyer Activity
-                        </h2>
+<div
+  class="account-name"
+  id="accountName"
+>
+GHAR Buyer
+</div>
 
-                        <p>
-                            Your current GHAR property activity.
-                        </p>
+<div class="account-sub">
+Buyer Account
+</div>
 
-                    </div>
+</div>
 
-                </div>
+</div>
 
 
-                <div class="profile-card-body">
+<div class="status-list">
 
-                    <div class="activity-grid">
+<div class="status-row">
 
-                        <div class="activity-box">
+<span class="status-label">
+Email
+</span>
 
-                            <div class="activity-label">
-                                Saved
-                            </div>
+<span
+  class="pill pending"
+  id="emailStatus"
+>
+Pending
+</span>
 
-                            <div
-                                class="activity-value"
-                                id="savedCount"
-                            >
-                                0
-                            </div>
+</div>
 
-                        </div>
 
+<div class="status-row">
 
-                        <div class="activity-box">
+<span class="status-label">
+Mobile
+</span>
 
-                            <div class="activity-label">
-                                Enquiries
-                            </div>
+<span
+  class="pill pending"
+  id="mobileStatus"
+>
+Pending
+</span>
 
-                            <div
-                                class="activity-value"
-                                id="enquiryCount"
-                            >
-                                0
-                            </div>
+</div>
 
-                        </div>
 
+<div class="status-row">
 
-                        <div class="activity-box">
+<span class="status-label">
+Profile
+</span>
 
-                            <div class="activity-label">
-                                Offers
-                            </div>
+<span class="pill active">
+Active
+</span>
 
-                            <div
-                                class="activity-value"
-                                id="offerCount"
-                            >
-                                0
-                            </div>
+</div>
 
-                        </div>
+</div>
 
-                    </div>
 
-                </div>
+<div class="account-actions">
 
-            </section>
+<button
+  class="btn danger"
+  id="signOutBtn"
+  type="button"
+>
+Sign Out
+</button>
 
+</div>
 
-            <!-- DANGER ZONE -->
+</section>
 
-            <section class="profile-card danger-card">
 
-                <div class="profile-card-header">
+<section class="side-card">
 
-                    <div>
+<div class="section-eyebrow">
+QUICK ACCESS
+</div>
 
-                        <h2>
-                            Account
-                        </h2>
+<h2 class="side-title">
+Continue your buyer journey.
+</h2>
 
-                        <p>
-                            Manage your current GHAR session.
-                        </p>
+<div class="quick-list">
 
-                    </div>
+<a
+  class="quick"
+  href="property-search.html"
+>
 
-                </div>
+<div class="quick-icon">
+⌕
+</div>
 
-                <div class="profile-card-body">
+<div>
 
-                    <div class="danger-content">
+<strong>
+Find Properties
+</strong>
 
-                        <p>
-                            Sign out from this device when you
-                            have finished using your GHAR account.
-                        </p>
+<span>
+Explore available listings
+</span>
 
-                        <button
-                            type="button"
-                            class="logout-btn"
-                            id="logoutButton"
-                        >
-                            Sign Out
-                        </button>
+</div>
 
-                    </div>
+</a>
 
-                </div>
 
-            </section>
+<a
+  class="quick"
+  href="shortlisted.html"
+>
 
+<div class="quick-icon">
+♥
+</div>
 
-        </div>
+<div>
 
+<strong>
+Saved Properties
+</strong>
 
-        <!-- =================================================
-             RIGHT
-        ================================================= -->
+<span>
+Review your saved homes
+</span>
 
-        <aside class="profile-right">
+</div>
 
+</a>
 
-            <!-- SUMMARY -->
 
-            <section class="profile-card">
+<a
+  class="quick"
+  href="enquiries.html"
+>
 
-                <div class="profile-summary">
+<div class="quick-icon">
+?
+</div>
 
-                    <div
-                        class="summary-avatar"
-                        id="summaryAvatar"
-                    >
-                        G
-                    </div>
+<div>
 
-                    <div>
+<strong>
+My Enquiries
+</strong>
 
-                        <div
-                            class="summary-name"
-                            id="summaryName"
-                        >
-                            GHAR Buyer
-                        </div>
+<span>
+Track property enquiries
+</span>
 
-                        <div class="summary-role">
-                            Buyer Account
-                        </div>
+</div>
 
-                        <div class="summary-status">
+</a>
 
-                            <span class="status-dot"></span>
 
-                            Active Account
+<a
+  class="quick"
+  href="offers.html"
+>
 
-                        </div>
+<div class="quick-icon">
+₹
+</div>
 
-                    </div>
+<div>
 
-                </div>
+<strong>
+My Offers
+</strong>
 
-            </section>
+<span>
+Manage submitted offers
+</span>
 
+</div>
 
-            <!-- ACCOUNT STATUS -->
+</a>
 
-            <section class="profile-card">
 
-                <div class="profile-card-header">
+<a
+  class="quick"
+  href="messages.html"
+>
 
-                    <div>
+<div class="quick-icon">
+✉
+</div>
 
-                        <h2>
-                            Account Status
-                        </h2>
+<div>
 
-                        <p>
-                            Current account information.
-                        </p>
+<strong>
+Messages
+</strong>
 
-                    </div>
+<span>
+Secure property communication
+</span>
 
-                </div>
+</div>
 
-                <div class="profile-card-body">
+</a>
 
-                    <div class="account-row">
 
-                        <span class="account-row-label">
-                            Email
-                        </span>
+<a
+  class="quick"
+  href="notifications.html"
+>
 
-                        <span
-                            class="badge badge-pending"
-                            id="emailStatus"
-                        >
-                            Pending
-                        </span>
+<div class="quick-icon">
+•
+</div>
 
-                    </div>
+<div>
 
+<strong>
+Notifications
+</strong>
 
-                    <div class="account-row">
+<span>
+View important updates
+</span>
 
-                        <span class="account-row-label">
-                            Mobile
-                        </span>
+</div>
 
-                        <span
-                            class="badge badge-pending"
-                            id="phoneStatus"
-                        >
-                            Pending
-                        </span>
+</a>
 
-                    </div>
+</div>
 
+</section>
 
-                    <div class="account-row">
 
-                        <span class="account-row-label">
-                            Profile
-                        </span>
+<section class="support">
 
-                        <span
-                            class="badge badge-verified"
-                            id="profileStatus"
-                        >
-                            Active
-                        </span>
+<div class="eyebrow">
+GHAR SUPPORT
+</div>
 
-                    </div>
+<h3>
+Need assistance?
+</h3>
 
-                </div>
+<p>
+Contact GHAR through the secure communication
+workspace for help with properties, enquiries,
+offers or your account.
+</p>
 
-            </section>
+<a
+  class="btn primary"
+  href="messages.html"
+>
+Open Messages
+</a>
 
+</section>
 
-            <!-- QUICK ACTIONS -->
+</aside>
 
-            <section class="profile-card">
-
-                <div class="profile-card-header">
-
-                    <div>
-
-                        <h2>
-                            Quick Access
-                        </h2>
-
-                        <p>
-                            Continue your buyer journey.
-                        </p>
-
-                    </div>
-
-                </div>
-
-                <div class="profile-card-body">
-
-                    <div class="quick-links">
-
-
-                        <a
-                            href="../property/property-search.html"
-                            class="quick-link"
-                        >
-
-                            <span class="quick-link-icon">
-                                ⌕
-                            </span>
-
-                            <span>
-
-                                <strong>
-                                    Find Properties
-                                </strong>
-
-                                <span>
-                                    Explore available listings
-                                </span>
-
-                            </span>
-
-                        </a>
-
-
-                        <a
-                            href="saved-properties.html"
-                            class="quick-link"
-                        >
-
-                            <span class="quick-link-icon">
-                                ♥
-                            </span>
-
-                            <span>
-
-                                <strong>
-                                    Saved Properties
-                                </strong>
-
-                                <span>
-                                    Review your saved homes
-                                </span>
-
-                            </span>
-
-                        </a>
-
-
-                        <a
-                            href="my-enquiries.html"
-                            class="quick-link"
-                        >
-
-                            <span class="quick-link-icon">
-                                ?
-                            </span>
-
-                            <span>
-
-                                <strong>
-                                    My Enquiries
-                                </strong>
-
-                                <span>
-                                    Track property enquiries
-                                </span>
-
-                            </span>
-
-                        </a>
-
-
-                        <a
-                            href="my-offers.html"
-                            class="quick-link"
-                        >
-
-                            <span class="quick-link-icon">
-                                ₹
-                            </span>
-
-                            <span>
-
-                                <strong>
-                                    My Offers
-                                </strong>
-
-                                <span>
-                                    Manage submitted offers
-                                </span>
-
-                            </span>
-
-                        </a>
-
-
-                        <a
-                            href="messages.html"
-                            class="quick-link"
-                        >
-
-                            <span class="quick-link-icon">
-                                ✉
-                            </span>
-
-                            <span>
-
-                                <strong>
-                                    Messages
-                                </strong>
-
-                                <span>
-                                    Secure property communication
-                                </span>
-
-                            </span>
-
-                        </a>
-
-
-                        <a
-                            href="../communication/notifications.html"
-                            class="quick-link"
-                        >
-
-                            <span class="quick-link-icon">
-                                🔔
-                            </span>
-
-                            <span>
-
-                                <strong>
-                                    Notifications
-                                </strong>
-
-                                <span>
-                                    View important updates
-                                </span>
-
-                            </span>
-
-                        </a>
-
-                    </div>
-
-                </div>
-
-            </section>
-
-
-            <!-- SUPPORT -->
-
-            <section class="profile-card">
-
-                <div class="profile-card-body">
-
-                    <div
-                        style="
-                            color:var(--ghar-gold);
-                            font-size:.70rem;
-                            font-weight:800;
-                            letter-spacing:.12em;
-                            margin-bottom:7px;
-                        "
-                    >
-                        GHAR SUPPORT
-                    </div>
-
-                    <h3
-                        style="
-                            margin:0;
-                            color:var(--ghar-green);
-                            font-size:1rem;
-                        "
-                    >
-                        Need assistance?
-                    </h3>
-
-                    <p
-                        style="
-                            color:var(--ghar-muted);
-                            font-size:.74rem;
-                            line-height:1.6;
-                            margin:7px 0 14px;
-                        "
-                    >
-                        Contact GHAR through the secure
-                        communication workspace for help with
-                        properties, enquiries, offers or your
-                        account.
-                    </p>
-
-                    <a
-                        href="messages.html"
-                        class="profile-btn"
-                        style="
-                            display:block;
-                            text-align:center;
-                            background:var(--ghar-green);
-                            color:#fff;
-                        "
-                    >
-                        Open Messages
-                    </a>
-
-                </div>
-
-            </section>
-
-
-        </aside>
-
-    </section>
+</div>
 
 </main>
 
 
-<!-- =========================================================
-     FOOTER
-========================================================= -->
+<footer class="footer">
 
-<footer class="profile-footer">
-
-    <div class="profile-footer-inner">
-
-        <div>
-
-            <strong>
-                GHAR
-            </strong>
-
-            <p
-                style="
-                    margin:9px 0 0;
-                    font-size:.73rem;
-                    line-height:1.6;
-                "
-            >
-                A structured real-estate platform built to
-                simplify property discovery, communication
-                and transactions.
-            </p>
-
-        </div>
+<div class="footer-grid">
 
 
-        <div>
+<div>
 
-            <div class="footer-title">
-                Buyer
-            </div>
+<div class="footer-logo">
+GHAR
+</div>
 
-            <div class="footer-links">
+<div class="footer-description">
+A structured real-estate workspace connecting
+buyers, sellers, renters and property transactions
+through one premium digital experience.
+</div>
 
-                <a href="buyer-dashboard.html">
-                    Dashboard
-                </a>
-
-                <a href="saved-properties.html">
-                    Saved Properties
-                </a>
-
-                <a href="my-enquiries.html">
-                    Enquiries
-                </a>
-
-                <a href="my-offers.html">
-                    Offers
-                </a>
-
-            </div>
-
-        </div>
+</div>
 
 
-        <div>
+<div>
 
-            <div class="footer-title">
-                GHAR
-            </div>
+<div class="footer-title">
+BUYER
+</div>
 
-            <div class="footer-links">
+<div class="footer-links">
 
-                <a href="../about.html">
-                    About
-                </a>
+<a href="buyer-dashboard.html">
+Dashboard
+</a>
 
-                <a href="../property/property-search.html">
-                    Properties
-                </a>
+<br>
 
-                <a href="../support/index.html">
-                    Support
-                </a>
+<a href="property-search.html">
+Find Property
+</a>
 
-                <a href="../index.html">
-                    Home
-                </a>
+<br>
 
-            </div>
+<a href="shortlisted.html">
+Saved Properties
+</a>
 
-        </div>
+<br>
+
+<a href="enquiries.html">
+My Enquiries
+</a>
+
+</div>
+
+</div>
 
 
-        <div>
+<div>
 
-            <div class="footer-title">
-                Legal
-            </div>
+<div class="footer-title">
+ACCOUNT
+</div>
 
-            <div class="footer-links">
+<div class="footer-links">
 
-                <a href="../legal/terms.html">
-                    Terms
-                </a>
+<a href="my-profile.html">
+My Profile
+</a>
 
-                <a href="../legal/privacy.html">
-                    Privacy
-                </a>
+<br>
 
-                <a href="../legal/security.html">
-                    Security
-                </a>
+<a href="offers.html">
+My Offers
+</a>
 
-            </div>
+<br>
 
-        </div>
+<a href="messages.html">
+Messages
+</a>
 
-    </div>
+<br>
+
+<a href="notifications.html">
+Notifications
+</a>
+
+</div>
+
+</div>
+
+
+<div>
+
+<div class="footer-title">
+GHAR
+</div>
+
+<div class="footer-links">
+
+<a href="about.html">
+About GHAR
+</a>
+
+<br>
+
+<a href="../contact.html">
+Contact
+</a>
+
+<br>
+
+<a href="../terms.html">
+Terms
+</a>
+
+<br>
+
+<a href="../privacy.html">
+Privacy
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="footer-bottom">
+
+© 2026 GHAR. All rights reserved.
+· Buyer account workspace connected.
+
+</div>
 
 </footer>
 
 
+<!-- =======================================================
+     GHAR AI
+======================================================== -->
+
+<button
+  id="aiLauncher"
+  class="ai-launcher"
+  aria-label="Open GHAR AI"
+  title="GHAR AI"
+>
+✦
+</button>
+
+
+<aside
+  id="aiPanel"
+  class="ai-panel"
+  aria-label="GHAR AI Buyer Assistant"
+>
+
+<div class="ai-head">
+
+<div>
+
+<div class="ai-title">
+GHAR AI
+</div>
+
+<div class="ai-sub">
+Buyer Profile Assistant
+</div>
+
+</div>
+
+
+<button
+  id="aiClose"
+  class="ai-close"
+  aria-label="Close GHAR AI"
+>
+×
+</button>
+
+</div>
+
+
 <div
-    class="profile-toast"
-    id="profileToast"
-    role="status"
-    aria-live="polite"
-></div>
+  id="aiMessages"
+  class="ai-messages"
+>
+
+<div class="ai-msg bot">
+Welcome to GHAR AI.
+I can help you with your buyer profile,
+property preferences and GHAR account workflow.
+</div>
+
+</div>
 
 
-<!-- =========================================================
-     CORE GHAR SCRIPTS
-========================================================= -->
+<form
+  id="aiForm"
+  class="ai-form"
+>
+
+<input
+  id="aiInput"
+  type="text"
+  placeholder="Ask about your profile..."
+  autocomplete="off"
+>
+
+<button type="submit">
+Send
+</button>
+
+</form>
+
+</aside>
+
+
+<!-- =======================================================
+     SHARED GHAR JAVASCRIPT
+======================================================== -->
 
 <script
-    src="../assets/js/main/site.js"
-    defer
+  src="../assets/js/main/site.js"
+  defer
 ></script>
 
 <script
-    src="../assets/js/main/page.js"
-    defer
+  src="../assets/js/main/page.js"
+  defer
 ></script>
 
+<script
+  src="../assets/js/main/api.js"
+  defer
+></script>
 
-<!-- =========================================================
-     PAGE CONTROLLER
-========================================================= -->
+<script
+  src="../assets/js/main/auth.js"
+  defer
+></script>
+
+<script
+  src="../assets/js/buyer/buyer.js"
+  defer
+></script>
+
+<script
+  src="../assets/js/ai/ghar-ai.js"
+  defer
+></script>
+
 
 <script>
 
-(function(){
+(() => {
 
-    "use strict";
-
-
-    const STORAGE_KEYS = [
-        "ghar_buyer_profile",
-        "buyerProfile",
-        "ghar_profile"
-    ];
+"use strict";
 
 
-    const DEFAULT_PROFILE = {
-
-        firstName:"",
-        lastName:"",
-
-        email:"",
-        phone:"",
-
-        city:"",
-        state:"",
-
-        buyerType:"Individual",
-        budget:"",
-
-        preferredLocation:"",
-        about:""
-
-    };
+const $ = id =>
+  document.getElementById(id);
 
 
-    function getProfile(){
+const form =
+  $("profileForm");
 
-        for(
-            const key of STORAGE_KEYS
-        ){
 
-            try{
+const fields = [
 
-                const raw =
-                    localStorage.getItem(key);
+  "firstName",
+  "lastName",
+  "email",
+  "mobile",
+  "city",
+  "state",
+  "buyerType",
+  "budget",
+  "locations",
+  "requirements"
 
-                if(!raw){
-                    continue;
-                }
+];
 
-                const parsed =
-                    JSON.parse(raw);
 
-                if(
-                    parsed &&
-                    typeof parsed === "object"
-                ){
+const storageKey =
+  "ghar_buyer_profile";
 
-                    return {
-                        ...DEFAULT_PROFILE,
-                        ...parsed
-                    };
 
-                }
+/* =========================================================
+   LOAD PROFILE
+========================================================= */
 
-            }catch(error){
+function load(){
 
-                console.warn(
-                    "GHAR profile storage error:",
-                    error
-                );
+  let data = {};
 
-            }
+  try{
+
+    data =
+      JSON.parse(
+        localStorage.getItem(
+          storageKey
+        ) || "{}"
+      );
+
+  }catch(error){
+
+    data = {};
+
+  }
+
+
+  fields.forEach(
+    key => {
+
+      const field =
+        $(key);
+
+      if(
+        field &&
+        data[key] != null
+      ){
+
+        field.value =
+          data[key];
+
+      }
+
+    }
+  );
+
+
+  const first =
+    (data.firstName || "").trim();
+
+  const last =
+    (data.lastName || "").trim();
+
+
+  const full =
+    (
+      first +
+      " " +
+      last
+    ).trim() ||
+    "GHAR Buyer";
+
+
+  $("heroName").textContent =
+    full;
+
+  $("accountName").textContent =
+    full;
+
+
+  const initial =
+    (
+      first ||
+      full.replace(
+        /[^A-Za-z]/g,
+        ""
+      ) ||
+      "G"
+    ).charAt(0).toUpperCase();
+
+
+  $("heroAvatar").textContent =
+    initial;
+
+  $("miniAvatar").textContent =
+    initial;
+
+
+  if(data.email){
+
+    $("emailStatus").textContent =
+      "Added";
+
+    $("emailStatus").className =
+      "pill active";
+
+  }
+
+
+  if(data.mobile){
+
+    $("mobileStatus").textContent =
+      "Added";
+
+    $("mobileStatus").className =
+      "pill active";
+
+  }
+
+
+  try{
+
+    const saved =
+      JSON.parse(
+        localStorage.getItem(
+          "ghar_saved_properties"
+        ) || "[]"
+      );
+
+    $("savedCount").textContent =
+      Array.isArray(saved)
+        ? saved.length
+        : 0;
+
+
+    const enquiries =
+      JSON.parse(
+        localStorage.getItem(
+          "ghar_enquiries"
+        ) || "[]"
+      );
+
+    $("enquiryCount").textContent =
+      Array.isArray(enquiries)
+        ? enquiries.length
+        : 0;
+
+
+    const offers =
+      JSON.parse(
+        localStorage.getItem(
+          "ghar_offers"
+        ) || "[]"
+      );
+
+    $("offerCount").textContent =
+      Array.isArray(offers)
+        ? offers.length
+        : 0;
+
+  }catch(error){
+
+    console.warn(
+      "GHAR activity:",
+      error
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   SAVE PROFILE
+========================================================= */
+
+form?.addEventListener(
+  "submit",
+  event => {
+
+    event.preventDefault();
+
+
+    const data = {};
+
+
+    fields.forEach(
+      key => {
+
+        const field =
+          $(key);
+
+        if(!field){
+
+          return;
 
         }
 
-        return {
-            ...DEFAULT_PROFILE
-        };
+
+        data[key] =
+          field.value?.trim?.() ??
+          field.value ??
+          "";
+
+      }
+    );
+
+
+    localStorage.setItem(
+      storageKey,
+      JSON.stringify(data)
+    );
+
+
+    load();
+
+
+    alert(
+      "GHAR profile saved successfully."
+    );
+
+  }
+);
+
+
+/* =========================================================
+   CANCEL
+========================================================= */
+
+$("cancelBtn")?.addEventListener(
+  "click",
+  load
+);
+
+
+/* =========================================================
+   SIGN OUT
+========================================================= */
+
+$("signOutBtn")?.addEventListener(
+  "click",
+  () => {
+
+    if(
+      !confirm(
+        "Sign out from this device?"
+      )
+    ){
+
+      return;
 
     }
 
 
-    function saveProfile(profile){
+    try{
 
-        localStorage.setItem(
-            "ghar_buyer_profile",
-            JSON.stringify(profile)
-        );
+      localStorage.removeItem(
+        "ghar_session"
+      );
 
-    }
+    }catch(error){
 
-
-    function value(id){
-
-        const element =
-            document.getElementById(id);
-
-        return element
-            ? element.value.trim()
-            : "";
-
-    }
-
-
-    function setValue(id, value){
-
-        const element =
-            document.getElementById(id);
-
-        if(element){
-            element.value =
-                value ?? "";
-        }
-
-    }
-
-
-    function initials(profile){
-
-        const first =
-            String(
-                profile.firstName || ""
-            ).trim();
-
-        const last =
-            String(
-                profile.lastName || ""
-            ).trim();
-
-
-        let result = "";
-
-        if(first){
-            result += first.charAt(0);
-        }
-
-        if(last){
-            result += last.charAt(0);
-        }
-
-
-        if(!result){
-
-            result =
-                first.charAt(0) ||
-                "G";
-
-        }
-
-
-        return result
-            .toUpperCase()
-            .slice(0,2);
-
-    }
-
-
-    function fullName(profile){
-
-        const name =
-            [
-                profile.firstName,
-                profile.lastName
-            ]
-            .filter(Boolean)
-            .join(" ")
-            .trim();
-
-
-        return name ||
-            "GHAR Buyer";
-
-    }
-
-
-    function populate(profile){
-
-        setValue(
-            "firstName",
-            profile.firstName
-        );
-
-        setValue(
-            "lastName",
-            profile.lastName
-        );
-
-        setValue(
-            "email",
-            profile.email
-        );
-
-        setValue(
-            "phone",
-            profile.phone
-        );
-
-        setValue(
-            "city",
-            profile.city
-        );
-
-        setValue(
-            "state",
-            profile.state
-        );
-
-        setValue(
-            "buyerType",
-            profile.buyerType ||
-            "Individual"
-        );
-
-        setValue(
-            "budget",
-            profile.budget
-        );
-
-        setValue(
-            "preferredLocation",
-            profile.preferredLocation
-        );
-
-        setValue(
-            "about",
-            profile.about
-        );
-
-
-        const name =
-            fullName(profile);
-
-        const avatar =
-            initials(profile);
-
-
-        const heroName =
-            document.getElementById(
-                "heroName"
-            );
-
-        const summaryName =
-            document.getElementById(
-                "summaryName"
-            );
-
-        const heroAvatar =
-            document.getElementById(
-                "heroAvatar"
-            );
-
-        const summaryAvatar =
-            document.getElementById(
-                "summaryAvatar"
-            );
-
-
-        if(heroName){
-            heroName.textContent =
-                name;
-        }
-
-        if(summaryName){
-            summaryName.textContent =
-                name;
-        }
-
-        if(heroAvatar){
-            heroAvatar.textContent =
-                avatar;
-        }
-
-        if(summaryAvatar){
-            summaryAvatar.textContent =
-                avatar;
-        }
-
-
-        updateVerification(
-            profile
-        );
-
-    }
-
-
-    function updateVerification(profile){
-
-        const emailStatus =
-            document.getElementById(
-                "emailStatus"
-            );
-
-        const phoneStatus =
-            document.getElementById(
-                "phoneStatus"
-            );
-
-
-        if(emailStatus){
-
-            if(profile.email){
-
-                emailStatus.textContent =
-                    "Provided";
-
-                emailStatus.className =
-                    "badge badge-verified";
-
-            }else{
-
-                emailStatus.textContent =
-                    "Pending";
-
-                emailStatus.className =
-                    "badge badge-pending";
-
-            }
-
-        }
-
-
-        if(phoneStatus){
-
-            if(profile.phone){
-
-                phoneStatus.textContent =
-                    "Provided";
-
-                phoneStatus.className =
-                    "badge badge-verified";
-
-            }else{
-
-                phoneStatus.textContent =
-                    "Pending";
-
-                phoneStatus.className =
-                    "badge badge-pending";
-
-            }
-
-        }
-
-    }
-
-
-    function getArrayLength(keys){
-
-        for(
-            const key of keys
-        ){
-
-            try{
-
-                const raw =
-                    localStorage.getItem(key);
-
-                if(!raw){
-                    continue;
-                }
-
-                const parsed =
-                    JSON.parse(raw);
-
-                if(Array.isArray(parsed)){
-                    return parsed.length;
-                }
-
-            }catch(error){
-
-                console.warn(
-                    "GHAR activity read error:",
-                    error
-                );
-
-            }
-
-        }
-
-        return 0;
-
-    }
-
-
-    function updateActivity(){
-
-        const saved =
-            getArrayLength([
-                "ghar_saved_properties",
-                "savedProperties",
-                "ghar_saved"
-            ]);
-
-        const enquiries =
-            getArrayLength([
-                "ghar_enquiries",
-                "buyerEnquiries",
-                "myEnquiries"
-            ]);
-
-        const offers =
-            getArrayLength([
-                "ghar_offers",
-                "buyerOffers",
-                "myOffers"
-            ]);
-
-
-        const savedElement =
-            document.getElementById(
-                "savedCount"
-            );
-
-        const enquiryElement =
-            document.getElementById(
-                "enquiryCount"
-            );
-
-        const offerElement =
-            document.getElementById(
-                "offerCount"
-            );
-
-
-        if(savedElement){
-            savedElement.textContent =
-                saved;
-        }
-
-        if(enquiryElement){
-            enquiryElement.textContent =
-                enquiries;
-        }
-
-        if(offerElement){
-            offerElement.textContent =
-                offers;
-        }
-
-    }
-
-
-    function showToast(message){
-
-        const toast =
-            document.getElementById(
-                "profileToast"
-            );
-
-        if(!toast){
-            return;
-        }
-
-
-        toast.textContent =
-            message;
-
-        toast.classList.add(
-            "show"
-        );
-
-
-        window.clearTimeout(
-            showToast.timer
-        );
-
-
-        showToast.timer =
-            window.setTimeout(
-                () => {
-
-                    toast.classList.remove(
-                        "show"
-                    );
-
-                },
-                2600
-            );
-
-    }
-
-
-    function collectProfile(){
-
-        return {
-
-            firstName:value(
-                "firstName"
-            ),
-
-            lastName:value(
-                "lastName"
-            ),
-
-            email:value(
-                "email"
-            ),
-
-            phone:value(
-                "phone"
-            ),
-
-            city:value(
-                "city"
-            ),
-
-            state:value(
-                "state"
-            ),
-
-            buyerType:value(
-                "buyerType"
-            ),
-
-            budget:value(
-                "budget"
-            ),
-
-            preferredLocation:value(
-                "preferredLocation"
-            ),
-
-            about:value(
-                "about"
-            )
-
-        };
-
-    }
-
-
-    function initForm(){
-
-        const form =
-            document.getElementById(
-                "profileForm"
-            );
-
-        if(!form){
-            return;
-        }
-
-
-        form.addEventListener(
-            "submit",
-            function(event){
-
-                event.preventDefault();
-
-
-                const profile =
-                    collectProfile();
-
-
-                saveProfile(
-                    profile
-                );
-
-
-                populate(
-                    profile
-                );
-
-
-                updateActivity();
-
-
-                showToast(
-                    "Profile changes saved successfully."
-                );
-
-            }
-        );
-
-
-        const cancel =
-            document.getElementById(
-                "cancelProfile"
-            );
-
-
-        if(cancel){
-
-            cancel.addEventListener(
-                "click",
-                function(){
-
-                    populate(
-                        getProfile()
-                    );
-
-                    showToast(
-                        "Changes discarded."
-                    );
-
-                }
-            );
-
-        }
-
-    }
-
-
-    function initHeader(){
-
-        const menu =
-            document.getElementById(
-                "profileMenu"
-            );
-
-        const nav =
-            document.getElementById(
-                "profileNav"
-            );
-
-
-        if(menu && nav){
-
-            menu.addEventListener(
-                "click",
-                function(){
-
-                    const open =
-                        nav.classList.toggle(
-                            "mobile-open"
-                        );
-
-
-                    menu.setAttribute(
-                        "aria-expanded",
-                        String(open)
-                    );
-
-                }
-            );
-
-        }
-
-
-        const notifications =
-            document.getElementById(
-                "profileNotifications"
-            );
-
-
-        if(notifications){
-
-            notifications.addEventListener(
-                "click",
-                function(){
-
-                    window.location.href =
-                        "../communication/notifications.html";
-
-                }
-            );
-
-        }
-
-
-        const account =
-            document.getElementById(
-                "profileAccount"
-            );
-
-
-        if(account){
-
-            account.addEventListener(
-                "click",
-                function(){
-
-                    window.scrollTo({
-                        top:0,
-                        behavior:"smooth"
-                    });
-
-                }
-            );
-
-        }
-
-
-        const edit =
-            document.getElementById(
-                "editProfileButton"
-            );
-
-
-        if(edit){
-
-            edit.addEventListener(
-                "click",
-                function(){
-
-                    const first =
-                        document.getElementById(
-                            "firstName"
-                        );
-
-                    if(first){
-
-                        first.focus();
-
-                        first.scrollIntoView({
-                            behavior:"smooth",
-                            block:"center"
-                        });
-
-                    }
-
-                }
-            );
-
-        }
-
-    }
-
-
-    function initLogout(){
-
-        const button =
-            document.getElementById(
-                "logoutButton"
-            );
-
-        if(!button){
-            return;
-        }
-
-
-        button.addEventListener(
-            "click",
-            function(){
-
-                const confirmed =
-                    window.confirm(
-                        "Sign out from this GHAR account on this device?"
-                    );
-
-
-                if(!confirmed){
-                    return;
-                }
-
-
-                /*
-                 * Remove common local session keys.
-                 * Buyer profile remains stored locally.
-                 */
-
-                [
-                    "ghar_user_session",
-                    "ghar_session",
-                    "ghar_auth",
-                    "buyerSession",
-                    "userSession"
-                ].forEach(
-                    key =>
-                        localStorage.removeItem(
-                            key
-                        )
-                );
-
-
-                showToast(
-                    "You have been signed out."
-                );
-
-
-                window.setTimeout(
-                    () => {
-
-                        window.location.href =
-                            "../login.html";
-
-                    },
-                    700
-                );
-
-            }
-        );
-
-    }
-
-
-    function initialize(){
-
-        const profile =
-            getProfile();
-
-
-        populate(
-            profile
-        );
-
-
-        updateActivity();
-
-        initForm();
-
-        initHeader();
-
-        initLogout();
-
-
-        console.log(
-            "GHAR Buyer Profile ready."
-        );
+      console.warn(error);
 
     }
 
 
     if(
-        document.readyState ===
-        "loading"
+      window.GHARAuth &&
+      typeof window.GHARAuth.logout ===
+        "function"
     ){
 
-        document.addEventListener(
-            "DOMContentLoaded",
-            initialize,
-            {once:true}
-        );
+      window.GHARAuth.logout();
 
     }else{
 
-        initialize();
+      location.href =
+        "../login.html";
 
     }
 
-})();
+  }
+);
 
+
+/* =========================================================
+   AI
+========================================================= */
+
+const launcher =
+  $("aiLauncher");
+
+const panel =
+  $("aiPanel");
+
+const close =
+  $("aiClose");
+
+const aiForm =
+  $("aiForm");
+
+const input =
+  $("aiInput");
+
+const messages =
+  $("aiMessages");
+
+
+launcher?.addEventListener(
+  "click",
+  () => {
+
+    panel.classList.add(
+      "open"
+    );
+
+    input.focus();
+
+  }
+);
+
+
+close?.addEventListener(
+  "click",
+  () => {
+
+    panel.classList.remove(
+      "open"
+    );
+
+  }
+);
+
+
+/* =========================================================
+   ADD AI MESSAGE
+========================================================= */
+
+function addMessage(
+  message,
+  type
+){
+
+  const element =
+    document.createElement(
+      "div"
+    );
+
+
+  element.className =
+    "ai-msg " + type;
+
+
+  element.textContent =
+    message;
+
+
+  messages.appendChild(
+    element
+  );
+
+
+  messages.scrollTop =
+    messages.scrollHeight;
+
+}
+
+
+/* =========================================================
+   ASK AI
+========================================================= */
+
+async function askAI(
+  message
+){
+
+  if(
+    window.GHARAI &&
+    typeof window.GHARAI.ask ===
+      "function"
+  ){
+
+    return await
+      window.GHARAI.ask(
+        message,
+        {
+          page:
+            "buyer-profile",
+
+          role:
+            "buyer"
+        }
+      );
+
+  }
+
+
+  const apiBase =
+    window.GHAR_API_BASE ||
+    window.API_BASE ||
+    "/api";
+
+
+  try{
+
+    const response =
+      await fetch(
+        apiBase + "/ai/chat",
+        {
+
+          method:"POST",
+
+          credentials:"include",
+
+          headers:{
+            "Content-Type":
+              "application/json",
+
+            "Accept":
+              "application/json"
+          },
+
+          body:
+            JSON.stringify({
+
+              message,
+
+              context:{
+
+                page:
+                  "buyer-profile",
+
+                role:
+                  "buyer"
+
+              }
+
+            })
+
+        }
+      );
+
+
+    if(response.ok){
+
+      const data =
+        await response.json();
+
+
+      return (
+        data.reply ||
+        data.message ||
+        data.answer ||
+        "I could not generate a response."
+      );
+
+    }
+
+  }catch(error){
+
+    console.warn(
+      "GHAR AI:",
+      error
+    );
+
+  }
+
+
+  const text =
+    message.toLowerCase();
+
+
+  if(
+    text.includes("profile") ||
+    text.includes("save")
+  ){
+
+    return `
+Update your buyer information and select
+Save Changes. Your profile preferences can
+be used to keep your GHAR buyer workflow organised.
+`;
+
+  }
+
+
+  if(
+    text.includes("budget")
+  ){
+
+    return `
+Use Preferred Budget to define the price range
+you are actively considering.
+`;
+
+  }
+
+
+  if(
+    text.includes("location")
+  ){
+
+    return `
+Add your preferred cities or areas in Preferred
+Locations, for example Noida, Greater Noida
+or Gurugram.
+`;
+
+  }
+
+
+  return `
+I can help with your GHAR profile, budget,
+preferred locations, buyer requirements
+and account workflow.
+`;
+
+}
+
+
+/* =========================================================
+   AI FORM
+========================================================= */
+
+aiForm?.addEventListener(
+  "submit",
+  async event => {
+
+    event.preventDefault();
+
+
+    const message =
+      input.value.trim();
+
+
+    if(!message){
+
+      return;
+
+    }
+
+
+    input.value =
+      "";
+
+
+    addMessage(
+      message,
+      "user"
+    );
+
+
+    const typing =
+      document.createElement(
+        "div"
+      );
+
+
+    typing.className =
+      "ai-msg bot";
+
+
+    typing.textContent =
+      "GHAR AI is thinking...";
+
+
+    messages.appendChild(
+      typing
+    );
+
+
+    try{
+
+      const answer =
+        await askAI(
+          message
+        );
+
+
+      typing.remove();
+
+
+      addMessage(
+        answer,
+        "bot"
+      );
+
+    }catch(error){
+
+      typing.remove();
+
+
+      addMessage(
+        "GHAR AI is temporarily unavailable.",
+        "bot"
+      );
+
+      console.error(
+        error
+      );
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   INITIALIZE
+========================================================= */
+
+load();
+
+
+document.documentElement.classList.add(
+  "ghar-buyer-profile-ready"
+);
+
+})();
 </script>
 
 </body>

@@ -1,3493 +1,4580 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
 
-    <meta charset="UTF-8">
+<meta charset="utf-8">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+<meta
+  name="viewport"
+  content="width=device-width,initial-scale=1">
 
-    <meta
-        name="description"
-        content="GHAR booking confirmation. View your property booking status, payment information, booking reference and next steps."
-    >
+<meta
+  name="description"
+  content="GHAR Booking Confirmation -- Your property viewing booking and appointment details.">
 
-    <meta
-        name="theme-color"
-        content="#10231d"
-    >
+<meta
+  name="theme-color"
+  content="#090b1d">
 
-    <meta
-        name="robots"
-        content="noindex,nofollow"
-    >
+<title>Booking Confirmation · GHAR Buyer</title>
 
-    <title>Booking Confirmation | GHAR</title>
+<link
+  rel="stylesheet"
+  href="../assets/css/style.css">
 
-    <!-- =====================================================
-         GOOGLE FONTS
-    ====================================================== -->
+<style>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link
-        rel="preconnect"
-        href="https://fonts.gstatic.com"
-        crossorigin
-    >
+/* =========================================================
+   GHAR BUYER -- BOOKING CONFIRMATION
+   ROYAL SAPPHIRE + BURGUNDY + CHAMPAGNE
+========================================================= */
 
-    <link
-        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@500;600;700&display=swap"
-        rel="stylesheet"
-    >
+*{
+  box-sizing:border-box;
+}
 
-    <!-- =====================================================
-         GHAR GLOBAL CSS
-    ====================================================== -->
+:root{
 
-    <link
-        rel="stylesheet"
-        href="../assets/css/style.css"
-    >
+  --royal-950:#070817;
+  --royal-900:#090b1d;
+  --royal-850:#10152e;
+  --royal-800:#171d3d;
+  --royal-700:#292f5e;
 
-    <!-- =====================================================
-         PAGE CSS
-    ====================================================== -->
+  --sapphire:#263f78;
+  --sapphire-2:#405e9d;
 
-    <style>
+  --burgundy:#651f35;
+  --burgundy-2:#8b314b;
 
-        :root {
+  --champagne:#e7c982;
+  --champagne-2:#f3dfaa;
+  --champagne-3:#b48b3d;
 
-            --ghar-green: #10231d;
-            --ghar-green-2: #162d25;
-            --ghar-green-3: #29483b;
+  --cream:#fffaf0;
+  --cream-2:#f6eddd;
+  --sand:#eadcc4;
 
-            --ghar-gold: #c9a96e;
-            --ghar-gold-2: #d8c29a;
-            --ghar-gold-dark: #a98243;
+  --ink:#171a2c;
+  --muted:#707488;
 
-            --ghar-cream: #f7f3ea;
-            --ghar-sand: #eee6d7;
-            --ghar-soft: #e4dccd;
+  --success:#24614e;
+  --success-soft:#dceee7;
 
-            --ghar-text: #17241f;
-            --ghar-muted: #6c756f;
+  --warning:#9a6c25;
+  --warning-soft:#f6e9c9;
 
-            --ghar-border:
-                rgba(16,35,29,.10);
+  --danger:#923f50;
 
-            --ghar-shadow:
-                0 25px 70px rgba(16,35,29,.12);
+  --border:rgba(10,14,36,.12);
 
-            --ghar-transition:
-                240ms cubic-bezier(.2,.8,.2,1);
+  --shadow:
+    0 28px 75px rgba(7,8,23,.13);
 
-        }
+  --shadow-soft:
+    0 13px 38px rgba(7,8,23,.08);
 
+  --radius:24px;
+}
 
-        * {
-            box-sizing: border-box;
-        }
+/* =========================================================
+   BASE
+========================================================= */
 
+html{
+  scroll-behavior:smooth;
+}
 
-        html {
-            scroll-behavior: smooth;
-        }
+body{
 
+  margin:0;
 
-        body {
+  min-height:100vh;
 
-            margin: 0;
+  color:var(--ink);
 
-            color: var(--ghar-text);
+  font-family:
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
 
-            font-family:
-                "DM Sans",
-                sans-serif;
+  background:
 
-            background:
+    radial-gradient(
+      circle at 7% 5%,
+      rgba(38,63,120,.17),
+      transparent 25%
+    ),
 
-                radial-gradient(
-                    circle at 10% 10%,
-                    rgba(216,194,154,.20),
-                    transparent 32%
-                ),
+    radial-gradient(
+      circle at 93% 8%,
+      rgba(101,31,53,.15),
+      transparent 27%
+    ),
 
-                radial-gradient(
-                    circle at 90% 20%,
-                    rgba(49,85,70,.13),
-                    transparent 30%
-                ),
+    radial-gradient(
+      circle at 50% 100%,
+      rgba(231,201,130,.13),
+      transparent 31%
+    ),
 
-                linear-gradient(
-                    135deg,
-                    #f7f3ea 0%,
-                    #eee6d7 48%,
-                    #e7dfd0 100%
-                );
+    linear-gradient(
+      135deg,
+      #fbf6eb 0%,
+      #eee3d0 46%,
+      #f8efdf 100%
+    );
+}
 
-            min-height: 100vh;
+button,
+input,
+select,
+textarea{
+  font:inherit;
+}
 
-            overflow-x: hidden;
+button{
+  cursor:pointer;
+}
 
-        }
+a{
+  color:inherit;
+}
 
+/* =========================================================
+   PAGE
+========================================================= */
 
-        body.menu-open {
-            overflow: hidden;
-        }
+.booking-page{
 
+  width:min(
+    1480px,
+    calc(100% - 32px)
+  );
 
-        a {
-            color: inherit;
-            text-decoration: none;
-        }
+  margin:auto;
 
+  padding:
+    34px 0 75px;
+}
 
-        button,
-        input {
-            font: inherit;
-        }
+/* =========================================================
+   CONFIRMATION HERO
+========================================================= */
 
+.confirmation-hero{
 
-        button {
-            cursor: pointer;
-        }
+  position:relative;
 
+  overflow:hidden;
 
-        .ghar-container {
+  min-height:390px;
 
-            width:
-                min(
-                    1240px,
-                    calc(100% - 40px)
-                );
+  display:flex;
 
-            margin-inline: auto;
+  align-items:center;
 
-        }
+  border:
+    1px solid
+    rgba(243,223,170,.22);
 
+  border-radius:32px;
 
-        /* =====================================================
-           HEADER
-        ====================================================== */
+  padding:46px;
 
-        .ghar-header {
+  color:#fff;
 
-            position: sticky;
+  background:
 
-            top: 0;
+    radial-gradient(
+      circle at 88% 15%,
+      rgba(231,201,130,.25),
+      transparent 25%
+    ),
 
-            z-index: 1000;
+    radial-gradient(
+      circle at 12% 100%,
+      rgba(139,49,75,.28),
+      transparent 34%
+    ),
 
-            padding: 14px 0;
+    radial-gradient(
+      circle at 55% 45%,
+      rgba(64,94,157,.23),
+      transparent 35%
+    ),
 
-            background:
-                rgba(247,243,234,.86);
+    linear-gradient(
+      135deg,
+      #070817 0%,
+      #111735 47%,
+      #3a1830 100%
+    );
 
-            border-bottom:
-                1px solid rgba(16,35,29,.08);
+  box-shadow:
+    0 32px 95px
+    rgba(7,8,23,.28);
 
-            backdrop-filter:
-                blur(22px);
+  margin-bottom:24px;
+}
 
-            -webkit-backdrop-filter:
-                blur(22px);
+.confirmation-hero:before{
 
-        }
+  content:"";
 
+  position:absolute;
 
-        .ghar-header-inner {
+  width:410px;
+  height:410px;
 
-            min-height: 66px;
+  right:-190px;
+  top:-220px;
 
-            display: flex;
+  border-radius:50%;
 
-            align-items: center;
+  border:
+    1px solid
+    rgba(243,223,170,.20);
 
-            justify-content: space-between;
+  box-shadow:
 
-            gap: 24px;
+    0 0 0 38px
+    rgba(231,201,130,.025),
 
-        }
+    0 0 0 78px
+    rgba(231,201,130,.018);
+}
 
+.confirmation-hero:after{
 
-        .ghar-brand {
+  content:"";
 
-            display: inline-flex;
+  position:absolute;
 
-            align-items: center;
+  width:430px;
+  height:430px;
 
-            gap: 12px;
+  left:-250px;
+  bottom:-300px;
 
-            flex-shrink: 0;
+  border-radius:50%;
 
-        }
+  background:
+    radial-gradient(
+      circle,
+      rgba(64,94,157,.23),
+      transparent 68%
+    );
+}
 
+.confirmation-content{
 
-        .ghar-brand-mark {
+  position:relative;
 
-            width: 46px;
-            height: 46px;
+  z-index:2;
 
-            display: grid;
+  width:100%;
 
-            place-items: center;
+  display:grid;
 
-            border-radius: 15px;
+  grid-template-columns:
+    minmax(0,1.25fr)
+    minmax(280px,.75fr);
 
-            background:
-                linear-gradient(
-                    145deg,
-                    var(--ghar-green),
-                    var(--ghar-green-3)
-                );
+  align-items:center;
 
-            box-shadow:
-                0 10px 30px
-                rgba(16,35,29,.20);
+  gap:45px;
+}
 
-        }
+/* =========================================================
+   SUCCESS MARK
+========================================================= */
 
+.success-visual{
 
-        .ghar-brand-mark img {
+  min-height:280px;
 
-            width: 32px;
-            height: 32px;
+  display:flex;
 
-            object-fit: contain;
+  align-items:center;
 
-        }
+  justify-content:center;
 
+  position:relative;
+}
 
-        .ghar-brand-fallback {
+.success-orb{
 
-            color:
-                var(--ghar-gold-2);
+  position:relative;
 
-            font-family:
-                "Playfair Display",
-                serif;
+  width:235px;
+  height:235px;
 
-            font-size: 22px;
+  border-radius:50%;
 
-            font-weight: 700;
+  display:flex;
 
-        }
+  align-items:center;
 
+  justify-content:center;
 
-        .ghar-brand-text {
+  text-align:center;
 
-            display: flex;
+  background:
 
-            flex-direction: column;
+    radial-gradient(
+      circle at 32% 22%,
+      #5c74b5,
+      #26355f 38%,
+      #111735 73%
+    );
 
-            line-height: 1;
+  border:
+    1px solid
+    rgba(243,223,170,.43);
 
-        }
+  box-shadow:
 
+    0 0 0 15px
+    rgba(231,201,130,.045),
 
-        .ghar-brand-name {
+    0 0 0 32px
+    rgba(231,201,130,.025),
 
-            color:
-                var(--ghar-green);
+    0 35px 80px
+    rgba(0,0,0,.30);
+}
 
-            font-family:
-                "Playfair Display",
-                serif;
+.success-orb:before{
 
-            font-size: 25px;
+  content:"";
 
-            font-weight: 700;
+  position:absolute;
 
-            letter-spacing: .04em;
+  inset:17px;
 
-        }
+  border-radius:50%;
 
+  border:
+    1px solid
+    rgba(243,223,170,.34);
+}
 
-        .ghar-brand-tagline {
+.success-content{
 
-            margin-top: 5px;
+  position:relative;
 
-            color:
-                var(--ghar-muted);
+  z-index:2;
+}
 
-            font-size: 9px;
+.success-check{
 
-            font-weight: 700;
+  width:70px;
+  height:70px;
 
-            letter-spacing: .20em;
+  margin:auto;
 
-            text-transform: uppercase;
+  display:flex;
 
-        }
+  align-items:center;
 
+  justify-content:center;
 
-        .ghar-nav {
+  border-radius:50%;
 
-            display: flex;
+  color:#10261e;
 
-            align-items: center;
+  background:
+    linear-gradient(
+      135deg,
+      #f3dfaa,
+      #b48b3d
+    );
 
-            gap: 6px;
+  font-size:34px;
 
-        }
+  font-weight:950;
 
+  box-shadow:
+    0 12px 35px
+    rgba(231,201,130,.20);
+}
 
-        .ghar-nav a {
+.success-label{
 
-            position: relative;
+  margin-top:15px;
 
-            padding:
-                11px 13px;
+  color:
+    var(--champagne-2);
 
-            color:
-                #4e5b54;
+  font-size:11px;
 
-            font-size: 14px;
+  font-weight:950;
 
-            font-weight: 600;
+  letter-spacing:.17em;
 
-            border-radius: 12px;
+  text-transform:uppercase;
+}
 
-            transition:
-                color var(--ghar-transition),
-                background var(--ghar-transition);
+.success-small{
 
-        }
+  margin-top:7px;
 
+  color:
+    rgba(255,255,255,.59);
 
-        .ghar-nav a:hover,
-        .ghar-nav a.active {
+  font-size:10px;
+}
 
-            color:
-                var(--ghar-green);
+/* =========================================================
+   TYPOGRAPHY
+========================================================= */
 
-            background:
-                rgba(201,169,110,.14);
+.eyebrow{
 
-        }
+  color:
+    var(--champagne-2);
 
+  font-size:12px;
 
-        .ghar-nav a.active::after {
+  font-weight:950;
 
-            content: "";
+  letter-spacing:.19em;
 
-            position: absolute;
+  text-transform:uppercase;
 
-            left: 14px;
-            right: 14px;
-            bottom: 5px;
+  margin-bottom:12px;
+}
 
-            height: 2px;
+.hero-title{
 
-            border-radius: 999px;
+  margin:0;
 
-            background:
-                var(--ghar-gold);
+  max-width:850px;
 
-        }
+  font-size:
+    clamp(
+      36px,
+      5.8vw,
+      65px
+    );
 
+  line-height:1.01;
 
-        .ghar-header-actions {
+  letter-spacing:-.055em;
+}
 
-            display: flex;
+.hero-description{
 
-            align-items: center;
+  max-width:700px;
 
-            gap: 9px;
+  color:
+    rgba(255,255,255,.73);
 
-        }
+  font-size:15px;
 
+  line-height:1.8;
 
-        .ghar-btn {
+  margin:
+    18px 0 0;
+}
 
-            min-height: 44px;
+/* =========================================================
+   CONFIRMATION NUMBER
+========================================================= */
 
-            display: inline-flex;
+.confirmation-number{
 
-            align-items: center;
+  display:inline-flex;
 
-            justify-content: center;
+  align-items:center;
 
-            gap: 9px;
+  gap:10px;
 
-            padding:
-                0 18px;
+  margin-top:22px;
 
-            border: 0;
+  padding:
+    11px 15px;
 
-            border-radius: 999px;
+  border:
+    1px solid
+    rgba(243,223,170,.22);
 
-            font-size: 13px;
+  border-radius:13px;
 
-            font-weight: 700;
+  background:
+    rgba(255,255,255,.055);
 
-            transition:
-                transform var(--ghar-transition),
-                box-shadow var(--ghar-transition);
+  color:
+    rgba(255,255,255,.82);
 
-        }
+  font-size:11px;
+}
 
+.confirmation-number strong{
 
-        .ghar-btn:hover {
+  color:
+    var(--champagne-2);
 
-            transform:
-                translateY(-2px);
+  font-size:13px;
 
-        }
+  letter-spacing:.06em;
+}
 
+/* =========================================================
+   BUTTONS
+========================================================= */
 
-        .ghar-btn-primary {
+.ghar-btn{
 
-            color: #fff;
+  min-height:46px;
 
-            background:
-                linear-gradient(
-                    135deg,
-                    var(--ghar-green),
-                    var(--ghar-green-3)
-                );
+  display:inline-flex;
 
-            box-shadow:
-                0 12px 28px
-                rgba(16,35,29,.20);
+  align-items:center;
 
-        }
+  justify-content:center;
 
+  gap:8px;
 
-        .ghar-btn-gold {
+  padding:
+    12px 17px;
 
-            color:
-                var(--ghar-green);
+  border-radius:14px;
 
-            background:
-                linear-gradient(
-                    135deg,
-                    var(--ghar-gold-2),
-                    var(--ghar-gold)
-                );
+  border:0;
 
-            box-shadow:
-                0 12px 28px
-                rgba(169,130,67,.18);
+  text-decoration:none;
 
-        }
+  font-size:13px;
 
+  font-weight:950;
 
-        .ghar-btn-outline {
+  transition:
+    transform .2s ease,
+    box-shadow .2s ease;
+}
 
-            color:
-                var(--ghar-green);
+.ghar-btn:hover{
 
-            background:
-                rgba(255,255,255,.35);
+  transform:
+    translateY(-2px);
+}
 
-            border:
-                1px solid
-                rgba(16,35,29,.14);
+.ghar-btn.primary{
 
-        }
+  color:#18130a;
 
+  background:
+    linear-gradient(
+      135deg,
+      #f2dda2,
+      #bf954a
+    );
 
-        .ghar-menu-button {
+  box-shadow:
+    0 10px 28px
+    rgba(231,201,130,.18);
+}
 
-            display: none;
+.ghar-btn.secondary{
 
-            width: 45px;
-            height: 45px;
+  color:#fff;
 
-            border:
-                1px solid
-                rgba(16,35,29,.12);
+  background:
+    rgba(255,255,255,.075);
 
-            border-radius: 14px;
+  border:
+    1px solid
+    rgba(255,255,255,.17);
+}
 
-            background:
-                rgba(255,255,255,.48);
+.ghar-btn.dark{
 
-        }
+  color:#fff;
 
+  background:
+    linear-gradient(
+      135deg,
+      #121832,
+      #303b73
+    );
+}
 
-        .ghar-menu-button span {
+.ghar-btn.burgundy{
 
-            width: 20px;
-            height: 2px;
+  color:#fff;
 
-            display: block;
+  background:
+    linear-gradient(
+      135deg,
+      #651f35,
+      #92344f
+    );
+}
 
-            margin: 4px auto;
+.hero-actions{
 
-            background:
-                var(--ghar-green);
+  display:flex;
 
-            border-radius: 10px;
+  flex-wrap:wrap;
 
-        }
+  gap:10px;
 
+  margin-top:25px;
+}
 
-        /* =====================================================
-           PAGE
-        ====================================================== */
+/* =========================================================
+   SECTION
+========================================================= */
 
-        .booking-page {
+.section{
 
-            padding:
-                70px 0 100px;
+  margin-top:24px;
 
-        }
+  padding:30px;
 
+  border:
+    1px solid var(--border);
 
-        /* =====================================================
-           CONFIRMATION HERO
-        ====================================================== */
+  border-radius:26px;
 
-        .confirmation-hero {
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,250,240,.95),
+      rgba(244,234,216,.85)
+    );
 
-            position: relative;
+  box-shadow:
+    var(--shadow-soft);
+}
 
-            overflow: hidden;
+.section-heading{
 
-            padding: 55px;
+  display:flex;
 
-            border-radius: 36px;
+  align-items:flex-end;
 
-            color: #fff;
+  justify-content:space-between;
 
-            background:
+  gap:20px;
 
-                radial-gradient(
-                    circle at 82% 20%,
-                    rgba(216,194,154,.22),
-                    transparent 28%
-                ),
+  margin-bottom:20px;
+}
 
-                linear-gradient(
-                    135deg,
-                    #10231d,
-                    #29483b
-                );
+.section-eyebrow{
 
-            box-shadow:
-                0 35px 85px
-                rgba(16,35,29,.23);
+  color:
+    var(--burgundy);
 
-        }
+  font-size:10px;
 
+  font-weight:950;
 
-        .confirmation-hero::before {
+  letter-spacing:.15em;
 
-            content: "";
+  text-transform:uppercase;
+}
 
-            position: absolute;
+.section-title{
 
-            width: 420px;
-            height: 420px;
+  margin:6px 0 0;
 
-            right: -180px;
-            top: -210px;
+  color:
+    var(--royal-850);
 
-            border-radius: 50%;
+  font-size:
+    clamp(25px,4vw,38px);
 
-            border:
-                1px solid
-                rgba(216,194,154,.22);
+  line-height:1.1;
 
-        }
+  letter-spacing:-.035em;
+}
 
+.section-description{
 
-        .confirmation-hero::after {
+  max-width:720px;
 
-            content: "";
+  margin:9px 0 0;
 
-            position: absolute;
+  color:var(--muted);
 
-            width: 180px;
-            height: 180px;
+  font-size:13px;
 
-            right: 60px;
-            bottom: -100px;
+  line-height:1.7;
+}
 
-            border-radius: 50%;
+/* =========================================================
+   STATUS
+========================================================= */
 
-            border:
-                1px solid
-                rgba(216,194,154,.15);
+.status-card{
 
-        }
+  display:flex;
 
+  align-items:center;
 
-        .confirmation-content {
+  justify-content:space-between;
 
-            position: relative;
+  gap:18px;
 
-            z-index: 2;
+  padding:18px 20px;
 
-            max-width: 850px;
+  border-radius:19px;
 
-        }
+  border:
+    1px solid
+    rgba(36,97,78,.18);
 
+  background:
+    linear-gradient(
+      135deg,
+      rgba(220,238,231,.88),
+      rgba(246,248,239,.72)
+    );
+}
 
-        .confirmation-eyebrow {
+.status-left{
 
-            display: inline-flex;
+  display:flex;
 
-            align-items: center;
+  align-items:center;
 
-            gap: 10px;
+  gap:13px;
+}
 
-            margin-bottom: 18px;
+.status-icon{
 
-            color:
-                var(--ghar-gold-2);
+  width:45px;
+  height:45px;
 
-            font-size: 11px;
+  flex:0 0 auto;
 
-            font-weight: 800;
+  display:flex;
 
-            letter-spacing: .18em;
+  align-items:center;
 
-            text-transform: uppercase;
+  justify-content:center;
 
-        }
+  border-radius:14px;
 
+  color:#fff;
 
-        .confirmation-eyebrow::before {
+  background:
+    linear-gradient(
+      135deg,
+      #24614e,
+      #43866d
+    );
 
-            content: "✓";
+  font-size:20px;
 
-            width: 25px;
-            height: 25px;
+  font-weight:950;
+}
 
-            display: grid;
+.status-label{
 
-            place-items: center;
+  color:
+    #557367;
 
-            border-radius: 50%;
+  font-size:10px;
 
-            color:
-                var(--ghar-green);
+  font-weight:950;
 
-            background:
-                var(--ghar-gold-2);
+  letter-spacing:.10em;
 
-            font-size: 13px;
+  text-transform:uppercase;
+}
 
-        }
+.status-text{
 
+  margin-top:3px;
 
-        .confirmation-hero h1 {
+  color:
+    #173e32;
 
-            margin: 0;
+  font-size:16px;
 
-            font-family:
-                "Playfair Display",
-                serif;
+  font-weight:950;
+}
 
-            font-size:
-                clamp(42px, 6vw, 70px);
+.status-badge{
 
-            line-height: 1;
+  padding:
+    8px 12px;
 
-            letter-spacing: -.035em;
+  border-radius:999px;
 
-        }
+  color:
+    #245b49;
 
+  background:
+    rgba(36,97,78,.10);
 
-        .confirmation-hero h1 span {
+  font-size:10px;
 
-            color:
-                var(--ghar-gold-2);
+  font-weight:950;
 
-        }
+  text-transform:uppercase;
 
+  letter-spacing:.08em;
+}
 
-        .confirmation-hero p {
+/* =========================================================
+   BOOKING GRID
+========================================================= */
 
-            max-width: 720px;
+.booking-grid{
 
-            margin:
-                24px 0 0;
+  display:grid;
 
-            color:
-                rgba(255,255,255,.70);
+  grid-template-columns:
+    minmax(0,1.15fr)
+    minmax(300px,.85fr);
 
-            font-size: 17px;
+  gap:18px;
 
-            line-height: 1.8;
+  margin-top:22px;
+}
 
-        }
+/* =========================================================
+   PROPERTY CARD
+========================================================= */
 
+.property-card{
 
-        /* =====================================================
-           BOOKING REFERENCE
-        ====================================================== */
+  overflow:hidden;
 
-        .reference-box {
+  border:
+    1px solid var(--border);
 
-            position: relative;
+  border-radius:22px;
 
-            z-index: 3;
+  background:
+    rgba(255,250,240,.90);
 
-            margin-top: 35px;
+  box-shadow:
+    0 13px 36px
+    rgba(7,8,23,.065);
+}
 
-            padding: 22px;
+.property-image{
 
-            border:
-                1px solid
-                rgba(216,194,154,.20);
+  min-height:235px;
 
-            border-radius: 22px;
+  display:flex;
 
-            background:
-                rgba(255,255,255,.07);
+  align-items:center;
 
-            backdrop-filter:
-                blur(10px);
+  justify-content:center;
 
-        }
+  position:relative;
 
+  overflow:hidden;
 
-        .reference-label {
+  color:#fff;
 
-            display: block;
+  background:
 
-            margin-bottom: 9px;
+    radial-gradient(
+      circle at 80% 18%,
+      rgba(231,201,130,.25),
+      transparent 27%
+    ),
 
-            color:
-                rgba(255,255,255,.55);
+    radial-gradient(
+      circle at 18% 90%,
+      rgba(139,49,75,.25),
+      transparent 30%
+    ),
 
-            font-size: 10px;
+    linear-gradient(
+      135deg,
+      #111735,
+      #263f78 55%,
+      #651f35
+    );
+}
 
-            font-weight: 800;
+.property-image:before{
 
-            letter-spacing: .16em;
+  content:"";
 
-            text-transform: uppercase;
+  position:absolute;
 
-        }
+  width:300px;
+  height:300px;
 
+  border-radius:50%;
 
-        .reference-row {
+  border:
+    1px solid
+    rgba(243,223,170,.20);
+}
 
-            display: flex;
+.property-image-icon{
 
-            align-items: center;
+  position:relative;
 
-            justify-content: space-between;
+  z-index:2;
 
-            gap: 15px;
+  font-size:68px;
 
-        }
+  filter:
+    drop-shadow(
+      0 15px 30px
+      rgba(0,0,0,.25)
+    );
+}
 
+.property-badge{
 
-        .reference-code {
+  position:absolute;
 
-            color: #fff;
+  top:15px;
+  left:15px;
 
-            font-family:
-                "DM Sans",
-                sans-serif;
+  z-index:3;
 
-            font-size:
-                clamp(20px, 4vw, 30px);
+  padding:
+    8px 11px;
 
-            font-weight: 800;
+  border-radius:999px;
 
-            letter-spacing: .08em;
+  color:#1a160e;
 
-        }
+  background:
+    var(--champagne-2);
 
+  font-size:9px;
 
-        .copy-reference {
+  font-weight:950;
 
-            min-height: 42px;
+  letter-spacing:.08em;
 
-            padding:
-                0 16px;
+  text-transform:uppercase;
+}
 
-            border:
-                1px solid
-                rgba(216,194,154,.28);
+.property-info{
 
-            border-radius: 999px;
+  padding:21px;
+}
 
-            color:
-                var(--ghar-green);
+.property-type{
 
-            background:
-                var(--ghar-gold-2);
+  color:
+    var(--burgundy);
 
-            font-size: 12px;
+  font-size:9px;
 
-            font-weight: 800;
+  font-weight:950;
 
-        }
+  letter-spacing:.13em;
 
+  text-transform:uppercase;
+}
 
-        /* =====================================================
-           BOOKING GRID
-        ====================================================== */
+.property-name{
 
-        .booking-grid {
+  margin:
+    6px 0 0;
 
-            display: grid;
+  color:
+    var(--royal-850);
 
-            grid-template-columns:
-                minmax(0, 1.4fr)
-                minmax(320px, .6fr);
+  font-size:23px;
 
-            gap: 26px;
+  line-height:1.15;
 
-            margin-top: 30px;
+  font-weight:950;
+}
 
-        }
+.property-location{
 
+  display:flex;
 
-        .booking-card {
+  align-items:flex-start;
 
-            padding: 32px;
+  gap:7px;
 
-            border:
-                1px solid
-                var(--ghar-border);
+  margin-top:9px;
 
-            border-radius: 28px;
+  color:var(--muted);
 
-            background:
-                rgba(255,255,255,.42);
+  font-size:11px;
 
-            box-shadow:
-                var(--ghar-shadow);
+  line-height:1.5;
+}
 
-            backdrop-filter:
-                blur(14px);
+.property-meta{
 
-        }
+  display:grid;
 
+  grid-template-columns:
+    repeat(3,1fr);
 
-        .booking-card h2 {
+  gap:8px;
 
-            margin: 0;
+  margin-top:17px;
+}
 
-            color:
-                var(--ghar-green);
+.meta-box{
 
-            font-family:
-                "Playfair Display",
-                serif;
+  padding:12px;
 
-            font-size: 30px;
+  border:
+    1px solid var(--border);
 
-        }
+  border-radius:13px;
 
+  background:
+    rgba(244,234,216,.56);
+}
 
-        .booking-card-subtitle {
+.meta-label{
 
-            margin:
-                8px 0 25px;
+  color:var(--muted);
 
-            color:
-                var(--ghar-muted);
+  font-size:8px;
 
-            font-size: 14px;
+  font-weight:950;
 
-            line-height: 1.6;
+  text-transform:uppercase;
 
-        }
+  letter-spacing:.08em;
+}
 
+.meta-value{
 
-        /* =====================================================
-           PROPERTY CARD
-        ====================================================== */
+  margin-top:4px;
 
-        .property-card {
+  color:
+    var(--royal-850);
 
-            overflow: hidden;
+  font-size:12px;
 
-            border:
-                1px solid
-                rgba(16,35,29,.08);
+  font-weight:950;
+}
 
-            border-radius: 24px;
+/* =========================================================
+   APPOINTMENT CARD
+========================================================= */
 
-            background:
-                rgba(255,255,255,.48);
+.appointment-card{
 
-        }
+  padding:22px;
 
+  border:
+    1px solid var(--border);
 
-        .property-image {
+  border-radius:22px;
 
-            min-height: 190px;
+  background:
+    rgba(255,250,240,.90);
 
-            display: flex;
+  box-shadow:
+    0 13px 36px
+    rgba(7,8,23,.065);
+}
 
-            align-items: flex-end;
+.appointment-list{
 
-            padding: 22px;
+  display:grid;
 
-            background:
+  gap:10px;
 
-                linear-gradient(
-                    135deg,
-                    rgba(16,35,29,.86),
-                    rgba(49,85,70,.76)
-                ),
+  margin-top:17px;
+}
 
-                radial-gradient(
-                    circle at 75% 25%,
-                    rgba(216,194,154,.4),
-                    transparent 30%
-                );
+.appointment-item{
 
-        }
+  display:flex;
 
+  align-items:center;
 
-        .property-image-content {
+  gap:12px;
 
-            color: #fff;
+  padding:
+    13px;
 
-        }
+  border:
+    1px solid var(--border);
 
+  border-radius:14px;
 
-        .property-type {
+  background:
+    rgba(244,234,216,.52);
+}
 
-            display: inline-block;
+.appointment-icon{
 
-            margin-bottom: 8px;
+  width:39px;
+  height:39px;
 
-            padding:
-                6px 10px;
+  flex:0 0 auto;
 
-            border-radius: 999px;
+  display:flex;
 
-            color:
-                var(--ghar-green);
+  align-items:center;
 
-            background:
-                var(--ghar-gold-2);
+  justify-content:center;
 
-            font-size: 10px;
+  border-radius:12px;
 
-            font-weight: 800;
+  color:
+    var(--champagne-3);
 
-            letter-spacing: .08em;
+  background:
+    rgba(231,201,130,.17);
 
-            text-transform: uppercase;
+  font-size:16px;
+}
 
-        }
+.appointment-label{
 
+  color:var(--muted);
 
-        .property-image h3 {
+  font-size:8px;
 
-            margin: 0;
+  font-weight:950;
 
-            font-family:
-                "Playfair Display",
-                serif;
+  text-transform:uppercase;
 
-            font-size: 28px;
+  letter-spacing:.09em;
+}
 
-        }
+.appointment-value{
 
+  margin-top:3px;
 
-        .property-location {
+  color:
+    var(--royal-850);
 
-            margin-top: 6px;
+  font-size:13px;
 
-            color:
-                rgba(255,255,255,.68);
+  font-weight:950;
+}
 
-            font-size: 13px;
+/* =========================================================
+   TIMELINE
+========================================================= */
 
-        }
+.timeline{
 
+  display:grid;
 
-        .property-details {
+  grid-template-columns:
+    repeat(4,minmax(0,1fr));
 
-            display: grid;
+  gap:0;
 
-            grid-template-columns:
-                repeat(2, 1fr);
+  margin-top:25px;
+}
 
-        }
+.timeline-step{
 
+  position:relative;
 
-        .property-detail {
+  text-align:center;
 
-            padding:
-                18px 20px;
+  padding:
+    0 10px;
+}
 
-            border-top:
-                1px solid
-                rgba(16,35,29,.07);
+.timeline-step:not(:last-child):after{
 
-        }
+  content:"";
 
+  position:absolute;
 
-        .property-detail:nth-child(odd) {
+  top:19px;
 
-            border-right:
-                1px solid
-                rgba(16,35,29,.07);
+  left:calc(50% + 22px);
 
-        }
+  right:calc(-50% + 22px);
 
+  height:2px;
 
-        .detail-label {
+  background:
+    rgba(180,139,61,.28);
+}
 
-            display: block;
+.timeline-dot{
 
-            margin-bottom: 5px;
+  position:relative;
 
-            color:
-                var(--ghar-muted);
+  z-index:2;
 
-            font-size: 10px;
+  width:39px;
+  height:39px;
 
-            font-weight: 800;
+  margin:auto;
 
-            letter-spacing: .10em;
+  display:flex;
 
-            text-transform: uppercase;
+  align-items:center;
 
-        }
+  justify-content:center;
 
+  border-radius:50%;
 
-        .detail-value {
+  color:#fff;
 
-            color:
-                var(--ghar-green);
+  background:
+    linear-gradient(
+      135deg,
+      var(--sapphire),
+      var(--burgundy)
+    );
 
-            font-size: 14px;
+  border:
+    3px solid
+    var(--cream);
 
-            font-weight: 700;
+  box-shadow:
+    0 0 0 1px
+    rgba(38,63,120,.18);
+}
 
-        }
+.timeline-step.active .timeline-dot{
 
+  background:
+    linear-gradient(
+      135deg,
+      #24614e,
+      #43866d
+    );
+}
 
-        /* =====================================================
-           STATUS
-        ====================================================== */
+.timeline-title{
 
-        .status-list {
+  margin-top:10px;
 
-            display: grid;
+  color:
+    var(--royal-850);
 
-            gap: 12px;
+  font-size:10px;
 
-            margin-top: 24px;
+  font-weight:950;
+}
 
-        }
+.timeline-text{
 
+  margin-top:4px;
 
-        .status-item {
+  color:var(--muted);
 
-            display: flex;
+  font-size:8px;
 
-            align-items: center;
+  line-height:1.45;
+}
 
-            justify-content: space-between;
+/* =========================================================
+   DETAILS GRID
+========================================================= */
 
-            gap: 20px;
+.details-grid{
 
-            padding:
-                17px 18px;
+  display:grid;
 
-            border-radius: 16px;
+  grid-template-columns:
+    repeat(2,minmax(0,1fr));
 
-            background:
-                rgba(16,35,29,.045);
+  gap:13px;
 
-        }
+  margin-top:22px;
+}
 
+.detail-box{
 
-        .status-title {
+  padding:17px;
 
-            color:
-                var(--ghar-muted);
+  border:
+    1px solid var(--border);
 
-            font-size: 12px;
+  border-radius:17px;
 
-            font-weight: 600;
+  background:
+    rgba(255,250,240,.75);
+}
 
-        }
+.detail-label{
 
+  color:
+    var(--burgundy);
 
-        .status-value {
+  font-size:9px;
 
-            color:
-                var(--ghar-green);
+  font-weight:950;
 
-            font-size: 13px;
+  letter-spacing:.10em;
 
-            font-weight: 800;
+  text-transform:uppercase;
+}
 
-            text-align: right;
+.detail-value{
 
-        }
+  margin-top:6px;
 
+  color:
+    var(--royal-850);
 
-        .status-confirmed {
+  font-size:14px;
 
-            color:
-                #216b48;
+  font-weight:850;
+}
 
-        }
+.detail-small{
 
+  margin-top:3px;
 
-        .status-paid {
+  color:var(--muted);
 
-            color:
-                #216b48;
+  font-size:10px;
 
-        }
+  line-height:1.5;
+}
 
+/* =========================================================
+   PAYMENT
+========================================================= */
 
-        /* =====================================================
-           NEXT STEPS
-        ====================================================== */
+.payment-summary{
 
-        .next-steps {
+  display:grid;
 
-            display: grid;
+  grid-template-columns:
+    minmax(0,1fr)
+    minmax(260px,.7fr);
 
-            gap: 13px;
+  gap:18px;
 
-            margin-top: 25px;
+  margin-top:22px;
+}
 
-        }
+.payment-box{
 
+  padding:22px;
 
-        .next-step {
+  border:
+    1px solid var(--border);
 
-            display: flex;
+  border-radius:20px;
 
-            align-items: flex-start;
+  background:
+    rgba(255,250,240,.82);
+}
 
-            gap: 15px;
+.price-row{
 
-            padding:
-                16px;
+  display:flex;
 
-            border-radius: 17px;
+  align-items:center;
 
-            background:
-                rgba(255,255,255,.48);
+  justify-content:space-between;
 
-            border:
-                1px solid
-                rgba(16,35,29,.07);
+  gap:15px;
 
-        }
+  padding:11px 0;
 
+  border-bottom:
+    1px dashed
+    rgba(10,14,36,.10);
 
-        .step-number {
+  color:var(--muted);
 
-            width: 36px;
-            height: 36px;
+  font-size:11px;
+}
 
-            flex: 0 0 36px;
+.price-row:last-child{
 
-            display: grid;
+  border-bottom:0;
+}
 
-            place-items: center;
+.price-row strong{
 
-            border-radius: 12px;
+  color:
+    var(--royal-850);
+}
 
-            color:
-                var(--ghar-green);
+.total-row{
 
-            background:
-                linear-gradient(
-                    135deg,
-                    var(--ghar-gold-2),
-                    var(--ghar-gold)
-                );
+  display:flex;
 
-            font-size: 11px;
+  align-items:center;
 
-            font-weight: 900;
+  justify-content:space-between;
 
-        }
+  gap:15px;
 
+  margin-top:13px;
 
-        .step-content strong {
+  padding-top:15px;
 
-            display: block;
+  border-top:
+    1px solid
+    var(--border);
+}
 
-            color:
-                var(--ghar-green);
+.total-label{
 
-            font-size: 14px;
+  color:
+    var(--royal-850);
 
-        }
+  font-size:12px;
 
+  font-weight:950;
+}
 
-        .step-content span {
+.total-value{
 
-            display: block;
+  color:
+    var(--burgundy);
 
-            margin-top: 4px;
+  font-size:23px;
 
-            color:
-                var(--ghar-muted);
+  font-weight:950;
+}
 
-            font-size: 12px;
+.payment-status{
 
-            line-height: 1.5;
+  min-height:100%;
 
-        }
+  display:flex;
 
+  flex-direction:column;
 
-        /* =====================================================
-           FINANCIAL SUMMARY
-        ====================================================== */
+  justify-content:center;
 
-        .financial-list {
+  padding:23px;
 
-            display: grid;
+  border-radius:20px;
 
-            gap: 14px;
+  color:#fff;
 
-            margin-top: 22px;
+  background:
 
-        }
+    radial-gradient(
+      circle at 90% 10%,
+      rgba(231,201,130,.23),
+      transparent 30%
+    ),
 
+    linear-gradient(
+      135deg,
+      #090b1d,
+      #263f78,
+      #651f35
+    );
+}
 
-        .financial-row {
+.payment-status-icon{
 
-            display: flex;
+  width:52px;
+  height:52px;
 
-            align-items: center;
+  display:flex;
 
-            justify-content: space-between;
+  align-items:center;
 
-            gap: 20px;
+  justify-content:center;
 
-            padding-bottom: 14px;
+  border-radius:15px;
 
-            border-bottom:
-                1px solid
-                rgba(16,35,29,.08);
+  color:#17130a;
 
-        }
+  background:
+    var(--champagne-2);
 
+  font-size:22px;
+}
 
-        .financial-row:last-child {
+.payment-status-title{
 
-            padding-bottom: 0;
+  margin-top:14px;
 
-            border-bottom: 0;
+  font-size:18px;
 
-        }
+  font-weight:950;
+}
 
+.payment-status-text{
 
-        .financial-row span:first-child {
+  margin-top:6px;
 
-            color:
-                var(--ghar-muted);
+  color:
+    rgba(255,255,255,.62);
 
-            font-size: 13px;
+  font-size:10px;
 
-        }
+  line-height:1.6;
+}
 
+/* =========================================================
+   NEXT STEPS
+========================================================= */
 
-        .financial-row strong {
+.next-grid{
 
-            color:
-                var(--ghar-green);
+  display:grid;
 
-            font-size: 15px;
+  grid-template-columns:
+    repeat(3,minmax(0,1fr));
 
-        }
+  gap:14px;
 
+  margin-top:22px;
+}
 
-        .financial-total {
+.next-card{
 
-            font-size: 20px !important;
+  padding:20px;
 
-            font-family:
-                "Playfair Display",
-                serif;
+  border:
+    1px solid var(--border);
 
-        }
+  border-radius:19px;
 
+  background:
+    rgba(255,250,240,.80);
+}
 
-        /* =====================================================
-           ACTIONS
-        ====================================================== */
+.next-number{
 
-        .action-grid {
+  color:
+    var(--burgundy);
 
-            display: grid;
+  font-size:10px;
 
-            gap: 10px;
+  font-weight:950;
 
-            margin-top: 25px;
+  letter-spacing:.13em;
+}
 
-        }
+.next-title{
 
+  margin-top:12px;
 
-        .action-button {
+  color:
+    var(--royal-850);
 
-            width: 100%;
+  font-size:15px;
 
-            min-height: 48px;
+  font-weight:950;
+}
 
-            display: flex;
+.next-text{
 
-            align-items: center;
+  margin-top:6px;
 
-            justify-content: center;
+  color:var(--muted);
 
-            border: 0;
+  font-size:10px;
 
-            border-radius: 14px;
+  line-height:1.65;
+}
 
-            font-size: 13px;
+/* =========================================================
+   CTA
+========================================================= */
 
-            font-weight: 800;
+.cta{
 
-            transition:
-                transform var(--ghar-transition),
-                box-shadow var(--ghar-transition);
+  position:relative;
 
-        }
+  overflow:hidden;
 
+  margin-top:24px;
 
-        .action-button:hover {
+  padding:34px;
 
-            transform:
-                translateY(-2px);
+  border-radius:27px;
 
-        }
+  color:#fff;
 
+  background:
 
-        .action-primary {
+    radial-gradient(
+      circle at 90% 20%,
+      rgba(231,201,130,.25),
+      transparent 25%
+    ),
 
-            color: #fff;
+    radial-gradient(
+      circle at 10% 90%,
+      rgba(139,49,75,.24),
+      transparent 30%
+    ),
 
-            background:
-                linear-gradient(
-                    135deg,
-                    var(--ghar-green),
-                    var(--ghar-green-3)
-                );
+    linear-gradient(
+      135deg,
+      #090b1d,
+      #263f78 55%,
+      #651f35
+    );
 
-        }
+  box-shadow:
+    0 25px 65px
+    rgba(7,8,23,.20);
+}
 
+.cta-content{
 
-        .action-gold {
+  position:relative;
 
-            color:
-                var(--ghar-green);
+  z-index:2;
 
-            background:
-                linear-gradient(
-                    135deg,
-                    var(--ghar-gold-2),
-                    var(--ghar-gold)
-                );
+  display:flex;
 
-        }
+  align-items:center;
 
+  justify-content:space-between;
 
-        .action-light {
+  gap:25px;
+}
 
-            color:
-                var(--ghar-green);
+.cta h2{
 
-            background:
-                rgba(16,35,29,.06);
+  margin:0;
 
-            border:
-                1px solid
-                rgba(16,35,29,.08);
+  font-size:
+    clamp(25px,4vw,38px);
 
-        }
+  letter-spacing:-.035em;
+}
 
+.cta p{
 
-        /* =====================================================
-           SUPPORT
-        ====================================================== */
+  max-width:680px;
 
-        .support-card {
+  margin:9px 0 0;
 
-            margin-top: 26px;
+  color:
+    rgba(255,255,255,.68);
 
-            padding: 28px;
+  font-size:12px;
 
-            border-radius: 24px;
+  line-height:1.65;
+}
 
-            background:
-                linear-gradient(
-                    135deg,
-                    rgba(216,194,154,.34),
-                    rgba(255,255,255,.48)
-                );
+.cta-actions{
 
-            border:
-                1px solid
-                rgba(169,130,67,.18);
+  display:flex;
 
-        }
+  flex-wrap:wrap;
 
+  gap:9px;
+}
 
-        .support-card h3 {
+/* =========================================================
+   FOOTER
+========================================================= */
 
-            margin: 0;
+.buyer-footer{
 
-            color:
-                var(--ghar-green);
+  margin-top:24px;
 
-            font-family:
-                "Playfair Display",
-                serif;
+  padding:
+    45px 22px;
 
-            font-size: 24px;
+  border-radius:
+    27px 27px 0 0;
 
-        }
+  color:#fff;
 
+  background:
 
-        .support-card p {
+    radial-gradient(
+      circle at 85% 10%,
+      rgba(231,201,130,.17),
+      transparent 25%
+    ),
 
-            margin:
-                10px 0 20px;
+    linear-gradient(
+      135deg,
+      #070817,
+      #171d3d,
+      #32172a
+    );
+}
 
-            color:
-                var(--ghar-muted);
+.footer-grid{
 
-            font-size: 13px;
+  width:min(
+    1480px,
+    100%
+  );
 
-            line-height: 1.7;
+  margin:auto;
 
-        }
+  display:grid;
 
+  grid-template-columns:
+    1.3fr
+    repeat(3,1fr);
 
-        /* =====================================================
-           BUYER ACCOUNT
-        ====================================================== */
+  gap:30px;
+}
 
-        .buyer-account {
+.footer-logo{
 
-            margin-top: 26px;
+  font-size:25px;
 
-            padding: 28px;
+  font-weight:950;
 
-            border-radius: 24px;
+  letter-spacing:.10em;
+}
 
-            color: #fff;
+.footer-description{
 
-            background:
-                linear-gradient(
-                    135deg,
-                    var(--ghar-green),
-                    var(--ghar-green-3)
-                );
+  max-width:390px;
 
-            box-shadow:
-                0 25px 55px
-                rgba(16,35,29,.17);
+  color:
+    rgba(255,255,255,.61);
 
-        }
+  font-size:11px;
 
+  line-height:1.7;
 
-        .buyer-account h3 {
+  margin-top:12px;
+}
 
-            margin: 0;
+.footer-title{
 
-            font-family:
-                "Playfair Display",
-                serif;
+  font-size:12px;
 
-            font-size: 25px;
+  font-weight:950;
 
-        }
+  color:
+    var(--champagne-2);
+}
 
+.footer-links{
 
-        .buyer-account p {
+  margin-top:12px;
 
-            margin:
-                8px 0 20px;
+  line-height:2;
 
-            color:
-                rgba(255,255,255,.65);
+  font-size:11px;
 
-            font-size: 13px;
+  color:
+    rgba(255,255,255,.63);
+}
 
-            line-height: 1.6;
+.footer-links a{
 
-        }
+  text-decoration:none;
+}
 
+.footer-links a:hover{
 
-        /* =====================================================
-           FOOTER
-        ====================================================== */
+  color:
+    var(--champagne-2);
+}
 
-        .ghar-footer {
+.footer-bottom{
 
-            padding:
-                70px 0 28px;
+  width:min(
+    1480px,
+    100%
+  );
 
-            color:
-                rgba(255,255,255,.70);
+  margin:
+    28px auto 0;
 
-            background:
-                #0b1b16;
+  padding-top:18px;
 
-        }
+  border-top:
+    1px solid
+    rgba(255,255,255,.10);
 
+  color:
+    rgba(255,255,255,.42);
 
-        .footer-grid {
+  font-size:10px;
+}
 
-            display: grid;
+/* =========================================================
+   AI
+========================================================= */
 
-            grid-template-columns:
-                1.3fr repeat(3, 1fr);
+.ai-launcher{
 
-            gap: 45px;
+  position:fixed;
 
-        }
+  right:22px;
+  bottom:22px;
 
+  z-index:9998;
 
-        .footer-brand p {
+  width:61px;
+  height:61px;
 
-            max-width: 360px;
+  border:
+    1px solid
+    rgba(243,223,170,.42);
 
-            margin:
-                18px 0 0;
+  border-radius:50%;
 
-            color:
-                rgba(255,255,255,.55);
+  color:#fff;
 
-            line-height: 1.7;
+  font-size:23px;
 
-        }
+  background:
 
+    radial-gradient(
+      circle at 30% 20%,
+      #405e9d,
+      #090b1d 72%
+    );
 
-        .footer-column h4 {
+  box-shadow:
+    0 18px 45px
+    rgba(7,8,23,.32);
 
-            margin:
-                0 0 18px;
+  transition:.2s ease;
+}
 
-            color:
-                var(--ghar-gold-2);
+.ai-launcher:hover{
 
-            font-size: 12px;
+  transform:
+    translateY(-3px)
+    scale(1.03);
+}
 
-            letter-spacing: .13em;
+.ai-panel{
 
-            text-transform: uppercase;
+  position:fixed;
 
-        }
+  right:22px;
+  bottom:22px;
 
+  z-index:9999;
 
-        .footer-column a {
+  width:
+    min(
+      410px,
+      calc(100vw - 28px)
+    );
 
-            display: block;
+  max-height:650px;
 
-            margin:
-                11px 0;
+  display:none;
 
-            color:
-                rgba(255,255,255,.58);
+  flex-direction:column;
 
-            font-size: 14px;
+  overflow:hidden;
 
-            transition:
-                color var(--ghar-transition);
+  border:
+    1px solid
+    rgba(231,201,130,.35);
 
-        }
+  border-radius:25px;
 
+  background:
+    var(--cream);
 
-        .footer-column a:hover {
+  box-shadow:
+    0 30px 100px
+    rgba(0,0,0,.32);
+}
 
-            color: #fff;
+.ai-panel.open{
 
-        }
+  display:flex;
+}
 
+.ai-head{
 
-        .footer-bottom {
+  padding:17px;
 
-            display: flex;
+  display:flex;
 
-            align-items: center;
+  align-items:center;
 
-            justify-content: space-between;
+  justify-content:space-between;
 
-            gap: 20px;
+  color:#fff;
 
-            margin-top: 55px;
+  background:
 
-            padding-top: 24px;
+    radial-gradient(
+      circle at 90% 10%,
+      rgba(231,201,130,.25),
+      transparent 30%
+    ),
 
-            border-top:
-                1px solid
-                rgba(255,255,255,.09);
+    linear-gradient(
+      135deg,
+      #070817,
+      #263f78,
+      #651f35
+    );
+}
 
-            font-size: 12px;
+.ai-title{
 
-        }
+  font-weight:950;
 
+  letter-spacing:.03em;
+}
 
-        /* =====================================================
-           TOAST
-        ====================================================== */
+.ai-sub{
 
-        .ghar-toast {
+  margin-top:3px;
 
-            position: fixed;
+  color:
+    rgba(255,255,255,.61);
 
-            left: 50%;
+  font-size:10px;
+}
 
-            bottom: 25px;
+.ai-close{
 
-            z-index: 9999;
+  width:35px;
+  height:35px;
 
-            transform:
-                translate(-50%, 20px);
+  border:0;
 
-            padding:
-                13px 18px;
+  border-radius:50%;
 
-            border-radius: 999px;
+  color:#fff;
 
-            color: #fff;
+  background:
+    rgba(255,255,255,.09);
 
-            background:
-                var(--ghar-green);
+  font-size:20px;
+}
 
-            box-shadow:
-                0 15px 40px
-                rgba(0,0,0,.22);
+.ai-messages{
 
-            font-size: 13px;
+  min-height:300px;
+  max-height:440px;
 
-            font-weight: 700;
+  overflow:auto;
 
-            opacity: 0;
+  padding:15px;
+}
 
-            pointer-events: none;
+.ai-msg{
 
-            transition:
-                opacity .25s ease,
-                transform .25s ease;
+  margin-bottom:9px;
 
-        }
+  padding:
+    11px 13px;
 
+  border-radius:14px;
 
-        .ghar-toast.show {
+  font-size:12px;
 
-            opacity: 1;
+  line-height:1.55;
+}
 
-            transform:
-                translate(-50%, 0);
+.ai-msg.bot{
 
-        }
+  background:
+    #eee5d4;
+}
 
+.ai-msg.user{
 
-        /* =====================================================
-           MOBILE
-        ====================================================== */
+  margin-left:28px;
 
-        @media (max-width: 1050px) {
+  color:#fff;
 
-            .booking-grid {
+  background:
+    #171d3d;
+}
 
-                grid-template-columns:
-                    1fr;
+.ai-form{
 
-            }
+  display:flex;
 
-        }
+  gap:8px;
 
+  padding:12px;
 
-        @media (max-width: 820px) {
+  border-top:
+    1px solid var(--border);
+}
 
-            .ghar-menu-button {
+.ai-form input{
 
-                display: block;
+  flex:1;
 
-            }
+  min-width:0;
 
+  border:
+    1px solid var(--border);
 
-            .ghar-header-actions {
+  border-radius:12px;
 
-                display: none;
+  padding:
+    11px 12px;
 
-            }
+  outline:none;
 
+  background:#fff;
+}
 
-            .ghar-nav {
+.ai-form button{
 
-                position: fixed;
+  border:0;
 
-                left: 20px;
-                right: 20px;
-                top: 90px;
+  border-radius:12px;
 
-                display: none;
+  padding:
+    0 16px;
 
-                flex-direction: column;
+  color:#18130a;
 
-                align-items: stretch;
+  background:
+    linear-gradient(
+      135deg,
+      #ead39a,
+      #bd9147
+    );
 
-                padding: 16px;
+  font-weight:950;
+}
 
-                border-radius: 24px;
+/* =========================================================
+   PRINT
+========================================================= */
 
-                background:
-                    rgba(247,243,234,.97);
+@media print {
 
-                border:
-                    1px solid
-                    rgba(16,35,29,.10);
+  body{
 
-                box-shadow:
-                    0 25px 70px
-                    rgba(16,35,29,.18);
+    background:#fff;
+  }
 
-                backdrop-filter:
-                    blur(20px);
+  [data-site-header],
+  .hero-actions,
+  .cta,
+  .buyer-footer,
+  .ai-launcher,
+  .ai-panel{
 
-            }
+    display:none !important;
+  }
 
+  .booking-page{
 
-            .ghar-nav.open {
+    width:100%;
 
-                display: flex;
+    padding:0;
+  }
 
-            }
+  .confirmation-hero{
 
+    box-shadow:none;
 
-            .ghar-nav a {
+    break-inside:avoid;
+  }
 
-                padding: 15px;
+  .section{
 
-            }
+    box-shadow:none;
 
+    break-inside:avoid;
+  }
+}
 
-            .ghar-nav a.active::after {
+/* =========================================================
+   RESPONSIVE
+========================================================= */
 
-                display: none;
+@media (max-width:1180px){
 
-            }
+  .confirmation-content{
 
+    grid-template-columns:
+      1fr 300px;
+  }
 
-            .confirmation-hero {
+  .booking-grid{
 
-                padding: 40px 30px;
+    grid-template-columns:1fr;
+  }
 
-            }
+  .payment-summary{
 
+    grid-template-columns:1fr 1fr;
+  }
 
-            .booking-card {
+  .next-grid{
 
-                padding: 25px;
+    grid-template-columns:
+      repeat(3,minmax(0,1fr));
+  }
+}
 
-            }
+@media (max-width:900px){
 
-        }
+  .confirmation-hero{
 
+    padding:31px;
 
-        @media (max-width: 580px) {
+    min-height:auto;
+  }
 
-            .ghar-container {
+  .confirmation-content{
 
-                width:
-                    min(
-                        calc(100% - 28px),
-                        1240px
-                    );
+    grid-template-columns:1fr;
+  }
 
-            }
+  .success-visual{
 
+    min-height:250px;
+  }
 
-            .ghar-brand-tagline {
+  .timeline{
 
-                display: none;
+    grid-template-columns:
+      repeat(2,minmax(0,1fr));
 
-            }
+    gap:25px;
+  }
 
+  .timeline-step:after{
 
-            .ghar-brand-name {
+    display:none;
+  }
 
-                font-size: 22px;
+  .next-grid{
 
-            }
+    grid-template-columns:
+      1fr;
+  }
 
+  .cta-content{
 
-            .booking-page {
+    align-items:flex-start;
 
-                padding:
-                    40px 0 70px;
+    flex-direction:column;
+  }
 
-            }
+  .footer-grid{
 
+    grid-template-columns:
+      repeat(2,minmax(0,1fr));
+  }
+}
 
-            .confirmation-hero {
+@media (max-width:650px){
 
-                padding: 30px 22px;
+  .booking-page{
 
-                border-radius: 27px;
+    width:
+      calc(100% - 20px);
 
-            }
+    padding-top:20px;
+  }
 
+  .confirmation-hero{
 
-            .confirmation-hero h1 {
+    padding:24px;
 
-                font-size: 43px;
+    border-radius:24px;
+  }
 
-            }
+  .hero-title{
 
+    font-size:40px;
+  }
 
-            .confirmation-hero p {
+  .section{
 
-                font-size: 15px;
+    padding:21px;
+  }
 
-            }
+  .property-meta{
 
+    grid-template-columns:
+      1fr 1fr;
+  }
 
-            .reference-row {
+  .details-grid{
 
-                align-items:
-                    flex-start;
+    grid-template-columns:1fr;
+  }
 
-                flex-direction:
-                    column;
+  .payment-summary{
 
-            }
+    grid-template-columns:1fr;
+  }
 
+  .status-card{
 
-            .copy-reference {
+    align-items:flex-start;
 
-                width: 100%;
+    flex-direction:column;
+  }
 
-            }
+  .timeline{
 
+    grid-template-columns:1fr 1fr;
+  }
 
-            .property-details {
+  .cta{
 
-                grid-template-columns: 1fr;
+    padding:25px;
+  }
+}
 
-            }
+@media (max-width:520px){
 
+  .hero-title{
 
-            .property-detail:nth-child(odd) {
+    font-size:35px;
+  }
 
-                border-right: 0;
+  .hero-description{
 
-            }
+    font-size:13px;
+  }
 
+  .hero-actions{
 
-            .booking-card {
+    width:100%;
+  }
 
-                padding: 21px;
+  .hero-actions .ghar-btn{
 
-                border-radius: 22px;
+    flex:1;
+  }
 
-            }
+  .success-orb{
 
+    width:205px;
+    height:205px;
+  }
 
-            .footer-grid {
+  .success-check{
 
-                grid-template-columns: 1fr;
+    width:60px;
+    height:60px;
 
-            }
+    font-size:29px;
+  }
 
+  .property-image{
 
-            .footer-bottom {
+    min-height:190px;
+  }
 
-                flex-direction:
-                    column;
+  .property-name{
 
-                align-items:
-                    flex-start;
+    font-size:20px;
+  }
 
-            }
+  .timeline{
 
-        }
+    gap:15px;
+  }
 
+  .footer-grid{
 
-        @media (prefers-reduced-motion: reduce) {
+    grid-template-columns:1fr;
+  }
 
-            html {
+  .ai-launcher{
 
-                scroll-behavior: auto;
+    right:14px;
+    bottom:14px;
+  }
 
-            }
+  .ai-panel{
 
+    right:10px;
+    bottom:10px;
+  }
+}
 
-            * {
+@media (max-width:380px){
 
-                animation-duration:
-                    .01ms !important;
+  .confirmation-hero{
 
-                transition-duration:
-                    .01ms !important;
+    padding:20px;
+  }
 
-            }
+  .hero-title{
 
-        }
+    font-size:31px;
+  }
 
-    </style>
+  .timeline{
+
+    grid-template-columns:1fr;
+  }
+
+}
+
+</style>
 
 </head>
 
 
-<body>
+<body
+  data-root="../"
+  data-page="buyer-booking-confirmation">
 
 
-<!-- =========================================================
-     HEADER
-========================================================= -->
+<!-- =======================================================
+     SHARED HEADER
+======================================================== -->
 
-<header
-    class="ghar-header"
-    id="gharHeader"
->
-
-    <div
-        class="ghar-container ghar-header-inner"
-    >
-
-        <a
-            href="../index.html"
-            class="ghar-brand"
-            aria-label="GHAR Home"
-        >
-
-            <span class="ghar-brand-mark">
-
-                <img
-                    src="../assets/images/ghar-logo/png/ghar-logo.png"
-                    alt="GHAR"
-                    onerror="
-                        this.style.display='none';
-                        this.nextElementSibling.style.display='block';
-                    "
-                >
-
-                <span
-                    class="ghar-brand-fallback"
-                    style="display:none;"
-                >
-                    G
-                </span>
-
-            </span>
+<div data-site-header></div>
 
 
-            <span class="ghar-brand-text">
-
-                <span class="ghar-brand-name">
-                    GHAR
-                </span>
-
-                <span class="ghar-brand-tagline">
-                    Find. Live. Belong.
-                </span>
-
-            </span>
-
-        </a>
+<main class="booking-page">
 
 
-        <!-- MOBILE MENU -->
+<!-- =======================================================
+     HERO
+======================================================== -->
+
+<section class="confirmation-hero">
+
+  <div class="confirmation-content">
+
+
+    <div>
+
+      <div class="eyebrow">
+        GHAR · BUYER BOOKING
+      </div>
+
+      <h1 class="hero-title">
+        Your property visit is confirmed.
+      </h1>
+
+      <p class="hero-description">
+
+        Your appointment has been successfully
+        recorded. Keep this confirmation available
+        when you arrive for your scheduled property
+        viewing.
+
+      </p>
+
+
+      <div class="confirmation-number">
+
+        <span>
+          Confirmation
+        </span>
+
+        <strong id="confirmationNumber">
+          GHAR-BOOK-2026-001
+        </strong>
+
+      </div>
+
+
+      <div class="hero-actions">
 
         <button
-            type="button"
-            class="ghar-menu-button"
-            id="gharMenuButton"
-            aria-label="Open navigation"
-            aria-expanded="false"
-        >
+          class="ghar-btn primary"
+          type="button"
+          id="printConfirmation">
 
-            <span></span>
-            <span></span>
-            <span></span>
+          ⎙ Print Confirmation
 
         </button>
 
 
-        <!-- NAVIGATION -->
+        <button
+          class="ghar-btn secondary"
+          type="button"
+          id="calendarButton">
 
-        <nav
-            class="ghar-nav"
-            id="gharNav"
-            aria-label="Main navigation"
-        >
+          ◷ Add to Calendar
 
-            <a href="../index.html">
-                Home
-            </a>
+        </button>
 
-            <a href="../property/properties.html">
-                Properties
-            </a>
+      </div>
 
-            <a href="../property/property-search.html">
-                Search
-            </a>
-
-            <a href="../property/add-property.html">
-                Sell
-            </a>
-
-            <a
-                href="index.html"
-                class="active"
-            >
-                Buyer
-            </a>
-
-            <a href="../dashboard/dashboard.html">
-                Dashboard
-            </a>
-
-        </nav>
+    </div>
 
 
-        <!-- HEADER ACTIONS -->
+    <div class="success-visual">
 
-        <div class="ghar-header-actions">
+      <div class="success-orb">
 
-            <a
-                href="../login.html"
-                class="ghar-btn ghar-btn-outline"
-            >
-                Login
-            </a>
+        <div class="success-content">
 
-            <a
-                href="../signup.html"
-                class="ghar-btn ghar-btn-primary"
-            >
-                Get Started
-            </a>
+          <div class="success-check">
+            ✓
+          </div>
+
+          <div class="success-label">
+            Booking Confirmed
+          </div>
+
+          <div class="success-small">
+            Your appointment is reserved
+          </div>
 
         </div>
 
+      </div>
+
     </div>
 
-</header>
+
+  </div>
+
+</section>
 
 
-<!-- =========================================================
-     MAIN
-========================================================= -->
+<!-- =======================================================
+     STATUS
+======================================================== -->
 
-<main class="booking-page">
+<section class="section">
 
-    <div class="ghar-container">
+  <div class="status-card">
 
+    <div class="status-left">
 
-        <!-- =================================================
-             CONFIRMATION HERO
-        ================================================== -->
+      <div class="status-icon">
+        ✓
+      </div>
 
-        <section class="confirmation-hero">
+      <div>
 
-            <div class="confirmation-content">
+        <div class="status-label">
+          Booking Status
+        </div>
 
-                <div class="confirmation-eyebrow">
-                    GHAR Booking Confirmation
-                </div>
+        <div class="status-text">
+          Property visit confirmed
+        </div>
 
+      </div>
 
-                <h1>
-                    Your booking
-                    <span>is confirmed.</span>
-                </h1>
-
-
-                <p>
-                    Your property booking has been recorded
-                    with GHAR. Keep your booking reference
-                    safely for future communication, payment
-                    verification and property coordination.
-                </p>
+    </div>
 
 
-                <div class="reference-box">
+    <div class="status-badge">
+      Confirmed
+    </div>
 
-                    <span class="reference-label">
-                        Booking Reference
-                    </span>
+  </div>
 
-
-                    <div class="reference-row">
-
-                        <strong
-                            class="reference-code"
-                            id="bookingReference"
-                        >
-                            GHAR-26286248
-                        </strong>
+</section>
 
 
-                        <button
-                            type="button"
-                            class="copy-reference"
-                            id="copyReference"
-                        >
-                            Copy Reference
-                        </button>
+<!-- =======================================================
+     PROPERTY + APPOINTMENT
+======================================================== -->
 
-                    </div>
+<section class="section">
 
-                </div>
+  <div class="section-heading">
+
+    <div>
+
+      <div class="section-eyebrow">
+        BOOKING DETAILS
+      </div>
+
+      <h2 class="section-title">
+        Your scheduled property visit.
+      </h2>
+
+      <p class="section-description">
+
+        Review the property and appointment information
+        below before your visit.
+
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <div class="booking-grid">
+
+
+    <!-- PROPERTY -->
+
+    <article class="property-card">
+
+      <div class="property-image">
+
+        <div class="property-badge">
+          Visit Confirmed
+        </div>
+
+        <div class="property-image-icon">
+          ⌂
+        </div>
+
+      </div>
+
+
+      <div class="property-info">
+
+        <div
+          class="property-type"
+          id="propertyType">
+
+          PREMIUM APARTMENT
+
+        </div>
+
+
+        <h2
+          class="property-name"
+          id="propertyName">
+
+          The Grand Sapphire Residence
+
+        </h2>
+
+
+        <div
+          class="property-location">
+
+          <span>⌖</span>
+
+          <span id="propertyLocation">
+
+            Sector 150, Noida, Uttar Pradesh
+
+          </span>
+
+        </div>
+
+
+        <div class="property-meta">
+
+
+          <div class="meta-box">
+
+            <div class="meta-label">
+              Configuration
+            </div>
+
+            <div
+              class="meta-value"
+              id="propertyConfiguration">
+
+              3 BHK
 
             </div>
 
-        </section>
+          </div>
 
 
-        <!-- =================================================
-             BOOKING CONTENT
-        ================================================== -->
+          <div class="meta-box">
 
-        <section class="booking-grid">
+            <div class="meta-label">
+              Area
+            </div>
 
+            <div
+              class="meta-value"
+              id="propertyArea">
 
-            <!-- =================================================
-                 LEFT
-            ================================================== -->
-
-            <div>
-
-
-                <!-- PROPERTY / BOOKING -->
-
-                <article class="booking-card">
-
-                    <h2>
-                        Property booked
-                    </h2>
-
-                    <p class="booking-card-subtitle">
-                        Your selected GHAR property.
-                    </p>
-
-
-                    <div class="property-card">
-
-
-                        <div class="property-image">
-
-                            <div
-                                class="property-image-content"
-                            >
-
-                                <span
-                                    class="property-type"
-                                >
-                                    Premium Residential Property
-                                </span>
-
-                                <h3>
-                                    Apartment GHAR-P001
-                                </h3>
-
-                                <div
-                                    class="property-location"
-                                >
-                                    Noida, Uttar Pradesh
-                                </div>
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="property-details">
-
-
-                            <div class="property-detail">
-
-                                <span
-                                    class="detail-label"
-                                >
-                                    Booking Date
-                                </span>
-
-                                <strong
-                                    class="detail-value"
-                                    id="bookingDate"
-                                >
-                                    02 Oct 2026 at 01:01 PM
-                                </strong>
-
-                            </div>
-
-
-                            <div class="property-detail">
-
-                                <span
-                                    class="detail-label"
-                                >
-                                    Booking Status
-                                </span>
-
-                                <strong
-                                    class="detail-value status-confirmed"
-                                    id="bookingStatus"
-                                >
-                                    Confirmed
-                                </strong>
-
-                            </div>
-
-
-                            <div class="property-detail">
-
-                                <span
-                                    class="detail-label"
-                                >
-                                    Payment Status
-                                </span>
-
-                                <strong
-                                    class="detail-value status-paid"
-                                    id="paymentStatus"
-                                >
-                                    Paid
-                                </strong>
-
-                            </div>
-
-
-                            <div class="property-detail">
-
-                                <span
-                                    class="detail-label"
-                                >
-                                    Buyer
-                                </span>
-
-                                <strong
-                                    class="detail-value"
-                                    id="buyerName"
-                                >
-                                    Buyer
-                                </strong>
-
-                            </div>
-
-
-                            <div class="property-detail">
-
-                                <span
-                                    class="detail-label"
-                                >
-                                    Buyer Email
-                                </span>
-
-                                <strong
-                                    class="detail-value"
-                                    id="buyerEmail"
-                                >
-                                    --
-                                </strong>
-
-                            </div>
-
-
-                            <div class="property-detail">
-
-                                <span
-                                    class="detail-label"
-                                >
-                                    Property ID
-                                </span>
-
-                                <strong
-                                    class="detail-value"
-                                    id="propertyId"
-                                >
-                                    GHAR-P001
-                                </strong>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </article>
-
-
-                <!-- =================================================
-                     NEXT STEPS
-                ================================================== -->
-
-                <article class="booking-card">
-
-                    <h2>
-                        What happens next?
-                    </h2>
-
-                    <p class="booking-card-subtitle">
-                        GHAR will use your booking record
-                        for the next stage of the property
-                        process.
-                    </p>
-
-
-                    <div class="next-steps">
-
-
-                        <div class="next-step">
-
-                            <div class="step-number">
-                                01
-                            </div>
-
-                            <div class="step-content">
-
-                                <strong>
-                                    Booking verification
-                                </strong>
-
-                                <span>
-                                    GHAR reviews the recorded
-                                    booking information.
-                                </span>
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="next-step">
-
-                            <div class="step-number">
-                                02
-                            </div>
-
-                            <div class="step-content">
-
-                                <strong>
-                                    Property coordination
-                                </strong>
-
-                                <span>
-                                    The property process can
-                                    move to coordination.
-                                </span>
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="next-step">
-
-                            <div class="step-number">
-                                03
-                            </div>
-
-                            <div class="step-content">
-
-                                <strong>
-                                    Buyer communication
-                                </strong>
-
-                                <span>
-                                    GHAR can communicate the
-                                    relevant next information.
-                                </span>
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="next-step">
-
-                            <div class="step-number">
-                                04
-                            </div>
-
-                            <div class="step-content">
-
-                                <strong>
-                                    Next-step confirmation
-                                </strong>
-
-                                <span>
-                                    Further instructions will
-                                    be provided when applicable.
-                                </span>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </article>
+              1,850 sq.ft.
 
             </div>
 
-
-            <!-- =================================================
-                 RIGHT
-            ================================================== -->
-
-            <aside>
+          </div>
 
 
-                <!-- =================================================
-                     BOOKING SUMMARY
-                ================================================== -->
+          <div class="meta-box">
 
-                <article class="booking-card">
+            <div class="meta-label">
+              Listing
+            </div>
 
-                    <h2>
-                        Booking summary
-                    </h2>
+            <div
+              class="meta-value"
+              id="propertyListing">
 
-                    <p class="booking-card-subtitle">
-                        Financial information attached
-                        to this booking.
-                    </p>
+              For Sale
 
+            </div>
 
-                    <div class="financial-list">
+          </div>
 
 
-                        <div class="financial-row">
+        </div>
 
-                            <span>
-                                Booking amount
-                            </span>
+      </div>
 
-                            <strong id="bookingAmount">
-                                ₹0
-                            </strong>
-
-                        </div>
+    </article>
 
 
-                        <div class="financial-row">
+    <!-- APPOINTMENT -->
 
-                            <span>
-                                Payment status
-                            </span>
+    <article class="appointment-card">
 
-                            <strong
-                                class="status-paid"
-                            >
-                                Paid
-                            </strong>
+      <div class="section-eyebrow">
+        VISIT APPOINTMENT
+      </div>
 
-                        </div>
+      <h3
+        class="section-title"
+        style="font-size:25px">
 
+        Appointment details.
 
-                        <div class="financial-row">
-
-                            <span>
-                                Total recorded
-                            </span>
-
-                            <strong
-                                class="financial-total"
-                                id="totalAmount"
-                            >
-                                ₹0
-                            </strong>
-
-                        </div>
-
-                    </div>
+      </h3>
 
 
-                    <div class="action-grid">
+      <div class="appointment-list">
 
 
-                        <button
-                            type="button"
-                            class="action-button action-primary"
-                            id="viewBookingButton"
-                        >
-                            View Booking Details
-                        </button>
+        <div class="appointment-item">
+
+          <div class="appointment-icon">
+            ◷
+          </div>
+
+          <div>
+
+            <div class="appointment-label">
+              Date
+            </div>
+
+            <div
+              class="appointment-value"
+              id="bookingDate">
+
+              10 October 2026
+
+            </div>
+
+          </div>
+
+        </div>
 
 
-                        <button
-                            type="button"
-                            class="action-button action-gold"
-                            id="viewPropertyButton"
-                        >
-                            View Property
-                        </button>
+        <div class="appointment-item">
+
+          <div class="appointment-icon">
+            ◴
+          </div>
+
+          <div>
+
+            <div class="appointment-label">
+              Time
+            </div>
+
+            <div
+              class="appointment-value"
+              id="bookingTime">
+
+              11:30 AM
+
+            </div>
+
+          </div>
+
+        </div>
 
 
-                        <button
-                            type="button"
-                            class="action-button action-light"
-                            id="myBookingsButton"
-                        >
-                            Go to My Bookings
-                        </button>
+        <div class="appointment-item">
+
+          <div class="appointment-icon">
+            ◎
+          </div>
+
+          <div>
+
+            <div class="appointment-label">
+              Visit Type
+            </div>
+
+            <div
+              class="appointment-value"
+              id="visitType">
+
+              Property Visit
+
+            </div>
+
+          </div>
+
+        </div>
 
 
-                        <button
-                            type="button"
-                            class="action-button action-light"
-                            id="shareConfirmationButton"
-                        >
-                            Share Confirmation
-                        </button>
+        <div class="appointment-item">
+
+          <div class="appointment-icon">
+            ⌖
+          </div>
+
+          <div>
+
+            <div class="appointment-label">
+              Meeting Point
+            </div>
+
+            <div
+              class="appointment-value"
+              id="meetingPoint">
+
+              Property Site
+
+            </div>
+
+          </div>
+
+        </div>
 
 
-                        <button
-                            type="button"
-                            class="action-button action-light"
-                            id="printConfirmationButton"
-                        >
-                            Print Confirmation
-                        </button>
-
-                    </div>
-
-                </article>
+      </div>
 
 
-                <!-- =================================================
-                     SUPPORT
-                ================================================== -->
+      <div
+        style="
+          margin-top:17px;
+          display:flex;
+          gap:9px;
+          flex-wrap:wrap;
+        ">
 
-                <article class="support-card">
+        <button
+          type="button"
+          class="ghar-btn dark"
+          id="openMap">
 
-                    <h3>
-                        Need help with this booking?
-                    </h3>
+          ⌖ Open Location
 
-                    <p>
-                        Contact GHAR support and keep your
-                        booking reference ready so the team
-                        can locate your booking quickly.
-                    </p>
-
-                    <a
-                        href="../support/index.html"
-                        class="ghar-btn ghar-btn-primary"
-                    >
-                        Contact GHAR Support
-                    </a>
-
-                </article>
+        </button>
 
 
-                <!-- =================================================
-                     BUYER ACCOUNT
-                ================================================== -->
+        <a
+          href="enquiries.html"
+          class="ghar-btn burgundy">
 
-                <article class="buyer-account">
+          My Enquiry
 
-                    <h3>
-                        Buyer account
-                    </h3>
+        </a>
 
-                    <p>
-                        Manage your GHAR activity from your
-                        buyer dashboard.
-                    </p>
+      </div>
 
-                    <a
-                        href="index.html"
-                        class="ghar-btn ghar-btn-gold"
-                    >
-                        Open Buyer Dashboard
-                    </a>
+    </article>
 
-                </article>
 
-            </aside>
+  </div>
 
-        </section>
+</section>
+
+
+<!-- =======================================================
+     BOOKING JOURNEY
+======================================================== -->
+
+<section class="section">
+
+  <div class="section-heading">
+
+    <div>
+
+      <div class="section-eyebrow">
+        BOOKING JOURNEY
+      </div>
+
+      <h2 class="section-title">
+        Your appointment progress.
+      </h2>
 
     </div>
+
+  </div>
+
+
+  <div class="timeline">
+
+
+    <div class="timeline-step active">
+
+      <div class="timeline-dot">
+        ✓
+      </div>
+
+      <div class="timeline-title">
+        Requested
+      </div>
+
+      <div class="timeline-text">
+        Visit request submitted
+      </div>
+
+    </div>
+
+
+    <div class="timeline-step active">
+
+      <div class="timeline-dot">
+        ✓
+      </div>
+
+      <div class="timeline-title">
+        Confirmed
+      </div>
+
+      <div class="timeline-text">
+        Appointment confirmed
+      </div>
+
+    </div>
+
+
+    <div class="timeline-step">
+
+      <div class="timeline-dot">
+        3
+      </div>
+
+      <div class="timeline-title">
+        Visit
+      </div>
+
+      <div class="timeline-text">
+        Attend the property viewing
+      </div>
+
+    </div>
+
+
+    <div class="timeline-step">
+
+      <div class="timeline-dot">
+        4
+      </div>
+
+      <div class="timeline-title">
+        Next Step
+      </div>
+
+      <div class="timeline-text">
+        Enquire, offer or continue
+      </div>
+
+    </div>
+
+
+  </div>
+
+</section>
+
+
+<!-- =======================================================
+     BUYER DETAILS
+======================================================== -->
+
+<section class="section">
+
+  <div class="section-heading">
+
+    <div>
+
+      <div class="section-eyebrow">
+        BUYER INFORMATION
+      </div>
+
+      <h2 class="section-title">
+        Booking information.
+      </h2>
+
+    </div>
+
+  </div>
+
+
+  <div class="details-grid">
+
+
+    <div class="detail-box">
+
+      <div class="detail-label">
+        Buyer
+      </div>
+
+      <div
+        class="detail-value"
+        id="buyerName">
+
+        Buyer Account
+
+      </div>
+
+      <div class="detail-small">
+        Registered GHAR buyer
+      </div>
+
+    </div>
+
+
+    <div class="detail-box">
+
+      <div class="detail-label">
+        Contact
+      </div>
+
+      <div
+        class="detail-value"
+        id="buyerContact">
+
+        Contact information
+
+      </div>
+
+      <div class="detail-small">
+        Used for appointment communication
+      </div>
+
+    </div>
+
+
+    <div class="detail-box">
+
+      <div class="detail-label">
+        Booking ID
+      </div>
+
+      <div
+        class="detail-value"
+        id="bookingId">
+
+        GHAR-BOOK-2026-001
+
+      </div>
+
+      <div class="detail-small">
+        Keep this ID for support
+      </div>
+
+    </div>
+
+
+    <div class="detail-box">
+
+      <div class="detail-label">
+        Booked On
+      </div>
+
+      <div
+        class="detail-value"
+        id="bookedOn">
+
+        03 October 2026
+
+      </div>
+
+      <div class="detail-small">
+        GHAR booking record
+      </div>
+
+    </div>
+
+
+  </div>
+
+</section>
+
+
+<!-- =======================================================
+     PAYMENT SUMMARY
+======================================================== -->
+
+<section class="section">
+
+  <div class="section-heading">
+
+    <div>
+
+      <div class="section-eyebrow">
+        BOOKING SUMMARY
+      </div>
+
+      <h2 class="section-title">
+        Payment & reservation summary.
+      </h2>
+
+      <p class="section-description">
+
+        This section displays the booking-related
+        amount recorded by the GHAR transaction system.
+
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <div class="payment-summary">
+
+
+    <div class="payment-box">
+
+      <div class="price-row">
+
+        <span>
+          Property visit booking
+        </span>
+
+        <strong id="bookingFee">
+          ₹0
+        </strong>
+
+      </div>
+
+
+      <div class="price-row">
+
+        <span>
+          Platform / service fee
+        </span>
+
+        <strong id="serviceFee">
+          ₹0
+        </strong>
+
+      </div>
+
+
+      <div class="price-row">
+
+        <span>
+          Taxes
+        </span>
+
+        <strong id="taxAmount">
+          ₹0
+        </strong>
+
+      </div>
+
+
+      <div class="total-row">
+
+        <div class="total-label">
+          Total Recorded
+        </div>
+
+        <div
+          class="total-value"
+          id="totalAmount">
+
+          ₹0
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="payment-status">
+
+      <div class="payment-status-icon">
+        ✓
+      </div>
+
+      <div class="payment-status-title">
+        Booking Recorded
+      </div>
+
+      <div class="payment-status-text">
+
+        Your booking record has been created.
+        Payment status and transaction information
+        can be updated from the connected GHAR
+        transaction workflow.
+
+      </div>
+
+    </div>
+
+
+  </div>
+
+</section>
+
+
+<!-- =======================================================
+     WHAT HAPPENS NEXT
+======================================================== -->
+
+<section class="section">
+
+  <div class="section-heading">
+
+    <div>
+
+      <div class="section-eyebrow">
+        WHAT HAPPENS NEXT
+      </div>
+
+      <h2 class="section-title">
+        Prepare for your property visit.
+      </h2>
+
+    </div>
+
+  </div>
+
+
+  <div class="next-grid">
+
+
+    <article class="next-card">
+
+      <div class="next-number">
+        01 · BEFORE
+      </div>
+
+      <div class="next-title">
+        Keep your confirmation ready.
+      </div>
+
+      <div class="next-text">
+
+        Keep the booking ID and appointment
+        information available when travelling to
+        the property.
+
+      </div>
+
+    </article>
+
+
+    <article class="next-card">
+
+      <div class="next-number">
+        02 · DURING
+      </div>
+
+      <div class="next-title">
+        Explore the property.
+      </div>
+
+      <div class="next-text">
+
+        Review the property, ask questions and
+        collect the information you need before
+        deciding your next step.
+
+      </div>
+
+    </article>
+
+
+    <article class="next-card">
+
+      <div class="next-number">
+        03 · AFTER
+      </div>
+
+      <div class="next-title">
+        Continue your buyer journey.
+      </div>
+
+      <div class="next-text">
+
+        Return to your buyer workspace to continue
+        with enquiries, shortlisting, offers or other
+        available transaction workflows.
+
+      </div>
+
+    </article>
+
+
+  </div>
+
+</section>
+
+
+<!-- =======================================================
+     CTA
+======================================================== -->
+
+<section class="cta">
+
+  <div class="cta-content">
+
+    <div>
+
+      <h2>
+        Your next home is waiting.
+      </h2>
+
+      <p>
+
+        Continue exploring properties or return to
+        your buyer workspace after your appointment.
+
+      </p>
+
+    </div>
+
+
+    <div class="cta-actions">
+
+      <a
+        class="ghar-btn primary"
+        href="property-search.html">
+
+        Explore Properties
+
+      </a>
+
+
+      <a
+        class="ghar-btn secondary"
+        href="buyer-dashboard.html">
+
+        Buyer Dashboard
+
+      </a>
+
+    </div>
+
+  </div>
+
+</section>
+
 
 </main>
 
 
-<!-- =========================================================
+<!-- =======================================================
      FOOTER
-========================================================= -->
+======================================================== -->
 
-<footer class="ghar-footer">
+<footer class="buyer-footer">
 
-    <div class="ghar-container">
-
-        <div class="footer-grid">
+  <div class="footer-grid">
 
 
-            <!-- BRAND -->
+    <div>
 
-            <div class="footer-brand">
+      <div class="footer-logo">
+        GHAR
+      </div>
 
-                <a
-                    href="../index.html"
-                    class="ghar-brand"
-                >
+      <div class="footer-description">
 
-                    <span class="ghar-brand-mark">
+        A structured real-estate workspace connecting
+        buyers, sellers, renters and property transactions
+        through one premium digital experience.
 
-                        <img
-                            src="../assets/images/ghar-logo/png/ghar-logo.png"
-                            alt="GHAR"
-                            onerror="
-                                this.style.display='none';
-                                this.nextElementSibling.style.display='block';
-                            "
-                        >
-
-                        <span
-                            class="ghar-brand-fallback"
-                            style="display:none;"
-                        >
-                            G
-                        </span>
-
-                    </span>
-
-
-                    <span class="ghar-brand-text">
-
-                        <span
-                            class="ghar-brand-name"
-                            style="color:#fff;"
-                        >
-                            GHAR
-                        </span>
-
-                        <span class="ghar-brand-tagline">
-                            Find. Live. Belong.
-                        </span>
-
-                    </span>
-
-                </a>
-
-
-                <p>
-                    A structured real-estate experience
-                    for discovering, managing and moving
-                    toward your next property.
-                </p>
-
-            </div>
-
-
-            <!-- EXPLORE -->
-
-            <div class="footer-column">
-
-                <h4>
-                    Explore
-                </h4>
-
-                <a href="../property/properties.html">
-                    Properties
-                </a>
-
-                <a href="../property/property-search.html">
-                    Property Search
-                </a>
-
-                <a
-                    href="../property/property-search.html?intent=rent"
-                >
-                    Rent
-                </a>
-
-                <a href="../property/add-property.html">
-                    Sell Property
-                </a>
-
-            </div>
-
-
-            <!-- GHAR -->
-
-            <div class="footer-column">
-
-                <h4>
-                    GHAR
-                </h4>
-
-                <a href="about.html">
-                    About
-                </a>
-
-                <a href="../index.html">
-                    Home
-                </a>
-
-                <a href="index.html">
-                    Buyer Dashboard
-                </a>
-
-                <a href="../support/index.html">
-                    Support
-                </a>
-
-            </div>
-
-
-            <!-- ACCOUNT -->
-
-            <div class="footer-column">
-
-                <h4>
-                    Account
-                </h4>
-
-                <a href="../login.html">
-                    Login
-                </a>
-
-                <a href="../signup.html">
-                    Create Account
-                </a>
-
-                <a href="../profile.html">
-                    Profile
-                </a>
-
-                <a href="../security/index.html">
-                    Security
-                </a>
-
-            </div>
-
-        </div>
-
-
-        <div class="footer-bottom">
-
-            <span>
-                ©
-                <span id="gharYear"></span>
-                GHAR.
-                All rights reserved.
-            </span>
-
-            <span>
-                Premium Real Estate Platform
-            </span>
-
-        </div>
+      </div>
 
     </div>
+
+
+    <div>
+
+      <div class="footer-title">
+        BUYER
+      </div>
+
+      <div class="footer-links">
+
+        <a href="buyer-dashboard.html">
+          Buyer Dashboard
+        </a>
+        <br>
+
+        <a href="property-search.html">
+          Find Property
+        </a>
+        <br>
+
+        <a href="shortlisted.html">
+          Shortlisted
+        </a>
+        <br>
+
+        <a href="enquiries.html">
+          My Enquiries
+        </a>
+
+      </div>
+
+    </div>
+
+
+    <div>
+
+      <div class="footer-title">
+        BOOKING
+      </div>
+
+      <div class="footer-links">
+
+        <a href="bookings.html">
+          My Bookings
+        </a>
+        <br>
+
+        <a href="enquiries.html">
+          My Enquiries
+        </a>
+        <br>
+
+        <a href="property-search.html">
+          Find Property
+        </a>
+
+      </div>
+
+    </div>
+
+
+    <div>
+
+      <div class="footer-title">
+        GHAR
+      </div>
+
+      <div class="footer-links">
+
+        <a href="about.html">
+          About GHAR
+        </a>
+        <br>
+
+        <a href="../contact.html">
+          Contact
+        </a>
+        <br>
+
+        <a href="../terms.html">
+          Terms
+        </a>
+        <br>
+
+        <a href="../privacy.html">
+          Privacy
+        </a>
+
+      </div>
+
+    </div>
+
+
+  </div>
+
+
+  <div class="footer-bottom">
+
+    © 2026 GHAR. All rights reserved.
+    · Buyer workspace connected.
+
+  </div>
 
 </footer>
 
 
-<!-- =========================================================
-     TOAST
-========================================================= -->
+<!-- =======================================================
+     GHAR AI
+======================================================== -->
 
-<div
-    class="ghar-toast"
-    id="gharToast"
-    role="status"
-    aria-live="polite"
-></div>
+<button
+  id="aiLauncher"
+  class="ai-launcher"
+  aria-label="Open GHAR AI"
+  title="GHAR AI">
 
+  ✦
 
-<!-- =========================================================
-     GHAR JAVASCRIPT STACK
-========================================================= -->
-
-<!-- =========================================================
-     01. CORE CONFIGURATION
-========================================================= -->
-
-<script
-    src="../assets/js/constants.js"
-    defer
-></script>
-
-<script
-    src="../assets/js/config.js"
-    defer
-></script>
-
-<script
-    src="../assets/js/storage.js"
-    defer
-></script>
+</button>
 
 
-<!-- =========================================================
-     02. API + AUTHENTICATION
-========================================================= -->
-
-<script
-    src="../assets/js/api.js"
-    defer
-></script>
-
-<script
-    src="../assets/js/auth.js"
-    defer
-></script>
+<aside
+  id="aiPanel"
+  class="ai-panel"
+  aria-label="GHAR AI Buyer Assistant">
 
 
-<!-- =========================================================
-     03. CORE APPLICATION
-========================================================= -->
+  <div class="ai-head">
 
-<script
-    src="../assets/js/core.js"
-    defer
-></script>
+    <div>
 
-<script
-    src="../assets/js/components.js"
-    defer
-></script>
+      <div class="ai-title">
+        GHAR AI
+      </div>
 
-<script
-    src="../assets/js/components/global.js"
-    defer
-></script>
+      <div class="ai-sub">
+        Buyer Property Assistant
+      </div>
+
+    </div>
 
 
-<!-- =========================================================
-     04. PROFILE
-========================================================= -->
+    <button
+      id="aiClose"
+      class="ai-close"
+      aria-label="Close GHAR AI">
 
-<script
-    src="../assets/js/profile.js"
-    defer
-></script>
+      ×
+
+    </button>
+
+  </div>
 
 
-<!-- =========================================================
-     05. BUYER MODULES
-========================================================= -->
+  <div
+    id="aiMessages"
+    class="ai-messages">
 
-<script
-    src="../assets/js/buyer/buyer-dashboard.js"
-    defer
-></script>
+    <div class="ai-msg bot">
+
+      Your booking is confirmed.
+      I can help you understand your appointment,
+      property visit, enquiries and next steps.
+
+    </div>
+
+  </div>
+
+
+  <form
+    id="aiForm"
+    class="ai-form">
+
+    <input
+      id="aiInput"
+      type="text"
+      placeholder="Ask about your booking..."
+      autocomplete="off">
+
+    <button type="submit">
+      Send
+    </button>
+
+  </form>
+
+</aside>
+
+
+<!-- =======================================================
+     SHARED GHAR JAVASCRIPT
+======================================================== -->
 
 <script
-    src="../assets/js/buyer/buyer-profile.js"
-    defer
-></script>
+  src="../assets/js/main/site.js"
+  defer>
+</script>
 
 <script
-    src="../assets/js/buyer/enquiries.js"
-    defer
-></script>
+  src="../assets/js/main/page.js"
+  defer>
+</script>
 
 <script
-    src="../assets/js/buyer/offers.js"
-    defer
-></script>
+  src="../assets/js/main/api.js"
+  defer>
+</script>
 
 <script
-    src="../assets/js/buyer/visits.js"
-    defer
-></script>
+  src="../assets/js/main/auth.js"
+  defer>
+</script>
 
 <script
-    src="../assets/js/buyer/bookings.js"
-    defer
-></script>
+  src="../assets/js/buyer/buyer.js"
+  defer>
+</script>
 
 <script
-    src="../assets/js/buyer/saved-properties.js"
-    defer
-></script>
-
-<script
-    src="../assets/js/buyer/saved-searches.js"
-    defer
-></script>
+  src="../assets/js/ai/ghar-ai.js"
+  defer>
+</script>
 
 
-<!-- =========================================================
-     06. BOOKING CONFIRMATION CONTROLLER
-========================================================= -->
+<!-- =======================================================
+     BOOKING CONFIRMATION CONTROLLER
+======================================================== -->
 
 <script>
 
-(function () {
+(() => {
 
-    "use strict";
+"use strict";
 
 
-    /* =====================================================
-       GHAR BOOKING CONFIRMATION
-    ====================================================== */
+/* =========================================================
+   HELPERS
+========================================================= */
 
-    function initBookingConfirmation() {
+const $ = id =>
+  document.getElementById(id);
 
-        console.log(
-            "GHAR Booking Confirmation initializing..."
+
+function safeText(
+  id,
+  value
+){
+
+  const element = $(id);
+
+  if(
+    element &&
+    value !== undefined &&
+    value !== null &&
+    String(value).trim() !== ""
+  ){
+
+    element.textContent =
+      String(value);
+
+  }
+
+}
+
+
+function formatMoney(
+  value
+){
+
+  const amount =
+    Number(value || 0);
+
+  return new Intl.NumberFormat(
+    "en-IN",
+    {
+      style:"currency",
+      currency:"INR",
+      maximumFractionDigits:0
+    }
+  ).format(amount);
+
+}
+
+
+/* =========================================================
+   DEMO / FALLBACK DATA
+========================================================= */
+
+const defaultBooking = {
+
+  confirmationNumber:
+    "GHAR-BOOK-2026-001",
+
+  bookingId:
+    "GHAR-BOOK-2026-001",
+
+  property:{
+
+    name:
+      "The Grand Sapphire Residence",
+
+    type:
+      "PREMIUM APARTMENT",
+
+    location:
+      "Sector 150, Noida, Uttar Pradesh",
+
+    configuration:
+      "3 BHK",
+
+    area:
+      "1,850 sq.ft.",
+
+    listing:
+      "For Sale"
+
+  },
+
+  buyer:{
+
+    name:
+      "Buyer Account",
+
+    contact:
+      "Contact information"
+
+  },
+
+  appointment:{
+
+    date:
+      "10 October 2026",
+
+    time:
+      "11:30 AM",
+
+    type:
+      "Property Visit",
+
+    meetingPoint:
+      "Property Site"
+
+  },
+
+  payment:{
+
+    bookingFee:0,
+
+    serviceFee:0,
+
+    tax:0,
+
+    total:0
+
+  },
+
+  bookedOn:
+    "03 October 2026"
+
+};
+
+
+/* =========================================================
+   LOAD BOOKING
+========================================================= */
+
+function loadBooking(){
+
+  let booking = null;
+
+
+  /*
+   * 1. URL QUERY PARAMETERS
+   */
+
+  const params =
+    new URLSearchParams(
+      window.location.search
+    );
+
+
+  if(
+    params.get("bookingId") ||
+    params.get("propertyName")
+  ){
+
+    booking = {
+
+      ...defaultBooking,
+
+      bookingId:
+        params.get("bookingId") ||
+        defaultBooking.bookingId,
+
+      confirmationNumber:
+        params.get("confirmation") ||
+        params.get("bookingId") ||
+        defaultBooking.confirmationNumber,
+
+      property:{
+        ...defaultBooking.property,
+
+        name:
+          params.get("propertyName") ||
+          defaultBooking.property.name,
+
+        location:
+          params.get("location") ||
+          defaultBooking.property.location,
+
+        configuration:
+          params.get("configuration") ||
+          defaultBooking.property.configuration
+
+      },
+
+      appointment:{
+
+        ...defaultBooking.appointment,
+
+        date:
+          params.get("date") ||
+          defaultBooking.appointment.date,
+
+        time:
+          params.get("time") ||
+          defaultBooking.appointment.time
+
+      }
+
+    };
+
+  }
+
+
+  /*
+   * 2. LOCAL STORAGE
+   */
+
+  if(!booking){
+
+    const storageKeys = [
+
+      "gharBookingConfirmation",
+      "gharBooking",
+      "GHAR_BOOKING",
+      "lastBooking",
+      "lastBookingConfirmation"
+
+    ];
+
+
+    for(
+      const key of storageKeys
+    ){
+
+      try{
+
+        const raw =
+          localStorage.getItem(
+            key
+          );
+
+        if(!raw){
+
+          continue;
+
+        }
+
+
+        const parsed =
+          JSON.parse(raw);
+
+
+        if(
+          parsed &&
+          typeof parsed ===
+            "object"
+        ){
+
+          booking = {
+
+            ...defaultBooking,
+
+            ...parsed,
+
+            property:{
+              ...defaultBooking.property,
+              ...(parsed.property || {})
+            },
+
+            buyer:{
+              ...defaultBooking.buyer,
+              ...(parsed.buyer || {})
+            },
+
+            appointment:{
+              ...defaultBooking.appointment,
+              ...(parsed.appointment || {})
+            },
+
+            payment:{
+              ...defaultBooking.payment,
+              ...(parsed.payment || {})
+            }
+
+          };
+
+          break;
+
+        }
+
+      }catch(error){
+
+        console.warn(
+          "GHAR booking storage:",
+          error
         );
 
-
-        /* =================================================
-           YEAR
-        ================================================== */
-
-        const year =
-            document.getElementById("gharYear");
-
-        if (year) {
-
-            year.textContent =
-                new Date().getFullYear();
-
-        }
-
-
-        /* =================================================
-           MOBILE NAVIGATION
-        ================================================== */
-
-        const menuButton =
-            document.getElementById(
-                "gharMenuButton"
-            );
-
-        const nav =
-            document.getElementById(
-                "gharNav"
-            );
-
-
-        if (menuButton && nav) {
-
-            menuButton.addEventListener(
-                "click",
-                function () {
-
-                    const isOpen =
-                        nav.classList.toggle("open");
-
-                    document.body.classList.toggle(
-                        "menu-open",
-                        isOpen
-                    );
-
-                    menuButton.setAttribute(
-                        "aria-expanded",
-                        String(isOpen)
-                    );
-
-                }
-            );
-
-
-            nav.querySelectorAll("a")
-                .forEach(function (link) {
-
-                    link.addEventListener(
-                        "click",
-                        function () {
-
-                            nav.classList.remove(
-                                "open"
-                            );
-
-                            document.body.classList.remove(
-                                "menu-open"
-                            );
-
-                            menuButton.setAttribute(
-                                "aria-expanded",
-                                "false"
-                            );
-
-                        }
-                    );
-
-                });
-
-        }
-
-
-        /* =================================================
-           TOAST
-        ================================================== */
-
-        function showToast(message) {
-
-            const toast =
-                document.getElementById(
-                    "gharToast"
-                );
-
-            if (!toast) {
-                return;
-            }
-
-            toast.textContent =
-                message;
-
-            toast.classList.add(
-                "show"
-            );
-
-
-            window.clearTimeout(
-                toast._timer
-            );
-
-
-            toast._timer =
-                window.setTimeout(
-                    function () {
-
-                        toast.classList.remove(
-                            "show"
-                        );
-
-                    },
-                    2600
-                );
-
-        }
-
-
-        /* =================================================
-           COPY BOOKING REFERENCE
-        ================================================== */
-
-        const copyButton =
-            document.getElementById(
-                "copyReference"
-            );
-
-        const reference =
-            document.getElementById(
-                "bookingReference"
-            );
-
-
-        if (
-            copyButton &&
-            reference
-        ) {
-
-            copyButton.addEventListener(
-                "click",
-                async function () {
-
-                    const value =
-                        reference.textContent
-                            .trim();
-
-
-                    try {
-
-                        await navigator.clipboard.writeText(
-                            value
-                        );
-
-                        showToast(
-                            "Booking reference copied."
-                        );
-
-                    } catch (error) {
-
-                        const temporary =
-                            document.createElement(
-                                "textarea"
-                            );
-
-                        temporary.value =
-                            value;
-
-                        document.body.appendChild(
-                            temporary
-                        );
-
-                        temporary.select();
-
-                        document.execCommand(
-                            "copy"
-                        );
-
-                        temporary.remove();
-
-                        showToast(
-                            "Booking reference copied."
-                        );
-
-                    }
-
-                }
-            );
-
-        }
-
-
-        /* =================================================
-           PRINT
-        ================================================== */
-
-        const printButton =
-            document.getElementById(
-                "printConfirmationButton"
-            );
-
-
-        if (printButton) {
-
-            printButton.addEventListener(
-                "click",
-                function () {
-
-                    window.print();
-
-                }
-            );
-
-        }
-
-
-        /* =================================================
-           SHARE
-        ================================================== */
-
-        const shareButton =
-            document.getElementById(
-                "shareConfirmationButton"
-            );
-
-
-        if (shareButton) {
-
-            shareButton.addEventListener(
-                "click",
-                async function () {
-
-                    const referenceValue =
-                        reference
-                            ? reference.textContent.trim()
-                            : "";
-
-
-                    const shareData = {
-
-                        title:
-                            "GHAR Booking Confirmation",
-
-                        text:
-                            "My GHAR booking is confirmed. Booking reference: "
-                            +
-                            referenceValue,
-
-                        url:
-                            window.location.href
-
-                    };
-
-
-                    if (
-                        navigator.share
-                    ) {
-
-                        try {
-
-                            await navigator.share(
-                                shareData
-                            );
-
-                        } catch (error) {
-
-                            /*
-                             * User cancelled native
-                             * share sheet.
-                             */
-
-                        }
-
-                    } else {
-
-                        try {
-
-                            await navigator.clipboard.writeText(
-                                window.location.href
-                            );
-
-                            showToast(
-                                "Confirmation link copied."
-                            );
-
-                        } catch (error) {
-
-                            showToast(
-                                "Sharing is not available on this device."
-                            );
-
-                        }
-
-                    }
-
-                }
-            );
-
-        }
-
-
-        /* =================================================
-           VIEW PROPERTY
-        ================================================== */
-
-        const propertyButton =
-            document.getElementById(
-                "viewPropertyButton"
-            );
-
-
-        if (propertyButton) {
-
-            propertyButton.addEventListener(
-                "click",
-                function () {
-
-                    window.location.href =
-                        "../property/property-details.html?id=GHAR-P001";
-
-                }
-            );
-
-        }
-
-
-        /* =================================================
-           MY BOOKINGS
-        ================================================== */
-
-        const bookingsButton =
-            document.getElementById(
-                "myBookingsButton"
-            );
-
-
-        if (bookingsButton) {
-
-            bookingsButton.addEventListener(
-                "click",
-                function () {
-
-                    window.location.href =
-                        "bookings.html";
-
-                }
-            );
-
-        }
-
-
-        /* =================================================
-           VIEW BOOKING DETAILS
-        ================================================== */
-
-        const viewBookingButton =
-            document.getElementById(
-                "viewBookingButton"
-            );
-
-
-        if (viewBookingButton) {
-
-            viewBookingButton.addEventListener(
-                "click",
-                function () {
-
-                    const ref =
-                        reference
-                            ? reference.textContent.trim()
-                            : "";
-
-                    window.location.href =
-                        "booking-details.html?reference="
-                        +
-                        encodeURIComponent(
-                            ref
-                        );
-
-                }
-            );
-
-        }
-
-
-        /* =================================================
-           GLOBAL GHAR INITIALIZATION
-        ================================================== */
-
-        try {
-
-            if (
-                window.GHAR &&
-                typeof window.GHAR.init ===
-                    "function"
-            ) {
-
-                window.GHAR.init();
-
-            }
-
-        } catch (error) {
-
-            console.error(
-                "GHAR core initialization error:",
-                error
-            );
-
-        }
-
-
-        /* =================================================
-           GLOBAL COMPONENT INITIALIZATION
-        ================================================== */
-
-        try {
-
-            if (
-                window.GHARComponents &&
-                typeof window.GHARComponents.init ===
-                    "function"
-            ) {
-
-                window.GHARComponents.init();
-
-            }
-
-        } catch (error) {
-
-            console.error(
-                "GHAR component initialization error:",
-                error
-            );
-
-        }
-
-
-        /* =================================================
-           GLOBAL AUTH INITIALIZATION
-        ================================================== */
-
-        try {
-
-            if (
-                window.GHARAuth &&
-                typeof window.GHARAuth.init ===
-                    "function"
-            ) {
-
-                window.GHARAuth.init();
-
-            }
-
-        } catch (error) {
-
-            console.error(
-                "GHAR authentication initialization error:",
-                error
-            );
-
-        }
-
-
-        /* =================================================
-           BUYER MODULE
-        ================================================== */
-
-        try {
-
-            if (
-                window.GHARBuyer &&
-                typeof window.GHARBuyer.init ===
-                    "function"
-            ) {
-
-                window.GHARBuyer.init();
-
-            }
-
-        } catch (error) {
-
-            console.error(
-                "GHAR buyer initialization error:",
-                error
-            );
-
-        }
-
-
-        /* =================================================
-           BUYER DASHBOARD
-        ================================================== */
-
-        try {
-
-            if (
-                window.GHARBuyerDashboard &&
-                typeof window.GHARBuyerDashboard.init ===
-                    "function"
-            ) {
-
-                window.GHARBuyerDashboard.init();
-
-            }
-
-        } catch (error) {
-
-            console.error(
-                "GHAR buyer dashboard initialization error:",
-                error
-            );
-
-        }
-
-
-        console.log(
-            "GHAR Booking Confirmation ready."
-        );
+      }
 
     }
 
+  }
 
-    /* =====================================================
-       DOM READY
-    ====================================================== */
 
-    if (
-        document.readyState === "loading"
-    ) {
+  /*
+   * 3. FALLBACK
+   */
 
-        document.addEventListener(
-            "DOMContentLoaded",
-            initBookingConfirmation
-        );
+  if(!booking){
 
-    } else {
+    booking =
+      defaultBooking;
 
-        initBookingConfirmation();
+  }
+
+
+  return booking;
+
+}
+
+
+/* =========================================================
+   RENDER BOOKING
+========================================================= */
+
+const booking =
+  loadBooking();
+
+
+safeText(
+  "confirmationNumber",
+  booking.confirmationNumber
+);
+
+safeText(
+  "bookingId",
+  booking.bookingId
+);
+
+safeText(
+  "propertyName",
+  booking.property?.name
+);
+
+safeText(
+  "propertyType",
+  booking.property?.type
+);
+
+safeText(
+  "propertyLocation",
+  booking.property?.location
+);
+
+safeText(
+  "propertyConfiguration",
+  booking.property?.configuration
+);
+
+safeText(
+  "propertyArea",
+  booking.property?.area
+);
+
+safeText(
+  "propertyListing",
+  booking.property?.listing
+);
+
+safeText(
+  "buyerName",
+  booking.buyer?.name
+);
+
+safeText(
+  "buyerContact",
+  booking.buyer?.contact
+);
+
+safeText(
+  "bookingDate",
+  booking.appointment?.date
+);
+
+safeText(
+  "bookingTime",
+  booking.appointment?.time
+);
+
+safeText(
+  "visitType",
+  booking.appointment?.type
+);
+
+safeText(
+  "meetingPoint",
+  booking.appointment?.meetingPoint
+);
+
+safeText(
+  "bookedOn",
+  booking.bookedOn
+);
+
+
+safeText(
+  "bookingFee",
+  formatMoney(
+    booking.payment?.bookingFee
+  )
+);
+
+safeText(
+  "serviceFee",
+  formatMoney(
+    booking.payment?.serviceFee
+  )
+);
+
+safeText(
+  "taxAmount",
+  formatMoney(
+    booking.payment?.tax
+  )
+);
+
+safeText(
+  "totalAmount",
+  formatMoney(
+    booking.payment?.total
+  )
+);
+
+
+/* =========================================================
+   PRINT
+========================================================= */
+
+const printButton =
+  $("printConfirmation");
+
+
+if(printButton){
+
+  printButton.addEventListener(
+    "click",
+    () => {
+
+      window.print();
 
     }
+  );
+
+}
+
+
+/* =========================================================
+   OPEN MAP
+========================================================= */
+
+const mapButton =
+  $("openMap");
+
+
+if(mapButton){
+
+  mapButton.addEventListener(
+    "click",
+    () => {
+
+      const location =
+        booking.property?.location ||
+        "Noida, Uttar Pradesh";
+
+      const url =
+        "https://www.google.com/maps/search/?api=1&query=" +
+        encodeURIComponent(
+          location
+        );
+
+      window.open(
+        url,
+        "_blank",
+        "noopener,noreferrer"
+      );
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   CALENDAR
+========================================================= */
+
+function createCalendarEvent(){
+
+  const dateText =
+    booking.appointment?.date;
+
+  const timeText =
+    booking.appointment?.time;
+
+
+  if(!dateText){
+
+    return;
+
+  }
+
+
+  /*
+   * Try to parse the displayed
+   * appointment date.
+   */
+
+  const date =
+    new Date(
+      dateText
+    );
+
+
+  if(
+    Number.isNaN(
+      date.getTime()
+    )
+  ){
+
+    alert(
+      "Calendar date could not be prepared."
+    );
+
+    return;
+
+  }
+
+
+  let hours = 11;
+  let minutes = 30;
+
+
+  if(timeText){
+
+    const match =
+      timeText.match(
+        /(\d{1,2}):(\d{2})\s*(AM|PM)/i
+      );
+
+
+    if(match){
+
+      hours =
+        Number(match[1]);
+
+      minutes =
+        Number(match[2]);
+
+      const period =
+        match[3].toUpperCase();
+
+
+      if(
+        period === "PM" &&
+        hours !== 12
+      ){
+
+        hours += 12;
+
+      }
+
+
+      if(
+        period === "AM" &&
+        hours === 12
+      ){
+
+        hours = 0;
+
+      }
+
+    }
+
+  }
+
+
+  date.setHours(
+    hours,
+    minutes,
+    0,
+    0
+  );
+
+
+  const end =
+    new Date(
+      date.getTime() +
+      60 * 60 * 1000
+    );
+
+
+  const pad =
+    number =>
+      String(number)
+        .padStart(2,"0");
+
+
+  const formatDate =
+    value => {
+
+      return (
+
+        value.getFullYear() +
+
+        pad(
+          value.getMonth()+1
+        ) +
+
+        pad(
+          value.getDate()
+        ) +
+
+        "T" +
+
+        pad(
+          value.getHours()
+        ) +
+
+        pad(
+          value.getMinutes()
+        ) +
+
+        "00"
+
+      );
+
+    };
+
+
+  const start =
+    formatDate(date);
+
+  const finish =
+    formatDate(end);
+
+
+  const title =
+    "GHAR Property Visit -- " +
+    (booking.property?.name ||
+     "Property Viewing");
+
+
+  const details =
+    "GHAR Booking Confirmation: " +
+    booking.confirmationNumber;
+
+
+  const location =
+    booking.property?.location ||
+    booking.appointment?.meetingPoint ||
+    "";
+
+
+  const calendarUrl =
+    "https://calendar.google.com/calendar/render" +
+    "?action=TEMPLATE" +
+    "&text=" +
+    encodeURIComponent(title) +
+    "&dates=" +
+    encodeURIComponent(
+      start + "/" + finish
+    ) +
+    "&details=" +
+    encodeURIComponent(details) +
+    "&location=" +
+    encodeURIComponent(location);
+
+
+  window.open(
+    calendarUrl,
+    "_blank",
+    "noopener,noreferrer"
+  );
+
+}
+
+
+const calendarButton =
+  $("calendarButton");
+
+
+if(calendarButton){
+
+  calendarButton.addEventListener(
+    "click",
+    createCalendarEvent
+  );
+
+}
+
+
+/* =========================================================
+   AI
+========================================================= */
+
+const aiLauncher =
+  $("aiLauncher");
+
+const aiPanel =
+  $("aiPanel");
+
+const aiClose =
+  $("aiClose");
+
+const aiForm =
+  $("aiForm");
+
+const aiInput =
+  $("aiInput");
+
+const aiMessages =
+  $("aiMessages");
+
+
+if(aiLauncher){
+
+  aiLauncher.addEventListener(
+    "click",
+    () => {
+
+      aiPanel.classList.add(
+        "open"
+      );
+
+      aiInput.focus();
+
+    }
+  );
+
+}
+
+
+if(aiClose){
+
+  aiClose.addEventListener(
+    "click",
+    () => {
+
+      aiPanel.classList.remove(
+        "open"
+      );
+
+    }
+  );
+
+}
+
+
+function addMessage(
+  message,
+  type
+){
+
+  const element =
+    document.createElement(
+      "div"
+    );
+
+  element.className =
+    `ai-msg ${type}`;
+
+  element.textContent =
+    message;
+
+  aiMessages.appendChild(
+    element
+  );
+
+  aiMessages.scrollTop =
+    aiMessages.scrollHeight;
+
+}
+
+
+/* =========================================================
+   AI REQUEST
+========================================================= */
+
+async function askAI(
+  message
+){
+
+  if(
+    window.GHARAI &&
+    typeof window.GHARAI.ask ===
+      "function"
+  ){
+
+    return await
+      window.GHARAI.ask(
+        message,
+        {
+
+          page:
+            "buyer-booking-confirmation",
+
+          role:
+            "buyer",
+
+          booking
+
+        }
+      );
+
+  }
+
+
+  try{
+
+    const apiBase =
+      window.GHAR_API_BASE ||
+      window.API_BASE ||
+      "/api";
+
+
+    const response =
+      await fetch(
+        `${apiBase}/ai/chat`,
+        {
+
+          method:"POST",
+
+          credentials:"include",
+
+          headers:{
+            "Content-Type":
+              "application/json",
+
+            "Accept":
+              "application/json"
+          },
+
+          body:JSON.stringify({
+
+            message,
+
+            context:{
+
+              page:
+                "buyer-booking-confirmation",
+
+              role:
+                "buyer",
+
+              booking
+
+            }
+
+          })
+
+        }
+      );
+
+
+    if(response.ok){
+
+      const data =
+        await response.json();
+
+      return (
+
+        data.reply ||
+        data.message ||
+        data.answer ||
+        "I could not generate a response."
+
+      );
+
+    }
+
+  }catch(error){
+
+    console.warn(
+      "GHAR AI:",
+      error
+    );
+
+  }
+
+
+  const text =
+    message.toLowerCase();
+
+
+  if(
+    text.includes("date") ||
+    text.includes("when")
+  ){
+
+    return (
+
+      "Your property visit is scheduled for " +
+      booking.appointment.date +
+      " at " +
+      booking.appointment.time +
+      "."
+
+    );
+
+  }
+
+
+  if(
+    text.includes("property") ||
+    text.includes("address") ||
+    text.includes("location")
+  ){
+
+    return (
+
+      "Your booked property is " +
+      booking.property.name +
+      " at " +
+      booking.property.location +
+      "."
+
+    );
+
+  }
+
+
+  if(
+    text.includes("booking") ||
+    text.includes("confirmation")
+  ){
+
+    return (
+
+      "Your booking confirmation number is " +
+      booking.confirmationNumber +
+      ". The appointment status is confirmed."
+
+    );
+
+  }
+
+
+  if(
+    text.includes("map") ||
+    text.includes("direction")
+  ){
+
+    return (
+
+      "Use the Open Location button on this page " +
+      "to open the property location in Google Maps."
+
+    );
+
+  }
+
+
+  return (
+
+    "Your GHAR property visit is confirmed. " +
+    "I can help you with the booking date, " +
+    "time, property location, confirmation number " +
+    "or next steps."
+
+  );
+
+}
+
+
+/* =========================================================
+   AI FORM
+========================================================= */
+
+if(aiForm){
+
+  aiForm.addEventListener(
+    "submit",
+    async event => {
+
+      event.preventDefault();
+
+
+      const message =
+        aiInput.value.trim();
+
+
+      if(!message){
+
+        return;
+
+      }
+
+
+      aiInput.value = "";
+
+
+      addMessage(
+        message,
+        "user"
+      );
+
+
+      const typing =
+        document.createElement(
+          "div"
+        );
+
+      typing.className =
+        "ai-msg bot";
+
+      typing.textContent =
+        "GHAR AI is thinking...";
+
+
+      aiMessages.appendChild(
+        typing
+      );
+
+
+      try{
+
+        const answer =
+          await askAI(
+            message
+          );
+
+
+        typing.remove();
+
+
+        addMessage(
+          answer,
+          "bot"
+        );
+
+      }catch(error){
+
+        typing.remove();
+
+
+        addMessage(
+          "GHAR AI is temporarily unavailable.",
+          "bot"
+        );
+
+        console.error(error);
+
+      }
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   PAGE READY
+========================================================= */
+
+document.documentElement
+  .classList.add(
+    "ghar-buyer-booking-confirmation-ready"
+  );
+
 
 })();
 
 </script>
-
 
 </body>
 </html>

@@ -4,1524 +4,3373 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<meta name="description"
-      content="GHAR Saved Properties -- Save, compare and manage properties you are interested in.">
+<meta
+  name="description"
+  content="GHAR Saved Properties -- Review and manage properties shortlisted by the buyer."
+>
 
-<meta name="theme-color" content="#10231d">
-<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#090b1d">
 
-<title>Saved Properties · GHAR</title>
+<title>Saved Properties · GHAR Buyer</title>
 
 <link rel="stylesheet" href="../assets/css/style.css">
 
 <style>
-/* =========================================================
-   GHAR -- SAVED PROPERTIES
-   Premium index-style buyer workspace
-========================================================= */
+*{
+  box-sizing:border-box;
+}
 
 :root{
-    --g:#10231d;
-    --g2:#18372d;
-    --gold:#c9a96e;
-    --gold2:#e4c98f;
-    --cream:#f7f1e6;
-    --sand:#e9dfcf;
-    --sage:#dfe9e0;
-    --bg:#eef1eb;
-    --text:#18221e;
-    --muted:#707970;
-    --border:rgba(16,35,29,.12);
-    --card:rgba(255,255,255,.68);
-    --shadow:0 18px 55px rgba(16,35,29,.10);
-    --radius:24px;
+  --royal-950:#070817;
+  --royal-900:#090b1d;
+  --royal-850:#10152e;
+  --royal-800:#171d3d;
+  --royal-700:#292f5e;
+
+  --sapphire:#263f78;
+  --sapphire-2:#405e9d;
+
+  --burgundy:#651f35;
+  --burgundy-2:#8b314b;
+
+  --champagne:#e7c982;
+  --champagne-2:#f3dfaa;
+  --champagne-3:#b48b3d;
+
+  --cream:#fffaf0;
+  --cream-2:#f6eddd;
+  --sand:#eadcc4;
+
+  --ink:#171a2c;
+  --muted:#707488;
+
+  --success:#24614e;
+  --success-soft:#dceee7;
+
+  --danger:#923f50;
+  --danger-soft:#f5dfe4;
+
+  --border:rgba(10,14,36,.12);
+
+  --shadow:
+    0 28px 75px rgba(7,8,23,.13);
+
+  --shadow-soft:
+    0 13px 38px rgba(7,8,23,.08);
+
+  --radius:24px;
 }
 
-*{box-sizing:border-box}
-
-html{scroll-behavior:smooth}
+html{
+  scroll-behavior:smooth;
+}
 
 body{
-    margin:0;
-    min-height:100vh;
-    color:var(--text);
-    font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-    background:
-        radial-gradient(circle at 5% 0%,rgba(201,169,110,.20),transparent 28%),
-        radial-gradient(circle at 96% 15%,rgba(24,55,45,.13),transparent 28%),
-        linear-gradient(135deg,#f8f3ea 0%,#e8eee8 52%,#f0e5d5 100%);
+  margin:0;
+  min-height:100vh;
+
+  color:var(--ink);
+
+  font-family:
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  background:
+
+    radial-gradient(
+      circle at 7% 5%,
+      rgba(38,63,120,.17),
+      transparent 25%
+    ),
+
+    radial-gradient(
+      circle at 93% 8%,
+      rgba(101,31,53,.15),
+      transparent 27%
+    ),
+
+    radial-gradient(
+      circle at 50% 100%,
+      rgba(231,201,130,.13),
+      transparent 31%
+    ),
+
+    linear-gradient(
+      135deg,
+      #fbf6eb 0%,
+      #eee3d0 46%,
+      #f8efdf 100%
+    );
 }
 
-a{text-decoration:none;color:inherit}
-button,input,select{font:inherit}
-button{cursor:pointer}
-
-/* =========================================================
-   HEADER
-========================================================= */
-
-.saved-header{
-    position:sticky;
-    top:0;
-    z-index:1000;
-    backdrop-filter:blur(22px);
-    background:rgba(248,243,234,.90);
-    border-bottom:1px solid var(--border);
+button,
+input,
+select{
+  font:inherit;
 }
 
-.saved-header-inner{
-    width:min(1400px,calc(100% - 32px));
-    min-height:76px;
-    margin:auto;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:20px;
+button{
+  cursor:pointer;
 }
 
-.saved-brand{
-    display:flex;
-    align-items:center;
-    gap:12px;
-    font-weight:800;
-}
-
-.saved-logo{
-    width:45px;
-    height:45px;
-    border-radius:14px;
-    display:grid;
-    place-items:center;
-    background:var(--g);
-    color:var(--gold);
-    font-weight:900;
-    font-size:1.1rem;
-    box-shadow:0 10px 25px rgba(16,35,29,.18);
-}
-
-.saved-brand-name{
-    display:block;
-    font-size:1.2rem;
-    letter-spacing:.04em;
-}
-
-.saved-brand-sub{
-    display:block;
-    margin-top:2px;
-    color:var(--muted);
-    font-size:.63rem;
-    letter-spacing:.12em;
-    text-transform:uppercase;
-}
-
-.saved-nav{
-    display:flex;
-    align-items:center;
-    gap:5px;
-}
-
-.saved-nav a{
-    padding:10px 12px;
-    border-radius:11px;
-    font-size:.84rem;
-    font-weight:700;
-}
-
-.saved-nav a:hover,
-.saved-nav a.active{
-    background:rgba(16,35,29,.08);
-}
-
-.saved-actions{
-    display:flex;
-    gap:8px;
-}
-
-.saved-icon{
-    width:42px;
-    height:42px;
-    border:1px solid var(--border);
-    border-radius:13px;
-    background:rgba(255,255,255,.60);
-    display:grid;
-    place-items:center;
-}
-
-.saved-menu{
-    display:none;
+a{
+  color:inherit;
 }
 
 /* =========================================================
-   MAIN
+   PAGE
 ========================================================= */
 
-.saved-main{
-    width:min(1400px,calc(100% - 32px));
-    margin:auto;
-    padding:32px 0 70px;
+.saved-page{
+  width:min(
+    1480px,
+    calc(100% - 32px)
+  );
+
+  margin:auto;
+
+  padding:
+    34px 0 75px;
 }
 
 /* =========================================================
    HERO
 ========================================================= */
 
-.saved-hero{
-    position:relative;
-    overflow:hidden;
-    padding:38px;
-    margin-bottom:22px;
-    border-radius:30px;
-    color:#fff;
-    background:
-        linear-gradient(120deg,rgba(16,35,29,.98),rgba(24,55,45,.95));
-    box-shadow:var(--shadow);
+.hero{
+  position:relative;
+
+  overflow:hidden;
+
+  min-height:300px;
+
+  display:flex;
+
+  align-items:center;
+
+  padding:42px;
+
+  border:
+    1px solid
+    rgba(243,223,170,.22);
+
+  border-radius:32px;
+
+  color:#fff;
+
+  background:
+
+    radial-gradient(
+      circle at 90% 12%,
+      rgba(231,201,130,.25),
+      transparent 25%
+    ),
+
+    radial-gradient(
+      circle at 14% 100%,
+      rgba(139,49,75,.28),
+      transparent 34%
+    ),
+
+    radial-gradient(
+      circle at 60% 45%,
+      rgba(64,94,157,.22),
+      transparent 35%
+    ),
+
+    linear-gradient(
+      135deg,
+      #070817 0%,
+      #111735 47%,
+      #3a1830 100%
+    );
+
+  box-shadow:
+    0 32px 95px
+    rgba(7,8,23,.28);
+
+  margin-bottom:24px;
 }
 
-.saved-hero:after{
-    content:"";
-    position:absolute;
-    width:370px;
-    height:370px;
-    right:-135px;
-    top:-175px;
-    border-radius:50%;
-    border:1px solid rgba(201,169,110,.30);
-    box-shadow:
-        0 0 0 48px rgba(201,169,110,.05),
-        0 0 0 96px rgba(201,169,110,.03);
+.hero:before{
+  content:"";
+
+  position:absolute;
+
+  width:390px;
+  height:390px;
+
+  right:-180px;
+  top:-210px;
+
+  border-radius:50%;
+
+  border:
+    1px solid
+    rgba(243,223,170,.20);
+
+  box-shadow:
+
+    0 0 0 38px
+    rgba(231,201,130,.025),
+
+    0 0 0 76px
+    rgba(231,201,130,.018);
 }
 
-.saved-hero-content{
-    position:relative;
-    z-index:2;
+.hero-inner{
+  position:relative;
+
+  z-index:2;
+
+  width:100%;
+
+  display:grid;
+
+  grid-template-columns:
+    minmax(0,1.25fr)
+    minmax(250px,.75fr);
+
+  gap:35px;
+
+  align-items:center;
 }
 
-.saved-eyebrow{
-    color:var(--gold);
-    font-size:.72rem;
-    font-weight:850;
-    letter-spacing:.17em;
-    margin-bottom:9px;
+.eyebrow{
+  color:var(--champagne-2);
+
+  font-size:12px;
+
+  font-weight:950;
+
+  letter-spacing:.16em;
+
+  text-transform:uppercase;
 }
 
-.saved-hero h1{
-    margin:0 0 10px;
-    font-size:clamp(2rem,4vw,3.2rem);
-    line-height:1.05;
+.hero h1{
+  margin:10px 0 0;
+
+  font-size:
+    clamp(
+      34px,
+      5vw,
+      58px
+    );
+
+  line-height:1.02;
+
+  letter-spacing:-.055em;
 }
 
-.saved-hero p{
-    max-width:720px;
-    margin:0;
-    color:rgba(255,255,255,.74);
-    line-height:1.7;
+.hero p{
+  max-width:690px;
+
+  color:
+    rgba(255,255,255,.70);
+
+  font-size:14px;
+
+  line-height:1.8;
+
+  margin:
+    16px 0 0;
 }
 
-.saved-hero-actions{
-    display:flex;
-    flex-wrap:wrap;
-    gap:10px;
-    margin-top:22px;
-}
+.hero-actions{
+  display:flex;
 
-.saved-btn{
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    gap:7px;
-    border:0;
-    border-radius:13px;
-    padding:12px 17px;
-    font-weight:800;
-    transition:.2s ease;
-}
+  flex-wrap:wrap;
 
-.saved-btn:hover{transform:translateY(-1px)}
+  gap:10px;
 
-.saved-btn-primary{
-    background:var(--gold);
-    color:var(--g);
-}
-
-.saved-btn-secondary{
-    background:rgba(255,255,255,.10);
-    color:#fff;
-    border:1px solid rgba(255,255,255,.18);
+  margin-top:22px;
 }
 
 /* =========================================================
-   STATS
+   HERO STAT
 ========================================================= */
 
-.saved-stats{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:14px;
-    margin-bottom:22px;
+.saved-hero-card{
+  justify-self:end;
+
+  width:235px;
+  min-height:235px;
+
+  padding:27px;
+
+  display:flex;
+
+  flex-direction:column;
+
+  align-items:center;
+
+  justify-content:center;
+
+  text-align:center;
+
+  border-radius:30px;
+
+  background:
+    radial-gradient(
+      circle at 30% 20%,
+      #596fae,
+      #26355f 37%,
+      #111735 72%
+    );
+
+  border:
+    1px solid
+    rgba(243,223,170,.40);
+
+  box-shadow:
+
+    0 0 0 15px
+    rgba(231,201,130,.045),
+
+    0 0 0 32px
+    rgba(231,201,130,.025),
+
+    0 30px 70px
+    rgba(0,0,0,.30);
 }
 
-.saved-stat{
-    padding:20px;
-    border:1px solid var(--border);
-    border-radius:20px;
-    background:rgba(255,255,255,.62);
-    box-shadow:0 12px 40px rgba(16,35,29,.06);
+.saved-icon{
+  width:70px;
+  height:70px;
+
+  display:flex;
+
+  align-items:center;
+  justify-content:center;
+
+  border-radius:50%;
+
+  color:#18130a;
+
+  font-size:29px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #f2dda2,
+      #bf954a
+    );
+
+  box-shadow:
+    0 14px 35px
+    rgba(0,0,0,.25);
 }
 
-.saved-stat-label{
-    color:var(--muted);
-    font-size:.70rem;
-    font-weight:800;
-    text-transform:uppercase;
-    letter-spacing:.08em;
+.saved-number{
+  margin-top:14px;
+
+  font-size:39px;
+
+  line-height:1;
+
+  font-weight:950;
 }
 
-.saved-stat-value{
-    margin-top:7px;
-    color:var(--g);
-    font-size:1.65rem;
-    font-weight:900;
+.saved-label{
+  margin-top:7px;
+
+  color:
+    rgba(255,255,255,.58);
+
+  font-size:10px;
+
+  font-weight:900;
+
+  letter-spacing:.12em;
+
+  text-transform:uppercase;
+}
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.btn{
+  min-height:44px;
+
+  display:inline-flex;
+
+  align-items:center;
+  justify-content:center;
+
+  gap:8px;
+
+  padding:
+    11px 16px;
+
+  border-radius:13px;
+
+  border:0;
+
+  text-decoration:none;
+
+  font-size:12px;
+
+  font-weight:950;
+
+  transition:.2s ease;
+}
+
+.btn:hover{
+  transform:
+    translateY(-2px);
+}
+
+.primary{
+  color:#18130a;
+
+  background:
+    linear-gradient(
+      135deg,
+      #f2dda2,
+      #bf954a
+    );
+
+  box-shadow:
+    0 10px 28px
+    rgba(231,201,130,.18);
+}
+
+.secondary{
+  color:#fff;
+
+  background:
+    rgba(255,255,255,.075);
+
+  border:
+    1px solid
+    rgba(255,255,255,.17);
+}
+
+.dark{
+  color:#fff;
+
+  background:
+    linear-gradient(
+      135deg,
+      #121832,
+      #303b73
+    );
+}
+
+.burgundy{
+  color:#fff;
+
+  background:
+    linear-gradient(
+      135deg,
+      #651f35,
+      #92344f
+    );
+}
+
+.danger{
+  color:#fff;
+
+  background:
+    linear-gradient(
+      135deg,
+      #7b2d43,
+      #a64259
+    );
 }
 
 /* =========================================================
    TOOLBAR
 ========================================================= */
 
-.saved-toolbar{
-    padding:17px;
-    margin-bottom:20px;
-    border:1px solid var(--border);
-    border-radius:20px;
-    background:rgba(255,255,255,.62);
-    box-shadow:var(--shadow);
+.toolbar-section{
+  padding:22px;
+
+  margin-bottom:24px;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:25px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,250,240,.95),
+      rgba(244,234,216,.85)
+    );
+
+  box-shadow:
+    var(--shadow-soft);
 }
 
-.saved-toolbar-row{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:14px;
+.toolbar{
+  display:grid;
+
+  grid-template-columns:
+    minmax(250px,1fr)
+    190px
+    190px
+    auto;
+
+  gap:11px;
+
+  align-items:center;
 }
 
-.saved-search{
-    flex:1;
-    min-width:220px;
-    position:relative;
+.search-box{
+  position:relative;
 }
 
-.saved-search input{
-    width:100%;
-    border:1px solid var(--border);
-    border-radius:13px;
-    padding:12px 14px 12px 40px;
-    outline:none;
-    background:rgba(255,255,255,.72);
-    color:var(--text);
+.search-box span{
+  position:absolute;
+
+  left:13px;
+  top:50%;
+
+  transform:
+    translateY(-50%);
+
+  color:
+    var(--muted);
+
+  font-size:17px;
 }
 
-.saved-search input:focus{
-    border-color:rgba(201,169,110,.8);
-    box-shadow:0 0 0 4px rgba(201,169,110,.12);
+.search-box input,
+.toolbar select{
+  width:100%;
+
+  min-height:46px;
+
+  border:
+    1px solid
+    rgba(10,14,36,.13);
+
+  border-radius:13px;
+
+  padding:
+    12px 13px;
+
+  outline:none;
+
+  color:var(--ink);
+
+  background:
+    rgba(255,255,255,.82);
 }
 
-.saved-search-icon{
-    position:absolute;
-    left:14px;
-    top:50%;
-    transform:translateY(-50%);
-    color:var(--muted);
+.search-box input{
+  padding-left:39px;
 }
 
-.saved-controls{
-    display:flex;
-    flex-wrap:wrap;
-    gap:8px;
+.search-box input:focus,
+.toolbar select:focus{
+  border-color:
+    rgba(38,63,120,.48);
+
+  box-shadow:
+    0 0 0 3px
+    rgba(38,63,120,.08);
 }
 
-.saved-select{
-    border:1px solid var(--border);
-    border-radius:12px;
-    padding:10px 12px;
-    background:rgba(255,255,255,.72);
-    color:var(--text);
-    outline:none;
+.result-info{
+  margin-top:13px;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:space-between;
+
+  gap:10px;
+
+  color:var(--muted);
+
+  font-size:10px;
+}
+
+.result-info strong{
+  color:
+    var(--royal-850);
 }
 
 /* =========================================================
-   CONTENT GRID
+   MAIN
 ========================================================= */
 
-.saved-content{
-    display:grid;
-    grid-template-columns:1fr 300px;
-    gap:20px;
+.content-grid{
+  display:grid;
+
+  grid-template-columns:
+    minmax(0,1fr)
+    300px;
+
+  gap:24px;
+
+  align-items:start;
 }
 
-.saved-list{
-    display:grid;
-    grid-template-columns:repeat(2,minmax(0,1fr));
-    gap:17px;
+/* =========================================================
+   LISTING SECTION
+========================================================= */
+
+.listing-section{
+  padding:27px;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:26px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,250,240,.95),
+      rgba(244,234,216,.85)
+    );
+
+  box-shadow:
+    var(--shadow-soft);
+}
+
+.section-eyebrow{
+  font-size:10px;
+
+  font-weight:950;
+
+  letter-spacing:.16em;
+
+  text-transform:uppercase;
+
+  color:
+    var(--burgundy);
+}
+
+.section-title{
+  margin:
+    6px 0 0;
+
+  color:
+    var(--royal-850);
+
+  font-size:
+    clamp(
+      25px,
+      4vw,
+      37px
+    );
+
+  line-height:1.1;
+
+  letter-spacing:-.035em;
+}
+
+.section-description{
+  max-width:720px;
+
+  margin:
+    9px 0 0;
+
+  color:var(--muted);
+
+  font-size:12px;
+
+  line-height:1.7;
+}
+
+/* =========================================================
+   PROPERTY GRID
+========================================================= */
+
+.property-grid{
+  display:grid;
+
+  grid-template-columns:
+    repeat(
+      2,
+      minmax(0,1fr)
+    );
+
+  gap:17px;
+
+  margin-top:23px;
 }
 
 /* =========================================================
    PROPERTY CARD
 ========================================================= */
 
-.saved-card{
-    overflow:hidden;
-    border:1px solid var(--border);
-    border-radius:22px;
-    background:rgba(255,255,255,.67);
-    box-shadow:var(--shadow);
-    transition:.22s ease;
+.property-card{
+  overflow:hidden;
+
+  position:relative;
+
+  border:
+    1px solid
+    rgba(10,14,36,.12);
+
+  border-radius:22px;
+
+  background:
+    rgba(255,255,255,.78);
+
+  box-shadow:
+    0 10px 30px
+    rgba(7,8,23,.07);
+
+  transition:
+    transform .22s ease,
+    box-shadow .22s ease;
 }
 
-.saved-card:hover{
-    transform:translateY(-3px);
-    box-shadow:0 24px 65px rgba(16,35,29,.14);
+.property-card:hover{
+  transform:
+    translateY(-4px);
+
+  box-shadow:
+    0 20px 45px
+    rgba(7,8,23,.13);
 }
 
-.saved-image{
-    position:relative;
-    height:225px;
-    overflow:hidden;
-    background:var(--sand);
+.property-image{
+  position:relative;
+
+  height:220px;
+
+  overflow:hidden;
+
+  background:
+    linear-gradient(
+      135deg,
+      #273760,
+      #6c3347
+    );
 }
 
-.saved-image img{
-    width:100%;
-    height:100%;
-    display:block;
-    object-fit:cover;
-    transition:transform .35s ease;
+.property-image img{
+  width:100%;
+  height:100%;
+
+  display:block;
+
+  object-fit:cover;
+
+  transition:
+    transform .35s ease;
 }
 
-.saved-card:hover .saved-image img{
-    transform:scale(1.035);
+.property-card:hover
+.property-image img{
+  transform:scale(1.045);
 }
 
-.saved-badges{
-    position:absolute;
-    left:13px;
-    top:13px;
-    right:13px;
-    display:flex;
-    justify-content:space-between;
-    gap:8px;
+.image-placeholder{
+  width:100%;
+  height:100%;
+
+  display:flex;
+
+  align-items:center;
+  justify-content:center;
+
+  text-align:center;
+
+  color:
+    rgba(255,255,255,.85);
+
+  font-size:42px;
+
+  background:
+
+    radial-gradient(
+      circle at 25% 20%,
+      rgba(231,201,130,.35),
+      transparent 30%
+    ),
+
+    linear-gradient(
+      135deg,
+      #10152e,
+      #263f78 55%,
+      #651f35
+    );
+}
+
+.property-badge{
+  position:absolute;
+
+  left:12px;
+  top:12px;
+
+  padding:
+    7px 9px;
+
+  border-radius:999px;
+
+  color:#18130a;
+
+  background:
+    linear-gradient(
+      135deg,
+      #f2dda2,
+      #bf954a
+    );
+
+  font-size:8px;
+
+  font-weight:950;
+
+  letter-spacing:.07em;
+
+  text-transform:uppercase;
 }
 
 .saved-badge{
-    padding:7px 10px;
-    border-radius:999px;
-    background:rgba(16,35,29,.88);
-    color:#fff;
-    font-size:.68rem;
-    font-weight:800;
-    backdrop-filter:blur(10px);
+  position:absolute;
+
+  right:12px;
+  top:12px;
+
+  width:35px;
+  height:35px;
+
+  display:flex;
+
+  align-items:center;
+  justify-content:center;
+
+  border-radius:50%;
+
+  border:
+    1px solid
+    rgba(255,255,255,.25);
+
+  color:#fff;
+
+  background:
+    rgba(7,8,23,.65);
+
+  backdrop-filter:
+    blur(10px);
+
+  font-size:16px;
 }
 
-.saved-badge.sale{
-    background:rgba(201,169,110,.94);
-    color:var(--g);
+.property-body{
+  padding:18px;
 }
 
-.remove-saved{
-    width:36px;
-    height:36px;
-    border:1px solid rgba(255,255,255,.3);
-    border-radius:50%;
-    background:rgba(16,35,29,.82);
-    color:#fff;
-    display:grid;
-    place-items:center;
-    font-size:1rem;
-    backdrop-filter:blur(8px);
+.property-type{
+  color:
+    var(--burgundy);
+
+  font-size:9px;
+
+  font-weight:950;
+
+  letter-spacing:.12em;
+
+  text-transform:uppercase;
 }
 
-.saved-details{
-    padding:18px;
+.property-title{
+  margin:
+    6px 0 0;
+
+  color:
+    var(--royal-850);
+
+  font-size:20px;
+
+  line-height:1.15;
+
+  letter-spacing:-.025em;
 }
 
-.saved-property-title{
-    margin:0;
-    font-size:1.08rem;
-    font-weight:850;
-    line-height:1.3;
+.property-location{
+  margin-top:7px;
+
+  color:
+    var(--muted);
+
+  font-size:10px;
+
+  line-height:1.5;
 }
 
-.saved-location{
-    margin-top:6px;
-    color:var(--muted);
-    font-size:.78rem;
+.property-price{
+  margin-top:15px;
+
+  color:
+    var(--royal-850);
+
+  font-size:21px;
+
+  font-weight:950;
 }
 
-.saved-price-row{
-    display:flex;
-    justify-content:space-between;
-    align-items:flex-end;
-    gap:10px;
-    margin-top:15px;
+.property-meta{
+  display:grid;
+
+  grid-template-columns:
+    repeat(3,1fr);
+
+  gap:7px;
+
+  margin-top:13px;
 }
 
-.saved-price-label{
-    color:var(--muted);
-    font-size:.67rem;
-    font-weight:750;
-    text-transform:uppercase;
+.meta{
+  padding:
+    9px 7px;
+
+  text-align:center;
+
+  border-radius:11px;
+
+  background:
+    #f5eddf;
+
+  color:
+    #636675;
+
+  font-size:9px;
 }
 
-.saved-price{
-    margin-top:3px;
-    color:var(--g);
-    font-size:1.28rem;
-    font-weight:900;
+.meta strong{
+  display:block;
+
+  color:
+    var(--royal-850);
+
+  font-size:11px;
+
+  margin-bottom:2px;
 }
 
-.saved-type{
-    color:var(--muted);
-    font-size:.72rem;
-    text-align:right;
+.property-actions{
+  display:grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  gap:8px;
+
+  margin-top:16px;
 }
 
-.saved-meta{
-    display:flex;
-    flex-wrap:wrap;
-    gap:6px;
-    margin-top:13px;
+.property-actions .btn{
+  min-height:40px;
+
+  padding:
+    9px 10px;
+
+  font-size:10px;
 }
 
-.saved-meta span{
-    padding:6px 8px;
-    border-radius:8px;
-    background:var(--cream);
-    color:var(--muted);
-    font-size:.69rem;
-}
+.remove-btn{
+  grid-column:1/-1;
 
-.saved-card-footer{
-    display:flex;
-    gap:8px;
-    padding:13px 17px;
-    border-top:1px solid var(--border);
-}
+  color:
+    var(--danger);
 
-.saved-card-btn{
-    flex:1;
-    min-width:0;
-    border:1px solid var(--border);
-    border-radius:10px;
-    padding:9px 8px;
-    background:rgba(255,255,255,.75);
-    font-size:.73rem;
-    font-weight:800;
-    text-align:center;
-}
+  background:
+    var(--danger-soft);
 
-.saved-card-btn.primary{
-    background:var(--g);
-    border-color:var(--g);
-    color:#fff;
-}
+  border:
+    1px solid
+    rgba(146,63,80,.12);
 
-/* =========================================================
-   SIDE PANEL
-========================================================= */
-
-.saved-side{
-    display:grid;
-    align-content:start;
-    gap:17px;
-}
-
-.saved-side-card{
-    padding:20px;
-    border:1px solid var(--border);
-    border-radius:20px;
-    background:rgba(255,255,255,.62);
-    box-shadow:var(--shadow);
-}
-
-.saved-side-card h3{
-    margin:0 0 12px;
-    font-size:1rem;
-}
-
-.saved-side-card p{
-    color:var(--muted);
-    font-size:.78rem;
-    line-height:1.65;
-}
-
-.side-link{
-    display:block;
-    padding:11px 0;
-    border-bottom:1px solid var(--border);
-    font-size:.78rem;
-    font-weight:750;
-}
-
-.side-link:last-child{border-bottom:0}
-
-.side-link:hover{color:var(--g2)}
-
-.compare-box{
-    padding:15px;
-    border-radius:15px;
-    background:linear-gradient(135deg,var(--cream),var(--sage));
-}
-
-.compare-box strong{
-    display:block;
-    color:var(--g);
-    font-size:.85rem;
-}
-
-.compare-box span{
-    display:block;
-    margin-top:5px;
-    color:var(--muted);
-    font-size:.72rem;
-    line-height:1.5;
+  min-height:37px;
 }
 
 /* =========================================================
    EMPTY STATE
 ========================================================= */
 
-.saved-empty{
-    grid-column:1/-1;
-    padding:65px 25px;
-    border:1px dashed rgba(16,35,29,.20);
-    border-radius:22px;
-    background:rgba(255,255,255,.46);
-    text-align:center;
+.empty-state{
+  display:none;
+
+  margin-top:23px;
+
+  padding:
+    55px 25px;
+
+  text-align:center;
+
+  border:
+    1px dashed
+    rgba(38,63,120,.22);
+
+  border-radius:21px;
+
+  background:
+    rgba(255,255,255,.48);
 }
 
-.saved-empty-icon{
-    width:66px;
-    height:66px;
-    margin:0 auto 14px;
-    border-radius:20px;
-    display:grid;
-    place-items:center;
-    background:var(--g);
-    color:var(--gold);
-    font-size:1.45rem;
+.empty-icon{
+  width:76px;
+  height:76px;
+
+  margin:auto;
+
+  display:flex;
+
+  align-items:center;
+  justify-content:center;
+
+  border-radius:50%;
+
+  color:#fff;
+
+  font-size:30px;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--royal-800),
+      var(--burgundy)
+    );
 }
 
-.saved-empty h3{
-    margin:0;
-    font-size:1.2rem;
+.empty-state h3{
+  margin:
+    17px 0 0;
+
+  color:
+    var(--royal-850);
+
+  font-size:25px;
 }
 
-.saved-empty p{
-    max-width:470px;
-    margin:9px auto 20px;
-    color:var(--muted);
-    line-height:1.65;
+.empty-state p{
+  max-width:500px;
+
+  margin:
+    9px auto 19px;
+
+  color:
+    var(--muted);
+
+  font-size:11px;
+
+  line-height:1.7;
+}
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+.side-stack{
+  display:grid;
+
+  gap:20px;
+}
+
+.side-card{
+  padding:23px;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:24px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,250,240,.94),
+      rgba(242,232,211,.82)
+    );
+
+  box-shadow:
+    var(--shadow-soft);
+}
+
+.side-title{
+  margin:
+    6px 0 0;
+
+  font-size:21px;
+
+  line-height:1.15;
+
+  color:
+    var(--royal-850);
+
+  letter-spacing:-.025em;
+}
+
+/* =========================================================
+   SUMMARY
+========================================================= */
+
+.summary-number{
+  margin-top:18px;
+
+  color:
+    var(--royal-850);
+
+  font-size:40px;
+
+  font-weight:950;
+
+  line-height:1;
+}
+
+.summary-label{
+  margin-top:7px;
+
+  color:
+    var(--muted);
+
+  font-size:9px;
+
+  font-weight:900;
+
+  letter-spacing:.1em;
+
+  text-transform:uppercase;
+}
+
+.summary-row{
+  display:flex;
+
+  align-items:center;
+
+  justify-content:space-between;
+
+  gap:10px;
+
+  margin-top:17px;
+
+  padding-top:15px;
+
+  border-top:
+    1px solid
+    var(--border);
+
+  color:
+    var(--muted);
+
+  font-size:10px;
+}
+
+.summary-row strong{
+  color:
+    var(--royal-850);
+
+  font-size:12px;
+}
+
+/* =========================================================
+   QUICK ACCESS
+========================================================= */
+
+.quick-list{
+  display:grid;
+
+  gap:8px;
+
+  margin-top:16px;
+}
+
+.quick{
+  display:flex;
+
+  align-items:center;
+
+  gap:11px;
+
+  padding:11px;
+
+  border-radius:13px;
+
+  text-decoration:none;
+
+  border:
+    1px solid
+    transparent;
+
+  background:
+    rgba(255,255,255,.55);
+
+  transition:.2s;
+}
+
+.quick:hover{
+  transform:
+    translateX(3px);
+
+  border-color:
+    rgba(38,63,120,.12);
+
+  background:#fff;
+}
+
+.quick-icon{
+  width:32px;
+  height:32px;
+
+  flex:0 0 auto;
+
+  border-radius:10px;
+
+  display:flex;
+
+  align-items:center;
+  justify-content:center;
+
+  color:#fff;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--royal-800),
+      var(--sapphire)
+    );
+}
+
+.quick strong{
+  display:block;
+
+  font-size:10px;
+
+  color:
+    var(--royal-850);
+}
+
+.quick span{
+  display:block;
+
+  margin-top:2px;
+
+  color:var(--muted);
+
+  font-size:8px;
+}
+
+/* =========================================================
+   NOTICE
+========================================================= */
+
+.notice{
+  margin-top:16px;
+
+  padding:
+    13px 14px;
+
+  border-radius:14px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #e4f0e9,
+      #edf5e9
+    );
+
+  border:
+    1px solid
+    rgba(36,97,78,.12);
+
+  color:#52685f;
+
+  font-size:10px;
+
+  line-height:1.6;
+}
+
+/* =========================================================
+   SUPPORT
+========================================================= */
+
+.support{
+  color:#fff;
+
+  padding:23px;
+
+  border-radius:24px;
+
+  background:
+
+    radial-gradient(
+      circle at 90% 10%,
+      rgba(231,201,130,.25),
+      transparent 28%
+    ),
+
+    linear-gradient(
+      135deg,
+      #090b1d,
+      #263f78 55%,
+      #651f35
+    );
+
+  box-shadow:
+    var(--shadow-soft);
+}
+
+.support h3{
+  margin:
+    7px 0 0;
+
+  font-size:23px;
+}
+
+.support p{
+  margin:
+    9px 0 17px;
+
+  color:
+    rgba(255,255,255,.65);
+
+  font-size:10px;
+
+  line-height:1.65;
+}
+
+.support .btn{
+  width:100%;
 }
 
 /* =========================================================
    FOOTER
 ========================================================= */
 
-.saved-footer{
-    margin-top:10px;
-    padding:38px 0;
-    background:var(--g);
-    color:rgba(255,255,255,.70);
+.footer{
+  margin-top:24px;
+
+  padding:
+    43px 22px;
+
+  border-radius:
+    27px 27px 0 0;
+
+  color:#fff;
+
+  background:
+
+    radial-gradient(
+      circle at 85% 10%,
+      rgba(231,201,130,.17),
+      transparent 25%
+    ),
+
+    linear-gradient(
+      135deg,
+      #070817,
+      #171d3d,
+      #32172a
+    );
 }
 
-.saved-footer-inner{
-    width:min(1400px,calc(100% - 32px));
-    margin:auto;
-    display:flex;
-    justify-content:space-between;
-    flex-wrap:wrap;
-    gap:25px;
+.footer-grid{
+  width:min(
+    1480px,
+    100%
+  );
+
+  margin:auto;
+
+  display:grid;
+
+  grid-template-columns:
+    1.3fr
+    repeat(3,1fr);
+
+  gap:30px;
 }
 
-.saved-footer strong{color:#fff}
+.footer-logo{
+  font-size:25px;
 
-.saved-footer-links{
-    display:flex;
-    flex-wrap:wrap;
-    gap:18px;
-    font-size:.78rem;
+  font-weight:950;
+
+  letter-spacing:.1em;
+}
+
+.footer-description{
+  max-width:390px;
+
+  color:
+    rgba(255,255,255,.61);
+
+  font-size:11px;
+
+  line-height:1.7;
+
+  margin-top:12px;
+}
+
+.footer-title{
+  font-size:12px;
+
+  font-weight:950;
+
+  color:
+    var(--champagne-2);
+}
+
+.footer-links{
+  margin-top:12px;
+
+  line-height:2;
+
+  font-size:11px;
+
+  color:
+    rgba(255,255,255,.63);
+}
+
+.footer-links a{
+  text-decoration:none;
+}
+
+.footer-links a:hover{
+  color:
+    var(--champagne-2);
+}
+
+.footer-bottom{
+  width:min(
+    1480px,
+    100%
+  );
+
+  margin:
+    28px auto 0;
+
+  padding-top:18px;
+
+  border-top:
+    1px solid
+    rgba(255,255,255,.10);
+
+  color:
+    rgba(255,255,255,.42);
+
+  font-size:10px;
+}
+
+/* =========================================================
+   AI
+========================================================= */
+
+.ai-launcher{
+  position:fixed;
+
+  right:22px;
+  bottom:22px;
+
+  z-index:9998;
+
+  width:61px;
+  height:61px;
+
+  border:
+    1px solid
+    rgba(243,223,170,.42);
+
+  border-radius:50%;
+
+  color:#fff;
+
+  font-size:23px;
+
+  background:
+
+    radial-gradient(
+      circle at 30% 20%,
+      #405e9d,
+      #090b1d 72%
+    );
+
+  box-shadow:
+    0 18px 45px
+    rgba(7,8,23,.32);
+
+  transition:.2s ease;
+}
+
+.ai-launcher:hover{
+  transform:
+    translateY(-3px)
+    scale(1.03);
+}
+
+.ai-panel{
+  position:fixed;
+
+  right:22px;
+  bottom:22px;
+
+  z-index:9999;
+
+  width:
+    min(
+      410px,
+      calc(100vw - 28px)
+    );
+
+  max-height:650px;
+
+  display:none;
+
+  flex-direction:column;
+
+  overflow:hidden;
+
+  border:
+    1px solid
+    rgba(231,201,130,.35);
+
+  border-radius:25px;
+
+  background:
+    var(--cream);
+
+  box-shadow:
+    0 30px 100px
+    rgba(0,0,0,.32);
+}
+
+.ai-panel.open{
+  display:flex;
+}
+
+.ai-head{
+  padding:17px;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:space-between;
+
+  color:#fff;
+
+  background:
+
+    radial-gradient(
+      circle at 90% 10%,
+      rgba(231,201,130,.25),
+      transparent 30%
+    ),
+
+    linear-gradient(
+      135deg,
+      #070817,
+      #263f78,
+      #651f35
+    );
+}
+
+.ai-title{
+  font-weight:950;
+
+  letter-spacing:.03em;
+}
+
+.ai-sub{
+  margin-top:3px;
+
+  color:
+    rgba(255,255,255,.61);
+
+  font-size:10px;
+}
+
+.ai-close{
+  width:35px;
+  height:35px;
+
+  border:0;
+
+  border-radius:50%;
+
+  color:#fff;
+
+  background:
+    rgba(255,255,255,.09);
+
+  font-size:20px;
+}
+
+.ai-messages{
+  min-height:300px;
+
+  max-height:440px;
+
+  overflow:auto;
+
+  padding:15px;
+}
+
+.ai-msg{
+  margin-bottom:9px;
+
+  padding:
+    11px 13px;
+
+  border-radius:14px;
+
+  font-size:12px;
+
+  line-height:1.55;
+}
+
+.ai-msg.bot{
+  background:
+    #eee5d4;
+}
+
+.ai-msg.user{
+  margin-left:28px;
+
+  color:#fff;
+
+  background:
+    #171d3d;
+}
+
+.ai-form{
+  display:flex;
+
+  gap:8px;
+
+  padding:12px;
+
+  border-top:
+    1px solid
+    var(--border);
+}
+
+.ai-form input{
+  flex:1;
+
+  min-width:0;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:12px;
+
+  padding:
+    11px 12px;
+
+  outline:none;
+
+  background:#fff;
+}
+
+.ai-form button{
+  border:0;
+
+  border-radius:12px;
+
+  padding:
+    0 16px;
+
+  color:#18130a;
+
+  background:
+    linear-gradient(
+      135deg,
+      #ead39a,
+      #bd9147
+    );
+
+  font-weight:950;
 }
 
 /* =========================================================
    RESPONSIVE
 ========================================================= */
 
-@media(max-width:1100px){
+@media (max-width:1100px){
 
-    .saved-nav{display:none}
+  .hero-inner{
+    grid-template-columns:
+      1fr 220px;
+  }
 
-    .saved-menu{display:grid}
+  .content-grid{
+    grid-template-columns:1fr;
+  }
 
-    .saved-content{
-        grid-template-columns:1fr;
-    }
+  .toolbar{
+    grid-template-columns:
+      1fr 1fr;
+  }
 
-    .saved-side{
-        grid-template-columns:repeat(2,1fr);
-    }
 }
 
-@media(max-width:800px){
+@media (max-width:850px){
 
-    .saved-list{
-        grid-template-columns:1fr;
-    }
+  .hero{
+    padding:31px;
+  }
 
-    .saved-stats{
-        grid-template-columns:repeat(2,1fr);
-    }
+  .hero-inner{
+    grid-template-columns:1fr;
+  }
 
-    .saved-toolbar-row{
-        flex-direction:column;
-        align-items:stretch;
-    }
+  .saved-hero-card{
+    justify-self:start;
+  }
 
-    .saved-search{
-        width:100%;
-    }
+  .property-grid{
+    grid-template-columns:1fr;
+  }
+
+  .footer-grid{
+    grid-template-columns:
+      repeat(2,minmax(0,1fr));
+  }
+
 }
 
-@media(max-width:600px){
+@media (max-width:650px){
 
-    .saved-main{
-        width:calc(100% - 20px);
-        padding-top:18px;
-    }
+  .saved-page{
+    width:
+      calc(100% - 20px);
 
-    .saved-header-inner{
-        width:calc(100% - 20px);
-    }
+    padding-top:20px;
+  }
 
-    .saved-hero{
-        padding:26px 21px;
-        border-radius:23px;
-    }
+  .hero{
+    padding:24px;
 
-    .saved-stats{
-        gap:9px;
-    }
+    border-radius:24px;
+  }
 
-    .saved-stat{
-        padding:15px;
-    }
+  .hero h1{
+    font-size:39px;
+  }
 
-    .saved-stat-value{
-        font-size:1.35rem;
-    }
+  .saved-hero-card{
+    width:185px;
+    min-height:185px;
+  }
 
-    .saved-side{
-        grid-template-columns:1fr;
-    }
+  .saved-icon{
+    width:58px;
+    height:58px;
+  }
 
-    .saved-image{
-        height:210px;
-    }
+  .saved-number{
+    font-size:32px;
+  }
+
+  .toolbar-section,
+  .listing-section{
+    padding:21px;
+  }
+
+  .toolbar{
+    grid-template-columns:1fr;
+  }
+
+  .result-info{
+    align-items:flex-start;
+
+    flex-direction:column;
+  }
+
+  .footer-grid{
+    grid-template-columns:1fr;
+  }
+
 }
 
-@media(max-width:450px){
+@media (max-width:520px){
 
-    .saved-brand-sub{
-        display:none;
-    }
+  .hero h1{
+    font-size:34px;
+  }
 
-    .saved-controls{
-        width:100%;
-    }
+  .hero-actions{
+    width:100%;
+  }
 
-    .saved-select{
-        flex:1;
-    }
+  .hero-actions .btn{
+    flex:1;
+  }
 
-    .saved-price-row{
-        align-items:flex-start;
-        flex-direction:column;
-    }
+  .property-image{
+    height:200px;
+  }
 
-    .saved-type{
-        text-align:left;
-    }
+  .property-actions{
+    grid-template-columns:1fr;
+  }
+
+  .remove-btn{
+    grid-column:auto;
+  }
+
+  .ai-launcher{
+    right:14px;
+    bottom:14px;
+  }
+
+  .ai-panel{
+    right:10px;
+    bottom:10px;
+  }
+
+}
+
+@media (max-width:380px){
+
+  .hero{
+    padding:20px;
+  }
+
+  .hero h1{
+    font-size:30px;
+  }
+
 }
 </style>
 </head>
 
-<body data-root="../" data-page="saved-properties">
+<body
+  data-root="../"
+  data-page="buyer-saved-properties"
+>
 
-<!-- =========================================================
-     HEADER
-========================================================= -->
+<div data-site-header></div>
 
-<header class="saved-header">
-<div class="saved-header-inner">
 
-    <a href="../index.html" class="saved-brand">
-        <span class="saved-logo">G</span>
-        <span>
-            <span class="saved-brand-name">GHAR</span>
-            <span class="saved-brand-sub">Real Estate</span>
-        </span>
-    </a>
+<main class="saved-page">
 
-    <nav class="saved-nav" id="savedNav">
+<!-- =======================================================
+     HERO
+======================================================== -->
 
-        <a href="buyer-dashboard.html">Dashboard</a>
+<section class="hero">
 
-        <a href="../property/property-search.html">
-            Properties
-        </a>
+<div class="hero-inner">
 
-        <a href="saved-properties.html" class="active">
-            Saved
-        </a>
+<div>
 
-        <a href="my-enquiries.html">
-            Enquiries
-        </a>
+<div class="eyebrow">
+GHAR · SAVED PROPERTIES
+</div>
 
-        <a href="my-offers.html">
-            Offers
-        </a>
+<h1>
+Your shortlisted homes.
+</h1>
 
-        <a href="my-visits.html">
-            Visits
-        </a>
+<p>
+Keep the properties you are interested in one
+connected buyer workspace. Compare your saved
+homes, review details and continue your property
+journey whenever you are ready.
+</p>
 
-    </nav>
+<div class="hero-actions">
 
-    <div class="saved-actions">
+<a
+  class="btn primary"
+  href="property-search.html"
+>
+Find More Properties
+</a>
 
-        <button
-            class="saved-icon"
-            id="savedNotifications"
-            type="button"
-            aria-label="Notifications">
-            🔔
-        </button>
-
-        <button
-            class="saved-icon"
-            id="savedProfile"
-            type="button"
-            aria-label="Profile">
-            👤
-        </button>
-
-        <button
-            class="saved-icon saved-menu"
-            id="savedMenu"
-            type="button"
-            aria-label="Open menu"
-            aria-expanded="false">
-            ☰
-        </button>
-
-    </div>
+<a
+  class="btn secondary"
+  href="buyer-dashboard.html"
+>
+Buyer Dashboard
+</a>
 
 </div>
-</header>
+
+</div>
 
 
-<!-- =========================================================
-     MAIN
-========================================================= -->
+<div class="saved-hero-card">
 
-<main class="saved-main">
+<div class="saved-icon">
+♥
+</div>
 
-<section class="saved-hero">
+<div
+  class="saved-number"
+  id="heroSavedCount"
+>
+0
+</div>
 
-    <div class="saved-hero-content">
+<div class="saved-label">
+Saved Properties
+</div>
 
-        <div class="saved-eyebrow">
-            GHAR BUYER WORKSPACE
-        </div>
+</div>
 
-        <h1>
-            Saved Properties
-        </h1>
-
-        <p>
-            Keep the properties you are interested in one
-            place. Review details, compare options, send an
-            enquiry, schedule a visit or continue toward booking.
-        </p>
-
-        <div class="saved-hero-actions">
-
-            <a
-                href="../property/property-search.html"
-                class="saved-btn saved-btn-primary">
-                + Find More Properties
-            </a>
-
-            <a
-                href="buyer-dashboard.html"
-                class="saved-btn saved-btn-secondary">
-                Buyer Dashboard
-            </a>
-
-        </div>
-
-    </div>
+</div>
 
 </section>
 
 
-<!-- =========================================================
-     STATS
-========================================================= -->
-
-<section class="saved-stats">
-
-    <article class="saved-stat">
-        <div class="saved-stat-label">
-            Saved Properties
-        </div>
-        <div class="saved-stat-value" id="savedCount">
-            0
-        </div>
-    </article>
-
-    <article class="saved-stat">
-        <div class="saved-stat-label">
-            Apartments
-        </div>
-        <div class="saved-stat-value" id="apartmentCount">
-            0
-        </div>
-    </article>
-
-    <article class="saved-stat">
-        <div class="saved-stat-label">
-            Houses / Villas
-        </div>
-        <div class="saved-stat-value" id="houseCount">
-            0
-        </div>
-    </article>
-
-    <article class="saved-stat">
-        <div class="saved-stat-label">
-            Commercial
-        </div>
-        <div class="saved-stat-value" id="commercialCount">
-            0
-        </div>
-    </article>
-
-</section>
-
-
-<!-- =========================================================
+<!-- =======================================================
      TOOLBAR
-========================================================= -->
+======================================================== -->
 
-<section class="saved-toolbar">
+<section class="toolbar-section">
 
-    <div class="saved-toolbar-row">
+<div class="toolbar">
 
-        <div class="saved-search">
+<div class="search-box">
 
-            <span class="saved-search-icon">
-                🔎
-            </span>
+<span>
+⌕
+</span>
 
-            <input
-                id="savedSearch"
-                type="search"
-                placeholder="Search saved properties, location or ID..."
-                autocomplete="off"
-            >
+<input
+  id="searchInput"
+  type="search"
+  placeholder="Search saved properties..."
+  autocomplete="off"
+>
 
-        </div>
+</div>
 
-        <div class="saved-controls">
 
-            <select
-                id="savedType"
-                class="saved-select"
-                aria-label="Filter by property type">
+<select id="typeFilter">
 
-                <option value="all">
-                    All Types
-                </option>
+<option value="all">
+All Property Types
+</option>
 
-                <option value="apartment">
-                    Apartments
-                </option>
+<option value="apartment">
+Apartments
+</option>
 
-                <option value="house">
-                    Independent Houses
-                </option>
+<option value="villa">
+Villas
+</option>
 
-                <option value="villa">
-                    Villas
-                </option>
+<option value="house">
+Independent Houses
+</option>
 
-                <option value="commercial">
-                    Commercial
-                </option>
+<option value="flat">
+Flats
+</option>
 
-                <option value="land">
-                    Land
-                </option>
+<option value="plot">
+Plots
+</option>
 
-            </select>
+<option value="commercial">
+Commercial
+</option>
 
-            <select
-                id="savedSort"
-                class="saved-select"
-                aria-label="Sort saved properties">
+</select>
 
-                <option value="recent">
-                    Recently Saved
-                </option>
 
-                <option value="price-low">
-                    Price: Low to High
-                </option>
+<select id="sortSelect">
 
-                <option value="price-high">
-                    Price: High to Low
-                </option>
+<option value="recent">
+Recently Saved
+</option>
 
-                <option value="name">
-                    Property Name
-                </option>
+<option value="price-low">
+Price: Low to High
+</option>
 
-            </select>
+<option value="price-high">
+Price: High to Low
+</option>
 
-        </div>
+<option value="name">
+Property Name
+</option>
 
-    </div>
+</select>
+
+
+<a
+  class="btn dark"
+  href="property-search.html"
+>
++ Add Property
+</a>
+
+</div>
+
+
+<div class="result-info">
+
+<span>
+Showing
+<strong id="visibleCount">0</strong>
+saved properties
+</span>
+
+<span id="filterMessage">
+Your shortlist is private to your buyer account.
+</span>
+
+</div>
 
 </section>
 
 
-<!-- =========================================================
+<!-- =======================================================
      CONTENT
-========================================================= -->
+======================================================== -->
 
-<section class="saved-content">
-
-    <div
-        id="savedList"
-        class="saved-list">
-    </div>
+<div class="content-grid">
 
 
-    <aside class="saved-side">
+<section class="listing-section">
 
-        <div class="saved-side-card">
+<div class="section-eyebrow">
+MY SHORTLIST
+</div>
 
-            <h3>
-                Your Saved Space
-            </h3>
+<h2 class="section-title">
+Saved properties.
+</h2>
 
-            <div class="compare-box">
-
-                <strong>
-                    Keep your shortlist organized
-                </strong>
-
-                <span>
-                    Save properties while browsing GHAR,
-                    then return here whenever you are ready
-                    to compare or take the next step.
-                </span>
-
-            </div>
-
-        </div>
+<p class="section-description">
+Review properties you have saved from the GHAR
+property search workspace. Remove properties whenever
+your shortlist changes.
+</p>
 
 
-        <div class="saved-side-card">
-
-            <h3>
-                Buyer Workspace
-            </h3>
-
-            <a
-                class="side-link"
-                href="my-enquiries.html">
-                My Enquiries →
-            </a>
-
-            <a
-                class="side-link"
-                href="my-offers.html">
-                My Offers →
-            </a>
-
-            <a
-                class="side-link"
-                href="my-visits.html">
-                Scheduled Visits →
-            </a>
-
-            <a
-                class="side-link"
-                href="property-booking.html">
-                Property Booking →
-            </a>
-
-            <a
-                class="side-link"
-                href="messages.html">
-                Messages →
-            </a>
-
-        </div>
+<div
+  id="propertyGrid"
+  class="property-grid"
+></div>
 
 
-        <div class="saved-side-card">
+<!-- EMPTY -->
 
-            <h3>
-                Need Assistance?
-            </h3>
+<div
+  id="emptyState"
+  class="empty-state"
+>
 
-            <p>
-                For property information, enquiries,
-                negotiations or transaction assistance,
-                use the secure GHAR communication workspace.
-            </p>
+<div class="empty-icon">
+♥
+</div>
 
-            <a
-                href="messages.html"
-                class="saved-btn saved-btn-primary"
-                style="width:100%;">
-                Open Messages
-            </a>
+<h3>
+No saved properties yet.
+</h3>
 
-        </div>
+<p>
+Your shortlist is currently empty. Explore GHAR
+properties and save the homes, apartments, villas
+or plots you want to review later.
+</p>
 
-    </aside>
+<a
+  class="btn primary"
+  href="property-search.html"
+>
+Explore Properties
+</a>
+
+</div>
+
+
+<!-- FILTER EMPTY -->
+
+<div
+  id="filterEmpty"
+  class="empty-state"
+>
+
+<div class="empty-icon">
+⌕
+</div>
+
+<h3>
+No matching properties.
+</h3>
+
+<p>
+No saved property matches your current search or
+filter. Try changing the search term or property type.
+</p>
+
+<button
+  class="btn primary"
+  id="clearFilters"
+  type="button"
+>
+Clear Filters
+</button>
+
+</div>
 
 </section>
+
+
+<!-- =======================================================
+     SIDEBAR
+======================================================== -->
+
+<aside class="side-stack">
+
+
+<section class="side-card">
+
+<div class="section-eyebrow">
+SHORTLIST SUMMARY
+</div>
+
+<h2 class="side-title">
+Your property shortlist.
+</h2>
+
+<div
+  class="summary-number"
+  id="sideSavedCount"
+>
+0
+</div>
+
+<div class="summary-label">
+Saved Properties
+</div>
+
+
+<div class="summary-row">
+
+<span>
+Visible now
+</span>
+
+<strong id="sideVisibleCount">
+0
+</strong>
+
+</div>
+
+
+<div class="summary-row">
+
+<span>
+Offers
+</span>
+
+<strong id="offerCount">
+0
+</strong>
+
+</div>
+
+
+<div class="summary-row">
+
+<span>
+Enquiries
+</span>
+
+<strong id="enquiryCount">
+0
+</strong>
+
+</div>
+
+</section>
+
+
+<section class="side-card">
+
+<div class="section-eyebrow">
+QUICK ACCESS
+</div>
+
+<h2 class="side-title">
+Continue your buyer journey.
+</h2>
+
+
+<div class="quick-list">
+
+<a
+  class="quick"
+  href="buyer-dashboard.html"
+>
+
+<div class="quick-icon">
+⌂
+</div>
+
+<div>
+
+<strong>
+Buyer Dashboard
+</strong>
+
+<span>
+Your main buyer workspace
+</span>
+
+</div>
+
+</a>
+
+
+<a
+  class="quick"
+  href="property-search.html"
+>
+
+<div class="quick-icon">
+⌕
+</div>
+
+<div>
+
+<strong>
+Find Properties
+</strong>
+
+<span>
+Explore available listings
+</span>
+
+</div>
+
+</a>
+
+
+<a
+  class="quick"
+  href="enquiries.html"
+>
+
+<div class="quick-icon">
+?
+</div>
+
+<div>
+
+<strong>
+My Enquiries
+</strong>
+
+<span>
+Track property enquiries
+</span>
+
+</div>
+
+</a>
+
+
+<a
+  class="quick"
+  href="offers.html"
+>
+
+<div class="quick-icon">
+₹
+</div>
+
+<div>
+
+<strong>
+My Offers
+</strong>
+
+<span>
+Manage submitted offers
+</span>
+
+</div>
+
+</a>
+
+
+<a
+  class="quick"
+  href="messages.html"
+>
+
+<div class="quick-icon">
+✉
+</div>
+
+<div>
+
+<strong>
+Messages
+</strong>
+
+<span>
+Secure communication
+</span>
+
+</div>
+
+</a>
+
+
+<a
+  class="quick"
+  href="my-profile.html"
+>
+
+<div class="quick-icon">
+●
+</div>
+
+<div>
+
+<strong>
+My Profile
+</strong>
+
+<span>
+Manage buyer information
+</span>
+
+</div>
+
+</a>
+
+</div>
+
+</section>
+
+
+<section class="support">
+
+<div class="eyebrow">
+GHAR SUPPORT
+</div>
+
+<h3>
+Need assistance?
+</h3>
+
+<p>
+Contact GHAR through the secure communication
+workspace for help with properties, enquiries,
+offers or your buyer account.
+</p>
+
+<a
+  class="btn primary"
+  href="messages.html"
+>
+Open Messages
+</a>
+
+</section>
+
+</aside>
+
+</div>
 
 </main>
 
 
-<!-- =========================================================
+<!-- =======================================================
      FOOTER
-========================================================= -->
+======================================================== -->
 
-<footer class="saved-footer">
+<footer class="footer">
 
-<div class="saved-footer-inner">
+<div class="footer-grid">
 
-    <div>
-        <strong>GHAR</strong>
-        <div>
-            A structured real-estate platform.
-        </div>
-    </div>
 
-    <div class="saved-footer-links">
+<div>
 
-        <a href="../about.html">About</a>
+<div class="footer-logo">
+GHAR
+</div>
 
-        <a href="../support/index.html">
-            Support
-        </a>
+<div class="footer-description">
+A structured real-estate workspace connecting
+buyers, sellers, renters and property transactions
+through one premium digital experience.
+</div>
 
-        <a href="../legal/terms.html">
-            Terms
-        </a>
+</div>
 
-        <a href="../legal/privacy.html">
-            Privacy
-        </a>
 
-        <a href="../index.html">
-            Home
-        </a>
+<div>
 
-    </div>
+<div class="footer-title">
+BUYER
+</div>
+
+<div class="footer-links">
+
+<a href="buyer-dashboard.html">
+Dashboard
+</a>
+
+<br>
+
+<a href="property-search.html">
+Find Property
+</a>
+
+<br>
+
+<a href="saved-properties.html">
+Saved Properties
+</a>
+
+<br>
+
+<a href="enquiries.html">
+My Enquiries
+</a>
+
+</div>
+
+</div>
+
+
+<div>
+
+<div class="footer-title">
+ACCOUNT
+</div>
+
+<div class="footer-links">
+
+<a href="my-profile.html">
+My Profile
+</a>
+
+<br>
+
+<a href="offers.html">
+My Offers
+</a>
+
+<br>
+
+<a href="messages.html">
+Messages
+</a>
+
+<br>
+
+<a href="notifications.html">
+Notifications
+</a>
+
+</div>
+
+</div>
+
+
+<div>
+
+<div class="footer-title">
+GHAR
+</div>
+
+<div class="footer-links">
+
+<a href="about.html">
+About GHAR
+</a>
+
+<br>
+
+<a href="../contact.html">
+Contact
+</a>
+
+<br>
+
+<a href="../terms.html">
+Terms
+</a>
+
+<br>
+
+<a href="../privacy.html">
+Privacy
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="footer-bottom">
+
+© 2026 GHAR. All rights reserved.
+· Buyer saved-property workspace connected.
 
 </div>
 
 </footer>
 
 
-<div class="ghar-global-toast"></div>
+<!-- =======================================================
+     GHAR AI
+======================================================== -->
+
+<button
+  id="aiLauncher"
+  class="ai-launcher"
+  aria-label="Open GHAR AI"
+  title="GHAR AI"
+>
+✦
+</button>
 
 
-<script src="../assets/js/main/site.js" defer></script>
-<script src="../assets/js/main/page.js" defer></script>
+<aside
+  id="aiPanel"
+  class="ai-panel"
+  aria-label="GHAR AI Saved Property Assistant"
+>
+
+<div class="ai-head">
+
+<div>
+
+<div class="ai-title">
+GHAR AI
+</div>
+
+<div class="ai-sub">
+Saved Property Assistant
+</div>
+
+</div>
 
 
-<!-- =========================================================
-     PAGE CONTROLLER
-========================================================= -->
+<button
+  id="aiClose"
+  class="ai-close"
+  aria-label="Close GHAR AI"
+>
+×
+</button>
+
+</div>
+
+
+<div
+  id="aiMessages"
+  class="ai-messages"
+>
+
+<div class="ai-msg bot">
+Welcome to GHAR AI.
+I can help you manage saved properties,
+shortlists, enquiries and your buyer workflow.
+</div>
+
+</div>
+
+
+<form
+  id="aiForm"
+  class="ai-form"
+>
+
+<input
+  id="aiInput"
+  type="text"
+  placeholder="Ask about saved properties..."
+  autocomplete="off"
+>
+
+<button type="submit">
+Send
+</button>
+
+</form>
+
+</aside>
+
+
+<!-- =======================================================
+     SHARED GHAR JAVASCRIPT
+======================================================== -->
+
+<script
+  src="../assets/js/main/site.js"
+  defer
+></script>
+
+<script
+  src="../assets/js/main/page.js"
+  defer
+></script>
+
+<script
+  src="../assets/js/main/api.js"
+  defer
+></script>
+
+<script
+  src="../assets/js/main/auth.js"
+  defer
+></script>
+
+<script
+  src="../assets/js/buyer/buyer.js"
+  defer
+></script>
+
+<script
+  src="../assets/js/ai/ghar-ai.js"
+  defer
+></script>
+
 
 <script>
-(function(){
+(() => {
 
 "use strict";
 
 
 /* =========================================================
-   FALLBACK DATA
+   CONFIG
 ========================================================= */
 
-const fallbackSaved = [
+const STORAGE_KEY =
+  "ghar_saved_properties";
 
-    {
-        id:"GHAR-P001",
-        title:"Luxury 3 BHK Residence",
-        location:"Sector 150, Noida",
-        type:"apartment",
-        price:"₹2.35 Cr",
-        priceValue:23500000,
-        details:"3 BHK • 2,450 sq.ft.",
-        image:"../images/ghar-house.jpg",
-        savedAt:3,
-        category:"Sale"
-    },
 
-    {
-        id:"GHAR-P014",
-        title:"Premium Independent House",
-        location:"Sector 132, Noida",
-        type:"house",
-        price:"₹3.10 Cr",
-        priceValue:31000000,
-        details:"4 BHK • Independent House",
-        image:"../images/ghar-house.jpg",
-        savedAt:2,
-        category:"Sale"
-    },
+const grid =
+  document.getElementById(
+    "propertyGrid"
+  );
 
-    {
-        id:"GHAR-P021",
-        title:"Modern Family Villa",
-        location:"Greater Noida West",
-        type:"villa",
-        price:"₹2.85 Cr",
-        priceValue:28500000,
-        details:"4 BHK • Premium Community",
-        image:"../images/ghar-house.jpg",
-        savedAt:1,
-        category:"Sale"
-    },
 
-    {
-        id:"GHAR-P031",
-        title:"Premium Commercial Space",
-        location:"Sector 18, Noida",
-        type:"commercial",
-        price:"₹4.20 Cr",
-        priceValue:42000000,
-        details:"Commercial • Main Road",
-        image:"../images/ghar-house.jpg",
-        savedAt:4,
-        category:"Sale"
-    }
+const emptyState =
+  document.getElementById(
+    "emptyState"
+  );
 
+
+const filterEmpty =
+  document.getElementById(
+    "filterEmpty"
+  );
+
+
+const searchInput =
+  document.getElementById(
+    "searchInput"
+  );
+
+
+const typeFilter =
+  document.getElementById(
+    "typeFilter"
+  );
+
+
+const sortSelect =
+  document.getElementById(
+    "sortSelect"
+  );
+
+
+/* =========================================================
+   DEMO FALLBACK DATA
+   Used only when no saved-property data exists.
+========================================================= */
+
+const demoProperties = [
+  {
+    id:"GHAR-P001",
+    title:"Royal Crest Residence",
+    type:"apartment",
+    location:"Sector 150, Noida, Uttar Pradesh",
+    price:"₹2.35 Cr",
+    priceValue:23500000,
+    bedrooms:"3 BHK",
+    area:"1,850 sq.ft",
+    status:"For Sale",
+    image:"",
+    savedAt:Date.now() - 1000
+  },
+  {
+    id:"GHAR-P002",
+    title:"Sapphire Villa Estate",
+    type:"villa",
+    location:"Greater Noida West, Uttar Pradesh",
+    price:"₹3.10 Cr",
+    priceValue:31000000,
+    bedrooms:"4 BHK",
+    area:"3,200 sq.ft",
+    status:"For Sale",
+    image:"",
+    savedAt:Date.now() - 2000
+  },
+  {
+    id:"GHAR-P003",
+    title:"The Grand Independent",
+    type:"house",
+    location:"Sector 41, Noida, Uttar Pradesh",
+    price:"₹2.85 Cr",
+    priceValue:28500000,
+    bedrooms:"4 BHK",
+    area:"2,700 sq.ft",
+    status:"For Sale",
+    image:"",
+    savedAt:Date.now() - 3000
+  },
+  {
+    id:"GHAR-P004",
+    title:"Emerald Heights",
+    type:"flat",
+    location:"Sector 137, Noida, Uttar Pradesh",
+    price:"₹92 Lakh",
+    priceValue:9200000,
+    bedrooms:"2 BHK",
+    area:"1,120 sq.ft",
+    status:"For Sale",
+    image:"",
+    savedAt:Date.now() - 4000
+  }
 ];
 
 
 /* =========================================================
-   HELPERS
+   LOAD
 ========================================================= */
 
-function escapeHTML(value){
+function loadSaved(){
 
-    return String(value ?? "")
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
+  try{
 
-}
+    const raw =
+      localStorage.getItem(
+        STORAGE_KEY
+      );
 
+    if(!raw){
 
-function getSaved(){
-
-    const keys = [
-        "ghar_saved_properties",
-        "savedProperties",
-        "gharSavedProperties",
-        "saved_properties"
-    ];
-
-    for(const key of keys){
-
-        try{
-
-            const raw =
-                localStorage.getItem(key);
-
-            if(!raw) continue;
-
-            const parsed =
-                JSON.parse(raw);
-
-            if(Array.isArray(parsed)){
-                return parsed;
-            }
-
-        }catch(error){
-
-            console.warn(
-                "GHAR saved-property storage error:",
-                error
-            );
-
-        }
+      return [];
 
     }
 
-    return fallbackSaved;
+    const data =
+      JSON.parse(raw);
 
-}
+    return Array.isArray(data)
+      ? data
+      : [];
 
+  }catch(error){
 
-function saveProperties(properties){
+    console.warn(
+      "GHAR saved properties:",
+      error
+    );
 
-    const keys = [
-        "ghar_saved_properties",
-        "savedProperties"
-    ];
+    return [];
 
-    try{
-
-        localStorage.setItem(
-            keys[0],
-            JSON.stringify(properties)
-        );
-
-    }catch(error){
-
-        console.warn(
-            "Unable to save GHAR properties:",
-            error
-        );
-
-    }
+  }
 
 }
 
 
 /* =========================================================
-   NORMALIZE DATA
+   NORMALIZE
 ========================================================= */
 
-function normalizeProperty(property,index){
+function normalizeProperty(
+  property,
+  index
+){
 
-    return {
+  const p =
+    property || {};
 
-        id:
-            property.id ||
-            property.propertyId ||
-            `GHAR-SAVED-${index+1}`,
 
-        title:
-            property.title ||
-            property.name ||
-            "GHAR Property",
+  const title =
+    p.title ||
+    p.name ||
+    p.propertyName ||
+    "GHAR Property";
 
-        location:
-            property.location ||
-            property.address ||
-            "Location available through GHAR",
 
-        type:
-            String(
-                property.type ||
-                property.propertyType ||
-                "apartment"
-            ).toLowerCase(),
+  const location =
+    p.location ||
+    p.address ||
+    [
+      p.city,
+      p.state
+    ]
+    .filter(Boolean)
+    .join(", ") ||
+    "Location available";
 
-        price:
-            property.price ||
-            property.amount ||
-            "Price on request",
 
-        priceValue:
-            Number(
-                property.priceValue ||
-                property.priceNumeric ||
-                property.amountValue ||
-                0
-            ),
+  const type =
+    String(
+      p.type ||
+      p.propertyType ||
+      "property"
+    )
+    .toLowerCase();
 
-        details:
-            property.details ||
-            [
-                property.bedrooms
-                    ? `${property.bedrooms} BHK`
-                    : "",
-                property.area
-                    ? property.area
-                    : ""
-            ].filter(Boolean).join(" • ") ||
-            "Property details available through GHAR",
 
-        image:
-            property.image ||
-            property.imageUrl ||
-            "../images/ghar-house.jpg",
+  let priceValue =
+    Number(
+      p.priceValue ||
+      p.numericPrice ||
+      p.amount ||
+      0
+    );
 
-        savedAt:
-            Number(
-                property.savedAt ||
-                property.createdAt ||
-                index+1
-            ),
 
-        category:
-            property.category ||
-            property.listingType ||
-            "Sale"
+  if(!priceValue){
 
-    };
+    const priceText =
+      String(
+        p.price ||
+        ""
+      );
+
+    const number =
+      priceText
+        .replace(/[^\d.]/g,"");
+
+
+    if(number){
+
+      priceValue =
+        Number(number);
+
+    }
+
+  }
+
+
+  return {
+
+    ...p,
+
+    id:
+      p.id ||
+      p.propertyId ||
+      `saved-${index}`,
+
+    title,
+
+    location,
+
+    type,
+
+    price:
+      p.price ||
+      "Price on request",
+
+    priceValue,
+
+    bedrooms:
+      p.bedrooms ||
+      p.bhk ||
+      p.configuration ||
+      "--",
+
+    area:
+      p.area ||
+      p.size ||
+      p.superBuiltUpArea ||
+      "--",
+
+    status:
+      p.status ||
+      p.listingType ||
+      "Property",
+
+    image:
+      p.image ||
+      p.imageUrl ||
+      p.thumbnail ||
+      "",
+
+    savedAt:
+      p.savedAt ||
+      p.createdAt ||
+      Date.now()
+
+  };
 
 }
 
 
 /* =========================================================
-   STATE
+   CURRENT DATA
 ========================================================= */
 
 let properties =
-    getSaved().map(normalizeProperty);
-
-let currentSearch = "";
-let currentType = "all";
-let currentSort = "recent";
+  loadSaved()
+    .map(normalizeProperty);
 
 
-/* =========================================================
-   STATS
-========================================================= */
+/*
+ * If you want the page to show only real saved
+ * properties, leave this false.
+ */
+const USE_DEMO_FALLBACK =
+  false;
 
-function updateStats(list){
 
-    document.getElementById(
-        "savedCount"
-    ).textContent = list.length;
+if(
+  properties.length === 0 &&
+  USE_DEMO_FALLBACK
+){
 
-    document.getElementById(
-        "apartmentCount"
-    ).textContent =
-        list.filter(
-            p => p.type === "apartment"
-        ).length;
-
-    document.getElementById(
-        "houseCount"
-    ).textContent =
-        list.filter(
-            p =>
-                p.type === "house" ||
-                p.type === "villa"
-        ).length;
-
-    document.getElementById(
-        "commercialCount"
-    ).textContent =
-        list.filter(
-            p =>
-                p.type === "commercial"
-        ).length;
+  properties =
+    demoProperties
+      .map(normalizeProperty);
 
 }
 
 
 /* =========================================================
-   FILTER / SORT
+   SAVE STORAGE
+========================================================= */
+
+function persist(){
+
+  try{
+
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify(properties)
+    );
+
+  }catch(error){
+
+    console.warn(
+      "GHAR save:",
+      error
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   PRICE
+========================================================= */
+
+function numericPrice(
+  property
+){
+
+  return Number(
+    property.priceValue ||
+    0
+  );
+
+}
+
+
+/* =========================================================
+   ESCAPE HTML
+========================================================= */
+
+function escapeHTML(
+  value
+){
+
+  return String(
+    value ?? ""
+  )
+  .replace(
+    /&/g,
+    "&amp;"
+  )
+  .replace(
+    /</g,
+    "&lt;"
+  )
+  .replace(
+    />/g,
+    "&gt;"
+  )
+  .replace(
+    /"/g,
+    "&quot;"
+  )
+  .replace(
+    /'/g,
+    "&#039;"
+  );
+
+}
+
+
+/* =========================================================
+   IMAGE
+========================================================= */
+
+function imageHTML(
+  property
+){
+
+  if(
+    property.image
+  ){
+
+    return `
+      <img
+        src="${escapeHTML(property.image)}"
+        alt="${escapeHTML(property.title)}"
+        loading="lazy"
+        onerror="
+          this.style.display='none';
+          this.nextElementSibling.style.display='flex';
+        "
+      >
+
+      <div
+        class="image-placeholder"
+        style="display:none"
+      >
+        ⌂
+      </div>
+    `;
+
+  }
+
+
+  return `
+    <div class="image-placeholder">
+      ⌂
+    </div>
+  `;
+
+}
+
+
+/* =========================================================
+   CARD
+========================================================= */
+
+function cardHTML(
+  property
+){
+
+  return `
+    <article
+      class="property-card"
+      data-id="${escapeHTML(property.id)}"
+    >
+
+      <div class="property-image">
+
+        ${imageHTML(property)}
+
+        <div class="property-badge">
+          ${escapeHTML(property.status)}
+        </div>
+
+        <div
+          class="saved-badge"
+          title="Saved property"
+        >
+          ♥
+        </div>
+
+      </div>
+
+
+      <div class="property-body">
+
+        <div class="property-type">
+          ${escapeHTML(property.type)}
+        </div>
+
+        <h3 class="property-title">
+          ${escapeHTML(property.title)}
+        </h3>
+
+        <div class="property-location">
+          ⌖ ${escapeHTML(property.location)}
+        </div>
+
+        <div class="property-price">
+          ${escapeHTML(property.price)}
+        </div>
+
+
+        <div class="property-meta">
+
+          <div class="meta">
+
+            <strong>
+              ${escapeHTML(property.bedrooms)}
+            </strong>
+
+            Configuration
+
+          </div>
+
+
+          <div class="meta">
+
+            <strong>
+              ${escapeHTML(property.area)}
+            </strong>
+
+            Area
+
+          </div>
+
+
+          <div class="meta">
+
+            <strong>
+              ${escapeHTML(property.id)}
+            </strong>
+
+            Property ID
+
+          </div>
+
+        </div>
+
+
+        <div class="property-actions">
+
+          <a
+            class="btn dark"
+            href="property-details.html?id=${encodeURIComponent(property.id)}"
+          >
+            View Property
+          </a>
+
+          <button
+            class="btn burgundy enquiry-btn"
+            type="button"
+            data-id="${escapeHTML(property.id)}"
+          >
+            Enquire
+          </button>
+
+          <button
+            class="btn remove-btn remove-property"
+            type="button"
+            data-id="${escapeHTML(property.id)}"
+          >
+            ♥ Remove from Saved
+          </button>
+
+        </div>
+
+      </div>
+
+    </article>
+  `;
+
+}
+
+
+/* =========================================================
+   FILTER
 ========================================================= */
 
 function getFiltered(){
 
-    let result =
-        [...properties];
+  const search =
+    searchInput.value
+      .trim()
+      .toLowerCase();
 
 
-    if(currentSearch){
-
-        const search =
-            currentSearch.toLowerCase();
-
-        result =
-            result.filter(
-                p =>
-                    String(p.title)
-                        .toLowerCase()
-                        .includes(search) ||
-
-                    String(p.location)
-                        .toLowerCase()
-                        .includes(search) ||
-
-                    String(p.id)
-                        .toLowerCase()
-                        .includes(search)
-            );
-
-    }
+  const type =
+    typeFilter.value;
 
 
-    if(currentType !== "all"){
+  let result =
+    properties.filter(
+      property => {
 
-        result =
-            result.filter(
-                p =>
-                    p.type === currentType
-            );
+        const matchesSearch =
+          !search ||
+          [
+            property.title,
+            property.location,
+            property.type,
+            property.price,
+            property.id
+          ]
+          .join(" ")
+          .toLowerCase()
+          .includes(search);
 
-    }
+
+        const matchesType =
+          type === "all" ||
+          property.type === type;
 
 
-    if(currentSort === "price-low"){
-
-        result.sort(
-            (a,b) =>
-                a.priceValue - b.priceValue
+        return (
+          matchesSearch &&
+          matchesType
         );
 
-    }
-
-    else if(currentSort === "price-high"){
-
-        result.sort(
-            (a,b) =>
-                b.priceValue - a.priceValue
-        );
-
-    }
-
-    else if(currentSort === "name"){
-
-        result.sort(
-            (a,b) =>
-                a.title.localeCompare(
-                    b.title
-                )
-        );
-
-    }
-
-    else{
-
-        result.sort(
-            (a,b) =>
-                a.savedAt - b.savedAt
-        );
-
-    }
+      }
+    );
 
 
-    return result;
+  const sort =
+    sortSelect.value;
+
+
+  if(sort === "price-low"){
+
+    result.sort(
+      (a,b) =>
+        numericPrice(a) -
+        numericPrice(b)
+    );
+
+  }
+
+
+  if(sort === "price-high"){
+
+    result.sort(
+      (a,b) =>
+        numericPrice(b) -
+        numericPrice(a)
+    );
+
+  }
+
+
+  if(sort === "name"){
+
+    result.sort(
+      (a,b) =>
+        a.title.localeCompare(
+          b.title
+        )
+    );
+
+  }
+
+
+  if(sort === "recent"){
+
+    result.sort(
+      (a,b) =>
+        Number(b.savedAt || 0) -
+        Number(a.savedAt || 0)
+    );
+
+  }
+
+
+  return result;
+
+}
+
+
+/* =========================================================
+   COUNTS
+========================================================= */
+
+function updateCounts(
+  visible
+){
+
+  const total =
+    properties.length;
+
+
+  document.getElementById(
+    "heroSavedCount"
+  ).textContent =
+    total;
+
+
+  document.getElementById(
+    "sideSavedCount"
+  ).textContent =
+    total;
+
+
+  document.getElementById(
+    "visibleCount"
+  ).textContent =
+    visible.length;
+
+
+  document.getElementById(
+    "sideVisibleCount"
+  ).textContent =
+    visible.length;
+
+
+  try{
+
+    const enquiries =
+      JSON.parse(
+        localStorage.getItem(
+          "ghar_enquiries"
+        ) || "[]"
+      );
+
+
+    document.getElementById(
+      "enquiryCount"
+    ).textContent =
+      Array.isArray(enquiries)
+        ? enquiries.length
+        : 0;
+
+
+    const offers =
+      JSON.parse(
+        localStorage.getItem(
+          "ghar_offers"
+        ) || "[]"
+      );
+
+
+    document.getElementById(
+      "offerCount"
+    ).textContent =
+      Array.isArray(offers)
+        ? offers.length
+        : 0;
+
+  }catch(error){
+
+    console.warn(error);
+
+  }
 
 }
 
@@ -1532,270 +3381,61 @@ function getFiltered(){
 
 function render(){
 
-    const list =
-        document.getElementById(
-            "savedList"
-        );
+  const visible =
+    getFiltered();
 
-    const visible =
-        getFiltered();
 
+  updateCounts(
+    visible
+  );
 
-    updateStats(properties);
 
+  if(
+    properties.length === 0
+  ){
 
-    if(!visible.length){
+    grid.innerHTML = "";
 
-        list.innerHTML = `
+    emptyState.style.display =
+      "block";
 
-            <div class="saved-empty">
+    filterEmpty.style.display =
+      "none";
 
-                <div class="saved-empty-icon">
-                    ♡
-                </div>
+    return;
 
-                <h3>
-                    ${
-                        properties.length
-                        ? "No matching properties"
-                        : "No saved properties yet"
-                    }
-                </h3>
+  }
 
-                <p>
-                    ${
-                        properties.length
-                        ? "Try changing your search or filter."
-                        : "Save properties while browsing GHAR and they will appear here."
-                    }
-                </p>
 
-                <a
-                    href="../property/property-search.html"
-                    class="saved-btn saved-btn-primary">
-                    Find Properties
-                </a>
+  emptyState.style.display =
+    "none";
 
-            </div>
 
-        `;
+  if(
+    visible.length === 0
+  ){
 
-        return;
+    grid.innerHTML = "";
 
-    }
+    filterEmpty.style.display =
+      "block";
 
+    return;
 
-    list.innerHTML =
-        visible
-            .map(renderCard)
-            .join("");
+  }
 
 
-    bindCardActions();
+  filterEmpty.style.display =
+    "none";
 
-}
 
+  grid.innerHTML =
+    visible
+      .map(cardHTML)
+      .join("");
 
-/* =========================================================
-   CARD
-========================================================= */
 
-function renderCard(property){
-
-    const typeLabel = {
-
-        apartment:"Apartment",
-
-        house:"Independent House",
-
-        villa:"Villa",
-
-        commercial:"Commercial",
-
-        land:"Land"
-
-    }[property.type] || "Property";
-
-
-    return `
-
-        <article
-            class="saved-card"
-            data-property-id="${escapeHTML(property.id)}">
-
-            <div class="saved-image">
-
-                <img
-                    src="${escapeHTML(property.image)}"
-                    alt="${escapeHTML(property.title)}"
-                    loading="lazy"
-                    onerror="
-                        this.src='../images/ghar-house.jpg';
-                    "
-                >
-
-                <div class="saved-badges">
-
-                    <span class="saved-badge sale">
-                        ${escapeHTML(property.category)}
-                    </span>
-
-                    <button
-                        type="button"
-                        class="remove-saved"
-                        data-action="remove"
-                        data-id="${escapeHTML(property.id)}"
-                        aria-label="Remove saved property">
-                        ♥
-                    </button>
-
-                </div>
-
-            </div>
-
-
-            <div class="saved-details">
-
-                <h3 class="saved-property-title">
-                    ${escapeHTML(property.title)}
-                </h3>
-
-                <div class="saved-location">
-                    📍 ${escapeHTML(property.location)}
-                </div>
-
-
-                <div class="saved-price-row">
-
-                    <div>
-
-                        <div class="saved-price-label">
-                            Property Price
-                        </div>
-
-                        <div class="saved-price">
-                            ${escapeHTML(property.price)}
-                        </div>
-
-                    </div>
-
-                    <div class="saved-type">
-                        ${escapeHTML(typeLabel)}
-                    </div>
-
-                </div>
-
-
-                <div class="saved-meta">
-
-                    <span>
-                        ${escapeHTML(property.details)}
-                    </span>
-
-                    <span>
-                        ID: ${escapeHTML(property.id)}
-                    </span>
-
-                </div>
-
-            </div>
-
-
-            <div class="saved-card-footer">
-
-                <button
-                    type="button"
-                    class="saved-card-btn"
-                    data-action="details"
-                    data-id="${escapeHTML(property.id)}">
-                    View Details
-                </button>
-
-                <button
-                    type="button"
-                    class="saved-card-btn"
-                    data-action="enquiry"
-                    data-id="${escapeHTML(property.id)}">
-                    Enquire
-                </button>
-
-                <button
-                    type="button"
-                    class="saved-card-btn primary"
-                    data-action="booking"
-                    data-id="${escapeHTML(property.id)}">
-                    Book
-                </button>
-
-            </div>
-
-        </article>
-
-    `;
-
-}
-
-
-/* =========================================================
-   CARD ACTIONS
-========================================================= */
-
-function bindCardActions(){
-
-    document
-        .querySelectorAll("[data-action]")
-        .forEach(button => {
-
-            button.addEventListener(
-                "click",
-                function(){
-
-                    const action =
-                        this.dataset.action;
-
-                    const id =
-                        this.dataset.id;
-
-
-                    if(action === "remove"){
-
-                        removeProperty(id);
-                        return;
-
-                    }
-
-
-                    if(action === "details"){
-
-                        window.location.href =
-                            `../property/property-details.html?id=${encodeURIComponent(id)}`;
-
-                        return;
-
-                    }
-
-
-                    if(action === "enquiry"){
-
-                        window.location.href =
-                            `property-enquiry.html?property=${encodeURIComponent(id)}`;
-
-                        return;
-
-                    }
-
-
-                    if(action === "booking"){
-
-                        window.location.href =
-                            `property-booking.html?property=${encodeURIComponent(id)}`;
-
-                    }
-
-                }
-            );
-
-        });
+  attachCardEvents();
 
 }
 
@@ -1804,330 +3444,514 @@ function bindCardActions(){
    REMOVE
 ========================================================= */
 
-function removeProperty(id){
+function removeProperty(
+  id
+){
 
-    const property =
-        properties.find(
-            p => String(p.id) === String(id)
-        );
-
-    if(!property) return;
-
-
-    properties =
-        properties.filter(
-            p =>
-                String(p.id) !==
-                String(id)
-        );
-
-
-    saveProperties(properties);
-
-    render();
-
-    showToast(
-        "Property removed from saved list."
+  const property =
+    properties.find(
+      item =>
+        String(item.id) ===
+        String(id)
     );
+
+
+  if(!property){
+
+    return;
+
+  }
+
+
+  const confirmed =
+    confirm(
+      `Remove "${property.title}" from your saved properties?`
+    );
+
+
+  if(!confirmed){
+
+    return;
+
+  }
+
+
+  properties =
+    properties.filter(
+      item =>
+        String(item.id) !==
+        String(id)
+    );
+
+
+  persist();
+
+  render();
 
 }
 
 
 /* =========================================================
-   TOAST
+   ENQUIRY
 ========================================================= */
 
-function showToast(message){
+function createEnquiry(
+  id
+){
 
-    const toast =
-        document.querySelector(
-            ".ghar-global-toast"
-        );
-
-    if(!toast){
-
-        alert(message);
-        return;
-
-    }
-
-
-    toast.textContent =
-        message;
-
-    toast.style.position =
-        "fixed";
-
-    toast.style.right =
-        "18px";
-
-    toast.style.bottom =
-        "18px";
-
-    toast.style.zIndex =
-        "9999";
-
-    toast.style.padding =
-        "13px 17px";
-
-    toast.style.borderRadius =
-        "13px";
-
-    toast.style.background =
-        "#10231d";
-
-    toast.style.color =
-        "#fff";
-
-    toast.style.boxShadow =
-        "0 15px 40px rgba(0,0,0,.20)";
-
-    toast.style.opacity =
-        "1";
-
-    clearTimeout(
-        toast._timer
+  const property =
+    properties.find(
+      item =>
+        String(item.id) ===
+        String(id)
     );
 
-    toast._timer =
-        setTimeout(
-            () => {
-                toast.style.opacity =
-                    "0";
-            },
-            2200
-        );
+
+  if(!property){
+
+    return;
+
+  }
+
+
+  const enquiry = {
+
+    id:
+      "ENQ-" +
+      Date.now(),
+
+    propertyId:
+      property.id,
+
+    propertyTitle:
+      property.title,
+
+    location:
+      property.location,
+
+    status:
+      "new",
+
+    createdAt:
+      new Date().toISOString()
+
+  };
+
+
+  try{
+
+    const existing =
+      JSON.parse(
+        localStorage.getItem(
+          "ghar_enquiries"
+        ) || "[]"
+      );
+
+
+    const list =
+      Array.isArray(existing)
+        ? existing
+        : [];
+
+
+    list.push(
+      enquiry
+    );
+
+
+    localStorage.setItem(
+      "ghar_enquiries",
+      JSON.stringify(list)
+    );
+
+
+    alert(
+      "Property enquiry created successfully."
+    );
+
+
+    window.location.href =
+      "enquiries.html";
+
+  }catch(error){
+
+    console.error(error);
+
+    alert(
+      "Unable to create enquiry on this device."
+    );
+
+  }
 
 }
 
 
 /* =========================================================
-   SEARCH
+   CARD EVENTS
 ========================================================= */
 
-document
-    .getElementById("savedSearch")
-    ?.addEventListener(
-        "input",
-        function(){
-
-            currentSearch =
-                this.value.trim();
-
-            render();
-
-        }
-    );
-
-
-/* =========================================================
-   TYPE FILTER
-========================================================= */
-
-document
-    .getElementById("savedType")
-    ?.addEventListener(
-        "change",
-        function(){
-
-            currentType =
-                this.value;
-
-            render();
-
-        }
-    );
-
-
-/* =========================================================
-   SORT
-========================================================= */
-
-document
-    .getElementById("savedSort")
-    ?.addEventListener(
-        "change",
-        function(){
-
-            currentSort =
-                this.value;
-
-            render();
-
-        }
-    );
-
-
-/* =========================================================
-   HEADER
-========================================================= */
-
-function initHeader(){
-
-    const profile =
-        document.getElementById(
-            "savedProfile"
-        );
-
-    const notifications =
-        document.getElementById(
-            "savedNotifications"
-        );
-
-    const menu =
-        document.getElementById(
-            "savedMenu"
-        );
-
-    const nav =
-        document.getElementById(
-            "savedNav"
-        );
-
-
-    profile?.addEventListener(
-        "click",
-        () => {
-
-            window.location.href =
-                "my-profile.html";
-
-        }
-    );
-
-
-    notifications?.addEventListener(
-        "click",
-        () => {
-
-            window.location.href =
-                "../communication/notifications.html";
-
-        }
-    );
-
-
-    menu?.addEventListener(
-        "click",
-        () => {
-
-            const open =
-                menu.dataset.open === "true";
-
-
-            if(open){
-
-                nav.style.display =
-                    "";
-
-                nav.style.position =
-                    "";
-
-                nav.style.top =
-                    "";
-
-                nav.style.left =
-                    "";
-
-                nav.style.right =
-                    "";
-
-                nav.style.flexDirection =
-                    "";
-
-                nav.style.padding =
-                    "";
-
-                nav.style.background =
-                    "";
-
-                nav.style.border =
-                    "";
-
-                nav.style.borderRadius =
-                    "";
-
-                nav.style.boxShadow =
-                    "";
-
-                menu.dataset.open =
-                    "false";
-
-                menu.setAttribute(
-                    "aria-expanded",
-                    "false"
-                );
-
-            }else{
-
-                nav.style.display =
-                    "flex";
-
-                nav.style.position =
-                    "absolute";
-
-                nav.style.top =
-                    "76px";
-
-                nav.style.left =
-                    "10px";
-
-                nav.style.right =
-                    "10px";
-
-                nav.style.flexDirection =
-                    "column";
-
-                nav.style.alignItems =
-                    "stretch";
-
-                nav.style.padding =
-                    "12px";
-
-                nav.style.background =
-                    "rgba(248,243,234,.98)";
-
-                nav.style.border =
-                    "1px solid rgba(16,35,29,.12)";
-
-                nav.style.borderRadius =
-                    "16px";
-
-                nav.style.boxShadow =
-                    "0 20px 50px rgba(16,35,29,.15)";
-
-                menu.dataset.open =
-                    "true";
-
-                menu.setAttribute(
-                    "aria-expanded",
-                    "true"
-                );
-
-            }
-
-        }
-    );
-
-}
-
-
-/* =========================================================
-   STORAGE SYNC
-========================================================= */
-
-window.addEventListener(
-    "storage",
-    function(){
-
-        properties =
-            getSaved().map(
-                normalizeProperty
+function attachCardEvents(){
+
+  document
+    .querySelectorAll(
+      ".remove-property"
+    )
+    .forEach(
+      button => {
+
+        button.addEventListener(
+          "click",
+          () => {
+
+            removeProperty(
+              button.dataset.id
             );
 
-        render();
+          }
+        );
+
+      }
+    );
+
+
+  document
+    .querySelectorAll(
+      ".enquiry-btn"
+    )
+    .forEach(
+      button => {
+
+        button.addEventListener(
+          "click",
+          () => {
+
+            createEnquiry(
+              button.dataset.id
+            );
+
+          }
+        );
+
+      }
+    );
+
+}
+
+
+/* =========================================================
+   FILTER EVENTS
+========================================================= */
+
+searchInput?.addEventListener(
+  "input",
+  render
+);
+
+
+typeFilter?.addEventListener(
+  "change",
+  render
+);
+
+
+sortSelect?.addEventListener(
+  "change",
+  render
+);
+
+
+document
+  .getElementById(
+    "clearFilters"
+  )
+  ?.addEventListener(
+    "click",
+    () => {
+
+      searchInput.value =
+        "";
+
+      typeFilter.value =
+        "all";
+
+      sortSelect.value =
+        "recent";
+
+      render();
 
     }
+  );
+
+
+/* =========================================================
+   AI
+========================================================= */
+
+const launcher =
+  document.getElementById(
+    "aiLauncher"
+  );
+
+
+const panel =
+  document.getElementById(
+    "aiPanel"
+  );
+
+
+const close =
+  document.getElementById(
+    "aiClose"
+  );
+
+
+const aiForm =
+  document.getElementById(
+    "aiForm"
+  );
+
+
+const input =
+  document.getElementById(
+    "aiInput"
+  );
+
+
+const messages =
+  document.getElementById(
+    "aiMessages"
+  );
+
+
+launcher?.addEventListener(
+  "click",
+  () => {
+
+    panel.classList.add(
+      "open"
+    );
+
+    input.focus();
+
+  }
+);
+
+
+close?.addEventListener(
+  "click",
+  () => {
+
+    panel.classList.remove(
+      "open"
+    );
+
+  }
+);
+
+
+function addMessage(
+  message,
+  type
+){
+
+  const element =
+    document.createElement(
+      "div"
+    );
+
+
+  element.className =
+    "ai-msg " + type;
+
+
+  element.textContent =
+    message;
+
+
+  messages.appendChild(
+    element
+  );
+
+
+  messages.scrollTop =
+    messages.scrollHeight;
+
+}
+
+
+async function askAI(
+  message
+){
+
+  if(
+    window.GHARAI &&
+    typeof window.GHARAI.ask ===
+      "function"
+  ){
+
+    return await
+      window.GHARAI.ask(
+        message,
+        {
+
+          page:
+            "buyer-saved-properties",
+
+          role:
+            "buyer"
+
+        }
+      );
+
+  }
+
+
+  const text =
+    message.toLowerCase();
+
+
+  if(
+    text.includes("remove")
+  ){
+
+    return `
+You can remove a saved property using
+the "Remove from Saved" button on its card.
+`;
+
+  }
+
+
+  if(
+    text.includes("saved") ||
+    text.includes("shortlist")
+  ){
+
+    return `
+You currently have ${properties.length}
+saved properties in this buyer workspace.
+`;
+
+  }
+
+
+  if(
+    text.includes("enquir")
+  ){
+
+    return `
+Open a saved property and use Enquire,
+or use the Enquire button directly from
+your saved-property card.
+`;
+
+  }
+
+
+  if(
+    text.includes("filter") ||
+    text.includes("search")
+  ){
+
+    return `
+Use the search box to find a saved property,
+the property-type filter to narrow the list,
+and Sort to arrange your shortlist.
+`;
+
+  }
+
+
+  return `
+I can help you manage saved properties,
+shortlists, enquiries, filtering and your
+GHAR buyer workflow.
+`;
+
+}
+
+
+aiForm?.addEventListener(
+  "submit",
+  async event => {
+
+    event.preventDefault();
+
+
+    const message =
+      input.value.trim();
+
+
+    if(!message){
+
+      return;
+
+    }
+
+
+    input.value =
+      "";
+
+
+    addMessage(
+      message,
+      "user"
+    );
+
+
+    const typing =
+      document.createElement(
+        "div"
+      );
+
+
+    typing.className =
+      "ai-msg bot";
+
+
+    typing.textContent =
+      "GHAR AI is thinking...";
+
+
+    messages.appendChild(
+      typing
+    );
+
+
+    try{
+
+      const answer =
+        await askAI(
+          message
+        );
+
+
+      typing.remove();
+
+
+      addMessage(
+        answer,
+        "bot"
+      );
+
+    }catch(error){
+
+      typing.remove();
+
+
+      addMessage(
+        "GHAR AI is temporarily unavailable.",
+        "bot"
+      );
+
+
+      console.error(
+        error
+      );
+
+    }
+
+  }
 );
 
 
@@ -2135,35 +3959,12 @@ window.addEventListener(
    INITIALIZE
 ========================================================= */
 
-function initialize(){
-
-    render();
-
-    initHeader();
-
-    console.log(
-        "GHAR Saved Properties ready."
-    );
-
-}
+render();
 
 
-if(
-    document.readyState ===
-    "loading"
-){
-
-    document.addEventListener(
-        "DOMContentLoaded",
-        initialize,
-        {once:true}
-    );
-
-}else{
-
-    initialize();
-
-}
+document.documentElement.classList.add(
+  "ghar-buyer-saved-properties-ready"
+);
 
 })();
 </script>

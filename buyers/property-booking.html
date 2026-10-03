@@ -1,1116 +1,1997 @@
 <!doctype html>
 <html lang="en">
+
 <head>
+
 <meta charset="utf-8">
 
 <meta
-    name="viewport"
-    content="width=device-width,initial-scale=1"
+  name="viewport"
+  content="width=device-width,initial-scale=1"
 >
 
 <meta
-    name="description"
-    content="GHAR Property Booking -- Submit and manage your property booking request securely."
+  name="description"
+  content="GHAR Property Booking -- Reserve a property, submit buyer details and manage your booking request."
 >
 
 <meta
-    name="theme-color"
-    content="#10231d"
+  name="theme-color"
+  content="#090b1d"
 >
 
-<meta
-    name="robots"
-    content="noindex,nofollow"
+<title>Property Booking · GHAR Buyer</title>
+
+<link
+  rel="stylesheet"
+  href="../assets/css/style.css"
 >
-
-<title>Property Booking · GHAR</title>
-
-<link rel="stylesheet" href="../assets/css/style.css">
 
 <style>
+
 /* =========================================================
-   GHAR -- BUYER PROPERTY BOOKING
-   Premium visual layer aligned with GHAR homepage
+   GHAR PROPERTY BOOKING
+   PREMIUM BUYER DESIGN SYSTEM
 ========================================================= */
 
-*
-:root{
-    --gb-green:#10231d;
-    --gb-green-2:#18372d;
-    --gb-green-3:#23483a;
-    --gb-gold:#c9a96e;
-    --gb-gold-soft:#e7d5ad;
-    --gb-cream:#f7f0e4;
-    --gb-sand:#e9decd;
-    --gb-bg:#eef1eb;
-    --gb-text:#17221d;
-    --gb-muted:#69736d;
-    --gb-border:rgba(16,35,29,.12);
-    --gb-card:rgba(255,255,255,.66);
-    --gb-shadow:0 22px 70px rgba(16,35,29,.10);
-    --gb-radius:24px;
+*{
+  box-sizing:border-box;
 }
 
-*
-{
-    box-sizing:border-box;
+:root{
+
+  --royal-950:#070817;
+  --royal-900:#090b1d;
+  --royal-850:#10152e;
+  --royal-800:#171d3d;
+  --royal-700:#292f5e;
+
+  --sapphire:#263f78;
+  --sapphire-2:#405e9d;
+
+  --burgundy:#651f35;
+  --burgundy-2:#8b314b;
+
+  --champagne:#e7c982;
+  --champagne-2:#f3dfaa;
+  --champagne-3:#b48b3d;
+
+  --cream:#fffaf0;
+  --cream-2:#f6eddd;
+  --sand:#eadcc4;
+
+  --ink:#171a2c;
+  --muted:#707488;
+
+  --success:#24614e;
+  --success-soft:#dceee7;
+
+  --warning:#876b24;
+  --warning-soft:#f5e8bd;
+
+  --danger:#923f50;
+  --danger-soft:#f5dfe4;
+
+  --border:rgba(10,14,36,.12);
+  --white-border:rgba(255,255,255,.14);
+
+  --shadow:
+    0 28px 75px rgba(7,8,23,.13);
+
+  --shadow-soft:
+    0 13px 38px rgba(7,8,23,.08);
+
+  --radius:24px;
 }
+
+
+/* =========================================================
+   BASE
+========================================================= */
 
 html{
-    scroll-behavior:smooth;
+  scroll-behavior:smooth;
 }
 
 body{
-    margin:0;
-    min-height:100vh;
-    color:var(--gb-text);
-    font-family:
-        Inter,
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        sans-serif;
 
-    background:
-        radial-gradient(
-            circle at 5% 5%,
-            rgba(201,169,110,.20),
-            transparent 30%
-        ),
-        radial-gradient(
-            circle at 95% 18%,
-            rgba(35,72,58,.12),
-            transparent 28%
-        ),
-        linear-gradient(
-            135deg,
-            #f8f3e9 0%,
-            #e9efea 52%,
-            #f0e4d3 100%
-        );
-}
+  margin:0;
 
-a{
-    color:inherit;
-    text-decoration:none;
+  min-height:100vh;
+
+  color:var(--ink);
+
+  font-family:
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  background:
+
+    radial-gradient(
+      circle at 7% 5%,
+      rgba(38,63,120,.17),
+      transparent 25%
+    ),
+
+    radial-gradient(
+      circle at 93% 8%,
+      rgba(101,31,53,.15),
+      transparent 27%
+    ),
+
+    radial-gradient(
+      circle at 50% 100%,
+      rgba(231,201,130,.13),
+      transparent 31%
+    ),
+
+    linear-gradient(
+      135deg,
+      #fbf6eb 0%,
+      #eee3d0 46%,
+      #f8efdf 100%
+    );
 }
 
 button,
 input,
 select,
 textarea{
-    font:inherit;
+  font:inherit;
 }
 
 button{
-    cursor:pointer;
+  cursor:pointer;
 }
+
+a{
+  color:inherit;
+}
+
 
 /* =========================================================
-   HEADER
+   PAGE
 ========================================================= */
 
-.booking-header{
-    position:sticky;
-    top:0;
-    z-index:1000;
+.booking-page{
 
-    backdrop-filter:blur(22px);
+  width:min(
+    1480px,
+    calc(100% - 32px)
+  );
 
-    background:rgba(248,243,234,.88);
+  margin:auto;
 
-    border-bottom:
-        1px solid var(--gb-border);
+  padding:
+    34px 0 75px;
 }
 
-.booking-header-inner{
-    width:min(1400px,calc(100% - 32px));
-    min-height:76px;
-    margin:auto;
-
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:20px;
-}
-
-.booking-brand{
-    display:flex;
-    align-items:center;
-    gap:12px;
-
-    font-weight:800;
-}
-
-.booking-logo{
-    width:44px;
-    height:44px;
-
-    display:grid;
-    place-items:center;
-
-    border-radius:14px;
-
-    background:var(--gb-green);
-    color:var(--gb-gold);
-
-    font-weight:900;
-
-    box-shadow:
-        0 10px 28px
-        rgba(16,35,29,.20);
-}
-
-.booking-brand-name{
-    display:block;
-
-    font-size:1.18rem;
-    letter-spacing:.05em;
-}
-
-.booking-brand-subtitle{
-    display:block;
-
-    margin-top:2px;
-
-    color:var(--gb-muted);
-
-    font-size:.63rem;
-    font-weight:700;
-
-    letter-spacing:.13em;
-    text-transform:uppercase;
-}
-
-.booking-nav{
-    display:flex;
-    align-items:center;
-    gap:5px;
-}
-
-.booking-nav a{
-    padding:10px 13px;
-
-    border-radius:11px;
-
-    font-size:.84rem;
-    font-weight:700;
-}
-
-.booking-nav a:hover,
-.booking-nav a.active{
-    background:rgba(16,35,29,.08);
-}
-
-.booking-actions{
-    display:flex;
-    gap:8px;
-}
-
-.booking-icon{
-    width:42px;
-    height:42px;
-
-    border:
-        1px solid var(--gb-border);
-
-    border-radius:13px;
-
-    background:
-        rgba(255,255,255,.60);
-
-    display:grid;
-    place-items:center;
-}
-
-.booking-menu{
-    display:none;
-}
-
-/* =========================================================
-   MAIN
-========================================================= */
-
-.booking-main{
-    width:min(1400px,calc(100% - 32px));
-    margin:auto;
-
-    padding:34px 0 80px;
-}
 
 /* =========================================================
    HERO
 ========================================================= */
 
-.booking-hero{
-    position:relative;
-    overflow:hidden;
+.hero{
 
-    padding:36px;
+  position:relative;
 
-    margin-bottom:22px;
+  overflow:hidden;
 
-    border-radius:30px;
+  min-height:300px;
 
-    color:#fff;
+  display:flex;
 
-    background:
-        linear-gradient(
-            120deg,
-            rgba(16,35,29,.99),
-            rgba(24,55,45,.96)
-        );
+  align-items:center;
 
-    box-shadow:var(--gb-shadow);
+  padding:42px;
+
+  border:
+    1px solid
+    rgba(243,223,170,.22);
+
+  border-radius:32px;
+
+  color:#fff;
+
+  background:
+
+    radial-gradient(
+      circle at 90% 12%,
+      rgba(231,201,130,.25),
+      transparent 25%
+    ),
+
+    radial-gradient(
+      circle at 14% 100%,
+      rgba(139,49,75,.28),
+      transparent 34%
+    ),
+
+    radial-gradient(
+      circle at 60% 45%,
+      rgba(64,94,157,.22),
+      transparent 35%
+    ),
+
+    linear-gradient(
+      135deg,
+      #070817 0%,
+      #111735 47%,
+      #3a1830 100%
+    );
+
+  box-shadow:
+    0 32px 95px
+    rgba(7,8,23,.28);
+
+  margin-bottom:24px;
 }
 
-.booking-hero::before{
-    content:"";
+.hero:before{
 
-    position:absolute;
+  content:"";
 
-    width:390px;
-    height:390px;
+  position:absolute;
 
-    right:-130px;
-    top:-190px;
+  width:390px;
+  height:390px;
 
-    border-radius:50%;
+  right:-180px;
+  top:-210px;
 
-    border:
-        1px solid
-        rgba(201,169,110,.30);
+  border-radius:50%;
 
-    box-shadow:
-        0 0 0 45px rgba(201,169,110,.05),
-        0 0 0 95px rgba(201,169,110,.025);
+  border:
+    1px solid
+    rgba(243,223,170,.20);
+
+  box-shadow:
+
+    0 0 0 38px
+    rgba(231,201,130,.025),
+
+    0 0 0 76px
+    rgba(231,201,130,.018);
 }
 
-.booking-hero-content{
-    position:relative;
-    z-index:2;
+.hero-inner{
 
-    max-width:850px;
+  position:relative;
+
+  z-index:2;
+
+  width:100%;
+
+  display:grid;
+
+  grid-template-columns:
+    minmax(0,1.25fr)
+    minmax(250px,.75fr);
+
+  gap:35px;
+
+  align-items:center;
 }
 
-.booking-eyebrow{
-    margin-bottom:10px;
+.eyebrow,
+.section-eyebrow{
 
-    color:var(--gb-gold);
+  font-size:10px;
 
-    font-size:.72rem;
-    font-weight:850;
+  font-weight:950;
 
-    letter-spacing:.17em;
+  letter-spacing:.16em;
+
+  text-transform:uppercase;
 }
 
-.booking-hero h1{
-    margin:0 0 10px;
+.eyebrow{
 
-    font-size:
-        clamp(2rem,4vw,3.2rem);
+  color:var(--champagne-2);
 
-    line-height:1.05;
+  font-size:12px;
+
+  margin-bottom:11px;
 }
 
-.booking-hero p{
-    max-width:750px;
+.hero h1{
 
-    margin:0;
+  margin:0;
 
-    color:rgba(255,255,255,.74);
+  font-size:
+    clamp(
+      34px,
+      5vw,
+      58px
+    );
 
-    line-height:1.7;
+  line-height:1.02;
+
+  letter-spacing:-.055em;
 }
 
-.booking-breadcrumb{
-    margin-bottom:15px;
+.hero p{
 
-    color:rgba(255,255,255,.58);
+  max-width:690px;
 
-    font-size:.75rem;
+  color:
+    rgba(255,255,255,.70);
+
+  font-size:14px;
+
+  line-height:1.8;
+
+  margin:
+    16px 0 0;
 }
 
-.booking-breadcrumb a{
-    color:var(--gb-gold);
+.hero-actions{
+
+  display:flex;
+
+  flex-wrap:wrap;
+
+  gap:10px;
+
+  margin-top:22px;
 }
+
 
 /* =========================================================
-   CONTENT GRID
+   BOOKING VISUAL
 ========================================================= */
 
-.booking-layout{
-    display:grid;
+.booking-orb{
 
-    grid-template-columns:
-        minmax(0,1.45fr)
-        minmax(310px,.65fr);
+  justify-self:end;
 
-    gap:22px;
+  width:225px;
+  height:225px;
 
-    align-items:start;
+  border-radius:50%;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  text-align:center;
+
+  background:
+
+    radial-gradient(
+      circle at 30% 20%,
+      #596fae,
+      #26355f 38%,
+      #111735 73%
+    );
+
+  border:
+    1px solid
+    rgba(243,223,170,.40);
+
+  box-shadow:
+
+    0 0 0 15px
+    rgba(231,201,130,.045),
+
+    0 0 0 32px
+    rgba(231,201,130,.025),
+
+    0 30px 70px
+    rgba(0,0,0,.30);
 }
 
-/* =========================================================
-   CARDS
-========================================================= */
+.booking-icon{
 
-.booking-card{
-    border:
-        1px solid var(--gb-border);
+  width:86px;
+  height:86px;
 
-    border-radius:var(--gb-radius);
+  margin:auto;
 
-    background:var(--gb-card);
+  display:flex;
 
-    box-shadow:var(--gb-shadow);
+  align-items:center;
 
-    backdrop-filter:blur(18px);
+  justify-content:center;
+
+  border-radius:50%;
+
+  color:#17130b;
+
+  background:
+    linear-gradient(
+      135deg,
+      #ead39a,
+      #a87932
+    );
+
+  font-size:35px;
+
+  font-weight:950;
+
+  box-shadow:
+    0 14px 35px
+    rgba(0,0,0,.25);
 }
 
-.booking-card + .booking-card{
-    margin-top:18px;
+.booking-orb-title{
+
+  margin-top:12px;
+
+  color:#fff;
+
+  font-size:15px;
+
+  font-weight:950;
 }
 
-.booking-card-head{
-    padding:21px 22px;
+.booking-orb-sub{
 
-    border-bottom:
-        1px solid var(--gb-border);
+  margin-top:4px;
+
+  color:
+    rgba(255,255,255,.58);
+
+  font-size:9px;
+
+  letter-spacing:.12em;
+
+  text-transform:uppercase;
 }
 
-.booking-card-head h2{
-    margin:0;
-
-    font-size:1.08rem;
-}
-
-.booking-card-head p{
-    margin:5px 0 0;
-
-    color:var(--gb-muted);
-
-    font-size:.78rem;
-    line-height:1.55;
-}
-
-.booking-card-body{
-    padding:22px;
-}
-
-/* =========================================================
-   PROPERTY SUMMARY
-========================================================= */
-
-.property-summary{
-    display:grid;
-
-    grid-template-columns:
-        190px
-        minmax(0,1fr);
-
-    gap:19px;
-}
-
-.property-photo{
-    height:180px;
-
-    overflow:hidden;
-
-    border-radius:18px;
-
-    background:var(--gb-sand);
-}
-
-.property-photo img{
-    width:100%;
-    height:100%;
-
-    object-fit:cover;
-}
-
-.property-title{
-    margin:0;
-
-    font-size:1.3rem;
-    line-height:1.25;
-}
-
-.property-location{
-    margin-top:7px;
-
-    color:var(--gb-muted);
-
-    font-size:.8rem;
-}
-
-.property-tags{
-    display:flex;
-    flex-wrap:wrap;
-
-    gap:7px;
-
-    margin-top:14px;
-}
-
-.property-tag{
-    padding:6px 9px;
-
-    border-radius:9px;
-
-    background:var(--gb-cream);
-
-    color:var(--gb-muted);
-
-    font-size:.69rem;
-    font-weight:700;
-}
-
-.property-price{
-    margin-top:16px;
-
-    color:var(--gb-green);
-
-    font-size:1.45rem;
-    font-weight:900;
-}
-
-.property-price small{
-    display:block;
-
-    margin-bottom:2px;
-
-    color:var(--gb-muted);
-
-    font-size:.65rem;
-    font-weight:700;
-
-    text-transform:uppercase;
-}
-
-/* =========================================================
-   FORM
-========================================================= */
-
-.booking-form{
-    display:grid;
-    gap:18px;
-}
-
-.form-grid{
-    display:grid;
-
-    grid-template-columns:
-        repeat(2,minmax(0,1fr));
-
-    gap:14px;
-}
-
-.form-field{
-    display:flex;
-    flex-direction:column;
-    gap:7px;
-}
-
-.form-field.full{
-    grid-column:1/-1;
-}
-
-.form-label{
-    font-size:.74rem;
-    font-weight:800;
-
-    color:var(--gb-text);
-}
-
-.form-label span{
-    color:#9a4c4c;
-}
-
-.form-input,
-.form-select,
-.form-textarea{
-    width:100%;
-
-    border:
-        1px solid
-        rgba(16,35,29,.14);
-
-    border-radius:13px;
-
-    padding:12px 13px;
-
-    outline:none;
-
-    color:var(--gb-text);
-
-    background:
-        rgba(255,255,255,.68);
-
-    transition:
-        border-color .2s ease,
-        box-shadow .2s ease,
-        background .2s ease;
-}
-
-.form-input,
-.form-select{
-    min-height:46px;
-}
-
-.form-textarea{
-    min-height:110px;
-    resize:vertical;
-}
-
-.form-input:focus,
-.form-select:focus,
-.form-textarea:focus{
-    border-color:var(--gb-gold);
-
-    background:#fff;
-
-    box-shadow:
-        0 0 0 4px
-        rgba(201,169,110,.12);
-}
-
-.form-hint{
-    color:var(--gb-muted);
-
-    font-size:.68rem;
-    line-height:1.5;
-}
-
-/* =========================================================
-   BOOKING OPTIONS
-========================================================= */
-
-.booking-options{
-    display:grid;
-
-    grid-template-columns:
-        repeat(3,1fr);
-
-    gap:10px;
-}
-
-.booking-option{
-    position:relative;
-}
-
-.booking-option input{
-    position:absolute;
-    opacity:0;
-    pointer-events:none;
-}
-
-.booking-option label{
-    display:block;
-
-    height:100%;
-
-    padding:14px;
-
-    border:
-        1px solid
-        var(--gb-border);
-
-    border-radius:15px;
-
-    background:
-        rgba(255,255,255,.54);
-
-    cursor:pointer;
-
-    transition:.2s ease;
-}
-
-.booking-option label:hover{
-    transform:translateY(-1px);
-}
-
-.booking-option input:checked + label{
-    border-color:var(--gb-gold);
-
-    background:
-        linear-gradient(
-            135deg,
-            rgba(201,169,110,.17),
-            rgba(255,255,255,.65)
-        );
-
-    box-shadow:
-        0 8px 24px
-        rgba(16,35,29,.07);
-}
-
-.option-icon{
-    font-size:1.25rem;
-}
-
-.option-title{
-    display:block;
-
-    margin-top:8px;
-
-    font-size:.78rem;
-    font-weight:800;
-}
-
-.option-description{
-    display:block;
-
-    margin-top:4px;
-
-    color:var(--gb-muted);
-
-    font-size:.66rem;
-    line-height:1.45;
-}
-
-/* =========================================================
-   PAYMENT / BOOKING AMOUNT
-========================================================= */
-
-.amount-box{
-    padding:18px;
-
-    border-radius:17px;
-
-    background:
-        linear-gradient(
-            135deg,
-            rgba(16,35,29,.96),
-            rgba(35,72,58,.94)
-        );
-
-    color:#fff;
-}
-
-.amount-box-label{
-    color:rgba(255,255,255,.60);
-
-    font-size:.68rem;
-    font-weight:750;
-
-    letter-spacing:.08em;
-    text-transform:uppercase;
-}
-
-.amount-row{
-    display:flex;
-
-    justify-content:space-between;
-    align-items:end;
-
-    gap:15px;
-
-    margin-top:7px;
-}
-
-.amount-value{
-    color:var(--gb-gold);
-
-    font-size:1.65rem;
-    font-weight:900;
-}
-
-.amount-note{
-    color:rgba(255,255,255,.58);
-
-    font-size:.67rem;
-
-    text-align:right;
-}
-
-/* =========================================================
-   CONSENT
-========================================================= */
-
-.consent-box{
-    display:flex;
-    align-items:flex-start;
-    gap:10px;
-
-    padding:14px;
-
-    border:
-        1px solid
-        rgba(16,35,29,.10);
-
-    border-radius:14px;
-
-    background:
-        rgba(255,255,255,.46);
-}
-
-.consent-box input{
-    width:18px;
-    height:18px;
-
-    margin-top:1px;
-
-    accent-color:var(--gb-green);
-
-    flex:0 0 auto;
-}
-
-.consent-box label{
-    color:var(--gb-muted);
-
-    font-size:.71rem;
-    line-height:1.55;
-}
-
-.consent-box a{
-    color:var(--gb-green);
-
-    font-weight:800;
-}
 
 /* =========================================================
    BUTTONS
 ========================================================= */
 
-.booking-actions{
-    display:flex;
+.btn{
 
-    flex-wrap:wrap;
+  min-height:44px;
 
-    gap:9px;
+  display:inline-flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  gap:8px;
+
+  padding:
+    11px 16px;
+
+  border-radius:13px;
+
+  border:0;
+
+  text-decoration:none;
+
+  font-size:12px;
+
+  font-weight:950;
+
+  transition:.2s ease;
 }
 
-.booking-btn{
-    min-height:46px;
+.btn:hover{
 
-    padding:12px 17px;
-
-    border-radius:13px;
-
-    border:1px solid transparent;
-
-    font-size:.78rem;
-    font-weight:800;
-
-    transition:.2s ease;
+  transform:
+    translateY(-2px);
 }
 
-.booking-btn:hover{
-    transform:translateY(-1px);
+.primary{
+
+  color:#18130a;
+
+  background:
+    linear-gradient(
+      135deg,
+      #f2dda2,
+      #bf954a
+    );
+
+  box-shadow:
+    0 10px 28px
+    rgba(231,201,130,.18);
 }
 
-.booking-primary{
-    background:var(--gb-gold);
+.secondary{
 
-    color:var(--gb-green);
+  color:#fff;
 
-    box-shadow:
-        0 10px 25px
-        rgba(201,169,110,.18);
+  background:
+    rgba(255,255,255,.075);
+
+  border:
+    1px solid
+    rgba(255,255,255,.17);
 }
 
-.booking-secondary{
-    background:
-        rgba(255,255,255,.62);
+.dark{
 
-    border-color:
-        var(--gb-border);
+  color:#fff;
 
-    color:var(--gb-green);
+  background:
+    linear-gradient(
+      135deg,
+      #121832,
+      #303b73
+    );
 }
+
+.burgundy{
+
+  color:#fff;
+
+  background:
+    linear-gradient(
+      135deg,
+      #651f35,
+      #92344f
+    );
+}
+
+.danger{
+
+  color:#fff;
+
+  background:
+    linear-gradient(
+      135deg,
+      #7b2d43,
+      #a64259
+    );
+}
+
 
 /* =========================================================
-   SIDE PANEL
+   MAIN GRID
 ========================================================= */
 
-.booking-side{
-    display:grid;
-    gap:18px;
+.grid-main{
+
+  display:grid;
+
+  grid-template-columns:
+    minmax(0,1.35fr)
+    minmax(300px,.65fr);
+
+  gap:24px;
 }
 
-.side-card{
-    padding:21px;
+.side-stack{
 
-    border:
-        1px solid
-        var(--gb-border);
+  display:grid;
 
-    border-radius:20px;
-
-    background:
-        rgba(255,255,255,.60);
-
-    box-shadow:
-        0 16px 45px
-        rgba(16,35,29,.07);
+  gap:24px;
 }
 
-.side-card h3{
-    margin:0 0 14px;
-
-    font-size:.98rem;
-}
-
-.security-row{
-    display:flex;
-
-    align-items:flex-start;
-
-    gap:10px;
-
-    padding:10px 0;
-
-    border-bottom:
-        1px solid
-        rgba(16,35,29,.08);
-}
-
-.security-row:last-child{
-    border-bottom:0;
-}
-
-.security-icon{
-    width:30px;
-    height:30px;
-
-    flex:0 0 30px;
-
-    display:grid;
-    place-items:center;
-
-    border-radius:10px;
-
-    background:var(--gb-green);
-
-    color:var(--gb-gold);
-
-    font-size:.78rem;
-}
-
-.security-row strong{
-    display:block;
-
-    font-size:.76rem;
-}
-
-.security-row span{
-    display:block;
-
-    margin-top:3px;
-
-    color:var(--gb-muted);
-
-    font-size:.68rem;
-    line-height:1.45;
-}
 
 /* =========================================================
-   PROCESS
+   SECTION
 ========================================================= */
 
-.process-step{
-    display:flex;
+.section{
 
-    gap:11px;
+  margin-top:24px;
 
-    padding:10px 0;
+  padding:29px;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:26px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,250,240,.95),
+      rgba(244,234,216,.85)
+    );
+
+  box-shadow:
+    var(--shadow-soft);
 }
 
-.process-number{
-    width:29px;
-    height:29px;
-
-    flex:0 0 29px;
-
-    display:grid;
-    place-items:center;
-
-    border-radius:50%;
-
-    background:var(--gb-green);
-
-    color:var(--gb-gold);
-
-    font-size:.7rem;
-    font-weight:900;
+.section:first-child{
+  margin-top:0;
 }
 
-.process-step strong{
-    display:block;
+.section-title{
 
-    font-size:.76rem;
+  margin:
+    6px 0 0;
+
+  color:
+    var(--royal-850);
+
+  font-size:
+    clamp(
+      25px,
+      4vw,
+      37px
+    );
+
+  line-height:1.1;
+
+  letter-spacing:-.035em;
 }
 
-.process-step span{
-    display:block;
+.section-description{
 
-    margin-top:3px;
+  max-width:720px;
 
-    color:var(--gb-muted);
+  margin:
+    9px 0 0;
 
-    font-size:.68rem;
-    line-height:1.5;
+  color:var(--muted);
+
+  font-size:12px;
+
+  line-height:1.7;
 }
+
+
+/* =========================================================
+   PROPERTY CARD
+========================================================= */
+
+.property-card{
+
+  margin-top:20px;
+
+  padding:18px;
+
+  display:grid;
+
+  grid-template-columns:
+    145px
+    minmax(0,1fr);
+
+  gap:17px;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:20px;
+
+  background:
+    rgba(255,255,255,.62);
+
+  box-shadow:
+    0 10px 30px
+    rgba(7,8,23,.05);
+}
+
+.property-image{
+
+  min-height:145px;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  border-radius:16px;
+
+  color:#fff;
+
+  font-size:34px;
+
+  background:
+
+    radial-gradient(
+      circle at 20% 20%,
+      rgba(231,201,130,.25),
+      transparent 30%
+    ),
+
+    linear-gradient(
+      135deg,
+      #111735,
+      #263f78 55%,
+      #651f35
+    );
+
+  overflow:hidden;
+}
+
+.property-info{
+
+  min-width:0;
+}
+
+.property-tag{
+
+  display:inline-flex;
+
+  padding:
+    5px 8px;
+
+  border-radius:999px;
+
+  color:#6c5418;
+
+  background:#f3e3b5;
+
+  font-size:8px;
+
+  font-weight:950;
+
+  letter-spacing:.08em;
+
+  text-transform:uppercase;
+}
+
+.property-name{
+
+  margin:
+    10px 0 0;
+
+  color:var(--royal-850);
+
+  font-size:22px;
+
+  line-height:1.15;
+
+  letter-spacing:-.025em;
+}
+
+.property-location{
+
+  margin-top:6px;
+
+  color:var(--muted);
+
+  font-size:10px;
+
+  line-height:1.5;
+}
+
+.property-meta{
+
+  display:flex;
+
+  flex-wrap:wrap;
+
+  gap:7px;
+
+  margin-top:12px;
+}
+
+.meta{
+
+  padding:
+    6px 9px;
+
+  border-radius:9px;
+
+  color:#5c6070;
+
+  background:
+    #f4ecde;
+
+  font-size:9px;
+
+  font-weight:800;
+}
+
+.property-price{
+
+  margin-top:13px;
+
+  color:var(--burgundy);
+
+  font-size:20px;
+
+  font-weight:950;
+}
+
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.form-grid{
+
+  display:grid;
+
+  grid-template-columns:
+    repeat(2,minmax(0,1fr));
+
+  gap:14px;
+
+  margin-top:20px;
+}
+
+.field{
+
+  display:grid;
+
+  gap:7px;
+}
+
+.field.full{
+
+  grid-column:1/-1;
+}
+
+.field label{
+
+  font-size:10px;
+
+  font-weight:950;
+
+  letter-spacing:.08em;
+
+  text-transform:uppercase;
+
+  color:#55596b;
+}
+
+.field input,
+.field select,
+.field textarea{
+
+  width:100%;
+
+  border:
+    1px solid
+    rgba(10,14,36,.13);
+
+  border-radius:13px;
+
+  padding:
+    12px 13px;
+
+  outline:none;
+
+  color:var(--ink);
+
+  background:
+    rgba(255,255,255,.82);
+
+  box-shadow:
+    inset
+    0 1px 0
+    rgba(255,255,255,.8);
+
+  transition:.2s;
+}
+
+.field textarea{
+
+  min-height:105px;
+
+  resize:vertical;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus{
+
+  border-color:
+    rgba(38,63,120,.48);
+
+  box-shadow:
+    0 0 0 3px
+    rgba(38,63,120,.08);
+}
+
+.field small{
+
+  font-size:9px;
+
+  color:#8a8d99;
+
+  line-height:1.5;
+}
+
+
+/* =========================================================
+   RADIO OPTIONS
+========================================================= */
+
+.choice-grid{
+
+  display:grid;
+
+  grid-template-columns:
+    repeat(3,minmax(0,1fr));
+
+  gap:10px;
+
+  margin-top:20px;
+}
+
+.choice{
+
+  position:relative;
+}
+
+.choice input{
+
+  position:absolute;
+
+  opacity:0;
+
+  pointer-events:none;
+}
+
+.choice label{
+
+  min-height:88px;
+
+  padding:14px;
+
+  display:flex;
+
+  flex-direction:column;
+
+  justify-content:center;
+
+  gap:5px;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:15px;
+
+  cursor:pointer;
+
+  background:
+    rgba(255,255,255,.55);
+
+  transition:.2s;
+}
+
+.choice label:hover{
+
+  transform:
+    translateY(-2px);
+
+  border-color:
+    rgba(38,63,120,.25);
+}
+
+.choice input:checked + label{
+
+  border-color:
+    rgba(38,63,120,.55);
+
+  background:
+    linear-gradient(
+      135deg,
+      #eef1f8,
+      #f6ead9
+    );
+
+  box-shadow:
+    0 8px 25px
+    rgba(38,63,120,.08);
+}
+
+.choice-icon{
+
+  font-size:20px;
+
+  color:var(--sapphire);
+}
+
+.choice-title{
+
+  font-size:11px;
+
+  font-weight:950;
+
+  color:var(--royal-850);
+}
+
+.choice-sub{
+
+  font-size:8px;
+
+  color:var(--muted);
+
+  line-height:1.4;
+}
+
 
 /* =========================================================
    NOTICE
 ========================================================= */
 
-.booking-notice{
-    padding:14px 16px;
+.notice{
 
-    border-left:
-        3px solid
-        var(--gb-gold);
+  display:flex;
 
-    border-radius:12px;
+  align-items:flex-start;
 
-    background:
-        rgba(201,169,110,.10);
+  gap:12px;
 
-    color:var(--gb-muted);
+  padding:
+    13px 15px;
 
-    font-size:.7rem;
-    line-height:1.6;
+  border-radius:14px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #e4f0e9,
+      #edf5e9
+    );
+
+  border:
+    1px solid
+    rgba(36,97,78,.12);
+
+  color:#52685f;
+
+  font-size:10px;
+
+  line-height:1.6;
+
+  margin-top:18px;
 }
+
+.notice-icon{
+
+  flex:0 0 auto;
+
+  width:27px;
+  height:27px;
+
+  display:flex;
+
+  align-items:center;
+  justify-content:center;
+
+  border-radius:50%;
+
+  color:#fff;
+
+  background:
+    var(--success);
+
+  font-weight:950;
+}
+
 
 /* =========================================================
-   SUCCESS MODAL
+   BOOKING SUMMARY
 ========================================================= */
 
-.booking-modal{
-    position:fixed;
+.summary-card{
 
-    inset:0;
+  margin-top:20px;
 
-    z-index:3000;
+  padding:20px;
 
-    display:none;
+  border-radius:19px;
 
-    align-items:center;
-    justify-content:center;
+  color:#fff;
 
-    padding:20px;
+  background:
 
-    background:
-        rgba(8,20,15,.58);
+    radial-gradient(
+      circle at 90% 5%,
+      rgba(231,201,130,.22),
+      transparent 28%
+    ),
 
-    backdrop-filter:blur(9px);
+    linear-gradient(
+      135deg,
+      #090b1d,
+      #263f78 55%,
+      #651f35
+    );
 }
 
-.booking-modal.show{
-    display:flex;
+.summary-head{
+
+  display:flex;
+
+  justify-content:space-between;
+
+  align-items:center;
+
+  gap:10px;
+
+  padding-bottom:14px;
+
+  border-bottom:
+    1px solid
+    rgba(255,255,255,.12);
 }
 
-.booking-modal-card{
-    width:min(520px,100%);
+.summary-title{
 
-    padding:28px;
+  font-size:17px;
 
-    border-radius:25px;
-
-    background:
-        linear-gradient(
-            145deg,
-            #f9f3e8,
-            #e8eee8
-        );
-
-    box-shadow:
-        0 35px 100px
-        rgba(0,0,0,.25);
-
-    text-align:center;
+  font-weight:950;
 }
 
-.success-icon{
-    width:65px;
-    height:65px;
+.summary-status{
 
-    margin:0 auto 15px;
+  padding:
+    6px 9px;
 
-    display:grid;
-    place-items:center;
+  border-radius:999px;
 
-    border-radius:20px;
+  color:#6b5419;
 
-    background:var(--gb-green);
+  background:
+    var(--champagne-2);
 
-    color:var(--gb-gold);
+  font-size:8px;
 
-    font-size:1.6rem;
+  font-weight:950;
+
+  text-transform:uppercase;
+
+  letter-spacing:.07em;
 }
 
-.booking-modal h2{
-    margin:0;
+.summary-list{
+
+  display:grid;
+
+  gap:9px;
+
+  margin-top:15px;
 }
 
-.booking-modal p{
-    color:var(--gb-muted);
+.summary-row{
 
-    font-size:.8rem;
+  display:flex;
 
-    line-height:1.6;
+  align-items:center;
+
+  justify-content:space-between;
+
+  gap:15px;
+
+  font-size:10px;
 }
 
-.booking-reference{
-    display:inline-block;
+.summary-row span:first-child{
 
-    margin:7px 0 17px;
-
-    padding:9px 13px;
-
-    border-radius:10px;
-
-    background:var(--gb-cream);
-
-    color:var(--gb-green);
-
-    font-size:.75rem;
-    font-weight:850;
+  color:
+    rgba(255,255,255,.57);
 }
+
+.summary-row strong{
+
+  text-align:right;
+
+  color:#fff;
+
+  font-size:10px;
+}
+
+.summary-total{
+
+  margin-top:14px;
+
+  padding-top:14px;
+
+  border-top:
+    1px solid
+    rgba(255,255,255,.12);
+
+  display:flex;
+
+  justify-content:space-between;
+
+  align-items:center;
+}
+
+.summary-total span{
+
+  color:
+    rgba(255,255,255,.65);
+
+  font-size:10px;
+}
+
+.summary-total strong{
+
+  color:var(--champagne-2);
+
+  font-size:20px;
+}
+
+
+/* =========================================================
+   TERMS
+========================================================= */
+
+.consent{
+
+  display:flex;
+
+  align-items:flex-start;
+
+  gap:10px;
+
+  margin-top:18px;
+
+  padding:14px;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:14px;
+
+  background:
+    rgba(255,255,255,.52);
+}
+
+.consent input{
+
+  width:18px;
+  height:18px;
+
+  margin-top:1px;
+
+  accent-color:
+    var(--sapphire);
+
+  flex:0 0 auto;
+}
+
+.consent label{
+
+  color:#626675;
+
+  font-size:10px;
+
+  line-height:1.65;
+}
+
+.consent a{
+
+  color:
+    var(--burgundy);
+
+  font-weight:900;
+
+  text-decoration:none;
+}
+
+
+/* =========================================================
+   FORM ACTIONS
+========================================================= */
+
+.form-actions{
+
+  display:flex;
+
+  justify-content:flex-end;
+
+  flex-wrap:wrap;
+
+  gap:9px;
+
+  margin-top:18px;
+
+  padding-top:17px;
+
+  border-top:
+    1px solid
+    var(--border);
+}
+
+
+/* =========================================================
+   SIDE CARDS
+========================================================= */
+
+.side-card{
+
+  padding:23px;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:24px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,250,240,.94),
+      rgba(242,232,211,.82)
+    );
+
+  box-shadow:
+    var(--shadow-soft);
+}
+
+.side-title{
+
+  margin:
+    6px 0 0;
+
+  font-size:21px;
+
+  line-height:1.15;
+
+  color:
+    var(--royal-850);
+
+  letter-spacing:-.025em;
+}
+
+
+/* =========================================================
+   BOOKING STEPS
+========================================================= */
+
+.steps{
+
+  display:grid;
+
+  gap:11px;
+
+  margin-top:17px;
+}
+
+.step{
+
+  display:grid;
+
+  grid-template-columns:
+    38px
+    minmax(0,1fr);
+
+  gap:11px;
+
+  align-items:start;
+}
+
+.step-number{
+
+  width:38px;
+  height:38px;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  border-radius:12px;
+
+  color:#18130a;
+
+  background:
+    linear-gradient(
+      135deg,
+      #f2dda2,
+      #bf954a
+    );
+
+  font-size:11px;
+
+  font-weight:950;
+}
+
+.step strong{
+
+  display:block;
+
+  margin-top:2px;
+
+  color:var(--royal-850);
+
+  font-size:11px;
+}
+
+.step span{
+
+  display:block;
+
+  margin-top:3px;
+
+  color:var(--muted);
+
+  font-size:9px;
+
+  line-height:1.5;
+}
+
+
+/* =========================================================
+   INFO LIST
+========================================================= */
+
+.info-list{
+
+  display:grid;
+
+  gap:9px;
+
+  margin-top:17px;
+}
+
+.info-row{
+
+  display:flex;
+
+  align-items:flex-start;
+
+  justify-content:space-between;
+
+  gap:12px;
+
+  padding:
+    10px 11px;
+
+  border-radius:12px;
+
+  background:
+    rgba(255,255,255,.55);
+}
+
+.info-label{
+
+  color:#737686;
+
+  font-size:9px;
+}
+
+.info-value{
+
+  color:var(--royal-850);
+
+  font-size:10px;
+
+  font-weight:900;
+
+  text-align:right;
+}
+
+
+/* =========================================================
+   QUICK ACCESS
+========================================================= */
+
+.quick-list{
+
+  display:grid;
+
+  gap:8px;
+
+  margin-top:16px;
+}
+
+.quick{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:11px;
+
+  padding:11px;
+
+  border-radius:13px;
+
+  text-decoration:none;
+
+  border:
+    1px solid
+    transparent;
+
+  background:
+    rgba(255,255,255,.55);
+
+  transition:.2s;
+}
+
+.quick:hover{
+
+  transform:
+    translateX(3px);
+
+  border-color:
+    rgba(38,63,120,.12);
+
+  background:#fff;
+}
+
+.quick-icon{
+
+  width:32px;
+  height:32px;
+
+  flex:0 0 auto;
+
+  border-radius:10px;
+
+  display:flex;
+
+  align-items:center;
+  justify-content:center;
+
+  color:#fff;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--royal-800),
+      var(--sapphire)
+    );
+}
+
+.quick strong{
+
+  display:block;
+
+  font-size:10px;
+
+  color:
+    var(--royal-850);
+}
+
+.quick span{
+
+  display:block;
+
+  margin-top:2px;
+
+  color:var(--muted);
+
+  font-size:8px;
+}
+
+
+/* =========================================================
+   SUPPORT
+========================================================= */
+
+.support{
+
+  color:#fff;
+
+  padding:23px;
+
+  border-radius:24px;
+
+  background:
+
+    radial-gradient(
+      circle at 90% 10%,
+      rgba(231,201,130,.25),
+      transparent 28%
+    ),
+
+    linear-gradient(
+      135deg,
+      #090b1d,
+      #263f78 55%,
+      #651f35
+    );
+
+  box-shadow:
+    var(--shadow-soft);
+}
+
+.support h3{
+
+  margin:
+    7px 0 0;
+
+  font-size:23px;
+}
+
+.support p{
+
+  margin:
+    9px 0 17px;
+
+  color:
+    rgba(255,255,255,.65);
+
+  font-size:10px;
+
+  line-height:1.65;
+}
+
+.support .btn{
+
+  width:100%;
+}
+
 
 /* =========================================================
    FOOTER
 ========================================================= */
 
-.booking-footer{
-    margin-top:20px;
+.footer{
 
-    padding:35px 0;
+  margin-top:24px;
 
-    background:var(--gb-green);
+  padding:
+    43px 22px;
 
-    color:rgba(255,255,255,.68);
+  border-radius:
+    27px 27px 0 0;
+
+  color:#fff;
+
+  background:
+
+    radial-gradient(
+      circle at 85% 10%,
+      rgba(231,201,130,.17),
+      transparent 25%
+    ),
+
+    linear-gradient(
+      135deg,
+      #070817,
+      #171d3d,
+      #32172a
+    );
 }
 
-.booking-footer-inner{
-    width:min(1400px,calc(100% - 32px));
-    margin:auto;
+.footer-grid{
 
-    display:flex;
+  width:min(
+    1480px,
+    100%
+  );
 
-    justify-content:space-between;
+  margin:auto;
 
-    gap:25px;
+  display:grid;
 
-    flex-wrap:wrap;
+  grid-template-columns:
+    1.3fr
+    repeat(3,1fr);
+
+  gap:30px;
 }
 
-.booking-footer strong{
-    color:#fff;
+.footer-logo{
+
+  font-size:25px;
+
+  font-weight:950;
+
+  letter-spacing:.1em;
 }
 
-.booking-footer-links{
-    display:flex;
+.footer-description{
 
-    flex-wrap:wrap;
+  max-width:390px;
 
-    gap:18px;
+  color:
+    rgba(255,255,255,.61);
 
-    font-size:.76rem;
+  font-size:11px;
+
+  line-height:1.7;
+
+  margin-top:12px;
 }
+
+.footer-title{
+
+  font-size:12px;
+
+  font-weight:950;
+
+  color:
+    var(--champagne-2);
+}
+
+.footer-links{
+
+  margin-top:12px;
+
+  line-height:2;
+
+  font-size:11px;
+
+  color:
+    rgba(255,255,255,.63);
+}
+
+.footer-links a{
+
+  text-decoration:none;
+}
+
+.footer-links a:hover{
+
+  color:
+    var(--champagne-2);
+}
+
+.footer-bottom{
+
+  width:min(
+    1480px,
+    100%
+  );
+
+  margin:
+    28px auto 0;
+
+  padding-top:18px;
+
+  border-top:
+    1px solid
+    rgba(255,255,255,.10);
+
+  color:
+    rgba(255,255,255,.42);
+
+  font-size:10px;
+}
+
+
+/* =========================================================
+   AI
+========================================================= */
+
+.ai-launcher{
+
+  position:fixed;
+
+  right:22px;
+  bottom:22px;
+
+  z-index:9998;
+
+  width:61px;
+  height:61px;
+
+  border:
+    1px solid
+    rgba(243,223,170,.42);
+
+  border-radius:50%;
+
+  color:#fff;
+
+  font-size:23px;
+
+  background:
+
+    radial-gradient(
+      circle at 30% 20%,
+      #405e9d,
+      #090b1d 72%
+    );
+
+  box-shadow:
+    0 18px 45px
+    rgba(7,8,23,.32);
+
+  transition:.2s ease;
+}
+
+.ai-launcher:hover{
+
+  transform:
+    translateY(-3px)
+    scale(1.03);
+}
+
+.ai-panel{
+
+  position:fixed;
+
+  right:22px;
+  bottom:22px;
+
+  z-index:9999;
+
+  width:
+    min(
+      410px,
+      calc(100vw - 28px)
+    );
+
+  max-height:650px;
+
+  display:none;
+
+  flex-direction:column;
+
+  overflow:hidden;
+
+  border:
+    1px solid
+    rgba(231,201,130,.35);
+
+  border-radius:25px;
+
+  background:
+    var(--cream);
+
+  box-shadow:
+    0 30px 100px
+    rgba(0,0,0,.32);
+}
+
+.ai-panel.open{
+  display:flex;
+}
+
+.ai-head{
+
+  padding:17px;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:space-between;
+
+  color:#fff;
+
+  background:
+
+    radial-gradient(
+      circle at 90% 10%,
+      rgba(231,201,130,.25),
+      transparent 30%
+    ),
+
+    linear-gradient(
+      135deg,
+      #070817,
+      #263f78,
+      #651f35
+    );
+}
+
+.ai-title{
+
+  font-weight:950;
+
+  letter-spacing:.03em;
+}
+
+.ai-sub{
+
+  margin-top:3px;
+
+  color:
+    rgba(255,255,255,.61);
+
+  font-size:10px;
+}
+
+.ai-close{
+
+  width:35px;
+  height:35px;
+
+  border:0;
+
+  border-radius:50%;
+
+  color:#fff;
+
+  background:
+    rgba(255,255,255,.09);
+
+  font-size:20px;
+}
+
+.ai-messages{
+
+  min-height:300px;
+
+  max-height:440px;
+
+  overflow:auto;
+
+  padding:15px;
+}
+
+.ai-msg{
+
+  margin-bottom:9px;
+
+  padding:
+    11px 13px;
+
+  border-radius:14px;
+
+  font-size:12px;
+
+  line-height:1.55;
+}
+
+.ai-msg.bot{
+
+  background:
+    #eee5d4;
+}
+
+.ai-msg.user{
+
+  margin-left:28px;
+
+  color:#fff;
+
+  background:
+    #171d3d;
+}
+
+.ai-form{
+
+  display:flex;
+
+  gap:8px;
+
+  padding:12px;
+
+  border-top:
+    1px solid
+    var(--border);
+}
+
+.ai-form input{
+
+  flex:1;
+
+  min-width:0;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:12px;
+
+  padding:
+    11px 12px;
+
+  outline:none;
+
+  background:#fff;
+}
+
+.ai-form button{
+
+  border:0;
+
+  border-radius:12px;
+
+  padding:
+    0 16px;
+
+  color:#18130a;
+
+  background:
+    linear-gradient(
+      135deg,
+      #ead39a,
+      #bd9147
+    );
+
+  font-weight:950;
+}
+
 
 /* =========================================================
    RESPONSIVE
@@ -1118,1999 +1999,2619 @@ button{
 
 @media (max-width:1100px){
 
-    .booking-nav{
-        display:none;
-    }
+  .hero-inner{
 
-    .booking-menu{
-        display:grid;
-    }
+    grid-template-columns:
+      1fr 230px;
+  }
 
-    .booking-layout{
-        grid-template-columns:1fr;
-    }
+  .grid-main{
 
-    .booking-side{
-        grid-template-columns:
-            repeat(2,minmax(0,1fr));
-    }
+    grid-template-columns:1fr;
+  }
+
 }
 
-@media (max-width:760px){
+@media (max-width:850px){
 
-    .booking-main{
-        width:calc(100% - 20px);
+  .hero{
 
-        padding-top:18px;
-    }
+    padding:31px;
+  }
 
-    .booking-header-inner{
-        width:calc(100% - 20px);
-    }
+  .hero-inner{
 
-    .booking-hero{
-        padding:26px 21px;
+    grid-template-columns:1fr;
+  }
 
-        border-radius:23px;
-    }
+  .booking-orb{
 
-    .booking-card-body{
-        padding:17px;
-    }
+    justify-self:start;
+  }
 
-    .property-summary{
-        grid-template-columns:1fr;
-    }
+  .footer-grid{
 
-    .property-photo{
-        height:210px;
-    }
+    grid-template-columns:
+      repeat(2,minmax(0,1fr));
+  }
 
-    .form-grid{
-        grid-template-columns:1fr;
-    }
-
-    .form-field.full{
-        grid-column:auto;
-    }
-
-    .booking-options{
-        grid-template-columns:1fr;
-    }
-
-    .booking-side{
-        grid-template-columns:1fr;
-    }
 }
 
-@media (max-width:480px){
+@media (max-width:650px){
 
-    .booking-brand-subtitle{
-        display:none;
-    }
+  .booking-page{
 
-    .booking-main{
-        width:calc(100% - 14px);
-    }
+    width:
+      calc(100% - 20px);
 
-    .booking-header-inner{
-        width:calc(100% - 14px);
-    }
+    padding-top:20px;
+  }
 
-    .booking-hero{
-        padding:23px 17px;
-    }
+  .hero{
 
-    .booking-actions{
-        flex-direction:column;
-    }
+    padding:24px;
 
-    .booking-btn{
-        width:100%;
-        text-align:center;
-    }
+    border-radius:24px;
+  }
 
-    .amount-row{
-        align-items:flex-start;
-        flex-direction:column;
-    }
+  .hero h1{
 
-    .amount-note{
-        text-align:left;
-    }
+    font-size:39px;
+  }
+
+  .booking-orb{
+
+    width:185px;
+    height:185px;
+  }
+
+  .booking-icon{
+
+    width:75px;
+    height:75px;
+
+    font-size:28px;
+  }
+
+  .section{
+
+    padding:21px;
+  }
+
+  .form-grid{
+
+    grid-template-columns:1fr;
+  }
+
+  .field.full{
+
+    grid-column:auto;
+  }
+
+  .choice-grid{
+
+    grid-template-columns:1fr;
+  }
+
+  .property-card{
+
+    grid-template-columns:1fr;
+  }
+
+  .property-image{
+
+    min-height:180px;
+  }
+
+  .footer-grid{
+
+    grid-template-columns:1fr;
+  }
+
 }
+
+@media (max-width:520px){
+
+  .hero h1{
+
+    font-size:34px;
+  }
+
+  .hero-actions{
+
+    width:100%;
+  }
+
+  .hero-actions .btn{
+
+    flex:1;
+  }
+
+  .form-actions{
+
+    flex-direction:column;
+  }
+
+  .form-actions .btn{
+
+    width:100%;
+  }
+
+  .ai-launcher{
+
+    right:14px;
+    bottom:14px;
+  }
+
+  .ai-panel{
+
+    right:10px;
+    bottom:10px;
+  }
+
+}
+
+@media (max-width:380px){
+
+  .hero{
+
+    padding:20px;
+  }
+
+  .hero h1{
+
+    font-size:30px;
+  }
+
+}
+
 </style>
+
 </head>
 
+
 <body
-    data-root="../"
-    data-page="property-booking"
+  data-root="../"
+  data-page="property-booking"
 >
 
-<!-- =========================================================
-     HEADER
-========================================================= -->
 
-<header class="booking-header">
+<div data-site-header></div>
 
-    <div class="booking-header-inner">
 
-        <a
-            href="../index.html"
-            class="booking-brand"
-        >
-            <span class="booking-logo">G</span>
+<main class="booking-page">
 
-            <span>
-                <span class="booking-brand-name">
-                    GHAR
-                </span>
 
-                <span class="booking-brand-subtitle">
-                    Real Estate
-                </span>
-            </span>
-        </a>
+<!-- =====================================================
+     HERO
+====================================================== -->
 
-        <nav class="booking-nav">
+<section class="hero">
 
-            <a href="buyer-dashboard.html">
-                Dashboard
-            </a>
+<div class="hero-inner">
 
-            <a href="../property/property-search.html">
-                Properties
-            </a>
 
-            <a href="saved-properties.html">
-                Saved
-            </a>
+<div>
 
-            <a href="my-enquiries.html">
-                Enquiries
-            </a>
+<div class="eyebrow">
+GHAR · PROPERTY BOOKING
+</div>
 
-            <a href="my-offers.html">
-                Offers
-            </a>
+<h1>
+Secure your next property with GHAR.
+</h1>
 
-            <a
-                href="property-booking.html"
-                class="active"
-            >
-                Booking
-            </a>
+<p>
+Submit a structured booking request for your selected
+property. Review the property information, choose your
+booking preference and provide the buyer details required
+for the next step.
+</p>
 
-        </nav>
+<div class="hero-actions">
 
-        <div class="booking-actions">
-
-            <button
-                type="button"
-                class="booking-icon"
-                id="bookingNotifications"
-                aria-label="Notifications"
-            >
-                🔔
-            </button>
-
-            <button
-                type="button"
-                class="booking-icon"
-                id="bookingProfile"
-                aria-label="Profile"
-            >
-                👤
-            </button>
-
-            <button
-                type="button"
-                class="booking-icon booking-menu"
-                id="bookingMenu"
-                aria-label="Menu"
-                aria-expanded="false"
-            >
-                ☰
-            </button>
-
-        </div>
-
-    </div>
-
-</header>
-
-
-<!-- =========================================================
-     MAIN
-========================================================= -->
-
-<main class="booking-main">
-
-    <!-- HERO -->
-
-    <section class="booking-hero">
-
-        <div class="booking-hero-content">
-
-            <div class="booking-breadcrumb">
-                <a href="buyer-dashboard.html">
-                    Buyer
-                </a>
-                &nbsp; / &nbsp;
-                Property Booking
-            </div>
-
-            <div class="booking-eyebrow">
-                GHAR BUYER WORKSPACE
-            </div>
-
-            <h1>
-                Book Your Property
-            </h1>
-
-            <p>
-                Submit a structured booking request for
-                your selected GHAR property. Your request
-                will be recorded and reviewed through the
-                GHAR transaction workflow.
-            </p>
-
-        </div>
-
-    </section>
-
-
-    <!-- CONTENT -->
-
-    <section class="booking-layout">
-
-        <!-- =================================================
-             LEFT
-        ================================================== -->
-
-        <div>
-
-            <!-- PROPERTY -->
-
-            <section class="booking-card">
-
-                <div class="booking-card-head">
-
-                    <h2>
-                        Selected Property
-                    </h2>
-
-                    <p>
-                        Review the property before submitting
-                        your booking request.
-                    </p>
-
-                </div>
-
-                <div class="booking-card-body">
-
-                    <div class="property-summary">
-
-                        <div class="property-photo">
-
-                            <img
-                                id="propertyImage"
-                                src="../images/ghar-house.jpg"
-                                alt="GHAR property"
-                                onerror="
-                                    this.src='../images/ghar-house.jpg';
-                                "
-                            >
-
-                        </div>
-
-                        <div>
-
-                            <h2
-                                class="property-title"
-                                id="propertyTitle"
-                            >
-                                GHAR Premium Residence
-                            </h2>
-
-                            <div
-                                class="property-location"
-                                id="propertyLocation"
-                            >
-                                📍 Location available through GHAR
-                            </div>
-
-                            <div
-                                class="property-tags"
-                                id="propertyTags"
-                            >
-                                <span class="property-tag">
-                                    Residential
-                                </span>
-
-                                <span class="property-tag">
-                                    Premium Property
-                                </span>
-
-                                <span class="property-tag">
-                                    Verified Listing
-                                </span>
-                            </div>
-
-                            <div class="property-price">
-
-                                <small>
-                                    Listed price
-                                </small>
-
-                                <span id="propertyPrice">
-                                    ₹2.50 Cr
-                                </span>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </section>
-
-
-            <!-- BOOKING FORM -->
-
-            <section class="booking-card">
-
-                <div class="booking-card-head">
-
-                    <h2>
-                        Booking Request
-                    </h2>
-
-                    <p>
-                        Provide the information required
-                        to process your booking request.
-                    </p>
-
-                </div>
-
-                <div class="booking-card-body">
-
-                    <form
-                        id="bookingForm"
-                        class="booking-form"
-                    >
-
-                        <!-- PERSONAL -->
-
-                        <div class="form-grid">
-
-                            <div class="form-field">
-
-                                <label
-                                    class="form-label"
-                                    for="buyerName"
-                                >
-                                    Full Name <span>*</span>
-                                </label>
-
-                                <input
-                                    class="form-input"
-                                    id="buyerName"
-                                    name="buyerName"
-                                    type="text"
-                                    placeholder="Enter your full name"
-                                    autocomplete="name"
-                                    required
-                                >
-
-                            </div>
-
-                            <div class="form-field">
-
-                                <label
-                                    class="form-label"
-                                    for="buyerPhone"
-                                >
-                                    Mobile Number <span>*</span>
-                                </label>
-
-                                <input
-                                    class="form-input"
-                                    id="buyerPhone"
-                                    name="buyerPhone"
-                                    type="tel"
-                                    inputmode="numeric"
-                                    placeholder="10-digit mobile number"
-                                    maxlength="10"
-                                    required
-                                >
-
-                            </div>
-
-                            <div class="form-field">
-
-                                <label
-                                    class="form-label"
-                                    for="buyerEmail"
-                                >
-                                    Email Address
-                                </label>
-
-                                <input
-                                    class="form-input"
-                                    id="buyerEmail"
-                                    name="buyerEmail"
-                                    type="email"
-                                    placeholder="you@example.com"
-                                    autocomplete="email"
-                                >
-
-                            </div>
-
-                            <div class="form-field">
-
-                                <label
-                                    class="form-label"
-                                    for="buyerCity"
-                                >
-                                    Current City
-                                </label>
-
-                                <input
-                                    class="form-input"
-                                    id="buyerCity"
-                                    name="buyerCity"
-                                    type="text"
-                                    placeholder="City"
-                                >
-
-                            </div>
-
-                        </div>
-
-
-                        <!-- BOOKING TYPE -->
-
-                        <div>
-
-                            <div
-                                class="form-label"
-                                style="margin-bottom:9px"
-                            >
-                                Booking Purpose
-                            </div>
-
-                            <div class="booking-options">
-
-                                <div class="booking-option">
-
-                                    <input
-                                        type="radio"
-                                        id="purposeResidence"
-                                        name="purpose"
-                                        value="residence"
-                                        checked
-                                    >
-
-                                    <label
-                                        for="purposeResidence"
-                                    >
-
-                                        <span class="option-icon">
-                                            🏡
-                                        </span>
-
-                                        <span class="option-title">
-                                            Self Residence
-                                        </span>
-
-                                        <span class="option-description">
-                                            Property intended for
-                                            personal use.
-                                        </span>
-
-                                    </label>
-
-                                </div>
-
-                                <div class="booking-option">
-
-                                    <input
-                                        type="radio"
-                                        id="purposeInvestment"
-                                        name="purpose"
-                                        value="investment"
-                                    >
-
-                                    <label
-                                        for="purposeInvestment"
-                                    >
-
-                                        <span class="option-icon">
-                                            📈
-                                        </span>
-
-                                        <span class="option-title">
-                                            Investment
-                                        </span>
-
-                                        <span class="option-description">
-                                            Property intended as
-                                            an investment.
-                                        </span>
-
-                                    </label>
-
-                                </div>
-
-                                <div class="booking-option">
-
-                                    <input
-                                        type="radio"
-                                        id="purposeFamily"
-                                        name="purpose"
-                                        value="family"
-                                    >
-
-                                    <label
-                                        for="purposeFamily"
-                                    >
-
-                                        <span class="option-icon">
-                                            👨‍👩‍👧
-                                        </span>
-
-                                        <span class="option-title">
-                                            Family
-                                        </span>
-
-                                        <span class="option-description">
-                                            Property intended for
-                                            family occupancy.
-                                        </span>
-
-                                    </label>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-
-                        <!-- DATE -->
-
-                        <div class="form-grid">
-
-                            <div class="form-field">
-
-                                <label
-                                    class="form-label"
-                                    for="visitDate"
-                                >
-                                    Preferred Appointment Date
-                                </label>
-
-                                <input
-                                    class="form-input"
-                                    id="visitDate"
-                                    name="visitDate"
-                                    type="date"
-                                >
-
-                                <div class="form-hint">
-                                    GHAR will confirm availability
-                                    separately.
-                                </div>
-
-                            </div>
-
-                            <div class="form-field">
-
-                                <label
-                                    class="form-label"
-                                    for="visitTime"
-                                >
-                                    Preferred Time
-                                </label>
-
-                                <select
-                                    class="form-select"
-                                    id="visitTime"
-                                    name="visitTime"
-                                >
-
-                                    <option value="">
-                                        Select time
-                                    </option>
-
-                                    <option value="morning">
-                                        Morning -- 10 AM–1 PM
-                                    </option>
-
-                                    <option value="afternoon">
-                                        Afternoon -- 1 PM–4 PM
-                                    </option>
-
-                                    <option value="evening">
-                                        Evening -- 4 PM–7 PM
-                                    </option>
-
-                                </select>
-
-                            </div>
-
-                        </div>
-
-
-                        <!-- AMOUNT -->
-
-                        <div class="amount-box">
-
-                            <div class="amount-box-label">
-                                Proposed Booking Amount
-                            </div>
-
-                            <div class="amount-row">
-
-                                <div>
-
-                                    <input
-                                        id="bookingAmount"
-                                        name="bookingAmount"
-                                        class="form-input"
-                                        type="text"
-                                        inputmode="decimal"
-                                        placeholder="Enter amount"
-                                        style="
-                                            min-width:220px;
-                                            color:#fff;
-                                            background:rgba(255,255,255,.10);
-                                            border-color:rgba(255,255,255,.18);
-                                        "
-                                    >
-
-                                </div>
-
-                                <div class="amount-note">
-                                    Final amount and payment terms
-                                    are subject to GHAR verification
-                                    and transaction documentation.
-                                </div>
-
-                            </div>
-
-                        </div>
-
-
-                        <!-- FINANCING -->
-
-                        <div class="form-grid">
-
-                            <div class="form-field">
-
-                                <label
-                                    class="form-label"
-                                    for="paymentMode"
-                                >
-                                    Payment Preference
-                                </label>
-
-                                <select
-                                    class="form-select"
-                                    id="paymentMode"
-                                    name="paymentMode"
-                                >
-
-                                    <option value="">
-                                        Select payment method
-                                    </option>
-
-                                    <option value="self-funded">
-                                        Self Funded
-                                    </option>
-
-                                    <option value="home-loan">
-                                        Home Loan
-                                    </option>
-
-                                    <option value="part-loan">
-                                        Part Loan / Part Self Funded
-                                    </option>
-
-                                    <option value="not-decided">
-                                        Not Decided
-                                    </option>
-
-                                </select>
-
-                            </div>
-
-                            <div class="form-field">
-
-                                <label
-                                    class="form-label"
-                                    for="loanRequired"
-                                >
-                                    Loan Assistance
-                                </label>
-
-                                <select
-                                    class="form-select"
-                                    id="loanRequired"
-                                    name="loanRequired"
-                                >
-
-                                    <option value="no">
-                                        No assistance required
-                                    </option>
-
-                                    <option value="yes">
-                                        Yes, contact me
-                                    </option>
-
-                                </select>
-
-                            </div>
-
-                        </div>
-
-
-                        <!-- MESSAGE -->
-
-                        <div class="form-field">
-
-                            <label
-                                class="form-label"
-                                for="bookingMessage"
-                            >
-                                Additional Requirements
-                            </label>
-
-                            <textarea
-                                class="form-textarea"
-                                id="bookingMessage"
-                                name="bookingMessage"
-                                placeholder="Mention any important requirement, preferred terms, visit request or question..."
-                            ></textarea>
-
-                        </div>
-
-
-                        <!-- NOTICE -->
-
-                        <div class="booking-notice">
-
-                            Submitting this form creates a
-                            <strong>booking request</strong>.
-                            It does not by itself constitute a
-                            completed sale, allotment, title transfer
-                            or legally binding transaction. GHAR may
-                            request additional verification and
-                            documentation before proceeding.
-
-                        </div>
-
-
-                        <!-- CONSENT -->
-
-                        <div class="consent-box">
-
-                            <input
-                                id="bookingConsent"
-                                name="bookingConsent"
-                                type="checkbox"
-                                required
-                            >
-
-                            <label for="bookingConsent">
-
-                                I confirm that the information
-                                provided by me is accurate and I
-                                authorize GHAR to contact me regarding
-                                this property booking request. I
-                                understand that the booking remains
-                                subject to property verification,
-                                applicable terms and transaction
-                                documentation.
-
-                                <br>
-
-                                <a href="../legal/terms.html">
-                                    Terms
-                                </a>
-                                &nbsp;·&nbsp;
-                                <a href="../legal/privacy.html">
-                                    Privacy Policy
-                                </a>
-
-                            </label>
-
-                        </div>
-
-
-                        <!-- ACTIONS -->
-
-                        <div class="booking-actions">
-
-                            <button
-                                type="submit"
-                                class="booking-btn booking-primary"
-                            >
-                                Submit Booking Request
-                            </button>
-
-                            <a
-                                href="../property/property-search.html"
-                                class="booking-btn booking-secondary"
-                            >
-                                Back to Properties
-                            </a>
-
-                        </div>
-
-                    </form>
-
-                </div>
-
-            </section>
-
-        </div>
-
-
-        <!-- =================================================
-             RIGHT SIDE
-        ================================================== -->
-
-        <aside class="booking-side">
-
-            <!-- SECURITY -->
-
-            <div class="side-card">
-
-                <h3>
-                    GHAR Transaction Protection
-                </h3>
-
-                <div class="security-row">
-
-                    <div class="security-icon">
-                        ✓
-                    </div>
-
-                    <div>
-
-                        <strong>
-                            Structured request
-                        </strong>
-
-                        <span>
-                            Your booking request receives a
-                            unique GHAR reference.
-                        </span>
-
-                    </div>
-
-                </div>
-
-                <div class="security-row">
-
-                    <div class="security-icon">
-                        🔒
-                    </div>
-
-                    <div>
-
-                        <strong>
-                            Controlled information
-                        </strong>
-
-                        <span>
-                            Property owner contact details are
-                            not exposed directly through this page.
-                        </span>
-
-                    </div>
-
-                </div>
-
-                <div class="security-row">
-
-                    <div class="security-icon">
-                        ✓
-                    </div>
-
-                    <div>
-
-                        <strong>
-                            Verification workflow
-                        </strong>
-
-                        <span>
-                            GHAR can review the request before
-                            the next transaction stage.
-                        </span>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- PROCESS -->
-
-            <div class="side-card">
-
-                <h3>
-                    What happens next?
-                </h3>
-
-                <div class="process-step">
-
-                    <div class="process-number">
-                        1
-                    </div>
-
-                    <div>
-                        <strong>
-                            Request submitted
-                        </strong>
-
-                        <span>
-                            Your booking information is
-                            recorded.
-                        </span>
-                    </div>
-
-                </div>
-
-                <div class="process-step">
-
-                    <div class="process-number">
-                        2
-                    </div>
-
-                    <div>
-                        <strong>
-                            GHAR review
-                        </strong>
-
-                        <span>
-                            The request and property details
-                            can be reviewed.
-                        </span>
-                    </div>
-
-                </div>
-
-                <div class="process-step">
-
-                    <div class="process-number">
-                        3
-                    </div>
-
-                    <div>
-                        <strong>
-                            Verification
-                        </strong>
-
-                        <span>
-                            Additional documents or information
-                            may be requested.
-                        </span>
-                    </div>
-
-                </div>
-
-                <div class="process-step">
-
-                    <div class="process-number">
-                        4
-                    </div>
-
-                    <div>
-                        <strong>
-                            Transaction continuation
-                        </strong>
-
-                        <span>
-                            The next step can proceed through
-                            the GHAR transaction workflow.
-                        </span>
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- SUPPORT -->
-
-            <div class="side-card">
-
-                <h3>
-                    Need help?
-                </h3>
-
-                <p
-                    style="
-                        margin:0 0 15px;
-                        color:var(--gb-muted);
-                        font-size:.74rem;
-                        line-height:1.6;
-                    "
-                >
-                    Have a question about the property,
-                    booking process or transaction?
-                </p>
-
-                <a
-                    href="messages.html"
-                    class="booking-btn booking-secondary"
-                    style="
-                        display:block;
-                        text-align:center;
-                    "
-                >
-                    Open GHAR Messages
-                </a>
-
-            </div>
-
-        </aside>
-
-    </section>
-
-</main>
-
-
-<!-- =========================================================
-     FOOTER
-========================================================= -->
-
-<footer class="booking-footer">
-
-    <div class="booking-footer-inner">
-
-        <div>
-
-            <strong>GHAR</strong>
-
-            <div>
-                A structured real-estate platform.
-            </div>
-
-        </div>
-
-        <div class="booking-footer-links">
-
-            <a href="../about.html">
-                About
-            </a>
-
-            <a href="../support/index.html">
-                Support
-            </a>
-
-            <a href="../legal/terms.html">
-                Terms
-            </a>
-
-            <a href="../legal/privacy.html">
-                Privacy
-            </a>
-
-            <a href="../index.html">
-                Home
-            </a>
-
-        </div>
-
-    </div>
-
-</footer>
-
-
-<!-- =========================================================
-     SUCCESS MODAL
-========================================================= -->
-
-<div
-    class="booking-modal"
-    id="bookingModal"
-    role="dialog"
-    aria-modal="true"
-    aria-labelledby="bookingSuccessTitle"
+<a
+  class="btn secondary"
+  href="property-search.html"
 >
+← Find Properties
+</a>
 
-    <div class="booking-modal-card">
+<a
+  class="btn primary"
+  href="buyer-dashboard.html"
+>
+Buyer Dashboard
+</a>
 
-        <div class="success-icon">
-            ✓
-        </div>
-
-        <h2 id="bookingSuccessTitle">
-            Booking Request Submitted
-        </h2>
-
-        <p>
-            Your request has been recorded in the GHAR
-            buyer workflow.
-        </p>
-
-        <div
-            class="booking-reference"
-            id="bookingReference"
-        >
-            GHAR-BOOKING
-        </div>
-
-        <div class="booking-actions">
-
-            <a
-                href="my-enquiries.html"
-                class="booking-btn booking-primary"
-            >
-                View My Enquiries
-            </a>
-
-            <a
-                href="buyer-dashboard.html"
-                class="booking-btn booking-secondary"
-            >
-                Buyer Dashboard
-            </a>
-
-        </div>
-
-    </div>
+</div>
 
 </div>
 
 
-<div class="ghar-global-toast"></div>
+<div class="booking-orb">
+
+<div>
+
+<div class="booking-icon">
+⌂
+</div>
+
+<div class="booking-orb-title">
+PROPERTY BOOKING
+</div>
+
+<div class="booking-orb-sub">
+BUYER WORKSPACE
+</div>
+
+</div>
+
+</div>
 
 
-<!-- =========================================================
-     GHAR CORE
-========================================================= -->
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     MAIN
+====================================================== -->
+
+<div class="grid-main">
+
+
+<div>
+
+
+<!-- =====================================================
+     SELECTED PROPERTY
+====================================================== -->
+
+<section class="section">
+
+<div class="section-eyebrow">
+SELECTED PROPERTY
+</div>
+
+<h2 class="section-title">
+Review your property.
+</h2>
+
+<p class="section-description">
+Confirm the property you want to book before
+submitting your buyer information.
+</p>
+
+
+<div class="property-card">
+
+<div
+  class="property-image"
+  id="propertyImage"
+>
+⌂
+</div>
+
+
+<div class="property-info">
+
+<span
+  class="property-tag"
+  id="propertyType"
+>
+PROPERTY
+</span>
+
+
+<h3
+  class="property-name"
+  id="propertyName"
+>
+Selected GHAR Property
+</h3>
+
+
+<div
+  class="property-location"
+  id="propertyLocation"
+>
+Property location will appear here.
+</div>
+
+
+<div class="property-meta">
+
+<span
+  class="meta"
+  id="propertyBedrooms"
+>
+--
+</span>
+
+<span
+  class="meta"
+  id="propertyArea"
+>
+--
+</span>
+
+<span
+  class="meta"
+  id="propertyStatus"
+>
+Available
+</span>
+
+</div>
+
+
+<div
+  class="property-price"
+  id="propertyPrice"
+>
+Price on request
+</div>
+
+</div>
+
+</div>
+
+
+<div class="notice">
+
+<div class="notice-icon">
+✓
+</div>
+
+<div>
+Submitting this form creates a GHAR booking request.
+It does not automatically transfer ownership or
+complete a legal property transaction.
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     BOOKING PREFERENCE
+====================================================== -->
+
+<section class="section">
+
+<div class="section-eyebrow">
+BOOKING PREFERENCE
+</div>
+
+<h2 class="section-title">
+How would you like to proceed?
+</h2>
+
+<p class="section-description">
+Select the type of request you want to submit for
+this property.
+</p>
+
+
+<div class="choice-grid">
+
+
+<div class="choice">
+
+<input
+  type="radio"
+  name="bookingType"
+  id="bookingReserve"
+  value="reservation"
+  checked
+>
+
+<label for="bookingReserve">
+
+<div class="choice-icon">
+◆
+</div>
+
+<div class="choice-title">
+Reserve Property
+</div>
+
+<div class="choice-sub">
+Submit a request to reserve the selected property.
+</div>
+
+</label>
+
+</div>
+
+
+<div class="choice">
+
+<input
+  type="radio"
+  name="bookingType"
+  id="bookingVisit"
+  value="visit"
+>
+
+<label for="bookingVisit">
+
+<div class="choice-icon">
+◷
+</div>
+
+<div class="choice-title">
+Book a Visit
+</div>
+
+<div class="choice-sub">
+Request a property visit before proceeding.
+</div>
+
+</label>
+
+</div>
+
+
+<div class="choice">
+
+<input
+  type="radio"
+  name="bookingType"
+  id="bookingEnquiry"
+  value="enquiry"
+>
+
+<label for="bookingEnquiry">
+
+<div class="choice-icon">
+?
+</div>
+
+<div class="choice-title">
+Booking Enquiry
+</div>
+
+<div class="choice-sub">
+Ask GHAR for booking and property information.
+</div>
+
+</label>
+
+</div>
+
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     BUYER DETAILS
+====================================================== -->
+
+<section class="section">
+
+<div class="section-eyebrow">
+BUYER INFORMATION
+</div>
+
+<h2 class="section-title">
+Tell us about the buyer.
+</h2>
+
+<p class="section-description">
+Provide accurate information so GHAR can connect
+your booking request with your buyer account.
+</p>
+
+
+<form
+  id="bookingForm"
+  autocomplete="on"
+>
+
+
+<div class="form-grid">
+
+
+<div class="field">
+
+<label for="firstName">
+First Name
+</label>
+
+<input
+  id="firstName"
+  name="firstName"
+  type="text"
+  placeholder="Enter first name"
+  required
+>
+
+</div>
+
+
+<div class="field">
+
+<label for="lastName">
+Last Name
+</label>
+
+<input
+  id="lastName"
+  name="lastName"
+  type="text"
+  placeholder="Enter last name"
+  required
+>
+
+</div>
+
+
+<div class="field">
+
+<label for="email">
+Email Address
+</label>
+
+<input
+  id="email"
+  name="email"
+  type="email"
+  placeholder="you@example.com"
+  required
+>
+
+</div>
+
+
+<div class="field">
+
+<label for="mobile">
+Mobile Number
+</label>
+
+<input
+  id="mobile"
+  name="mobile"
+  type="tel"
+  placeholder="+91 XXXXX XXXXX"
+  required
+>
+
+</div>
+
+
+<div class="field">
+
+<label for="city">
+Current City
+</label>
+
+<input
+  id="city"
+  name="city"
+  type="text"
+  placeholder="Noida"
+>
+
+</div>
+
+
+<div class="field">
+
+<label for="buyerType">
+Buyer Type
+</label>
+
+<select
+  id="buyerType"
+  name="buyerType"
+>
+
+<option value="">
+Select buyer type
+</option>
+
+<option value="first-time">
+First-Time Buyer
+</option>
+
+<option value="end-user">
+End User
+</option>
+
+<option value="investor">
+Property Investor
+</option>
+
+<option value="family">
+Family Buyer
+</option>
+
+<option value="nri">
+NRI Buyer
+</option>
+
+</select>
+
+</div>
+
+
+<div class="field">
+
+<label for="preferredDate">
+Preferred Date
+</label>
+
+<input
+  id="preferredDate"
+  name="preferredDate"
+  type="date"
+>
+
+</div>
+
+
+<div class="field">
+
+<label for="preferredTime">
+Preferred Time
+</label>
+
+<select
+  id="preferredTime"
+  name="preferredTime"
+>
+
+<option value="">
+Select preferred time
+</option>
+
+<option value="morning">
+Morning · 9 AM – 12 PM
+</option>
+
+<option value="afternoon">
+Afternoon · 12 PM – 4 PM
+</option>
+
+<option value="evening">
+Evening · 4 PM – 7 PM
+</option>
+
+</select>
+
+</div>
+
+
+<div class="field full">
+
+<label for="sourceOfFunds">
+Expected Payment / Funding Method
+</label>
+
+<select
+  id="sourceOfFunds"
+  name="sourceOfFunds"
+>
+
+<option value="">
+Select payment method
+</option>
+
+<option value="self-funded">
+Self Funded
+</option>
+
+<option value="home-loan">
+Home Loan
+</option>
+
+<option value="part-loan">
+Part Self Funded + Loan
+</option>
+
+<option value="family-funded">
+Family Funded
+</option>
+
+<option value="other">
+Other
+</option>
+
+</select>
+
+</div>
+
+
+<div class="field full">
+
+<label for="message">
+Additional Requirements
+</label>
+
+<textarea
+  id="message"
+  name="message"
+  placeholder="Tell GHAR about your requirements, preferred possession timeline, questions or anything else related to the booking..."
+></textarea>
+
+</div>
+
+</div>
+
+
+<!-- =====================================================
+     CONSENT
+====================================================== -->
+
+<div class="consent">
+
+<input
+  type="checkbox"
+  id="bookingConsent"
+  required
+>
+
+<label for="bookingConsent">
+
+I confirm that the information provided is accurate
+and I agree to GHAR processing this booking request
+according to the applicable
+<a href="../privacy.html">
+Privacy Policy
+</a>
+and
+<a href="../terms.html">
+Terms
+</a>.
+
+</label>
+
+</div>
+
+
+<div class="form-actions">
+
+<button
+  type="button"
+  class="btn dark"
+  id="cancelBtn"
+>
+Cancel
+</button>
+
+<button
+  type="submit"
+  class="btn primary"
+>
+Submit Booking Request
+</button>
+
+</div>
+
+
+</form>
+
+</section>
+
+
+<!-- =====================================================
+     BOOKING SUMMARY
+====================================================== -->
+
+<section class="section">
+
+<div class="section-eyebrow">
+BOOKING SUMMARY
+</div>
+
+<h2 class="section-title">
+Review before submitting.
+</h2>
+
+<p class="section-description">
+Check the information below before sending your
+property booking request.
+</p>
+
+
+<div class="summary-card">
+
+
+<div class="summary-head">
+
+<div class="summary-title">
+Booking Request
+</div>
+
+<div class="summary-status">
+Draft
+</div>
+
+</div>
+
+
+<div class="summary-list">
+
+
+<div class="summary-row">
+
+<span>
+Property
+</span>
+
+<strong id="summaryProperty">
+Selected Property
+</strong>
+
+</div>
+
+
+<div class="summary-row">
+
+<span>
+Location
+</span>
+
+<strong id="summaryLocation">
+--
+</strong>
+
+</div>
+
+
+<div class="summary-row">
+
+<span>
+Buyer
+</span>
+
+<strong id="summaryBuyer">
+Not entered
+</strong>
+
+</div>
+
+
+<div class="summary-row">
+
+<span>
+Request
+</span>
+
+<strong id="summaryType">
+Reservation
+</strong>
+
+</div>
+
+
+<div class="summary-row">
+
+<span>
+Preferred Date
+</span>
+
+<strong id="summaryDate">
+Not selected
+</strong>
+
+</div>
+
+
+</div>
+
+
+<div class="summary-total">
+
+<span>
+Property Price
+</span>
+
+<strong id="summaryPrice">
+On request
+</strong>
+
+</div>
+
+
+</div>
+
+</section>
+
+
+</div>
+
+
+<!-- =====================================================
+     SIDEBAR
+====================================================== -->
+
+<aside class="side-stack">
+
+
+<section class="side-card">
+
+<div class="section-eyebrow">
+BOOKING PROCESS
+</div>
+
+<h2 class="side-title">
+Your GHAR booking journey.
+</h2>
+
+
+<div class="steps">
+
+
+<div class="step">
+
+<div class="step-number">
+01
+</div>
+
+<div>
+
+<strong>
+Submit Request
+</strong>
+
+<span>
+Provide your buyer information and booking preference.
+</span>
+
+</div>
+
+</div>
+
+
+<div class="step">
+
+<div class="step-number">
+02
+</div>
+
+<div>
+
+<strong>
+GHAR Review
+</strong>
+
+<span>
+Your request can be reviewed through the GHAR workflow.
+</span>
+
+</div>
+
+</div>
+
+
+<div class="step">
+
+<div class="step-number">
+03
+</div>
+
+<div>
+
+<strong>
+Property Confirmation
+</strong>
+
+<span>
+Availability and property details can be confirmed.
+</span>
+
+</div>
+
+</div>
+
+
+<div class="step">
+
+<div class="step-number">
+04
+</div>
+
+<div>
+
+<strong>
+Next Transaction Step
+</strong>
+
+<span>
+Proceed to the applicable agreement and payment workflow.
+</span>
+
+</div>
+
+</div>
+
+
+</div>
+
+</section>
+
+
+<section class="side-card">
+
+<div class="section-eyebrow">
+BOOKING DETAILS
+</div>
+
+<h2 class="side-title">
+Current request.
+</h2>
+
+
+<div class="info-list">
+
+
+<div class="info-row">
+
+<span class="info-label">
+Reference
+</span>
+
+<strong
+  class="info-value"
+  id="bookingReference"
+>
+GHAR-BOOKING
+</strong>
+
+</div>
+
+
+<div class="info-row">
+
+<span class="info-label">
+Status
+</span>
+
+<strong
+  class="info-value"
+  id="bookingStatus"
+>
+Draft
+</strong>
+
+</div>
+
+
+<div class="info-row">
+
+<span class="info-label">
+Request Type
+</span>
+
+<strong
+  class="info-value"
+  id="sideBookingType"
+>
+Reservation
+</strong>
+
+</div>
+
+
+<div class="info-row">
+
+<span class="info-label">
+Buyer
+</span>
+
+<strong
+  class="info-value"
+  id="sideBuyer"
+>
+Not entered
+</strong>
+
+</div>
+
+
+</div>
+
+</section>
+
+
+<section class="side-card">
+
+<div class="section-eyebrow">
+QUICK ACCESS
+</div>
+
+<h2 class="side-title">
+Continue your buyer journey.
+</h2>
+
+
+<div class="quick-list">
+
+
+<a
+  class="quick"
+  href="buyer-dashboard.html"
+>
+
+<div class="quick-icon">
+⌂
+</div>
+
+<div>
+
+<strong>
+Buyer Dashboard
+</strong>
+
+<span>
+Open your buyer workspace
+</span>
+
+</div>
+
+</a>
+
+
+<a
+  class="quick"
+  href="property-search.html"
+>
+
+<div class="quick-icon">
+⌕
+</div>
+
+<div>
+
+<strong>
+Find Properties
+</strong>
+
+<span>
+Explore available listings
+</span>
+
+</div>
+
+</a>
+
+
+<a
+  class="quick"
+  href="my-visits.html"
+>
+
+<div class="quick-icon">
+◷
+</div>
+
+<div>
+
+<strong>
+My Visits
+</strong>
+
+<span>
+Manage property visits
+</span>
+
+</div>
+
+</a>
+
+
+<a
+  class="quick"
+  href="offers.html"
+>
+
+<div class="quick-icon">
+₹
+</div>
+
+<div>
+
+<strong>
+My Offers
+</strong>
+
+<span>
+Review your offers
+</span>
+
+</div>
+
+</a>
+
+
+<a
+  class="quick"
+  href="messages.html"
+>
+
+<div class="quick-icon">
+✉
+</div>
+
+<div>
+
+<strong>
+Messages
+</strong>
+
+<span>
+Contact GHAR
+</span>
+
+</div>
+
+</a>
+
+
+<a
+  class="quick"
+  href="my-profile.html"
+>
+
+<div class="quick-icon">
+●
+</div>
+
+<div>
+
+<strong>
+My Profile
+</strong>
+
+<span>
+Manage buyer information
+</span>
+
+</div>
+
+</a>
+
+
+</div>
+
+</section>
+
+
+<section class="support">
+
+<div class="eyebrow">
+GHAR SUPPORT
+</div>
+
+<h3>
+Need help booking?
+</h3>
+
+<p>
+If you need help understanding a property,
+booking request, visit, offer or transaction step,
+contact GHAR through the secure communication
+workspace.
+</p>
+
+<a
+  class="btn primary"
+  href="messages.html"
+>
+Open Messages
+</a>
+
+</section>
+
+
+</aside>
+
+</div>
+
+</main>
+
+
+<!-- =====================================================
+     FOOTER
+====================================================== -->
+
+<footer class="footer">
+
+<div class="footer-grid">
+
+
+<div>
+
+<div class="footer-logo">
+GHAR
+</div>
+
+<div class="footer-description">
+A structured real-estate workspace connecting
+buyers, sellers, renters and property transactions
+through one premium digital experience.
+</div>
+
+</div>
+
+
+<div>
+
+<div class="footer-title">
+BUYER
+</div>
+
+<div class="footer-links">
+
+<a href="buyer-dashboard.html">
+Dashboard
+</a>
+
+<br>
+
+<a href="property-search.html">
+Find Property
+</a>
+
+<br>
+
+<a href="shortlisted.html">
+Saved Properties
+</a>
+
+<br>
+
+<a href="my-visits.html">
+My Visits
+</a>
+
+</div>
+
+</div>
+
+
+<div>
+
+<div class="footer-title">
+TRANSACTIONS
+</div>
+
+<div class="footer-links">
+
+<a href="offers.html">
+My Offers
+</a>
+
+<br>
+
+<a href="property-booking.html">
+Property Booking
+</a>
+
+<br>
+
+<a href="messages.html">
+Messages
+</a>
+
+<br>
+
+<a href="notifications.html">
+Notifications
+</a>
+
+</div>
+
+</div>
+
+
+<div>
+
+<div class="footer-title">
+GHAR
+</div>
+
+<div class="footer-links">
+
+<a href="about.html">
+About GHAR
+</a>
+
+<br>
+
+<a href="../contact.html">
+Contact
+</a>
+
+<br>
+
+<a href="../terms.html">
+Terms
+</a>
+
+<br>
+
+<a href="../privacy.html">
+Privacy
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="footer-bottom">
+
+© 2026 GHAR. All rights reserved.
+· Property booking workspace.
+
+</div>
+
+</footer>
+
+
+<!-- =====================================================
+     GHAR AI
+====================================================== -->
+
+<button
+  id="aiLauncher"
+  class="ai-launcher"
+  aria-label="Open GHAR AI"
+  title="GHAR AI"
+>
+✦
+</button>
+
+
+<aside
+  id="aiPanel"
+  class="ai-panel"
+  aria-label="GHAR AI Property Booking Assistant"
+>
+
+
+<div class="ai-head">
+
+<div>
+
+<div class="ai-title">
+GHAR AI
+</div>
+
+<div class="ai-sub">
+Property Booking Assistant
+</div>
+
+</div>
+
+
+<button
+  id="aiClose"
+  class="ai-close"
+  aria-label="Close GHAR AI"
+>
+×
+</button>
+
+</div>
+
+
+<div
+  id="aiMessages"
+  class="ai-messages"
+>
+
+<div class="ai-msg bot">
+Welcome to GHAR AI.
+I can help you understand this booking form,
+booking preferences, property information and
+your buyer workflow.
+</div>
+
+</div>
+
+
+<form
+  id="aiForm"
+  class="ai-form"
+>
+
+<input
+  id="aiInput"
+  type="text"
+  placeholder="Ask about property booking..."
+  autocomplete="off"
+>
+
+<button type="submit">
+Send
+</button>
+
+</form>
+
+</aside>
+
+
+<!-- =====================================================
+     SHARED GHAR JAVASCRIPT
+====================================================== -->
 
 <script
-    src="../assets/js/main/site.js"
-    defer
+  src="../assets/js/main/site.js"
+  defer
 ></script>
 
 <script
-    src="../assets/js/main/page.js"
-    defer
+  src="../assets/js/main/page.js"
+  defer
 ></script>
 
+<script
+  src="../assets/js/main/api.js"
+  defer
+></script>
 
-<!-- =========================================================
-     PAGE CONTROLLER
-========================================================= -->
+<script
+  src="../assets/js/main/auth.js"
+  defer
+></script>
+
+<script
+  src="../assets/js/buyer/buyer.js"
+  defer
+></script>
+
+<script
+  src="../assets/js/ai/ghar-ai.js"
+  defer
+></script>
+
 
 <script>
 
-(function(){
+(() => {
 
-    "use strict";
+"use strict";
 
 
-    /* =====================================================
-       HELPERS
-    ===================================================== */
+/* =========================================================
+   HELPERS
+========================================================= */
 
-    function getQueryParams(){
+const $ = id =>
+  document.getElementById(id);
 
-        return new URLSearchParams(
-            window.location.search
-        );
+
+/* =========================================================
+   STORAGE
+========================================================= */
+
+const bookingStorageKey =
+  "ghar_property_bookings";
+
+
+const profileStorageKey =
+  "ghar_buyer_profile";
+
+
+/* =========================================================
+   PROPERTY DATA
+========================================================= */
+
+function getPropertyData(){
+
+  let property = {};
+
+  try{
+
+    const params =
+      new URLSearchParams(
+        window.location.search
+      );
+
+
+    property = {
+
+      id:
+        params.get("id") ||
+        params.get("propertyId") ||
+        localStorage.getItem(
+          "ghar_selected_property_id"
+        ) ||
+        "",
+
+      name:
+        params.get("name") ||
+        localStorage.getItem(
+          "ghar_selected_property_name"
+        ) ||
+        "Selected GHAR Property",
+
+      location:
+        params.get("location") ||
+        localStorage.getItem(
+          "ghar_selected_property_location"
+        ) ||
+        "Property location will appear here.",
+
+      type:
+        params.get("type") ||
+        localStorage.getItem(
+          "ghar_selected_property_type"
+        ) ||
+        "PROPERTY",
+
+      bedrooms:
+        params.get("bedrooms") ||
+        localStorage.getItem(
+          "ghar_selected_property_bedrooms"
+        ) ||
+        "--",
+
+      area:
+        params.get("area") ||
+        localStorage.getItem(
+          "ghar_selected_property_area"
+        ) ||
+        "--",
+
+      price:
+        params.get("price") ||
+        localStorage.getItem(
+          "ghar_selected_property_price"
+        ) ||
+        "Price on request"
+
+    };
+
+  }catch(error){
+
+    console.warn(
+      "GHAR property:",
+      error
+    );
+
+  }
+
+  return property;
+
+}
+
+
+/* =========================================================
+   LOAD PROPERTY
+========================================================= */
+
+function loadProperty(){
+
+  const property =
+    getPropertyData();
+
+
+  $("propertyName").textContent =
+    property.name;
+
+  $("propertyLocation").textContent =
+    property.location;
+
+  $("propertyType").textContent =
+    property.type;
+
+  $("propertyBedrooms").textContent =
+    property.bedrooms;
+
+  $("propertyArea").textContent =
+    property.area;
+
+  $("propertyPrice").textContent =
+    property.price;
+
+
+  $("summaryProperty").textContent =
+    property.name;
+
+  $("summaryLocation").textContent =
+    property.location;
+
+  $("summaryPrice").textContent =
+    property.price;
+
+
+  document.title =
+    property.name +
+    " · Property Booking · GHAR";
+
+
+  return property;
+
+}
+
+
+/* =========================================================
+   LOAD BUYER PROFILE
+========================================================= */
+
+function loadBuyerProfile(){
+
+  let profile = {};
+
+  try{
+
+    profile =
+      JSON.parse(
+        localStorage.getItem(
+          profileStorageKey
+        ) || "{}"
+      );
+
+  }catch(error){
+
+    profile = {};
+
+  }
+
+
+  const map = [
+
+    "firstName",
+    "lastName",
+    "email",
+    "mobile",
+    "city",
+    "buyerType"
+
+  ];
+
+
+  map.forEach(
+    key => {
+
+      const field =
+        $(key);
+
+      if(
+        field &&
+        profile[key]
+      ){
+
+        field.value =
+          profile[key];
+
+      }
 
     }
+  );
 
 
-    function escapeHTML(value){
+  updateBuyerSummary();
 
-        return String(value ?? "")
-            .replace(/&/g,"&amp;")
-            .replace(/</g,"&lt;")
-            .replace(/>/g,"&gt;")
-            .replace(/"/g,"&quot;")
-            .replace(/'/g,"&#039;");
-
-    }
+}
 
 
-    function generateReference(){
+/* =========================================================
+   BUYER SUMMARY
+========================================================= */
 
-        const now =
-            new Date();
+function updateBuyerSummary(){
 
-        const date =
-            now
-                .toISOString()
-                .slice(0,10)
-                .replace(/-/g,"");
+  const first =
+    $("firstName")?.value.trim() ||
+    "";
 
-        const random =
-            Math.floor(
-                1000 +
-                Math.random() * 9000
-            );
+  const last =
+    $("lastName")?.value.trim() ||
+    "";
 
-        return `GHAR-BKG-${date}-${random}`;
-
-    }
-
-
-    /* =====================================================
-       LOAD PROPERTY
-    ===================================================== */
-
-    function loadProperty(){
-
-        const params =
-            getQueryParams();
-
-        const propertyId =
-            params.get("id") ||
-            params.get("propertyId");
+  const full =
+    (
+      first +
+      " " +
+      last
+    ).trim();
 
 
-        let property = null;
+  const buyer =
+    full ||
+    "Not entered";
 
 
-        const keys = [
-            "ghar_selected_property",
-            "selectedProperty",
-            "ghar_booking_property"
-        ];
+  $("summaryBuyer").textContent =
+    buyer;
+
+  $("sideBuyer").textContent =
+    buyer;
+
+}
 
 
-        for(const key of keys){
+/* =========================================================
+   BOOKING TYPE
+========================================================= */
 
-            try{
+function getBookingType(){
 
-                const raw =
-                    localStorage.getItem(key);
-
-                if(raw){
-
-                    const parsed =
-                        JSON.parse(raw);
-
-                    if(parsed){
-
-                        property = parsed;
-                        break;
-
-                    }
-
-                }
-
-            }catch(error){
-
-                console.warn(
-                    "GHAR property storage error:",
-                    error
-                );
-
-            }
-
-        }
+  const selected =
+    document.querySelector(
+      'input[name="bookingType"]:checked'
+    );
 
 
-        /*
-         * If a property ID exists, attempt to locate it
-         * inside common GHAR property collections.
-         */
+  return selected?.value ||
+    "reservation";
 
-        if(propertyId){
-
-            const collectionKeys = [
-                "ghar_properties",
-                "properties",
-                "propertyData"
-            ];
+}
 
 
-            for(const key of collectionKeys){
+function getBookingTypeLabel(){
 
-                try{
-
-                    const raw =
-                        localStorage.getItem(key);
-
-                    if(!raw){
-                        continue;
-                    }
-
-                    const parsed =
-                        JSON.parse(raw);
-
-                    if(Array.isArray(parsed)){
-
-                        const found =
-                            parsed.find(
-                                item =>
-                                    String(
-                                        item.id ||
-                                        item.propertyId
-                                    ) ===
-                                    String(propertyId)
-                            );
-
-                        if(found){
-
-                            property = found;
-                            break;
-
-                        }
-
-                    }
-
-                }catch(error){
-
-                    console.warn(
-                        "GHAR property collection error:",
-                        error
-                    );
-
-                }
-
-            }
-
-        }
+  const type =
+    getBookingType();
 
 
-        return property;
+  const labels = {
+
+    reservation:
+      "Reservation",
+
+    visit:
+      "Property Visit",
+
+    enquiry:
+      "Booking Enquiry"
+
+  };
+
+
+  return labels[type] ||
+    "Reservation";
+
+}
+
+
+function updateBookingType(){
+
+  const label =
+    getBookingTypeLabel();
+
+
+  $("summaryType").textContent =
+    label;
+
+  $("sideBookingType").textContent =
+    label;
+
+}
+
+
+document
+  .querySelectorAll(
+    'input[name="bookingType"]'
+  )
+  .forEach(
+    radio => {
+
+      radio.addEventListener(
+        "change",
+        updateBookingType
+      );
 
     }
+  );
 
 
-    function renderProperty(){
+/* =========================================================
+   DATE SUMMARY
+========================================================= */
 
-        const property =
-            loadProperty();
+$("preferredDate")
+  ?.addEventListener(
+    "change",
+    () => {
 
+      const value =
+        $("preferredDate").value;
 
-        if(!property){
-            return;
-        }
 
+      if(!value){
 
-        const title =
-            property.title ||
-            property.name ||
-            "GHAR Premium Residence";
+        $("summaryDate").textContent =
+          "Not selected";
 
+        return;
 
-        const location =
-            property.location ||
-            property.address ||
-            "Location available through GHAR";
+      }
 
 
-        const price =
-            property.price ||
-            property.amount ||
-            property.listedPrice ||
-            "₹2.50 Cr";
-
-
-        const image =
-            property.image ||
-            property.imageUrl ||
-            "../images/ghar-house.jpg";
-
-
-        const titleElement =
-            document.getElementById(
-                "propertyTitle"
-            );
-
-        const locationElement =
-            document.getElementById(
-                "propertyLocation"
-            );
-
-        const priceElement =
-            document.getElementById(
-                "propertyPrice"
-            );
-
-        const imageElement =
-            document.getElementById(
-                "propertyImage"
-            );
-
-
-        if(titleElement){
-
-            titleElement.textContent =
-                title;
-
-        }
-
-
-        if(locationElement){
-
-            locationElement.textContent =
-                "📍 " + location;
-
-        }
-
-
-        if(priceElement){
-
-            priceElement.textContent =
-                typeof price === "number"
-                    ? "₹" +
-                      price.toLocaleString("en-IN")
-                    : price;
-
-        }
-
-
-        if(imageElement){
-
-            imageElement.src =
-                image;
-
-            imageElement.onerror =
-                function(){
-
-                    this.src =
-                        "../images/ghar-house.jpg";
-
-                };
-
-        }
-
-
-        const tags =
-            document.getElementById(
-                "propertyTags"
-            );
-
-
-        if(tags){
-
-            const values = [];
-
-            if(property.type){
-                values.push(property.type);
-            }
-
-            if(property.bedrooms){
-                values.push(
-                    `${property.bedrooms} BHK`
-                );
-            }
-
-            if(property.area){
-                values.push(
-                    property.area
-                );
-            }
-
-            if(property.verified){
-                values.push(
-                    "Verified Listing"
-                );
-            }
-
-
-            if(values.length){
-
-                tags.innerHTML =
-                    values
-                        .map(
-                            value =>
-                                `<span class="property-tag">
-                                    ${escapeHTML(value)}
-                                </span>`
-                        )
-                        .join("");
-
-            }
-
-        }
-
-    }
-
-
-    /* =====================================================
-       DATE
-    ===================================================== */
-
-    function setMinimumDate(){
-
-        const input =
-            document.getElementById(
-                "visitDate"
-            );
-
-        if(!input){
-            return;
-        }
-
-
-        const today =
-            new Date();
-
-
-        const year =
-            today.getFullYear();
-
-
-        const month =
-            String(
-                today.getMonth() + 1
-            ).padStart(2,"0");
-
-
-        const day =
-            String(
-                today.getDate()
-            ).padStart(2,"0");
-
-
-        input.min =
-            `${year}-${month}-${day}`;
-
-    }
-
-
-    /* =====================================================
-       FORM
-    ===================================================== */
-
-    function initForm(){
-
-        const form =
-            document.getElementById(
-                "bookingForm"
-            );
-
-
-        if(!form){
-            return;
-        }
-
-
-        form.addEventListener(
-            "submit",
-            function(event){
-
-                event.preventDefault();
-
-
-                if(!form.checkValidity()){
-
-                    form.reportValidity();
-
-                    return;
-
-                }
-
-
-                const property =
-                    loadProperty() || {};
-
-
-                const formData =
-                    new FormData(form);
-
-
-                const reference =
-                    generateReference();
-
-
-                const booking = {
-
-                    id:reference,
-
-                    reference:reference,
-
-                    propertyId:
-                        property.id ||
-                        property.propertyId ||
-                        getQueryParams()
-                            .get("id") ||
-                        "",
-
-                    propertyTitle:
-                        property.title ||
-                        property.name ||
-                        document
-                            .getElementById(
-                                "propertyTitle"
-                            )
-                            .textContent,
-
-                    buyerName:
-                        formData.get(
-                            "buyerName"
-                        ),
-
-                    buyerPhone:
-                        formData.get(
-                            "buyerPhone"
-                        ),
-
-                    buyerEmail:
-                        formData.get(
-                            "buyerEmail"
-                        ),
-
-                    buyerCity:
-                        formData.get(
-                            "buyerCity"
-                        ),
-
-                    purpose:
-                        formData.get(
-                            "purpose"
-                        ),
-
-                    visitDate:
-                        formData.get(
-                            "visitDate"
-                        ),
-
-                    visitTime:
-                        formData.get(
-                            "visitTime"
-                        ),
-
-                    bookingAmount:
-                        formData.get(
-                            "bookingAmount"
-                        ),
-
-                    paymentMode:
-                        formData.get(
-                            "paymentMode"
-                        ),
-
-                    loanRequired:
-                        formData.get(
-                            "loanRequired"
-                        ),
-
-                    message:
-                        formData.get(
-                            "bookingMessage"
-                        ),
-
-                    status:"submitted",
-
-                    createdAt:
-                        new Date()
-                            .toISOString()
-
-                };
-
-
-                saveBooking(
-                    booking
-                );
-
-
-                document
-                    .getElementById(
-                        "bookingReference"
-                    )
-                    .textContent =
-                    reference;
-
-
-                document
-                    .getElementById(
-                        "bookingModal"
-                    )
-                    .classList
-                    .add("show");
-
-
-                window.scrollTo({
-                    top:0,
-                    behavior:"smooth"
-                });
-
-            }
-        );
-
-    }
-
-
-    /* =====================================================
-       SAVE
-    ===================================================== */
-
-    function saveBooking(booking){
-
-        const keys = [
-            "ghar_bookings",
-            "buyerBookings",
-            "myBookings"
-        ];
-
-
-        let bookings = [];
-
-
-        try{
-
-            const existing =
-                localStorage.getItem(
-                    "ghar_bookings"
-                );
-
-            if(existing){
-
-                const parsed =
-                    JSON.parse(existing);
-
-                if(Array.isArray(parsed)){
-                    bookings = parsed;
-                }
-
-            }
-
-        }catch(error){
-
-            console.warn(
-                "GHAR booking storage error:",
-                error
-            );
-
-        }
-
-
-        bookings.push(
-            booking
+      const date =
+        new Date(
+          value + "T00:00:00"
         );
 
 
-        try{
-
-            localStorage.setItem(
-                "ghar_bookings",
-                JSON.stringify(
-                    bookings
-                )
-            );
-
-            localStorage.setItem(
-                "lastGharBooking",
-                JSON.stringify(
-                    booking
-                )
-            );
-
-        }catch(error){
-
-            console.warn(
-                "Unable to save GHAR booking:",
-                error
-            );
-
-        }
-
-    }
-
-
-    /* =====================================================
-       HEADER
-    ===================================================== */
-
-    function initHeader(){
-
-        const profile =
-            document.getElementById(
-                "bookingProfile"
-            );
-
-        const notifications =
-            document.getElementById(
-                "bookingNotifications"
-            );
-
-        const menu =
-            document.getElementById(
-                "bookingMenu"
-            );
-
-
-        if(profile){
-
-            profile.addEventListener(
-                "click",
-                function(){
-
-                    window.location.href =
-                        "my-profile.html";
-
-                }
-            );
-
-        }
-
-
-        if(notifications){
-
-            notifications.addEventListener(
-                "click",
-                function(){
-
-                    window.location.href =
-                        "../communication/notifications.html";
-
-                }
-            );
-
-        }
-
-
-        if(menu){
-
-            menu.addEventListener(
-                "click",
-                function(){
-
-                    const nav =
-                        document.querySelector(
-                            ".booking-nav"
-                        );
-
-
-                    if(!nav){
-                        return;
-                    }
-
-
-                    const open =
-                        this.dataset.open ===
-                        "true";
-
-
-                    if(open){
-
-                        nav.style.display =
-                            "";
-
-                        nav.style.position =
-                            "";
-
-                        nav.style.top =
-                            "";
-
-                        nav.style.left =
-                            "";
-
-                        nav.style.right =
-                            "";
-
-                        nav.style.padding =
-                            "";
-
-                        nav.style.background =
-                            "";
-
-                        nav.style.boxShadow =
-                            "";
-
-                        this.dataset.open =
-                            "false";
-
-                        this.setAttribute(
-                            "aria-expanded",
-                            "false"
-                        );
-
-                    }else{
-
-                        nav.style.display =
-                            "flex";
-
-                        nav.style.position =
-                            "absolute";
-
-                        nav.style.top =
-                            "76px";
-
-                        nav.style.left =
-                            "10px";
-
-                        nav.style.right =
-                            "10px";
-
-                        nav.style.padding =
-                            "12px";
-
-                        nav.style.flexDirection =
-                            "column";
-
-                        nav.style.alignItems =
-                            "stretch";
-
-                        nav.style.background =
-                            "rgba(248,243,234,.98)";
-
-                        nav.style.border =
-                            "1px solid rgba(16,35,29,.12)";
-
-                        nav.style.borderRadius =
-                            "16px";
-
-                        nav.style.boxShadow =
-                            "0 20px 50px rgba(16,35,29,.15)";
-
-                        this.dataset.open =
-                            "true";
-
-                        this.setAttribute(
-                            "aria-expanded",
-                            "true"
-                        );
-
-                    }
-
-                }
-            );
-
-        }
-
-    }
-
-
-    /* =====================================================
-       INITIALIZE
-    ===================================================== */
-
-    function initialize(){
-
-        renderProperty();
-
-        setMinimumDate();
-
-        initForm();
-
-        initHeader();
-
-        console.log(
-            "GHAR Property Booking ready."
+      $("summaryDate").textContent =
+        date.toLocaleDateString(
+          "en-IN",
+          {
+            day:"2-digit",
+            month:"short",
+            year:"numeric"
+          }
         );
 
     }
+  );
 
 
-    if(
-        document.readyState ===
-        "loading"
-    ){
+/* =========================================================
+   BUYER FIELD LISTENERS
+========================================================= */
 
-        document.addEventListener(
-            "DOMContentLoaded",
-            initialize,
-            {once:true}
-        );
+[
+  "firstName",
+  "lastName"
+].forEach(
+  id => {
 
-    }else{
+    $(id)?.addEventListener(
+      "input",
+      updateBuyerSummary
+    );
 
-        initialize();
+  }
+);
+
+
+/* =========================================================
+   GENERATE REFERENCE
+========================================================= */
+
+function generateReference(){
+
+  const now =
+    Date.now()
+      .toString()
+      .slice(-7);
+
+
+  return "GHAR-" + now;
+
+}
+
+
+/* =========================================================
+   SAVE BOOKING
+========================================================= */
+
+$("bookingForm")
+  ?.addEventListener(
+    "submit",
+    event => {
+
+      event.preventDefault();
+
+
+      const form =
+        event.currentTarget;
+
+
+      if(
+        !form.checkValidity()
+      ){
+
+        form.reportValidity();
+
+        return;
+
+      }
+
+
+      const property =
+        getPropertyData();
+
+
+      const booking = {
+
+        id:
+          "BOOK-" +
+          Date.now(),
+
+        reference:
+          generateReference(),
+
+        propertyId:
+          property.id,
+
+        propertyName:
+          property.name,
+
+        propertyLocation:
+          property.location,
+
+        propertyType:
+          property.type,
+
+        propertyBedrooms:
+          property.bedrooms,
+
+        propertyArea:
+          property.area,
+
+        propertyPrice:
+          property.price,
+
+        bookingType:
+          getBookingType(),
+
+        bookingTypeLabel:
+          getBookingTypeLabel(),
+
+        firstName:
+          $("firstName").value.trim(),
+
+        lastName:
+          $("lastName").value.trim(),
+
+        email:
+          $("email").value.trim(),
+
+        mobile:
+          $("mobile").value.trim(),
+
+        city:
+          $("city").value.trim(),
+
+        buyerType:
+          $("buyerType").value,
+
+        preferredDate:
+          $("preferredDate").value,
+
+        preferredTime:
+          $("preferredTime").value,
+
+        sourceOfFunds:
+          $("sourceOfFunds").value,
+
+        message:
+          $("message").value.trim(),
+
+        status:
+          "pending",
+
+        createdAt:
+          new Date().toISOString()
+
+      };
+
+
+      let bookings = [];
+
+
+      try{
+
+        bookings =
+          JSON.parse(
+            localStorage.getItem(
+              bookingStorageKey
+            ) || "[]"
+          );
+
+        if(
+          !Array.isArray(bookings)
+        ){
+
+          bookings = [];
+
+        }
+
+      }catch(error){
+
+        bookings = [];
+
+      }
+
+
+      bookings.push(
+        booking
+      );
+
+
+      localStorage.setItem(
+        bookingStorageKey,
+        JSON.stringify(bookings)
+      );
+
+
+      /* Keep selected booking available
+         for confirmation pages/workflows. */
+
+      localStorage.setItem(
+        "ghar_last_booking",
+        JSON.stringify(booking)
+      );
+
+
+      $("bookingReference").textContent =
+        booking.reference;
+
+      $("bookingStatus").textContent =
+        "Pending";
+
+
+      document.querySelector(
+        ".summary-status"
+      ).textContent =
+        "Pending";
+
+
+      alert(
+        "Booking request submitted successfully.\n\nReference: " +
+        booking.reference
+      );
+
+
+      /* Optional confirmation route.
+         Uncomment if confirmation.html exists. */
+
+      // window.location.href =
+      //   "booking-confirmation.html?ref=" +
+      //   encodeURIComponent(
+      //     booking.reference
+      //   );
 
     }
+  );
+
+
+/* =========================================================
+   CANCEL
+========================================================= */
+
+$("cancelBtn")
+  ?.addEventListener(
+    "click",
+    () => {
+
+      if(
+        confirm(
+          "Clear the current booking form?"
+        )
+      ){
+
+        $("bookingForm").reset();
+
+        updateBuyerSummary();
+
+        updateBookingType();
+
+        $("summaryDate").textContent =
+          "Not selected";
+
+      }
+
+    }
+  );
+
+
+/* =========================================================
+   AI
+========================================================= */
+
+const launcher =
+  $("aiLauncher");
+
+const panel =
+  $("aiPanel");
+
+const close =
+  $("aiClose");
+
+const aiForm =
+  $("aiForm");
+
+const input =
+  $("aiInput");
+
+const messages =
+  $("aiMessages");
+
+
+launcher?.addEventListener(
+  "click",
+  () => {
+
+    panel.classList.add(
+      "open"
+    );
+
+    input.focus();
+
+  }
+);
+
+
+close?.addEventListener(
+  "click",
+  () => {
+
+    panel.classList.remove(
+      "open"
+    );
+
+  }
+);
+
+
+/* =========================================================
+   ADD AI MESSAGE
+========================================================= */
+
+function addMessage(
+  message,
+  type
+){
+
+  const element =
+    document.createElement(
+      "div"
+    );
+
+
+  element.className =
+    "ai-msg " + type;
+
+
+  element.textContent =
+    message;
+
+
+  messages.appendChild(
+    element
+  );
+
+
+  messages.scrollTop =
+    messages.scrollHeight;
+
+}
+
+
+/* =========================================================
+   ASK AI
+========================================================= */
+
+async function askAI(
+  message
+){
+
+  if(
+    window.GHARAI &&
+    typeof window.GHARAI.ask ===
+      "function"
+  ){
+
+    return await
+      window.GHARAI.ask(
+        message,
+        {
+
+          page:
+            "property-booking",
+
+          role:
+            "buyer"
+
+        }
+      );
+
+  }
+
+
+  const apiBase =
+    window.GHAR_API_BASE ||
+    window.API_BASE ||
+    "/api";
+
+
+  try{
+
+    const response =
+      await fetch(
+        apiBase + "/ai/chat",
+        {
+
+          method:"POST",
+
+          credentials:"include",
+
+          headers:{
+
+            "Content-Type":
+              "application/json",
+
+            "Accept":
+              "application/json"
+
+          },
+
+          body:
+            JSON.stringify({
+
+              message,
+
+              context:{
+
+                page:
+                  "property-booking",
+
+                role:
+                  "buyer"
+
+              }
+
+            })
+
+        }
+      );
+
+
+    if(response.ok){
+
+      const data =
+        await response.json();
+
+
+      return (
+        data.reply ||
+        data.message ||
+        data.answer ||
+        "I could not generate a response."
+      );
+
+    }
+
+  }catch(error){
+
+    console.warn(
+      "GHAR AI:",
+      error
+    );
+
+  }
+
+
+  const text =
+    message.toLowerCase();
+
+
+  if(
+    text.includes("book") ||
+    text.includes("booking") ||
+    text.includes("reserve")
+  ){
+
+    return `
+Choose your booking preference, enter your
+buyer information and submit the booking request.
+The request can then be handled through the GHAR
+buyer transaction workflow.
+`;
+
+  }
+
+
+  if(
+    text.includes("visit")
+  ){
+
+    return `
+Select "Book a Visit" and choose your preferred
+date and time. Your request will be stored with
+the property booking information.
+`;
+
+  }
+
+
+  if(
+    text.includes("payment") ||
+    text.includes("loan")
+  ){
+
+    return `
+Select the expected funding method that matches
+your intended purchase. A booking request itself
+does not complete the final property transaction.
+`;
+
+  }
+
+
+  if(
+    text.includes("property")
+  ){
+
+    return `
+Review the selected property information at the
+top of this page before submitting your request.
+`;
+
+  }
+
+
+  return `
+I can help you with property booking, reservation
+requests, property visits, buyer information,
+funding method and the GHAR booking workflow.
+`;
+
+}
+
+
+/* =========================================================
+   AI FORM
+========================================================= */
+
+aiForm?.addEventListener(
+  "submit",
+  async event => {
+
+    event.preventDefault();
+
+
+    const message =
+      input.value.trim();
+
+
+    if(!message){
+
+      return;
+
+    }
+
+
+    input.value =
+      "";
+
+
+    addMessage(
+      message,
+      "user"
+    );
+
+
+    const typing =
+      document.createElement(
+        "div"
+      );
+
+
+    typing.className =
+      "ai-msg bot";
+
+
+    typing.textContent =
+      "GHAR AI is thinking...";
+
+
+    messages.appendChild(
+      typing
+    );
+
+
+    try{
+
+      const answer =
+        await askAI(
+          message
+        );
+
+
+      typing.remove();
+
+
+      addMessage(
+        answer,
+        "bot"
+      );
+
+    }catch(error){
+
+      typing.remove();
+
+
+      addMessage(
+        "GHAR AI is temporarily unavailable.",
+        "bot"
+      );
+
+      console.error(
+        error
+      );
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   INITIALIZE
+========================================================= */
+
+loadProperty();
+
+loadBuyerProfile();
+
+updateBookingType();
+
+
+/* =========================================================
+   MINIMUM DATE
+========================================================= */
+
+(() => {
+
+  const date =
+    $("preferredDate");
+
+  if(!date){
+
+    return;
+
+  }
+
+
+  const now =
+    new Date();
+
+
+  const year =
+    now.getFullYear();
+
+  const month =
+    String(
+      now.getMonth() + 1
+    ).padStart(
+      2,
+      "0"
+    );
+
+  const day =
+    String(
+      now.getDate()
+    ).padStart(
+      2,
+      "0"
+    );
+
+
+  date.min =
+    `${year}-${month}-${day}`;
+
+})();
+
+
+document.documentElement.classList.add(
+  "ghar-property-booking-ready"
+);
+
 
 })();
 
 </script>
 
 </body>
+
 </html>
