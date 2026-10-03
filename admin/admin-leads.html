@@ -1,0 +1,614 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<meta name="description" content="GHAR Administration -- Manage buyer and seller leads.">
+<meta name="theme-color" content="#0b1c14">
+
+<title>GHAR · Leads</title>
+
+<style>
+*{box-sizing:border-box}
+
+:root{
+  --g950:#06120d;
+  --g900:#0b1c14;
+  --g850:#10261c;
+  --g800:#162d25;
+  --gold:#e5c77d;
+  --gold2:#c9a95c;
+  --cream:#fffaf0;
+  --muted:rgba(255,255,255,.62);
+  --muted2:rgba(255,255,255,.39);
+  --border:rgba(229,199,125,.18);
+  --white:rgba(255,255,255,.09);
+  --success:#83d59b;
+  --warning:#f0c66e;
+  --danger:#e88b8b;
+  --blue:#83b8e8;
+}
+
+body{
+  margin:0;
+  min-height:100vh;
+  color:var(--cream);
+  font-family:Inter,system-ui,sans-serif;
+  background:
+    radial-gradient(circle at 0 0,rgba(229,199,125,.13),transparent 28%),
+    radial-gradient(circle at 100% 0,rgba(38,86,64,.30),transparent 30%),
+    linear-gradient(135deg,#07130e,#0d2118,#142d22);
+}
+
+.app{
+  min-height:100vh;
+  display:grid;
+  grid-template-columns:250px 1fr;
+}
+
+.sidebar{
+  position:fixed;
+  inset:0 auto 0 0;
+  width:250px;
+  padding:25px 18px;
+  border-right:1px solid var(--white);
+  background:rgba(5,16,11,.88);
+  backdrop-filter:blur(20px);
+}
+
+.brand{
+  display:flex;
+  gap:12px;
+  align-items:center;
+  margin-bottom:32px;
+}
+
+.brand-mark{
+  width:46px;
+  height:46px;
+  display:grid;
+  place-items:center;
+  border-radius:14px;
+  color:#182015;
+  font-weight:1000;
+  font-size:20px;
+  background:linear-gradient(135deg,#f0d99b,#b98b3d);
+}
+
+.brand-name{
+  font-weight:1000;
+  letter-spacing:.15em;
+}
+
+.brand-sub{
+  margin-top:3px;
+  color:var(--muted2);
+  font-size:8px;
+  letter-spacing:.13em;
+  text-transform:uppercase;
+}
+
+.nav-title{
+  margin:18px 8px 8px;
+  color:var(--muted2);
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:.15em;
+}
+
+.nav a{
+  display:flex;
+  align-items:center;
+  min-height:43px;
+  margin:4px 0;
+  padding:0 12px;
+  border:1px solid transparent;
+  border-radius:12px;
+  color:rgba(255,255,255,.57);
+  text-decoration:none;
+  font-size:11px;
+  font-weight:750;
+}
+
+.nav a:hover,
+.nav a.active{
+  color:var(--cream);
+  border-color:var(--border);
+  background:rgba(229,199,125,.08);
+}
+
+.main{
+  grid-column:2;
+  min-width:0;
+}
+
+.topbar{
+  min-height:76px;
+  position:sticky;
+  top:0;
+  z-index:5;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:15px 30px;
+  border-bottom:1px solid var(--white);
+  background:rgba(7,19,14,.82);
+  backdrop-filter:blur(18px);
+}
+
+.title{
+  font-size:20px;
+  font-weight:950;
+}
+
+.sub{
+  margin-top:4px;
+  color:var(--muted2);
+  font-size:9px;
+}
+
+.online{
+  padding:8px 11px;
+  border:1px solid var(--border);
+  border-radius:11px;
+  color:var(--gold);
+  font-size:9px;
+  font-weight:850;
+}
+
+.content{
+  max-width:1600px;
+  margin:auto;
+  padding:30px;
+}
+
+.hero{
+  margin-bottom:23px;
+}
+
+.eyebrow{
+  color:var(--gold);
+  font-size:9px;
+  font-weight:950;
+  letter-spacing:.17em;
+}
+
+h1{
+  margin:7px 0;
+  font-size:44px;
+  line-height:1;
+  letter-spacing:-.045em;
+}
+
+.hero p{
+  max-width:700px;
+  margin:12px 0;
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.7;
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+  margin-bottom:22px;
+}
+
+.card{
+  padding:18px;
+  border:1px solid var(--white);
+  border-radius:18px;
+  background:rgba(255,255,255,.035);
+}
+
+.label{
+  color:var(--muted2);
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+
+.value{
+  margin-top:7px;
+  font-size:27px;
+  font-weight:950;
+}
+
+.meta{
+  margin-top:4px;
+  color:var(--muted);
+  font-size:9px;
+}
+
+.panel{
+  overflow:hidden;
+  border:1px solid var(--white);
+  border-radius:24px;
+  background:rgba(255,255,255,.035);
+}
+
+.toolbar{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  padding:17px;
+  border-bottom:1px solid var(--white);
+}
+
+input,select{
+  min-height:43px;
+  border:1px solid var(--white);
+  border-radius:11px;
+  outline:none;
+  color:var(--cream);
+  background:#10231a;
+}
+
+input{
+  flex:1;
+  min-width:220px;
+  padding:0 13px;
+}
+
+select{
+  padding:0 12px;
+}
+
+input:focus,
+select:focus{
+  border-color:rgba(229,199,125,.55);
+}
+
+.table-wrap{
+  overflow-x:auto;
+}
+
+table{
+  width:100%;
+  min-width:1000px;
+  border-collapse:collapse;
+}
+
+th{
+  padding:14px 17px;
+  background:rgba(0,0,0,.13);
+  color:var(--muted2);
+  font-size:8px;
+  text-align:left;
+  letter-spacing:.12em;
+}
+
+td{
+  padding:16px 17px;
+  border-top:1px solid rgba(255,255,255,.055);
+  color:rgba(255,255,255,.76);
+  font-size:10px;
+}
+
+.name{
+  color:var(--cream);
+  font-weight:850;
+}
+
+.small{
+  margin-top:3px;
+  color:var(--muted2);
+  font-size:8px;
+}
+
+.badge{
+  display:inline-flex;
+  padding:5px 8px;
+  border-radius:8px;
+  font-size:8px;
+  font-weight:900;
+}
+
+.new{color:#9ed0f4;background:rgba(131,184,232,.1)}
+.hot{color:#ffb0b0;background:rgba(232,139,139,.1)}
+.progress{color:#f5d68e;background:rgba(240,198,110,.1)}
+.converted{color:#a6e7b6;background:rgba(131,213,155,.1)}
+
+.action{
+  padding:7px 9px;
+  border:1px solid var(--white);
+  border-radius:8px;
+  color:var(--muted);
+  background:rgba(255,255,255,.035);
+  font-size:8px;
+}
+
+.action:hover{
+  color:var(--gold);
+  border-color:var(--border);
+}
+
+@media(max-width:1000px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+}
+
+@media(max-width:760px){
+  .app{display:block}
+  .sidebar{
+    position:relative;
+    width:100%;
+    height:auto;
+    padding:13px;
+  }
+  .nav{
+    display:flex;
+    overflow:auto;
+    gap:5px;
+  }
+  .nav-title{display:none}
+  .nav a{white-space:nowrap}
+  .main{display:block}
+  .content{padding:20px 14px}
+  .topbar{padding:14px 18px}
+}
+
+@media(max-width:500px){
+  .stats{grid-template-columns:1fr}
+  h1{font-size:36px}
+  .online{display:none}
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<aside class="sidebar">
+
+  <div class="brand">
+    <div class="brand-mark">G</div>
+    <div>
+      <div class="brand-name">GHAR</div>
+      <div class="brand-sub">Administration</div>
+    </div>
+  </div>
+
+  <nav class="nav">
+
+    <div class="nav-title">Control Center</div>
+
+    <a href="/admin/admin-dashboard.html">⌂ Dashboard</a>
+    <a href="/admin/admin-user.html">♙ Users</a>
+    <a href="/admin/admin-documents.html">▣ Documents</a>
+    <a href="/admin/leads.html" class="active">◈ Leads</a>
+    <a href="/admin/offers.html">◇ Offers</a>
+    <a href="/admin/login.html">↪ Login Activity</a>
+
+    <div class="nav-title">Management</div>
+
+    <a href="/properties.html">⌂ Properties</a>
+    <a href="/admin/payments.html">₹ Payments</a>
+
+  </nav>
+
+</aside>
+
+<main class="main">
+
+<header class="topbar">
+
+  <div>
+    <div class="title">Lead Management</div>
+    <div class="sub">Buyer and seller enquiries across GHAR</div>
+  </div>
+
+  <div class="online">● ADMIN ONLINE</div>
+
+</header>
+
+<section class="content">
+
+<div class="hero">
+
+  <div class="eyebrow">CRM / LEADS</div>
+
+  <h1>Leads.</h1>
+
+  <p>
+    Track property enquiries, follow-ups, buyer interest,
+    seller requests and lead conversion activity from one
+    central administration workspace.
+  </p>
+
+</div>
+
+<div class="stats">
+
+  <div class="card">
+    <div class="label">Total Leads</div>
+    <div class="value">2,486</div>
+    <div class="meta">All-time registered enquiries</div>
+  </div>
+
+  <div class="card">
+    <div class="label">New Today</div>
+    <div class="value">48</div>
+    <div class="meta">New enquiries received</div>
+  </div>
+
+  <div class="card">
+    <div class="label">Hot Leads</div>
+    <div class="value">126</div>
+    <div class="meta">High-priority follow-up</div>
+  </div>
+
+  <div class="card">
+    <div class="label">Converted</div>
+    <div class="value">438</div>
+    <div class="meta">Successfully progressed</div>
+  </div>
+
+</div>
+
+<section class="panel">
+
+<div class="toolbar">
+
+  <input
+    id="search"
+    type="search"
+    placeholder="Search lead, phone, email or property..."
+  >
+
+  <select id="roleFilter">
+    <option value="">All roles</option>
+    <option value="Buyer">Buyer</option>
+    <option value="Seller">Seller</option>
+    <option value="Tenant">Tenant</option>
+    <option value="Owner">Owner</option>
+  </select>
+
+  <select id="statusFilter">
+    <option value="">All statuses</option>
+    <option value="New">New</option>
+    <option value="Hot">Hot</option>
+    <option value="Progress">In Progress</option>
+    <option value="Converted">Converted</option>
+  </select>
+
+</div>
+
+<div class="table-wrap">
+
+<table>
+
+<thead>
+<tr>
+  <th>Lead</th>
+  <th>Role</th>
+  <th>Interested Property</th>
+  <th>Source</th>
+  <th>Status</th>
+  <th>Last Contact</th>
+  <th>Action</th>
+</tr>
+</thead>
+
+<tbody id="leads">
+
+<tr data-role="Buyer" data-status="New">
+  <td>
+    <div class="name">Arjun Mehta</div>
+    <div class="small">arjun@example.com</div>
+  </td>
+  <td>Buyer</td>
+  <td>3 BHK Apartment · Noida</td>
+  <td>Website</td>
+  <td><span class="badge new">New</span></td>
+  <td>02 Oct 2026</td>
+  <td><button class="action" onclick="openLead('GH-L001')">View</button></td>
+</tr>
+
+<tr data-role="Buyer" data-status="Hot">
+  <td>
+    <div class="name">Priya Kapoor</div>
+    <div class="small">priya@example.com</div>
+  </td>
+  <td>Buyer</td>
+  <td>Villa · Greater Noida</td>
+  <td>Instagram</td>
+  <td><span class="badge hot">Hot</span></td>
+  <td>02 Oct 2026</td>
+  <td><button class="action" onclick="openLead('GH-L002')">View</button></td>
+</tr>
+
+<tr data-role="Seller" data-status="Progress">
+  <td>
+    <div class="name">Rakesh Kumar</div>
+    <div class="small">rakesh@example.com</div>
+  </td>
+  <td>Seller</td>
+  <td>Independent House · Delhi</td>
+  <td>Referral</td>
+  <td><span class="badge progress">In Progress</span></td>
+  <td>01 Oct 2026</td>
+  <td><button class="action" onclick="openLead('GH-L003')">View</button></td>
+</tr>
+
+<tr data-role="Tenant" data-status="Converted">
+  <td>
+    <div class="name">Sneha Rao</div>
+    <div class="small">sneha@example.com</div>
+  </td>
+  <td>Tenant</td>
+  <td>2 BHK Flat · Noida</td>
+  <td>Search</td>
+  <td><span class="badge converted">Converted</span></td>
+  <td>30 Sep 2026</td>
+  <td><button class="action" onclick="openLead('GH-L004')">View</button></td>
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</section>
+
+</section>
+
+</main>
+
+</div>
+
+<script>
+function openLead(id){
+  window.location.href =
+    "/admin/lead-details.html?id=" +
+    encodeURIComponent(id);
+}
+
+function filterLeads(){
+
+  const search =
+    document.getElementById("search")
+      .value.toLowerCase();
+
+  const role =
+    document.getElementById("roleFilter").value;
+
+  const status =
+    document.getElementById("statusFilter").value;
+
+  document.querySelectorAll("#leads tr")
+    .forEach(row => {
+
+      const text =
+        row.textContent.toLowerCase();
+
+      const visible =
+        (!search || text.includes(search)) &&
+        (!role || row.dataset.role === role) &&
+        (!status || row.dataset.status === status);
+
+      row.style.display =
+        visible ? "" : "none";
+
+    });
+}
+
+document
+  .getElementById("search")
+  .addEventListener("input",filterLeads);
+
+document
+  .getElementById("roleFilter")
+  .addEventListener("change",filterLeads);
+
+document
+  .getElementById("statusFilter")
+  .addEventListener("change",filterLeads);
+</script>
+
+</body>
+</html>

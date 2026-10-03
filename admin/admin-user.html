@@ -1,1 +1,4774 @@
- 
+ <!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<meta
+  name="description"
+  content="GHAR Admin User Management -- Manage administrators, roles, permissions, account status and secure access."
+>
+
+<meta
+  name="theme-color"
+  content="#d9bb78"
+>
+
+<title>GHAR · Admin User Management</title>
+
+<style>
+
+/* =========================================================
+   GHAR ADMIN USER MANAGEMENT
+   PREMIUM VERSION -- BASE DESIGN PRESERVED
+========================================================= */
+
+*{
+  box-sizing:border-box;
+}
+
+:root{
+
+  --green-950:#07130e;
+  --green-900:#0b1c14;
+  --green-850:#10261c;
+  --green-800:#162d25;
+  --green-700:#214438;
+  --green-600:#2e5a47;
+
+  --gold-100:#fff5d7;
+  --gold-200:#f4dfaa;
+  --gold-300:#e5c77d;
+  --gold-400:#c9a95c;
+  --gold-500:#a98238;
+
+  --cream:#fffaf0;
+  --cream-2:#f7eedc;
+  --cream-3:#eee1c9;
+
+  --ink:#172119;
+  --muted:#6d756f;
+
+  --success:#2e7655;
+  --success-soft:#dcefe5;
+
+  --warning:#87691e;
+  --warning-soft:#f4e9c4;
+
+  --danger:#963f4d;
+  --danger-soft:#f4dfe3;
+
+  --blue:#365c91;
+  --blue-soft:#e2eaf5;
+
+  --border:
+    rgba(16,38,28,.12);
+
+  --white-border:
+    rgba(255,255,255,.10);
+
+  --shadow:
+    0 30px 90px
+    rgba(7,19,14,.15);
+
+  --shadow-soft:
+    0 14px 40px
+    rgba(7,19,14,.08);
+
+  --radius:26px;
+
+}
+
+
+/* =========================================================
+   BASE
+========================================================= */
+
+html{
+  min-height:100%;
+  scroll-behavior:smooth;
+}
+
+body{
+
+  margin:0;
+
+  min-height:100vh;
+
+  color:var(--ink);
+
+  font-family:
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  background:
+
+    radial-gradient(
+      circle at 5% 4%,
+      rgba(201,169,92,.18),
+      transparent 24%
+    ),
+
+    radial-gradient(
+      circle at 96% 8%,
+      rgba(46,90,71,.16),
+      transparent 28%
+    ),
+
+    radial-gradient(
+      circle at 50% 100%,
+      rgba(229,199,125,.13),
+      transparent 32%
+    ),
+
+    linear-gradient(
+      135deg,
+      #fbf5e8,
+      #eadfc9 48%,
+      #f7eedc
+    );
+
+}
+
+button,
+input,
+select{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+a{
+  color:inherit;
+}
+
+
+/* =========================================================
+   PAGE
+========================================================= */
+
+.page{
+
+  width:
+    min(
+      1500px,
+      calc(100% - 32px)
+    );
+
+  margin:auto;
+
+  padding:
+    30px 0 70px;
+
+}
+
+
+/* =========================================================
+   TOP BAR
+========================================================= */
+
+.topbar{
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:space-between;
+
+  gap:20px;
+
+  padding:
+    17px 20px;
+
+  border:
+    1px solid
+    rgba(229,199,125,.24);
+
+  border-radius:22px;
+
+  color:#fff;
+
+  background:
+
+    radial-gradient(
+      circle at 92% 5%,
+      rgba(229,199,125,.20),
+      transparent 26%
+    ),
+
+    linear-gradient(
+      135deg,
+      #07130e,
+      #10261c 52%,
+      #19372b
+    );
+
+  box-shadow:
+    var(--shadow);
+
+}
+
+.brand{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:12px;
+
+}
+
+.brand-mark{
+
+  width:46px;
+  height:46px;
+
+  display:flex;
+
+  align-items:center;
+  justify-content:center;
+
+  border-radius:14px;
+
+  color:#172016;
+
+  font-size:19px;
+
+  font-weight:1000;
+
+  background:
+    linear-gradient(
+      135deg,
+      #f1dca1,
+      #b98b3d
+    );
+
+  box-shadow:
+    0 10px 25px
+    rgba(0,0,0,.22);
+
+}
+
+.brand-name{
+
+  font-size:17px;
+
+  font-weight:1000;
+
+  letter-spacing:.16em;
+
+}
+
+.brand-subtitle{
+
+  margin-top:3px;
+
+  color:
+    rgba(255,255,255,.45);
+
+  font-size:8px;
+
+  font-weight:800;
+
+  letter-spacing:.16em;
+
+  text-transform:uppercase;
+
+}
+
+.top-actions{
+
+  display:flex;
+
+  align-items:center;
+
+  flex-wrap:wrap;
+
+  gap:8px;
+
+}
+
+.top-btn{
+
+  min-height:39px;
+
+  display:inline-flex;
+
+  align-items:center;
+  justify-content:center;
+
+  padding:
+    9px 13px;
+
+  border-radius:11px;
+
+  border:
+    1px solid
+    rgba(255,255,255,.12);
+
+  color:#fff;
+
+  background:
+    rgba(255,255,255,.055);
+
+  text-decoration:none;
+
+  font-size:10px;
+
+  font-weight:900;
+
+}
+
+.top-btn:hover{
+
+  background:
+    rgba(229,199,125,.10);
+
+  border-color:
+    rgba(229,199,125,.25);
+
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero{
+
+  position:relative;
+
+  overflow:hidden;
+
+  margin-top:22px;
+
+  padding:
+    38px;
+
+  border:
+    1px solid
+    rgba(229,199,125,.25);
+
+  border-radius:30px;
+
+  color:#fff;
+
+  background:
+
+    radial-gradient(
+      circle at 90% 8%,
+      rgba(229,199,125,.24),
+      transparent 25%
+    ),
+
+    radial-gradient(
+      circle at 8% 100%,
+      rgba(53,101,76,.30),
+      transparent 35%
+    ),
+
+    linear-gradient(
+      135deg,
+      #07130e,
+      #10261c 55%,
+      #254938
+    );
+
+  box-shadow:
+    var(--shadow);
+
+}
+
+.hero::after{
+
+  content:"";
+
+  position:absolute;
+
+  width:360px;
+  height:360px;
+
+  right:-190px;
+  top:-200px;
+
+  border-radius:50%;
+
+  border:
+    1px solid
+    rgba(229,199,125,.17);
+
+  box-shadow:
+
+    0 0 0 38px
+    rgba(229,199,125,.025),
+
+    0 0 0 75px
+    rgba(229,199,125,.018);
+
+}
+
+.hero-content{
+
+  position:relative;
+
+  z-index:2;
+
+  max-width:900px;
+
+}
+
+.eyebrow{
+
+  color:
+    var(--gold-300);
+
+  font-size:10px;
+
+  font-weight:950;
+
+  letter-spacing:.17em;
+
+  text-transform:uppercase;
+
+}
+
+.hero h1{
+
+  margin:
+    9px 0 0;
+
+  font-size:
+    clamp(
+      34px,
+      5vw,
+      55px
+    );
+
+  line-height:1.02;
+
+  letter-spacing:-.055em;
+
+}
+
+.hero p{
+
+  max-width:760px;
+
+  margin:
+    15px 0 0;
+
+  color:
+    rgba(255,255,255,.64);
+
+  font-size:13px;
+
+  line-height:1.75;
+
+}
+
+.hero-actions{
+
+  display:flex;
+
+  flex-wrap:wrap;
+
+  gap:9px;
+
+  margin-top:22px;
+
+}
+
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.btn{
+
+  min-height:43px;
+
+  display:inline-flex;
+
+  align-items:center;
+  justify-content:center;
+
+  gap:7px;
+
+  padding:
+    10px 15px;
+
+  border:0;
+
+  border-radius:12px;
+
+  text-decoration:none;
+
+  font-size:10px;
+
+  font-weight:950;
+
+  transition:.2s ease;
+
+}
+
+.btn:hover{
+
+  transform:
+    translateY(-2px);
+
+}
+
+.primary{
+
+  color:#17160f;
+
+  background:
+    linear-gradient(
+      135deg,
+      #f1dca1,
+      #c9a45b
+    );
+
+  box-shadow:
+    0 10px 26px
+    rgba(229,199,125,.15);
+
+}
+
+.dark{
+
+  color:#fff;
+
+  background:
+    linear-gradient(
+      135deg,
+      #142b20,
+      #2d5b47
+    );
+
+}
+
+.secondary{
+
+  color:#fff;
+
+  background:
+    rgba(255,255,255,.06);
+
+  border:
+    1px solid
+    rgba(255,255,255,.15);
+
+}
+
+.danger{
+
+  color:#fff;
+
+  background:
+    linear-gradient(
+      135deg,
+      #873747,
+      #a64b5b
+    );
+
+}
+
+.success{
+
+  color:#fff;
+
+  background:
+    linear-gradient(
+      135deg,
+      #2d7353,
+      #3d8a67
+    );
+
+}
+
+.warning{
+
+  color:#241d09;
+
+  background:
+    linear-gradient(
+      135deg,
+      #f2dfa4,
+      #cba85c
+    );
+
+}
+
+
+/* =========================================================
+   STATISTICS
+========================================================= */
+
+.stats{
+
+  display:grid;
+
+  grid-template-columns:
+    repeat(4,minmax(0,1fr));
+
+  gap:14px;
+
+  margin-top:22px;
+
+}
+
+.stat{
+
+  padding:20px;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:20px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,250,240,.96),
+      rgba(244,233,211,.82)
+    );
+
+  box-shadow:
+    var(--shadow-soft);
+
+}
+
+.stat-icon{
+
+  width:39px;
+  height:39px;
+
+  display:flex;
+
+  align-items:center;
+  justify-content:center;
+
+  border-radius:12px;
+
+  color:#172016;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--gold-200),
+      var(--gold-400)
+    );
+
+  font-size:16px;
+
+}
+
+.stat-value{
+
+  margin-top:12px;
+
+  color:
+    var(--green-850);
+
+  font-size:27px;
+
+  font-weight:1000;
+
+  letter-spacing:-.035em;
+
+}
+
+.stat-label{
+
+  margin-top:3px;
+
+  color:
+    var(--muted);
+
+  font-size:9px;
+
+  font-weight:900;
+
+  letter-spacing:.08em;
+
+  text-transform:uppercase;
+
+}
+
+
+/* =========================================================
+   MAIN GRID
+========================================================= */
+
+.main-grid{
+
+  display:grid;
+
+  grid-template-columns:
+    minmax(0,1.4fr)
+    minmax(300px,.6fr);
+
+  gap:22px;
+
+  margin-top:22px;
+
+}
+
+
+/* =========================================================
+   CARD
+========================================================= */
+
+.card{
+
+  padding:25px;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:24px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,250,240,.96),
+      rgba(243,232,211,.86)
+    );
+
+  box-shadow:
+    var(--shadow-soft);
+
+}
+
+.card + .card{
+
+  margin-top:22px;
+
+}
+
+.card-eyebrow{
+
+  color:
+    var(--gold-500);
+
+  font-size:9px;
+
+  font-weight:950;
+
+  letter-spacing:.15em;
+
+  text-transform:uppercase;
+
+}
+
+.card-title{
+
+  margin:
+    6px 0 0;
+
+  color:
+    var(--green-850);
+
+  font-size:24px;
+
+  line-height:1.1;
+
+  letter-spacing:-.035em;
+
+}
+
+.card-description{
+
+  margin:
+    8px 0 0;
+
+  color:
+    var(--muted);
+
+  font-size:11px;
+
+  line-height:1.65;
+
+}
+
+
+/* =========================================================
+   TOOLBAR
+========================================================= */
+
+.toolbar{
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:space-between;
+
+  gap:12px;
+
+  flex-wrap:wrap;
+
+  margin-top:20px;
+
+  padding:
+    13px;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:16px;
+
+  background:
+    rgba(255,255,255,.48);
+
+}
+
+.search-box{
+
+  position:relative;
+
+  flex:
+    1 1 250px;
+
+}
+
+.search-box input{
+
+  width:100%;
+
+  min-height:43px;
+
+  padding:
+    0 13px 0 39px;
+
+  border:
+    1px solid
+    rgba(16,38,28,.12);
+
+  border-radius:12px;
+
+  outline:none;
+
+  color:var(--ink);
+
+  background:
+    rgba(255,255,255,.78);
+
+}
+
+.search-icon{
+
+  position:absolute;
+
+  left:13px;
+
+  top:50%;
+
+  transform:
+    translateY(-50%);
+
+  color:
+    var(--muted);
+
+  font-size:13px;
+
+}
+
+.filters{
+
+  display:flex;
+
+  flex-wrap:wrap;
+
+  gap:7px;
+
+}
+
+.filters select{
+
+  min-height:43px;
+
+  padding:
+    0 11px;
+
+  border:
+    1px solid
+    rgba(16,38,28,.12);
+
+  border-radius:12px;
+
+  color:
+    var(--ink);
+
+  background:
+    rgba(255,255,255,.78);
+
+  outline:none;
+
+}
+
+
+/* =========================================================
+   TABLE
+========================================================= */
+
+.table-wrap{
+
+  margin-top:18px;
+
+  overflow:auto;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:18px;
+
+  background:
+    rgba(255,255,255,.40);
+
+}
+
+.user-table{
+
+  width:100%;
+
+  min-width:850px;
+
+  border-collapse:collapse;
+
+}
+
+.user-table th{
+
+  padding:
+    13px 14px;
+
+  text-align:left;
+
+  color:
+    #697169;
+
+  background:
+    rgba(231,220,199,.56);
+
+  border-bottom:
+    1px solid
+    var(--border);
+
+  font-size:8px;
+
+  font-weight:950;
+
+  letter-spacing:.11em;
+
+  text-transform:uppercase;
+
+}
+
+.user-table td{
+
+  padding:
+    14px;
+
+  border-bottom:
+    1px solid
+    rgba(16,38,28,.08);
+
+  vertical-align:middle;
+
+  font-size:10px;
+
+}
+
+.user-table tr:last-child td{
+
+  border-bottom:0;
+
+}
+
+.user-table tbody tr{
+
+  transition:.18s ease;
+
+}
+
+.user-table tbody tr:hover{
+
+  background:
+    rgba(229,199,125,.07);
+
+}
+
+.user-cell{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:10px;
+
+}
+
+.avatar{
+
+  width:37px;
+  height:37px;
+
+  flex:0 0 37px;
+
+  display:flex;
+
+  align-items:center;
+  justify-content:center;
+
+  border-radius:12px;
+
+  color:#172016;
+
+  background:
+    linear-gradient(
+      135deg,
+      #f1dca1,
+      #c19a4f
+    );
+
+  font-size:11px;
+
+  font-weight:1000;
+
+}
+
+.user-name{
+
+  color:
+    var(--green-850);
+
+  font-size:11px;
+
+  font-weight:950;
+
+}
+
+.user-email{
+
+  margin-top:2px;
+
+  color:
+    var(--muted);
+
+  font-size:8px;
+
+}
+
+.role-badge,
+.status-badge{
+
+  display:inline-flex;
+
+  align-items:center;
+
+  padding:
+    5px 8px;
+
+  border-radius:999px;
+
+  font-size:8px;
+
+  font-weight:950;
+
+  white-space:nowrap;
+
+}
+
+.role-admin{
+
+  color:#305f49;
+
+  background:#dcece4;
+
+}
+
+.role-manager{
+
+  color:#70571c;
+
+  background:#f3e7bd;
+
+}
+
+.role-support{
+
+  color:#365b88;
+
+  background:#e0e8f3;
+
+}
+
+.role-viewer{
+
+  color:#63675f;
+
+  background:#e6e5df;
+
+}
+
+.status-active{
+
+  color:#236247;
+
+  background:#dcefe5;
+
+}
+
+.status-pending{
+
+  color:#795e1d;
+
+  background:#f4e8bf;
+
+}
+
+.status-suspended{
+
+  color:#853b4b;
+
+  background:#f2dfe4;
+
+}
+
+.status-inactive{
+
+  color:#676a67;
+
+  background:#e4e3df;
+
+}
+
+.action-group{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:5px;
+
+  flex-wrap:wrap;
+
+}
+
+.icon-btn{
+
+  width:32px;
+  height:32px;
+
+  display:inline-flex;
+
+  align-items:center;
+  justify-content:center;
+
+  border:
+    1px solid
+    rgba(16,38,28,.11);
+
+  border-radius:9px;
+
+  color:
+    var(--green-850);
+
+  background:
+    rgba(255,255,255,.70);
+
+  font-size:11px;
+
+}
+
+.icon-btn:hover{
+
+  border-color:
+    rgba(201,169,92,.45);
+
+  background:
+    #fffaf0;
+
+}
+
+
+/* =========================================================
+   USER MODAL
+========================================================= */
+
+.modal-backdrop{
+
+  position:fixed;
+
+  inset:0;
+
+  z-index:1000;
+
+  display:none;
+
+  align-items:center;
+
+  justify-content:center;
+
+  padding:18px;
+
+  background:
+    rgba(4,13,9,.62);
+
+  backdrop-filter:
+    blur(8px);
+
+}
+
+.modal-backdrop.open{
+
+  display:flex;
+
+}
+
+.modal{
+
+  width:
+    min(
+      680px,
+      100%
+    );
+
+  max-height:
+    calc(100vh - 36px);
+
+  overflow:auto;
+
+  padding:27px;
+
+  border:
+    1px solid
+    rgba(229,199,125,.25);
+
+  border-radius:25px;
+
+  background:
+
+    radial-gradient(
+      circle at 95% 0%,
+      rgba(229,199,125,.12),
+      transparent 28%
+    ),
+
+    linear-gradient(
+      145deg,
+      #0a1a12,
+      #10251b 55%,
+      #173426
+    );
+
+  color:#fff;
+
+  box-shadow:
+    0 35px 110px
+    rgba(0,0,0,.45);
+
+}
+
+.modal-head{
+
+  display:flex;
+
+  align-items:flex-start;
+
+  justify-content:space-between;
+
+  gap:15px;
+
+}
+
+.modal-title{
+
+  margin:5px 0 0;
+
+  font-size:26px;
+
+  letter-spacing:-.035em;
+
+}
+
+.modal-close{
+
+  width:36px;
+  height:36px;
+
+  border:0;
+
+  border-radius:50%;
+
+  color:#fff;
+
+  background:
+    rgba(255,255,255,.08);
+
+  font-size:19px;
+
+}
+
+.modal-form{
+
+  display:grid;
+
+  grid-template-columns:
+    repeat(2,minmax(0,1fr));
+
+  gap:13px;
+
+  margin-top:23px;
+
+}
+
+.modal-field{
+
+  display:grid;
+
+  gap:7px;
+
+}
+
+.modal-field.full{
+
+  grid-column:1/-1;
+
+}
+
+.modal-field label{
+
+  color:
+    rgba(255,255,255,.70);
+
+  font-size:9px;
+
+  font-weight:900;
+
+  letter-spacing:.08em;
+
+  text-transform:uppercase;
+
+}
+
+.modal-field input,
+.modal-field select{
+
+  width:100%;
+
+  min-height:47px;
+
+  padding:
+    0 12px;
+
+  border:
+    1px solid
+    rgba(255,255,255,.10);
+
+  border-radius:12px;
+
+  outline:none;
+
+  color:#fff;
+
+  background:
+    rgba(0,0,0,.22);
+
+}
+
+.modal-field input:focus,
+.modal-field select:focus{
+
+  border-color:
+    rgba(229,199,125,.55);
+
+  box-shadow:
+    0 0 0 3px
+    rgba(229,199,125,.07);
+
+}
+
+.modal-field select option{
+
+  color:#172016;
+
+}
+
+.permissions{
+
+  display:grid;
+
+  grid-template-columns:
+    repeat(2,minmax(0,1fr));
+
+  gap:8px;
+
+}
+
+.permission{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:8px;
+
+  padding:10px;
+
+  border:
+    1px solid
+    rgba(255,255,255,.08);
+
+  border-radius:11px;
+
+  color:
+    rgba(255,255,255,.67);
+
+  background:
+    rgba(255,255,255,.035);
+
+  font-size:9px;
+
+}
+
+.permission input{
+
+  accent-color:
+    var(--gold-300);
+
+}
+
+.modal-actions{
+
+  display:flex;
+
+  justify-content:flex-end;
+
+  gap:8px;
+
+  flex-wrap:wrap;
+
+  margin-top:21px;
+
+  padding-top:17px;
+
+  border-top:
+    1px solid
+    rgba(255,255,255,.08);
+
+}
+
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+.side-stack{
+
+  display:grid;
+
+  align-content:start;
+
+  gap:22px;
+
+}
+
+.side-card{
+
+  padding:23px;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:23px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,250,240,.96),
+      rgba(243,232,211,.85)
+    );
+
+  box-shadow:
+    var(--shadow-soft);
+
+}
+
+.side-title{
+
+  margin:
+    6px 0 0;
+
+  color:
+    var(--green-850);
+
+  font-size:21px;
+
+  line-height:1.15;
+
+  letter-spacing:-.025em;
+
+}
+
+.info-list{
+
+  display:grid;
+
+  gap:9px;
+
+  margin-top:17px;
+
+}
+
+.info-row{
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:space-between;
+
+  gap:12px;
+
+  padding:
+    11px;
+
+  border:
+    1px solid
+    rgba(16,38,28,.08);
+
+  border-radius:12px;
+
+  background:
+    rgba(255,255,255,.48);
+
+}
+
+.info-label{
+
+  color:
+    var(--muted);
+
+  font-size:9px;
+
+}
+
+.info-value{
+
+  color:
+    var(--green-850);
+
+  font-size:10px;
+
+  font-weight:950;
+
+  text-align:right;
+
+}
+
+
+/* =========================================================
+   ACTIVITY
+========================================================= */
+
+.activity{
+
+  display:grid;
+
+  gap:12px;
+
+  margin-top:17px;
+
+}
+
+.activity-item{
+
+  display:grid;
+
+  grid-template-columns:32px 1fr;
+
+  gap:10px;
+
+}
+
+.activity-icon{
+
+  width:32px;
+  height:32px;
+
+  display:flex;
+
+  align-items:center;
+  justify-content:center;
+
+  border-radius:10px;
+
+  color:#172016;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--gold-200),
+      var(--gold-400)
+    );
+
+  font-size:11px;
+
+}
+
+.activity-title{
+
+  color:
+    var(--green-850);
+
+  font-size:10px;
+
+  font-weight:950;
+
+}
+
+.activity-time{
+
+  margin-top:3px;
+
+  color:
+    var(--muted);
+
+  font-size:8px;
+
+  line-height:1.4;
+
+}
+
+
+/* =========================================================
+   SECURITY PANEL
+========================================================= */
+
+.security-panel{
+
+  color:#fff;
+
+  padding:23px;
+
+  border-radius:23px;
+
+  background:
+
+    radial-gradient(
+      circle at 90% 5%,
+      rgba(229,199,125,.22),
+      transparent 29%
+    ),
+
+    linear-gradient(
+      135deg,
+      #07130e,
+      #1c4434,
+      #254938
+    );
+
+  box-shadow:
+    var(--shadow-soft);
+
+}
+
+.security-panel h3{
+
+  margin:
+    7px 0 0;
+
+  font-size:21px;
+
+}
+
+.security-panel p{
+
+  margin:
+    9px 0 17px;
+
+  color:
+    rgba(255,255,255,.58);
+
+  font-size:10px;
+
+  line-height:1.65;
+
+}
+
+.security-items{
+
+  display:grid;
+
+  gap:8px;
+
+}
+
+.security-item{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:9px;
+
+  padding:10px;
+
+  border:
+    1px solid
+    rgba(255,255,255,.08);
+
+  border-radius:11px;
+
+  color:
+    rgba(255,255,255,.68);
+
+  background:
+    rgba(255,255,255,.035);
+
+  font-size:9px;
+
+}
+
+.security-item span:first-child{
+
+  color:
+    var(--gold-300);
+
+}
+
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+.empty{
+
+  padding:40px 20px;
+
+  text-align:center;
+
+  color:
+    var(--muted);
+
+}
+
+.empty-icon{
+
+  width:54px;
+  height:54px;
+
+  display:flex;
+
+  align-items:center;
+  justify-content:center;
+
+  margin:auto;
+
+  border-radius:17px;
+
+  color:#172016;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--gold-200),
+      var(--gold-400)
+    );
+
+  font-size:20px;
+
+}
+
+.empty strong{
+
+  display:block;
+
+  margin-top:12px;
+
+  color:
+    var(--green-850);
+
+  font-size:13px;
+
+}
+
+.empty p{
+
+  max-width:390px;
+
+  margin:7px auto 0;
+
+  font-size:9px;
+
+  line-height:1.6;
+
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+.toast{
+
+  position:fixed;
+
+  right:20px;
+  bottom:20px;
+
+  z-index:2000;
+
+  width:
+    min(
+      360px,
+      calc(100vw - 40px)
+    );
+
+  display:none;
+
+  padding:14px 16px;
+
+  border:
+    1px solid
+    rgba(229,199,125,.30);
+
+  border-radius:14px;
+
+  color:#fff;
+
+  background:
+    linear-gradient(
+      135deg,
+      #0b1c14,
+      #214438
+    );
+
+  box-shadow:
+    0 20px 60px
+    rgba(0,0,0,.30);
+
+  font-size:10px;
+
+  line-height:1.5;
+
+}
+
+.toast.show{
+
+  display:block;
+
+  animation:
+    toastIn .25s ease;
+
+}
+
+@keyframes toastIn{
+
+  from{
+    opacity:0;
+    transform:translateY(10px);
+  }
+
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.footer{
+
+  margin-top:22px;
+
+  padding:
+    25px;
+
+  border-radius:
+    23px;
+
+  color:#fff;
+
+  background:
+
+    radial-gradient(
+      circle at 85% 5%,
+      rgba(229,199,125,.16),
+      transparent 27%
+    ),
+
+    linear-gradient(
+      135deg,
+      #07130e,
+      #162d25,
+      #214438
+    );
+
+}
+
+.footer-grid{
+
+  display:grid;
+
+  grid-template-columns:
+    1.4fr
+    repeat(3,1fr);
+
+  gap:25px;
+
+}
+
+.footer-logo{
+
+  font-size:22px;
+
+  font-weight:1000;
+
+  letter-spacing:.13em;
+
+}
+
+.footer-description{
+
+  max-width:400px;
+
+  margin-top:9px;
+
+  color:
+    rgba(255,255,255,.49);
+
+  font-size:9px;
+
+  line-height:1.65;
+
+}
+
+.footer-title{
+
+  color:
+    var(--gold-200);
+
+  font-size:9px;
+
+  font-weight:950;
+
+  letter-spacing:.1em;
+
+}
+
+.footer-links{
+
+  margin-top:9px;
+
+  color:
+    rgba(255,255,255,.52);
+
+  font-size:9px;
+
+  line-height:2;
+
+}
+
+.footer-links a{
+
+  text-decoration:none;
+
+}
+
+.footer-links a:hover{
+
+  color:
+    var(--gold-200);
+
+}
+
+.footer-bottom{
+
+  margin-top:19px;
+
+  padding-top:14px;
+
+  border-top:
+    1px solid
+    rgba(255,255,255,.08);
+
+  color:
+    rgba(255,255,255,.35);
+
+  font-size:8px;
+
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width:1100px){
+
+  .main-grid{
+
+    grid-template-columns:1fr;
+
+  }
+
+  .side-stack{
+
+    grid-template-columns:
+      repeat(2,minmax(0,1fr));
+
+  }
+
+  .security-panel{
+
+    grid-column:1/-1;
+
+  }
+
+}
+
+@media(max-width:850px){
+
+  .stats{
+
+    grid-template-columns:
+      repeat(2,minmax(0,1fr));
+
+  }
+
+  .footer-grid{
+
+    grid-template-columns:
+      repeat(2,minmax(0,1fr));
+
+  }
+
+}
+
+@media (max-width:650px){
+
+  .page{
+
+    width:
+      calc(100% - 20px);
+
+    padding-top:15px;
+
+  }
+
+  .topbar{
+
+    align-items:flex-start;
+
+    flex-direction:column;
+
+    padding:15px;
+
+  }
+
+  .top-actions{
+
+    width:100%;
+
+  }
+
+  .top-btn{
+
+    flex:1;
+
+  }
+
+  .hero{
+
+    padding:25px;
+
+    border-radius:24px;
+
+  }
+
+  .hero h1{
+
+    font-size:37px;
+
+  }
+
+  .stats{
+
+    grid-template-columns:1fr;
+
+  }
+
+  .card{
+
+    padding:20px;
+
+  }
+
+  .side-stack{
+
+    grid-template-columns:1fr;
+
+  }
+
+  .modal-form{
+
+    grid-template-columns:1fr;
+
+  }
+
+  .modal-field.full{
+
+    grid-column:auto;
+
+  }
+
+  .permissions{
+
+    grid-template-columns:1fr;
+
+  }
+
+  .footer-grid{
+
+    grid-template-columns:1fr;
+
+  }
+
+}
+
+@media (max-width:420px){
+
+  .hero h1{
+
+    font-size:32px;
+
+  }
+
+  .hero-actions{
+
+    width:100%;
+
+  }
+
+  .hero-actions .btn{
+
+    flex:1;
+
+  }
+
+  .toolbar{
+
+    align-items:stretch;
+
+  }
+
+  .filters{
+
+    width:100%;
+
+  }
+
+  .filters select{
+
+    flex:1;
+
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<main class="page">
+
+<!-- =======================================================
+     TOP BAR
+======================================================== -->
+
+<header class="topbar">
+
+  <div class="brand">
+
+    <div class="brand-mark">
+      G
+    </div>
+
+    <div>
+
+      <div class="brand-name">
+        GHAR
+      </div>
+
+      <div class="brand-subtitle">
+        Central Administration
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <nav class="top-actions">
+
+    <a
+      class="top-btn"
+      href="dashboard.html"
+    >
+      Dashboard
+    </a>
+
+    <a
+      class="top-btn"
+      href="admin-user.html"
+    >
+      Users
+    </a>
+
+    <a
+      class="top-btn"
+      href="settings.html"
+    >
+      Settings
+    </a>
+
+    <button
+      class="top-btn"
+      id="logoutBtn"
+      type="button"
+    >
+      Logout
+    </button>
+
+  </nav>
+
+</header>
+
+
+<!-- =======================================================
+     HERO
+======================================================== -->
+
+<section class="hero">
+
+  <div class="hero-content">
+
+    <div class="eyebrow">
+      ADMINISTRATION · USER CONTROL
+    </div>
+
+    <h1>
+      Manage the people
+      behind GHAR.
+    </h1>
+
+    <p>
+      Create and manage administrative accounts, assign
+      roles, control access, review account status and
+      maintain a structured administrator directory.
+      Authentication and authorization remain enforced
+      by the GHAR backend.
+    </p>
+
+    <div class="hero-actions">
+
+      <button
+        class="btn primary"
+        id="addUserBtn"
+        type="button"
+      >
+        + Add Administrator
+      </button>
+
+      <button
+        class="btn secondary"
+        id="refreshBtn"
+        type="button"
+      >
+        ↻ Refresh Users
+      </button>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =======================================================
+     STATISTICS
+======================================================== -->
+
+<section class="stats">
+
+  <div class="stat">
+
+    <div class="stat-icon">
+      ●
+    </div>
+
+    <div
+      class="stat-value"
+      id="totalUsers"
+    >
+      0
+    </div>
+
+    <div class="stat-label">
+      Total Administrators
+    </div>
+
+  </div>
+
+
+  <div class="stat">
+
+    <div class="stat-icon">
+      ✓
+    </div>
+
+    <div
+      class="stat-value"
+      id="activeUsers"
+    >
+      0
+    </div>
+
+    <div class="stat-label">
+      Active Accounts
+    </div>
+
+  </div>
+
+
+  <div class="stat">
+
+    <div class="stat-icon">
+      ◇
+    </div>
+
+    <div
+      class="stat-value"
+      id="pendingUsers"
+    >
+      0
+    </div>
+
+    <div class="stat-label">
+      Pending Accounts
+    </div>
+
+  </div>
+
+
+  <div class="stat">
+
+    <div class="stat-icon">
+      !
+    </div>
+
+    <div
+      class="stat-value"
+      id="suspendedUsers"
+    >
+      0
+    </div>
+
+    <div class="stat-label">
+      Suspended Accounts
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =======================================================
+     MAIN GRID
+======================================================== -->
+
+<div class="main-grid">
+
+<div>
+
+
+<!-- =====================================================
+     USER DIRECTORY
+===================================================== -->
+
+<section class="card">
+
+  <div class="card-eyebrow">
+    ADMINISTRATOR DIRECTORY
+  </div>
+
+  <h2 class="card-title">
+    Admin users.
+  </h2>
+
+  <p class="card-description">
+    Review administrator accounts, roles, status and
+    available account actions.
+  </p>
+
+
+  <div class="toolbar">
+
+    <div class="search-box">
+
+      <span class="search-icon">
+        ⌕
+      </span>
+
+      <input
+        id="searchInput"
+        type="search"
+        placeholder="Search name, email or role..."
+        autocomplete="off"
+      >
+
+    </div>
+
+
+    <div class="filters">
+
+      <select id="roleFilter">
+
+        <option value="">
+          All Roles
+        </option>
+
+        <option value="admin">
+          Administrator
+        </option>
+
+        <option value="manager">
+          Manager
+        </option>
+
+        <option value="support">
+          Support
+        </option>
+
+        <option value="viewer">
+          Viewer
+        </option>
+
+      </select>
+
+
+      <select id="statusFilter">
+
+        <option value="">
+          All Status
+        </option>
+
+        <option value="active">
+          Active
+        </option>
+
+        <option value="pending">
+          Pending
+        </option>
+
+        <option value="suspended">
+          Suspended
+        </option>
+
+        <option value="inactive">
+          Inactive
+        </option>
+
+      </select>
+
+    </div>
+
+  </div>
+
+
+  <div class="table-wrap">
+
+    <table class="user-table">
+
+      <thead>
+
+        <tr>
+
+          <th>
+            Administrator
+          </th>
+
+          <th>
+            Role
+          </th>
+
+          <th>
+            Status
+          </th>
+
+          <th>
+            Last Login
+          </th>
+
+          <th>
+            Created
+          </th>
+
+          <th>
+            Actions
+          </th>
+
+        </tr>
+
+      </thead>
+
+      <tbody id="userTableBody">
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</section>
+
+
+<!-- =====================================================
+     RECENT ACTIVITY
+===================================================== -->
+
+<section class="card">
+
+  <div class="card-eyebrow">
+    SECURITY ACTIVITY
+  </div>
+
+  <h2 class="card-title">
+    Recent administrator activity.
+  </h2>
+
+  <p class="card-description">
+    A local activity presentation is shown until the
+    GHAR audit-log API is connected.
+  </p>
+
+
+  <div
+    class="activity"
+    id="activityList"
+  ></div>
+
+</section>
+
+</div>
+
+
+<!-- =====================================================
+     SIDEBAR
+===================================================== -->
+
+<aside class="side-stack">
+
+
+<section class="side-card">
+
+  <div class="card-eyebrow">
+    ACCESS OVERVIEW
+  </div>
+
+  <h2 class="side-title">
+    Administrator controls.
+  </h2>
+
+
+  <div class="info-list">
+
+    <div class="info-row">
+
+      <span class="info-label">
+        Role hierarchy
+      </span>
+
+      <span class="info-value">
+        4 levels
+      </span>
+
+    </div>
+
+
+    <div class="info-row">
+
+      <span class="info-label">
+        Authentication
+      </span>
+
+      <span class="info-value">
+        Server-side
+      </span>
+
+    </div>
+
+
+    <div class="info-row">
+
+      <span class="info-label">
+        Session
+      </span>
+
+      <span class="info-value">
+        Secure Cookie
+      </span>
+
+    </div>
+
+
+    <div class="info-row">
+
+      <span class="info-label">
+        Audit logging
+      </span>
+
+      <span class="info-value">
+        API Ready
+      </span>
+
+    </div>
+
+
+    <div class="info-row">
+
+      <span class="info-label">
+        Password storage
+      </span>
+
+      <span class="info-value">
+        Backend Only
+      </span>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<section class="side-card">
+
+  <div class="card-eyebrow">
+    ROLE STRUCTURE
+  </div>
+
+  <h2 class="side-title">
+    Access levels.
+  </h2>
+
+
+  <div class="info-list">
+
+    <div class="info-row">
+
+      <span class="info-label">
+        Administrator
+      </span>
+
+      <span class="role-badge role-admin">
+        Full
+      </span>
+
+    </div>
+
+
+    <div class="info-row">
+
+      <span class="info-label">
+        Manager
+      </span>
+
+      <span class="role-badge role-manager">
+        Managed
+      </span>
+
+    </div>
+
+
+    <div class="info-row">
+
+      <span class="info-label">
+        Support
+      </span>
+
+      <span class="role-badge role-support">
+        Support
+      </span>
+
+    </div>
+
+
+    <div class="info-row">
+
+      <span class="info-label">
+        Viewer
+      </span>
+
+      <span class="role-badge role-viewer">
+        Read
+      </span>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<section class="security-panel">
+
+  <div class="eyebrow">
+    SECURITY
+  </div>
+
+  <h3>
+    Keep administrator access controlled.
+  </h3>
+
+  <p>
+    Never place administrator passwords, master tokens,
+    database credentials or private API keys in this page.
+    All sensitive authorization decisions must happen on
+    the GHAR server.
+  </p>
+
+
+  <div class="security-items">
+
+    <div class="security-item">
+
+      <span>
+        ✓
+      </span>
+
+      Server-side authentication
+
+    </div>
+
+
+    <div class="security-item">
+
+      <span>
+        ✓
+      </span>
+
+      Role-based authorization
+
+    </div>
+
+
+    <div class="security-item">
+
+      <span>
+        ✓
+      </span>
+
+      Secure session cookies
+
+    </div>
+
+
+    <div class="security-item">
+
+      <span>
+        ✓
+      </span>
+
+      Audit logging
+
+    </div>
+
+  </div>
+
+</section>
+
+
+</aside>
+
+</div>
+
+
+<!-- =======================================================
+     FOOTER
+======================================================== -->
+
+<footer class="footer">
+
+  <div class="footer-grid">
+
+    <div>
+
+      <div class="footer-logo">
+        GHAR
+      </div>
+
+      <div class="footer-description">
+        Premium real-estate administration infrastructure
+        for managing users, properties, verification,
+        payments, documents and secure workflows.
+      </div>
+
+    </div>
+
+
+    <div>
+
+      <div class="footer-title">
+        ADMIN
+      </div>
+
+      <div class="footer-links">
+
+        <a href="dashboard.html">
+          Dashboard
+        </a>
+
+        <br>
+
+        <a href="admin-user.html">
+          Admin Users
+        </a>
+
+        <br>
+
+        <a href="settings.html">
+          Settings
+        </a>
+
+      </div>
+
+    </div>
+
+
+    <div>
+
+      <div class="footer-title">
+        OPERATIONS
+      </div>
+
+      <div class="footer-links">
+
+        <a href="properties.html">
+          Properties
+        </a>
+
+        <br>
+
+        <a href="payments.html">
+          Payments
+        </a>
+
+        <br>
+
+        <a href="documents.html">
+          Documents
+        </a>
+
+      </div>
+
+    </div>
+
+
+    <div>
+
+      <div class="footer-title">
+        SECURITY
+      </div>
+
+      <div class="footer-links">
+
+        <a href="verification.html">
+          Verification
+        </a>
+
+        <br>
+
+        <a href="audit-logs.html">
+          Audit Logs
+        </a>
+
+        <br>
+
+        <a href="sessions.html">
+          Sessions
+        </a>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="footer-bottom">
+
+    © 2026 GHAR · Central Administration ·
+    Administrator user management.
+
+  </div>
+
+</footer>
+
+</main>
+
+
+<!-- =======================================================
+     ADD / EDIT USER MODAL
+======================================================== -->
+
+<div
+  class="modal-backdrop"
+  id="userModal"
+>
+
+  <section
+    class="modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="modalTitle"
+  >
+
+    <div class="modal-head">
+
+      <div>
+
+        <div class="eyebrow">
+          ADMINISTRATOR ACCOUNT
+        </div>
+
+        <h2
+          class="modal-title"
+          id="modalTitle"
+        >
+          Add administrator.
+        </h2>
+
+      </div>
+
+
+      <button
+        class="modal-close"
+        id="closeModalBtn"
+        type="button"
+        aria-label="Close"
+      >
+        ×
+      </button>
+
+    </div>
+
+
+    <form
+      id="userForm"
+      class="modal-form"
+    >
+
+      <input
+        type="hidden"
+        id="userId"
+      >
+
+
+      <div class="modal-field">
+
+        <label for="userName">
+          Full Name
+        </label>
+
+        <input
+          id="userName"
+          name="name"
+          type="text"
+          placeholder="Administrator name"
+          required
+        >
+
+      </div>
+
+
+      <div class="modal-field">
+
+        <label for="userEmail">
+          Email
+        </label>
+
+        <input
+          id="userEmail"
+          name="email"
+          type="email"
+          placeholder="admin@yourdomain.com"
+          required
+        >
+
+      </div>
+
+
+      <div class="modal-field">
+
+        <label for="userRole">
+          Role
+        </label>
+
+        <select
+          id="userRole"
+          name="role"
+          required
+        >
+
+          <option value="admin">
+            Administrator
+          </option>
+
+          <option value="manager">
+            Manager
+          </option>
+
+          <option value="support">
+            Support
+          </option>
+
+          <option value="viewer">
+            Viewer
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <div class="modal-field">
+
+        <label for="userStatus">
+          Account Status
+        </label>
+
+        <select
+          id="userStatus"
+          name="status"
+          required
+        >
+
+          <option value="active">
+            Active
+          </option>
+
+          <option value="pending">
+            Pending
+          </option>
+
+          <option value="suspended">
+            Suspended
+          </option>
+
+          <option value="inactive">
+            Inactive
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <div class="modal-field">
+
+        <label for="department">
+          Department
+        </label>
+
+        <input
+          id="department"
+          name="department"
+          type="text"
+          placeholder="Operations / Finance / Support"
+        >
+
+      </div>
+
+
+      <div class="modal-field">
+
+        <label for="phone">
+          Contact Number
+        </label>
+
+        <input
+          id="phone"
+          name="phone"
+          type="tel"
+          placeholder="+91"
+        >
+
+      </div>
+
+
+      <div class="modal-field full">
+
+        <label>
+          Permissions
+        </label>
+
+
+        <div class="permissions">
+
+          <label class="permission">
+
+            <input
+              type="checkbox"
+              name="permissions"
+              value="users"
+              checked
+            >
+
+            User Management
+
+          </label>
+
+
+          <label class="permission">
+
+            <input
+              type="checkbox"
+              name="permissions"
+              value="properties"
+            >
+
+            Property Management
+
+          </label>
+
+
+          <label class="permission">
+
+            <input
+              type="checkbox"
+              name="permissions"
+              value="payments"
+            >
+
+            Payments
+
+          </label>
+
+
+          <label class="permission">
+
+            <input
+              type="checkbox"
+              name="permissions"
+              value="documents"
+            >
+
+            Documents
+
+          </label>
+
+
+          <label class="permission">
+
+            <input
+              type="checkbox"
+              name="permissions"
+              value="verification"
+            >
+
+            Verification
+
+          </label>
+
+
+          <label class="permission">
+
+            <input
+              type="checkbox"
+              name="permissions"
+              value="reports"
+            >
+
+            Reports
+
+          </label>
+
+        </div>
+
+      </div>
+
+
+      <div class="modal-actions">
+
+        <button
+          type="button"
+          class="btn secondary"
+          id="cancelModalBtn"
+        >
+          Cancel
+        </button>
+
+        <button
+          type="submit"
+          class="btn primary"
+        >
+          Save Administrator
+        </button>
+
+      </div>
+
+    </form>
+
+  </section>
+
+</div>
+
+
+<!-- =======================================================
+     TOAST
+======================================================== -->
+
+<div
+  class="toast"
+  id="toast"
+  role="status"
+  aria-live="polite"
+></div>
+
+
+<!-- =======================================================
+     JAVASCRIPT
+======================================================== -->
+
+<script>
+
+(() => {
+
+"use strict";
+
+
+/* =========================================================
+   CONFIG
+========================================================= */
+
+const API_BASE =
+  window.GHAR_API_BASE ||
+  window.API_BASE ||
+  "/api";
+
+
+const STORAGE_KEY =
+  "ghar_admin_users";
+
+
+/* =========================================================
+   ELEMENTS
+========================================================= */
+
+const $ = id =>
+  document.getElementById(id);
+
+
+const tableBody =
+  $("userTableBody");
+
+const searchInput =
+  $("searchInput");
+
+const roleFilter =
+  $("roleFilter");
+
+const statusFilter =
+  $("statusFilter");
+
+const modal =
+  $("userModal");
+
+const form =
+  $("userForm");
+
+const toast =
+  $("toast");
+
+
+/* =========================================================
+   SAMPLE LOCAL DATA
+   Used only when API is not connected.
+========================================================= */
+
+const defaultUsers = [
+
+  {
+    id:"ADM-001",
+    name:"GHAR Administrator",
+    email:"admin@ghar.local",
+    role:"admin",
+    status:"active",
+    department:"Administration",
+    phone:"",
+    lastLogin:"Today",
+    createdAt:"01 Oct 2026"
+  },
+
+  {
+    id:"ADM-002",
+    name:"Operations Manager",
+    email:"operations@ghar.local",
+    role:"manager",
+    status:"active",
+    department:"Operations",
+    phone:"",
+    lastLogin:"Yesterday",
+    createdAt:"28 Sep 2026"
+  },
+
+  {
+    id:"ADM-003",
+    name:"Support Desk",
+    email:"support@ghar.local",
+    role:"support",
+    status:"active",
+    department:"Customer Support",
+    phone:"",
+    lastLogin:"02 Oct 2026",
+    createdAt:"25 Sep 2026"
+  },
+
+  {
+    id:"ADM-004",
+    name:"Verification Officer",
+    email:"verification@ghar.local",
+    role:"viewer",
+    status:"pending",
+    department:"Verification",
+    phone:"",
+    lastLogin:"Never",
+    createdAt:"02 Oct 2026"
+  }
+
+];
+
+
+/* =========================================================
+   STORAGE
+========================================================= */
+
+function readUsers(){
+
+  try{
+
+    const value =
+      JSON.parse(
+        localStorage.getItem(
+          STORAGE_KEY
+        ) || "null"
+      );
+
+    if(
+      Array.isArray(value)
+    ){
+
+      return value;
+
+    }
+
+  }catch(error){
+
+    console.warn(
+      "GHAR USER STORAGE:",
+      error
+    );
+
+  }
+
+
+  return [
+    ...defaultUsers
+  ];
+
+}
+
+
+function writeUsers(users){
+
+  localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify(users)
+  );
+
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+let toastTimer;
+
+function showToast(message){
+
+  toast.textContent =
+    message;
+
+  toast.classList.add(
+    "show"
+  );
+
+
+  clearTimeout(
+    toastTimer
+  );
+
+
+  toastTimer =
+    setTimeout(
+      () => {
+
+        toast.classList.remove(
+          "show"
+        );
+
+      },
+      3000
+    );
+
+}
+
+
+/* =========================================================
+   LABELS
+========================================================= */
+
+const roleLabels = {
+
+  admin:"Administrator",
+  manager:"Manager",
+  support:"Support",
+  viewer:"Viewer"
+
+};
+
+
+const statusLabels = {
+
+  active:"Active",
+  pending:"Pending",
+  suspended:"Suspended",
+  inactive:"Inactive"
+
+};
+
+
+/* =========================================================
+   ESCAPE
+========================================================= */
+
+function escapeHTML(value){
+
+  return String(
+    value ?? ""
+  )
+  .replaceAll(
+    "&",
+    "&amp;"
+  )
+  .replaceAll(
+    "<",
+    "&lt;"
+  )
+  .replaceAll(
+    ">",
+    "&gt;"
+  )
+  .replaceAll(
+    '"',
+    "&quot;"
+  )
+  .replaceAll(
+    "'",
+    "&#039;"
+  );
+
+}
+
+
+/* =========================================================
+   INITIALS
+========================================================= */
+
+function initials(name){
+
+  return String(
+    name || "GHAR"
+  )
+  .trim()
+  .split(/\s+/)
+  .slice(0,2)
+  .map(
+    part =>
+      part
+      .charAt(0)
+      .toUpperCase()
+  )
+  .join("") || "G";
+
+}
+
+
+/* =========================================================
+   RENDER USERS
+========================================================= */
+
+function renderUsers(){
+
+  const users =
+    readUsers();
+
+
+  const query =
+    searchInput.value
+      .trim()
+      .toLowerCase();
+
+
+  const role =
+    roleFilter.value;
+
+
+  const status =
+    statusFilter.value;
+
+
+  const filtered =
+    users.filter(
+      user => {
+
+        const searchable = [
+
+          user.name,
+          user.email,
+          user.role,
+          user.department
+
+        ]
+        .join(" ")
+        .toLowerCase();
+
+
+        if(
+          query &&
+          !searchable.includes(
+            query
+          )
+        ){
+
+          return false;
+
+        }
+
+
+        if(
+          role &&
+          user.role !== role
+        ){
+
+          return false;
+
+        }
+
+
+        if(
+          status &&
+          user.status !== status
+        ){
+
+          return false;
+
+        }
+
+
+        return true;
+
+      }
+    );
+
+
+  if(!filtered.length){
+
+    tableBody.innerHTML = `
+
+      <tr>
+
+        <td
+          colspan="6"
+        >
+
+          <div class="empty">
+
+            <div class="empty-icon">
+              ⌕
+            </div>
+
+            <strong>
+              No administrators found.
+            </strong>
+
+            <p>
+              Try changing the search term or filters,
+              or create a new administrator account.
+            </p>
+
+          </div>
+
+        </td>
+
+      </tr>
+
+    `;
+
+    updateStats(
+      users
+    );
+
+    return;
+
+  }
+
+
+  tableBody.innerHTML =
+    filtered
+      .map(
+        user => {
+
+          const roleClass =
+            "role-" +
+            (
+              user.role ||
+              "viewer"
+            );
+
+
+          const statusClass =
+            "status-" +
+            (
+              user.status ||
+              "inactive"
+            );
+
+
+          return `
+
+            <tr>
+
+              <td>
+
+                <div class="user-cell">
+
+                  <div class="avatar">
+                    ${escapeHTML(
+                      initials(
+                        user.name
+                      )
+                    )}
+                  </div>
+
+                  <div>
+
+                    <div class="user-name">
+                      ${escapeHTML(
+                        user.name
+                      )}
+                    </div>
+
+                    <div class="user-email">
+                      ${escapeHTML(
+                        user.email
+                      )}
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </td>
+
+
+              <td>
+
+                <span
+                  class="role-badge ${roleClass}"
+                >
+                  ${escapeHTML(
+                    roleLabels[
+                      user.role
+                    ] ||
+                    user.role ||
+                    "Viewer"
+                  )}
+                </span>
+
+              </td>
+
+
+              <td>
+
+                <span
+                  class="status-badge ${statusClass}"
+                >
+                  ${escapeHTML(
+                    statusLabels[
+                      user.status
+                    ] ||
+                    user.status ||
+                    "Inactive"
+                  )}
+                </span>
+
+              </td>
+
+
+              <td>
+
+                ${escapeHTML(
+                  user.lastLogin ||
+                  "Never"
+                )}
+
+              </td>
+
+
+              <td>
+
+                ${escapeHTML(
+                  user.createdAt ||
+                  "Unknown"
+                )}
+
+              </td>
+
+
+              <td>
+
+                <div class="action-group">
+
+                  <button
+                    class="icon-btn"
+                    type="button"
+                    title="Edit user"
+                    data-action="edit"
+                    data-id="${escapeHTML(
+                      user.id
+                    )}"
+                  >
+                    ✎
+                  </button>
+
+
+                  <button
+                    class="icon-btn"
+                    type="button"
+                    title="Change status"
+                    data-action="status"
+                    data-id="${escapeHTML(
+                      user.id
+                    )}"
+                  >
+                    ●
+                  </button>
+
+
+                  <button
+                    class="icon-btn"
+                    type="button"
+                    title="Delete user"
+                    data-action="delete"
+                    data-id="${escapeHTML(
+                      user.id
+                    )}"
+                  >
+                    ×
+                  </button>
+
+                </div>
+
+              </td>
+
+            </tr>
+
+          `;
+
+        }
+      )
+      .join("");
+
+
+  updateStats(
+    users
+  );
+
+}
+
+
+/* =========================================================
+   STATS
+========================================================= */
+
+function updateStats(users){
+
+  $("totalUsers").textContent =
+    users.length;
+
+
+  $("activeUsers").textContent =
+    users.filter(
+      user =>
+        user.status ===
+        "active"
+    ).length;
+
+
+  $("pendingUsers").textContent =
+    users.filter(
+      user =>
+        user.status ===
+        "pending"
+    ).length;
+
+
+  $("suspendedUsers").textContent =
+    users.filter(
+      user =>
+        user.status ===
+        "suspended"
+    ).length;
+
+}
+
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+function openModal(user=null){
+
+  modal.classList.add(
+    "open"
+  );
+
+
+  if(user){
+
+    $("modalTitle").textContent =
+      "Edit administrator.";
+
+
+    $("userId").value =
+      user.id || "";
+
+
+    $("userName").value =
+      user.name || "";
+
+
+    $("userEmail").value =
+      user.email || "";
+
+
+    $("userRole").value =
+      user.role || "viewer";
+
+
+    $("userStatus").value =
+      user.status || "active";
+
+
+    $("department").value =
+      user.department || "";
+
+
+    $("phone").value =
+      user.phone || "";
+
+  }else{
+
+    $("modalTitle").textContent =
+      "Add administrator.";
+
+
+    form.reset();
+
+
+    $("userId").value =
+      "";
+
+    $("userRole").value =
+      "admin";
+
+    $("userStatus").value =
+      "active";
+
+  }
+
+
+  setTimeout(
+    () => {
+
+      $("userName").focus();
+
+    },
+    50
+  );
+
+}
+
+
+function closeModal(){
+
+  modal.classList.remove(
+    "open"
+  );
+
+}
+
+
+/* =========================================================
+   ADD USER
+========================================================= */
+
+$("addUserBtn").addEventListener(
+  "click",
+  () => {
+
+    openModal();
+
+  }
+);
+
+
+$("closeModalBtn").addEventListener(
+  "click",
+  closeModal
+);
+
+
+$("cancelModalBtn").addEventListener(
+  "click",
+  closeModal
+);
+
+
+modal.addEventListener(
+  "click",
+  event => {
+
+    if(
+      event.target ===
+      modal
+    ){
+
+      closeModal();
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   SAVE USER
+========================================================= */
+
+form.addEventListener(
+  "submit",
+  async event => {
+
+    event.preventDefault();
+
+
+    if(
+      !form.checkValidity()
+    ){
+
+      form.reportValidity();
+
+      return;
+
+    }
+
+
+    const id =
+      $("userId").value.trim();
+
+
+    const users =
+      readUsers();
+
+
+    const permissions =
+      [
+        ...document
+          .querySelectorAll(
+            'input[name="permissions"]:checked'
+          )
+      ]
+      .map(
+        input =>
+          input.value
+      );
+
+
+    const userData = {
+
+      name:
+        $("userName").value.trim(),
+
+      email:
+        $("userEmail").value.trim(),
+
+      role:
+        $("userRole").value,
+
+      status:
+        $("userStatus").value,
+
+      department:
+        $("department").value.trim(),
+
+      phone:
+        $("phone").value.trim(),
+
+      permissions
+
+    };
+
+
+    try{
+
+      /*
+       * If your backend implements this endpoint,
+       * it will be used before local fallback.
+       */
+
+      const endpoint =
+        id
+          ? API_BASE +
+            "/admin/users/" +
+            encodeURIComponent(id)
+
+          : API_BASE +
+            "/admin/users";
+
+
+      const response =
+        await fetch(
+          endpoint,
+          {
+
+            method:
+              id
+                ? "PATCH"
+                : "POST",
+
+            credentials:
+              "include",
+
+            headers:{
+              "Content-Type":
+                "application/json",
+
+              "Accept":
+                "application/json"
+            },
+
+            body:
+              JSON.stringify(
+                userData
+              )
+
+          }
+        );
+
+
+      if(
+        response.ok
+      ){
+
+        showToast(
+          id
+            ? "Administrator updated successfully."
+            : "Administrator created successfully."
+        );
+
+        closeModal();
+
+        await loadUsers();
+
+        return;
+
+      }
+
+    }catch(error){
+
+      console.info(
+        "GHAR admin user API unavailable; using local workspace.",
+        error
+      );
+
+    }
+
+
+    /*
+     * Local fallback.
+     */
+
+    if(id){
+
+      const index =
+        users.findIndex(
+          user =>
+            String(
+              user.id
+            ) ===
+            String(id)
+        );
+
+
+      if(index !== -1){
+
+        users[index] = {
+
+          ...users[index],
+
+          ...userData,
+
+          updatedAt:
+            new Date().toISOString()
+
+        };
+
+      }
+
+    }else{
+
+      users.unshift({
+
+        id:
+          "ADM-" +
+          Date.now()
+            .toString(36)
+            .toUpperCase(),
+
+        ...userData,
+
+        lastLogin:
+          "Never",
+
+        createdAt:
+          new Date()
+            .toLocaleDateString(
+              "en-IN",
+              {
+                day:"2-digit",
+                month:"short",
+                year:"numeric"
+              }
+            )
+
+      });
+
+    }
+
+
+    writeUsers(
+      users
+    );
+
+
+    closeModal();
+
+    renderUsers();
+
+    renderActivity();
+
+    showToast(
+      id
+        ? "Administrator updated locally."
+        : "Administrator added to the local workspace."
+    );
+
+  }
+);
+
+
+/* =========================================================
+   TABLE ACTIONS
+========================================================= */
+
+tableBody.addEventListener(
+  "click",
+  event => {
+
+    const button =
+      event.target.closest(
+        "[data-action]"
+      );
+
+
+    if(!button){
+
+      return;
+
+    }
+
+
+    const action =
+      button.dataset.action;
+
+
+    const id =
+      button.dataset.id;
+
+
+    const users =
+      readUsers();
+
+
+    const user =
+      users.find(
+        item =>
+          String(item.id) ===
+          String(id)
+      );
+
+
+    if(!user){
+
+      return;
+
+    }
+
+
+    if(
+      action ===
+      "edit"
+    ){
+
+      openModal(
+        user
+      );
+
+      return;
+
+    }
+
+
+    if(
+      action ===
+      "status"
+    ){
+
+      cycleStatus(
+        user
+      );
+
+      return;
+
+    }
+
+
+    if(
+      action ===
+      "delete"
+    ){
+
+      deleteUser(
+        user
+      );
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   STATUS CHANGE
+========================================================= */
+
+function cycleStatus(user){
+
+  const statuses = [
+
+    "active",
+    "pending",
+    "suspended",
+    "inactive"
+
+  ];
+
+
+  const current =
+    statuses.indexOf(
+      user.status
+    );
+
+
+  const next =
+    statuses[
+      (
+        current + 1
+      ) %
+      statuses.length
+    ];
+
+
+  if(
+    !confirm(
+      "Change " +
+      user.name +
+      "'s status to " +
+      next +
+      "?"
+    )
+  ){
+
+    return;
+
+  }
+
+
+  const users =
+    readUsers();
+
+
+  const index =
+    users.findIndex(
+      item =>
+        String(item.id) ===
+        String(user.id)
+    );
+
+
+  if(index === -1){
+
+    return;
+
+  }
+
+
+  users[index].status =
+    next;
+
+
+  users[index].updatedAt =
+    new Date().toISOString();
+
+
+  writeUsers(
+    users
+  );
+
+
+  renderUsers();
+
+  renderActivity();
+
+
+  showToast(
+    "Account status changed to " +
+    next +
+    "."
+  );
+
+}
+
+
+/* =========================================================
+   DELETE
+========================================================= */
+
+function deleteUser(user){
+
+  /*
+   * Never silently delete an administrator.
+   */
+
+  if(
+    !confirm(
+      "Delete administrator " +
+      user.name +
+      "?\n\nThis action should also be validated by the server."
+    )
+  ){
+
+    return;
+
+  }
+
+
+  const users =
+    readUsers();
+
+
+  const filtered =
+    users.filter(
+      item =>
+        String(item.id) !==
+        String(user.id)
+    );
+
+
+  writeUsers(
+    filtered
+  );
+
+
+  renderUsers();
+
+  renderActivity();
+
+
+  showToast(
+    "Administrator removed from the local workspace."
+  );
+
+}
+
+
+/* =========================================================
+   SEARCH / FILTERS
+========================================================= */
+
+searchInput.addEventListener(
+  "input",
+  renderUsers
+);
+
+roleFilter.addEventListener(
+  "change",
+  renderUsers
+);
+
+statusFilter.addEventListener(
+  "change",
+  renderUsers
+);
+
+
+/* =========================================================
+   ACTIVITY
+========================================================= */
+
+function renderActivity(){
+
+  const users =
+    readUsers();
+
+
+  const activity =
+    users
+      .slice(0,5)
+      .map(
+        user => ({
+
+          icon:
+            user.status ===
+            "active"
+              ? "✓"
+              : "●",
+
+          title:
+            (
+              user.name ||
+              "Administrator"
+            ) +
+            " · " +
+            (
+              roleLabels[
+                user.role
+              ] ||
+              "Account"
+            ),
+
+          time:
+            user.updatedAt ||
+            user.createdAt ||
+            "Recently"
+
+        })
+      );
+
+
+  $("activityList").innerHTML =
+    activity.length
+      ? activity
+          .map(
+            item => `
+
+              <div class="activity-item">
+
+                <div class="activity-icon">
+                  ${escapeHTML(
+                    item.icon
+                  )}
+                </div>
+
+                <div>
+
+                  <div class="activity-title">
+                    ${escapeHTML(
+                      item.title
+                    )}
+                  </div>
+
+                  <div class="activity-time">
+                    ${escapeHTML(
+                      item.time
+                    )}
+                  </div>
+
+                </div>
+
+              </div>
+
+            `
+          )
+          .join("")
+      : `
+
+          <div class="empty">
+
+            <strong>
+              No recent activity.
+            </strong>
+
+          </div>
+
+        `;
+
+}
+
+
+/* =========================================================
+   LOAD USERS FROM API
+========================================================= */
+
+async function loadUsers(){
+
+  try{
+
+    const response =
+      await fetch(
+        API_BASE +
+        "/admin/users",
+        {
+
+          method:"GET",
+
+          credentials:
+            "include",
+
+          headers:{
+            "Accept":
+              "application/json"
+          }
+
+        }
+      );
+
+
+    if(
+      !response.ok
+    ){
+
+      throw new Error(
+        "API unavailable"
+      );
+
+    }
+
+
+    const data =
+      await response.json();
+
+
+    const users =
+      Array.isArray(
+        data
+      )
+        ? data
+        : (
+            Array.isArray(
+              data.users
+            )
+              ? data.users
+              : null
+          );
+
+
+    if(
+      users
+    ){
+
+      writeUsers(
+        users
+      );
+
+    }
+
+  }catch(error){
+
+    /*
+     * Local mode is intentional for frontend development.
+     * Production should use the authenticated backend.
+     */
+
+    console.info(
+      "GHAR admin user API:",
+      "Using local development data."
+    );
+
+  }
+
+
+  renderUsers();
+
+  renderActivity();
+
+}
+
+
+/* =========================================================
+   REFRESH
+========================================================= */
+
+$("refreshBtn").addEventListener(
+  "click",
+  async () => {
+
+    await loadUsers();
+
+    showToast(
+      "Administrator directory refreshed."
+    );
+
+  }
+);
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+$("logoutBtn").addEventListener(
+  "click",
+  async () => {
+
+    if(
+      !confirm(
+        "Sign out of the GHAR administrator session?"
+      )
+    ){
+
+      return;
+
+    }
+
+
+    try{
+
+      await fetch(
+        API_BASE +
+        "/auth/admin/logout",
+        {
+
+          method:"POST",
+
+          credentials:
+            "include",
+
+          headers:{
+            "Accept":
+              "application/json"
+          }
+
+        }
+      );
+
+    }catch(error){
+
+      console.info(
+        "Logout API unavailable.",
+        error
+      );
+
+    }
+
+
+    window.location.href =
+      "/login.html";
+
+  }
+);
+
+
+/* =========================================================
+   ESCAPE MODAL
+========================================================= */
+
+document.addEventListener(
+  "keydown",
+  event => {
+
+    if(
+      event.key ===
+      "Escape"
+    ){
+
+      closeModal();
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   INITIALIZE
+========================================================= */
+
+loadUsers();
+
+
+document.documentElement.classList.add(
+  "ghar-admin-user-ready"
+);
+
+})();
+
+</script>
+
+</body>
+</html>

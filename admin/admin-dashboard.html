@@ -1,0 +1,3183 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<meta name="description"
+      content="GHAR Central Administration Dashboard -- Manage users, properties, bookings, payments, documents, verification and platform activity.">
+
+<meta name="theme-color" content="#d9bb78">
+
+<title>GHAR · Admin Dashboard</title>
+
+<style>
+
+/* =========================================================
+   GHAR ADMIN DASHBOARD
+   PREMIUM VERSION
+   BASE DESIGN PRESERVED
+========================================================= */
+
+*{
+  box-sizing:border-box;
+}
+
+:root{
+
+  --green-950:#07130e;
+  --green-900:#0b1c14;
+  --green-850:#10261c;
+  --green-800:#162d25;
+  --green-700:#214438;
+
+  --gold-100:#fff5d7;
+  --gold-200:#f4dfaa;
+  --gold-300:#e5c77d;
+  --gold-400:#c9a95c;
+  --gold-500:#a98238;
+
+  --cream:#fffaf0;
+  --cream-2:#f7eedc;
+
+  --text:#f9f5ea;
+  --muted:rgba(255,255,255,.62);
+  --muted-2:rgba(255,255,255,.42);
+
+  --border:rgba(229,199,125,.20);
+  --white-border:rgba(255,255,255,.09);
+
+  --success:#8ed4a1;
+  --warning:#f0cf7b;
+  --danger:#e88b8b;
+  --blue:#8dbce8;
+
+  --shadow:0 35px 100px rgba(0,0,0,.32);
+
+  --radius:26px;
+
+}
+
+html{
+  min-height:100%;
+  scroll-behavior:smooth;
+}
+
+body{
+
+  margin:0;
+  min-height:100vh;
+
+  color:var(--text);
+
+  font-family:
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  background:
+
+    radial-gradient(
+      circle at 7% 4%,
+      rgba(229,199,125,.14),
+      transparent 25%
+    ),
+
+    radial-gradient(
+      circle at 94% 10%,
+      rgba(45,96,70,.22),
+      transparent 27%
+    ),
+
+    radial-gradient(
+      circle at 50% 100%,
+      rgba(201,169,92,.10),
+      transparent 32%
+    ),
+
+    linear-gradient(
+      135deg,
+      #cbaa68 0%,
+      #dbc184 38%,
+      #c6a661 100%
+    );
+
+}
+
+
+/* =========================================================
+   PAGE DECORATION
+========================================================= */
+
+.page-decoration{
+
+  position:fixed;
+  inset:0;
+
+  pointer-events:none;
+  overflow:hidden;
+
+  z-index:0;
+
+}
+
+.page-decoration::before{
+
+  content:"";
+
+  position:absolute;
+
+  width:620px;
+  height:620px;
+
+  right:-310px;
+  top:-310px;
+
+  border-radius:50%;
+
+  border:1px solid rgba(255,255,255,.16);
+
+  box-shadow:
+    0 0 0 45px rgba(255,255,255,.025),
+    0 0 0 95px rgba(255,255,255,.018),
+    0 0 0 145px rgba(255,255,255,.012);
+
+}
+
+.page-decoration::after{
+
+  content:"";
+
+  position:absolute;
+
+  width:500px;
+  height:500px;
+
+  left:-300px;
+  bottom:-310px;
+
+  border-radius:50%;
+
+  border:1px solid rgba(255,255,255,.12);
+
+}
+
+
+/* =========================================================
+   APP
+========================================================= */
+
+.app{
+
+  position:relative;
+  z-index:2;
+
+  width:min(1500px,100%);
+
+  margin:auto;
+
+  padding:24px;
+
+}
+
+
+/* =========================================================
+   TOP NAVIGATION
+========================================================= */
+
+.topbar{
+
+  display:flex;
+
+  align-items:center;
+  justify-content:space-between;
+
+  gap:18px;
+
+  padding:15px 18px;
+
+  border:1px solid rgba(229,199,125,.25);
+
+  border-radius:22px;
+
+  background:
+
+    linear-gradient(
+      145deg,
+      rgba(8,25,17,.97),
+      rgba(17,40,29,.96)
+    );
+
+  box-shadow:
+    0 20px 55px rgba(0,0,0,.25);
+
+  backdrop-filter:blur(20px);
+
+}
+
+.brand{
+
+  display:flex;
+  align-items:center;
+
+  gap:12px;
+
+  min-width:220px;
+
+}
+
+.brand-mark{
+
+  width:46px;
+  height:46px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  flex:0 0 46px;
+
+  border-radius:14px;
+
+  color:#152116;
+
+  font-size:20px;
+  font-weight:1000;
+
+  background:
+    linear-gradient(
+      135deg,
+      #f0d99b,
+      #b98b3d
+    );
+
+  box-shadow:
+    0 9px 25px rgba(0,0,0,.25),
+    inset 0 1px 0 rgba(255,255,255,.45);
+
+}
+
+.brand-name{
+
+  font-size:17px;
+  font-weight:1000;
+
+  letter-spacing:.16em;
+
+}
+
+.brand-subtitle{
+
+  margin-top:3px;
+
+  color:var(--muted-2);
+
+  font-size:8px;
+  font-weight:800;
+
+  letter-spacing:.16em;
+
+  text-transform:uppercase;
+
+}
+
+.top-actions{
+
+  display:flex;
+  align-items:center;
+
+  gap:9px;
+
+}
+
+.icon-btn{
+
+  width:40px;
+  height:40px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  border:1px solid rgba(255,255,255,.08);
+
+  border-radius:12px;
+
+  color:rgba(255,255,255,.72);
+
+  background:rgba(255,255,255,.045);
+
+  cursor:pointer;
+
+  transition:.2s ease;
+
+}
+
+.icon-btn:hover{
+
+  color:var(--gold-200);
+
+  border-color:rgba(229,199,125,.25);
+
+  background:rgba(229,199,125,.07);
+
+}
+
+.admin-profile{
+
+  display:flex;
+  align-items:center;
+
+  gap:10px;
+
+  padding:5px 10px 5px 5px;
+
+  border:1px solid rgba(255,255,255,.08);
+
+  border-radius:14px;
+
+  background:rgba(255,255,255,.035);
+
+}
+
+.avatar{
+
+  width:34px;
+  height:34px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  border-radius:10px;
+
+  color:#1a2117;
+
+  font-size:12px;
+  font-weight:1000;
+
+  background:linear-gradient(
+    135deg,
+    #f0d99b,
+    #b98b3d
+  );
+
+}
+
+.profile-name{
+
+  color:rgba(255,255,255,.82);
+
+  font-size:10px;
+  font-weight:900;
+
+}
+
+.profile-role{
+
+  margin-top:2px;
+
+  color:var(--muted-2);
+
+  font-size:8px;
+
+}
+
+
+/* =========================================================
+   LAYOUT
+========================================================= */
+
+.layout{
+
+  display:grid;
+
+  grid-template-columns:
+    245px
+    minmax(0,1fr);
+
+  gap:18px;
+
+  margin-top:18px;
+
+}
+
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+.sidebar{
+
+  position:sticky;
+  top:18px;
+
+  align-self:start;
+
+  padding:16px;
+
+  border:1px solid rgba(229,199,125,.19);
+
+  border-radius:24px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(8,25,17,.97),
+      rgba(16,38,28,.96)
+    );
+
+  box-shadow:
+    0 25px 65px rgba(0,0,0,.23);
+
+}
+
+.sidebar-label{
+
+  padding:
+    6px 10px 9px;
+
+  color:var(--muted-2);
+
+  font-size:8px;
+  font-weight:950;
+
+  letter-spacing:.16em;
+
+  text-transform:uppercase;
+
+}
+
+.nav{
+
+  display:grid;
+
+  gap:5px;
+
+}
+
+.nav a{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:10px;
+
+  min-height:43px;
+
+  padding:0 11px;
+
+  border:1px solid transparent;
+
+  border-radius:12px;
+
+  color:rgba(255,255,255,.58);
+
+  text-decoration:none;
+
+  font-size:10px;
+  font-weight:800;
+
+  transition:.2s ease;
+
+}
+
+.nav a span:first-child{
+
+  width:25px;
+  height:25px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  border-radius:8px;
+
+  background:rgba(255,255,255,.045);
+
+}
+
+.nav a:hover{
+
+  color:var(--gold-200);
+
+  background:rgba(229,199,125,.055);
+
+  border-color:rgba(229,199,125,.12);
+
+}
+
+.nav a.active{
+
+  color:#f9edc9;
+
+  border-color:rgba(229,199,125,.20);
+
+  background:
+
+    linear-gradient(
+      90deg,
+      rgba(229,199,125,.12),
+      rgba(229,199,125,.035)
+    );
+
+}
+
+.nav a.active span:first-child{
+
+  color:#1b2015;
+
+  background:var(--gold-300);
+
+}
+
+.sidebar-divider{
+
+  height:1px;
+
+  margin:14px 5px;
+
+  background:rgba(255,255,255,.07);
+
+}
+
+.logout-btn{
+
+  width:100%;
+
+  min-height:42px;
+
+  border:1px solid rgba(232,139,139,.12);
+
+  border-radius:12px;
+
+  color:#eab5b5;
+
+  background:rgba(145,45,55,.08);
+
+  font-size:10px;
+  font-weight:900;
+
+  cursor:pointer;
+
+}
+
+
+/* =========================================================
+   MAIN CONTENT
+========================================================= */
+
+.main{
+
+  min-width:0;
+
+}
+
+.page-heading{
+
+  display:flex;
+
+  align-items:flex-end;
+
+  justify-content:space-between;
+
+  gap:18px;
+
+  margin-bottom:17px;
+
+}
+
+.eyebrow{
+
+  color:var(--gold-300);
+
+  font-size:9px;
+  font-weight:950;
+
+  letter-spacing:.18em;
+
+  text-transform:uppercase;
+
+}
+
+h1{
+
+  margin:7px 0 0;
+
+  color:var(--cream);
+
+  font-size:
+    clamp(31px,4vw,46px);
+
+  line-height:1;
+
+  letter-spacing:-.045em;
+
+}
+
+.heading-copy{
+
+  margin:9px 0 0;
+
+  max-width:650px;
+
+  color:var(--muted);
+
+  font-size:11px;
+
+  line-height:1.7;
+
+}
+
+.date-card{
+
+  flex:0 0 auto;
+
+  padding:11px 14px;
+
+  border:1px solid rgba(229,199,125,.14);
+
+  border-radius:14px;
+
+  background:rgba(8,25,17,.72);
+
+  text-align:right;
+
+}
+
+.date-label{
+
+  color:var(--muted-2);
+
+  font-size:7px;
+
+  font-weight:900;
+
+  letter-spacing:.13em;
+
+  text-transform:uppercase;
+
+}
+
+.date-value{
+
+  margin-top:4px;
+
+  color:var(--gold-200);
+
+  font-size:10px;
+
+  font-weight:900;
+
+}
+
+
+/* =========================================================
+   STAT CARDS
+========================================================= */
+
+.stats-grid{
+
+  display:grid;
+
+  grid-template-columns:
+    repeat(4,minmax(0,1fr));
+
+  gap:12px;
+
+}
+
+.stat-card{
+
+  position:relative;
+
+  overflow:hidden;
+
+  padding:17px;
+
+  min-height:130px;
+
+  border:1px solid rgba(229,199,125,.16);
+
+  border-radius:20px;
+
+  background:
+
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(229,199,125,.10),
+      transparent 35%
+    ),
+
+    linear-gradient(
+      145deg,
+      rgba(8,25,17,.97),
+      rgba(18,42,30,.94)
+    );
+
+  box-shadow:
+    0 18px 45px rgba(0,0,0,.17);
+
+}
+
+.stat-icon{
+
+  width:35px;
+  height:35px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  border-radius:11px;
+
+  color:#1b2116;
+
+  background:var(--gold-300);
+
+  font-size:14px;
+
+}
+
+.stat-title{
+
+  margin-top:13px;
+
+  color:var(--muted-2);
+
+  font-size:8px;
+  font-weight:900;
+
+  letter-spacing:.07em;
+
+  text-transform:uppercase;
+
+}
+
+.stat-value{
+
+  margin-top:4px;
+
+  color:var(--cream);
+
+  font-size:25px;
+  font-weight:1000;
+
+  letter-spacing:-.03em;
+
+}
+
+.stat-change{
+
+  margin-top:5px;
+
+  color:var(--success);
+
+  font-size:8px;
+  font-weight:800;
+
+}
+
+
+/* =========================================================
+   CONTENT GRID
+========================================================= */
+
+.content-grid{
+
+  display:grid;
+
+  grid-template-columns:
+    minmax(0,1.6fr)
+    minmax(280px,.8fr);
+
+  gap:14px;
+
+  margin-top:14px;
+
+}
+
+.panel{
+
+  min-width:0;
+
+  padding:18px;
+
+  border:1px solid rgba(229,199,125,.15);
+
+  border-radius:22px;
+
+  background:
+
+    linear-gradient(
+      145deg,
+      rgba(8,25,17,.96),
+      rgba(16,38,28,.94)
+    );
+
+  box-shadow:
+    0 18px 50px rgba(0,0,0,.18);
+
+}
+
+.panel-header{
+
+  display:flex;
+
+  align-items:center;
+  justify-content:space-between;
+
+  gap:10px;
+
+  margin-bottom:15px;
+
+}
+
+.panel-title{
+
+  color:var(--cream);
+
+  font-size:12px;
+  font-weight:950;
+
+}
+
+.panel-subtitle{
+
+  margin-top:3px;
+
+  color:var(--muted-2);
+
+  font-size:8px;
+
+}
+
+.view-all{
+
+  color:var(--gold-300);
+
+  font-size:8px;
+  font-weight:900;
+
+  text-decoration:none;
+
+}
+
+
+/* =========================================================
+   ACTIVITY TABLE
+========================================================= */
+
+.table-wrap{
+
+  width:100%;
+
+  overflow-x:auto;
+
+}
+
+.activity-table{
+
+  width:100%;
+
+  min-width:570px;
+
+  border-collapse:collapse;
+
+}
+
+.activity-table th{
+
+  padding:
+    9px 8px;
+
+  border-bottom:
+    1px solid
+    rgba(255,255,255,.08);
+
+  color:var(--muted-2);
+
+  font-size:7px;
+  font-weight:900;
+
+  letter-spacing:.08em;
+
+  text-align:left;
+
+  text-transform:uppercase;
+
+}
+
+.activity-table td{
+
+  padding:
+    12px 8px;
+
+  border-bottom:
+    1px solid
+    rgba(255,255,255,.045);
+
+  color:rgba(255,255,255,.72);
+
+  font-size:9px;
+
+}
+
+.activity-table tr:last-child td{
+
+  border-bottom:0;
+
+}
+
+.user-cell{
+
+  display:flex;
+  align-items:center;
+
+  gap:8px;
+
+}
+
+.mini-avatar{
+
+  width:28px;
+  height:28px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  border-radius:9px;
+
+  color:#1c2419;
+
+  background:var(--cream-2);
+
+  font-size:8px;
+  font-weight:1000;
+
+}
+
+.activity-name{
+
+  color:rgba(255,255,255,.84);
+
+  font-weight:900;
+
+}
+
+.activity-type{
+
+  margin-top:2px;
+
+  color:var(--muted-2);
+
+  font-size:7px;
+
+}
+
+.badge{
+
+  display:inline-flex;
+
+  align-items:center;
+
+  min-height:23px;
+
+  padding:0 8px;
+
+  border-radius:8px;
+
+  font-size:7px;
+  font-weight:900;
+
+}
+
+.badge.success{
+
+  color:#c9efd4;
+
+  background:rgba(66,143,83,.15);
+
+  border:1px solid rgba(102,193,128,.14);
+
+}
+
+.badge.warning{
+
+  color:#f7e0a2;
+
+  background:rgba(182,138,47,.14);
+
+  border:1px solid rgba(229,199,125,.14);
+
+}
+
+.badge.danger{
+
+  color:#f3baba;
+
+  background:rgba(145,45,55,.14);
+
+  border:1px solid rgba(232,139,139,.14);
+
+}
+
+.badge.info{
+
+  color:#c3ddf6;
+
+  background:rgba(61,111,154,.15);
+
+  border:1px solid rgba(141,188,232,.14);
+
+}
+
+
+/* =========================================================
+   QUICK ACTIONS
+========================================================= */
+
+.quick-actions{
+
+  display:grid;
+
+  grid-template-columns:
+    repeat(2,minmax(0,1fr));
+
+  gap:9px;
+
+}
+
+.quick-action{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:9px;
+
+  min-height:55px;
+
+  padding:9px;
+
+  border:1px solid rgba(255,255,255,.07);
+
+  border-radius:13px;
+
+  color:rgba(255,255,255,.72);
+
+  background:rgba(255,255,255,.035);
+
+  text-decoration:none;
+
+  transition:.2s ease;
+
+}
+
+.quick-action:hover{
+
+  transform:translateY(-1px);
+
+  color:var(--gold-200);
+
+  border-color:rgba(229,199,125,.18);
+
+  background:rgba(229,199,125,.055);
+
+}
+
+.quick-icon{
+
+  width:33px;
+  height:33px;
+
+  flex:0 0 33px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  border-radius:10px;
+
+  color:#1a2016;
+
+  background:var(--gold-300);
+
+}
+
+.quick-title{
+
+  font-size:8px;
+  font-weight:950;
+
+}
+
+.quick-desc{
+
+  margin-top:2px;
+
+  color:var(--muted-2);
+
+  font-size:7px;
+
+}
+
+
+/* =========================================================
+   VERIFICATION QUEUE
+========================================================= */
+
+.queue{
+
+  display:grid;
+
+  gap:8px;
+
+}
+
+.queue-item{
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:space-between;
+
+  gap:10px;
+
+  padding:11px;
+
+  border:1px solid rgba(255,255,255,.06);
+
+  border-radius:12px;
+
+  background:rgba(255,255,255,.028);
+
+}
+
+.queue-left{
+
+  display:flex;
+  align-items:center;
+
+  gap:9px;
+
+}
+
+.queue-icon{
+
+  width:32px;
+  height:32px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  border-radius:10px;
+
+  background:rgba(229,199,125,.08);
+
+  color:var(--gold-300);
+
+}
+
+.queue-name{
+
+  color:rgba(255,255,255,.78);
+
+  font-size:9px;
+  font-weight:900;
+
+}
+
+.queue-count{
+
+  margin-top:2px;
+
+  color:var(--muted-2);
+
+  font-size:7px;
+
+}
+
+.queue-number{
+
+  min-width:30px;
+
+  padding:5px 7px;
+
+  border-radius:8px;
+
+  color:#1b2117;
+
+  background:var(--gold-300);
+
+  font-size:8px;
+  font-weight:1000;
+
+  text-align:center;
+
+}
+
+
+/* =========================================================
+   SYSTEM STATUS
+========================================================= */
+
+.system-status{
+
+  display:grid;
+
+  gap:8px;
+
+}
+
+.system-row{
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:space-between;
+
+  gap:10px;
+
+  padding:10px 0;
+
+  border-bottom:1px solid rgba(255,255,255,.05);
+
+}
+
+.system-row:last-child{
+
+  border-bottom:0;
+
+}
+
+.system-name{
+
+  color:rgba(255,255,255,.68);
+
+  font-size:8px;
+  font-weight:800;
+
+}
+
+.system-state{
+
+  display:flex;
+  align-items:center;
+
+  gap:6px;
+
+  color:#bfe9c9;
+
+  font-size:7px;
+  font-weight:900;
+
+}
+
+.status-dot{
+
+  width:7px;
+  height:7px;
+
+  border-radius:50%;
+
+  background:#82c990;
+
+  box-shadow:
+    0 0 0 4px
+    rgba(130,201,144,.08);
+
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.footer{
+
+  display:flex;
+
+  align-items:center;
+  justify-content:space-between;
+
+  gap:15px;
+
+  margin-top:15px;
+
+  padding:15px 3px 4px;
+
+  color:rgba(15,28,19,.62);
+
+  font-size:8px;
+
+}
+
+.footer-links{
+
+  display:flex;
+
+  gap:15px;
+
+}
+
+.footer a{
+
+  color:rgba(15,28,19,.68);
+
+  text-decoration:none;
+
+}
+
+
+/* =========================================================
+   MOBILE SIDEBAR BUTTON
+========================================================= */
+
+.menu-btn{
+
+  display:none;
+
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:1050px){
+
+  .stats-grid{
+
+    grid-template-columns:
+      repeat(2,minmax(0,1fr));
+
+  }
+
+  .layout{
+
+    grid-template-columns:
+      205px
+      minmax(0,1fr);
+
+  }
+
+  .content-grid{
+
+    grid-template-columns:
+      1fr;
+
+  }
+
+}
+
+
+@media(max-width:760px){
+
+  .app{
+
+    padding:13px;
+
+  }
+
+  .topbar{
+
+    padding:12px;
+
+  }
+
+  .brand{
+
+    min-width:0;
+
+  }
+
+  .admin-profile{
+
+    display:none;
+
+  }
+
+  .menu-btn{
+
+    display:flex;
+
+  }
+
+  .layout{
+
+    display:block;
+
+  }
+
+  .sidebar{
+
+    position:fixed;
+
+    top:0;
+    left:-280px;
+
+    width:260px;
+    height:100vh;
+
+    z-index:100;
+
+    border-radius:0 24px 24px 0;
+
+    transition:left .25s ease;
+
+    overflow-y:auto;
+
+  }
+
+  body.sidebar-open .sidebar{
+
+    left:0;
+
+  }
+
+  .sidebar-overlay{
+
+    position:fixed;
+
+    inset:0;
+
+    z-index:90;
+
+    display:none;
+
+    background:rgba(0,0,0,.45);
+
+    backdrop-filter:blur(3px);
+
+  }
+
+  body.sidebar-open .sidebar-overlay{
+
+    display:block;
+
+  }
+
+  .main{
+
+    margin-top:16px;
+
+  }
+
+  .page-heading{
+
+    align-items:flex-start;
+
+    flex-direction:column;
+
+  }
+
+  .date-card{
+
+    text-align:left;
+
+  }
+
+  .footer{
+
+    flex-direction:column;
+
+    align-items:flex-start;
+
+  }
+
+}
+
+
+@media(max-width:520px){
+
+  .stats-grid{
+
+    grid-template-columns:
+      1fr 1fr;
+
+    gap:8px;
+
+  }
+
+  .stat-card{
+
+    padding:13px;
+
+    min-height:115px;
+
+  }
+
+  .stat-value{
+
+    font-size:21px;
+
+  }
+
+  .panel{
+
+    padding:14px;
+
+    border-radius:18px;
+
+  }
+
+  .quick-actions{
+
+    grid-template-columns:1fr;
+
+  }
+
+  h1{
+
+    font-size:34px;
+
+  }
+
+  .top-actions{
+
+    gap:5px;
+
+  }
+
+  .icon-btn{
+
+    width:36px;
+    height:36px;
+
+  }
+
+}
+
+
+@media(max-width:370px){
+
+  .stats-grid{
+
+    grid-template-columns:1fr;
+
+  }
+
+  .brand-name{
+
+    font-size:15px;
+
+  }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div class="page-decoration"></div>
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+
+<div class="app">
+
+
+<!-- =======================================================
+     TOPBAR
+======================================================== -->
+
+<header class="topbar">
+
+  <div class="brand">
+
+    <div class="brand-mark">
+      G
+    </div>
+
+    <div>
+
+      <div class="brand-name">
+        GHAR
+      </div>
+
+      <div class="brand-subtitle">
+        Central Administration
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="top-actions">
+
+    <button
+      class="icon-btn menu-btn"
+      id="menuButton"
+      type="button"
+      aria-label="Open navigation"
+    >
+      ☰
+    </button>
+
+    <button
+      class="icon-btn"
+      type="button"
+      id="notificationButton"
+      aria-label="Notifications"
+    >
+      🔔
+    </button>
+
+    <button
+      class="icon-btn"
+      type="button"
+      id="refreshButton"
+      aria-label="Refresh dashboard"
+    >
+      ↻
+    </button>
+
+
+    <div class="admin-profile">
+
+      <div class="avatar">
+        A
+      </div>
+
+      <div>
+
+        <div class="profile-name">
+          Administrator
+        </div>
+
+        <div class="profile-role">
+          Central Admin
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</header>
+
+
+<!-- =======================================================
+     MAIN LAYOUT
+======================================================== -->
+
+<div class="layout">
+
+
+<!-- =======================================================
+     SIDEBAR
+======================================================== -->
+
+<aside class="sidebar" id="sidebar">
+
+  <div class="sidebar-label">
+    Control Center
+  </div>
+
+
+  <nav class="nav">
+
+    <a
+      href="/admin/admin-dashboard.html"
+      class="active"
+    >
+      <span>⌂</span>
+      <span>Dashboard</span>
+    </a>
+
+
+    <a href="/admin/admin-user.html">
+      <span>♙</span>
+      <span>Users</span>
+    </a>
+
+
+    <a href="/admin/properties.html">
+      <span>⌂</span>
+      <span>Properties</span>
+    </a>
+
+
+    <a href="/admin/bookings.html">
+      <span>▣</span>
+      <span>Bookings</span>
+    </a>
+
+
+    <a href="/admin/enquiries.html">
+      <span>?</span>
+      <span>Enquiries</span>
+    </a>
+
+
+    <a href="/admin/payments.html">
+      <span>₹</span>
+      <span>Payments</span>
+    </a>
+
+
+    <a href="/admin/subscriptions.html">
+      <span>◈</span>
+      <span>Subscriptions</span>
+    </a>
+
+
+    <a href="/admin/documents.html">
+      <span>▤</span>
+      <span>Documents</span>
+    </a>
+
+
+    <a href="/admin/verifications.html">
+      <span>✓</span>
+      <span>Verifications</span>
+    </a>
+
+
+    <a href="/admin/offers.html">
+      <span>◇</span>
+      <span>Offers</span>
+    </a>
+
+
+    <a href="/admin/reports.html">
+      <span>▥</span>
+      <span>Reports</span>
+    </a>
+
+
+    <a href="/admin/settings.html">
+      <span>⚙</span>
+      <span>Settings</span>
+    </a>
+
+  </nav>
+
+
+  <div class="sidebar-divider"></div>
+
+
+  <button
+    class="logout-btn"
+    id="logoutButton"
+    type="button"
+  >
+    ⇥ &nbsp; Sign out
+  </button>
+
+</aside>
+
+
+<!-- =======================================================
+     MAIN
+======================================================== -->
+
+<main class="main">
+
+
+<!-- =======================================================
+     PAGE HEADER
+======================================================== -->
+
+<section class="page-heading">
+
+  <div>
+
+    <div class="eyebrow">
+      CENTRAL CONTROL CENTER
+    </div>
+
+    <h1>
+      Admin dashboard.
+    </h1>
+
+    <p class="heading-copy">
+      Monitor the GHAR platform, manage users and properties,
+      review transactions, process verification queues and
+      maintain operational control from one secure workspace.
+    </p>
+
+  </div>
+
+
+  <div class="date-card">
+
+    <div class="date-label">
+      Current session
+    </div>
+
+    <div
+      class="date-value"
+      id="currentDate"
+    >
+      Loading...
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =======================================================
+     STATISTICS
+======================================================== -->
+
+<section class="stats-grid">
+
+
+  <article class="stat-card">
+
+    <div class="stat-icon">
+      ♙
+    </div>
+
+    <div class="stat-title">
+      Total users
+    </div>
+
+    <div
+      class="stat-value"
+      id="totalUsers"
+    >
+      0
+    </div>
+
+    <div class="stat-change">
+      Platform accounts
+    </div>
+
+  </article>
+
+
+  <article class="stat-card">
+
+    <div class="stat-icon">
+      ⌂
+    </div>
+
+    <div class="stat-title">
+      Properties
+    </div>
+
+    <div
+      class="stat-value"
+      id="totalProperties"
+    >
+      0
+    </div>
+
+    <div class="stat-change">
+      Active listings
+    </div>
+
+  </article>
+
+
+  <article class="stat-card">
+
+    <div class="stat-icon">
+      ₹
+    </div>
+
+    <div class="stat-title">
+      Payments
+    </div>
+
+    <div
+      class="stat-value"
+      id="totalPayments"
+    >
+      ₹0
+    </div>
+
+    <div class="stat-change">
+      Processed value
+    </div>
+
+  </article>
+
+
+  <article class="stat-card">
+
+    <div class="stat-icon">
+      ✓
+    </div>
+
+    <div class="stat-title">
+      Pending verification
+    </div>
+
+    <div
+      class="stat-value"
+      id="pendingVerification"
+    >
+      0
+    </div>
+
+    <div class="stat-change">
+      Requires review
+    </div>
+
+  </article>
+
+
+</section>
+
+
+<!-- =======================================================
+     MAIN CONTENT
+======================================================== -->
+
+<section class="content-grid">
+
+
+<!-- =======================================================
+     RECENT ACTIVITY
+======================================================== -->
+
+<div class="panel">
+
+  <div class="panel-header">
+
+    <div>
+
+      <div class="panel-title">
+        Recent platform activity
+      </div>
+
+      <div class="panel-subtitle">
+        Latest administrative events
+      </div>
+
+    </div>
+
+    <a
+      class="view-all"
+      href="/admin/activity.html"
+    >
+      View activity →
+    </a>
+
+  </div>
+
+
+  <div class="table-wrap">
+
+    <table class="activity-table">
+
+      <thead>
+
+        <tr>
+          <th>User</th>
+          <th>Activity</th>
+          <th>Date</th>
+          <th>Status</th>
+        </tr>
+
+      </thead>
+
+      <tbody id="activityBody">
+
+        <tr>
+
+          <td>
+
+            <div class="user-cell">
+
+              <div class="mini-avatar">
+                G
+              </div>
+
+              <div>
+
+                <div class="activity-name">
+                  GHAR System
+                </div>
+
+                <div class="activity-type">
+                  System
+                </div>
+
+              </div>
+
+            </div>
+
+          </td>
+
+          <td>
+            Dashboard initialized
+          </td>
+
+          <td>
+            Just now
+          </td>
+
+          <td>
+            <span class="badge success">
+              Active
+            </span>
+          </td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>
+
+
+<!-- =======================================================
+     RIGHT COLUMN
+======================================================== -->
+
+<div style="display:grid;gap:14px;">
+
+
+<!-- QUICK ACTIONS -->
+
+<div class="panel">
+
+  <div class="panel-header">
+
+    <div>
+
+      <div class="panel-title">
+        Quick actions
+      </div>
+
+      <div class="panel-subtitle">
+        Common administration tasks
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="quick-actions">
+
+
+    <a
+      class="quick-action"
+      href="/admin/admin-user.html"
+    >
+
+      <div class="quick-icon">
+        ♙
+      </div>
+
+      <div>
+
+        <div class="quick-title">
+          Manage users
+        </div>
+
+        <div class="quick-desc">
+          Accounts & roles
+        </div>
+
+      </div>
+
+    </a>
+
+
+    <a
+      class="quick-action"
+      href="/admin/properties.html"
+    >
+
+      <div class="quick-icon">
+        ⌂
+      </div>
+
+      <div>
+
+        <div class="quick-title">
+          Properties
+        </div>
+
+        <div class="quick-desc">
+          Review listings
+        </div>
+
+      </div>
+
+    </a>
+
+
+    <a
+      class="quick-action"
+      href="/admin/verifications.html"
+    >
+
+      <div class="quick-icon">
+        ✓
+      </div>
+
+      <div>
+
+        <div class="quick-title">
+          Verify
+        </div>
+
+        <div class="quick-desc">
+          Pending checks
+        </div>
+
+      </div>
+
+    </a>
+
+
+    <a
+      class="quick-action"
+      href="/admin/payments.html"
+    >
+
+      <div class="quick-icon">
+        ₹
+      </div>
+
+      <div>
+
+        <div class="quick-title">
+          Payments
+        </div>
+
+        <div class="quick-desc">
+          Transactions
+        </div>
+
+      </div>
+
+    </a>
+
+
+  </div>
+
+</div>
+
+
+<!-- VERIFICATION QUEUE -->
+
+<div class="panel">
+
+  <div class="panel-header">
+
+    <div>
+
+      <div class="panel-title">
+        Verification queue
+      </div>
+
+      <div class="panel-subtitle">
+        Items awaiting administrator review
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="queue">
+
+
+    <div class="queue-item">
+
+      <div class="queue-left">
+
+        <div class="queue-icon">
+          ♙
+        </div>
+
+        <div>
+
+          <div class="queue-name">
+            Buyer verification
+          </div>
+
+          <div class="queue-count">
+            Identity & account
+          </div>
+
+        </div>
+
+      </div>
+
+      <div
+        class="queue-number"
+        id="buyerQueue"
+      >
+        0
+      </div>
+
+    </div>
+
+
+    <div class="queue-item">
+
+      <div class="queue-left">
+
+        <div class="queue-icon">
+          ◇
+        </div>
+
+        <div>
+
+          <div class="queue-name">
+            Seller verification
+          </div>
+
+          <div class="queue-count">
+            Seller credentials
+          </div>
+
+        </div>
+
+      </div>
+
+      <div
+        class="queue-number"
+        id="sellerQueue"
+      >
+        0
+      </div>
+
+    </div>
+
+
+    <div class="queue-item">
+
+      <div class="queue-left">
+
+        <div class="queue-icon">
+          ▤
+        </div>
+
+        <div>
+
+          <div class="queue-name">
+            Document verification
+          </div>
+
+          <div class="queue-count">
+            Uploaded documents
+          </div>
+
+        </div>
+
+      </div>
+
+      <div
+        class="queue-number"
+        id="documentQueue"
+      >
+        0
+      </div>
+
+    </div>
+
+
+    <div class="queue-item">
+
+      <div class="queue-left">
+
+        <div class="queue-icon">
+          ⌂
+        </div>
+
+        <div>
+
+          <div class="queue-name">
+            Property verification
+          </div>
+
+          <div class="queue-count">
+            Property submissions
+          </div>
+
+        </div>
+
+      </div>
+
+      <div
+        class="queue-number"
+        id="propertyQueue"
+      >
+        0
+      </div>
+
+    </div>
+
+
+  </div>
+
+</div>
+
+
+</div>
+
+</section>
+
+
+<!-- =======================================================
+     SYSTEM STATUS
+======================================================== -->
+
+<section
+  class="panel"
+  style="margin-top:14px;"
+>
+
+  <div class="panel-header">
+
+    <div>
+
+      <div class="panel-title">
+        System status
+      </div>
+
+      <div class="panel-subtitle">
+        Core GHAR services
+      </div>
+
+    </div>
+
+    <span class="badge success">
+      Operational
+    </span>
+
+  </div>
+
+
+  <div class="system-status">
+
+
+    <div class="system-row">
+
+      <div class="system-name">
+        GHAR API
+      </div>
+
+      <div class="system-state">
+
+        <span class="status-dot"></span>
+
+        Operational
+
+      </div>
+
+    </div>
+
+
+    <div class="system-row">
+
+      <div class="system-name">
+        Authentication service
+      </div>
+
+      <div class="system-state">
+
+        <span class="status-dot"></span>
+
+        Operational
+
+      </div>
+
+    </div>
+
+
+    <div class="system-row">
+
+      <div class="system-name">
+        Database
+      </div>
+
+      <div class="system-state">
+
+        <span class="status-dot"></span>
+
+        Operational
+
+      </div>
+
+    </div>
+
+
+    <div class="system-row">
+
+      <div class="system-name">
+        Payment service
+      </div>
+
+      <div class="system-state">
+
+        <span class="status-dot"></span>
+
+        Operational
+
+      </div>
+
+    </div>
+
+
+    <div class="system-row">
+
+      <div class="system-name">
+        Document service
+      </div>
+
+      <div class="system-state">
+
+        <span class="status-dot"></span>
+
+        Operational
+
+      </div>
+
+    </div>
+
+
+  </div>
+
+</section>
+
+
+<!-- =======================================================
+     FOOTER
+======================================================== -->
+
+<footer class="footer">
+
+  <div>
+    GHAR · Central Administration · Secure Control Center
+  </div>
+
+  <div class="footer-links">
+
+    <a href="/admin/settings.html">
+      Settings
+    </a>
+
+    <a href="/contact.html">
+      Support
+    </a>
+
+    <a href="/admin/admin-auth.html">
+      Security
+    </a>
+
+  </div>
+
+</footer>
+
+
+</main>
+
+</div>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   GHAR ADMIN DASHBOARD JAVASCRIPT
+========================================================= */
+
+(() => {
+
+"use strict";
+
+
+/* =========================================================
+   CONFIGURATION
+========================================================= */
+
+const API_BASE =
+  window.GHAR_API_BASE ||
+  window.API_BASE ||
+  "/api";
+
+
+/* =========================================================
+   ELEMENTS
+========================================================= */
+
+const menuButton =
+  document.getElementById(
+    "menuButton"
+  );
+
+const sidebar =
+  document.getElementById(
+    "sidebar"
+  );
+
+const sidebarOverlay =
+  document.getElementById(
+    "sidebarOverlay"
+  );
+
+const refreshButton =
+  document.getElementById(
+    "refreshButton"
+  );
+
+const notificationButton =
+  document.getElementById(
+    "notificationButton"
+  );
+
+const logoutButton =
+  document.getElementById(
+    "logoutButton"
+  );
+
+
+/* =========================================================
+   MOBILE SIDEBAR
+========================================================= */
+
+function closeSidebar(){
+
+  document.body.classList.remove(
+    "sidebar-open"
+  );
+
+}
+
+
+menuButton?.addEventListener(
+  "click",
+  () => {
+
+    document.body.classList.toggle(
+      "sidebar-open"
+    );
+
+  }
+);
+
+
+sidebarOverlay?.addEventListener(
+  "click",
+  closeSidebar
+);
+
+
+/* Close mobile menu after navigation */
+
+sidebar?.querySelectorAll("a")
+  .forEach(link => {
+
+    link.addEventListener(
+      "click",
+      closeSidebar
+    );
+
+  });
+
+
+/* =========================================================
+   CURRENT DATE
+========================================================= */
+
+function updateDate(){
+
+  const element =
+    document.getElementById(
+      "currentDate"
+    );
+
+  if(!element){
+    return;
+  }
+
+  const now =
+    new Date();
+
+  element.textContent =
+    now.toLocaleDateString(
+      undefined,
+      {
+        weekday:"short",
+        day:"numeric",
+        month:"short",
+        year:"numeric"
+      }
+    );
+
+}
+
+
+updateDate();
+
+
+/* =========================================================
+   NUMBER FORMATTERS
+========================================================= */
+
+function formatNumber(
+  value
+){
+
+  const number =
+    Number(value) || 0;
+
+  return number.toLocaleString(
+    "en-IN"
+  );
+
+}
+
+
+function formatCurrency(
+  value
+){
+
+  const number =
+    Number(value) || 0;
+
+  return "₹" +
+    number.toLocaleString(
+      "en-IN",
+      {
+        maximumFractionDigits:0
+      }
+    );
+
+}
+
+
+/* =========================================================
+   DASHBOARD ELEMENT UPDATES
+========================================================= */
+
+function setDashboardStats(
+  data
+){
+
+  const users =
+    data.users ??
+    data.totalUsers ??
+    data.total_users ??
+    0;
+
+  const properties =
+    data.properties ??
+    data.totalProperties ??
+    data.total_properties ??
+    0;
+
+  const payments =
+    data.payments ??
+    data.totalPayments ??
+    data.total_payments ??
+    0;
+
+  const verification =
+    data.pendingVerification ??
+    data.pending_verification ??
+    data.verificationPending ??
+    0;
+
+
+  document.getElementById(
+    "totalUsers"
+  ).textContent =
+    formatNumber(users);
+
+
+  document.getElementById(
+    "totalProperties"
+  ).textContent =
+    formatNumber(properties);
+
+
+  document.getElementById(
+    "totalPayments"
+  ).textContent =
+    formatCurrency(payments);
+
+
+  document.getElementById(
+    "pendingVerification"
+  ).textContent =
+    formatNumber(verification);
+
+
+  document.getElementById(
+    "buyerQueue"
+  ).textContent =
+    formatNumber(
+      data.buyerVerification ??
+      data.buyer_verification ??
+      0
+    );
+
+
+  document.getElementById(
+    "sellerQueue"
+  ).textContent =
+    formatNumber(
+      data.sellerVerification ??
+      data.seller_verification ??
+      0
+    );
+
+
+  document.getElementById(
+    "documentQueue"
+  ).textContent =
+    formatNumber(
+      data.documentVerification ??
+      data.document_verification ??
+      0
+    );
+
+
+  document.getElementById(
+    "propertyQueue"
+  ).textContent =
+    formatNumber(
+      data.propertyVerification ??
+      data.property_verification ??
+      0
+    );
+
+}
+
+
+/* =========================================================
+   LOAD DASHBOARD
+========================================================= */
+
+async function loadDashboard(){
+
+  try{
+
+    const response =
+      await fetch(
+        API_BASE +
+        "/admin/dashboard",
+        {
+          method:"GET",
+
+          credentials:"include",
+
+          headers:{
+            "Accept":
+              "application/json"
+          }
+        }
+      );
+
+
+    if(!response.ok){
+
+      throw new Error(
+        "Dashboard API unavailable"
+      );
+
+    }
+
+
+    const data =
+      await response.json();
+
+
+    setDashboardStats(
+      data.data ||
+      data
+    );
+
+
+    if(
+      Array.isArray(
+        data.activities
+      )
+    ){
+
+      renderActivities(
+        data.activities
+      );
+
+    }
+
+
+  }catch(error){
+
+    /*
+     * The dashboard intentionally keeps
+     * its visual shell functional even when
+     * the backend is not connected yet.
+     */
+
+    console.warn(
+      "GHAR dashboard:",
+      error.message
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   RENDER ACTIVITY TABLE
+========================================================= */
+
+function renderActivities(
+  activities
+){
+
+  const body =
+    document.getElementById(
+      "activityBody"
+    );
+
+
+  if(!body){
+    return;
+  }
+
+
+  if(!activities.length){
+
+    body.innerHTML = `
+
+      <tr>
+
+        <td
+          colspan="4"
+          style="
+            text-align:center;
+            color:rgba(255,255,255,.42);
+            padding:25px;
+          "
+        >
+          No recent activity found.
+        </td>
+
+      </tr>
+
+    `;
+
+    return;
+
+  }
+
+
+  body.innerHTML =
+    activities
+      .slice(0,10)
+      .map(
+        activity => {
+
+          const name =
+            activity.name ||
+            activity.userName ||
+            "GHAR User";
+
+          const type =
+            activity.type ||
+            "User";
+
+          const action =
+            activity.action ||
+            activity.activity ||
+            "Platform activity";
+
+          const date =
+            activity.date ||
+            activity.createdAt ||
+            "Recently";
+
+          const status =
+            activity.status ||
+            "Active";
+
+
+          let badgeClass =
+            "info";
+
+
+          const normalized =
+            String(status)
+              .toLowerCase();
+
+
+          if(
+            normalized.includes(
+              "success"
+            ) ||
+            normalized.includes(
+              "active"
+            ) ||
+            normalized.includes(
+              "approved"
+            )
+          ){
+
+            badgeClass =
+              "success";
+
+          }else if(
+            normalized.includes(
+              "pending"
+            ) ||
+            normalized.includes(
+              "review"
+            )
+          ){
+
+            badgeClass =
+              "warning";
+
+          }else if(
+            normalized.includes(
+              "failed"
+            ) ||
+            normalized.includes(
+              "rejected"
+            )
+          ){
+
+            badgeClass =
+              "danger";
+
+          }
+
+
+          return `
+
+            <tr>
+
+              <td>
+
+                <div class="user-cell">
+
+                  <div class="mini-avatar">
+                    ${escapeHTML(
+                      name
+                        .charAt(0)
+                        .toUpperCase()
+                    )}
+                  </div>
+
+                  <div>
+
+                    <div class="activity-name">
+                      ${escapeHTML(name)}
+                    </div>
+
+                    <div class="activity-type">
+                      ${escapeHTML(type)}
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </td>
+
+              <td>
+                ${escapeHTML(action)}
+              </td>
+
+              <td>
+                ${escapeHTML(
+                  String(date)
+                )}
+              </td>
+
+              <td>
+
+                <span class="badge ${badgeClass}">
+                  ${escapeHTML(
+                    status
+                  )}
+                </span>
+
+              </td>
+
+            </tr>
+
+          `;
+
+        }
+      )
+      .join("");
+
+}
+
+
+/* =========================================================
+   HTML ESCAPE
+========================================================= */
+
+function escapeHTML(
+  value
+){
+
+  return String(value)
+    .replace(
+      /&/g,
+      "&amp;"
+    )
+    .replace(
+      /</g,
+      "&lt;"
+    )
+    .replace(
+      />/g,
+      "&gt;"
+    )
+    .replace(
+      /"/g,
+      "&quot;"
+    )
+    .replace(
+      /'/g,
+      "&#039;"
+    );
+
+}
+
+
+/* =========================================================
+   REFRESH
+========================================================= */
+
+refreshButton?.addEventListener(
+  "click",
+  async () => {
+
+    refreshButton.style
+      .transform =
+      "rotate(360deg)";
+
+    refreshButton.style
+      .transition =
+      "transform .5s ease";
+
+
+    await loadDashboard();
+
+
+    setTimeout(
+      () => {
+
+        refreshButton.style
+          .transform =
+          "";
+
+      },
+      500
+    );
+
+  }
+);
+
+
+/* =========================================================
+   NOTIFICATIONS
+========================================================= */
+
+notificationButton?.addEventListener(
+  "click",
+  () => {
+
+    window.location.href =
+      "/admin/notifications.html";
+
+  }
+);
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+logoutButton?.addEventListener(
+  "click",
+  async () => {
+
+    logoutButton.disabled =
+      true;
+
+    logoutButton.textContent =
+      "Signing out...";
+
+
+    try{
+
+      await fetch(
+        API_BASE +
+        "/auth/admin/logout",
+        {
+          method:"POST",
+          credentials:"include",
+
+          headers:{
+            "Accept":
+              "application/json"
+          }
+        }
+      );
+
+    }catch(error){
+
+      console.warn(
+        "Logout request:",
+        error
+      );
+
+    }finally{
+
+      /*
+       * Redirect regardless of backend
+       * response so the administrator
+       * returns to the authentication page.
+       */
+
+      window.location.href =
+        "/admin/admin-auth.html";
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   INITIALIZE
+========================================================= */
+
+loadDashboard();
+
+
+})();
+
+</script>
+
+</body>
+</html>

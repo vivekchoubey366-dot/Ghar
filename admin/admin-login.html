@@ -1,1983 +1,543 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>GHAR Central Admin -- Secure Access</title>
+<meta name="description" content="GHAR Administration -- Administrator login activity and security monitoring.">
+<meta name="theme-color" content="#0b1c14">
 
-<meta
-  name="description"
-  content="GHAR Central Administration secure administrator authentication gateway."
->
-
-<meta name="theme-color" content="#0b1613">
+<title>GHAR · Login Activity</title>
 
 <style>
-/* =========================================================
-   GHAR CENTRAL ADMIN LOGIN
-   Secure Gateway UI
-   ========================================================= */
+*{box-sizing:border-box}
 
 :root{
-  --bg:#07100d;
-  --bg2:#0d1915;
-  --panel:#101e19;
-  --panel2:#14251f;
-  --panel3:#182b24;
-
-  --gold:#d7b56d;
-  --gold2:#f0d79b;
-  --cream:#f7f1e4;
-  --muted:#aab8b0;
-
-  --green:#7fc49c;
-  --green2:#4e9671;
-
-  --red:#ef8b83;
-  --orange:#e5b36b;
-
-  --border:rgba(215,181,109,.18);
-  --border2:rgba(255,255,255,.08);
-
-  --shadow:0 30px 100px rgba(0,0,0,.45);
-  --radius:24px;
-}
-
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-}
-
-html{
-  min-height:100%;
-  background:var(--bg);
+  --g950:#06120d;
+  --g900:#0b1c14;
+  --g850:#10261c;
+  --g800:#162d25;
+  --gold:#e5c77d;
+  --cream:#fffaf0;
+  --muted:rgba(255,255,255,.62);
+  --muted2:rgba(255,255,255,.4);
+  --border:rgba(229,199,125,.18);
+  --white:rgba(255,255,255,.09);
+  --success:#83d59b;
+  --danger:#e88b8b;
+  --warning:#f0c66e;
 }
 
 body{
+  margin:0;
   min-height:100vh;
-  font-family:
-    Inter,
-    ui-sans-serif,
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    sans-serif;
   color:var(--cream);
+  font-family:Inter,system-ui,sans-serif;
   background:
-    radial-gradient(circle at 10% 10%,rgba(215,181,109,.09),transparent 28%),
-    radial-gradient(circle at 90% 20%,rgba(80,160,120,.08),transparent 30%),
-    radial-gradient(circle at 50% 100%,rgba(215,181,109,.06),transparent 35%),
-    linear-gradient(135deg,#06100c,#0b1713 45%,#07100d);
-  overflow-x:hidden;
+    radial-gradient(circle at 10% 0%,rgba(229,199,125,.14),transparent 27%),
+    radial-gradient(circle at 100% 10%,rgba(35,82,61,.3),transparent 30%),
+    linear-gradient(135deg,#07130e,#0d2118,#142d22);
 }
 
-/* =========================================================
-   BACKGROUND
-   ========================================================= */
+.app{
+  min-height:100vh;
+  display:grid;
+  grid-template-columns:250px 1fr;
+}
 
-.background{
+.sidebar{
   position:fixed;
-  inset:0;
-  pointer-events:none;
-  overflow:hidden;
-  z-index:0;
-}
-
-.orb{
-  position:absolute;
-  border-radius:50%;
-  filter:blur(90px);
-  opacity:.18;
-}
-
-.orb.one{
-  width:320px;
-  height:320px;
-  background:#b89043;
-  top:-100px;
-  left:-80px;
-}
-
-.orb.two{
-  width:400px;
-  height:400px;
-  background:#3f8965;
-  right:-160px;
-  top:25%;
-}
-
-.orb.three{
-  width:300px;
-  height:300px;
-  background:#8a7040;
-  left:40%;
-  bottom:-170px;
-}
-
-.grid{
-  position:absolute;
-  inset:0;
-  opacity:.035;
-  background-image:
-    linear-gradient(rgba(255,255,255,.5) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(255,255,255,.5) 1px,transparent 1px);
-  background-size:50px 50px;
-}
-
-/* =========================================================
-   TOP BRAND
-   ========================================================= */
-
-.topbar{
-  position:relative;
-  z-index:2;
-
-  width:100%;
-  padding:28px 34px;
-
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
+  inset:0 auto 0 0;
+  width:250px;
+  padding:25px 18px;
+  border-right:1px solid var(--white);
+  background:rgba(5,16,11,.88);
+  backdrop-filter:blur(20px);
 }
 
 .brand{
   display:flex;
+  gap:12px;
   align-items:center;
-  gap:13px;
-  text-decoration:none;
-  color:var(--cream);
+  margin-bottom:32px;
 }
 
 .brand-mark{
   width:46px;
   height:46px;
-  border-radius:15px;
-
   display:grid;
   place-items:center;
-
-  border:1px solid rgba(215,181,109,.4);
-
-  background:
-    linear-gradient(
-      145deg,
-      rgba(215,181,109,.24),
-      rgba(215,181,109,.05)
-    );
-
-  box-shadow:
-    inset 0 1px rgba(255,255,255,.1),
-    0 12px 30px rgba(0,0,0,.25);
-}
-
-.brand-mark span{
-  font-family:Georgia,serif;
-  font-size:22px;
-  font-weight:700;
-  color:var(--gold2);
+  border-radius:14px;
+  color:#182015;
+  font-weight:1000;
+  font-size:20px;
+  background:linear-gradient(135deg,#f0d99b,#b98b3d);
 }
 
 .brand-name{
-  display:flex;
-  flex-direction:column;
+  font-weight:1000;
+  letter-spacing:.15em;
 }
 
-.brand-name strong{
-  font-family:Georgia,serif;
-  letter-spacing:.18em;
-  font-size:17px;
-}
-
-.brand-name small{
-  margin-top:2px;
-  color:var(--muted);
-  font-size:10px;
-  letter-spacing:.16em;
+.brand-sub{
+  margin-top:3px;
+  color:var(--muted2);
+  font-size:8px;
+  letter-spacing:.13em;
   text-transform:uppercase;
 }
 
-.security-badge{
+.nav-title{
+  margin:18px 8px 8px;
+  color:var(--muted2);
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:.15em;
+}
+
+.nav a{
   display:flex;
   align-items:center;
-  gap:8px;
-
-  padding:9px 13px;
-
-  border-radius:999px;
-  border:1px solid rgba(127,196,156,.2);
-
-  background:rgba(127,196,156,.05);
-
-  color:#b7ddc4;
+  min-height:43px;
+  margin:4px 0;
+  padding:0 12px;
+  border:1px solid transparent;
+  border-radius:12px;
+  color:rgba(255,255,255,.57);
+  text-decoration:none;
   font-size:11px;
-  letter-spacing:.08em;
-  text-transform:uppercase;
+  font-weight:750;
 }
 
-.security-dot{
-  width:7px;
-  height:7px;
-  border-radius:50%;
-  background:#7fc49c;
-  box-shadow:0 0 14px #7fc49c;
+.nav a:hover,
+.nav a.active{
+  color:var(--cream);
+  border-color:var(--border);
+  background:rgba(229,199,125,.08);
 }
-
-/* =========================================================
-   MAIN
-   ========================================================= */
 
 .main{
-  position:relative;
-  z-index:1;
-
-  min-height:
-    calc(100vh - 100px);
-
-  display:grid;
-  place-items:center;
-
-  padding:30px 20px 70px;
+  grid-column:2;
+  min-width:0;
 }
 
-.shell{
-  width:min(1120px,100%);
-
-  display:grid;
-  grid-template-columns:
-    minmax(0,1.08fr)
-    minmax(390px,.92fr);
-
-  gap:40px;
+.topbar{
+  position:sticky;
+  top:0;
+  z-index:5;
+  min-height:76px;
+  display:flex;
   align-items:center;
+  justify-content:space-between;
+  padding:15px 30px;
+  border-bottom:1px solid var(--white);
+  background:rgba(7,19,14,.82);
+  backdrop-filter:blur(18px);
 }
 
-/* =========================================================
-   LEFT INTRO
-   ========================================================= */
+.title{font-size:20px;font-weight:950}
 
-.intro{
-  padding:20px 10px 20px 20px;
+.sub{
+  margin-top:4px;
+  color:var(--muted2);
+  font-size:9px;
+}
+
+.content{
+  max-width:1600px;
+  margin:auto;
+  padding:30px;
 }
 
 .eyebrow{
-  display:inline-flex;
-  align-items:center;
-  gap:9px;
-
-  padding:8px 12px;
-
-  border:1px solid var(--border);
-  border-radius:999px;
-
-  color:var(--gold2);
-
-  background:rgba(215,181,109,.055);
-
-  font-size:10px;
-  font-weight:700;
-  letter-spacing:.16em;
-  text-transform:uppercase;
+  color:var(--gold);
+  font-size:9px;
+  font-weight:950;
+  letter-spacing:.17em;
 }
 
-.eyebrow i{
-  width:6px;
-  height:6px;
-  border-radius:50%;
-  background:var(--gold);
-  box-shadow:0 0 12px rgba(215,181,109,.8);
-}
-
-.intro h1{
-  margin-top:25px;
-
-  max-width:680px;
-
-  font-family:Georgia,"Times New Roman",serif;
-
-  font-size:
-    clamp(45px,6vw,78px);
-
-  line-height:.96;
-  font-weight:500;
+h1{
+  margin:7px 0;
+  font-size:43px;
   letter-spacing:-.045em;
 }
 
-.intro h1 em{
-  color:var(--gold2);
-  font-style:normal;
-}
-
-.intro p{
-  max-width:590px;
-  margin-top:25px;
-
+.description{
+  max-width:720px;
   color:var(--muted);
-
-  font-size:15px;
-  line-height:1.75;
+  font-size:12px;
+  line-height:1.7;
 }
 
-.capabilities{
-  margin-top:34px;
-
+.stats{
   display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:11px;
-  max-width:600px;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+  margin:23px 0;
 }
 
-.capability{
+.stat{
+  padding:18px;
+  border:1px solid var(--white);
+  border-radius:18px;
+  background:rgba(255,255,255,.035);
+}
+
+.label{
+  color:var(--muted2);
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:.1em;
+}
+
+.value{
+  margin-top:7px;
+  font-size:27px;
+  font-weight:950;
+}
+
+.meta{
+  margin-top:4px;
+  color:var(--muted);
+  font-size:9px;
+}
+
+.panel{
+  overflow:hidden;
+  border:1px solid var(--white);
+  border-radius:24px;
+  background:rgba(255,255,255,.035);
+}
+
+.toolbar{
   display:flex;
-  align-items:center;
   gap:10px;
-
-  padding:13px;
-
-  border:1px solid var(--border2);
-  border-radius:15px;
-
-  background:rgba(255,255,255,.025);
-
-  color:#c9d2cd;
-
-  font-size:12px;
+  flex-wrap:wrap;
+  padding:17px;
+  border-bottom:1px solid var(--white);
 }
 
-.capability-icon{
-  width:29px;
-  height:29px;
-  border-radius:9px;
-
-  display:grid;
-  place-items:center;
-
-  background:rgba(215,181,109,.09);
-  color:var(--gold2);
-
-  font-size:13px;
-}
-
-/* =========================================================
-   LOGIN CARD
-   ========================================================= */
-
-.login-card{
-  position:relative;
-
-  padding:30px;
-
-  border:1px solid var(--border);
-
-  border-radius:var(--radius);
-
-  background:
-    linear-gradient(
-      145deg,
-      rgba(24,43,36,.94),
-      rgba(11,24,19,.96)
-    );
-
-  box-shadow:var(--shadow);
-
-  backdrop-filter:blur(24px);
-}
-
-.login-card::before{
-  content:"";
-
-  position:absolute;
-  inset:1px;
-
-  border-radius:23px;
-
-  pointer-events:none;
-
-  background:
-    linear-gradient(
-      125deg,
-      rgba(255,255,255,.05),
-      transparent 25%
-    );
-}
-
-.login-header{
-  position:relative;
-}
-
-.login-header h2{
-  font-family:Georgia,serif;
-  font-size:30px;
-  font-weight:500;
-}
-
-.login-header p{
-  margin-top:9px;
-  color:var(--muted);
-  font-size:12px;
-  line-height:1.6;
-}
-
-/* =========================================================
-   FORM
-   ========================================================= */
-
-.form{
-  position:relative;
-  margin-top:28px;
-}
-
-.field{
-  margin-bottom:17px;
-}
-
-.field label{
-  display:block;
-  margin-bottom:8px;
-
-  color:#cbd4cf;
-
-  font-size:11px;
-  font-weight:700;
-  letter-spacing:.06em;
-  text-transform:uppercase;
-}
-
-.input-wrap{
-  position:relative;
-}
-
-.input{
-  width:100%;
-
-  min-height:51px;
-
-  border:
-    1px solid
-    rgba(255,255,255,.1);
-
-  border-radius:14px;
-
+input,select{
+  min-height:43px;
+  border:1px solid var(--white);
+  border-radius:11px;
   outline:none;
-
-  background:
-    rgba(0,0,0,.22);
-
   color:var(--cream);
-
-  padding:0 15px;
-
-  font-size:14px;
-
-  transition:
-    border-color .2s,
-    box-shadow .2s,
-    background .2s;
+  background:#10231a;
 }
 
-.input::placeholder{
-  color:#718079;
+input{
+  flex:1;
+  min-width:220px;
+  padding:0 13px;
 }
 
-.input:hover{
-  border-color:rgba(215,181,109,.25);
+select{
+  padding:0 12px;
 }
 
-.input:focus{
-  border-color:rgba(215,181,109,.65);
+.table-wrap{overflow-x:auto}
 
-  background:rgba(0,0,0,.3);
-
-  box-shadow:
-    0 0 0 4px rgba(215,181,109,.07);
-}
-
-.password-input{
-  padding-right:48px;
-}
-
-.toggle-password{
-  position:absolute;
-
-  right:9px;
-  top:50%;
-
-  transform:translateY(-50%);
-
-  width:35px;
-  height:35px;
-
-  border:0;
-  border-radius:10px;
-
-  background:transparent;
-
-  color:#83918a;
-
-  cursor:pointer;
-
-  font-size:14px;
-}
-
-.toggle-password:hover{
-  background:rgba(255,255,255,.06);
-  color:var(--gold2);
-}
-
-/* =========================================================
-   OPTIONS
-   ========================================================= */
-
-.options{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:15px;
-
-  margin:4px 0 20px;
-}
-
-.check{
-  display:flex;
-  align-items:center;
-  gap:8px;
-
-  color:#9daaa4;
-  font-size:11px;
-
-  cursor:pointer;
-}
-
-.check input{
-  accent-color:var(--gold);
-}
-
-.forgot{
-  border:0;
-  background:none;
-
-  color:var(--gold2);
-
-  font-size:11px;
-
-  cursor:pointer;
-}
-
-.forgot:hover{
-  text-decoration:underline;
-}
-
-/* =========================================================
-   BUTTON
-   ========================================================= */
-
-.login-button{
-  position:relative;
-
+table{
   width:100%;
-  min-height:53px;
-
-  border:0;
-  border-radius:15px;
-
-  background:
-    linear-gradient(
-      135deg,
-      #f0d79b,
-      #c69f51
-    );
-
-  color:#182017;
-
-  font-size:13px;
-  font-weight:800;
-  letter-spacing:.06em;
-  text-transform:uppercase;
-
-  cursor:pointer;
-
-  box-shadow:
-    0 13px 28px rgba(0,0,0,.28),
-    inset 0 1px rgba(255,255,255,.6);
-
-  transition:
-    transform .18s,
-    filter .18s,
-    box-shadow .18s;
+  min-width:950px;
+  border-collapse:collapse;
 }
 
-.login-button:hover{
-  transform:translateY(-2px);
-  filter:brightness(1.05);
-
-  box-shadow:
-    0 17px 35px rgba(0,0,0,.35),
-    0 0 30px rgba(215,181,109,.1);
+th{
+  padding:14px 17px;
+  color:var(--muted2);
+  background:rgba(0,0,0,.13);
+  font-size:8px;
+  text-align:left;
+  letter-spacing:.12em;
 }
 
-.login-button:active{
-  transform:translateY(0);
-}
-
-.login-button:disabled{
-  cursor:not-allowed;
-  opacity:.6;
-  transform:none;
-}
-
-.button-content{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:10px;
-}
-
-.spinner{
-  width:16px;
-  height:16px;
-
-  border:2px solid rgba(0,0,0,.2);
-  border-top-color:#172017;
-
-  border-radius:50%;
-
-  animation:spin .7s linear infinite;
-}
-
-@keyframes spin{
-  to{
-    transform:rotate(360deg);
-  }
-}
-
-/* =========================================================
-   MFA
-   ========================================================= */
-
-.mfa-box{
-  display:none;
-
-  margin-bottom:17px;
-
-  padding:14px;
-
-  border:
-    1px solid
-    rgba(215,181,109,.15);
-
-  border-radius:15px;
-
-  background:
-    rgba(215,181,109,.035);
-}
-
-.mfa-box.show{
-  display:block;
-}
-
-.mfa-title{
-  font-size:11px;
-  font-weight:800;
-  color:var(--gold2);
-}
-
-.mfa-text{
-  margin-top:5px;
-
+td{
+  padding:16px 17px;
+  border-top:1px solid rgba(255,255,255,.055);
+  color:rgba(255,255,255,.76);
   font-size:10px;
-  line-height:1.5;
-
-  color:#87958e;
 }
 
-/* =========================================================
-   SECURITY NOTE
-   ========================================================= */
-
-.security-note{
-  position:relative;
-
-  margin-top:18px;
-
-  padding:12px 13px;
-
-  display:flex;
-  gap:10px;
-
-  border:
-    1px solid
-    rgba(127,196,156,.12);
-
-  border-radius:13px;
-
-  background:
-    rgba(127,196,156,.035);
+.device{
+  color:var(--cream);
+  font-weight:850;
 }
 
-.security-note-icon{
-  color:#8bc8a3;
-  font-size:13px;
+.small{
+  margin-top:3px;
+  color:var(--muted2);
+  font-size:8px;
 }
 
-.security-note p{
-  color:#83938b;
-  font-size:9.5px;
-  line-height:1.55;
+.badge{
+  display:inline-flex;
+  padding:5px 8px;
+  border-radius:8px;
+  font-size:8px;
+  font-weight:900;
 }
 
-/* =========================================================
-   STATUS
-   ========================================================= */
-
-.status{
-  display:none;
-
-  margin-bottom:16px;
-
-  padding:12px 13px;
-
-  border-radius:13px;
-
-  font-size:11px;
-  line-height:1.5;
+.success{
+  color:#a6e7b6;
+  background:rgba(131,213,155,.1);
 }
 
-.status.show{
-  display:block;
+.failed{
+  color:#ffb0b0;
+  background:rgba(232,139,139,.1);
 }
 
-.status.error{
-  color:#ffc0bb;
-  background:rgba(239,139,131,.08);
-  border:1px solid rgba(239,139,131,.2);
+.suspicious{
+  color:#f5d68e;
+  background:rgba(240,198,110,.1);
 }
 
-.status.success{
-  color:#b9e3c7;
-  background:rgba(127,196,156,.08);
-  border:1px solid rgba(127,196,156,.2);
+@media(max-width:1000px){
+  .stats{grid-template-columns:repeat(2,1fr)}
 }
 
-/* =========================================================
-   FOOTER
-   ========================================================= */
-
-.card-footer{
-  position:relative;
-
-  margin-top:22px;
-  padding-top:18px;
-
-  border-top:
-    1px solid
-    rgba(255,255,255,.06);
-
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:15px;
+@media(max-width:760px){
+  .app{display:block}
+  .sidebar{
+    position:relative;
+    width:100%;
+    height:auto;
+    padding:13px;
+  }
+  .nav{
+    display:flex;
+    gap:5px;
+    overflow:auto;
+  }
+  .nav-title{display:none}
+  .nav a{white-space:nowrap}
+  .topbar{padding:14px 18px}
+  .content{padding:20px 14px}
 }
 
-.card-footer span{
-  color:#68766f;
-  font-size:9px;
-  line-height:1.5;
-}
-
-.card-footer strong{
-  color:#a6b2ac;
-}
-
-.version{
-  color:#6e7d75;
-  font-size:9px;
-}
-
-/* =========================================================
-   BOTTOM
-   ========================================================= */
-
-.bottom{
-  position:relative;
-  z-index:1;
-
-  width:min(1120px,100%);
-
-  margin:0 auto;
-
-  padding:0 20px 22px;
-
-  display:flex;
-  justify-content:space-between;
-  gap:20px;
-
-  color:#53625b;
-
-  font-size:9px;
-}
-
-.bottom-links{
-  display:flex;
-  gap:15px;
-}
-
-.bottom-links button{
-  border:0;
-  background:none;
-
-  color:#718078;
-
-  cursor:pointer;
-
-  font-size:9px;
-}
-
-.bottom-links button:hover{
-  color:var(--gold2);
-}
-
-/* =========================================================
-   RESPONSIVE
-   ========================================================= */
-
-@media (max-width:900px){
-
-  .shell{
-    grid-template-columns:1fr;
-    max-width:550px;
-  }
-
-  .intro{
-    text-align:center;
-    padding:10px;
-  }
-
-  .intro h1{
-    margin-left:auto;
-    margin-right:auto;
-  }
-
-  .intro p{
-    margin-left:auto;
-    margin-right:auto;
-  }
-
-  .capabilities{
-    margin-left:auto;
-    margin-right:auto;
-    text-align:left;
-  }
-
-  .security-badge{
-    display:none;
-  }
-}
-
-@media (max-width:600px){
-
-  .topbar{
-    padding:20px;
-  }
-
-  .main{
-    padding:
-      10px
-      15px
-      45px;
-  }
-
-  .intro h1{
-    font-size:48px;
-  }
-
-  .intro p{
-    font-size:13px;
-  }
-
-  .capabilities{
-    grid-template-columns:1fr;
-  }
-
-  .login-card{
-    padding:22px;
-    border-radius:20px;
-  }
-
-  .login-header h2{
-    font-size:26px;
-  }
-
-  .card-footer{
-    flex-direction:column;
-    align-items:flex-start;
-  }
-
-  .bottom{
-    flex-direction:column;
-    align-items:center;
-    text-align:center;
-  }
-
-  .bottom-links{
-    justify-content:center;
-  }
-}
-
-@media (max-width:390px){
-
-  .brand-name small{
-    display:none;
-  }
-
-  .intro h1{
-    font-size:41px;
-  }
-
-  .login-card{
-    padding:18px;
-  }
-}
-
-/* =========================================================
-   ACCESSIBILITY
-   ========================================================= */
-
-button:focus-visible,
-input:focus-visible{
-  outline:
-    2px solid
-    var(--gold2);
-
-  outline-offset:3px;
-}
-
-@media (prefers-reduced-motion:reduce){
-
-  *,
-  *::before,
-  *::after{
-    animation-duration:.01ms!important;
-    animation-iteration-count:1!important;
-    transition-duration:.01ms!important;
-    scroll-behavior:auto!important;
-  }
+@media(max-width:500px){
+  .stats{grid-template-columns:1fr}
+  h1{font-size:36px}
 }
 </style>
 </head>
 
 <body>
 
-<div class="background" aria-hidden="true">
-  <div class="orb one"></div>
-  <div class="orb two"></div>
-  <div class="orb three"></div>
-  <div class="grid"></div>
-</div>
+<div class="app">
 
-<!-- =======================================================
-     HEADER
-     ======================================================= -->
+<aside class="sidebar">
+
+  <div class="brand">
+    <div class="brand-mark">G</div>
+    <div>
+      <div class="brand-name">GHAR</div>
+      <div class="brand-sub">Administration</div>
+    </div>
+  </div>
+
+  <nav class="nav">
+
+    <div class="nav-title">Control Center</div>
+
+    <a href="/admin/admin-dashboard.html">⌂ Dashboard</a>
+    <a href="/admin/admin-user.html">♙ Users</a>
+    <a href="/admin/admin-documents.html">▣ Documents</a>
+    <a href="/admin/leads.html">◈ Leads</a>
+    <a href="/admin/offers.html">◇ Offers</a>
+    <a href="/admin/login.html" class="active">↪ Login Activity</a>
+
+    <div class="nav-title">Security</div>
+
+    <a href="/admin/admin-auth.html">🔐 Admin Authentication</a>
+    <a href="/verification/payment-verification.html">✓ Verification</a>
+
+  </nav>
+
+</aside>
+
+<main class="main">
 
 <header class="topbar">
 
-  <a class="brand" href="index.html" aria-label="GHAR Home">
-
-    <div class="brand-mark">
-      <span>G</span>
-    </div>
-
-    <div class="brand-name">
-      <strong>GHAR</strong>
-      <small>Central Administration</small>
-    </div>
-
-  </a>
-
-  <div class="security-badge">
-    <span class="security-dot"></span>
-    Secure Admin Gateway
+  <div>
+    <div class="title">Login Activity</div>
+    <div class="sub">Administrator authentication and access monitoring</div>
   </div>
 
 </header>
 
+<section class="content">
 
-<!-- =======================================================
-     MAIN
-     ======================================================= -->
+<div class="eyebrow">SECURITY / ACCESS LOG</div>
 
-<main class="main">
+<h1>Login activity.</h1>
 
-  <div class="shell">
+<p class="description">
+  Review administrator authentication attempts, successful
+  sessions, failed access attempts and security events.
+</p>
 
-    <!-- ===================================================
-         INTRO
-         =================================================== -->
+<div class="stats">
 
-    <section class="intro">
-
-      <div class="eyebrow">
-        <i></i>
-        Central Control Centre
-      </div>
-
-      <h1>
-        One command centre.
-        <br>
-        <em>Every GHAR system.</em>
-      </h1>
-
-      <p>
-        Secure administrative access to the GHAR platform,
-        property operations, users, approvals, transactions,
-        documents, support, reports, configurations and
-        authorized business workspaces.
-      </p>
-
-      <div class="capabilities">
-
-        <div class="capability">
-          <div class="capability-icon">◉</div>
-          <span>Users &amp; role management</span>
-        </div>
-
-        <div class="capability">
-          <div class="capability-icon">⌂</div>
-          <span>Property administration</span>
-        </div>
-
-        <div class="capability">
-          <div class="capability-icon">✓</div>
-          <span>Approvals &amp; verification</span>
-        </div>
-
-        <div class="capability">
-          <div class="capability-icon">₹</div>
-          <span>Payments &amp; transactions</span>
-        </div>
-
-        <div class="capability">
-          <div class="capability-icon">▣</div>
-          <span>Documents &amp; compliance</span>
-        </div>
-
-        <div class="capability">
-          <div class="capability-icon">⚙</div>
-          <span>Platform configuration</span>
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- ===================================================
-         LOGIN
-         =================================================== -->
-
-    <section
-      class="login-card"
-      aria-labelledby="loginTitle"
-    >
-
-      <div class="login-header">
-
-        <h2 id="loginTitle">
-          Administrator access
-        </h2>
-
-        <p>
-          Sign in with an authorized GHAR administrator
-          account. Your access scope will be loaded from
-          the server after authentication.
-        </p>
-
-      </div>
-
-
-      <form
-        id="adminLoginForm"
-        class="form"
-        autocomplete="on"
-        novalidate
-      >
-
-        <div
-          id="status"
-          class="status"
-          role="alert"
-          aria-live="polite"
-        ></div>
-
-
-        <!-- EMAIL -->
-
-        <div class="field">
-
-          <label for="email">
-            Administrator email
-          </label>
-
-          <input
-            id="email"
-            name="email"
-            class="input"
-            type="email"
-            inputmode="email"
-            autocomplete="username"
-            placeholder="admin@yourdomain.com"
-            required
-          >
-
-        </div>
-
-
-        <!-- PASSWORD -->
-
-        <div class="field">
-
-          <label for="password">
-            Password
-          </label>
-
-          <div class="input-wrap">
-
-            <input
-              id="password"
-              name="password"
-              class="input password-input"
-              type="password"
-              autocomplete="current-password"
-              placeholder="Enter your administrator password"
-              minlength="8"
-              required
-            >
-
-            <button
-              type="button"
-              id="togglePassword"
-              class="toggle-password"
-              aria-label="Show password"
-              title="Show password"
-            >
-              ◉
-            </button>
-
-          </div>
-
-        </div>
-
-
-        <!-- MFA -->
-
-        <div
-          id="mfaBox"
-          class="mfa-box"
-        >
-
-          <div class="mfa-title">
-            Multi-factor authentication
-          </div>
-
-          <div class="mfa-text">
-            If MFA is enabled for this administrator,
-            enter the current verification code.
-          </div>
-
-          <div style="height:10px"></div>
-
-          <input
-            id="mfaCode"
-            name="mfaCode"
-            class="input"
-            type="text"
-            inputmode="numeric"
-            autocomplete="one-time-code"
-            maxlength="8"
-            placeholder="Verification code"
-          >
-
-        </div>
-
-
-        <!-- OPTIONS -->
-
-        <div class="options">
-
-          <label class="check">
-
-            <input
-              type="checkbox"
-              id="remember"
-              name="remember"
-            >
-
-            <span>
-              Keep this device trusted
-            </span>
-
-          </label>
-
-          <button
-            type="button"
-            class="forgot"
-            id="forgotButton"
-          >
-            Forgot password?
-          </button>
-
-        </div>
-
-
-        <!-- LOGIN -->
-
-        <button
-          type="submit"
-          class="login-button"
-          id="loginButton"
-        >
-
-          <span
-            class="button-content"
-            id="buttonContent"
-          >
-            Enter Control Centre
-          </span>
-
-        </button>
-
-
-        <!-- SECURITY -->
-
-        <div class="security-note">
-
-          <div class="security-note-icon">
-            🔐
-          </div>
-
-          <p>
-            Administrative permissions are not granted by
-            this page. The GHAR server must authenticate
-            the account and return its authorized role,
-            session and permission scope.
-          </p>
-
-        </div>
-
-
-        <!-- FOOTER -->
-
-        <div class="card-footer">
-
-          <span>
-            Protected administrative environment<br>
-            <strong>GHAR Central Administration</strong>
-          </span>
-
-          <span class="version">
-            Admin Gateway v1.0
-          </span>
-
-        </div>
-
-      </form>
-
-    </section>
-
+  <div class="stat">
+    <div class="label">Total Attempts</div>
+    <div class="value">4,829</div>
+    <div class="meta">Recorded authentication events</div>
   </div>
+
+  <div class="stat">
+    <div class="label">Successful</div>
+    <div class="value">4,631</div>
+    <div class="meta">Authenticated sessions</div>
+  </div>
+
+  <div class="stat">
+    <div class="label">Failed</div>
+    <div class="value">173</div>
+    <div class="meta">Rejected attempts</div>
+  </div>
+
+  <div class="stat">
+    <div class="label">Flagged</div>
+    <div class="value">25</div>
+    <div class="meta">Require security review</div>
+  </div>
+
+</div>
+
+<section class="panel">
+
+<div class="toolbar">
+
+  <input
+    id="search"
+    type="search"
+    placeholder="Search email, IP address, device..."
+  >
+
+  <select id="status">
+    <option value="">All events</option>
+    <option value="Success">Successful</option>
+    <option value="Failed">Failed</option>
+    <option value="Suspicious">Suspicious</option>
+  </select>
+
+</div>
+
+<div class="table-wrap">
+
+<table>
+
+<thead>
+<tr>
+  <th>Administrator</th>
+  <th>IP Address</th>
+  <th>Device</th>
+  <th>Location</th>
+  <th>Time</th>
+  <th>Status</th>
+</tr>
+</thead>
+
+<tbody id="loginTable">
+
+<tr data-status="Success">
+  <td>
+    <div class="device">admin@ghar.example</div>
+    <div class="small">Administrator</div>
+  </td>
+  <td>192.168.1.24</td>
+  <td>iPhone · Safari</td>
+  <td>India</td>
+  <td>02 Oct 2026 · 21:48</td>
+  <td><span class="badge success">Success</span></td>
+</tr>
+
+<tr data-status="Success">
+  <td>
+    <div class="device">manager@ghar.example</div>
+    <div class="small">Manager</div>
+  </td>
+  <td>192.168.1.38</td>
+  <td>Windows · Chrome</td>
+  <td>India</td>
+  <td>02 Oct 2026 · 21:31</td>
+  <td><span class="badge success">Success</span></td>
+</tr>
+
+<tr data-status="Failed">
+  <td>
+    <div class="device">unknown</div>
+    <div class="small">Unrecognized account</div>
+  </td>
+  <td>185.22.41.90</td>
+  <td>Linux · Firefox</td>
+  <td>Unknown</td>
+  <td>02 Oct 2026 · 20:14</td>
+  <td><span class="badge failed">Failed</span></td>
+</tr>
+
+<tr data-status="Suspicious">
+  <td>
+    <div class="device">admin@ghar.example</div>
+    <div class="small">Administrator</div>
+  </td>
+  <td>103.82.14.22</td>
+  <td>Android · Chrome</td>
+  <td>Unknown</td>
+  <td>02 Oct 2026 · 19:47</td>
+  <td><span class="badge suspicious">Suspicious</span></td>
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</section>
+
+</section>
 
 </main>
 
-
-<!-- =======================================================
-     FOOTER
-     ======================================================= -->
-
-<footer class="bottom">
-
-  <span>
-    © <span id="year"></span> GHAR · Central Administration
-  </span>
-
-  <div class="bottom-links">
-
-    <button
-      type="button"
-      id="systemStatus"
-    >
-      System status
-    </button>
-
-    <button
-      type="button"
-      id="privacyButton"
-    >
-      Privacy
-    </button>
-
-    <button
-      type="button"
-      id="helpButton"
-    >
-      Admin help
-    </button>
-
-  </div>
-
-</footer>
-
+</div>
 
 <script>
-/* =========================================================
-   GHAR ADMIN LOGIN
-   Frontend gateway
-   ========================================================= */
+function filter(){
 
-(function(){
-
-  "use strict";
-
-  /* -------------------------------------------------------
-     CONFIG
-     ------------------------------------------------------- */
-
-  const CONFIG = {
-
-    /*
-     * Production:
-     * Prefer same-origin requests.
-     *
-     * Example:
-     * /api/auth/admin/login
-     *
-     * If your API lives elsewhere, change this to:
-     * https://api.yourdomain.com/api/auth/admin/login
-     */
-    LOGIN_ENDPOINT:
-      "/api/auth/admin/login",
-
-    /*
-     * Page to open after successful authentication.
-     */
-    ADMIN_REDIRECT:
-      "admin.html",
-
-    /*
-     * Ask backend whether MFA is required.
-     * Optional endpoint.
-     */
-    MFA_STATUS_ENDPOINT:
-      "/api/auth/admin/mfa-status"
-
-  };
-
-
-  /* -------------------------------------------------------
-     ELEMENTS
-     ------------------------------------------------------- */
-
-  const form =
-    document.getElementById("adminLoginForm");
-
-  const email =
-    document.getElementById("email");
-
-  const password =
-    document.getElementById("password");
-
-  const mfaCode =
-    document.getElementById("mfaCode");
-
-  const mfaBox =
-    document.getElementById("mfaBox");
-
-  const remember =
-    document.getElementById("remember");
-
-  const loginButton =
-    document.getElementById("loginButton");
-
-  const buttonContent =
-    document.getElementById("buttonContent");
+  const search =
+    document.getElementById("search")
+      .value.toLowerCase();
 
   const status =
-    document.getElementById("status");
+    document.getElementById("status").value;
 
-  const togglePassword =
-    document.getElementById("togglePassword");
+  document.querySelectorAll("#loginTable tr")
+    .forEach(row => {
 
-  const forgotButton =
-    document.getElementById("forgotButton");
+      const text =
+        row.textContent.toLowerCase();
 
-  const systemStatus =
-    document.getElementById("systemStatus");
+      row.style.display =
+        (!search || text.includes(search)) &&
+        (!status || row.dataset.status === status)
+          ? ""
+          : "none";
 
-  const privacyButton =
-    document.getElementById("privacyButton");
+    });
+}
 
-  const helpButton =
-    document.getElementById("helpButton");
+document
+  .getElementById("search")
+  .addEventListener("input",filter);
 
-
-  document.getElementById("year").textContent =
-    new Date().getFullYear();
-
-
-  /* -------------------------------------------------------
-     STATUS
-     ------------------------------------------------------- */
-
-  function showStatus(message,type){
-
-    status.textContent = message;
-
-    status.className =
-      "status show " +
-      (type || "error");
-
-  }
-
-
-  function clearStatus(){
-
-    status.textContent = "";
-
-    status.className =
-      "status";
-
-  }
-
-
-  /* -------------------------------------------------------
-     PASSWORD VISIBILITY
-     ------------------------------------------------------- */
-
-  togglePassword.addEventListener(
-    "click",
-    function(){
-
-      const visible =
-        password.type === "text";
-
-      password.type =
-        visible
-          ? "password"
-          : "text";
-
-      togglePassword.textContent =
-        visible ? "◉" : "◉";
-
-      togglePassword.setAttribute(
-        "aria-label",
-        visible
-          ? "Show password"
-          : "Hide password"
-      );
-
-    }
-  );
-
-
-  /* -------------------------------------------------------
-     VALIDATION
-     ------------------------------------------------------- */
-
-  function validate(){
-
-    clearStatus();
-
-    const value =
-      email.value.trim();
-
-    const pass =
-      password.value;
-
-    if(!value){
-
-      showStatus(
-        "Enter the administrator email address."
-      );
-
-      email.focus();
-
-      return false;
-    }
-
-    if(!email.validity.valid){
-
-      showStatus(
-        "Enter a valid administrator email address."
-      );
-
-      email.focus();
-
-      return false;
-    }
-
-    if(!pass){
-
-      showStatus(
-        "Enter the administrator password."
-      );
-
-      password.focus();
-
-      return false;
-    }
-
-    if(pass.length < 8){
-
-      showStatus(
-        "The password must contain at least 8 characters."
-      );
-
-      password.focus();
-
-      return false;
-    }
-
-    return true;
-
-  }
-
-
-  /* -------------------------------------------------------
-     LOADING STATE
-     ------------------------------------------------------- */
-
-  function setLoading(loading){
-
-    loginButton.disabled =
-      loading;
-
-    if(loading){
-
-      buttonContent.innerHTML =
-        '<span class="spinner"></span>' +
-        'Authenticating...';
-
-    }else{
-
-      buttonContent.textContent =
-        "Enter Control Centre";
-
-    }
-
-  }
-
-
-  /* -------------------------------------------------------
-     LOGIN
-     ------------------------------------------------------- */
-
-  async function login(){
-
-    if(!validate()) return;
-
-    setLoading(true);
-
-    try{
-
-      const response =
-        await fetch(
-          CONFIG.LOGIN_ENDPOINT,
-          {
-            method:"POST",
-
-            credentials:"include",
-
-            headers:{
-              "Content-Type":
-                "application/json",
-
-              "Accept":
-                "application/json"
-            },
-
-            body:JSON.stringify({
-
-              email:
-                email.value.trim(),
-
-              password:
-                password.value,
-
-              mfaCode:
-                mfaCode.value.trim() || null,
-
-              remember:
-                remember.checked
-
-            })
-          }
-        );
-
-
-      let data = null;
-
-      try{
-
-        data =
-          await response.json();
-
-      }catch{
-
-        data = null;
-
-      }
-
-
-      /* ---------------------------------------------------
-         MFA REQUIRED
-         --------------------------------------------------- */
-
-      if(
-        response.status === 401 &&
-        data &&
-        (
-          data.code === "MFA_REQUIRED" ||
-          data.mfaRequired === true
-        )
-      ){
-
-        mfaBox.classList.add("show");
-
-        showStatus(
-          "Additional verification is required. Enter your MFA code.",
-          "error"
-        );
-
-        mfaCode.focus();
-
-        setLoading(false);
-
-        return;
-
-      }
-
-
-      /* ---------------------------------------------------
-         FAILED LOGIN
-         --------------------------------------------------- */
-
-      if(!response.ok){
-
-        const message =
-          data &&
-          data.message
-            ? data.message
-            : "Administrator authentication failed.";
-
-        showStatus(
-          message,
-          "error"
-        );
-
-        setLoading(false);
-
-        return;
-
-      }
-
-
-      /* ---------------------------------------------------
-         SUCCESS
-         --------------------------------------------------- */
-
-      /*
-       * IMPORTANT:
-       *
-       * The server should establish the secure session.
-       * Do NOT store the administrator password,
-       * access token or secret token in localStorage.
-       */
-
-      showStatus(
-        "Authentication successful. Opening Control Centre...",
-        "success"
-      );
-
-
-      /*
-       * Optional short delay gives the user feedback.
-       */
-
-      setTimeout(
-        function(){
-
-          window.location.assign(
-            data &&
-            data.redirect
-              ? data.redirect
-              : CONFIG.ADMIN_REDIRECT
-          );
-
-        },
-        450
-      );
-
-
-    }catch(error){
-
-      console.error(
-        "GHAR admin authentication error:",
-        error
-      );
-
-      showStatus(
-        "Unable to reach the GHAR administration server. Check the API/server connection.",
-        "error"
-      );
-
-      setLoading(false);
-
-    }
-
-  }
-
-
-  form.addEventListener(
-    "submit",
-    function(event){
-
-      event.preventDefault();
-
-      login();
-
-    }
-  );
-
-
-  /* -------------------------------------------------------
-     FORGOT PASSWORD
-     ------------------------------------------------------- */
-
-  forgotButton.addEventListener(
-    "click",
-    function(){
-
-      window.location.assign(
-        "forgot-password.html?admin=1"
-      );
-
-    }
-  );
-
-
-  /* -------------------------------------------------------
-     SYSTEM STATUS
-     ------------------------------------------------------- */
-
-  systemStatus.addEventListener(
-    "click",
-    async function(){
-
-      const original =
-        systemStatus.textContent;
-
-      systemStatus.textContent =
-        "Checking...";
-
-      try{
-
-        const response =
-          await fetch(
-            "/api/health",
-            {
-              method:"GET",
-              headers:{
-                "Accept":
-                  "application/json"
-              }
-            }
-          );
-
-        if(response.ok){
-
-          showStatus(
-            "GHAR API is reachable.",
-            "success"
-          );
-
-        }else{
-
-          showStatus(
-            "GHAR API responded with an error.",
-            "error"
-          );
-
-        }
-
-      }catch{
-
-        showStatus(
-          "GHAR API is currently unreachable.",
-          "error"
-        );
-
-      }
-
-      systemStatus.textContent =
-        original;
-
-    }
-  );
-
-
-  /* -------------------------------------------------------
-     PRIVACY
-     ------------------------------------------------------- */
-
-  privacyButton.addEventListener(
-    "click",
-    function(){
-
-      window.location.assign(
-        "privacy.html"
-      );
-
-    }
-  );
-
-
-  /* -------------------------------------------------------
-     ADMIN HELP
-     ------------------------------------------------------- */
-
-  helpButton.addEventListener(
-    "click",
-    function(){
-
-      window.location.assign(
-        "help-centre.html?area=admin"
-      );
-
-    }
-  );
-
-
-  /* -------------------------------------------------------
-     OPTIONAL MFA DISCOVERY
-     ------------------------------------------------------- */
-
-  async function discoverMFA(){
-
-    /*
-     * This is intentionally non-blocking.
-     *
-     * Your backend may return:
-     *
-     * {
-     *   "mfaRequired": true
-     * }
-     *
-     * If this endpoint doesn't exist yet,
-     * login still works normally.
-     */
-
-    try{
-
-      const currentEmail =
-        email.value.trim();
-
-      if(!currentEmail) return;
-
-      const response =
-        await fetch(
-          CONFIG.MFA_STATUS_ENDPOINT +
-          "?email=" +
-          encodeURIComponent(currentEmail),
-          {
-            method:"GET",
-            credentials:"include",
-            headers:{
-              "Accept":
-                "application/json"
-            }
-          }
-        );
-
-      if(!response.ok) return;
-
-      const data =
-        await response.json();
-
-      if(data.mfaRequired === true){
-
-        mfaBox.classList.add("show");
-
-      }
-
-    }catch{
-
-      /*
-       * Do nothing.
-       * MFA discovery is optional.
-       */
-
-    }
-
-  }
-
-
-  let mfaTimer = null;
-
-  email.addEventListener(
-    "input",
-    function(){
-
-      clearTimeout(mfaTimer);
-
-      mfaTimer =
-        setTimeout(
-          discoverMFA,
-          650
-        );
-
-    }
-  );
-
-
-  /* -------------------------------------------------------
-     KEYBOARD UX
-     ------------------------------------------------------- */
-
-  document.addEventListener(
-    "keydown",
-    function(event){
-
-      /*
-       * Ctrl/Cmd + Enter
-       * submits the form.
-       */
-
-      if(
-        (event.ctrlKey || event.metaKey) &&
-        event.key === "Enter"
-      ){
-
-        event.preventDefault();
-
-        form.requestSubmit();
-
-      }
-
-      /*
-       * Escape clears error state.
-       */
-
-      if(event.key === "Escape"){
-
-        clearStatus();
-
-      }
-
-    }
-  );
-
-
-})();
+document
+  .getElementById("status")
+  .addEventListener("change",filter);
 </script>
 
 </body>
