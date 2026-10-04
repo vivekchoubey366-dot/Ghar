@@ -1,18 +1,34 @@
-const { ok, fail } = require('../utils/response');
+"use strict";
 
-async function list(req,res) {
-  return ok(res, { resource: 'auth', items: [], query: req.query }, 'List retrieved');
+async function register(req, res) {
+  // Your existing registration logic
 }
-async function get(req,res) {
-  return ok(res, { id: req.params.id, resource: 'auth' }, 'Resource retrieved');
+
+async function login(req, res) {
+  // Your existing login logic
 }
-async function create(req,res) {
-  return ok(res, { ...req.body, resource: 'auth' }, 'Resource created', 201);
+
+async function refresh(req, res) {
+  // Your existing refresh-token logic
 }
-async function update(req,res) {
-  return ok(res, { id: req.params.id, ...req.body, resource: 'auth' }, 'Resource updated');
+
+async function forgotPassword(req, res) {
+  // Your existing forgot-password logic
 }
-async function remove(req,res) {
-  return ok(res, { id: req.params.id, resource: 'auth' }, 'Resource deleted');
+
+async function resetPassword(req, res) {
+  // Your existing reset-password logic
 }
-module.exports = { list, get, create, update, remove };
+
+async function verifyEmail(req, res) {
+  // Your existing email verification logic
+}
+
+module.exports = {
+  register,
+  login,
+  refresh,
+  forgotPassword,
+  resetPassword,
+  verifyEmail
+};

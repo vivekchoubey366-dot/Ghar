@@ -1,6 +1,6 @@
 "use strict";
 
-const { ok, fail } = require("../utils/response");
+const { ok } = require("../utils/response");
 
 async function list(req, res) {
   return ok(

@@ -1,18 +1,18 @@
-"use strict";
+const router = require('express').Router();
 
-const router = require("express").Router();
+const controller = require('../controllers/auth.controller');
 
-const controller =
-  require("../controllers/auth.controller");
+router.post('/register', controller.register);
+router.post('/signup', controller.register);
 
-const {
-  requireAuth
-} = require("../middleware/auth.middleware");
+router.post('/login', controller.login);
+router.post('/signin', controller.login);
 
-router.get("/", requireAuth, controller.list);
-router.get("/:id", requireAuth, controller.get);
-router.post("/", requireAuth, controller.create);
-router.patch("/:id", requireAuth, controller.update);
-router.delete("/:id", requireAuth, controller.remove);
+router.post('/refresh', controller.refresh);
+
+router.post('/forgot-password', controller.forgotPassword);
+router.post('/reset-password', controller.resetPassword);
+
+router.post('/verify-email', controller.verifyEmail);
 
 module.exports = router;

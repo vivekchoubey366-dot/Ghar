@@ -1,18 +1,69 @@
-const { ok, fail } = require('../utils/response');
+"use strict";
 
-async function list(req,res) {
-  return ok(res, { resource: 'document', items: [], query: req.query }, 'List retrieved');
+const { ok } = require("../utils/response");
+
+async function list(req, res) {
+  return ok(
+    res,
+    {
+      resource: "document",
+      items: [],
+      query: req.query
+    },
+    "Documents retrieved"
+  );
 }
-async function get(req,res) {
-  return ok(res, { id: req.params.id, resource: 'document' }, 'Resource retrieved');
+
+async function get(req, res) {
+  return ok(
+    res,
+    {
+      id: req.params.id,
+      resource: "document"
+    },
+    "Document retrieved"
+  );
 }
-async function create(req,res) {
-  return ok(res, { ...req.body, resource: 'document' }, 'Resource created', 201);
+
+async function create(req, res) {
+  return ok(
+    res,
+    {
+      ...req.body,
+      resource: "document"
+    },
+    "Document created",
+    201
+  );
 }
-async function update(req,res) {
-  return ok(res, { id: req.params.id, ...req.body, resource: 'document' }, 'Resource updated');
+
+async function update(req, res) {
+  return ok(
+    res,
+    {
+      id: req.params.id,
+      ...req.body,
+      resource: "document"
+    },
+    "Document updated"
+  );
 }
-async function remove(req,res) {
-  return ok(res, { id: req.params.id, resource: 'document' }, 'Resource deleted');
+
+async function remove(req, res) {
+  return ok(
+    res,
+    {
+      id: req.params.id,
+      resource: "document"
+    },
+    "Document deleted"
+  );
 }
-module.exports = { list, get, create, update, remove };
+
+module.exports = {
+  list,
+  get,
+  create,
+  update,
+  remove
+};

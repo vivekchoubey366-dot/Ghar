@@ -1,131 +1,64 @@
 "use strict";
 
-const { ok, fail } = require("../utils/response");
-
-/**
- * ============================================================
- * GHAR USER CONTROLLER
- * ============================================================
- */
+const { ok } = require("../utils/response");
 
 async function list(req, res) {
-  try {
-    return ok(
-      res,
-      {
-        resource: "user",
-        items: [],
-        query: req.query
-      },
-      "Users retrieved"
-    );
-  } catch (error) {
-    console.error("[GHAR] user.list error:", error);
-
-    return fail(
-      res,
-      "USER_LIST_FAILED",
-      "Unable to retrieve users.",
-      500
-    );
-  }
+  return ok(
+    res,
+    {
+      resource: "user",
+      items: [],
+      query: req.query
+    },
+    "Users retrieved"
+  );
 }
 
 async function get(req, res) {
-  try {
-    return ok(
-      res,
-      {
-        resource: "user",
-        id: req.params.id
-      },
-      "User retrieved"
-    );
-  } catch (error) {
-    console.error("[GHAR] user.get error:", error);
-
-    return fail(
-      res,
-      "USER_GET_FAILED",
-      "Unable to retrieve user.",
-      500
-    );
-  }
+  return ok(
+    res,
+    {
+      id: req.params.id,
+      resource: "user"
+    },
+    "User retrieved"
+  );
 }
 
 async function create(req, res) {
-  try {
-    return ok(
-      res,
-      {
-        resource: "user",
-        ...req.body
-      },
-      "User created",
-      201
-    );
-  } catch (error) {
-    console.error("[GHAR] user.create error:", error);
-
-    return fail(
-      res,
-      "USER_CREATE_FAILED",
-      "Unable to create user.",
-      500
-    );
-  }
+  return ok(
+    res,
+    {
+      ...req.body,
+      resource: "user"
+    },
+    "User created",
+    201
+  );
 }
 
 async function update(req, res) {
-  try {
-    return ok(
-      res,
-      {
-        resource: "user",
-        id: req.params.id,
-        ...req.body
-      },
-      "User updated"
-    );
-  } catch (error) {
-    console.error("[GHAR] user.update error:", error);
-
-    return fail(
-      res,
-      "USER_UPDATE_FAILED",
-      "Unable to update user.",
-      500
-    );
-  }
+  return ok(
+    res,
+    {
+      id: req.params.id,
+      ...req.body,
+      resource: "user"
+    },
+    "User updated"
+  );
 }
 
 async function remove(req, res) {
-  try {
-    return ok(
-      res,
-      {
-        resource: "user",
-        id: req.params.id
-      },
-      "User deleted"
-    );
-  } catch (error) {
-    console.error("[GHAR] user.remove error:", error);
-
-    return fail(
-      res,
-      "USER_DELETE_FAILED",
-      "Unable to delete user.",
-      500
-    );
-  }
+  return ok(
+    res,
+    {
+      id: req.params.id,
+      resource: "user"
+    },
+    "User deleted"
+  );
 }
-
-/**
- * ============================================================
- * EXPORTS
- * ============================================================
- */
 
 module.exports = {
   list,

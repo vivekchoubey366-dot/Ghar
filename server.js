@@ -1204,8 +1204,30 @@ app.get(
 );
 
 /**
- * ============================================================
+*
+============================================================
  * ROUTE LOADER
+ * ============================================================
+ *
+ * Every route module MUST export:
+ *
+ * module.exports = router;
+ *
+ * where router is created with:
+ *
+ * const router = require("express").Router();
+ *
+ * Authentication middleware MUST be imported as a function:
+ *
+ * const { requireAuth } =
+ *   require("../middleware/auth.middleware");
+ *
+ * Do NOT do:
+ *
+ * const auth =
+ *   require("../middleware/auth.middleware");
+ *
+ * because that returns the entire middleware export object.
  * ============================================================
  */
 
@@ -1218,19 +1240,20 @@ function mountRoute(
     required = true
   } = options;
 
-  const routePath =
-    path.join(
-      ROUTES_DIR,
-      routeFile
-    );
+  const routePath = path.join(
+    ROUTES_DIR,
+    routeFile
+  );
 
-  if (
-    !fs.existsSync(
-      routePath
-    )
-  ) {
+  /**
+   * ----------------------------------------------------------
+   * Check route file
+   * ----------------------------------------------------------
+   */
+
+  if (!fs.existsSync(routePath)) {
     const message =
-      `[GHAR] Route not found: ${routeFile}`;
+      `[GHAR] Route file not found: ${routePath}`;
 
     if (required) {
       throw new Error(message);
@@ -1243,23 +1266,60 @@ function mountRoute(
     return false;
   }
 
+  /**
+   * ----------------------------------------------------------
+   * Load route
+   * ----------------------------------------------------------
+   */
+
   try {
-    const router =
-      require(routePath);
+    /**
+     * Clear the require cache in development.
+     *
+     * This does not affect production startup but makes local
+     * debugging easier when routes are edited repeatedly.
+     */
+    if (NODE_ENV !== "production") {
+      delete require.cache[
+        require.resolve(routePath)
+      ];
+    }
+
+    const router = require(routePath);
 
     /**
-     * Express Router is a function.
+     * --------------------------------------------------------
+     * Validate Express Router
+     * --------------------------------------------------------
      *
-     * Do NOT accept arbitrary objects.
+     * Express routers are functions.
+     *
+     * If typeof router is "object", the route file is exporting
+     * the wrong thing.
      */
-    if (
-      typeof router !==
-      "function"
-    ) {
+
+    if (typeof router !== "function") {
+      const exportedType =
+        router === null
+          ? "null"
+          : typeof router;
+
       throw new TypeError(
-        `${routeFile} must export an Express Router using module.exports = router`
+        [
+          `[GHAR] Invalid route export in ${routeFile}.`,
+          `Expected an Express Router function but received ${exportedType}.`,
+          ``,
+          `Correct ending:`,
+          `module.exports = router;`
+        ].join("\n")
       );
     }
+
+    /**
+     * --------------------------------------------------------
+     * Mount route
+     * --------------------------------------------------------
+     */
 
     app.use(
       basePath,
@@ -1271,9 +1331,21 @@ function mountRoute(
     );
 
     return true;
+
   } catch (error) {
     console.error(
-      `[GHAR] Failed to mount ${routeFile}:`,
+      `[GHAR] Failed to mount ${routeFile}`
+    );
+
+    console.error(
+      `[GHAR] Route path: ${routePath}`
+    );
+
+    console.error(
+      `[GHAR] API path: ${basePath}`
+    );
+
+    console.error(
       error
     );
 
@@ -1289,50 +1361,128 @@ function mountRoute(
  * ============================================================
  * ROUTES
  * ============================================================
+ *
+ * IMPORTANT:
+ *
+ * The filenames here MUST exactly match the files inside:
+ *
+ * /routes/
+ *
+ * ============================================================
  */
 
 const ROUTES = [
-  ["auth.routes.js", "/auth"],
-  ["user.routes.js", "/users"],
-  ["property.routes.js", "/properties"],
-  ["search.routes.js", "/search"],
-  ["visit.routes.js", "/visits"],
-  ["offer.routes.js", "/offers"],
-  ["application.routes.js", "/applications"],
-  ["document.routes.js", "/documents"],
-  ["verification.routes.js", "/verification"],
-  ["payment.routes.js", "/payments"],
-  ["subscription.routes.js", "/subscriptions"],
-  ["loan.routes.js", "/loans"],
-  ["referral.routes.js", "/referrals"],
-  ["notification.routes.js", "/notifications"],
-  ["message.routes.js", "/messages"],
-  ["support.routes.js", "/support"],
-  ["ai.routes.js", "/ai"],
-  ["admin.routes.js", "/admin"],
-  ["admin-ai.routes.js", "/admin/ai"]
+  {
+    file: "auth.routes.js",
+    path: "/auth"
+  },
+
+  {
+    file: "user.routes.js",
+    path: "/users"
+  },
+
+  {
+    file: "property.routes.js",
+    path: "/properties"
+  },
+
+  {
+    file: "search.routes.js",
+    path: "/search"
+  },
+
+  {
+    file: "visit.routes.js",
+    path: "/visits"
+  },
+
+  {
+    file: "offer.routes.js",
+    path: "/offers"
+  },
+
+  {
+    file: "application.routes.js",
+    path: "/applications"
+  },
+
+  {
+    file: "document.routes.js",
+    path: "/documents"
+  },
+
+  {
+    file: "verification.routes.js",
+    path: "/verification"
+  },
+
+  {
+    file: "payment.routes.js",
+    path: "/payments"
+  },
+
+  {
+    file: "subscription.routes.js",
+    path: "/subscriptions"
+  },
+
+  {
+    file: "loan.routes.js",
+    path: "/loans"
+  },
+
+  {
+    file: "referral.routes.js",
+    path: "/referrals"
+  },
+
+  {
+    file: "notification.routes.js",
+    path: "/notifications"
+  },
+
+  {
+    file: "message.routes.js",
+    path: "/messages"
+  },
+
+  {
+    file: "support.routes.js",
+    path: "/support"
+  },
+
+  {
+    file: "ai.routes.js",
+    path: "/ai"
+  },
+
+  {
+    file: "admin.routes.js",
+    path: "/admin"
+  },
+
+  {
+    file: "admin-ai.routes.js",
+    path: "/admin/ai"
+  }
 ];
 
 /**
  * ============================================================
- * MOUNT ROUTES
+ * MOUNT ALL ROUTES
  * ============================================================
  */
 
-for (
-  const [routeFile, routePath]
-  of ROUTES
-) {
+for (const route of ROUTES) {
   mountRoute(
-    routeFile,
-    `${NORMALIZED_API_PREFIX}${routePath}`,
+    route.file,
+    `${NORMALIZED_API_PREFIX}${route.path}`,
     {
       required: true
     }
   );
 }
-
-/**
  * ============================================================
  * STATIC ASSETS
  * ============================================================
