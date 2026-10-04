@@ -3,8 +3,9 @@
 /**
  * ============================================================
  * GHAR - REAL ESTATE PLATFORM
- * ============================================================
- * Production Express bootstrap
+ * PRODUCTION EXPRESS SERVER
+ *
+ * OVERRIDE / FAULT-TOLERANT ROUTE LOADER
  * ============================================================
  */
 
@@ -23,29 +24,46 @@ const morgan = require("morgan");
 
 /**
  * ============================================================
- * CONFIGURATION
+ * CONFIG
  * ============================================================
  */
 
-const env = require("./config/env");
-const { corsMiddleware } = require("./config/cors");
+let env = {};
+
+try {
+  env = require("./config/env");
+} catch (error) {
+  console.warn(
+    "[GHAR] config/env.js could not be loaded:",
+    error.message
+  );
+}
+
+let corsMiddleware = null;
+
+try {
+  const cors = require("./config/cors");
+
+  if (typeof cors.corsMiddleware === "function") {
+    corsMiddleware = cors.corsMiddleware;
+  }
+} catch (error) {
+  console.warn(
+    "[GHAR] CORS configuration could not be loaded:",
+    error.message
+  );
+}
 
 /**
  * Optional configuration modules.
  */
-
-let securityConfig = null;
-let storageConfig = null;
-let aiConfig = null;
-let paymentConfig = null;
-let emailConfig = null;
 
 function optionalRequire(file, label) {
   try {
     return require(file);
   } catch (error) {
     console.warn(
-      `[GHAR] ${label} configuration could not be loaded:`,
+      `[GHAR] ${label} configuration unavailable:`,
       error.message
     );
 
@@ -53,34 +71,34 @@ function optionalRequire(file, label) {
   }
 }
 
-securityConfig = optionalRequire(
+const securityConfig = optionalRequire(
   "./config/security",
   "Security"
 );
 
-storageConfig = optionalRequire(
+const storageConfig = optionalRequire(
   "./config/storage",
   "Storage"
 );
 
-aiConfig = optionalRequire(
+const aiConfig = optionalRequire(
   "./config/ai",
   "AI"
 );
 
-paymentConfig = optionalRequire(
+const paymentConfig = optionalRequire(
   "./config/payments",
-  "Payment"
+  "Payments"
 );
 
-emailConfig = optionalRequire(
+const emailConfig = optionalRequire(
   "./config/email",
   "Email"
 );
 
 /**
  * ============================================================
- * APPLICATION
+ * APP
  * ============================================================
  */
 
@@ -89,7 +107,7 @@ const server = http.createServer(app);
 
 /**
  * ============================================================
- * APPLICATION SETTINGS
+ * ENVIRONMENT
  * ============================================================
  */
 
@@ -99,8 +117,8 @@ const NODE_ENV =
   "development";
 
 const PORT =
-  Number(env.port) ||
   Number(process.env.PORT) ||
+  Number(env.port) ||
   5000;
 
 const HOST =
@@ -129,7 +147,7 @@ const API_PREFIX =
 const NORMALIZED_API_PREFIX =
   API_PREFIX === "/"
     ? ""
-    : `/${API_PREFIX.replace(/^\/+|\/+$/g, "")}`;
+    : `/${String(API_PREFIX).replace(/^\/+|\/+$/g, "")}`;
 
 /**
  * ============================================================
@@ -173,7 +191,7 @@ const DATA_DIR = path.join(
 
 /**
  * ============================================================
- * UPLOAD CATEGORIES
+ * DIRECTORIES
  * ============================================================
  */
 
@@ -187,37 +205,34 @@ const UPLOAD_CATEGORIES = [
   "verification"
 ];
 
-/**
- * ============================================================
- * DIRECTORY INITIALIZATION
- * ============================================================
- */
-
 function ensureDirectory(directory) {
-  fs.mkdirSync(directory, {
-    recursive: true
-  });
-}
-
-function ensureDirectories() {
-  [
-    ASSETS_DIR,
-    UPLOADS_DIR,
-    LOGS_DIR,
-    DATA_DIR
-  ].forEach(ensureDirectory);
-
-  UPLOAD_CATEGORIES.forEach((category) => {
-    ensureDirectory(
-      path.join(
-        UPLOADS_DIR,
-        category
-      )
+  try {
+    fs.mkdirSync(directory, {
+      recursive: true
+    });
+  } catch (error) {
+    console.error(
+      `[GHAR] Could not create directory ${directory}:`,
+      error.message
     );
-  });
+  }
 }
 
-ensureDirectories();
+[
+  ASSETS_DIR,
+  UPLOADS_DIR,
+  LOGS_DIR,
+  DATA_DIR
+].forEach(ensureDirectory);
+
+UPLOAD_CATEGORIES.forEach((category) => {
+  ensureDirectory(
+    path.join(
+      UPLOADS_DIR,
+      category
+    )
+  );
+});
 
 /**
  * ============================================================
@@ -237,33 +252,21 @@ app.set("env", NODE_ENV);
  * ============================================================
  */
 
-const configuredTrustProxy =
-  process.env.TRUST_PROXY;
-
-if (
-  configuredTrustProxy === "true"
-) {
+if (process.env.TRUST_PROXY === "true") {
   app.set("trust proxy", true);
-} else if (
-  configuredTrustProxy === "false"
-) {
+} else if (process.env.TRUST_PROXY === "false") {
   app.set("trust proxy", false);
 } else if (
-  configuredTrustProxy !== undefined &&
+  process.env.TRUST_PROXY !== undefined &&
   Number.isFinite(
-    Number(configuredTrustProxy)
+    Number(process.env.TRUST_PROXY)
   )
 ) {
   app.set(
     "trust proxy",
-    Number(configuredTrustProxy)
+    Number(process.env.TRUST_PROXY)
   );
-} else if (
-  NODE_ENV === "production"
-) {
-  /**
-   * Render sits behind a reverse proxy.
-   */
+} else if (NODE_ENV === "production") {
   app.set("trust proxy", 1);
 }
 
@@ -275,16 +278,14 @@ if (
 
 if (
   securityConfig &&
-  typeof securityConfig.securityMiddleware ===
-    "function"
+  typeof securityConfig.securityMiddleware === "function"
 ) {
   app.use(
     securityConfig.securityMiddleware
   );
 } else if (
   securityConfig &&
-  typeof securityConfig.helmetMiddleware ===
-    "function"
+  typeof securityConfig.helmetMiddleware === "function"
 ) {
   app.use(
     securityConfig.helmetMiddleware
@@ -307,11 +308,9 @@ app.use(
       requestId.length > 128 ||
       !requestId.trim()
     ) {
-      requestId =
-        crypto.randomUUID();
+      requestId = crypto.randomUUID();
     } else {
-      requestId =
-        requestId.trim();
+      requestId = requestId.trim();
     }
 
     req.requestId = requestId;
@@ -334,17 +333,10 @@ app.use(
 app.use(
   (req, res, next) => {
     req.ghar = {
-      requestId:
-        req.requestId,
-
-      appName:
-        APP_NAME,
-
-      version:
-        APP_VERSION,
-
-      environment:
-        NODE_ENV
+      requestId: req.requestId,
+      appName: APP_NAME,
+      version: APP_VERSION,
+      environment: NODE_ENV
     };
 
     next();
@@ -357,15 +349,8 @@ app.use(
  * ============================================================
  */
 
-if (
-  typeof corsMiddleware ===
-  "function"
-) {
+if (typeof corsMiddleware === "function") {
   app.use(corsMiddleware);
-} else {
-  console.warn(
-    "[GHAR] corsMiddleware is not available."
-  );
 }
 
 /**
@@ -547,6 +532,11 @@ const healthState = {
   storage: {
     status:
       "unknown"
+  },
+
+  routes: {
+    mounted: [],
+    skipped: []
   }
 };
 
@@ -573,9 +563,16 @@ function loadDatabaseModule() {
     return null;
   }
 
-  return require(
-    databasePath
-  );
+  try {
+    return require(databasePath);
+  } catch (error) {
+    console.error(
+      "[GHAR] Database module load failed:",
+      error.message
+    );
+
+    return null;
+  }
 }
 
 async function initializeDatabase() {
@@ -588,15 +585,16 @@ async function initializeDatabase() {
         "not_configured";
 
       if (
-        NODE_ENV === "production"
+        NODE_ENV === "production" &&
+        process.env.REQUIRE_DATABASE === "true"
       ) {
         throw new Error(
-          "GHAR database configuration is required in production."
+          "Database configuration is required."
         );
       }
 
       console.warn(
-        "[GHAR] Database module not found."
+        "[GHAR] Database module not available. Server will continue."
       );
 
       return null;
@@ -620,7 +618,7 @@ async function initializeDatabase() {
     } else if (
       database.pool &&
       typeof database.pool.connect ===
-        "function"
+      "function"
     ) {
       const client =
         await database.pool.connect();
@@ -628,7 +626,7 @@ async function initializeDatabase() {
       client.release();
     } else {
       throw new Error(
-        "Database module loaded but no supported connection method was found. Export connectDatabase(), connect(), initialize(), or pool."
+        "No supported database connection method found."
       );
     }
 
@@ -646,10 +644,17 @@ async function initializeDatabase() {
 
     console.error(
       "[GHAR] Database initialization failed:",
-      error
+      error.message
     );
 
-    throw error;
+    if (
+      NODE_ENV === "production" &&
+      process.env.REQUIRE_DATABASE === "true"
+    ) {
+      throw error;
+    }
+
+    return null;
   }
 }
 
@@ -689,7 +694,7 @@ async function checkDatabaseHealth() {
     if (
       database.pool &&
       typeof database.pool.query ===
-        "function"
+      "function"
     ) {
       await database.pool.query(
         "SELECT 1"
@@ -717,18 +722,14 @@ async function checkDatabaseHealth() {
 
     return {
       status:
-        "error",
-
-      message:
-        "No database health-check method is available."
+        "unknown"
     };
   } catch (error) {
     return {
       status:
         "error",
 
-      ...(NODE_ENV !==
-      "production"
+      ...(NODE_ENV !== "production"
         ? {
             message:
               error.message
@@ -749,7 +750,7 @@ function getAIStatus() {
     if (
       aiConfig &&
       typeof aiConfig.validateAIConfig ===
-        "function"
+      "function"
     ) {
       const result =
         aiConfig.validateAIConfig();
@@ -761,12 +762,10 @@ function getAIStatus() {
             : "not_configured",
 
         provider:
-          result.provider ||
-          undefined,
+          result.provider,
 
         model:
-          result.model ||
-          undefined
+          result.model
       };
     }
 
@@ -799,7 +798,7 @@ function getPaymentStatus() {
     if (
       paymentConfig &&
       typeof paymentConfig.isPaymentsEnabled ===
-        "function"
+      "function"
     ) {
       return {
         status:
@@ -815,9 +814,7 @@ function getPaymentStatus() {
     ) {
       return {
         status:
-          paymentConfig
-            .paymentsConfig
-            .enabled
+          paymentConfig.paymentsConfig.enabled
             ? "configured"
             : "not_configured"
       };
@@ -840,7 +837,7 @@ function getEmailStatus() {
     if (
       emailConfig &&
       typeof emailConfig.isEmailEnabled ===
-        "function"
+      "function"
     ) {
       return {
         status:
@@ -856,9 +853,7 @@ function getEmailStatus() {
     ) {
       return {
         status:
-          emailConfig
-            .emailConfig
-            .enabled
+          emailConfig.emailConfig.enabled
             ? "configured"
             : "not_configured"
       };
@@ -884,16 +879,12 @@ function getStorageStatus() {
     ) {
       return {
         status:
-          storageConfig
-            .storageConfig
-            .provider
+          storageConfig.storageConfig.provider
             ? "configured"
             : "not_configured",
 
         provider:
-          storageConfig
-            .storageConfig
-            .provider
+          storageConfig.storageConfig.provider
       };
     }
 
@@ -1008,6 +999,14 @@ app.get(
           storage.status
       },
 
+      routes: {
+        mounted:
+          healthState.routes.mounted,
+
+        skipped:
+          healthState.routes.skipped
+      },
+
       requestId:
         req.requestId
     });
@@ -1030,41 +1029,39 @@ app.get(
       db.status === "connected" ||
       NODE_ENV !== "production";
 
-    return res
-      .status(
+    return res.status(
+      healthy
+        ? 200
+        : 503
+    ).json({
+      success:
+        healthy,
+
+      service:
+        `${APP_NAME} API`,
+
+      version:
+        APP_VERSION,
+
+      status:
         healthy
-          ? 200
-          : 503
-      )
-      .json({
-        success:
-          healthy,
+          ? "healthy"
+          : "unhealthy",
 
-        service:
-          `${APP_NAME} API`,
+      database:
+        db,
 
-        version:
-          APP_VERSION,
+      timestamp:
+        new Date().toISOString(),
 
-        status:
-          healthy
-            ? "healthy"
-            : "unhealthy",
+      uptime:
+        Math.floor(
+          process.uptime()
+        ),
 
-        database:
-          db,
-
-        timestamp:
-          new Date().toISOString(),
-
-        uptime:
-          Math.floor(
-            process.uptime()
-          ),
-
-        requestId:
-          req.requestId
-      });
+      requestId:
+        req.requestId
+    });
   }
 );
 
@@ -1087,30 +1084,28 @@ app.get(
         db.status !== "error"
       );
 
-    return res
-      .status(
-        ready
-          ? 200
-          : 503
-      )
-      .json({
-        success:
-          ready,
-
+    return res.status(
+      ready
+        ? 200
+        : 503
+    ).json({
+      success:
         ready,
 
-        service:
-          APP_NAME,
+      ready,
 
-        database:
-          db.status,
+      service:
+        APP_NAME,
 
-        timestamp:
-          new Date().toISOString(),
+      database:
+        db.status,
 
-        requestId:
-          req.requestId
-      });
+      timestamp:
+        new Date().toISOString(),
+
+      requestId:
+        req.requestId
+    });
   }
 );
 
@@ -1138,66 +1133,12 @@ app.get(
       apiPrefix:
         NORMALIZED_API_PREFIX,
 
-      endpoints: {
-        health:
-          `${NORMALIZED_API_PREFIX}/health`,
+      routes: {
+        mounted:
+          healthState.routes.mounted,
 
-        auth:
-          `${NORMALIZED_API_PREFIX}/auth`,
-
-        users:
-          `${NORMALIZED_API_PREFIX}/users`,
-
-        properties:
-          `${NORMALIZED_API_PREFIX}/properties`,
-
-        search:
-          `${NORMALIZED_API_PREFIX}/search`,
-
-        visits:
-          `${NORMALIZED_API_PREFIX}/visits`,
-
-        offers:
-          `${NORMALIZED_API_PREFIX}/offers`,
-
-        applications:
-          `${NORMALIZED_API_PREFIX}/applications`,
-
-        documents:
-          `${NORMALIZED_API_PREFIX}/documents`,
-
-        verification:
-          `${NORMALIZED_API_PREFIX}/verification`,
-
-        payments:
-          `${NORMALIZED_API_PREFIX}/payments`,
-
-        subscriptions:
-          `${NORMALIZED_API_PREFIX}/subscriptions`,
-
-        loans:
-          `${NORMALIZED_API_PREFIX}/loans`,
-
-        referrals:
-          `${NORMALIZED_API_PREFIX}/referrals`,
-
-        notifications:
-          `${NORMALIZED_API_PREFIX}/notifications`,
-
-        messages:
-          `${NORMALIZED_API_PREFIX}/messages`,
-
-        support:
-          `${NORMALIZED_API_PREFIX}/support`,
-
-        ai:
-          `${NORMALIZED_API_PREFIX}/ai`,
-
-        admin:
-          `${NORMALIZED_API_PREFIX}/admin`,
-
-        adminAI:
-          `${NORMALIZED_API_PREFIX}/admin/ai`
+        skipped:
+          healthState.routes.skipped
       }
     });
   }
@@ -1205,68 +1146,54 @@ app.get(
 
 /**
  * ============================================================
- * ROUTE LOADER
- * ============================================================
+ * SAFE ROUTE LOADER
  *
- * Every route module MUST export:
+ * IMPORTANT:
  *
- * module.exports = router;
+ * A broken route MUST NOT crash the entire GHAR server.
  *
- * where router is created with:
+ * If a route has:
  *
- * const router = require("express").Router();
+ * router.get("/", {})
  *
- * Authentication middleware MUST be imported as a function:
+ * Express will throw:
  *
- * const { requireAuth } =
- *   require("../middleware/auth.middleware");
+ * Route.get() requires a callback function
  *
- * Do NOT do:
- *
- * const auth =
- *   require("../middleware/auth.middleware");
- *
- * because that returns the entire middleware export object.
+ * This loader catches that error and continues.
  * ============================================================
  */
 
 function mountRoute(
   routeFile,
-  basePath,
-  options = {}
+  basePath
 ) {
-  const {
-    required = true
-  } = options;
-
   const routePath =
     path.join(
       ROUTES_DIR,
       routeFile
     );
 
-  /**
-   * Check route file.
-   */
-
-  if (!fs.existsSync(routePath)) {
-    const message =
-      `[GHAR] Route file not found: ${routePath}`;
-
-    if (required) {
-      throw new Error(message);
-    }
-
+  if (
+    !fs.existsSync(routePath)
+  ) {
     console.warn(
-      `${message} - skipped`
+      `[GHAR OVERRIDE] SKIPPED missing route: ${routeFile}`
     );
+
+    healthState.routes.skipped.push({
+      file:
+        routeFile,
+
+      path:
+        basePath,
+
+      reason:
+        "FILE_NOT_FOUND"
+    });
 
     return false;
   }
-
-  /**
-   * Load route.
-   */
 
   try {
     if (
@@ -1277,35 +1204,73 @@ function mountRoute(
       ];
     }
 
-    const router =
+    const exported =
       require(routePath);
 
     /**
-     * Validate Express Router.
+     * --------------------------------------------------------
+     * Handle:
+     *
+     * module.exports = router
+     * --------------------------------------------------------
+     */
+
+    let router =
+      exported;
+
+    /**
+     * --------------------------------------------------------
+     * Handle:
+     *
+     * module.exports = { router }
+     *
+     * --------------------------------------------------------
      */
 
     if (
-      typeof router !==
-      "function"
+      router &&
+      typeof router === "object" &&
+      typeof router.router === "function"
     ) {
-      const exportedType =
-        router === null
-          ? "null"
-          : typeof router;
+      router =
+        router.router;
+    }
 
+    /**
+     * --------------------------------------------------------
+     * Handle:
+     *
+     * module.exports.default = router
+     * --------------------------------------------------------
+     */
+
+    if (
+      router &&
+      typeof router === "object" &&
+      typeof router.default === "function"
+    ) {
+      router =
+        router.default;
+    }
+
+    /**
+     * --------------------------------------------------------
+     * Validate
+     * --------------------------------------------------------
+     */
+
+    if (
+      typeof router !== "function"
+    ) {
       throw new TypeError(
-        [
-          `[GHAR] Invalid route export in ${routeFile}.`,
-          `Expected an Express Router function but received ${exportedType}.`,
-          "",
-          "Correct ending:",
-          "module.exports = router;"
-        ].join("\n")
+        `Invalid Express Router export. Received ${typeof router}.`
       );
     }
 
     /**
-     * Mount route.
+     * --------------------------------------------------------
+     * Mount
+     * --------------------------------------------------------
      */
 
     app.use(
@@ -1317,26 +1282,80 @@ function mountRoute(
       `[GHAR] Mounted ${basePath} -> ${routeFile}`
     );
 
+    healthState.routes.mounted.push({
+      file:
+        routeFile,
+
+      path:
+        basePath
+    });
+
     return true;
 
   } catch (error) {
+    /**
+     * ========================================================
+     * OVERRIDE BEHAVIOUR
+     * ========================================================
+     *
+     * NEVER throw here.
+     *
+     * The server continues even if this route is broken.
+     * ========================================================
+     */
+
     console.error(
-      `[GHAR] Failed to mount ${routeFile}`
+      `[GHAR OVERRIDE] Route disabled: ${routeFile}`
     );
 
     console.error(
-      `[GHAR] Route path: ${routePath}`
+      `[GHAR OVERRIDE] Path: ${basePath}`
     );
 
     console.error(
-      `[GHAR] API path: ${basePath}`
+      `[GHAR OVERRIDE] Reason: ${error.message}`
     );
 
-    console.error(error);
+    healthState.routes.skipped.push({
+      file:
+        routeFile,
 
-    if (required) {
-      throw error;
-    }
+      path:
+        basePath,
+
+      reason:
+        "ROUTE_LOAD_ERROR",
+
+      message:
+        error.message
+    });
+
+    /**
+     * Create a safe endpoint instead of killing server.
+     */
+
+    app.use(
+      basePath,
+      (req, res) => {
+        return res.status(503).json({
+          success: false,
+
+          error: {
+            code:
+              "ROUTE_TEMPORARILY_UNAVAILABLE",
+
+            message:
+              "This GHAR API module is temporarily unavailable."
+          },
+
+          route:
+            basePath,
+
+          requestId:
+            req.requestId
+        });
+      }
+    );
 
     return false;
   }
@@ -1349,122 +1368,120 @@ function mountRoute(
  */
 
 const ROUTES = [
-  {
-    file: "auth.routes.js",
-    path: "/auth"
-  },
+  [
+    "auth.routes.js",
+    "/auth"
+  ],
 
-  {
-    file: "user.routes.js",
-    path: "/users"
-  },
+  [
+    "user.routes.js",
+    "/users"
+  ],
 
-  {
-    file: "property.routes.js",
-    path: "/properties"
-  },
+  [
+    "property.routes.js",
+    "/properties"
+  ],
 
-  {
-    file: "search.routes.js",
-    path: "/search"
-  },
+  [
+    "search.routes.js",
+    "/search"
+  ],
 
-  {
-    file: "visit.routes.js",
-    path: "/visits"
-  },
+  [
+    "visit.routes.js",
+    "/visits"
+  ],
 
-  {
-    file: "offer.routes.js",
-    path: "/offers"
-  },
+  [
+    "offer.routes.js",
+    "/offers"
+  ],
 
-  {
-    file: "application.routes.js",
-    path: "/applications"
-  },
+  [
+    "application.routes.js",
+    "/applications"
+  ],
 
-  {
-    file: "document.routes.js",
-    path: "/documents"
-  },
+  [
+    "document.routes.js",
+    "/documents"
+  ],
 
-  {
-    file: "verification.routes.js",
-    path: "/verification"
-  },
+  [
+    "verification.routes.js",
+    "/verification"
+  ],
 
-  {
-    file: "payment.routes.js",
-    path: "/payments"
-  },
+  [
+    "payment.routes.js",
+    "/payments"
+  ],
 
-  {
-    file: "subscription.routes.js",
-    path: "/subscriptions"
-  },
+  [
+    "subscription.routes.js",
+    "/subscriptions"
+  ],
 
-  {
-    file: "loan.routes.js",
-    path: "/loans"
-  },
+  [
+    "loan.routes.js",
+    "/loans"
+  ],
 
-  {
-    file: "referral.routes.js",
-    path: "/referrals"
-  },
+  [
+    "referral.routes.js",
+    "/referrals"
+  ],
 
-  {
-    file: "notification.routes.js",
-    path: "/notifications"
-  },
+  [
+    "notification.routes.js",
+    "/notifications"
+  ],
 
-  {
-    file: "message.routes.js",
-    path: "/messages"
-  },
+  [
+    "message.routes.js",
+    "/messages"
+  ],
 
-  {
-    file: "support.routes.js",
-    path: "/support"
-  },
+  [
+    "support.routes.js",
+    "/support"
+  ],
 
-  {
-    file: "ai.routes.js",
-    path: "/ai"
-  },
+  [
+    "ai.routes.js",
+    "/ai"
+  ],
 
-  {
-    file: "admin.routes.js",
-    path: "/admin"
-  },
+  [
+    "admin.routes.js",
+    "/admin"
+  ],
 
-  {
-    file: "admin-ai.routes.js",
-    path: "/admin/ai"
-  }
+  [
+    "admin-ai.routes.js",
+    "/admin/ai"
+  ]
 ];
 
 /**
  * ============================================================
- * MOUNT ALL GHAR ROUTES
- * ============================================================
- *
- * A broken individual route MUST NOT prevent GHAR from
- * starting. The affected API receives HTTP 503 while all
- * other routes continue operating.
+ * MOUNT ROUTES
  * ============================================================
  */
 
-for (const route of ROUTES) {
+for (
+  const [
+    file,
+    routePath
+  ] of ROUTES
+) {
   mountRoute(
-    route.file,
-    `${NORMALIZED_API_PREFIX}${route.path}`,
-    {
-      required: false
-    }
+    file,
+    `${NORMALIZED_API_PREFIX}${routePath}`
   );
-)
+}
+
 /**
  * ============================================================
  * STATIC ASSETS
@@ -1478,7 +1495,8 @@ app.use(
     {
       index: false,
 
-      dotfiles: "ignore",
+      dotfiles:
+        "ignore",
 
       maxAge:
         NODE_ENV === "production"
@@ -1493,7 +1511,7 @@ app.use(
 
 /**
  * ============================================================
- * PUBLIC PROPERTY IMAGES
+ * PROPERTY MEDIA
  * ============================================================
  */
 
@@ -1510,9 +1528,8 @@ app.use(
     {
       index: false,
 
-      dotfiles: "deny",
-
-      fallthrough: false,
+      dotfiles:
+        "deny",
 
       maxAge:
         NODE_ENV === "production"
@@ -1524,7 +1541,7 @@ app.use(
 
 /**
  * ============================================================
- * OPTIONAL PUBLIC PROPERTY VIDEOS
+ * PROPERTY VIDEOS
  * ============================================================
  */
 
@@ -1542,7 +1559,8 @@ if (
       {
         index: false,
 
-        dotfiles: "deny",
+        dotfiles:
+          "deny",
 
         maxAge:
           NODE_ENV === "production"
@@ -1557,21 +1575,27 @@ if (
  * ============================================================
  * ROOT HOMEPAGE
  * ============================================================
- *
- * "/" ALWAYS serves index.html.
- *
- * There is NO seller redirect here.
- * ============================================================
  */
 
 app.get(
   "/",
   (req, res) => {
-    return res.sendFile(
+    const indexPath =
       path.join(
         ROOT_DIR,
         "index.html"
-      )
+      );
+
+    if (
+      fs.existsSync(indexPath)
+    ) {
+      return res.sendFile(
+        indexPath
+      );
+    }
+
+    return res.status(404).send(
+      "GHAR index.html not found."
     );
   }
 );
@@ -1586,13 +1610,16 @@ app.use(
   express.static(
     PUBLIC_DIR,
     {
-      index: "index.html",
+      index:
+        "index.html",
 
-      dotfiles: "ignore",
+      dotfiles:
+        "ignore",
 
-      extensions: [
-        "html"
-      ],
+      extensions:
+        [
+          "html"
+        ],
 
       maxAge:
         NODE_ENV === "production"
@@ -1611,22 +1638,20 @@ app.use(
 app.use(
   `${NORMALIZED_API_PREFIX}/`,
   (req, res) => {
-    return res
-      .status(404)
-      .json({
-        success: false,
+    return res.status(404).json({
+      success: false,
 
-        error: {
-          code:
-            "API_ROUTE_NOT_FOUND",
+      error: {
+        code:
+          "API_ROUTE_NOT_FOUND",
 
-          message:
-            `API route not found: ${req.method} ${req.originalUrl}`
-        },
+        message:
+          `API route not found: ${req.method} ${req.originalUrl}`
+      },
 
-        requestId:
-          req.requestId
-      });
+      requestId:
+        req.requestId
+    });
   }
 );
 
@@ -1663,19 +1688,15 @@ app.use(
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta
-    name="viewport"
-    content="width=device-width,initial-scale=1"
-  >
-  <title>404 - GHAR</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>404 - GHAR</title>
 </head>
-
 <body>
-  <main>
-    <h1>404</h1>
-    <p>The requested GHAR page could not be found.</p>
-  </main>
+<main>
+<h1>404</h1>
+<p>The requested GHAR page could not be found.</p>
+</main>
 </body>
 </html>
 `);
@@ -1701,12 +1722,8 @@ app.use(
       req.requestId;
 
     const statusCode =
-      Number(
-        err.statusCode
-      ) ||
-      Number(
-        err.status
-      ) ||
+      Number(err.statusCode) ||
+      Number(err.status) ||
       500;
 
     const status =
@@ -1719,26 +1736,15 @@ app.use(
       "[GHAR ERROR]",
       {
         requestId,
-
         method:
           req.method,
-
         url:
           req.originalUrl,
-
         status,
-
         code:
           err.code,
-
         message:
-          err.message,
-
-        stack:
-          NODE_ENV !==
-          "production"
-            ? err.stack
-            : undefined
+          err.message
       }
     );
 
@@ -1748,131 +1754,107 @@ app.use(
       err.message ===
         "CORS origin not allowed"
     ) {
-      return res
-        .status(403)
-        .json({
-          success: false,
+      return res.status(403).json({
+        success: false,
 
-          error: {
-            code:
-              "CORS_ERROR",
+        error: {
+          code:
+            "CORS_ERROR",
 
-            message:
-              "Request origin is not allowed."
-          },
+          message:
+            "Request origin is not allowed."
+        },
 
-          requestId
-        });
+        requestId
+      });
     }
 
     if (
-      err instanceof
-        SyntaxError &&
+      err instanceof SyntaxError &&
       err.status === 400 &&
       err.type ===
         "entity.parse.failed"
     ) {
-      return res
-        .status(400)
-        .json({
-          success: false,
+      return res.status(400).json({
+        success: false,
 
-          error: {
-            code:
-              "INVALID_JSON",
+        error: {
+          code:
+            "INVALID_JSON",
 
-            message:
-              "Request contains invalid JSON."
-          },
+          message:
+            "Request contains invalid JSON."
+        },
 
-          requestId
-        });
+        requestId
+      });
     }
 
     if (
       err.type ===
       "entity.too.large"
     ) {
-      return res
-        .status(413)
-        .json({
-          success: false,
+      return res.status(413).json({
+        success: false,
 
-          error: {
-            code:
-              "PAYLOAD_TOO_LARGE",
+        error: {
+          code:
+            "PAYLOAD_TOO_LARGE",
 
-            message:
-              "Request payload is too large."
-          },
+          message:
+            "Request payload is too large."
+        },
 
-          requestId
-        });
+        requestId
+      });
     }
 
     if (
       status === 429
     ) {
-      return res
-        .status(429)
-        .json({
-          success: false,
-
-          error: {
-            code:
-              "RATE_LIMIT_EXCEEDED",
-
-            message:
-              "Too many requests. Please try again later."
-          },
-
-          requestId
-        });
-    }
-
-    const exposeMessage =
-      NODE_ENV !== "production" ||
-      status < 500;
-
-    return res
-      .status(status)
-      .json({
+      return res.status(429).json({
         success: false,
 
         error: {
           code:
-            err.code ||
-            "INTERNAL_SERVER_ERROR",
+            "RATE_LIMIT_EXCEEDED",
 
           message:
-            exposeMessage
-              ? (
-                  err.message ||
-                  "Request failed."
-                )
-              : "Internal server error."
+            "Too many requests. Please try again later."
         },
 
-        requestId,
-
-        ...(NODE_ENV !==
-        "production"
-          ? {
-              stack:
-                err.stack
-            }
-          : {})
+        requestId
       });
+    }
+
+    return res.status(status).json({
+      success: false,
+
+      error: {
+        code:
+          err.code ||
+          "INTERNAL_SERVER_ERROR",
+
+        message:
+          NODE_ENV !== "production" ||
+          status < 500
+            ? (
+                err.message ||
+                "Request failed."
+              )
+            : "Internal server error."
+      },
+
+      requestId
+    });
   }
 );
 
 /**
  * ============================================================
- * SHUTDOWN
+ * DATABASE SHUTDOWN
  * ============================================================
  */
-
-let shuttingDown = false;
 
 async function closeDatabase() {
   if (!database) {
@@ -1907,17 +1889,25 @@ async function closeDatabase() {
     if (
       database.pool &&
       typeof database.pool.end ===
-        "function"
+      "function"
     ) {
       await database.pool.end();
     }
   } catch (error) {
     console.error(
       "[GHAR] Database shutdown error:",
-      error
+      error.message
     );
   }
 }
+
+/**
+ * ============================================================
+ * GRACEFUL SHUTDOWN
+ * ============================================================
+ */
+
+let shuttingDown = false;
 
 async function gracefulShutdown(
   signal,
@@ -1930,35 +1920,33 @@ async function gracefulShutdown(
   shuttingDown = true;
 
   console.log(
-    `[GHAR] ${signal} received. Starting graceful shutdown...`
+    `[GHAR] ${signal} received.`
   );
 
-  const shutdownTimeout =
+  const timeout =
     Number(
       process.env.SHUTDOWN_TIMEOUT_MS
     ) ||
-    10_000;
+    10000;
 
-  const forceShutdown =
+  const forceTimer =
     setTimeout(
       () => {
         console.error(
-          "[GHAR] Graceful shutdown timeout exceeded."
+          "[GHAR] Shutdown timeout."
         );
 
         process.exit(1);
       },
-      shutdownTimeout
+      timeout
     );
 
-  forceShutdown.unref();
+  forceTimer.unref();
 
   try {
     await new Promise(
       (resolve) => {
-        if (
-          !server.listening
-        ) {
+        if (!server.listening) {
           resolve();
           return;
         }
@@ -1978,7 +1966,7 @@ async function gracefulShutdown(
     await closeDatabase();
 
     clearTimeout(
-      forceShutdown
+      forceTimer
     );
 
     console.log(
@@ -1986,14 +1974,15 @@ async function gracefulShutdown(
     );
 
     process.exit(exitCode);
+
   } catch (error) {
     console.error(
       "[GHAR] Shutdown failed:",
-      error
+      error.message
     );
 
     clearTimeout(
-      forceShutdown
+      forceTimer
     );
 
     process.exit(1);
@@ -2002,7 +1991,7 @@ async function gracefulShutdown(
 
 /**
  * ============================================================
- * PROCESS ERROR HANDLERS
+ * PROCESS ERRORS
  * ============================================================
  */
 
@@ -2010,13 +1999,12 @@ process.on(
   "unhandledRejection",
   (reason) => {
     console.error(
-      "[GHAR] UNHANDLED REJECTION",
+      "[GHAR] UNHANDLED REJECTION:",
       reason
     );
 
     if (
-      NODE_ENV ===
-      "production"
+      NODE_ENV === "production"
     ) {
       void gracefulShutdown(
         "UNHANDLED_REJECTION",
@@ -2030,7 +2018,7 @@ process.on(
   "uncaughtException",
   (error) => {
     console.error(
-      "[GHAR] UNCAUGHT EXCEPTION",
+      "[GHAR] UNCAUGHT EXCEPTION:",
       error
     );
 
@@ -2076,18 +2064,36 @@ process.on(
 async function startServer() {
   try {
     /**
-     * Validate environment.
+     * Validate production environment if available.
+     *
+     * IMPORTANT:
+     * Validation errors do not automatically kill the server
+     * unless REQUIRE_ENV_VALIDATION=true.
      */
 
     if (
       typeof env.validateProductionEnvironment ===
       "function"
     ) {
-      env.validateProductionEnvironment();
+      try {
+        env.validateProductionEnvironment();
+      } catch (error) {
+        console.error(
+          "[GHAR] Environment validation warning:",
+          error.message
+        );
+
+        if (
+          process.env.REQUIRE_ENV_VALIDATION ===
+          "true"
+        ) {
+          throw error;
+        }
+      }
     }
 
     /**
-     * Database must initialize before traffic.
+     * Initialize database.
      */
 
     await initializeDatabase();
@@ -2135,8 +2141,13 @@ async function startServer() {
       }
     );
 
-    console.log("");
+    /**
+     * ========================================================
+     * SERVER INFORMATION
+     * ========================================================
+     */
 
+    console.log("");
     console.log(
       "============================================================"
     );
@@ -2202,6 +2213,10 @@ async function startServer() {
     );
 
     console.log(
+      `Support     : ${NORMALIZED_API_PREFIX}/support`
+    );
+
+    console.log(
       `Admin       : ${NORMALIZED_API_PREFIX}/admin`
     );
 
@@ -2230,11 +2245,38 @@ async function startServer() {
     );
 
     console.log(
+      "------------------------------------------------------------"
+    );
+
+    console.log(
+      `Routes mounted : ${healthState.routes.mounted.length}`
+    );
+
+    console.log(
+      `Routes skipped : ${healthState.routes.skipped.length}`
+    );
+
+    if (
+      healthState.routes.skipped.length
+    ) {
+      console.warn(
+        "[GHAR OVERRIDE] Some routes were disabled but the server is running."
+      );
+
+      healthState.routes.skipped.forEach(
+        (route) => {
+          console.warn(
+            `[GHAR OVERRIDE] ${route.path} -> ${route.message || route.reason}`
+          );
+        }
+      );
+    }
+
+    console.log(
       "============================================================"
     );
 
     console.log("");
-
   } catch (error) {
     console.error(
       "[GHAR] Server startup failed:",
