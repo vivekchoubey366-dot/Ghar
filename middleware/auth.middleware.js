@@ -1,42 +1,187 @@
 "use strict";
 
-const router = require("express").Router();
+const jwt = require("jsonwebtoken");
+const { getJwtSecret } = require("../utils/jwt");
 
-const {
-  requireAuth
-} = require("../middleware/auth.middleware");
+function extractToken(req) {
+  const authorization = req.get("authorization") || "";
 
-const controller =
-  require("../controllers/offer.controller");
+  if (!authorization) {
+    return null;
+  }
 
-router.get(
-  "/",
+  const [scheme, token] = authorization.trim().split(/\s+/);
+
+  if (
+    scheme?.toLowerCase() !== "bearer" ||
+    !token
+  ) {
+    return null;
+  }
+
+  return token;
+}
+
+function sendAuthError(
+  res,
+  status,
+  code,
+  message,
+  requestId
+) {
+  return res.status(status).json({
+    success: false,
+    error: {
+      code,
+      message,
+      requestId: requestId || null
+    }
+  });
+}
+
+function requireAuth(req, res, next) {
+  const token = extractToken(req);
+
+  if (!token) {
+    return sendAuthError(
+      res,
+      401,
+      "AUTHENTICATION_REQUIRED",
+      "Authentication is required.",
+      req.requestId
+    );
+  }
+
+  let payload;
+
+  try {
+    payload = jwt.verify(
+      token,
+      getJwtSecret()
+    );
+  } catch (error) {
+    if (
+      error &&
+      error.name === "TokenExpiredError"
+    ) {
+      return sendAuthError(
+        res,
+        401,
+        "TOKEN_EXPIRED",
+        "Your session has expired. Please sign in again.",
+        req.requestId
+      );
+    }
+
+    return sendAuthError(
+      res,
+      401,
+      "INVALID_TOKEN",
+      "The authentication token is invalid.",
+      req.requestId
+    );
+  }
+
+  if (
+    !payload ||
+    typeof payload !== "object" ||
+    !payload.userId
+  ) {
+    return sendAuthError(
+      res,
+      401,
+      "INVALID_TOKEN_PAYLOAD",
+      "The authentication token is invalid.",
+      req.requestId
+    );
+  }
+
+  req.user = {
+    id: payload.userId,
+    userId: payload.userId,
+    role: payload.role || null,
+    verificationStatus:
+      payload.verificationStatus || null,
+    subscriptionPlan:
+      payload.subscriptionPlan || null,
+    sessionId:
+      payload.sessionId || null
+  };
+
+  req.auth = {
+    authenticated: true,
+    tokenPayload: payload
+  };
+
+  return next();
+}
+
+function optionalAuth(req, res, next) {
+  const token = extractToken(req);
+
+  if (!token) {
+    req.user = null;
+    req.auth = {
+      authenticated: false
+    };
+
+    return next();
+  }
+
+  try {
+    const payload = jwt.verify(
+      token,
+      getJwtSecret()
+    );
+
+    if (
+      payload &&
+      typeof payload === "object" &&
+      payload.userId
+    ) {
+      req.user = {
+        id: payload.userId,
+        userId: payload.userId,
+        role: payload.role || null,
+        verificationStatus:
+          payload.verificationStatus || null,
+        subscriptionPlan:
+          payload.subscriptionPlan || null,
+        sessionId:
+          payload.sessionId || null
+      };
+
+      req.auth = {
+        authenticated: true,
+        tokenPayload: payload
+      };
+    } else {
+      req.user = null;
+      req.auth = {
+        authenticated: false
+      };
+    }
+  } catch {
+    req.user = null;
+    req.auth = {
+      authenticated: false
+    };
+  }
+
+  return next();
+}
+
+function isAuthenticated(req) {
+  return Boolean(
+    req.auth?.authenticated &&
+    req.user?.userId
+  );
+}
+
+module.exports = {
+  auth: requireAuth,
   requireAuth,
-  controller.list
-);
-
-router.get(
-  "/:id",
-  requireAuth,
-  controller.get
-);
-
-router.post(
-  "/",
-  requireAuth,
-  controller.create
-);
-
-router.patch(
-  "/:id",
-  requireAuth,
-  controller.update
-);
-
-router.delete(
-  "/:id",
-  requireAuth,
-  controller.remove
-);
-
-module.exports = router;
+  optionalAuth,
+  isAuthenticated,
+  extractToken
+};

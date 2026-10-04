@@ -2,8 +2,12 @@
 
 const router = require("express").Router();
 
-const controller = require("../controllers/auth.controller");
-const { requireAuth } = require("../middleware/auth.middleware");
+const controller =
+  require("../controllers/auth.controller");
+
+const {
+  requireAuth
+} = require("../middleware/auth.middleware");
 
 router.get("/", requireAuth, controller.list);
 router.get("/:id", requireAuth, controller.get);
