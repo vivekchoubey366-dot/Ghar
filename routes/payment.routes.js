@@ -1,12 +1,42 @@
-const router = require('express').Router();
+"use strict";
 
-const { requireAuth } = require('../middleware/auth.middleware');
-const controller = require('../controllers/payment.controller');
+const router = require("express").Router();
 
-router.get('/', requireAuth, controller.list);
-router.get('/:id', requireAuth, controller.get);
-router.post('/', requireAuth, controller.create);
-router.patch('/:id', requireAuth, controller.update);
-router.delete('/:id', requireAuth, controller.remove);
+const {
+  requireAuth
+} = require("../middleware/auth.middleware");
+
+const controller =
+  require("../controllers/payment.controller");
+
+router.get(
+  "/",
+  requireAuth,
+  controller.list
+);
+
+router.get(
+  "/:id",
+  requireAuth,
+  controller.get
+);
+
+router.post(
+  "/",
+  requireAuth,
+  controller.create
+);
+
+router.patch(
+  "/:id",
+  requireAuth,
+  controller.update
+);
+
+router.delete(
+  "/:id",
+  requireAuth,
+  controller.remove
+);
 
 module.exports = router;
