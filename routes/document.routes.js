@@ -1,6 +1,6 @@
 const router = require('express').Router();
+const { requireAuth: auth } = require('../middleware/auth.middleware');
 const controller = require('../controllers/document.controller');
-const auth = require('../middleware/auth.middleware');
 
 router.get('/', auth, controller.list);
 router.get('/:id', auth, controller.get);
