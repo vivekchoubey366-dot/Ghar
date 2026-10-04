@@ -22,6 +22,9 @@ const {
   getJwtSecret
 } = require("../utils/jwt");
 
+/**
+ * Extract Bearer token.
+ */
 function extractToken(req) {
   const authorization =
     req.get("authorization") || "";
@@ -43,6 +46,9 @@ function extractToken(req) {
   return token;
 }
 
+/**
+ * Send authentication error.
+ */
 function sendAuthError(
   res,
   status,
@@ -52,6 +58,7 @@ function sendAuthError(
 ) {
   return res.status(status).json({
     success: false,
+
     error: {
       code,
       message,
@@ -63,8 +70,13 @@ function sendAuthError(
 /**
  * Required authentication.
  */
-function requireAuth(req, res, next) {
-  const token = extractToken(req);
+function requireAuth(
+  req,
+  res,
+  next
+) {
+  const token =
+    extractToken(req);
 
   if (!token) {
     return sendAuthError(
@@ -84,7 +96,11 @@ function requireAuth(req, res, next) {
       getJwtSecret()
     );
   } catch (error) {
-    if (error.name === "TokenExpiredError") {
+    if (
+      error &&
+      error.name ===
+        "TokenExpiredError"
+    ) {
       return sendAuthError(
         res,
         401,
@@ -117,41 +133,50 @@ function requireAuth(req, res, next) {
     );
   }
 
-  /*
-   * Only trusted JWT claims are attached here.
-   * Do not copy arbitrary request data into req.user.
-   */
   req.user = {
-    id: payload.userId,
-    userId: payload.userId,
-    role: payload.role || null,
+    id:
+      payload.userId,
+
+    userId:
+      payload.userId,
+
+    role:
+      payload.role || null,
+
     verificationStatus:
       payload.verificationStatus || null,
+
     subscriptionPlan:
       payload.subscriptionPlan || null,
+
     sessionId:
       payload.sessionId || null
   };
 
   req.auth = {
     authenticated: true,
-    tokenPayload: payload
+
+    tokenPayload:
+      payload
   };
 
-  next();
+  return next();
 }
 
 /**
  * Optional authentication.
- *
- * Useful for public property/search pages where
- * recommendations can improve when a user is logged in.
  */
-function optionalAuth(req, res, next) {
-  const token = extractToken(req);
+function optionalAuth(
+  req,
+  res,
+  next
+) {
+  const token =
+    extractToken(req);
 
   if (!token) {
     req.user = null;
+
     req.auth = {
       authenticated: false
     };
@@ -160,10 +185,11 @@ function optionalAuth(req, res, next) {
   }
 
   try {
-    const payload = jwt.verify(
-      token,
-      getJwtSecret()
-    );
+    const payload =
+      jwt.verify(
+        token,
+        getJwtSecret()
+      );
 
     if (
       payload &&
@@ -171,32 +197,39 @@ function optionalAuth(req, res, next) {
       payload.userId
     ) {
       req.user = {
-        id: payload.userId,
-        userId: payload.userId,
-        role: payload.role || null,
+        id:
+          payload.userId,
+
+        userId:
+          payload.userId,
+
+        role:
+          payload.role || null,
+
         verificationStatus:
           payload.verificationStatus || null,
+
         subscriptionPlan:
           payload.subscriptionPlan || null,
+
         sessionId:
           payload.sessionId || null
       };
 
       req.auth = {
         authenticated: true,
-        tokenPayload: payload
+
+        tokenPayload:
+          payload
       };
     } else {
       req.user = null;
+
       req.auth = {
         authenticated: false
       };
     }
   } catch {
-    /*
-     * Optional authentication must not turn a public
-     * request into an authentication failure.
-     */
     req.user = null;
 
     req.auth = {
@@ -204,11 +237,11 @@ function optionalAuth(req, res, next) {
     };
   }
 
-  next();
+  return next();
 }
 
 /**
- * Returns whether the current request is authenticated.
+ * Check authentication state.
  */
 function isAuthenticated(req) {
   return Boolean(
@@ -217,7 +250,30 @@ function isAuthenticated(req) {
   );
 }
 
+/**
+ * ============================================================
+ * EXPORTS
+ * ============================================================
+ *
+ * IMPORTANT:
+ *
+ * `auth` is provided as an alias for `requireAuth`
+ * so existing routes such as:
+ *
+ * const auth = require("../middleware/auth.middleware");
+ *
+ * continue to work.
+ *
+ * However, the preferred route syntax is:
+ *
+ * const { requireAuth } =
+ *   require("../middleware/auth.middleware");
+ *
+ * ============================================================
+ */
+
 module.exports = {
+  auth: requireAuth,
   requireAuth,
   optionalAuth,
   isAuthenticated,
