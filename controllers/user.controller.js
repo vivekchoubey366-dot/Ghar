@@ -1,103 +1,136 @@
 "use strict";
 
-const express = require("express");
+const { ok, fail } = require("../utils/response");
 
-const router = express.Router();
-
-const controller = require("../controllers/user.controller");
-const authMiddleware = require("../middleware/auth.middleware");
-
-/*
- * auth.middleware.js exports:
- * {
- *   requireAuth,
- *   optionalAuth,
- *   isAuthenticated,
- *   extractToken
- * }
+/**
+ * ============================================================
+ * GHAR USER CONTROLLER
+ * ============================================================
  */
 
-const auth = authMiddleware.requireAuth;
+async function list(req, res) {
+  try {
+    return ok(
+      res,
+      {
+        resource: "user",
+        items: [],
+        query: req.query
+      },
+      "Users retrieved"
+    );
+  } catch (error) {
+    console.error("[GHAR] user.list error:", error);
 
-if (typeof auth !== "function") {
-  throw new TypeError(
-    "GHAR: authMiddleware.requireAuth must be a function"
-  );
+    return fail(
+      res,
+      "USER_LIST_FAILED",
+      "Unable to retrieve users.",
+      500
+    );
+  }
 }
 
-if (typeof controller.list !== "function") {
-  throw new TypeError(
-    "GHAR: controller.list must be a function"
-  );
+async function get(req, res) {
+  try {
+    return ok(
+      res,
+      {
+        resource: "user",
+        id: req.params.id
+      },
+      "User retrieved"
+    );
+  } catch (error) {
+    console.error("[GHAR] user.get error:", error);
+
+    return fail(
+      res,
+      "USER_GET_FAILED",
+      "Unable to retrieve user.",
+      500
+    );
+  }
 }
 
-if (typeof controller.get !== "function") {
-  throw new TypeError(
-    "GHAR: controller.get must be a function"
-  );
+async function create(req, res) {
+  try {
+    return ok(
+      res,
+      {
+        resource: "user",
+        ...req.body
+      },
+      "User created",
+      201
+    );
+  } catch (error) {
+    console.error("[GHAR] user.create error:", error);
+
+    return fail(
+      res,
+      "USER_CREATE_FAILED",
+      "Unable to create user.",
+      500
+    );
+  }
 }
 
-if (typeof controller.create !== "function") {
-  throw new TypeError(
-    "GHAR: controller.create must be a function"
-  );
+async function update(req, res) {
+  try {
+    return ok(
+      res,
+      {
+        resource: "user",
+        id: req.params.id,
+        ...req.body
+      },
+      "User updated"
+    );
+  } catch (error) {
+    console.error("[GHAR] user.update error:", error);
+
+    return fail(
+      res,
+      "USER_UPDATE_FAILED",
+      "Unable to update user.",
+      500
+    );
+  }
 }
 
-if (typeof controller.update !== "function") {
-  throw new TypeError(
-    "GHAR: controller.update must be a function"
-  );
+async function remove(req, res) {
+  try {
+    return ok(
+      res,
+      {
+        resource: "user",
+        id: req.params.id
+      },
+      "User deleted"
+    );
+  } catch (error) {
+    console.error("[GHAR] user.remove error:", error);
+
+    return fail(
+      res,
+      "USER_DELETE_FAILED",
+      "Unable to delete user.",
+      500
+    );
+  }
 }
 
-if (typeof controller.remove !== "function") {
-  throw new TypeError(
-    "GHAR: controller.remove must be a function"
-  );
-}
-
-/*
- * GET /api/users
+/**
+ * ============================================================
+ * EXPORTS
+ * ============================================================
  */
-router.get(
-  "/",
-  auth,
-  controller.list
-);
 
-/*
- * GET /api/users/:id
- */
-router.get(
-  "/:id",
-  auth,
-  controller.get
-);
-
-/*
- * POST /api/users
- */
-router.post(
-  "/",
-  auth,
-  controller.create
-);
-
-/*
- * PATCH /api/users/:id
- */
-router.patch(
-  "/:id",
-  auth,
-  controller.update
-);
-
-/*
- * DELETE /api/users/:id
- */
-router.delete(
-  "/:id",
-  auth,
-  controller.remove
-);
-
-module.exports = router;
+module.exports = {
+  list,
+  get,
+  create,
+  update,
+  remove
+};
