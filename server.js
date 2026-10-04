@@ -4,77 +4,7 @@
  * ============================================================
  * GHAR - REAL ESTATE PLATFORM
  * ============================================================
- *
- * Production Application Bootstrap
- *
- * Responsibilities
- * ------------------------------------------------------------
- * 01. Load environment
- * 02. Initialize Express
- * 03. Initialize security
- * 04. Initialize CORS
- * 05. Initialize compression
- * 06. Initialize parsers
- * 07. Initialize request IDs
- * 08. Initialize rate limiting
- * 09. Initialize logging
- * 10. Initialize required directories
- * 11. Initialize database
- * 12. Mount API routes
- * 13. Mount static assets
- * 14. Mount public property media
- * 15. Health monitoring
- * 16. Readiness monitoring
- * 17. API 404 handling
- * 18. Frontend 404 handling
- * 19. Global error handling
- * 20. Graceful shutdown
- *
- * Architecture
- * ------------------------------------------------------------
- *
- * Browser
- *    ↓
- * server.js
- *    ↓
- * middleware
- *    ↓
- * routes
- *    ↓
- * controllers
- *    ↓
- * services
- *    ↓
- * models
- *    ↓
- * PostgreSQL
- *
- * AI
- * ------------------------------------------------------------
- *
- * /api/ai/*
- *    ↓
- * ai.routes.js
- *    ↓
- * ai.controller.js
- *    ↓
- * services/ai/
- *    ↓
- * AI provider
- *
- * Payments
- * ------------------------------------------------------------
- *
- * /api/payments/*
- *    ↓
- * payment.routes.js
- *    ↓
- * controller
- *    ↓
- * payment service
- *    ↓
- * payment provider
- *
+ * Production Express bootstrap
  * ============================================================
  */
 
@@ -93,81 +23,60 @@ const morgan = require("morgan");
 
 /**
  * ============================================================
- * GHAR CONFIGURATION
+ * CONFIGURATION
  * ============================================================
  */
 
 const env = require("./config/env");
 
-const {
-  corsMiddleware
-} = require("./config/cors");
+const { corsMiddleware } = require("./config/cors");
 
 /**
- * Optional centralized configuration modules.
- *
- * These should already exist in:
- *
- * GHAR/config/
- *
- * The server remains resilient if a configuration module
- * does not expose the exact middleware/function expected.
+ * Optional configuration modules.
  */
 
 let securityConfig = null;
-let uploadConfig = null;
 let storageConfig = null;
 let aiConfig = null;
 let paymentConfig = null;
 let emailConfig = null;
 
-try {
-  securityConfig = require("./config/security");
-} catch (error) {
-  console.warn(
-    "[GHAR] Security configuration could not be loaded."
-  );
+function optionalRequire(file, label) {
+  try {
+    return require(file);
+  } catch (error) {
+    console.warn(
+      `[GHAR] ${label} configuration could not be loaded:`,
+      error.message
+    );
+    return null;
+  }
 }
 
-try {
-  uploadConfig = require("./config/upload");
-} catch (error) {
-  console.warn(
-    "[GHAR] Upload configuration could not be loaded."
-  );
-}
+securityConfig = optionalRequire(
+  "./config/security",
+  "Security"
+);
 
-try {
-  storageConfig = require("./config/storage");
-} catch (error) {
-  console.warn(
-    "[GHAR] Storage configuration could not be loaded."
-  );
-}
+storageConfig = optionalRequire(
+  "./config/storage",
+  "Storage"
+);
 
-try {
-  aiConfig = require("./config/ai");
-} catch (error) {
-  console.warn(
-    "[GHAR] AI configuration could not be loaded."
-  );
-}
+aiConfig = optionalRequire(
+  "./config/ai",
+  "AI"
+);
 
-try {
-  paymentConfig = require("./config/payments");
-} catch (error) {
-  console.warn(
-    "[GHAR] Payment configuration could not be loaded."
-  );
-}
+paymentConfig = optionalRequire(
+  "./config/payments",
+  "Payment"
+);
 
-try {
-  emailConfig = require("./config/email");
-} catch (error) {
-  console.warn(
-    "[GHAR] Email configuration could not be loaded."
-  );
-}
+emailConfig = optionalRequire(
+  "./config/email",
+  "Email"
+);
 
 /**
  * ============================================================
@@ -176,7 +85,6 @@ try {
  */
 
 const app = express();
-
 const server = http.createServer(app);
 
 /**
@@ -218,100 +126,55 @@ const API_PREFIX =
   process.env.API_PREFIX ||
   "/api";
 
-/**
- * Normalize API prefix.
- */
-
 const NORMALIZED_API_PREFIX =
   API_PREFIX === "/"
     ? ""
-    : API_PREFIX.replace(/\/+$/, "");
+    : `/${API_PREFIX.replace(/^\/+|\/+$/g, "")}`;
 
 /**
  * ============================================================
- * PATH CONFIGURATION
+ * PATHS
  * ============================================================
  */
 
-const ROOT_DIR =
-  __dirname;
+const ROOT_DIR = __dirname;
 
-const PUBLIC_DIR =
-  ROOT_DIR;
+const PUBLIC_DIR = ROOT_DIR;
 
-const CONFIG_DIR =
-  path.join(
-    ROOT_DIR,
-    "config"
-  );
+const CONFIG_DIR = path.join(
+  ROOT_DIR,
+  "config"
+);
 
-const ROUTES_DIR =
-  path.join(
-    ROOT_DIR,
-    "routes"
-  );
+const ROUTES_DIR = path.join(
+  ROOT_DIR,
+  "routes"
+);
 
-const CONTROLLERS_DIR =
-  path.join(
-    ROOT_DIR,
-    "controllers"
-  );
+const ASSETS_DIR = path.join(
+  ROOT_DIR,
+  "assets"
+);
 
-const SERVICES_DIR =
-  path.join(
-    ROOT_DIR,
-    "services"
-  );
+const UPLOADS_DIR = path.join(
+  ROOT_DIR,
+  "uploads"
+);
 
-const MODELS_DIR =
-  path.join(
-    ROOT_DIR,
-    "models"
-  );
+const LOGS_DIR = path.join(
+  ROOT_DIR,
+  "logs"
+);
 
-const MIDDLEWARE_DIR =
-  path.join(
-    ROOT_DIR,
-    "middleware"
-  );
-
-const UTILS_DIR =
-  path.join(
-    ROOT_DIR,
-    "utils"
-  );
-
-const ASSETS_DIR =
-  path.join(
-    ROOT_DIR,
-    "assets"
-  );
-
-const UPLOADS_DIR =
-  path.join(
-    ROOT_DIR,
-    "uploads"
-  );
-
-const LOGS_DIR =
-  path.join(
-    ROOT_DIR,
-    "logs"
-  );
-
-const DATA_DIR =
-  path.join(
-    ROOT_DIR,
-    "data"
-  );
+const DATA_DIR = path.join(
+  ROOT_DIR,
+  "data"
+);
 
 /**
  * ============================================================
- * UPLOAD DIRECTORIES
+ * UPLOAD CATEGORIES
  * ============================================================
- *
- * Sensitive directories are deliberately NOT exposed through
- * express.static().
  */
 
 const UPLOAD_CATEGORIES = [
@@ -331,48 +194,27 @@ const UPLOAD_CATEGORIES = [
  */
 
 function ensureDirectory(directory) {
-  try {
-    fs.mkdirSync(
-      directory,
-      {
-        recursive: true
-      }
-    );
-  } catch (error) {
-    throw new Error(
-      `Unable to create directory: ${directory}. ${error.message}`
-    );
-  }
+  fs.mkdirSync(directory, {
+    recursive: true
+  });
 }
 
 function ensureDirectories() {
-  const directories = [
+  [
     ASSETS_DIR,
     UPLOADS_DIR,
     LOGS_DIR,
     DATA_DIR
-  ];
+  ].forEach(ensureDirectory);
 
-  for (
-    const directory
-    of directories
-  ) {
-    ensureDirectory(
-      directory
-    );
-  }
-
-  for (
-    const category
-    of UPLOAD_CATEGORIES
-  ) {
+  UPLOAD_CATEGORIES.forEach((category) => {
     ensureDirectory(
       path.join(
         UPLOADS_DIR,
         category
       )
     );
-  }
+  });
 }
 
 ensureDirectories();
@@ -383,85 +225,51 @@ ensureDirectories();
  * ============================================================
  */
 
-app.disable(
-  "x-powered-by"
-);
+app.disable("x-powered-by");
 
-app.set(
-  "name",
-  APP_NAME
-);
-
-app.set(
-  "version",
-  APP_VERSION
-);
-
-app.set(
-  "env",
-  NODE_ENV
-);
+app.set("name", APP_NAME);
+app.set("version", APP_VERSION);
+app.set("env", NODE_ENV);
 
 /**
  * ============================================================
  * TRUST PROXY
  * ============================================================
- *
- * Supports:
- * - Render
- * - Railway
- * - Cloudflare
- * - Nginx
- * - Reverse proxies
- * - Load balancers
  */
 
 const configuredTrustProxy =
   process.env.TRUST_PROXY;
 
 if (
-  configuredTrustProxy !== undefined
+  configuredTrustProxy === "true"
 ) {
-  if (
-    configuredTrustProxy === "true"
-  ) {
-    app.set(
-      "trust proxy",
-      true
-    );
-  } else if (
-    configuredTrustProxy === "false"
-  ) {
-    app.set(
-      "trust proxy",
-      false
-    );
-  } else if (
-    Number.isFinite(
-      Number(
-        configuredTrustProxy
-      )
-    )
-  ) {
-    app.set(
-      "trust proxy",
-      Number(
-        configuredTrustProxy
-      )
-    );
-  }
+  app.set("trust proxy", true);
 } else if (
-  NODE_ENV === "production"
+  configuredTrustProxy === "false"
+) {
+  app.set("trust proxy", false);
+} else if (
+  configuredTrustProxy !== undefined &&
+  Number.isFinite(
+    Number(configuredTrustProxy)
+  )
 ) {
   app.set(
     "trust proxy",
-    1
+    Number(configuredTrustProxy)
   );
+} else if (
+  NODE_ENV === "production"
+) {
+  /**
+   * Render sits behind a reverse proxy.
+   */
+  app.set("trust proxy", 1);
 }
 
 /**
  * ============================================================
- * SECURITY MIDDLEWARE
+ * SECURITY
  * ============================================================
  */
 
@@ -492,17 +300,10 @@ if (
 app.use(
   (req, res, next) => {
     let requestId =
-      req.headers[
-        "x-request-id"
-      ];
-
-    /**
-     * Do not blindly trust arbitrary oversized IDs.
-     */
+      req.headers["x-request-id"];
 
     if (
-      typeof requestId !==
-        "string" ||
+      typeof requestId !== "string" ||
       requestId.length > 128 ||
       !requestId.trim()
     ) {
@@ -513,8 +314,7 @@ app.use(
         requestId.trim();
     }
 
-    req.requestId =
-      requestId;
+    req.requestId = requestId;
 
     res.setHeader(
       "X-Request-ID",
@@ -527,7 +327,7 @@ app.use(
 
 /**
  * ============================================================
- * REQUEST CONTEXT
+ * GHAR REQUEST CONTEXT
  * ============================================================
  */
 
@@ -561,9 +361,7 @@ if (
   typeof corsMiddleware ===
   "function"
 ) {
-  app.use(
-    corsMiddleware
-  );
+  app.use(corsMiddleware);
 } else {
   console.warn(
     "[GHAR] corsMiddleware is not available."
@@ -587,7 +385,7 @@ app.use(
 
 /**
  * ============================================================
- * REQUEST PARSING
+ * BODY PARSERS
  * ============================================================
  */
 
@@ -612,21 +410,22 @@ app.use(
 );
 
 /**
- * Signed cookies are supported when a session secret
- * exists. Unsigned cookies still work when no secret exists.
+ * ============================================================
+ * COOKIES
+ * ============================================================
  */
 
 app.use(
   cookieParser(
     env.sessionSecret ||
-    process.env.SESSION_SECRET ||
-    undefined
+      process.env.SESSION_SECRET ||
+      undefined
   )
 );
 
 /**
  * ============================================================
- * HTTP LOGGING
+ * LOGGING
  * ============================================================
  */
 
@@ -645,14 +444,14 @@ if (
 
 /**
  * ============================================================
- * GLOBAL API RATE LIMIT
+ * RATE LIMITING
  * ============================================================
  */
 
 const rateLimitWindow =
   Number(
     env.security &&
-    env.security.rateLimitWindow
+      env.security.rateLimitWindow
   ) ||
   Number(
     process.env.RATE_LIMIT_WINDOW_MS
@@ -662,7 +461,7 @@ const rateLimitWindow =
 const rateLimitMax =
   Number(
     env.security &&
-    env.security.rateLimitMax
+      env.security.rateLimitMax
   ) ||
   Number(
     process.env.RATE_LIMIT_MAX
@@ -685,38 +484,33 @@ const globalRateLimiter =
 
     skip: (req) => {
       return (
-        req.path ===
-          "/health" ||
-        req.path ===
-          "/ready" ||
+        req.path === "/health" ||
+        req.path === "/ready" ||
         req.path ===
           `${NORMALIZED_API_PREFIX}/health`
       );
     },
 
-    handler:
-      (req, res) => {
-        return res
-          .status(429)
-          .json({
-            success: false,
+    handler: (req, res) => {
+      return res.status(429).json({
+        success: false,
 
-            error: {
-              code:
-                "RATE_LIMIT_EXCEEDED",
+        error: {
+          code:
+            "RATE_LIMIT_EXCEEDED",
 
-              message:
-                "Too many requests. Please try again later."
-            },
+          message:
+            "Too many requests. Please try again later."
+        },
 
-            requestId:
-              req.requestId
-          });
-      }
+        requestId:
+          req.requestId
+      });
+    }
   });
 
 app.use(
-  NORMALIZED_API_PREFIX,
+  NORMALIZED_API_PREFIX || "/api",
   globalRateLimiter
 );
 
@@ -784,12 +578,6 @@ function loadDatabaseModule() {
   );
 }
 
-/**
- * ============================================================
- * DATABASE INITIALIZATION
- * ============================================================
- */
-
 async function initializeDatabase() {
   try {
     database =
@@ -800,8 +588,7 @@ async function initializeDatabase() {
         "not_configured";
 
       if (
-        NODE_ENV ===
-        "production"
+        NODE_ENV === "production"
       ) {
         throw new Error(
           "GHAR database configuration is required in production."
@@ -809,7 +596,7 @@ async function initializeDatabase() {
       }
 
       console.warn(
-        "[GHAR] Database module not found. Running without database."
+        "[GHAR] Database module not found."
       );
 
       return null;
@@ -830,15 +617,19 @@ async function initializeDatabase() {
       "function"
     ) {
       await database.initialize();
+    } else if (
+      database.pool &&
+      typeof database.pool.connect ===
+        "function"
+    ) {
+      const client =
+        await database.pool.connect();
+
+      client.release();
     } else {
-      healthState.database.status =
-        "module_loaded";
-
-      console.warn(
-        "[GHAR] Database module loaded but no connection method was found."
+      throw new Error(
+        "Database module loaded but no supported connection method was found. Export connectDatabase(), connect(), initialize(), or pool."
       );
-
-      return database;
     }
 
     healthState.database.status =
@@ -889,8 +680,7 @@ async function checkDatabaseHealth() {
           "connected",
 
         ...(result &&
-        typeof result ===
-          "object"
+        typeof result === "object"
           ? result
           : {})
       };
@@ -927,7 +717,10 @@ async function checkDatabaseHealth() {
 
     return {
       status:
-        healthState.database.status
+        "error",
+
+      message:
+        "No database health-check method is available."
     };
   } catch (error) {
     return {
@@ -947,7 +740,7 @@ async function checkDatabaseHealth() {
 
 /**
  * ============================================================
- * SERVICE CONFIGURATION STATUS
+ * SERVICE STATUS
  * ============================================================
  */
 
@@ -993,7 +786,7 @@ function getAIStatus() {
       status:
         "unknown"
     };
-  } catch (error) {
+  } catch {
     return {
       status:
         "error"
@@ -1034,7 +827,7 @@ function getPaymentStatus() {
       status:
         "unknown"
     };
-  } catch (error) {
+  } catch {
     return {
       status:
         "error"
@@ -1075,7 +868,7 @@ function getEmailStatus() {
       status:
         "unknown"
     };
-  } catch (error) {
+  } catch {
     return {
       status:
         "error"
@@ -1108,7 +901,7 @@ function getStorageStatus() {
       status:
         "unknown"
     };
-  } catch (error) {
+  } catch {
     return {
       status:
         "error"
@@ -1118,7 +911,7 @@ function getStorageStatus() {
 
 /**
  * ============================================================
- * HEALTH ENDPOINT
+ * HEALTH
  * ============================================================
  */
 
@@ -1158,72 +951,66 @@ app.get(
     healthState.storage =
       storage;
 
-    /**
-     * Basic process health remains healthy when optional
-     * services are not configured.
-     */
-    return res
-      .status(200)
-      .json({
-        success: true,
+    return res.status(200).json({
+      success: true,
 
-        service:
-          APP_NAME,
+      service:
+        APP_NAME,
 
-        version:
-          APP_VERSION,
+      version:
+        APP_VERSION,
 
-        environment:
-          NODE_ENV,
+      environment:
+        NODE_ENV,
 
-        status:
-          "healthy",
+      status:
+        "healthy",
 
-        timestamp:
-          new Date().toISOString(),
+      timestamp:
+        new Date().toISOString(),
 
-        uptime:
-          Math.floor(
-            process.uptime()
-          ),
+      uptime:
+        Math.floor(
+          process.uptime()
+        ),
 
-        startedAt:
-          healthState.startedAt,
+      startedAt:
+        healthState.startedAt,
 
-        memory: {
-          rss:
-            memory.rss,
+      memory: {
+        rss:
+          memory.rss,
 
-          heapUsed:
-            memory.heapUsed,
+        heapUsed:
+          memory.heapUsed,
 
-          heapTotal:
-            memory.heapTotal,
+        heapTotal:
+          memory.heapTotal,
 
-          external:
-            memory.external
-        },
+        external:
+          memory.external
+      },
 
-        services: {
-          database:
-            db.status,
+      services: {
+        database:
+          db.status,
 
-          ai:
-            ai.status,
+        ai:
+          ai.status,
 
-          payments:
-            payments.status,
+        payments:
+          payments.status,
 
-          email:
-            email.status,
+        email:
+          email.status,
 
-          storage:
-            storage.status
-        },
+        storage:
+          storage.status
+      },
 
-        requestId:
-          req.requestId
-      });
+      requestId:
+        req.requestId
+    });
   }
 );
 
@@ -1240,12 +1027,8 @@ app.get(
       await checkDatabaseHealth();
 
     const healthy =
-      db.status !==
-        "error" &&
-      db.status !==
-        "not_configured" ||
-      NODE_ENV !==
-        "production";
+      db.status === "connected" ||
+      NODE_ENV !== "production";
 
     return res
       .status(
@@ -1298,13 +1081,10 @@ app.get(
       await checkDatabaseHealth();
 
     const ready =
-      db.status ===
-        "connected" ||
+      db.status === "connected" ||
       (
-        NODE_ENV !==
-          "production" &&
-        db.status !==
-          "error"
+        NODE_ENV !== "production" &&
+        db.status !== "error"
       );
 
     return res
@@ -1341,11 +1121,10 @@ app.get(
  */
 
 app.get(
-  NORMALIZED_API_PREFIX || "/",
+  NORMALIZED_API_PREFIX || "/api",
   (req, res) => {
     return res.json({
-      success:
-        true,
+      success: true,
 
       name:
         `${APP_NAME} API`,
@@ -1436,7 +1215,7 @@ function mountRoute(
   options = {}
 ) {
   const {
-    required = false
+    required = true
   } = options;
 
   const routePath =
@@ -1454,9 +1233,7 @@ function mountRoute(
       `[GHAR] Route not found: ${routeFile}`;
 
     if (required) {
-      throw new Error(
-        message
-      );
+      throw new Error(message);
     }
 
     console.warn(
@@ -1468,22 +1245,19 @@ function mountRoute(
 
   try {
     const router =
-      require(
-        routePath
-      );
+      require(routePath);
 
-    const validRouter =
-      typeof router ===
-        "function" ||
-      (
-        router &&
-        typeof router.use ===
-          "function"
-      );
-
-    if (!validRouter) {
+    /**
+     * Express Router is a function.
+     *
+     * Do NOT accept arbitrary objects.
+     */
+    if (
+      typeof router !==
+      "function"
+    ) {
       throw new TypeError(
-        `Invalid Express router exported by ${routeFile}`
+        `${routeFile} must export an Express Router using module.exports = router`
       );
     }
 
@@ -1513,128 +1287,48 @@ function mountRoute(
 
 /**
  * ============================================================
- * API ROUTE MAP
- * ============================================================
- *
- * Keep synchronized with:
- *
- * GHAR/routes/
- *
+ * ROUTES
  * ============================================================
  */
 
 const ROUTES = [
-  [
-    "auth.routes.js",
-    "/auth"
-  ],
-
-  [
-    "user.routes.js",
-    "/users"
-  ],
-
-  [
-    "property.routes.js",
-    "/properties"
-  ],
-
-  [
-    "search.routes.js",
-    "/search"
-  ],
-
-  [
-    "visit.routes.js",
-    "/visits"
-  ],
-
-  [
-    "offer.routes.js",
-    "/offers"
-  ],
-
-  [
-    "application.routes.js",
-    "/applications"
-  ],
-
-  [
-    "document.routes.js",
-    "/documents"
-  ],
-
-  [
-    "verification.routes.js",
-    "/verification"
-  ],
-
-  [
-    "payment.routes.js",
-    "/payments"
-  ],
-
-  [
-    "subscription.routes.js",
-    "/subscriptions"
-  ],
-
-  [
-    "loan.routes.js",
-    "/loans"
-  ],
-
-  [
-    "referral.routes.js",
-    "/referrals"
-  ],
-
-  [
-    "notification.routes.js",
-    "/notifications"
-  ],
-
-  [
-    "message.routes.js",
-    "/messages"
-  ],
-
-  [
-    "support.routes.js",
-    "/support"
-  ],
-
-  [
-    "ai.routes.js",
-    "/ai"
-  ],
-
-  [
-    "admin.routes.js",
-    "/admin"
-  ],
-
-  [
-    "admin-ai.routes.js",
-    "/admin/ai"
-  ]
+  ["auth.routes.js", "/auth"],
+  ["user.routes.js", "/users"],
+  ["property.routes.js", "/properties"],
+  ["search.routes.js", "/search"],
+  ["visit.routes.js", "/visits"],
+  ["offer.routes.js", "/offers"],
+  ["application.routes.js", "/applications"],
+  ["document.routes.js", "/documents"],
+  ["verification.routes.js", "/verification"],
+  ["payment.routes.js", "/payments"],
+  ["subscription.routes.js", "/subscriptions"],
+  ["loan.routes.js", "/loans"],
+  ["referral.routes.js", "/referrals"],
+  ["notification.routes.js", "/notifications"],
+  ["message.routes.js", "/messages"],
+  ["support.routes.js", "/support"],
+  ["ai.routes.js", "/ai"],
+  ["admin.routes.js", "/admin"],
+  ["admin-ai.routes.js", "/admin/ai"]
 ];
 
 /**
  * ============================================================
- * MOUNT API ROUTES
+ * MOUNT ROUTES
  * ============================================================
  */
 
 for (
-  const [
-    routeFile,
-    routePath
-  ] of ROUTES
+  const [routeFile, routePath]
+  of ROUTES
 ) {
   mountRoute(
     routeFile,
-    `${NORMALIZED_API_PREFIX}${routePath}`
+    `${NORMALIZED_API_PREFIX}${routePath}`,
+    {
+      required: true
+    }
   );
 }
 
@@ -1649,21 +1343,17 @@ app.use(
   express.static(
     ASSETS_DIR,
     {
-      index:
-        false,
+      index: false,
 
-      dotfiles:
-        "ignore",
+      dotfiles: "ignore",
 
       maxAge:
-        NODE_ENV ===
-        "production"
+        NODE_ENV === "production"
           ? "7d"
           : 0,
 
       immutable:
-        NODE_ENV ===
-        "production"
+        NODE_ENV === "production"
     }
   )
 );
@@ -1672,16 +1362,6 @@ app.use(
  * ============================================================
  * PUBLIC PROPERTY IMAGES
  * ============================================================
- *
- * ONLY property images are publicly accessible.
- *
- * Never expose:
- *
- * /uploads/documents
- * /uploads/agreements
- * /uploads/verification
- *
- * directly.
  */
 
 const PROPERTY_IMAGES_DIR =
@@ -1695,18 +1375,14 @@ app.use(
   express.static(
     PROPERTY_IMAGES_DIR,
     {
-      index:
-        false,
+      index: false,
 
-      dotfiles:
-        "deny",
+      dotfiles: "deny",
 
-      fallthrough:
-        false,
+      fallthrough: false,
 
       maxAge:
-        NODE_ENV ===
-        "production"
+        NODE_ENV === "production"
           ? "7d"
           : 0
     }
@@ -1717,11 +1393,6 @@ app.use(
  * ============================================================
  * OPTIONAL PUBLIC PROPERTY VIDEOS
  * ============================================================
- *
- * Disabled by default.
- *
- * Enable only if the application explicitly decides that
- * property videos are public.
  */
 
 if (
@@ -1736,15 +1407,12 @@ if (
         "property-videos"
       ),
       {
-        index:
-          false,
+        index: false,
 
-        dotfiles:
-          "deny",
+        dotfiles: "deny",
 
         maxAge:
-          NODE_ENV ===
-          "production"
+          NODE_ENV === "production"
             ? "7d"
             : 0
       }
@@ -1754,39 +1422,49 @@ if (
 
 /**
  * ============================================================
- * FRONTEND STATIC FILES
+ * ROOT HOMEPAGE
  * ============================================================
  *
- * GHAR frontend can live directly in the project root.
+ * IMPORTANT:
  *
- * Examples:
+ * "/" ALWAYS serves index.html.
  *
- * /index.html
- * /about.html
- * /properties.html
- * /buyer/index.html
- * /seller/index.html
- * /tenant/index.html
- * /admin/admin-dashboard.html
+ * There is NO seller redirect here.
+ * ============================================================
+ */
+
+app.get(
+  "/",
+  (req, res) => {
+    return res.sendFile(
+      path.join(
+        ROOT_DIR,
+        "index.html"
+      )
+    );
+  }
+);
+
+/**
+ * ============================================================
+ * FRONTEND STATIC FILES
+ * ============================================================
  */
 
 app.use(
   express.static(
     PUBLIC_DIR,
     {
-      index:
-        "index.html",
+      index: "index.html",
 
-      dotfiles:
-        "ignore",
+      dotfiles: "ignore",
 
       extensions: [
         "html"
       ],
 
       maxAge:
-        NODE_ENV ===
-        "production"
+        NODE_ENV === "production"
           ? "1d"
           : 0
     }
@@ -1800,13 +1478,12 @@ app.use(
  */
 
 app.use(
-  NORMALIZED_API_PREFIX,
+  `${NORMALIZED_API_PREFIX}/`,
   (req, res) => {
     return res
       .status(404)
       .json({
-        success:
-          false,
+        success: false,
 
         error: {
           code:
@@ -1870,7 +1547,7 @@ app.use(
   </main>
 </body>
 </html>
-      `);
+`);
   }
 );
 
@@ -1887,10 +1564,6 @@ app.use(
     res,
     next
   ) => {
-    /**
-     * Express identifies error handlers by their signature.
-     * next is intentionally retained.
-     */
     void next;
 
     const requestId =
@@ -1911,9 +1584,6 @@ app.use(
         ? statusCode
         : 500;
 
-    /**
-     * Server-side diagnostic logging.
-     */
     console.error(
       "[GHAR ERROR]",
       {
@@ -1941,9 +1611,6 @@ app.use(
       }
     );
 
-    /**
-     * CORS error.
-     */
     if (
       err.code ===
         "CORS_ORIGIN_NOT_ALLOWED" ||
@@ -1953,8 +1620,7 @@ app.use(
       return res
         .status(403)
         .json({
-          success:
-            false,
+          success: false,
 
           error: {
             code:
@@ -1968,22 +1634,17 @@ app.use(
         });
     }
 
-    /**
-     * Invalid JSON.
-     */
     if (
       err instanceof
         SyntaxError &&
-      err.status ===
-        400 &&
+      err.status === 400 &&
       err.type ===
         "entity.parse.failed"
     ) {
       return res
         .status(400)
         .json({
-          success:
-            false,
+          success: false,
 
           error: {
             code:
@@ -1997,9 +1658,6 @@ app.use(
         });
     }
 
-    /**
-     * Payload too large.
-     */
     if (
       err.type ===
       "entity.too.large"
@@ -2007,8 +1665,7 @@ app.use(
       return res
         .status(413)
         .json({
-          success:
-            false,
+          success: false,
 
           error: {
             code:
@@ -2022,18 +1679,13 @@ app.use(
         });
     }
 
-    /**
-     * Rate limiting.
-     */
     if (
-      status ===
-      429
+      status === 429
     ) {
       return res
         .status(429)
         .json({
-          success:
-            false,
+          success: false,
 
           error: {
             code:
@@ -2047,19 +1699,14 @@ app.use(
         });
     }
 
-    /**
-     * Production-safe error response.
-     */
     const exposeMessage =
-      NODE_ENV !==
-        "production" ||
+      NODE_ENV !== "production" ||
       status < 500;
 
     return res
       .status(status)
       .json({
-        success:
-          false,
+        success: false,
 
         error: {
           code:
@@ -2090,18 +1737,11 @@ app.use(
 
 /**
  * ============================================================
- * PROCESS ERROR STATE
+ * SHUTDOWN
  * ============================================================
  */
 
-let shuttingDown =
-  false;
-
-/**
- * ============================================================
- * DATABASE CLOSE
- * ============================================================
- */
+let shuttingDown = false;
 
 async function closeDatabase() {
   if (!database) {
@@ -2148,24 +1788,15 @@ async function closeDatabase() {
   }
 }
 
-/**
- * ============================================================
- * GRACEFUL SHUTDOWN
- * ============================================================
- */
-
 async function gracefulShutdown(
   signal,
   exitCode = 0
 ) {
-  if (
-    shuttingDown
-  ) {
+  if (shuttingDown) {
     return;
   }
 
-  shuttingDown =
-    true;
+  shuttingDown = true;
 
   console.log(
     `[GHAR] ${signal} received. Starting graceful shutdown...`
@@ -2223,9 +1854,7 @@ async function gracefulShutdown(
       "[GHAR] Shutdown complete."
     );
 
-    process.exit(
-      exitCode
-    );
+    process.exit(exitCode);
   } catch (error) {
     console.error(
       "[GHAR] Shutdown failed:",
@@ -2241,7 +1870,7 @@ async function gracefulShutdown(
 }
 
 /**
- ============================================================
+ * ============================================================
  * PROCESS ERROR HANDLERS
  * ============================================================
  */
@@ -2254,9 +1883,6 @@ process.on(
       reason
     );
 
-    /**
-     * Unhandled promise rejections are fatal in production.
-     */
     if (
       NODE_ENV ===
       "production"
@@ -2286,7 +1912,7 @@ process.on(
 
 /**
  * ============================================================
- * OS SIGNAL HANDLERS
+ * SIGNALS
  * ============================================================
  */
 
@@ -2312,14 +1938,14 @@ process.on(
 
 /**
  * ============================================================
- * SERVER STARTUP
+ * START SERVER
  * ============================================================
  */
 
 async function startServer() {
   try {
     /**
-     * Validate environment before startup.
+     * Validate environment.
      */
     if (
       typeof env.validateProductionEnvironment ===
@@ -2329,7 +1955,7 @@ async function startServer() {
     }
 
     /**
-     * Initialize database BEFORE accepting traffic.
+     * Database must initialize before traffic.
      */
     await initializeDatabase();
 
@@ -2338,22 +1964,39 @@ async function startServer() {
      */
     await new Promise(
       (resolve, reject) => {
+        const onError =
+          (error) => {
+            server.removeListener(
+              "listening",
+              onListening
+            );
+
+            reject(error);
+          };
+
+        const onListening =
+          () => {
+            server.removeListener(
+              "error",
+              onError
+            );
+
+            resolve();
+          };
+
         server.once(
           "error",
-          reject
+          onError
+        );
+
+        server.once(
+          "listening",
+          onListening
         );
 
         server.listen(
           PORT,
-          HOST,
-          () => {
-            server.removeListener(
-              "error",
-              reject
-            );
-
-            resolve();
-          }
+          HOST
         );
       }
     );
@@ -2397,6 +2040,10 @@ async function startServer() {
 
     console.log(
       "------------------------------------------------------------"
+    );
+
+    console.log(
+      "Homepage    : /"
     );
 
     console.log(
@@ -2468,16 +2115,6 @@ async function startServer() {
  * ============================================================
  * EXPORTS
  * ============================================================
- *
- * These exports support:
- *
- * - Jest
- * - Supertest
- * - Integration tests
- * - Health tests
- * - API tests
- *
- * ============================================================
  */
 
 module.exports = {
@@ -2498,7 +2135,7 @@ module.exports = {
 
 /**
  * ============================================================
- * START ONLY WHEN EXECUTED DIRECTLY
+ * DIRECT EXECUTION
  * ============================================================
  */
 
