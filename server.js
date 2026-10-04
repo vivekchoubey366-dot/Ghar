@@ -28,7 +28,6 @@ const morgan = require("morgan");
  */
 
 const env = require("./config/env");
-
 const { corsMiddleware } = require("./config/cors");
 
 /**
@@ -49,6 +48,7 @@ function optionalRequire(file, label) {
       `[GHAR] ${label} configuration could not be loaded:`,
       error.message
     );
+
     return null;
   }
 }
@@ -1204,8 +1204,7 @@ app.get(
 );
 
 /**
-*
-============================================================
+ * ============================================================
  * ROUTE LOADER
  * ============================================================
  *
@@ -1240,15 +1239,14 @@ function mountRoute(
     required = true
   } = options;
 
-  const routePath = path.join(
-    ROUTES_DIR,
-    routeFile
-  );
+  const routePath =
+    path.join(
+      ROUTES_DIR,
+      routeFile
+    );
 
   /**
-   * ----------------------------------------------------------
-   * Check route file
-   * ----------------------------------------------------------
+   * Check route file.
    */
 
   if (!fs.existsSync(routePath)) {
@@ -1267,38 +1265,29 @@ function mountRoute(
   }
 
   /**
-   * ----------------------------------------------------------
-   * Load route
-   * ----------------------------------------------------------
+   * Load route.
    */
 
   try {
-    /**
-     * Clear the require cache in development.
-     *
-     * This does not affect production startup but makes local
-     * debugging easier when routes are edited repeatedly.
-     */
-    if (NODE_ENV !== "production") {
+    if (
+      NODE_ENV !== "production"
+    ) {
       delete require.cache[
         require.resolve(routePath)
       ];
     }
 
-    const router = require(routePath);
+    const router =
+      require(routePath);
 
     /**
-     * --------------------------------------------------------
-     * Validate Express Router
-     * --------------------------------------------------------
-     *
-     * Express routers are functions.
-     *
-     * If typeof router is "object", the route file is exporting
-     * the wrong thing.
+     * Validate Express Router.
      */
 
-    if (typeof router !== "function") {
+    if (
+      typeof router !==
+      "function"
+    ) {
       const exportedType =
         router === null
           ? "null"
@@ -1308,17 +1297,15 @@ function mountRoute(
         [
           `[GHAR] Invalid route export in ${routeFile}.`,
           `Expected an Express Router function but received ${exportedType}.`,
-          ``,
-          `Correct ending:`,
-          `module.exports = router;`
+          "",
+          "Correct ending:",
+          "module.exports = router;"
         ].join("\n")
       );
     }
 
     /**
-     * --------------------------------------------------------
-     * Mount route
-     * --------------------------------------------------------
+     * Mount route.
      */
 
     app.use(
@@ -1345,9 +1332,7 @@ function mountRoute(
       `[GHAR] API path: ${basePath}`
     );
 
-    console.error(
-      error
-    );
+    console.error(error);
 
     if (required) {
       throw error;
@@ -1360,14 +1345,6 @@ function mountRoute(
 /**
  * ============================================================
  * ROUTES
- * ============================================================
- *
- * IMPORTANT:
- *
- * The filenames here MUST exactly match the files inside:
- *
- * /routes/
- *
  * ============================================================
  */
 
@@ -1483,6 +1460,8 @@ for (const route of ROUTES) {
     }
   );
 }
+
+/**
  * ============================================================
  * STATIC ASSETS
  * ============================================================
@@ -1574,8 +1553,6 @@ if (
  * ============================================================
  * ROOT HOMEPAGE
  * ============================================================
- *
- * IMPORTANT:
  *
  * "/" ALWAYS serves index.html.
  *
@@ -2097,6 +2074,7 @@ async function startServer() {
     /**
      * Validate environment.
      */
+
     if (
       typeof env.validateProductionEnvironment ===
       "function"
@@ -2107,11 +2085,13 @@ async function startServer() {
     /**
      * Database must initialize before traffic.
      */
+
     await initializeDatabase();
 
     /**
      * Start HTTP server.
      */
+
     await new Promise(
       (resolve, reject) => {
         const onError =
@@ -2152,6 +2132,7 @@ async function startServer() {
     );
 
     console.log("");
+
     console.log(
       "============================================================"
     );
@@ -2249,6 +2230,7 @@ async function startServer() {
     );
 
     console.log("");
+
   } catch (error) {
     console.error(
       "[GHAR] Server startup failed:",
