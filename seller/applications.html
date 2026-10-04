@@ -1,0 +1,2835 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<meta name="description"
+      content="GHAR Seller Applications -- Manage buyer applications, review documents and track application progress.">
+
+<meta name="theme-color" content="#162d25">
+
+<title>GHAR · Seller · Applications</title>
+
+<link rel="icon" href="../assets/images/favicon.svg">
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+:root{
+  --green-950:#07130e;
+  --green-925:#0a1912;
+  --green-900:#0b1c14;
+  --green-850:#10261c;
+  --green-800:#162d25;
+  --green-750:#1a382c;
+  --green-700:#214438;
+  --green-600:#2b5847;
+
+  --gold-100:#fff7df;
+  --gold-200:#f4dfaa;
+  --gold-300:#e5c77d;
+  --gold-400:#c9a95c;
+  --gold-500:#a98238;
+
+  --cream:#fffaf0;
+  --text:#f9f5ea;
+  --muted:rgba(255,255,255,.68);
+  --muted-2:rgba(255,255,255,.45);
+
+  --border:rgba(229,199,125,.18);
+  --border-light:rgba(255,255,255,.09);
+
+  --success:#82c995;
+  --warning:#e5c77d;
+  --danger:#e98c8c;
+  --blue:#91b9e8;
+
+  --shadow:0 25px 80px rgba(0,0,0,.25);
+
+  --radius-xl:28px;
+  --radius-lg:21px;
+  --radius-md:15px;
+
+  --container:1440px;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  min-height:100vh;
+  color:var(--text);
+  font-family:
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  background:
+    radial-gradient(
+      circle at 5% 0%,
+      rgba(229,199,125,.12),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 100% 10%,
+      rgba(44,91,69,.22),
+      transparent 30%
+    ),
+    linear-gradient(
+      135deg,
+      #07130e,
+      #0b1c14 48%,
+      #10261c
+    );
+
+  overflow-x:hidden;
+}
+
+a{
+  color:inherit;
+  text-decoration:none;
+}
+
+button,
+input,
+select{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+img{
+  display:block;
+  max-width:100%;
+}
+
+.container{
+  width:min(
+    calc(100% - 40px),
+    var(--container)
+  );
+  margin:auto;
+}
+
+
+/* =========================================================
+   BACKGROUND
+========================================================= */
+
+.page-glow{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:-1;
+  overflow:hidden;
+}
+
+.page-glow::before{
+  content:"";
+  position:absolute;
+  width:550px;
+  height:550px;
+  top:-300px;
+  right:-220px;
+  border-radius:50%;
+  border:1px solid rgba(229,199,125,.12);
+  box-shadow:
+    0 0 0 60px rgba(229,199,125,.025),
+    0 0 0 120px rgba(229,199,125,.015);
+}
+
+.page-glow::after{
+  content:"";
+  position:absolute;
+  width:500px;
+  height:500px;
+  bottom:-300px;
+  left:-250px;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,.06);
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.site-header{
+  position:sticky;
+  top:0;
+  z-index:100;
+  border-bottom:1px solid rgba(229,199,125,.10);
+  background:rgba(7,19,14,.90);
+  backdrop-filter:blur(22px);
+}
+
+.header-inner{
+  min-height:76px;
+  display:flex;
+  align-items:center;
+  gap:24px;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex-shrink:0;
+}
+
+.brand-mark{
+  width:45px;
+  height:45px;
+  display:grid;
+  place-items:center;
+  border-radius:14px;
+  color:#152116;
+  font-size:19px;
+  font-weight:1000;
+  background:linear-gradient(
+    135deg,
+    #f1dda5,
+    #b98b3d
+  );
+  box-shadow:
+    0 10px 25px rgba(0,0,0,.25),
+    inset 0 1px 0 rgba(255,255,255,.5);
+}
+
+.brand-text strong{
+  display:block;
+  font-size:17px;
+  letter-spacing:.17em;
+}
+
+.brand-text span{
+  display:block;
+  margin-top:2px;
+  color:var(--muted-2);
+  font-size:8px;
+  font-weight:800;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+}
+
+.desktop-nav{
+  display:flex;
+  align-items:center;
+  gap:5px;
+  margin-left:auto;
+}
+
+.desktop-nav a{
+  padding:10px 12px;
+  border-radius:10px;
+  color:var(--muted);
+  font-size:11px;
+  font-weight:700;
+  transition:.2s ease;
+}
+
+.desktop-nav a:hover,
+.desktop-nav a.active{
+  color:var(--gold-200);
+  background:rgba(229,199,125,.07);
+}
+
+.header-actions{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.icon-btn{
+  width:41px;
+  height:41px;
+  display:grid;
+  place-items:center;
+  border:1px solid var(--border-light);
+  border-radius:12px;
+  color:var(--muted);
+  background:rgba(255,255,255,.035);
+  transition:.2s ease;
+}
+
+.icon-btn:hover{
+  color:var(--gold-200);
+  border-color:rgba(229,199,125,.25);
+}
+
+.avatar{
+  width:40px;
+  height:40px;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  color:#172016;
+  font-size:12px;
+  font-weight:1000;
+  background:linear-gradient(
+    135deg,
+    var(--gold-200),
+    var(--gold-500)
+  );
+}
+
+.mobile-menu{
+  display:none;
+}
+
+
+/* =========================================================
+   PAGE HEADER
+========================================================= */
+
+.page-header{
+  padding:42px 0 24px;
+}
+
+.page-header-card{
+  position:relative;
+  overflow:hidden;
+  padding:34px;
+  border:1px solid var(--border);
+  border-radius:var(--radius-xl);
+
+  background:
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(229,199,125,.13),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 0% 100%,
+      rgba(44,91,69,.25),
+      transparent 38%
+    ),
+    linear-gradient(
+      145deg,
+      #0a1a12,
+      #10251b 55%,
+      #142d22
+    );
+
+  box-shadow:var(--shadow);
+}
+
+.page-header-card::after{
+  content:"";
+  position:absolute;
+  width:320px;
+  height:320px;
+  right:-190px;
+  bottom:-210px;
+  border-radius:50%;
+  border:1px solid rgba(229,199,125,.12);
+  box-shadow:
+    0 0 0 40px rgba(229,199,125,.02),
+    0 0 0 80px rgba(229,199,125,.015);
+}
+
+.eyebrow{
+  color:var(--gold-300);
+  font-size:10px;
+  font-weight:950;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+}
+
+.page-header h1{
+  position:relative;
+  z-index:2;
+  margin-top:10px;
+  font-size:clamp(34px,5vw,54px);
+  line-height:1;
+  letter-spacing:-.05em;
+}
+
+.page-header h1 span{
+  color:var(--gold-300);
+}
+
+.page-header p{
+  position:relative;
+  z-index:2;
+  max-width:760px;
+  margin-top:13px;
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.7;
+}
+
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.btn{
+  min-height:42px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  padding:0 15px;
+  border-radius:11px;
+  border:1px solid transparent;
+  font-size:10px;
+  font-weight:900;
+  transition:.2s ease;
+}
+
+.btn-primary{
+  color:#17170f;
+  background:linear-gradient(
+    135deg,
+    #f1dca1,
+    #cda85d
+  );
+}
+
+.btn-primary:hover{
+  transform:translateY(-2px);
+}
+
+.btn-secondary{
+  color:var(--cream);
+  border-color:var(--border-light);
+  background:rgba(255,255,255,.045);
+}
+
+.btn-secondary:hover{
+  color:var(--gold-200);
+  border-color:rgba(229,199,125,.25);
+}
+
+.btn-danger{
+  color:#ffdede;
+  border-color:rgba(233,140,140,.22);
+  background:rgba(233,140,140,.07);
+}
+
+.btn-success{
+  color:#d8f5df;
+  border-color:rgba(130,201,149,.22);
+  background:rgba(130,201,149,.07);
+}
+
+
+/* =========================================================
+   STATS
+========================================================= */
+
+.section{
+  padding:16px 0 28px;
+}
+
+.stats-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:13px;
+}
+
+.stat-card{
+  padding:19px;
+  border:1px solid var(--border-light);
+  border-radius:var(--radius-lg);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(20,45,34,.92),
+      rgba(11,28,20,.92)
+    );
+}
+
+.stat-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.stat-label{
+  color:var(--muted-2);
+  font-size:9px;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+}
+
+.stat-icon{
+  width:36px;
+  height:36px;
+  display:grid;
+  place-items:center;
+  border-radius:11px;
+  color:var(--gold-300);
+  background:rgba(229,199,125,.08);
+}
+
+.stat-value{
+  margin-top:14px;
+  font-size:27px;
+  font-weight:900;
+  letter-spacing:-.04em;
+}
+
+.stat-note{
+  margin-top:4px;
+  color:var(--muted-2);
+  font-size:9px;
+}
+
+
+/* =========================================================
+   TOOLBAR
+========================================================= */
+
+.toolbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+  margin-bottom:15px;
+}
+
+.toolbar-left h2{
+  font-size:22px;
+  letter-spacing:-.035em;
+}
+
+.toolbar-left p{
+  margin-top:5px;
+  color:var(--muted-2);
+  font-size:10px;
+}
+
+.toolbar-right{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.search-box{
+  height:42px;
+  width:260px;
+  padding:0 13px;
+  border:1px solid var(--border-light);
+  border-radius:11px;
+  outline:none;
+  color:var(--cream);
+  background:rgba(255,255,255,.035);
+}
+
+.search-box:focus{
+  border-color:rgba(229,199,125,.45);
+}
+
+.select{
+  height:42px;
+  padding:0 12px;
+  border:1px solid var(--border-light);
+  border-radius:11px;
+  outline:none;
+  color:var(--cream);
+  background:#10261c;
+  font-size:10px;
+}
+
+
+/* =========================================================
+   APPLICATION PANEL
+========================================================= */
+
+.application-panel{
+  overflow:hidden;
+  border:1px solid var(--border-light);
+  border-radius:var(--radius-lg);
+  background:
+    linear-gradient(
+      145deg,
+      rgba(20,45,34,.96),
+      rgba(11,28,20,.96)
+    );
+}
+
+.table-wrap{
+  width:100%;
+  overflow-x:auto;
+}
+
+.application-table{
+  width:100%;
+  min-width:1050px;
+  border-collapse:collapse;
+}
+
+.application-table th{
+  padding:14px 16px;
+  text-align:left;
+  color:var(--muted-2);
+  background:rgba(255,255,255,.025);
+  border-bottom:1px solid rgba(255,255,255,.07);
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+}
+
+.application-table td{
+  padding:15px 16px;
+  border-bottom:1px solid rgba(255,255,255,.055);
+  vertical-align:middle;
+  font-size:10px;
+}
+
+.application-table tbody tr{
+  transition:.2s ease;
+}
+
+.application-table tbody tr:hover{
+  background:rgba(229,199,125,.025);
+}
+
+.application-table tbody tr:last-child td{
+  border-bottom:0;
+}
+
+.buyer-cell{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.buyer-avatar{
+  width:36px;
+  height:36px;
+  flex:0 0 36px;
+  display:grid;
+  place-items:center;
+  border-radius:11px;
+  color:#172016;
+  background:linear-gradient(
+    135deg,
+    var(--gold-200),
+    var(--gold-500)
+  );
+  font-size:10px;
+  font-weight:1000;
+}
+
+.buyer-name{
+  font-weight:850;
+}
+
+.buyer-email{
+  margin-top:3px;
+  color:var(--muted-2);
+  font-size:8px;
+}
+
+.property-name{
+  max-width:210px;
+  font-weight:750;
+}
+
+.property-id{
+  margin-top:3px;
+  color:var(--muted-2);
+  font-size:8px;
+}
+
+.amount{
+  color:var(--cream);
+  font-weight:900;
+}
+
+.date{
+  color:var(--muted);
+  font-size:9px;
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+.status{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  padding:6px 9px;
+  border-radius:20px;
+  font-size:8px;
+  font-weight:900;
+  white-space:nowrap;
+}
+
+.status::before{
+  content:"";
+  width:5px;
+  height:5px;
+  border-radius:50%;
+  background:currentColor;
+}
+
+.status-pending{
+  color:var(--warning);
+  background:rgba(229,199,125,.08);
+}
+
+.status-review{
+  color:var(--blue);
+  background:rgba(145,185,232,.08);
+}
+
+.status-approved{
+  color:var(--success);
+  background:rgba(130,201,149,.08);
+}
+
+.status-rejected{
+  color:var(--danger);
+  background:rgba(233,140,140,.08);
+}
+
+.status-withdrawn{
+  color:var(--muted);
+  background:rgba(255,255,255,.06);
+}
+
+
+/* =========================================================
+   ACTIONS
+========================================================= */
+
+.row-actions{
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+
+.row-action{
+  min-height:32px;
+  padding:0 9px;
+  border:1px solid var(--border-light);
+  border-radius:8px;
+  color:var(--muted);
+  background:rgba(255,255,255,.035);
+  font-size:8px;
+  font-weight:800;
+}
+
+.row-action:hover{
+  color:var(--gold-200);
+  border-color:rgba(229,199,125,.24);
+}
+
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+.empty-state{
+  display:none;
+  padding:60px 25px;
+  text-align:center;
+}
+
+.empty-icon{
+  width:58px;
+  height:58px;
+  margin:0 auto;
+  display:grid;
+  place-items:center;
+  border-radius:17px;
+  color:var(--gold-300);
+  background:rgba(229,199,125,.08);
+  font-size:24px;
+}
+
+.empty-state h3{
+  margin-top:15px;
+  font-size:17px;
+}
+
+.empty-state p{
+  max-width:420px;
+  margin:7px auto 0;
+  color:var(--muted-2);
+  font-size:10px;
+  line-height:1.6;
+}
+
+
+/* =========================================================
+   SIDE INFORMATION
+========================================================= */
+
+.info-grid{
+  display:grid;
+  grid-template-columns:1.25fr .75fr;
+  gap:16px;
+}
+
+.panel{
+  padding:21px;
+  border:1px solid var(--border-light);
+  border-radius:var(--radius-lg);
+  background:
+    linear-gradient(
+      145deg,
+      rgba(20,45,34,.95),
+      rgba(11,28,20,.95)
+    );
+}
+
+.panel-title{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:15px;
+}
+
+.panel-title h3{
+  font-size:15px;
+}
+
+.panel-title span{
+  color:var(--muted-2);
+  font-size:8px;
+}
+
+.steps{
+  display:grid;
+  gap:9px;
+}
+
+.step{
+  display:flex;
+  gap:11px;
+  padding:11px;
+  border-radius:11px;
+  background:rgba(255,255,255,.025);
+}
+
+.step-number{
+  width:29px;
+  height:29px;
+  flex:0 0 29px;
+  display:grid;
+  place-items:center;
+  border-radius:9px;
+  color:#172016;
+  background:var(--gold-300);
+  font-size:9px;
+  font-weight:1000;
+}
+
+.step strong{
+  display:block;
+  font-size:9px;
+}
+
+.step span{
+  display:block;
+  margin-top:3px;
+  color:var(--muted-2);
+  font-size:8px;
+  line-height:1.5;
+}
+
+.ai-panel{
+  position:relative;
+  overflow:hidden;
+  background:
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(229,199,125,.13),
+      transparent 40%
+    ),
+    linear-gradient(
+      145deg,
+      #18382b,
+      #0c1f16
+    );
+}
+
+.ai-badge{
+  display:inline-flex;
+  padding:6px 8px;
+  border-radius:7px;
+  color:#182016;
+  background:var(--gold-300);
+  font-size:8px;
+  font-weight:1000;
+}
+
+.ai-panel h3{
+  margin-top:12px;
+  font-size:20px;
+  line-height:1.15;
+}
+
+.ai-panel p{
+  margin-top:8px;
+  color:var(--muted);
+  font-size:9px;
+  line-height:1.6;
+}
+
+.ai-button{
+  width:100%;
+  margin-top:15px;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.site-footer{
+  margin-top:35px;
+  padding:35px 0 25px;
+  border-top:1px solid rgba(255,255,255,.07);
+  background:rgba(3,12,8,.35);
+}
+
+.footer-grid{
+  display:grid;
+  grid-template-columns:1.4fr repeat(3,1fr);
+  gap:25px;
+}
+
+.footer-brand{
+  max-width:300px;
+}
+
+.footer-brand p{
+  margin-top:10px;
+  color:var(--muted-2);
+  font-size:9px;
+  line-height:1.7;
+}
+
+.footer-col h4{
+  color:var(--gold-200);
+  font-size:9px;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+}
+
+.footer-col a{
+  display:block;
+  margin-top:9px;
+  color:var(--muted-2);
+  font-size:9px;
+}
+
+.footer-col a:hover{
+  color:var(--gold-300);
+}
+
+.footer-bottom{
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+  margin-top:28px;
+  padding-top:17px;
+  border-top:1px solid rgba(255,255,255,.06);
+  color:var(--muted-2);
+  font-size:8px;
+}
+
+
+/* =========================================================
+   AI FLOATING
+========================================================= */
+
+.ai-floating{
+  position:fixed;
+  right:22px;
+  bottom:22px;
+  z-index:90;
+  min-height:48px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:0 16px;
+  border:1px solid rgba(229,199,125,.25);
+  border-radius:30px;
+  color:#17170f;
+  background:linear-gradient(
+    135deg,
+    var(--gold-200),
+    var(--gold-400)
+  );
+  box-shadow:0 15px 35px rgba(0,0,0,.3);
+  font-size:10px;
+  font-weight:1000;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:1100px){
+
+  .desktop-nav{
+    display:none;
+  }
+
+  .mobile-menu{
+    display:grid;
+  }
+
+  .stats-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .info-grid{
+    grid-template-columns:1fr;
+  }
+}
+
+@media(max-width:800px){
+
+  .container{
+    width:min(
+      calc(100% - 28px),
+      var(--container)
+    );
+  }
+
+  .page-header{
+    padding-top:25px;
+  }
+
+  .page-header-card{
+    padding:27px;
+  }
+
+  .toolbar{
+    align-items:stretch;
+    flex-direction:column;
+  }
+
+  .toolbar-right{
+    width:100%;
+  }
+
+  .search-box{
+    width:100%;
+    flex:1;
+  }
+
+  .footer-grid{
+    grid-template-columns:1fr 1fr;
+  }
+}
+
+@media(max-width:560px){
+
+  .header-inner{
+    min-height:68px;
+  }
+
+  .brand-text span{
+    display:none;
+  }
+
+  .header-actions .icon-btn{
+    display:none;
+  }
+
+  .page-header-card{
+    padding:23px;
+    border-radius:22px;
+  }
+
+  .page-header h1{
+    font-size:36px;
+  }
+
+  .stats-grid{
+    gap:9px;
+  }
+
+  .stat-card{
+    padding:15px;
+  }
+
+  .stat-value{
+    font-size:22px;
+  }
+
+  .toolbar-right{
+    flex-direction:column;
+  }
+
+  .search-box,
+  .select{
+    width:100%;
+  }
+
+  .footer-grid{
+    grid-template-columns:1fr;
+  }
+
+  .footer-bottom{
+    flex-direction:column;
+  }
+
+  .ai-floating{
+    right:14px;
+    bottom:14px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="page-glow"></div>
+
+
+<!-- =========================================================
+     HEADER
+========================================================= -->
+
+<header class="site-header">
+
+  <div class="container header-inner">
+
+    <a
+      class="brand"
+      href="/seller/index.html"
+      aria-label="GHAR Seller Home"
+    >
+
+      <div class="brand-mark">G</div>
+
+      <div class="brand-text">
+
+        <strong>GHAR</strong>
+
+        <span>Seller Experience</span>
+
+      </div>
+
+    </a>
+
+
+    <nav
+      class="desktop-nav"
+      aria-label="Seller navigation"
+    >
+
+      <a href="/seller/index.html">
+        Home
+      </a>
+
+      <a href="/seller/dashboard.html">
+        Dashboard
+      </a>
+
+      <a href="/seller/list-property.html">
+        List Property
+      </a>
+
+      <a href="/seller/property-approval.html">
+        Approvals
+      </a>
+
+      <a href="/seller/visits.html">
+        Visits
+      </a>
+
+      <a href="/seller/leads.html">
+        Leads
+      </a>
+
+      <a href="/seller/offers.html">
+        Offers
+      </a>
+
+      <a
+        class="active"
+        href="/seller/applications.html"
+      >
+        Applications
+      </a>
+
+    </nav>
+
+
+    <div class="header-actions">
+
+      <button
+        class="icon-btn"
+        id="notificationButton"
+        type="button"
+        aria-label="Notifications"
+      >
+        ♢
+      </button>
+
+      <a
+        class="avatar"
+        id="profileButton"
+        href="/seller/profile.html"
+        aria-label="Seller profile"
+      >
+        S
+      </a>
+
+      <button
+        class="icon-btn mobile-menu"
+        id="menuButton"
+        type="button"
+        aria-label="Open menu"
+      >
+        ☰
+      </button>
+
+    </div>
+
+  </div>
+
+</header>
+
+
+<main>
+
+
+<!-- =========================================================
+     PAGE HEADER
+========================================================= -->
+
+<section class="page-header">
+
+  <div class="container">
+
+    <div class="page-header-card">
+
+      <div class="eyebrow">
+        SELLER APPLICATION MANAGEMENT
+      </div>
+
+      <h1>
+        Manage buyer
+        <span>applications.</span>
+      </h1>
+
+      <p>
+        Review applications connected to your properties,
+        monitor buyer progress, check submitted information
+        and move each application through the transaction
+        workflow.
+      </p>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================================================
+     STATS
+========================================================= -->
+
+<section class="section">
+
+  <div class="container">
+
+    <div class="stats-grid">
+
+      <article class="stat-card">
+
+        <div class="stat-top">
+
+          <span class="stat-label">
+            Total
+          </span>
+
+          <div class="stat-icon">
+            ▣
+          </div>
+
+        </div>
+
+        <div
+          class="stat-value"
+          id="totalApplications"
+        >
+          0
+        </div>
+
+        <div class="stat-note">
+          Buyer applications
+        </div>
+
+      </article>
+
+
+      <article class="stat-card">
+
+        <div class="stat-top">
+
+          <span class="stat-label">
+            Pending
+          </span>
+
+          <div class="stat-icon">
+            ◷
+          </div>
+
+        </div>
+
+        <div
+          class="stat-value"
+          id="pendingApplications"
+        >
+          0
+        </div>
+
+        <div class="stat-note">
+          Awaiting review
+        </div>
+
+      </article>
+
+
+      <article class="stat-card">
+
+        <div class="stat-top">
+
+          <span class="stat-label">
+            Approved
+          </span>
+
+          <div class="stat-icon">
+            ✓
+          </div>
+
+        </div>
+
+        <div
+          class="stat-value"
+          id="approvedApplications"
+        >
+          0
+        </div>
+
+        <div class="stat-note">
+          Approved applications
+        </div>
+
+      </article>
+
+
+      <article class="stat-card">
+
+        <div class="stat-top">
+
+          <span class="stat-label">
+            Offers
+          </span>
+
+          <div class="stat-icon">
+            ₹
+          </div>
+
+        </div>
+
+        <div
+          class="stat-value"
+          id="offerApplications"
+        >
+          0
+        </div>
+
+        <div class="stat-note">
+          Applications with offers
+        </div>
+
+      </article>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================================================
+     APPLICATIONS
+========================================================= -->
+
+<section class="section">
+
+  <div class="container">
+
+    <div class="toolbar">
+
+      <div class="toolbar-left">
+
+        <h2>
+          Buyer applications
+        </h2>
+
+        <p>
+          Review and manage applications received for your listings.
+        </p>
+
+      </div>
+
+
+      <div class="toolbar-right">
+
+        <input
+          id="applicationSearch"
+          class="search-box"
+          type="search"
+          placeholder="Search buyer or property..."
+          autocomplete="off"
+        >
+
+        <select
+          id="statusFilter"
+          class="select"
+          aria-label="Filter applications"
+        >
+
+          <option value="all">
+            All statuses
+          </option>
+
+          <option value="pending">
+            Pending
+          </option>
+
+          <option value="review">
+            Under review
+          </option>
+
+          <option value="approved">
+            Approved
+          </option>
+
+          <option value="rejected">
+            Rejected
+          </option>
+
+          <option value="withdrawn">
+            Withdrawn
+          </option>
+
+        </select>
+
+      </div>
+
+    </div>
+
+
+    <div class="application-panel">
+
+      <div class="table-wrap">
+
+        <table class="application-table">
+
+          <thead>
+
+            <tr>
+
+              <th>
+                Buyer
+              </th>
+
+              <th>
+                Property
+              </th>
+
+              <th>
+                Application
+              </th>
+
+              <th>
+                Offer
+              </th>
+
+              <th>
+                Submitted
+              </th>
+
+              <th>
+                Status
+              </th>
+
+              <th>
+                Actions
+              </th>
+
+            </tr>
+
+          </thead>
+
+          <tbody id="applicationTableBody">
+
+            <!-- JS -->
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+
+      <div
+        id="emptyState"
+        class="empty-state"
+      >
+
+        <div class="empty-icon">
+          ▣
+        </div>
+
+        <h3>
+          No applications found
+        </h3>
+
+        <p>
+          Applications matching your current search and
+          status filter will appear here.
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================================================
+     WORKFLOW + AI
+========================================================= -->
+
+<section class="section">
+
+  <div class="container">
+
+    <div class="info-grid">
+
+
+      <div class="panel">
+
+        <div class="panel-title">
+
+          <h3>
+            Application workflow
+          </h3>
+
+          <span>
+            Seller process
+          </span>
+
+        </div>
+
+
+        <div class="steps">
+
+          <div class="step">
+
+            <div class="step-number">
+              01
+            </div>
+
+            <div>
+
+              <strong>
+                Receive application
+              </strong>
+
+              <span>
+                A buyer submits an application for one of
+                your active properties.
+              </span>
+
+            </div>
+
+          </div>
+
+
+          <div class="step">
+
+            <div class="step-number">
+              02
+            </div>
+
+            <div>
+
+              <strong>
+                Review buyer information
+              </strong>
+
+              <span>
+                Review the available buyer information,
+                application details and supporting documents.
+              </span>
+
+            </div>
+
+          </div>
+
+
+          <div class="step">
+
+            <div class="step-number">
+              03
+            </div>
+
+            <div>
+
+              <strong>
+                Evaluate offer
+              </strong>
+
+              <span>
+                Compare the proposed price and transaction
+                terms with your listing requirements.
+              </span>
+
+            </div>
+
+          </div>
+
+
+          <div class="step">
+
+            <div class="step-number">
+              04
+            </div>
+
+            <div>
+
+              <strong>
+                Approve or reject
+              </strong>
+
+              <span>
+                Update the application status and continue
+                the transaction through GHAR.
+              </span>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <aside class="panel ai-panel">
+
+        <div class="ai-badge">
+          ✦ GHAR AI
+        </div>
+
+        <h3>
+          Review applications
+          more efficiently.
+        </h3>
+
+        <p>
+          Use GHAR AI to summarize application information,
+          compare buyers and identify important items that
+          may need your attention.
+        </p>
+
+        <button
+          id="openAI"
+          class="btn btn-primary ai-button"
+          type="button"
+        >
+          ✦ Open Seller AI
+        </button>
+
+      </aside>
+
+    </div>
+
+  </div>
+
+</section>
+
+</main>
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer class="site-footer">
+
+  <div class="container">
+
+    <div class="footer-grid">
+
+
+      <div class="footer-brand">
+
+        <div class="brand">
+
+          <div class="brand-mark">
+            G
+          </div>
+
+          <div class="brand-text">
+
+            <strong>
+              GHAR
+            </strong>
+
+            <span>
+              Real Estate Platform
+            </span>
+
+          </div>
+
+        </div>
+
+        <p>
+          A connected real estate platform for listing,
+          managing, selling and completing property transactions.
+        </p>
+
+      </div>
+
+
+      <div class="footer-col">
+
+        <h4>
+          Seller
+        </h4>
+
+        <a href="/seller/dashboard.html">
+          Dashboard
+        </a>
+
+        <a href="/seller/list-property.html">
+          List Property
+        </a>
+
+        <a href="/seller/edit-property.html">
+          Edit Property
+        </a>
+
+        <a href="/seller/property-approval.html">
+          Approvals
+        </a>
+
+      </div>
+
+
+      <div class="footer-col">
+
+        <h4>
+          Transactions
+        </h4>
+
+        <a href="/seller/visits.html">
+          Visits
+        </a>
+
+        <a href="/seller/leads.html">
+          Leads
+        </a>
+
+        <a href="/seller/offers.html">
+          Offers
+        </a>
+
+        <a href="/seller/payments.html">
+          Payments
+        </a>
+
+      </div>
+
+
+      <div class="footer-col">
+
+        <h4>
+          Support
+        </h4>
+
+        <a href="/seller/profile.html">
+          Profile
+        </a>
+
+        <a href="/seller/applications.html">
+          Applications
+        </a>
+
+        <a href="/seller/support.html">
+          Support
+        </a>
+
+        <a href="/help-centre.html">
+          Help Centre
+        </a>
+
+      </div>
+
+    </div>
+
+
+    <div class="footer-bottom">
+
+      <span>
+        © <span id="footerYear"></span> GHAR.
+        All rights reserved.
+      </span>
+
+      <span>
+        Seller Portal · Secure Session
+      </span>
+
+    </div>
+
+  </div>
+
+</footer>
+
+
+<!-- =========================================================
+     AI FLOATING
+========================================================= -->
+
+<button
+  id="aiFloating"
+  class="ai-floating"
+  type="button"
+>
+  ✦ Ask GHAR AI
+</button>
+
+
+<script>
+"use strict";
+
+
+/* =========================================================
+   CONFIG
+========================================================= */
+
+const API_BASE =
+  window.GHAR_API_BASE ||
+  window.API_BASE ||
+  "/api";
+
+
+const APPLICATION_API =
+  API_BASE +
+  "/applications";
+
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function $(selector){
+  return document.querySelector(selector);
+}
+
+
+function escapeHTML(value){
+
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+}
+
+
+function normalizeCollection(response){
+
+  if(Array.isArray(response)){
+    return response;
+  }
+
+  if(Array.isArray(response?.data)){
+    return response.data;
+  }
+
+  if(Array.isArray(response?.applications)){
+    return response.applications;
+  }
+
+  if(Array.isArray(response?.items)){
+    return response.items;
+  }
+
+  if(Array.isArray(response?.results)){
+    return response.results;
+  }
+
+  return [];
+}
+
+
+async function apiRequest(url,options={}){
+
+  const response =
+    await fetch(
+      url,
+      {
+        credentials:"include",
+
+        headers:{
+          "Accept":"application/json",
+          "Content-Type":"application/json",
+          ...(options.headers || {})
+        },
+
+        ...options
+      }
+    );
+
+
+  let data=null;
+
+  try{
+    data=await response.json();
+  }catch{
+    data=null;
+  }
+
+
+  if(!response.ok){
+
+    const error=
+      new Error(
+        data?.error?.message ||
+        data?.message ||
+        "Request failed."
+      );
+
+    error.status=response.status;
+    error.data=data;
+
+    throw error;
+  }
+
+
+  return data;
+}
+
+
+/* =========================================================
+   APPLICATION DATA
+========================================================= */
+
+let applications=[];
+
+
+const fallbackApplications=[
+  {
+    id:"GHAR-APP-1001",
+    buyer:{
+      name:"Aarav Sharma",
+      email:"aarav@example.com"
+    },
+    property:{
+      id:"GHAR-P001",
+      title:"Premium 3 BHK Residence",
+      location:"Noida, Uttar Pradesh"
+    },
+    offerAmount:8500000,
+    submittedAt:"2026-09-29",
+    status:"pending"
+  },
+  {
+    id:"GHAR-APP-1002",
+    buyer:{
+      name:"Priya Verma",
+      email:"priya@example.com"
+    },
+    property:{
+      id:"GHAR-P014",
+      title:"Modern Family Apartment",
+      location:"Greater Noida"
+    },
+    offerAmount:7200000,
+    submittedAt:"2026-09-26",
+    status:"review"
+  },
+  {
+    id:"GHAR-APP-1003",
+    buyer:{
+      name:"Rahul Mehta",
+      email:"rahul@example.com"
+    },
+    property:{
+      id:"GHAR-P021",
+      title:"Luxury Garden Villa",
+      location:"Gurgaon, Haryana"
+    },
+    offerAmount:14500000,
+    submittedAt:"2026-09-21",
+    status:"approved"
+  }
+];
+
+
+/* =========================================================
+   FETCH APPLICATIONS
+========================================================= */
+
+async function loadApplications(){
+
+  try{
+
+    const response=
+      await apiRequest(
+        APPLICATION_API +
+        "?role=seller"
+      );
+
+    applications=
+      normalizeCollection(
+        response
+      );
+
+  }catch(error){
+
+    console.warn(
+      "GHAR applications API:",
+      error
+    );
+
+    /*
+     * UI remains functional while the API
+     * endpoint is being connected.
+     */
+
+    applications=
+      fallbackApplications;
+  }
+
+
+  renderApplications();
+  updateStats();
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+function normalizeStatus(status){
+
+  const value=
+    String(
+      status ||
+      "pending"
+    )
+    .toLowerCase()
+    .replace(/\s+/g,"-");
+
+
+  if(
+    value==="under-review" ||
+    value==="under_review"
+  ){
+    return "review";
+  }
+
+
+  return value;
+}
+
+
+function statusLabel(status){
+
+  const labels={
+    pending:"Pending",
+    review:"Under review",
+    approved:"Approved",
+    rejected:"Rejected",
+    withdrawn:"Withdrawn"
+  };
+
+  return (
+    labels[
+      normalizeStatus(status)
+    ] ||
+    "Pending"
+  );
+}
+
+
+/* =========================================================
+   DATE
+========================================================= */
+
+function formatDate(value){
+
+  if(!value){
+    return "--";
+  }
+
+  const date=
+    new Date(value);
+
+  if(
+    Number.isNaN(
+      date.getTime()
+    )
+  ){
+    return String(value);
+  }
+
+  return date.toLocaleDateString(
+    "en-IN",
+    {
+      day:"2-digit",
+      month:"short",
+      year:"numeric"
+    }
+  );
+}
+
+
+/* =========================================================
+   MONEY
+========================================================= */
+
+function formatMoney(value){
+
+  const amount=
+    Number(value);
+
+  if(
+    !Number.isFinite(amount)
+  ){
+    return "--";
+  }
+
+
+  if(
+    amount>=10000000
+  ){
+
+    return "₹"+
+      (
+        amount/10000000
+      ).toFixed(2)+
+      " Cr";
+  }
+
+
+  if(
+    amount>=100000
+  ){
+
+    return "₹"+
+      (
+        amount/100000
+      ).toFixed(2)+
+      " L";
+  }
+
+
+  return "₹"+
+    amount.toLocaleString(
+      "en-IN"
+    );
+}
+
+
+/* =========================================================
+   BUYER INITIAL
+========================================================= */
+
+function buyerInitial(application){
+
+  const name=
+    application?.buyer?.name ||
+    application?.buyerName ||
+    application?.user?.name ||
+    "Buyer";
+
+  return name
+    .trim()
+    .charAt(0)
+    .toUpperCase();
+}
+
+
+/* =========================================================
+   APPLICATION NORMALIZATION
+========================================================= */
+
+function applicationValue(application){
+
+  return {
+
+    id:
+      application.id ||
+      application.applicationId ||
+      application._id ||
+      "--",
+
+    buyerName:
+      application.buyer?.name ||
+      application.buyerName ||
+      application.user?.name ||
+      "Buyer",
+
+    buyerEmail:
+      application.buyer?.email ||
+      application.buyerEmail ||
+      application.user?.email ||
+      "Email unavailable",
+
+    propertyTitle:
+      application.property?.title ||
+      application.propertyTitle ||
+      application.property?.name ||
+      "Property",
+
+    propertyId:
+      application.property?.id ||
+      application.propertyId ||
+      "--",
+
+    offer:
+      application.offerAmount ||
+      application.offer?.amount ||
+      application.amount ||
+      0,
+
+    submitted:
+      application.submittedAt ||
+      application.createdAt ||
+      application.date ||
+      "",
+
+    status:
+      normalizeStatus(
+        application.status
+      )
+
+  };
+}
+
+
+/* =========================================================
+   FILTER
+========================================================= */
+
+function filteredApplications(){
+
+  const query=
+    $("#applicationSearch")
+      ?.value
+      .trim()
+      .toLowerCase() ||
+    "";
+
+  const status=
+    $("#statusFilter")
+      ?.value ||
+    "all";
+
+
+  return applications
+    .map(applicationValue)
+    .filter(application=>{
+
+      const matchesSearch=
+        !query ||
+        application.buyerName
+          .toLowerCase()
+          .includes(query) ||
+        application.buyerEmail
+          .toLowerCase()
+          .includes(query) ||
+        application.propertyTitle
+          .toLowerCase()
+          .includes(query) ||
+        application.propertyId
+          .toLowerCase()
+          .includes(query) ||
+        application.id
+          .toLowerCase()
+          .includes(query);
+
+
+      const matchesStatus=
+        status==="all" ||
+        application.status===status;
+
+
+      return (
+        matchesSearch &&
+        matchesStatus
+      );
+
+    });
+}
+
+
+/* =========================================================
+   RENDER
+========================================================= */
+
+function renderApplications(){
+
+  const tbody=
+    $("#applicationTableBody");
+
+  const empty=
+    $("#emptyState");
+
+
+  if(!tbody){
+    return;
+  }
+
+
+  const list=
+    filteredApplications();
+
+
+  if(!list.length){
+
+    tbody.innerHTML="";
+
+    empty.style.display="block";
+
+    return;
+  }
+
+
+  empty.style.display="none";
+
+
+  tbody.innerHTML=
+    list.map(application=>`
+
+      <tr
+        data-application-id="${escapeHTML(application.id)}"
+      >
+
+        <td>
+
+          <div class="buyer-cell">
+
+            <div class="buyer-avatar">
+              ${escapeHTML(
+                buyerInitial({
+                  buyer:{
+                    name:application.buyerName
+                  }
+                })
+              )}
+            </div>
+
+            <div>
+
+              <div class="buyer-name">
+                ${escapeHTML(
+                  application.buyerName
+                )}
+              </div>
+
+              <div class="buyer-email">
+                ${escapeHTML(
+                  application.buyerEmail
+                )}
+              </div>
+
+            </div>
+
+          </div>
+
+        </td>
+
+
+        <td>
+
+          <div class="property-name">
+            ${escapeHTML(
+              application.propertyTitle
+            )}
+          </div>
+
+          <div class="property-id">
+            ${escapeHTML(
+              application.propertyId
+            )}
+          </div>
+
+        </td>
+
+
+        <td>
+
+          <div class="property-id">
+            ${escapeHTML(
+              application.id
+            )}
+          </div>
+
+        </td>
+
+
+        <td>
+
+          <span class="amount">
+            ${escapeHTML(
+              formatMoney(
+                application.offer
+              )
+            )}
+          </span>
+
+        </td>
+
+
+        <td>
+
+          <span class="date">
+            ${escapeHTML(
+              formatDate(
+                application.submitted
+              )
+            )}
+          </span>
+
+        </td>
+
+
+        <td>
+
+          <span
+            class="status status-${escapeHTML(
+              application.status
+            )}"
+          >
+            ${escapeHTML(
+              statusLabel(
+                application.status
+              )
+            )}
+          </span>
+
+        </td>
+
+
+        <td>
+
+          <div class="row-actions">
+
+            <button
+              class="row-action"
+              type="button"
+              data-view="${escapeHTML(
+                application.id
+              )}"
+            >
+              View
+            </button>
+
+            ${
+              application.status==="pending" ||
+              application.status==="review"
+              ? `
+                <button
+                  class="row-action"
+                  type="button"
+                  data-approve="${escapeHTML(
+                    application.id
+                  )}"
+                >
+                  Approve
+                </button>
+              `
+              :""
+            }
+
+          </div>
+
+        </td>
+
+      </tr>
+
+    `).join("");
+}
+
+
+/* =========================================================
+   STATS
+========================================================= */
+
+function updateStats(){
+
+  const normalized=
+    applications.map(
+      applicationValue
+    );
+
+
+  $("#totalApplications")
+    .textContent=
+    normalized.length;
+
+
+  $("#pendingApplications")
+    .textContent=
+    normalized.filter(
+      item =>
+        item.status==="pending" ||
+        item.status==="review"
+    ).length;
+
+
+  $("#approvedApplications")
+    .textContent=
+    normalized.filter(
+      item =>
+        item.status==="approved"
+    ).length;
+
+
+  $("#offerApplications")
+    .textContent=
+    normalized.filter(
+      item =>
+        Number(item.offer)>0
+    ).length;
+}
+
+
+/* =========================================================
+   SEARCH / FILTER
+========================================================= */
+
+$("#applicationSearch")
+  ?.addEventListener(
+    "input",
+    renderApplications
+  );
+
+
+$("#statusFilter")
+  ?.addEventListener(
+    "change",
+    renderApplications
+  );
+
+
+/* =========================================================
+   APPLICATION ACTIONS
+========================================================= */
+
+document.addEventListener(
+  "click",
+  async event=>{
+
+    const viewButton=
+      event.target.closest(
+        "[data-view]"
+      );
+
+    const approveButton=
+      event.target.closest(
+        "[data-approve]"
+      );
+
+
+    if(viewButton){
+
+      const id=
+        viewButton.dataset.view;
+
+      window.location.href=
+        "/seller/applications.html?id="+
+        encodeURIComponent(id);
+
+      return;
+    }
+
+
+    if(approveButton){
+
+      const id=
+        approveButton.dataset.approve;
+
+
+      try{
+
+        approveButton.disabled=true;
+
+
+        await apiRequest(
+          APPLICATION_API +
+          "/" +
+          encodeURIComponent(id),
+          {
+            method:"PATCH",
+
+            body:JSON.stringify({
+              status:"approved"
+            })
+          }
+        );
+
+
+        const item=
+          applications.find(
+            application =>
+              String(
+                application.id ||
+                application.applicationId ||
+                application._id
+              )===String(id)
+          );
+
+
+        if(item){
+
+          item.status=
+            "approved";
+        }
+
+
+      }catch(error){
+
+        console.warn(
+          "GHAR application approval:",
+          error
+        );
+
+        /*
+         * Keep local UI synchronized for
+         * development environments where
+         * the endpoint is not connected.
+         */
+
+        const item=
+          applications.find(
+            application =>
+              String(
+                application.id ||
+                application.applicationId ||
+                application._id
+              )===String(id)
+          );
+
+        if(item){
+          item.status="approved";
+        }
+
+      }finally{
+
+        approveButton.disabled=false;
+
+        renderApplications();
+        updateStats();
+
+      }
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   MOBILE MENU
+========================================================= */
+
+$("#menuButton")
+  ?.addEventListener(
+    "click",
+    ()=>{
+
+      const nav=
+        document.querySelector(
+          ".desktop-nav"
+        );
+
+
+      if(!nav){
+        return;
+      }
+
+
+      const open=
+        nav.dataset.mobileOpen===
+        "true";
+
+
+      if(open){
+
+        nav.style.display="";
+        nav.dataset.mobileOpen="false";
+
+        return;
+      }
+
+
+      nav.dataset.mobileOpen="true";
+
+      nav.style.display="flex";
+      nav.style.position="absolute";
+      nav.style.left="14px";
+      nav.style.right="14px";
+      nav.style.top="66px";
+      nav.style.padding="10px";
+      nav.style.flexDirection="column";
+      nav.style.alignItems="stretch";
+      nav.style.border=
+        "1px solid rgba(229,199,125,.14)";
+      nav.style.borderRadius="16px";
+      nav.style.background="#0b1c14";
+      nav.style.boxShadow=
+        "0 25px 60px rgba(0,0,0,.35)";
+    }
+  );
+
+
+/* =========================================================
+   NOTIFICATIONS
+========================================================= */
+
+$("#notificationButton")
+  ?.addEventListener(
+    "click",
+    ()=>{
+      window.location.href=
+        "/seller/notifications.html";
+    }
+  );
+
+
+/* =========================================================
+   PROFILE
+========================================================= */
+
+async function loadSellerProfile(){
+
+  try{
+
+    const response=
+      await apiRequest(
+        API_BASE+
+        "/users/me"
+      );
+
+
+    const name=
+      response?.name ||
+      response?.fullName ||
+      response?.email ||
+      "Seller";
+
+
+    $("#profileButton")
+      .textContent=
+      name
+        .trim()
+        .charAt(0)
+        .toUpperCase();
+
+  }catch{
+    /* Seller profile is optional during API setup. */
+  }
+}
+
+
+/* =========================================================
+   AI
+========================================================= */
+
+function openSellerAI(){
+
+  window.location.href=
+    "/seller/ai.html";
+}
+
+
+$("#openAI")
+  ?.addEventListener(
+    "click",
+    openSellerAI
+  );
+
+
+$("#aiFloating")
+  ?.addEventListener(
+    "click",
+    openSellerAI
+  );
+
+
+/* =========================================================
+   INIT
+========================================================= */
+
+async function initialize(){
+
+  $("#footerYear")
+    .textContent=
+    new Date()
+      .getFullYear();
+
+
+  await Promise.all([
+    loadApplications(),
+    loadSellerProfile()
+  ]);
+
+}
+
+
+if(
+  document.readyState===
+  "loading"
+){
+
+  document.addEventListener(
+    "DOMContentLoaded",
+    initialize
+  );
+
+}else{
+
+  initialize();
+
+}
+</script>
+
+</body>
+</html>

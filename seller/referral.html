@@ -1,0 +1,3122 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<meta name="description"
+      content="GHAR Seller Referral -- Invite property owners, earn referral rewards and track your referral activity.">
+
+<meta name="theme-color" content="#162d25">
+
+<title>GHAR · Seller Referral</title>
+
+<link rel="icon" href="../assets/images/favicon.svg">
+
+<style>
+
+/* =========================================================
+   GHAR SELLER REFERRAL
+   Premium Seller Experience
+========================================================= */
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+:root{
+  --green-950:#07130e;
+  --green-925:#0a1912;
+  --green-900:#0b1c14;
+  --green-850:#10261c;
+  --green-800:#162d25;
+  --green-750:#1a382c;
+  --green-700:#214438;
+  --green-600:#2b5847;
+
+  --gold-100:#fff7df;
+  --gold-200:#f4dfaa;
+  --gold-300:#e5c77d;
+  --gold-400:#c9a95c;
+  --gold-500:#a98238;
+
+  --cream:#fffaf0;
+  --cream-2:#f7eedc;
+  --sand:#eee1c8;
+
+  --text:#f9f5ea;
+  --text-dark:#17231c;
+
+  --muted:rgba(255,255,255,.68);
+  --muted-2:rgba(255,255,255,.45);
+
+  --border:rgba(229,199,125,.18);
+  --border-light:rgba(255,255,255,.09);
+
+  --success:#82c995;
+  --danger:#e98c8c;
+  --blue:#91b9e8;
+
+  --shadow:0 25px 80px rgba(0,0,0,.25);
+
+  --radius-xl:28px;
+  --radius-lg:21px;
+  --radius-md:15px;
+
+  --container:1440px;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  min-height:100vh;
+  overflow-x:hidden;
+
+  color:var(--text);
+
+  font-family:
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  background:
+    radial-gradient(
+      circle at 5% 0%,
+      rgba(229,199,125,.12),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 100% 10%,
+      rgba(44,91,69,.22),
+      transparent 30%
+    ),
+    linear-gradient(
+      135deg,
+      #07130e,
+      #0b1c14 48%,
+      #10261c
+    );
+}
+
+a{
+  color:inherit;
+  text-decoration:none;
+}
+
+button,
+input,
+select,
+textarea{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+.container{
+  width:min(
+    calc(100% - 40px),
+    var(--container)
+  );
+
+  margin:auto;
+}
+
+.page-glow{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:-1;
+  overflow:hidden;
+}
+
+.page-glow::before{
+  content:"";
+  position:absolute;
+  width:550px;
+  height:550px;
+  top:-300px;
+  right:-220px;
+  border-radius:50%;
+  border:1px solid rgba(229,199,125,.12);
+  box-shadow:
+    0 0 0 60px rgba(229,199,125,.025),
+    0 0 0 120px rgba(229,199,125,.015);
+}
+
+.page-glow::after{
+  content:"";
+  position:absolute;
+  width:500px;
+  height:500px;
+  bottom:-300px;
+  left:-250px;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,.06);
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.site-header{
+  position:sticky;
+  top:0;
+  z-index:100;
+
+  border-bottom:
+    1px solid
+    rgba(229,199,125,.10);
+
+  background:
+    rgba(7,19,14,.90);
+
+  backdrop-filter:blur(22px);
+}
+
+.header-inner{
+  min-height:76px;
+
+  display:flex;
+  align-items:center;
+  gap:24px;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex-shrink:0;
+}
+
+.brand-mark{
+  width:45px;
+  height:45px;
+
+  display:grid;
+  place-items:center;
+
+  border-radius:14px;
+
+  color:#152116;
+
+  font-size:19px;
+  font-weight:1000;
+
+  background:
+    linear-gradient(
+      135deg,
+      #f1dda5,
+      #b98b3d
+    );
+
+  box-shadow:
+    0 10px 25px rgba(0,0,0,.25),
+    inset 0 1px 0 rgba(255,255,255,.5);
+}
+
+.brand-text strong{
+  display:block;
+  font-size:17px;
+  letter-spacing:.17em;
+}
+
+.brand-text span{
+  display:block;
+  margin-top:2px;
+  color:var(--muted-2);
+  font-size:8px;
+  font-weight:800;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+}
+
+.desktop-nav{
+  display:flex;
+  align-items:center;
+  gap:5px;
+  margin-left:auto;
+}
+
+.desktop-nav a{
+  padding:10px 12px;
+  border-radius:10px;
+  color:var(--muted);
+  font-size:11px;
+  font-weight:700;
+  transition:.2s ease;
+}
+
+.desktop-nav a:hover,
+.desktop-nav a.active{
+  color:var(--gold-200);
+  background:rgba(229,199,125,.07);
+}
+
+.header-actions{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.icon-btn{
+  width:41px;
+  height:41px;
+
+  display:grid;
+  place-items:center;
+
+  border:1px solid var(--border-light);
+  border-radius:12px;
+
+  color:var(--muted);
+  background:rgba(255,255,255,.035);
+}
+
+.icon-btn:hover{
+  color:var(--gold-200);
+  border-color:rgba(229,199,125,.25);
+}
+
+.avatar{
+  width:40px;
+  height:40px;
+
+  display:grid;
+  place-items:center;
+
+  border-radius:50%;
+
+  color:#172016;
+
+  font-size:12px;
+  font-weight:1000;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--gold-200),
+      var(--gold-500)
+    );
+}
+
+.mobile-menu{
+  display:none;
+}
+
+/* =========================================================
+   PAGE HERO
+========================================================= */
+
+.page-hero{
+  padding:48px 0 26px;
+}
+
+.hero-card{
+  position:relative;
+  overflow:hidden;
+
+  padding:42px;
+
+  border:1px solid var(--border);
+  border-radius:var(--radius-xl);
+
+  background:
+    radial-gradient(
+      circle at 90% 0%,
+      rgba(229,199,125,.15),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 0% 100%,
+      rgba(44,91,69,.30),
+      transparent 38%
+    ),
+    linear-gradient(
+      145deg,
+      #0a1a12,
+      #10251b 55%,
+      #142d22
+    );
+
+  box-shadow:var(--shadow);
+}
+
+.hero-card::after{
+  content:"";
+
+  position:absolute;
+
+  width:320px;
+  height:320px;
+
+  right:-190px;
+  bottom:-200px;
+
+  border-radius:50%;
+
+  border:1px solid rgba(229,199,125,.12);
+
+  box-shadow:
+    0 0 0 45px rgba(229,199,125,.02),
+    0 0 0 90px rgba(229,199,125,.015);
+}
+
+.hero-content{
+  position:relative;
+  z-index:2;
+
+  max-width:850px;
+}
+
+.eyebrow{
+  color:var(--gold-300);
+
+  font-size:10px;
+  font-weight:950;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+}
+
+.hero-title{
+  margin-top:12px;
+
+  max-width:800px;
+
+  color:var(--cream);
+
+  font-size:
+    clamp(
+      36px,
+      5vw,
+      60px
+    );
+
+  line-height:1;
+  letter-spacing:-.055em;
+}
+
+.hero-title span{
+  color:var(--gold-300);
+}
+
+.hero-description{
+  max-width:730px;
+
+  margin-top:17px;
+
+  color:var(--muted);
+
+  font-size:14px;
+  line-height:1.75;
+}
+
+.hero-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:24px;
+}
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.btn{
+  min-height:45px;
+
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+
+  padding:0 17px;
+
+  border:1px solid transparent;
+  border-radius:12px;
+
+  font-size:11px;
+  font-weight:900;
+
+  transition:.2s ease;
+}
+
+.btn-primary{
+  color:#17170f;
+
+  background:
+    linear-gradient(
+      135deg,
+      #f1dca1,
+      #cda85d
+    );
+
+  box-shadow:
+    0 10px 25px rgba(0,0,0,.18);
+}
+
+.btn-primary:hover{
+  transform:translateY(-2px);
+}
+
+.btn-secondary{
+  color:var(--cream);
+
+  border-color:var(--border-light);
+
+  background:rgba(255,255,255,.045);
+}
+
+.btn-secondary:hover{
+  color:var(--gold-200);
+  border-color:rgba(229,199,125,.25);
+}
+
+/* =========================================================
+   SECTION
+========================================================= */
+
+.section{
+  padding:22px 0;
+}
+
+.section-heading{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:15px;
+  margin-bottom:17px;
+}
+
+.section-heading h2{
+  font-size:23px;
+  letter-spacing:-.035em;
+}
+
+.section-heading p{
+  margin-top:5px;
+  color:var(--muted-2);
+  font-size:10px;
+}
+
+.section-link{
+  color:var(--gold-300);
+  font-size:10px;
+  font-weight:900;
+}
+
+/* =========================================================
+   REFERRAL SUMMARY
+========================================================= */
+
+.stats-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:13px;
+}
+
+.stat-card{
+  padding:20px;
+
+  border:1px solid var(--border-light);
+  border-radius:var(--radius-lg);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(20,45,34,.92),
+      rgba(11,28,20,.92)
+    );
+}
+
+.stat-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.stat-label{
+  color:var(--muted-2);
+
+  font-size:9px;
+  font-weight:800;
+
+  text-transform:uppercase;
+  letter-spacing:.08em;
+}
+
+.stat-icon{
+  width:36px;
+  height:36px;
+
+  display:grid;
+  place-items:center;
+
+  border-radius:11px;
+
+  color:var(--gold-300);
+
+  background:
+    rgba(229,199,125,.08);
+}
+
+.stat-value{
+  margin-top:15px;
+
+  font-size:27px;
+  font-weight:900;
+  letter-spacing:-.04em;
+}
+
+.stat-note{
+  margin-top:4px;
+  color:var(--muted-2);
+  font-size:9px;
+}
+
+/* =========================================================
+   REFERRAL LINK PANEL
+========================================================= */
+
+.referral-grid{
+  display:grid;
+  grid-template-columns:1.2fr .8fr;
+  gap:16px;
+}
+
+.panel{
+  padding:24px;
+
+  border:1px solid var(--border-light);
+  border-radius:var(--radius-lg);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(20,45,34,.95),
+      rgba(11,28,20,.95)
+    );
+}
+
+.panel-title{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:18px;
+}
+
+.panel-title h3{
+  font-size:17px;
+}
+
+.panel-title p{
+  margin-top:5px;
+  color:var(--muted-2);
+  font-size:9px;
+  line-height:1.5;
+}
+
+.referral-box{
+  display:flex;
+  align-items:center;
+  gap:9px;
+}
+
+.referral-input{
+  min-width:0;
+  flex:1;
+
+  height:48px;
+
+  padding:0 13px;
+
+  border:1px solid rgba(255,255,255,.09);
+  border-radius:11px;
+
+  outline:none;
+
+  color:var(--cream);
+  background:rgba(255,255,255,.045);
+
+  font-size:11px;
+}
+
+.referral-input:focus{
+  border-color:rgba(229,199,125,.45);
+}
+
+.copy-btn{
+  height:48px;
+  padding:0 15px;
+
+  border:0;
+  border-radius:11px;
+
+  color:#17170f;
+
+  background:var(--gold-300);
+
+  font-size:10px;
+  font-weight:1000;
+}
+
+.copy-btn:hover{
+  background:var(--gold-200);
+}
+
+.referral-code{
+  margin-top:11px;
+
+  color:var(--muted-2);
+
+  font-size:9px;
+}
+
+.referral-code strong{
+  color:var(--gold-300);
+  letter-spacing:.08em;
+}
+
+/* =========================================================
+   HOW IT WORKS
+========================================================= */
+
+.steps{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+}
+
+.step{
+  padding:18px;
+
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:15px;
+
+  background:rgba(255,255,255,.025);
+}
+
+.step-number{
+  width:34px;
+  height:34px;
+
+  display:grid;
+  place-items:center;
+
+  border-radius:10px;
+
+  color:#172016;
+  background:var(--gold-300);
+
+  font-size:11px;
+  font-weight:1000;
+}
+
+.step h4{
+  margin-top:13px;
+  font-size:12px;
+}
+
+.step p{
+  margin-top:6px;
+
+  color:var(--muted-2);
+
+  font-size:9px;
+  line-height:1.65;
+}
+
+/* =========================================================
+   REWARD CARD
+========================================================= */
+
+.reward-card{
+  position:relative;
+  overflow:hidden;
+
+  padding:25px;
+
+  border:1px solid rgba(229,199,125,.22);
+  border-radius:var(--radius-lg);
+
+  background:
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(229,199,125,.14),
+      transparent 38%
+    ),
+    linear-gradient(
+      145deg,
+      #18382b,
+      #0c1f16
+    );
+}
+
+.reward-card h3{
+  font-size:21px;
+  line-height:1.2;
+}
+
+.reward-card p{
+  margin-top:8px;
+  color:var(--muted);
+  font-size:9px;
+  line-height:1.7;
+}
+
+.reward-amount{
+  margin-top:20px;
+  color:var(--gold-300);
+  font-size:34px;
+  font-weight:950;
+  letter-spacing:-.05em;
+}
+
+.reward-note{
+  margin-top:3px;
+  color:var(--muted-2);
+  font-size:8px;
+}
+
+/* =========================================================
+   REFERRAL ACTIVITY
+========================================================= */
+
+.activity{
+  display:grid;
+  gap:10px;
+}
+
+.activity-item{
+  display:flex;
+  align-items:center;
+  gap:12px;
+
+  padding:13px;
+
+  border-radius:13px;
+
+  background:rgba(255,255,255,.025);
+}
+
+.activity-icon{
+  width:38px;
+  height:38px;
+
+  flex:0 0 38px;
+
+  display:grid;
+  place-items:center;
+
+  border-radius:11px;
+
+  color:var(--gold-300);
+
+  background:rgba(229,199,125,.08);
+}
+
+.activity-text{
+  min-width:0;
+  flex:1;
+}
+
+.activity-text strong{
+  display:block;
+  font-size:10px;
+}
+
+.activity-text span{
+  display:block;
+  margin-top:4px;
+  color:var(--muted-2);
+  font-size:8px;
+}
+
+.activity-status{
+  color:var(--success);
+  font-size:8px;
+  font-weight:900;
+}
+
+.activity-status.pending{
+  color:var(--gold-300);
+}
+
+.activity-status.cancelled{
+  color:var(--danger);
+}
+
+/* =========================================================
+   TABLE
+========================================================= */
+
+.table-wrap{
+  overflow-x:auto;
+}
+
+.referral-table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:650px;
+}
+
+.referral-table th{
+  padding:11px;
+
+  text-align:left;
+
+  color:var(--muted-2);
+
+  border-bottom:
+    1px solid
+    rgba(255,255,255,.07);
+
+  font-size:8px;
+  font-weight:900;
+
+  text-transform:uppercase;
+  letter-spacing:.08em;
+}
+
+.referral-table td{
+  padding:14px 11px;
+
+  border-bottom:
+    1px solid
+    rgba(255,255,255,.045);
+
+  color:var(--muted);
+
+  font-size:9px;
+}
+
+.referral-table tr:last-child td{
+  border-bottom:0;
+}
+
+.table-name{
+  color:var(--cream);
+  font-weight:800;
+}
+
+.status-pill{
+  display:inline-flex;
+
+  padding:5px 8px;
+
+  border-radius:7px;
+
+  font-size:7px;
+  font-weight:900;
+
+  text-transform:uppercase;
+}
+
+.status-pill.completed{
+  color:#172016;
+  background:var(--success);
+}
+
+.status-pill.pending{
+  color:#211b0e;
+  background:var(--gold-300);
+}
+
+.status-pill.processing{
+  color:#152033;
+  background:var(--blue);
+}
+
+/* =========================================================
+   TERMS
+========================================================= */
+
+.info-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:13px;
+}
+
+.info-card{
+  padding:19px;
+
+  border:1px solid var(--border-light);
+  border-radius:var(--radius-lg);
+
+  background:
+    linear-gradient(
+      145deg,
+      #142d22,
+      #0b1c14
+    );
+}
+
+.info-icon{
+  font-size:21px;
+}
+
+.info-card h3{
+  margin-top:12px;
+  font-size:14px;
+}
+
+.info-card p{
+  margin-top:7px;
+  color:var(--muted-2);
+  font-size:9px;
+  line-height:1.7;
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.site-footer{
+  margin-top:45px;
+  padding:35px 0 25px;
+
+  border-top:
+    1px solid
+    rgba(255,255,255,.07);
+
+  background:
+    rgba(3,12,8,.35);
+}
+
+.footer-grid{
+  display:grid;
+  grid-template-columns:1.4fr repeat(3,1fr);
+  gap:25px;
+}
+
+.footer-brand{
+  max-width:300px;
+}
+
+.footer-brand p{
+  margin-top:10px;
+  color:var(--muted-2);
+  font-size:9px;
+  line-height:1.7;
+}
+
+.footer-col h4{
+  color:var(--gold-200);
+  font-size:9px;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+}
+
+.footer-col a{
+  display:block;
+  margin-top:9px;
+  color:var(--muted-2);
+  font-size:9px;
+}
+
+.footer-col a:hover{
+  color:var(--gold-300);
+}
+
+.footer-bottom{
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+
+  margin-top:28px;
+  padding-top:17px;
+
+  border-top:
+    1px solid
+    rgba(255,255,255,.06);
+
+  color:var(--muted-2);
+  font-size:8px;
+}
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+.toast{
+  position:fixed;
+
+  right:22px;
+  bottom:22px;
+
+  z-index:300;
+
+  max-width:340px;
+
+  padding:13px 16px;
+
+  border:
+    1px solid
+    rgba(229,199,125,.22);
+
+  border-radius:12px;
+
+  color:var(--cream);
+
+  background:#10261c;
+
+  box-shadow:0 20px 50px rgba(0,0,0,.3);
+
+  font-size:10px;
+
+  opacity:0;
+  pointer-events:none;
+
+  transform:translateY(12px);
+
+  transition:.25s ease;
+}
+
+.toast.show{
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:1100px){
+
+  .desktop-nav{
+    display:none;
+  }
+
+  .mobile-menu{
+    display:grid;
+  }
+
+  .stats-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .referral-grid{
+    grid-template-columns:1fr;
+  }
+
+}
+
+@media(max-width:800px){
+
+  .container{
+    width:min(
+      calc(100% - 28px),
+      var(--container)
+    );
+  }
+
+  .hero-card{
+    padding:30px;
+  }
+
+  .info-grid{
+    grid-template-columns:1fr;
+  }
+
+  .steps{
+    grid-template-columns:1fr;
+  }
+
+  .footer-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+}
+
+@media(max-width:560px){
+
+  .header-inner{
+    min-height:68px;
+  }
+
+  .brand-text span{
+    display:none;
+  }
+
+  .header-actions .icon-btn{
+    display:none;
+  }
+
+  .hero-card{
+    padding:24px;
+    border-radius:22px;
+  }
+
+  .hero-title{
+    font-size:38px;
+  }
+
+  .hero-description{
+    font-size:12px;
+  }
+
+  .stats-grid{
+    grid-template-columns:1fr 1fr;
+    gap:9px;
+  }
+
+  .stat-card{
+    padding:15px;
+  }
+
+  .stat-value{
+    font-size:22px;
+  }
+
+  .section-heading{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+
+  .referral-box{
+    flex-direction:column;
+    align-items:stretch;
+  }
+
+  .copy-btn{
+    width:100%;
+  }
+
+  .footer-grid{
+    grid-template-columns:1fr;
+  }
+
+  .footer-bottom{
+    flex-direction:column;
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="page-glow"></div>
+
+<!-- =========================================================
+     HEADER
+========================================================= -->
+
+<header class="site-header">
+
+  <div class="container header-inner">
+
+    <a
+      class="brand"
+      href="/seller/index.html"
+      aria-label="GHAR Seller Home"
+    >
+
+      <div class="brand-mark">
+        G
+      </div>
+
+      <div class="brand-text">
+
+        <strong>GHAR</strong>
+
+        <span>
+          Seller Experience
+        </span>
+
+      </div>
+
+    </a>
+
+    <nav
+      class="desktop-nav"
+      aria-label="Seller navigation"
+    >
+
+      <a href="/seller/index.html">
+        Home
+      </a>
+
+      <a href="/seller/dashboard.html">
+        Dashboard
+      </a>
+
+      <a href="/seller/list-property.html">
+        List Property
+      </a>
+
+      <a href="/seller/visits.html">
+        Visits
+      </a>
+
+      <a href="/seller/leads.html">
+        Leads
+      </a>
+
+      <a href="/seller/offers.html">
+        Offers
+      </a>
+
+      <a
+        class="active"
+        href="/seller/referral.html"
+      >
+        Referral
+      </a>
+
+    </nav>
+
+    <div class="header-actions">
+
+      <button
+        class="icon-btn"
+        id="notificationButton"
+        type="button"
+        aria-label="Notifications"
+      >
+        ♢
+      </button>
+
+      <a
+        class="avatar"
+        id="profileButton"
+        href="/seller/profile.html"
+        aria-label="Seller profile"
+      >
+        S
+      </a>
+
+      <button
+        class="icon-btn mobile-menu"
+        id="menuButton"
+        type="button"
+        aria-label="Open menu"
+      >
+        ☰
+      </button>
+
+    </div>
+
+  </div>
+
+</header>
+
+
+<main>
+
+<!-- =========================================================
+     HERO
+========================================================= -->
+
+<section class="page-hero">
+
+  <div class="container">
+
+    <div class="hero-card">
+
+      <div class="hero-content">
+
+        <div class="eyebrow">
+          GHAR SELLER REFERRAL PROGRAM
+        </div>
+
+        <h1 class="hero-title">
+          Grow your network.
+          <span>Earn rewards.</span>
+        </h1>
+
+        <p class="hero-description">
+          Refer property owners, buyers or other eligible
+          sellers to GHAR. Track referrals, monitor their
+          progress and view your eligible rewards from one
+          connected seller account.
+        </p>
+
+        <div class="hero-actions">
+
+          <button
+            class="btn btn-primary"
+            id="shareReferral"
+            type="button"
+          >
+            ↗ Share referral
+          </button>
+
+          <button
+            class="btn btn-secondary"
+            id="copyReferralHero"
+            type="button"
+          >
+            ⧉ Copy referral link
+          </button>
+
+          <a
+            class="btn btn-secondary"
+            href="/seller/dashboard.html"
+          >
+            ← Seller dashboard
+          </a>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================================================
+     STATS
+========================================================= -->
+
+<section class="section">
+
+  <div class="container">
+
+    <div class="section-heading">
+
+      <div>
+        <h2>
+          Referral performance
+        </h2>
+
+        <p>
+          Track your referral activity and rewards.
+        </p>
+      </div>
+
+      <a
+        class="section-link"
+        href="/seller/payments.html"
+      >
+        View payments →
+      </a>
+
+    </div>
+
+    <div class="stats-grid">
+
+      <article class="stat-card">
+
+        <div class="stat-top">
+
+          <span class="stat-label">
+            Referrals
+          </span>
+
+          <div class="stat-icon">
+            ↗
+          </div>
+
+        </div>
+
+        <div
+          class="stat-value"
+          id="referralCount"
+        >
+          0
+        </div>
+
+        <div class="stat-note">
+          Total referrals
+        </div>
+
+      </article>
+
+
+      <article class="stat-card">
+
+        <div class="stat-top">
+
+          <span class="stat-label">
+            Converted
+          </span>
+
+          <div class="stat-icon">
+            ✓
+          </div>
+
+        </div>
+
+        <div
+          class="stat-value"
+          id="convertedCount"
+        >
+          0
+        </div>
+
+        <div class="stat-note">
+          Successful referrals
+        </div>
+
+      </article>
+
+
+      <article class="stat-card">
+
+        <div class="stat-top">
+
+          <span class="stat-label">
+            Pending
+          </span>
+
+          <div class="stat-icon">
+            ◷
+          </div>
+
+        </div>
+
+        <div
+          class="stat-value"
+          id="pendingCount"
+        >
+          0
+        </div>
+
+        <div class="stat-note">
+          Referrals in progress
+        </div>
+
+      </article>
+
+
+      <article class="stat-card">
+
+        <div class="stat-top">
+
+          <span class="stat-label">
+            Rewards
+          </span>
+
+          <div class="stat-icon">
+            ₹
+          </div>
+
+        </div>
+
+        <div
+          class="stat-value"
+          id="rewardTotal"
+        >
+          ₹0
+        </div>
+
+        <div class="stat-note">
+          Eligible referral rewards
+        </div>
+
+      </article>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================================================
+     REFERRAL LINK + REWARD
+========================================================= -->
+
+<section class="section">
+
+  <div class="container">
+
+    <div class="referral-grid">
+
+      <article class="panel">
+
+        <div class="panel-title">
+
+          <div>
+
+            <h3>
+              Your referral link
+            </h3>
+
+            <p>
+              Share this link with eligible contacts.
+            </p>
+
+          </div>
+
+        </div>
+
+        <div class="referral-box">
+
+          <input
+            id="referralLink"
+            class="referral-input"
+            type="text"
+            readonly
+            value="Loading referral link..."
+            aria-label="Referral link"
+          >
+
+          <button
+            id="copyReferral"
+            class="copy-btn"
+            type="button"
+          >
+            Copy link
+          </button>
+
+        </div>
+
+        <div class="referral-code">
+          Referral code:
+          <strong id="referralCode">
+            GHAR-SELLER
+          </strong>
+        </div>
+
+      </article>
+
+
+      <aside class="reward-card">
+
+        <h3>
+          Referral rewards
+        </h3>
+
+        <p>
+          Your reward eligibility is calculated according
+          to the applicable GHAR referral terms and the
+          qualifying event associated with each referral.
+        </p>
+
+        <div
+          class="reward-amount"
+          id="rewardAmount"
+        >
+          ₹0
+        </div>
+
+        <div class="reward-note">
+          Total eligible reward amount
+        </div>
+
+      </aside>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================================================
+     HOW IT WORKS
+========================================================= -->
+
+<section class="section">
+
+  <div class="container">
+
+    <div class="section-heading">
+
+      <div>
+
+        <h2>
+          How referrals work
+        </h2>
+
+        <p>
+          A simple three-step seller workflow.
+        </p>
+
+      </div>
+
+    </div>
+
+    <div class="steps">
+
+      <article class="step">
+
+        <div class="step-number">
+          01
+        </div>
+
+        <h4>
+          Share your link
+        </h4>
+
+        <p>
+          Send your unique GHAR referral link to a contact
+          who may be interested in selling, buying or listing
+          eligible property.
+        </p>
+
+      </article>
+
+
+      <article class="step">
+
+        <div class="step-number">
+          02
+        </div>
+
+        <h4>
+          Referral joins GHAR
+        </h4>
+
+        <p>
+          The referred person enters GHAR through your
+          referral journey and completes the applicable
+          registration or qualifying steps.
+        </p>
+
+      </article>
+
+
+      <article class="step">
+
+        <div class="step-number">
+          03
+        </div>
+
+        <h4>
+          Track your reward
+        </h4>
+
+        <p>
+          Follow the referral status from pending through
+          qualification and view eligible rewards when the
+          qualifying conditions are satisfied.
+        </p>
+
+      </article>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================================================
+     REFERRAL ACTIVITY
+========================================================= -->
+
+<section class="section">
+
+  <div class="container">
+
+    <div class="dashboard-grid"
+         style="
+           display:grid;
+           grid-template-columns:1.35fr .65fr;
+           gap:16px;
+         ">
+
+      <article class="panel">
+
+        <div class="panel-title">
+
+          <div>
+
+            <h3>
+              Recent referral activity
+            </h3>
+
+            <p>
+              Latest activity associated with your referrals.
+            </p>
+
+          </div>
+
+          <a
+            class="section-link"
+            href="/seller/dashboard.html"
+          >
+            Dashboard →
+          </a>
+
+        </div>
+
+        <div
+          id="activityList"
+          class="activity"
+        >
+
+          <div class="activity-item">
+
+            <div class="activity-icon">
+              ↗
+            </div>
+
+            <div class="activity-text">
+
+              <strong>
+                No referral activity yet
+              </strong>
+
+              <span>
+                Share your referral link to start building
+                your referral network.
+              </span>
+
+            </div>
+
+            <span class="activity-status">
+              Ready
+            </span>
+
+          </div>
+
+        </div>
+
+      </article>
+
+
+      <aside class="panel">
+
+        <div class="panel-title">
+
+          <div>
+
+            <h3>
+              Quick actions
+            </h3>
+
+            <p>
+              Manage your seller workflow.
+            </p>
+
+          </div>
+
+        </div>
+
+        <div class="activity">
+
+          <a
+            class="activity-item"
+            href="/seller/list-property.html"
+          >
+
+            <div class="activity-icon">
+              +
+            </div>
+
+            <div class="activity-text">
+
+              <strong>
+                List a property
+              </strong>
+
+              <span>
+                Add a new property to GHAR.
+              </span>
+
+            </div>
+
+            <span class="activity-status">
+              Open
+            </span>
+
+          </a>
+
+
+          <a
+            class="activity-item"
+            href="/seller/leads.html"
+          >
+
+            <div class="activity-icon">
+              ◇
+            </div>
+
+            <div class="activity-text">
+
+              <strong>
+                View leads
+              </strong>
+
+              <span>
+                Review interested buyers.
+              </span>
+
+            </div>
+
+            <span class="activity-status">
+              Open
+            </span>
+
+          </a>
+
+
+          <a
+            class="activity-item"
+            href="/seller/payments.html"
+          >
+
+            <div class="activity-icon">
+              ₹
+            </div>
+
+            <div class="activity-text">
+
+              <strong>
+                View payments
+              </strong>
+
+              <span>
+                Review payment and reward records.
+              </span>
+
+            </div>
+
+            <span class="activity-status">
+              Open
+            </span>
+
+          </a>
+
+        </div>
+
+      </aside>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================================================
+     ALL REFERRALS
+========================================================= -->
+
+<section class="section">
+
+  <div class="container">
+
+    <div class="section-heading">
+
+      <div>
+
+        <h2>
+          Your referrals
+        </h2>
+
+        <p>
+          Review referral status and reward progress.
+        </p>
+
+      </div>
+
+    </div>
+
+    <div class="panel">
+
+      <div class="table-wrap">
+
+        <table class="referral-table">
+
+          <thead>
+
+            <tr>
+              <th>
+                Referral
+              </th>
+
+              <th>
+                Date
+              </th>
+
+              <th>
+                Type
+              </th>
+
+              <th>
+                Status
+              </th>
+
+              <th>
+                Reward
+              </th>
+            </tr>
+
+          </thead>
+
+          <tbody id="referralTableBody">
+
+            <tr>
+
+              <td colspan="5"
+                  style="
+                    text-align:center;
+                    color:rgba(255,255,255,.45);
+                    padding:30px 10px;
+                  "
+              >
+                No referrals found.
+              </td>
+
+            </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================================================
+     REFERRAL INFORMATION
+========================================================= -->
+
+<section class="section">
+
+  <div class="container">
+
+    <div class="section-heading">
+
+      <div>
+
+        <h2>
+          Referral information
+        </h2>
+
+        <p>
+          Important points before sharing your referral link.
+        </p>
+
+      </div>
+
+    </div>
+
+    <div class="info-grid">
+
+      <article class="info-card">
+
+        <div class="info-icon">
+          ✓
+        </div>
+
+        <h3>
+          Qualifying activity
+        </h3>
+
+        <p>
+          Rewards depend on the qualifying event defined
+          by the applicable GHAR referral program and the
+          status of the referred account or transaction.
+        </p>
+
+      </article>
+
+
+      <article class="info-card">
+
+        <div class="info-icon">
+          ◷
+        </div>
+
+        <h3>
+          Pending referrals
+        </h3>
+
+        <p>
+          A referral may remain pending while registration,
+          verification or another qualifying requirement
+          is being completed.
+        </p>
+
+      </article>
+
+
+      <article class="info-card">
+
+        <div class="info-icon">
+          ₹
+        </div>
+
+        <h3>
+          Reward processing
+        </h3>
+
+        <p>
+          Eligible rewards are subject to verification,
+          applicable terms and payment processing before
+          they become payable.
+        </p>
+
+      </article>
+
+    </div>
+
+  </div>
+
+</section>
+
+</main>
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer class="site-footer">
+
+  <div class="container">
+
+    <div class="footer-grid">
+
+      <div class="footer-brand">
+
+        <div class="brand">
+
+          <div class="brand-mark">
+            G
+          </div>
+
+          <div class="brand-text">
+
+            <strong>
+              GHAR
+            </strong>
+
+            <span>
+              Real Estate Platform
+            </span>
+
+          </div>
+
+        </div>
+
+        <p>
+          A connected real estate platform for listing,
+          selling, managing leads, communicating with buyers
+          and growing your property network.
+        </p>
+
+      </div>
+
+
+      <div class="footer-col">
+
+        <h4>
+          Seller
+        </h4>
+
+        <a href="/seller/index.html">
+          Seller Home
+        </a>
+
+        <a href="/seller/dashboard.html">
+          Dashboard
+        </a>
+
+        <a href="/seller/list-property.html">
+          List Property
+        </a>
+
+        <a href="/seller/leads.html">
+          Leads
+        </a>
+
+      </div>
+
+
+      <div class="footer-col">
+
+        <h4>
+          Manage
+        </h4>
+
+        <a href="/seller/visits.html">
+          Visits
+        </a>
+
+        <a href="/seller/offers.html">
+          Offers
+        </a>
+
+        <a href="/seller/payments.html">
+          Payments
+        </a>
+
+        <a href="/seller/documents.html">
+          Documents
+        </a>
+
+      </div>
+
+
+      <div class="footer-col">
+
+        <h4>
+          Account
+        </h4>
+
+        <a href="/seller/profile.html">
+          Profile
+        </a>
+
+        <a href="/seller/settings.html">
+          Settings
+        </a>
+
+        <a href="/seller/messages.html">
+          Messages
+        </a>
+
+        <a href="/seller/support.html">
+          Support
+        </a>
+
+      </div>
+
+    </div>
+
+
+    <div class="footer-bottom">
+
+      <span>
+        © <span id="footerYear"></span> GHAR.
+        All rights reserved.
+      </span>
+
+      <span>
+        Seller Portal · Secure Session
+      </span>
+
+    </div>
+
+  </div>
+
+</footer>
+
+
+<div
+  id="toast"
+  class="toast"
+  role="status"
+  aria-live="polite"
+></div>
+
+
+<script>
+
+/* =========================================================
+   GHAR SELLER REFERRAL
+========================================================= */
+
+"use strict";
+
+
+/* =========================================================
+   CONFIG
+========================================================= */
+
+const API_BASE =
+  window.GHAR_API_BASE ||
+  window.API_BASE ||
+  "/api";
+
+const REFERRAL_API =
+  API_BASE +
+  "/referrals";
+
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function $(selector){
+  return document.querySelector(selector);
+}
+
+function escapeHTML(value){
+
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+async function apiRequest(
+  url,
+  options = {}
+){
+
+  const response =
+    await fetch(
+      url,
+      {
+        credentials:"include",
+
+        headers:{
+          "Accept":"application/json",
+          "Content-Type":"application/json",
+          ...(options.headers || {})
+        },
+
+        ...options
+      }
+    );
+
+  let data = null;
+
+  try{
+    data = await response.json();
+  }catch(error){
+    data = null;
+  }
+
+  if(!response.ok){
+
+    const message =
+      data?.error?.message ||
+      data?.message ||
+      "Request failed.";
+
+    const error =
+      new Error(message);
+
+    error.status =
+      response.status;
+
+    error.data =
+      data;
+
+    throw error;
+  }
+
+  return data;
+}
+
+
+function normalizeCollection(response){
+
+  if(Array.isArray(response)){
+    return response;
+  }
+
+  if(Array.isArray(response?.data)){
+    return response.data;
+  }
+
+  if(Array.isArray(response?.items)){
+    return response.items;
+  }
+
+  if(Array.isArray(response?.results)){
+    return response.results;
+  }
+
+  if(Array.isArray(response?.referrals)){
+    return response.referrals;
+  }
+
+  return [];
+}
+
+
+function formatCurrency(value){
+
+  const amount =
+    Number(value);
+
+  if(!Number.isFinite(amount)){
+    return "₹0";
+  }
+
+  return (
+    "₹" +
+    amount.toLocaleString(
+      "en-IN"
+    )
+  );
+}
+
+
+function showToast(message){
+
+  const toast =
+    $("#toast");
+
+  if(!toast){
+    return;
+  }
+
+  toast.textContent =
+    message;
+
+  toast.classList.add(
+    "show"
+  );
+
+  clearTimeout(
+    window.gharToastTimer
+  );
+
+  window.gharToastTimer =
+    setTimeout(
+      () => {
+        toast.classList.remove(
+          "show"
+        );
+      },
+      2500
+    );
+}
+
+
+/* =========================================================
+   REFERRAL LINK
+========================================================= */
+
+function fallbackReferralLink(){
+
+  const origin =
+    window.location.origin;
+
+  return (
+    origin +
+    "/register.html?ref=" +
+    encodeURIComponent(
+      "GHAR-SELLER"
+    )
+  );
+}
+
+
+async function loadReferralProfile(){
+
+  try{
+
+    const response =
+      await apiRequest(
+        API_BASE +
+        "/users/me"
+      );
+
+    const user =
+      response?.user ||
+      response?.data ||
+      response ||
+      {};
+
+    const code =
+      user.referralCode ||
+      user.referral_code ||
+      "GHAR-SELLER";
+
+    const link =
+      user.referralLink ||
+      user.referral_link ||
+      (
+        window.location.origin +
+        "/register.html?ref=" +
+        encodeURIComponent(code)
+      );
+
+    $("#referralCode").textContent =
+      code;
+
+    $("#referralLink").value =
+      link;
+
+    const initials =
+      (
+        user.name ||
+        user.fullName ||
+        user.email ||
+        "S"
+      )
+      .trim()
+      .charAt(0)
+      .toUpperCase();
+
+    $("#profileButton").textContent =
+      initials;
+
+  }catch(error){
+
+    console.warn(
+      "GHAR referral profile:",
+      error
+    );
+
+    $("#referralLink").value =
+      fallbackReferralLink();
+
+  }
+
+}
+
+
+/* =========================================================
+   LOAD REFERRALS
+========================================================= */
+
+async function loadReferrals(){
+
+  try{
+
+    const response =
+      await apiRequest(
+        REFERRAL_API
+      );
+
+    return normalizeCollection(
+      response
+    );
+
+  }catch(error){
+
+    console.warn(
+      "GHAR referrals:",
+      error
+    );
+
+    return [];
+
+  }
+
+}
+
+
+/* =========================================================
+   UPDATE STATS
+========================================================= */
+
+function updateReferralStats(
+  referrals
+){
+
+  const converted =
+    referrals.filter(
+      referral =>
+        [
+          "completed",
+          "converted",
+          "qualified",
+          "paid"
+        ].includes(
+          String(
+            referral.status || ""
+          ).toLowerCase()
+        )
+    );
+
+  const pending =
+    referrals.filter(
+      referral =>
+        [
+          "pending",
+          "processing",
+          "in_progress"
+        ].includes(
+          String(
+            referral.status || ""
+          ).toLowerCase()
+        )
+    );
+
+  const reward =
+    referrals.reduce(
+      (total, referral) =>
+        total +
+        (
+          Number(
+            referral.reward ||
+            referral.rewardAmount ||
+            referral.amount ||
+            0
+          ) || 0
+        ),
+      0
+    );
+
+  $("#referralCount").textContent =
+    referrals.length;
+
+  $("#convertedCount").textContent =
+    converted.length;
+
+  $("#pendingCount").textContent =
+    pending.length;
+
+  $("#rewardTotal").textContent =
+    formatCurrency(
+      reward
+    );
+
+  $("#rewardAmount").textContent =
+    formatCurrency(
+      reward
+    );
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+function statusClass(status){
+
+  const normalized =
+    String(
+      status || ""
+    ).toLowerCase();
+
+  if(
+    [
+      "completed",
+      "converted",
+      "qualified",
+      "paid"
+    ].includes(
+      normalized
+    )
+  ){
+    return "completed";
+  }
+
+  if(
+    [
+      "processing",
+      "in_progress"
+    ].includes(
+      normalized
+    )
+  ){
+    return "processing";
+  }
+
+  return "pending";
+}
+
+
+/* =========================================================
+   RENDER TABLE
+========================================================= */
+
+function renderReferralTable(
+  referrals
+){
+
+  const body =
+    $("#referralTableBody");
+
+  if(!body){
+    return;
+  }
+
+  if(!referrals.length){
+
+    body.innerHTML = `
+
+      <tr>
+
+        <td
+          colspan="5"
+          style="
+            text-align:center;
+            color:rgba(255,255,255,.45);
+            padding:30px 10px;
+          "
+        >
+          No referrals found. Share your referral link to
+          start building your referral network.
+        </td>
+
+      </tr>
+
+    `;
+
+    return;
+  }
+
+
+  body.innerHTML =
+    referrals
+      .slice(0,50)
+      .map(
+        referral => {
+
+          const name =
+            referral.name ||
+            referral.referredName ||
+            referral.email ||
+            "Referral";
+
+          const dateValue =
+            referral.createdAt ||
+            referral.created_at ||
+            referral.date;
+
+          const date =
+            dateValue
+              ? new Date(
+                  dateValue
+                ).toLocaleDateString(
+                  "en-IN"
+                )
+              : "--";
+
+          const type =
+            referral.type ||
+            referral.referralType ||
+            "Seller";
+
+          const status =
+            referral.status ||
+            "Pending";
+
+          const reward =
+            formatCurrency(
+              referral.reward ||
+              referral.rewardAmount ||
+              referral.amount ||
+              0
+            );
+
+          return `
+
+            <tr>
+
+              <td>
+                <span class="table-name">
+                  ${escapeHTML(name)}
+                </span>
+              </td>
+
+              <td>
+                ${escapeHTML(date)}
+              </td>
+
+              <td>
+                ${escapeHTML(type)}
+              </td>
+
+              <td>
+
+                <span
+                  class="status-pill ${statusClass(status)}"
+                >
+                  ${escapeHTML(status)}
+                </span>
+
+              </td>
+
+              <td>
+                ${escapeHTML(reward)}
+              </td>
+
+            </tr>
+
+          `;
+
+        }
+      )
+      .join("");
+
+}
+
+
+/* =========================================================
+   RENDER ACTIVITY
+========================================================= */
+
+function renderActivity(
+  referrals
+){
+
+  const list =
+    $("#activityList");
+
+  if(!list){
+    return;
+  }
+
+  const recent =
+    referrals.slice(
+      0,
+      5
+    );
+
+  if(!recent.length){
+
+    list.innerHTML = `
+
+      <div class="activity-item">
+
+        <div class="activity-icon">
+          ↗
+        </div>
+
+        <div class="activity-text">
+
+          <strong>
+            No referral activity yet
+          </strong>
+
+          <span>
+            Share your referral link to start building
+            your referral network.
+          </span>
+
+        </div>
+
+        <span class="activity-status">
+          Ready
+        </span>
+
+      </div>
+
+    `;
+
+    return;
+  }
+
+
+  list.innerHTML =
+    recent
+      .map(
+        referral => {
+
+          const name =
+            referral.name ||
+            referral.referredName ||
+            referral.email ||
+            "Referral";
+
+          const status =
+            referral.status ||
+            "Pending";
+
+          return `
+
+            <div class="activity-item">
+
+              <div class="activity-icon">
+                ↗
+              </div>
+
+              <div class="activity-text">
+
+                <strong>
+                  ${escapeHTML(name)}
+                </strong>
+
+                <span>
+                  Referral status:
+                  ${escapeHTML(status)}
+                </span>
+
+              </div>
+
+              <span
+                class="
+                  activity-status
+                  ${
+                    statusClass(status) ===
+                    "pending"
+                      ? "pending"
+                      : ""
+                  }
+                "
+              >
+                ${escapeHTML(status)}
+              </span>
+
+            </div>
+
+          `;
+
+        }
+      )
+      .join("");
+
+}
+
+
+/* =========================================================
+   COPY
+========================================================= */
+
+async function copyReferralLink(){
+
+  const input =
+    $("#referralLink");
+
+  if(!input){
+    return;
+  }
+
+  const value =
+    input.value;
+
+  try{
+
+    await navigator.clipboard.writeText(
+      value
+    );
+
+    showToast(
+      "Referral link copied."
+    );
+
+  }catch(error){
+
+    input.select();
+
+    document.execCommand(
+      "copy"
+    );
+
+    showToast(
+      "Referral link copied."
+    );
+
+  }
+
+}
+
+
+$("#copyReferral")
+  ?.addEventListener(
+    "click",
+    copyReferralLink
+  );
+
+
+$("#copyReferralHero")
+  ?.addEventListener(
+    "click",
+    copyReferralLink
+  );
+
+
+/* =========================================================
+   SHARE
+========================================================= */
+
+$("#shareReferral")
+  ?.addEventListener(
+    "click",
+    async () => {
+
+      const link =
+        $("#referralLink")?.value ||
+        fallbackReferralLink();
+
+      const text =
+        "Join GHAR and explore a smarter real estate experience.";
+
+      if(
+        navigator.share
+      ){
+
+        try{
+
+          await navigator.share({
+            title:"GHAR Referral",
+            text,
+            url:link
+          });
+
+          return;
+
+        }catch(error){
+
+          if(
+            error?.name ===
+            "AbortError"
+          ){
+            return;
+          }
+
+        }
+
+      }
+
+      try{
+
+        await navigator.clipboard.writeText(
+          link
+        );
+
+        showToast(
+          "Referral link copied. Share it with your contact."
+        );
+
+      }catch(error){
+
+        showToast(
+          "Copy the referral link and share it with your contact."
+        );
+
+      }
+
+    }
+  );
+
+
+/* =========================================================
+   MOBILE MENU
+========================================================= */
+
+$("#menuButton")
+  ?.addEventListener(
+    "click",
+    () => {
+
+      const nav =
+        document.querySelector(
+          ".desktop-nav"
+        );
+
+      if(!nav){
+        return;
+      }
+
+      const visible =
+        nav.dataset.mobileOpen ===
+        "true";
+
+      if(visible){
+
+        nav.style.display =
+          "";
+
+        nav.dataset.mobileOpen =
+          "false";
+
+        return;
+      }
+
+      nav.dataset.mobileOpen =
+        "true";
+
+      nav.style.display =
+        "flex";
+
+      nav.style.position =
+        "absolute";
+
+      nav.style.left =
+        "14px";
+
+      nav.style.right =
+        "14px";
+
+      nav.style.top =
+        "66px";
+
+      nav.style.padding =
+        "10px";
+
+      nav.style.flexDirection =
+        "column";
+
+      nav.style.alignItems =
+        "stretch";
+
+      nav.style.border =
+        "1px solid rgba(229,199,125,.14)";
+
+      nav.style.borderRadius =
+        "16px";
+
+      nav.style.background =
+        "#0b1c14";
+
+      nav.style.boxShadow =
+        "0 25px 60px rgba(0,0,0,.35)";
+    }
+  );
+
+
+/* =========================================================
+   NOTIFICATIONS
+========================================================= */
+
+$("#notificationButton")
+  ?.addEventListener(
+    "click",
+    () => {
+
+      window.location.href =
+        "/seller/notifications.html";
+
+    }
+  );
+
+
+/* =========================================================
+   INITIALIZATION
+========================================================= */
+
+async function initializeReferral(){
+
+  $("#footerYear").textContent =
+    new Date().getFullYear();
+
+  await loadReferralProfile();
+
+  const referrals =
+    await loadReferrals();
+
+  updateReferralStats(
+    referrals
+  );
+
+  renderReferralTable(
+    referrals
+  );
+
+  renderActivity(
+    referrals
+  );
+
+}
+
+
+if(
+  document.readyState ===
+  "loading"
+){
+
+  document.addEventListener(
+    "DOMContentLoaded",
+    initializeReferral
+  );
+
+}else{
+
+  initializeReferral();
+
+}
+
+</script>
+
+</body>
+</html>

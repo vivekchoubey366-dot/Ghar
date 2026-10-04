@@ -1,0 +1,2811 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<meta name="theme-color" content="#f4ead9">
+<meta name="description" content="GHAR Profile -- manage your account, preferences, saved properties and property journey.">
+
+<title>My Profile -- GHAR</title>
+
+<link rel="icon" type="image/png" href="assets/images/logo/ghar-logo.jpg">
+
+<!-- GLOBAL CSS -->
+<link rel="stylesheet" href="assets/css/variables.css">
+<link rel="stylesheet" href="assets/css/reset.css">
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/layout.css">
+<link rel="stylesheet" href="assets/css/components.css">
+<link rel="stylesheet" href="assets/css/navigation.css">
+<link rel="stylesheet" href="assets/css/cards.css">
+<link rel="stylesheet" href="assets/css/forms.css">
+<link rel="stylesheet" href="assets/css/home.css">
+<link rel="stylesheet" href="assets/css/property.css">
+<link rel="stylesheet" href="assets/css/animations.css">
+<link rel="stylesheet" href="assets/css/responsive.css">
+<link rel="stylesheet" href="assets/css/utilities.css">
+
+<style>
+
+:root{
+  --ivory:#f8f1e5;
+  --pearl:#fffaf2;
+  --sand:#eadbc4;
+  --champagne:#d9bd83;
+  --gold:#b18a48;
+  --gold2:#e7d09b;
+  --emerald:#163a2e;
+  --emerald2:#245442;
+  --emerald3:#204737;
+  --ink:#17251f;
+  --muted:#737d76;
+  --line:rgba(23,58,46,.12);
+  --shadow:0 30px 80px rgba(30,49,40,.12);
+  --radius:28px;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  margin:0;
+  background:var(--ivory);
+  color:var(--ink);
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  line-height:1.55;
+  overflow-x:hidden;
+}
+
+a{
+  text-decoration:none;
+  color:inherit;
+}
+
+button,
+input,
+select{
+  font:inherit;
+}
+
+img{
+  display:block;
+  max-width:100%;
+}
+
+/* =========================================================
+   TOP BAR
+========================================================= */
+
+.topbar{
+  background:var(--emerald);
+  color:#f8f1e5;
+  text-align:center;
+  font-size:11px;
+  letter-spacing:.1em;
+  padding:8px 16px;
+}
+
+.topbar b{
+  color:var(--gold2);
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.header{
+  position:sticky;
+  top:0;
+  z-index:1000;
+  padding:12px 3.5vw;
+  background:rgba(248,241,229,.92);
+  backdrop-filter:blur(18px);
+  border-bottom:1px solid var(--line);
+}
+
+.nav{
+  max-width:1380px;
+  margin:auto;
+  display:flex;
+  align-items:center;
+  gap:26px;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  font-weight:900;
+  letter-spacing:.2em;
+  color:var(--emerald);
+}
+
+.brand img{
+  width:42px;
+  height:42px;
+  object-fit:contain;
+}
+
+.links{
+  display:flex;
+  gap:5px;
+  margin-left:auto;
+}
+
+.links a{
+  font-size:13px;
+  font-weight:700;
+  padding:10px 13px;
+  border-radius:999px;
+}
+
+.links a:hover,
+.links a.active{
+  background:#eee3d2;
+}
+
+.nav-actions{
+  display:flex;
+  gap:8px;
+  align-items:center;
+}
+
+.pill{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:44px;
+  padding:0 17px;
+  border-radius:999px;
+  border:1px solid var(--line);
+  font-size:12px;
+  font-weight:800;
+}
+
+.pill.gold{
+  background:var(--emerald);
+  border-color:var(--emerald);
+  color:#fff;
+}
+
+.menu{
+  display:none;
+  border:0;
+  background:none;
+  font-size:24px;
+  color:var(--emerald);
+}
+
+/* =========================================================
+   PROFILE HERO
+========================================================= */
+
+.profile-hero{
+  position:relative;
+  min-height:430px;
+  display:flex;
+  align-items:center;
+  overflow:hidden;
+
+  background:
+    linear-gradient(
+      105deg,
+      rgba(17,48,38,.92),
+      rgba(17,48,38,.68) 52%,
+      rgba(17,48,38,.25)
+    ),
+    url("assets/images/banners/ghar-hero-evening.webp")
+    center/cover no-repeat;
+}
+
+.profile-hero:after{
+  content:"";
+  position:absolute;
+  inset:auto 0 0;
+  height:100px;
+  background:linear-gradient(
+    transparent,
+    var(--ivory)
+  );
+}
+
+.profile-hero-inner{
+  position:relative;
+  z-index:2;
+  width:min(1280px,90vw);
+  margin:auto;
+
+  display:grid;
+  grid-template-columns:1fr 330px;
+  gap:50px;
+  align-items:center;
+}
+
+.eyebrow{
+  display:inline-flex;
+  align-items:center;
+  gap:9px;
+  color:var(--gold2);
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+}
+
+.eyebrow:before{
+  content:"";
+  width:30px;
+  height:1px;
+  background:var(--gold2);
+}
+
+.profile-hero h1{
+  font:500 clamp(48px,6vw,78px)/.95 Georgia,serif;
+  letter-spacing:-.055em;
+  color:#fff;
+  margin:18px 0 14px;
+}
+
+.profile-hero h1 em{
+  color:var(--gold2);
+  font-style:normal;
+}
+
+.profile-hero p{
+  max-width:620px;
+  color:rgba(255,255,255,.68);
+  font-size:14px;
+  line-height:1.8;
+  margin:0;
+}
+
+/* =========================================================
+   PROFILE SUMMARY CARD
+========================================================= */
+
+.profile-card{
+  padding:27px;
+
+  border-radius:30px;
+
+  border:1px solid rgba(255,255,255,.2);
+
+  background:rgba(255,250,242,.1);
+
+  backdrop-filter:blur(20px);
+
+  color:#fff;
+
+  box-shadow:0 25px 70px rgba(0,0,0,.15);
+}
+
+.avatar{
+  width:78px;
+  height:78px;
+
+  border-radius:50%;
+
+  display:grid;
+  place-items:center;
+
+  background:
+    linear-gradient(
+      145deg,
+      var(--champagne),
+      var(--gold)
+    );
+
+  color:var(--emerald);
+
+  font:700 30px Georgia,serif;
+
+  margin-bottom:18px;
+
+  border:4px solid rgba(255,255,255,.15);
+}
+
+.profile-card small{
+  color:var(--gold2);
+  font-size:9px;
+  text-transform:uppercase;
+  letter-spacing:.17em;
+  font-weight:900;
+}
+
+.profile-card h2{
+  font:500 28px/1.1 Georgia,serif;
+  margin:8px 0 4px;
+}
+
+.profile-card p{
+  color:rgba(255,255,255,.58);
+  font-size:11px;
+  margin:0;
+}
+
+/* =========================================================
+   MAIN PROFILE
+========================================================= */
+
+.profile-section{
+  padding:80px 4.5vw 110px;
+}
+
+.container{
+  max-width:1280px;
+  margin:auto;
+}
+
+/* =========================================================
+   STAT STRIP
+========================================================= */
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+  margin-top:-5px;
+  position:relative;
+  z-index:5;
+}
+
+.stat{
+  padding:25px;
+
+  background:var(--pearl);
+
+  border:1px solid var(--line);
+
+  border-radius:22px;
+
+  box-shadow:0 15px 40px rgba(30,49,40,.06);
+}
+
+.stat small{
+  display:block;
+  color:var(--gold);
+  text-transform:uppercase;
+  letter-spacing:.14em;
+  font-size:9px;
+  font-weight:900;
+}
+
+.stat strong{
+  display:block;
+  color:var(--emerald);
+  font:500 30px Georgia,serif;
+  margin-top:8px;
+}
+
+.stat span{
+  display:block;
+  color:var(--muted);
+  font-size:10px;
+  margin-top:3px;
+}
+
+/* =========================================================
+   PROFILE GRID
+========================================================= */
+
+.profile-grid{
+  display:grid;
+  grid-template-columns:1.45fr .75fr;
+  gap:22px;
+  margin-top:55px;
+}
+
+.panel{
+  background:var(--pearl);
+  border:1px solid var(--line);
+  border-radius:28px;
+  padding:30px;
+}
+
+.panel.dark{
+  background:var(--emerald);
+  color:#fff;
+  border-color:var(--emerald);
+}
+
+.panel-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:20px;
+  margin-bottom:28px;
+}
+
+.kicker{
+  color:var(--gold);
+  font-size:10px;
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:.2em;
+}
+
+.panel.dark .kicker{
+  color:var(--gold2);
+}
+
+.panel h2{
+  color:var(--emerald);
+  font:500 34px/1 Georgia,serif;
+  letter-spacing:-.035em;
+  margin:9px 0 0;
+}
+
+.panel.dark h2{
+  color:#fff;
+}
+
+.edit-btn{
+  border:1px solid var(--line);
+  background:#f0e4d1;
+  color:var(--emerald);
+  border-radius:999px;
+  min-height:40px;
+  padding:0 16px;
+  font-size:10px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.panel.dark .edit-btn{
+  background:rgba(255,255,255,.08);
+  color:#fff;
+  border-color:rgba(255,255,255,.14);
+}
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.form-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+}
+
+.field{
+  background:#f2e8d8;
+  border-radius:17px;
+  padding:13px 15px;
+}
+
+.field.full{
+  grid-column:1/-1;
+}
+
+.field label{
+  display:block;
+  color:#7a817c;
+  font-size:9px;
+  text-transform:uppercase;
+  letter-spacing:.15em;
+  font-weight:900;
+}
+
+.field input,
+.field select{
+  width:100%;
+  border:0;
+  outline:0;
+  background:transparent;
+  color:var(--ink);
+  font-size:13px;
+  font-weight:700;
+  margin-top:4px;
+}
+
+.field input:disabled,
+.field select:disabled{
+  opacity:.9;
+}
+
+.save-row{
+  display:flex;
+  justify-content:flex-end;
+  margin-top:18px;
+}
+
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:48px;
+  padding:0 21px;
+  border-radius:999px;
+  border:1px solid var(--line);
+  font-size:11px;
+  font-weight:900;
+  cursor:pointer;
+  transition:.25s;
+}
+
+.btn:hover{
+  transform:translateY(-2px);
+}
+
+.btn.gold{
+  background:var(--emerald);
+  color:#fff;
+  border-color:var(--emerald);
+}
+
+.btn.champagne{
+  background:var(--champagne);
+  color:var(--emerald);
+  border-color:var(--champagne);
+}
+
+/* =========================================================
+   PREFERENCE CARDS
+========================================================= */
+
+.preference-list{
+  display:grid;
+  gap:10px;
+}
+
+.preference{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+
+  padding:17px;
+
+  border-radius:17px;
+
+  background:#f2e8d8;
+}
+
+.preference-info{
+  display:flex;
+  gap:13px;
+  align-items:center;
+}
+
+.preference-icon{
+  width:40px;
+  height:40px;
+
+  border-radius:13px;
+
+  display:grid;
+  place-items:center;
+
+  background:var(--emerald);
+
+  color:var(--gold2);
+
+  font-size:18px;
+}
+
+.preference h3{
+  margin:0;
+  font-size:12px;
+  color:var(--emerald);
+}
+
+.preference p{
+  margin:2px 0 0;
+  font-size:9px;
+  color:var(--muted);
+}
+
+.toggle{
+  position:relative;
+  width:43px;
+  height:24px;
+  flex:none;
+}
+
+.toggle input{
+  opacity:0;
+  width:0;
+  height:0;
+}
+
+.slider{
+  position:absolute;
+  inset:0;
+  cursor:pointer;
+  background:#c7c1b6;
+  border-radius:999px;
+  transition:.25s;
+}
+
+.slider:before{
+  content:"";
+  position:absolute;
+  width:18px;
+  height:18px;
+  left:3px;
+  top:3px;
+  background:#fff;
+  border-radius:50%;
+  transition:.25s;
+}
+
+.toggle input:checked + .slider{
+  background:var(--emerald);
+}
+
+.toggle input:checked + .slider:before{
+  transform:translateX(19px);
+}
+
+/* =========================================================
+   ACCOUNT ACTIONS
+========================================================= */
+
+.account-actions{
+  display:grid;
+  gap:9px;
+}
+
+.account-action{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+
+  padding:16px 17px;
+
+  border-radius:17px;
+
+  background:rgba(255,255,255,.07);
+
+  border:1px solid rgba(255,255,255,.1);
+}
+
+.account-action-left{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.action-icon{
+  width:38px;
+  height:38px;
+  display:grid;
+  place-items:center;
+  border-radius:12px;
+  background:rgba(231,208,155,.12);
+  color:var(--gold2);
+}
+
+.account-action h3{
+  margin:0;
+  font-size:11px;
+}
+
+.account-action p{
+  margin:2px 0 0;
+  color:rgba(255,255,255,.47);
+  font-size:9px;
+}
+
+.account-action > span{
+  color:var(--gold2);
+  font-size:15px;
+}
+
+/* =========================================================
+   ACTIVITY
+========================================================= */
+
+.activity{
+  margin-top:22px;
+}
+
+.activity-list{
+  display:grid;
+  gap:0;
+}
+
+.activity-item{
+  display:grid;
+  grid-template-columns:45px 1fr auto;
+  gap:13px;
+  align-items:center;
+
+  padding:17px 0;
+
+  border-bottom:1px solid var(--line);
+}
+
+.activity-item:last-child{
+  border-bottom:0;
+}
+
+.activity-icon{
+  width:40px;
+  height:40px;
+
+  border-radius:13px;
+
+  display:grid;
+  place-items:center;
+
+  background:#f0e4d1;
+
+  color:var(--emerald);
+}
+
+.activity-item h3{
+  font-size:12px;
+  margin:0;
+  color:var(--emerald);
+}
+
+.activity-item p{
+  margin:2px 0 0;
+  color:var(--muted);
+  font-size:9px;
+}
+
+.activity-item time{
+  color:var(--muted);
+  font-size:9px;
+  white-space:nowrap;
+}
+
+/* =========================================================
+   SECURITY
+========================================================= */
+
+.security{
+  margin-top:22px;
+}
+
+.security-box{
+  display:grid;
+  grid-template-columns:1fr auto;
+  align-items:center;
+  gap:25px;
+
+  padding:22px;
+
+  border-radius:20px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #eee1ce,
+      #f8f0e2
+    );
+}
+
+.security h3{
+  margin:0 0 5px;
+  color:var(--emerald);
+  font:500 22px Georgia,serif;
+}
+
+.security p{
+  margin:0;
+  color:var(--muted);
+  font-size:10px;
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer{
+  background:#10291f;
+  color:#fff;
+}
+
+.footer{
+  max-width:1280px;
+  margin:auto;
+  padding:70px 4.5vw;
+
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr 1fr;
+  gap:45px;
+}
+
+.footer-brand{
+  font-size:25px;
+  font-weight:900;
+  letter-spacing:.2em;
+  color:var(--gold2);
+}
+
+.footer p{
+  color:rgba(255,255,255,.5);
+  max-width:380px;
+  font-size:12px;
+  line-height:1.8;
+}
+
+.footer h4{
+  color:var(--gold2);
+  margin:0 0 15px;
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:.15em;
+}
+
+.footer a{
+  display:block;
+  color:rgba(255,255,255,.6);
+  font-size:11px;
+  margin:9px 0;
+}
+
+.footer a:hover{
+  color:#fff;
+}
+
+.bottom{
+  max-width:1280px;
+  margin:auto;
+  padding:18px 4.5vw 25px;
+
+  border-top:1px solid rgba(255,255,255,.1);
+
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+
+  color:rgba(255,255,255,.4);
+  font-size:10px;
+}
+
+/* =========================================================
+   MOBILE DOCK
+========================================================= */
+
+.mobile-dock{
+  display:none;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:1050px){
+
+  .links{
+    display:none;
+  }
+
+  .menu{
+    display:block;
+  }
+
+  .profile-hero-inner{
+    grid-template-columns:1fr;
+  }
+
+  .profile-card{
+    max-width:400px;
+  }
+
+  .stats{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .profile-grid{
+    grid-template-columns:1fr;
+  }
+
+  .footer{
+    grid-template-columns:1fr 1fr;
+  }
+}
+
+@media(max-width:700px){
+
+  .topbar{
+    font-size:9px;
+  }
+
+  .header{
+    padding:9px 5vw;
+  }
+
+  .nav-actions .pill:first-child{
+    display:none;
+  }
+
+  .profile-hero{
+    min-height:680px;
+  }
+
+  .profile-hero-inner{
+    width:90vw;
+    padding:70px 0 80px;
+  }
+
+  .profile-hero h1{
+    font-size:54px;
+  }
+
+  .profile-card{
+    width:100%;
+  }
+
+  .stats{
+    grid-template-columns:1fr 1fr;
+    gap:9px;
+  }
+
+  .stat{
+    padding:19px;
+  }
+
+  .stat strong{
+    font-size:25px;
+  }
+
+  .profile-section{
+    padding:60px 5vw 90px;
+  }
+
+  .panel{
+    padding:22px;
+    border-radius:24px;
+  }
+
+  .panel-head{
+    flex-direction:column;
+  }
+
+  .form-grid{
+    grid-template-columns:1fr;
+  }
+
+  .field.full{
+    grid-column:auto;
+  }
+
+  .security-box{
+    grid-template-columns:1fr;
+  }
+
+  .footer{
+    grid-template-columns:1fr;
+  }
+
+  .bottom{
+    flex-direction:column;
+  }
+
+  .mobile-dock{
+    position:fixed;
+    z-index:9999;
+
+    left:10px;
+    right:10px;
+    bottom:10px;
+
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+
+    background:rgba(16,41,31,.95);
+    backdrop-filter:blur(18px);
+
+    border:1px solid rgba(255,255,255,.12);
+    border-radius:20px;
+
+    padding:8px;
+
+    box-shadow:0 20px 50px rgba(0,0,0,.2);
+  }
+
+  .mobile-dock a{
+    text-align:center;
+    color:rgba(255,255,255,.65);
+    font-size:8px;
+    font-weight:800;
+  }
+
+  .mobile-dock span{
+    display:block;
+    color:var(--gold2);
+    font-size:18px;
+    line-height:1;
+    margin-bottom:3px;
+  }
+
+  body{
+    padding-bottom:80px;
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- =====================================================
+     TOP BAR
+===================================================== -->
+
+<div class="topbar">
+  <b>GHAR</b>
+  &nbsp; | &nbsp;
+  Your property journey, beautifully organized
+</div>
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header class="header">
+
+  <nav class="nav">
+
+    <a href="index.html" class="brand">
+
+      <img
+        src="assets/images/logo/ghar-logo.png"
+        alt="GHAR"
+      >
+
+      <span>GHAR</span>
+
+    </a>
+
+
+    <div class="links">
+
+      <a href="properties.html">
+        Properties
+      </a>
+
+      <a href="about.html">
+        About
+      </a>
+
+      <a href="property-search.html">
+        Search
+      </a>
+
+      <a href="compare.html">
+        Compare
+      </a>
+
+      <a href="contact.html">
+        Contact
+      </a>
+
+    </div>
+
+
+    <div class="nav-actions">
+
+      <a
+        href="dashboard.html"
+        class="pill"
+      >
+        Dashboard
+      </a>
+
+      <a
+        href="profile.html"
+        class="pill gold"
+      >
+        Profile
+      </a>
+
+      <button
+        class="menu"
+        type="button"
+        aria-label="Open menu"
+      >
+        ☰
+      </button>
+
+    </div>
+
+  </nav>
+
+</header>
+
+
+<main>
+
+
+<!-- =====================================================
+     PROFILE HERO
+===================================================== -->
+
+<section class="profile-hero">
+
+  <div class="profile-hero-inner">
+
+    <div>
+
+      <div class="eyebrow">
+        Your GHAR account
+      </div>
+
+      <h1>
+        Your profile,
+        <em>your journey.</em>
+      </h1>
+
+      <p>
+        Manage your personal information, property preferences,
+        account settings and activity from one premium GHAR
+        experience.
+      </p>
+
+    </div>
+
+
+    <div class="profile-card">
+
+      <div class="avatar" id="avatarInitial">
+        V
+      </div>
+
+      <small>
+        GHAR member
+      </small>
+
+      <h2 id="heroName">
+        Your Name
+      </h2>
+
+      <p id="heroEmail">
+        your@email.com
+      </p>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =====================================================
+     PROFILE CONTENT
+===================================================== -->
+
+<section class="profile-section">
+
+  <div class="container">
+
+
+    <!-- STATS -->
+
+    <div class="stats">
+
+      <div class="stat">
+
+        <small>
+          Saved
+        </small>
+
+        <strong id="savedCount">
+          0
+        </strong>
+
+        <span>
+          Saved properties
+        </span>
+
+      </div>
+
+
+      <div class="stat">
+
+        <small>
+          Enquiries
+        </small>
+
+        <strong id="enquiryCount">
+          0
+        </strong>
+
+        <span>
+          Property enquiries
+        </span>
+
+      </div>
+
+
+      <div class="stat">
+
+        <small>
+          Visits
+        </small>
+
+        <strong id="visitCount">
+          0
+        </strong>
+
+        <span>
+          Scheduled visits
+        </span>
+
+      </div>
+
+
+      <div class="stat">
+
+        <small>
+          Offers
+        </small>
+
+        <strong id="offerCount">
+          0
+        </strong>
+
+        <span>
+          Active offers
+        </span>
+
+      </div>
+
+    </div>
+
+
+    <div class="profile-grid">
+
+
+      <!-- =================================================
+           PERSONAL INFORMATION
+      ================================================== -->
+
+      <div>
+
+        <section class="panel">
+
+          <div class="panel-head">
+
+            <div>
+
+              <div class="kicker">
+                Account information
+              </div>
+
+              <h2>
+                Personal details
+              </h2>
+
+            </div>
+
+            <button
+              class="edit-btn"
+              id="editProfile"
+              type="button"
+            >
+              Edit profile
+            </button>
+
+          </div>
+
+
+          <form id="profileForm">
+
+            <div class="form-grid">
+
+
+              <div class="field">
+
+                <label>
+                  First name
+                </label>
+
+                <input
+                  id="firstName"
+                  name="firstName"
+                  type="text"
+                  value=""
+                  placeholder="First name"
+                  disabled
+                >
+
+              </div>
+
+
+              <div class="field">
+
+                <label>
+                  Last name
+                </label>
+
+                <input
+                  id="lastName"
+                  name="lastName"
+                  type="text"
+                  value=""
+                  placeholder="Last name"
+                  disabled
+                >
+
+              </div>
+
+
+              <div class="field">
+
+                <label>
+                  Email
+                </label>
+
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  value=""
+                  placeholder="Email address"
+                  disabled
+                >
+
+              </div>
+
+
+              <div class="field">
+
+                <label>
+                  Phone
+                </label>
+
+                <input
+                  id="phone"
+                  name="phone"
+                  type="tel"
+                  value=""
+                  placeholder="Phone number"
+                  disabled
+                >
+
+              </div>
+
+
+              <div class="field">
+
+                <label>
+                  City
+                </label>
+
+                <input
+                  id="city"
+                  name="city"
+                  type="text"
+                  value=""
+                  placeholder="City"
+                  disabled
+                >
+
+              </div>
+
+
+              <div class="field">
+
+                <label>
+                  State
+                </label>
+
+                <input
+                  id="state"
+                  name="state"
+                  type="text"
+                  value=""
+                  placeholder="State"
+                  disabled
+                >
+
+              </div>
+
+
+              <div class="field full">
+
+                <label>
+                  Preferred property journey
+                </label>
+
+                <select
+                  id="journey"
+                  name="journey"
+                  disabled
+                >
+
+                  <option value="">
+                    Select your goal
+                  </option>
+
+                  <option value="buy">
+                    Buy a property
+                  </option>
+
+                  <option value="rent">
+                    Rent a property
+                  </option>
+
+                  <option value="sell">
+                    Sell my property
+                  </option>
+
+                  <option value="invest">
+                    Property investment
+                  </option>
+
+                  <option value="both">
+                    Buy & Sell
+                  </option>
+
+                </select>
+
+              </div>
+
+            </div>
+
+
+            <div
+              class="save-row"
+              id="saveRow"
+              style="display:none"
+            >
+
+              <button
+                class="btn gold"
+                type="submit"
+              >
+                Save changes
+              </button>
+
+            </div>
+
+          </form>
+
+        </section>
+
+
+        <!-- ACTIVITY -->
+
+        <section class="panel activity">
+
+          <div class="panel-head">
+
+            <div>
+
+              <div class="kicker">
+                Recent activity
+              </div>
+
+              <h2>
+                Your latest journey
+              </h2>
+
+            </div>
+
+            <a
+              href="dashboard.html"
+              class="edit-btn"
+            >
+              Dashboard
+            </a>
+
+          </div>
+
+
+          <div class="activity-list">
+
+
+            <div class="activity-item">
+
+              <div class="activity-icon">
+                ♡
+              </div>
+
+              <div>
+
+                <h3>
+                  Saved property
+                </h3>
+
+                <p>
+                  Your saved properties will appear here.
+                </p>
+
+              </div>
+
+              <time>
+                --
+              </time>
+
+            </div>
+
+
+            <div class="activity-item">
+
+              <div class="activity-icon">
+                ◇
+              </div>
+
+              <div>
+
+                <h3>
+                  Property enquiry
+                </h3>
+
+                <p>
+                  Your recent enquiries will appear here.
+                </p>
+
+              </div>
+
+              <time>
+                --
+              </time>
+
+            </div>
+
+
+            <div class="activity-item">
+
+              <div class="activity-icon">
+                ▣
+              </div>
+
+              <div>
+
+                <h3>
+                  Property visit
+                </h3>
+
+                <p>
+                  Scheduled property visits will appear here.
+                </p>
+
+              </div>
+
+              <time>
+                --
+              </time>
+
+            </div>
+
+
+            <div class="activity-item">
+
+              <div class="activity-icon">
+                ₹
+              </div>
+
+              <div>
+
+                <h3>
+                  Property offer
+                </h3>
+
+                <p>
+                  Offers and negotiations will appear here.
+                </p>
+
+              </div>
+
+              <time>
+                --
+              </time>
+
+            </div>
+
+          </div>
+
+        </section>
+
+
+        <!-- SECURITY -->
+
+        <section class="panel security">
+
+          <div class="panel-head">
+
+            <div>
+
+              <div class="kicker">
+                Account security
+              </div>
+
+              <h2>
+                Protect your GHAR account
+              </h2>
+
+            </div>
+
+          </div>
+
+
+          <div class="security-box">
+
+            <div>
+
+              <h3>
+                Password & verification
+              </h3>
+
+              <p>
+                Keep your login credentials and account
+                verification information up to date.
+              </p>
+
+            </div>
+
+            <a
+              href="change-password.html"
+              class="btn gold"
+            >
+              Manage security
+            </a>
+
+          </div>
+
+        </section>
+
+      </div>
+
+
+      <!-- =================================================
+           RIGHT COLUMN
+      ================================================== -->
+
+      <aside>
+
+
+        <!-- PREFERENCES -->
+
+        <section class="panel">
+
+          <div class="panel-head">
+
+            <div>
+
+              <div class="kicker">
+                Preferences
+              </div>
+
+              <h2>
+                Your settings
+              </h2>
+
+            </div>
+
+          </div>
+
+
+          <div class="preference-list">
+
+
+            <div class="preference">
+
+              <div class="preference-info">
+
+                <div class="preference-icon">
+                  ◇
+                </div>
+
+                <div>
+
+                  <h3>
+                    Property alerts
+                  </h3>
+
+                  <p>
+                    Receive matching property updates.
+                  </p>
+
+                </div>
+
+              </div>
+
+              <label class="toggle">
+
+                <input
+                  type="checkbox"
+                  id="propertyAlerts"
+                  checked
+                >
+
+                <span class="slider"></span>
+
+              </label>
+
+            </div>
+
+
+            <div class="preference">
+
+              <div class="preference-info">
+
+                <div class="preference-icon">
+                  ✦
+                </div>
+
+                <div>
+
+                  <h3>
+                    AI recommendations
+                  </h3>
+
+                  <p>
+                    Get intelligent property suggestions.
+                  </p>
+
+                </div>
+
+              </div>
+
+              <label class="toggle">
+
+                <input
+                  type="checkbox"
+                  id="aiRecommendations"
+                  checked
+                >
+
+                <span class="slider"></span>
+
+              </label>
+
+            </div>
+
+
+            <div class="preference">
+
+              <div class="preference-info">
+
+                <div class="preference-icon">
+                  ◌
+                </div>
+
+                <div>
+
+                  <h3>
+                    Visit reminders
+                  </h3>
+
+                  <p>
+                    Get reminders for scheduled visits.
+                  </p>
+
+                </div>
+
+              </div>
+
+              <label class="toggle">
+
+                <input
+                  type="checkbox"
+                  id="visitReminders"
+                  checked
+                >
+
+                <span class="slider"></span>
+
+              </label>
+
+            </div>
+
+
+            <div class="preference">
+
+              <div class="preference-info">
+
+                <div class="preference-icon">
+                  ▣
+                </div>
+
+                <div>
+
+                  <h3>
+                    Offers & updates
+                  </h3>
+
+                  <p>
+                    Stay updated about offers and activity.
+                  </p>
+
+                </div>
+
+              </div>
+
+              <label class="toggle">
+
+                <input
+                  type="checkbox"
+                  id="offerUpdates"
+                  checked
+                >
+
+                <span class="slider"></span>
+
+              </label>
+
+            </div>
+
+          </div>
+
+        </section>
+
+
+        <!-- ACCOUNT ACTIONS -->
+
+        <section class="panel dark" style="margin-top:22px">
+
+          <div class="panel-head">
+
+            <div>
+
+              <div class="kicker">
+                Quick access
+              </div>
+
+              <h2>
+                Your GHAR
+              </h2>
+
+            </div>
+
+          </div>
+
+
+          <div class="account-actions">
+
+
+            <a
+              class="account-action"
+              href="buyer/saved-properties.html"
+            >
+
+              <div class="account-action-left">
+
+                <div class="action-icon">
+                  ♡
+                </div>
+
+                <div>
+
+                  <h3>
+                    Saved Properties
+                  </h3>
+
+                  <p>
+                    View properties you saved
+                  </p>
+
+                </div>
+
+              </div>
+
+              <span>
+                →
+              </span>
+
+            </a>
+
+
+            <a
+              class="account-action"
+              href="buyer/enquiries.html"
+            >
+
+              <div class="account-action-left">
+
+                <div class="action-icon">
+                  ◇
+                </div>
+
+                <div>
+
+                  <h3>
+                    My Enquiries
+                  </h3>
+
+                  <p>
+                    Track your property enquiries
+                  </p>
+
+                </div>
+
+              </div>
+
+              <span>
+                →
+              </span>
+
+            </a>
+
+
+            <a
+              class="account-action"
+              href="buyer/visits.html"
+            >
+
+              <div class="account-action-left">
+
+                <div class="action-icon">
+                  ◌
+                </div>
+
+                <div>
+
+                  <h3>
+                    Scheduled Visits
+                  </h3>
+
+                  <p>
+                    Manage upcoming property visits
+                  </p>
+
+                </div>
+
+              </div>
+
+              <span>
+                →
+              </span>
+
+            </a>
+
+
+            <a
+              class="account-action"
+              href="buyer/offers.html"
+            >
+
+              <div class="account-action-left">
+
+                <div class="action-icon">
+                  ₹
+                </div>
+
+                <div>
+
+                  <h3>
+                    My Offers
+                  </h3>
+
+                  <p>
+                    View offers and negotiations
+                  </p>
+
+                </div>
+
+              </div>
+
+              <span>
+                →
+              </span>
+
+            </a>
+
+
+            <a
+              class="account-action"
+              href="dashboard.html"
+            >
+
+              <div class="account-action-left">
+
+                <div class="action-icon">
+                  ▦
+                </div>
+
+                <div>
+
+                  <h3>
+                    Dashboard
+                  </h3>
+
+                  <p>
+                    Open your complete dashboard
+                  </p>
+
+                </div>
+
+              </div>
+
+              <span>
+                →
+              </span>
+
+            </a>
+
+          </div>
+
+        </section>
+
+
+        <!-- SELLER -->
+
+        <section class="panel" style="margin-top:22px">
+
+          <div class="panel-head">
+
+            <div>
+
+              <div class="kicker">
+                Property owners
+              </div>
+
+              <h2>
+                Sell with GHAR
+              </h2>
+
+            </div>
+
+          </div>
+
+
+          <p style="
+            color:var(--muted);
+            font-size:11px;
+            line-height:1.8;
+            margin-top:-5px;
+          ">
+            List your property, manage enquiries,
+            schedule visits and review offers through
+            the GHAR seller ecosystem.
+          </p>
+
+
+          <a
+            href="seller/list-property.html"
+            class="btn gold"
+            style="width:100%;margin-top:15px"
+          >
+            List Your Property
+          </a>
+
+        </section>
+
+      </aside>
+
+    </div>
+
+  </div>
+
+</section>
+
+</main>
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer>
+
+  <div class="footer">
+
+
+    <div>
+
+      <div class="footer-brand">
+        GHAR
+      </div>
+
+      <p>
+        A structured real-estate ecosystem connecting
+        buyers, sellers, renters and property transactions
+        through one premium digital experience.
+      </p>
+
+    </div>
+
+
+    <div>
+
+      <h4>
+        Properties
+      </h4>
+
+      <a href="properties.html">
+        Buy
+      </a>
+
+      <a href="properties.html?listing=rent">
+        Rent
+      </a>
+
+      <a href="properties.html?listing=lease">
+        Lease
+      </a>
+
+      <a href="properties.html?type=commercial">
+        Commercial
+      </a>
+
+      <a href="properties.html?type=land">
+        Land
+      </a>
+
+    </div>
+
+
+    <div>
+
+      <h4>
+        Account
+      </h4>
+
+      <a href="dashboard.html">
+        Dashboard
+      </a>
+
+      <a href="profile.html">
+        My Profile
+      </a>
+
+      <a href="buyer/saved-properties.html">
+        Saved Properties
+      </a>
+
+      <a href="buyer/enquiries.html">
+        My Enquiries
+      </a>
+
+      <a href="buyer/offers.html">
+        My Offers
+      </a>
+
+    </div>
+
+
+    <div>
+
+      <h4>
+        Seller
+      </h4>
+
+      <a href="seller/list-property.html">
+        List Property
+      </a>
+
+      <a href="seller/seller-dashboard.html">
+        Seller Dashboard
+      </a>
+
+      <a href="seller/my-properties.html">
+        My Properties
+      </a>
+
+      <a href="seller/visits.html">
+        Scheduled Visits
+      </a>
+
+      <a href="seller/offers.html">
+        Offers
+      </a>
+
+    </div>
+
+  </div>
+
+
+  <div class="bottom">
+
+    <span>
+      © 2026 GHAR. All rights reserved.
+    </span>
+
+    <span>
+
+      <a href="about.html">
+        About
+      </a>
+
+      ·
+
+      <a href="contact.html">
+        Contact
+      </a>
+
+      ·
+
+      <a href="help-centre.html">
+        Help & Support
+      </a>
+
+      ·
+
+      <a href="terms.html">
+        Terms
+      </a>
+
+      ·
+
+      <a href="privacy.html">
+        Privacy
+      </a>
+
+    </span>
+
+  </div>
+
+</footer>
+
+
+<!-- =====================================================
+     MOBILE NAVIGATION
+===================================================== -->
+
+<nav
+  class="mobile-dock"
+  aria-label="Mobile navigation"
+>
+
+  <a href="index.html">
+    <span>⌂</span>
+    Home
+  </a>
+
+  <a href="properties.html">
+    <span>⌕</span>
+    Search
+  </a>
+
+  <a href="buyer/saved-properties.html">
+    <span>♡</span>
+    Saved
+  </a>
+
+  <a href="profile.html">
+    <span>◉</span>
+    Account
+  </a>
+
+  <a href="ai.html">
+    <span>✦</span>
+    AI
+  </a>
+
+</nav>
+
+
+<!-- =====================================================
+     CORE JAVASCRIPT
+===================================================== -->
+
+<script
+  src="assets/js/constants.js"
+  defer
+></script>
+
+<script
+  src="assets/js/config.js"
+  defer
+></script>
+
+<script
+  src="assets/js/storage.js"
+  defer
+></script>
+
+<script
+  src="assets/js/api.js"
+  defer
+></script>
+
+<script
+  src="assets/js/auth.js"
+  defer
+></script>
+
+<script
+  src="assets/js/core.js"
+  defer
+></script>
+
+<script
+  src="assets/js/components.js"
+  defer
+></script>
+
+<script
+  src="assets/js/navigation.js"
+  defer
+></script>
+
+
+<!-- =====================================================
+     PROFILE JAVASCRIPT
+===================================================== -->
+
+<script>
+
+document.addEventListener(
+  "DOMContentLoaded",
+  () => {
+
+    /* ===================================================
+       DEFAULT PROFILE
+    =================================================== */
+
+    const defaultProfile = {
+
+      firstName:"",
+      lastName:"",
+      email:"",
+      phone:"",
+      city:"",
+      state:"",
+      journey:""
+
+    };
+
+
+    let profile = defaultProfile;
+
+
+    /* ===================================================
+       LOAD PROFILE FROM STORAGE
+    =================================================== */
+
+    try{
+
+      const stored =
+        localStorage.getItem(
+          "ghar_profile"
+        );
+
+      if(stored){
+
+        profile =
+          {
+            ...defaultProfile,
+            ...JSON.parse(stored)
+          };
+
+      }
+
+    }catch(error){
+
+      console.warn(
+        "GHAR profile storage unavailable.",
+        error
+      );
+
+    }
+
+
+    /* ===================================================
+       ELEMENTS
+    =================================================== */
+
+    const firstName =
+      document.getElementById(
+        "firstName"
+      );
+
+    const lastName =
+      document.getElementById(
+        "lastName"
+      );
+
+    const email =
+      document.getElementById(
+        "email"
+      );
+
+    const phone =
+      document.getElementById(
+        "phone"
+      );
+
+    const city =
+      document.getElementById(
+        "city"
+      );
+
+    const state =
+      document.getElementById(
+        "state"
+      );
+
+    const journey =
+      document.getElementById(
+        "journey"
+      );
+
+    const heroName =
+      document.getElementById(
+        "heroName"
+      );
+
+    const heroEmail =
+      document.getElementById(
+        "heroEmail"
+      );
+
+    const avatar =
+      document.getElementById(
+        "avatarInitial"
+      );
+
+
+    /* ===================================================
+       FILL PROFILE
+    =================================================== */
+
+    function fillProfile(){
+
+      firstName.value =
+        profile.firstName || "";
+
+      lastName.value =
+        profile.lastName || "";
+
+      email.value =
+        profile.email || "";
+
+      phone.value =
+        profile.phone || "";
+
+      city.value =
+        profile.city || "";
+
+      state.value =
+        profile.state || "";
+
+      journey.value =
+        profile.journey || "";
+
+
+      const fullName =
+        (
+          profile.firstName +
+          " " +
+          profile.lastName
+        ).trim();
+
+
+      heroName.textContent =
+        fullName ||
+        "Your Name";
+
+
+      heroEmail.textContent =
+        profile.email ||
+        "your@email.com";
+
+
+      const initial =
+        (
+          profile.firstName ||
+          profile.lastName ||
+          "G"
+        )
+        .charAt(0)
+        .toUpperCase();
+
+
+      avatar.textContent =
+        initial;
+
+    }
+
+
+    fillProfile();
+
+
+    /* ===================================================
+       EDIT PROFILE
+    =================================================== */
+
+    const editButton =
+      document.getElementById(
+        "editProfile"
+      );
+
+    const saveRow =
+      document.getElementById(
+        "saveRow"
+      );
+
+
+    let editing = false;
+
+
+    editButton.addEventListener(
+      "click",
+      () => {
+
+        editing =
+          !editing;
+
+
+        [
+          firstName,
+          lastName,
+          email,
+          phone,
+          city,
+          state,
+          journey
+
+        ].forEach(
+          input =>
+            input.disabled =
+              !editing
+        );
+
+
+        saveRow.style.display =
+          editing
+          ? "flex"
+          : "none";
+
+
+        editButton.textContent =
+          editing
+          ? "Cancel"
+          : "Edit profile";
+
+
+        if(!editing){
+
+          fillProfile();
+
+        }
+
+      }
+    );
+
+
+    /* ===================================================
+       SAVE PROFILE
+    =================================================== */
+
+    document
+      .getElementById(
+        "profileForm"
+      )
+      .addEventListener(
+        "submit",
+        event => {
+
+          event.preventDefault();
+
+
+          profile = {
+
+            firstName:
+              firstName.value.trim(),
+
+            lastName:
+              lastName.value.trim(),
+
+            email:
+              email.value.trim(),
+
+            phone:
+              phone.value.trim(),
+
+            city:
+              city.value.trim(),
+
+            state:
+              state.value.trim(),
+
+            journey:
+              journey.value
+
+          };
+
+
+          try{
+
+            localStorage.setItem(
+              "ghar_profile",
+              JSON.stringify(profile)
+            );
+
+          }catch(error){
+
+            console.warn(
+              "Could not save profile.",
+              error
+            );
+
+          }
+
+
+          fillProfile();
+
+
+          [
+            firstName,
+            lastName,
+            email,
+            phone,
+            city,
+            state,
+            journey
+
+          ].forEach(
+            input =>
+              input.disabled =
+                true
+          );
+
+
+          editing=false;
+
+          saveRow.style.display =
+            "none";
+
+          editButton.textContent =
+            "Edit profile";
+
+
+          editButton.blur();
+
+        }
+      );
+
+
+    /* ===================================================
+       PREFERENCES
+    =================================================== */
+
+    const preferenceKeys = [
+
+      "propertyAlerts",
+      "aiRecommendations",
+      "visitReminders",
+      "offerUpdates"
+
+    ];
+
+
+    preferenceKeys.forEach(
+      key => {
+
+        const checkbox =
+          document.getElementById(
+            key
+          );
+
+
+        if(!checkbox){
+          return;
+        }
+
+
+        try{
+
+          const saved =
+            localStorage.getItem(
+              "ghar_pref_" + key
+            );
+
+
+          if(saved !== null){
+
+            checkbox.checked =
+              saved === "true";
+
+          }
+
+        }catch(error){}
+
+
+        checkbox.addEventListener(
+          "change",
+          () => {
+
+            try{
+
+              localStorage.setItem(
+                "ghar_pref_" + key,
+                checkbox.checked
+              );
+
+            }catch(error){}
+
+          }
+        );
+
+      }
+    );
+
+
+    /* ===================================================
+       OPTIONAL GHAR COUNTS
+    =================================================== */
+
+    function readCount(
+      keys
+    ){
+
+      for(
+        const key of keys
+      ){
+
+        try{
+
+          const value =
+            localStorage.getItem(key);
+
+          if(value){
+
+            const parsed =
+              JSON.parse(value);
+
+            if(Array.isArray(parsed)){
+              return parsed.length;
+            }
+
+          }
+
+        }catch(error){}
+
+      }
+
+      return 0;
+
+    }
+
+
+    document
+      .getElementById(
+        "savedCount"
+      )
+      .textContent =
+        readCount([
+          "ghar_saved_properties",
+          "savedProperties"
+        ]);
+
+
+    document
+      .getElementById(
+        "enquiryCount"
+      )
+      .textContent =
+        readCount([
+          "ghar_enquiries",
+          "enquiries"
+        ]);
+
+
+    document
+      .getElementById(
+        "visitCount"
+      )
+      .textContent =
+        readCount([
+          "ghar_visits",
+          "visits"
+        ]);
+
+
+    document
+      .getElementById(
+        "offerCount"
+      )
+      .textContent =
+        readCount([
+          "ghar_offers",
+          "offers"
+        ]);
+
+  }
+
+);
+
+</script>
+
+</body>
+</html>

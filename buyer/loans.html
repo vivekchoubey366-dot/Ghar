@@ -1,0 +1,2625 @@
+<!-- /buyer/loans.html -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<meta name="description"
+      content="GHAR Buyer Loans -- Plan your property financing, estimate EMI, check affordability and manage your loan journey.">
+
+<meta name="theme-color" content="#162d25">
+
+<title>GHAR · Buyer Loans</title>
+
+<link rel="icon" href="../assets/images/favicon.svg">
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+:root{
+  --green-950:#07130e;
+  --green-925:#0a1912;
+  --green-900:#0b1c14;
+  --green-850:#10261c;
+  --green-800:#162d25;
+  --green-750:#1a382c;
+  --green-700:#214438;
+  --green-600:#2b5847;
+
+  --gold-100:#fff7df;
+  --gold-200:#f4dfaa;
+  --gold-300:#e5c77d;
+  --gold-400:#c9a95c;
+  --gold-500:#a98238;
+
+  --cream:#fffaf0;
+  --cream-2:#f7eedc;
+  --sand:#eee1c8;
+
+  --text:#f9f5ea;
+  --text-dark:#17231c;
+
+  --muted:rgba(255,255,255,.68);
+  --muted-2:rgba(255,255,255,.45);
+
+  --border:rgba(229,199,125,.18);
+  --border-light:rgba(255,255,255,.09);
+
+  --success:#82c995;
+  --danger:#e98c8c;
+  --blue:#91b9e8;
+
+  --shadow:0 25px 80px rgba(0,0,0,.25);
+
+  --radius-xl:28px;
+  --radius-lg:21px;
+  --radius-md:15px;
+
+  --container:1440px;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  min-height:100vh;
+  color:var(--text);
+  font-family:
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  background:
+    radial-gradient(
+      circle at 5% 0%,
+      rgba(229,199,125,.12),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 100% 10%,
+      rgba(44,91,69,.22),
+      transparent 30%
+    ),
+    linear-gradient(
+      135deg,
+      #07130e,
+      #0b1c14 48%,
+      #10261c
+    );
+
+  overflow-x:hidden;
+}
+
+a{
+  color:inherit;
+  text-decoration:none;
+}
+
+button,
+input,
+select{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+img{
+  display:block;
+  max-width:100%;
+}
+
+.container{
+  width:min(
+    calc(100% - 40px),
+    var(--container)
+  );
+  margin:auto;
+}
+
+
+/* =========================================================
+   BACKGROUND
+========================================================= */
+
+.page-glow{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:-1;
+  overflow:hidden;
+}
+
+.page-glow::before{
+  content:"";
+  position:absolute;
+  width:550px;
+  height:550px;
+  top:-300px;
+  right:-220px;
+  border-radius:50%;
+  border:1px solid rgba(229,199,125,.12);
+  box-shadow:
+    0 0 0 60px rgba(229,199,125,.025),
+    0 0 0 120px rgba(229,199,125,.015);
+}
+
+.page-glow::after{
+  content:"";
+  position:absolute;
+  width:500px;
+  height:500px;
+  bottom:-300px;
+  left:-250px;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,.06);
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.site-header{
+  position:sticky;
+  top:0;
+  z-index:100;
+  border-bottom:1px solid rgba(229,199,125,.10);
+  background:rgba(7,19,14,.90);
+  backdrop-filter:blur(22px);
+}
+
+.header-inner{
+  min-height:76px;
+  display:flex;
+  align-items:center;
+  gap:24px;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex-shrink:0;
+}
+
+.brand-mark{
+  width:45px;
+  height:45px;
+  display:grid;
+  place-items:center;
+  border-radius:14px;
+  color:#152116;
+  font-size:19px;
+  font-weight:1000;
+
+  background:
+    linear-gradient(
+      135deg,
+      #f1dda5,
+      #b98b3d
+    );
+
+  box-shadow:
+    0 10px 25px rgba(0,0,0,.25),
+    inset 0 1px 0 rgba(255,255,255,.5);
+}
+
+.brand-text strong{
+  display:block;
+  font-size:17px;
+  letter-spacing:.17em;
+}
+
+.brand-text span{
+  display:block;
+  margin-top:2px;
+  color:var(--muted-2);
+  font-size:8px;
+  font-weight:800;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+}
+
+.desktop-nav{
+  display:flex;
+  align-items:center;
+  gap:5px;
+  margin-left:auto;
+}
+
+.desktop-nav a{
+  padding:10px 12px;
+  border-radius:10px;
+  color:var(--muted);
+  font-size:11px;
+  font-weight:700;
+  transition:.2s ease;
+}
+
+.desktop-nav a:hover,
+.desktop-nav a.active{
+  color:var(--gold-200);
+  background:rgba(229,199,125,.07);
+}
+
+.header-actions{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.icon-btn{
+  width:41px;
+  height:41px;
+  display:grid;
+  place-items:center;
+  border:1px solid var(--border-light);
+  border-radius:12px;
+  color:var(--muted);
+  background:rgba(255,255,255,.035);
+  transition:.2s ease;
+}
+
+.icon-btn:hover{
+  color:var(--gold-200);
+  border-color:rgba(229,199,125,.25);
+}
+
+.avatar{
+  width:40px;
+  height:40px;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  color:#172016;
+  font-size:12px;
+  font-weight:1000;
+  background:
+    linear-gradient(
+      135deg,
+      var(--gold-200),
+      var(--gold-500)
+    );
+}
+
+.mobile-menu{
+  display:none;
+}
+
+
+/* =========================================================
+   PAGE HERO
+========================================================= */
+
+.page-hero{
+  padding:46px 0 25px;
+}
+
+.hero-box{
+  position:relative;
+  overflow:hidden;
+  padding:42px;
+  border:1px solid var(--border);
+  border-radius:var(--radius-xl);
+
+  background:
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(229,199,125,.15),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 0% 100%,
+      rgba(44,91,69,.25),
+      transparent 40%
+    ),
+    linear-gradient(
+      145deg,
+      #0a1a12,
+      #10251b 55%,
+      #142d22
+    );
+
+  box-shadow:var(--shadow);
+}
+
+.hero-box::after{
+  content:"";
+  position:absolute;
+  width:330px;
+  height:330px;
+  right:-190px;
+  bottom:-210px;
+  border-radius:50%;
+  border:1px solid rgba(229,199,125,.12);
+  box-shadow:
+    0 0 0 45px rgba(229,199,125,.02),
+    0 0 0 90px rgba(229,199,125,.015);
+}
+
+.eyebrow{
+  color:var(--gold-300);
+  font-size:10px;
+  font-weight:950;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+}
+
+.hero-box h1{
+  max-width:800px;
+  margin-top:12px;
+  color:var(--cream);
+  font-size:clamp(38px,5vw,62px);
+  line-height:1;
+  letter-spacing:-.055em;
+}
+
+.hero-box h1 span{
+  color:var(--gold-300);
+}
+
+.hero-box p{
+  max-width:760px;
+  margin-top:17px;
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.75;
+}
+
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.btn{
+  min-height:45px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  padding:0 17px;
+  border-radius:12px;
+  border:1px solid transparent;
+  font-size:11px;
+  font-weight:900;
+  transition:.2s ease;
+}
+
+.btn-primary{
+  color:#17170f;
+  background:
+    linear-gradient(
+      135deg,
+      #f1dca1,
+      #cda85d
+    );
+  box-shadow:0 10px 25px rgba(0,0,0,.18);
+}
+
+.btn-primary:hover{
+  transform:translateY(-2px);
+}
+
+.btn-secondary{
+  color:var(--cream);
+  border-color:var(--border-light);
+  background:rgba(255,255,255,.045);
+}
+
+.btn-secondary:hover{
+  border-color:rgba(229,199,125,.25);
+  color:var(--gold-200);
+}
+
+
+/* =========================================================
+   MAIN GRID
+========================================================= */
+
+.section{
+  padding:25px 0;
+}
+
+.loan-grid{
+  display:grid;
+  grid-template-columns:1.35fr .65fr;
+  gap:17px;
+  align-items:start;
+}
+
+
+/* =========================================================
+   CALCULATOR
+========================================================= */
+
+.panel{
+  padding:24px;
+  border:1px solid var(--border-light);
+  border-radius:var(--radius-lg);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(20,45,34,.95),
+      rgba(11,28,20,.95)
+    );
+}
+
+.panel-title{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:15px;
+  margin-bottom:20px;
+}
+
+.panel-title h2,
+.panel-title h3{
+  font-size:20px;
+  letter-spacing:-.035em;
+}
+
+.panel-title p{
+  margin-top:5px;
+  color:var(--muted-2);
+  font-size:9px;
+  line-height:1.5;
+}
+
+.status-pill{
+  padding:7px 9px;
+  border:1px solid rgba(130,201,149,.20);
+  border-radius:30px;
+  color:var(--success);
+  background:rgba(130,201,149,.06);
+  font-size:8px;
+  font-weight:900;
+  white-space:nowrap;
+}
+
+.form-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:15px;
+}
+
+.field{
+  display:grid;
+  gap:7px;
+}
+
+.field.full{
+  grid-column:1 / -1;
+}
+
+.field label{
+  color:var(--muted);
+  font-size:9px;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:.06em;
+}
+
+.input-wrap{
+  position:relative;
+}
+
+.input-prefix{
+  position:absolute;
+  left:13px;
+  top:50%;
+  transform:translateY(-50%);
+  color:var(--gold-300);
+  font-size:11px;
+  font-weight:900;
+  pointer-events:none;
+}
+
+.field input,
+.field select{
+  width:100%;
+  height:46px;
+  padding:0 13px;
+  border:1px solid rgba(255,255,255,.09);
+  border-radius:11px;
+  outline:none;
+  color:var(--cream);
+  background:rgba(255,255,255,.045);
+}
+
+.field input.with-prefix{
+  padding-left:31px;
+}
+
+.field input:focus,
+.field select:focus{
+  border-color:rgba(229,199,125,.5);
+  box-shadow:0 0 0 3px rgba(229,199,125,.04);
+}
+
+.field select option{
+  color:#17231c;
+}
+
+.range-wrap{
+  display:grid;
+  gap:7px;
+}
+
+.range-line{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.range-value{
+  color:var(--gold-300);
+  font-size:11px;
+  font-weight:900;
+}
+
+input[type="range"]{
+  width:100%;
+  accent-color:var(--gold-300);
+}
+
+.helper{
+  color:var(--muted-2);
+  font-size:8px;
+  line-height:1.45;
+}
+
+.calculator-actions{
+  display:flex;
+  gap:9px;
+  flex-wrap:wrap;
+  margin-top:20px;
+}
+
+
+/* =========================================================
+   RESULT CARD
+========================================================= */
+
+.result-card{
+  padding:24px;
+  border:1px solid rgba(229,199,125,.22);
+  border-radius:var(--radius-lg);
+
+  background:
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(229,199,125,.14),
+      transparent 35%
+    ),
+    linear-gradient(
+      145deg,
+      #18382b,
+      #0c1f16
+    );
+}
+
+.result-label{
+  color:var(--muted-2);
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+}
+
+.emi-value{
+  margin-top:8px;
+  color:var(--cream);
+  font-size:36px;
+  font-weight:950;
+  letter-spacing:-.05em;
+}
+
+.emi-value span{
+  color:var(--muted-2);
+  font-size:10px;
+  font-weight:600;
+}
+
+.result-divider{
+  height:1px;
+  margin:20px 0;
+  background:rgba(255,255,255,.08);
+}
+
+.result-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:9px 0;
+  color:var(--muted);
+  font-size:10px;
+}
+
+.result-row strong{
+  color:var(--cream);
+  font-size:11px;
+}
+
+.result-row.total{
+  padding-top:13px;
+  border-top:1px solid rgba(255,255,255,.07);
+}
+
+.result-row.total strong{
+  color:var(--gold-300);
+  font-size:14px;
+}
+
+.progress{
+  height:8px;
+  margin-top:17px;
+  overflow:hidden;
+  border-radius:20px;
+  background:rgba(255,255,255,.07);
+}
+
+.progress span{
+  display:block;
+  width:72%;
+  height:100%;
+  border-radius:inherit;
+  background:
+    linear-gradient(
+      90deg,
+      var(--gold-500),
+      var(--gold-200)
+    );
+  transition:width .3s ease;
+}
+
+
+/* =========================================================
+   QUICK TOOLS
+========================================================= */
+
+.tools-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:13px;
+}
+
+.tool-card{
+  min-height:155px;
+  padding:20px;
+  border:1px solid var(--border-light);
+  border-radius:var(--radius-lg);
+  background:
+    linear-gradient(
+      145deg,
+      #142d22,
+      #0b1c14
+    );
+  transition:.2s ease;
+}
+
+.tool-card:hover{
+  transform:translateY(-3px);
+  border-color:rgba(229,199,125,.25);
+}
+
+.tool-icon{
+  width:38px;
+  height:38px;
+  display:grid;
+  place-items:center;
+  border-radius:11px;
+  color:var(--gold-300);
+  background:rgba(229,199,125,.08);
+  font-size:17px;
+}
+
+.tool-card h3{
+  margin-top:13px;
+  font-size:14px;
+}
+
+.tool-card p{
+  margin-top:6px;
+  color:var(--muted-2);
+  font-size:9px;
+  line-height:1.6;
+}
+
+.tool-card a{
+  display:inline-block;
+  margin-top:12px;
+  color:var(--gold-300);
+  font-size:9px;
+  font-weight:900;
+}
+
+
+/* =========================================================
+   ELIGIBILITY
+========================================================= */
+
+.eligibility{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:15px;
+}
+
+.check-list{
+  display:grid;
+  gap:10px;
+  margin-top:17px;
+}
+
+.check-item{
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  padding:11px;
+  border-radius:12px;
+  background:rgba(255,255,255,.025);
+}
+
+.check-icon{
+  width:28px;
+  height:28px;
+  flex:0 0 28px;
+  display:grid;
+  place-items:center;
+  border-radius:9px;
+  color:var(--success);
+  background:rgba(130,201,149,.08);
+  font-size:11px;
+}
+
+.check-item strong{
+  display:block;
+  font-size:10px;
+}
+
+.check-item span{
+  display:block;
+  margin-top:3px;
+  color:var(--muted-2);
+  font-size:8px;
+  line-height:1.45;
+}
+
+.eligibility-score{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  min-height:240px;
+  text-align:center;
+  border:1px solid rgba(229,199,125,.18);
+  border-radius:var(--radius-lg);
+  background:
+    radial-gradient(
+      circle,
+      rgba(229,199,125,.10),
+      transparent 60%
+    ),
+    rgba(255,255,255,.02);
+}
+
+.score-ring{
+  width:130px;
+  height:130px;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  border:9px solid rgba(229,199,125,.12);
+  box-shadow:
+    inset 0 0 0 1px rgba(229,199,125,.1);
+}
+
+.score-number{
+  color:var(--gold-200);
+  font-size:31px;
+  font-weight:950;
+}
+
+.score-number small{
+  font-size:10px;
+  color:var(--muted-2);
+}
+
+.score-label{
+  margin-top:13px;
+  color:var(--muted);
+  font-size:9px;
+}
+
+.score-note{
+  margin-top:5px;
+  color:var(--muted-2);
+  font-size:8px;
+}
+
+
+/* =========================================================
+   LOAN APPLICATION
+========================================================= */
+
+.application-banner{
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:20px;
+  align-items:center;
+  padding:27px;
+  border:1px solid rgba(229,199,125,.20);
+  border-radius:var(--radius-xl);
+
+  background:
+    radial-gradient(
+      circle at 80% 0%,
+      rgba(229,199,125,.14),
+      transparent 30%
+    ),
+    linear-gradient(
+      135deg,
+      #19382b,
+      #0b1d15
+    );
+}
+
+.application-banner h2{
+  font-size:23px;
+  letter-spacing:-.035em;
+}
+
+.application-banner p{
+  max-width:700px;
+  margin-top:7px;
+  color:var(--muted);
+  font-size:10px;
+  line-height:1.6;
+}
+
+
+/* =========================================================
+   DISCLAIMER
+========================================================= */
+
+.disclaimer{
+  margin-top:14px;
+  color:var(--muted-2);
+  font-size:8px;
+  line-height:1.65;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.site-footer{
+  margin-top:45px;
+  padding:35px 0 25px;
+  border-top:1px solid rgba(255,255,255,.07);
+  background:rgba(3,12,8,.35);
+}
+
+.footer-grid{
+  display:grid;
+  grid-template-columns:1.4fr repeat(3,1fr);
+  gap:25px;
+}
+
+.footer-brand{
+  max-width:300px;
+}
+
+.footer-brand p{
+  margin-top:10px;
+  color:var(--muted-2);
+  font-size:9px;
+  line-height:1.7;
+}
+
+.footer-col h4{
+  color:var(--gold-200);
+  font-size:9px;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+}
+
+.footer-col a{
+  display:block;
+  margin-top:9px;
+  color:var(--muted-2);
+  font-size:9px;
+}
+
+.footer-col a:hover{
+  color:var(--gold-300);
+}
+
+.footer-bottom{
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+  margin-top:28px;
+  padding-top:17px;
+  border-top:1px solid rgba(255,255,255,.06);
+  color:var(--muted-2);
+  font-size:8px;
+}
+
+
+/* =========================================================
+   AI FLOAT
+========================================================= */
+
+.ai-floating{
+  position:fixed;
+  right:22px;
+  bottom:22px;
+  z-index:90;
+  min-height:48px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:0 16px;
+  border:1px solid rgba(229,199,125,.25);
+  border-radius:30px;
+  color:#17170f;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--gold-200),
+      var(--gold-400)
+    );
+
+  box-shadow:
+    0 15px 35px rgba(0,0,0,.3);
+
+  font-size:10px;
+  font-weight:1000;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:1100px){
+
+  .desktop-nav{
+    display:none;
+  }
+
+  .mobile-menu{
+    display:grid;
+  }
+
+  .loan-grid{
+    grid-template-columns:1fr;
+  }
+
+  .tools-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+}
+
+@media(max-width:800px){
+
+  .container{
+    width:min(
+      calc(100% - 28px),
+      var(--container)
+    );
+  }
+
+  .hero-box{
+    padding:30px;
+  }
+
+  .form-grid,
+  .eligibility{
+    grid-template-columns:1fr;
+  }
+
+  .footer-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+}
+
+@media(max-width:560px){
+
+  .header-inner{
+    min-height:68px;
+  }
+
+  .brand-text span{
+    display:none;
+  }
+
+  .header-actions .icon-btn{
+    display:none;
+  }
+
+  .page-hero{
+    padding-top:25px;
+  }
+
+  .hero-box{
+    padding:24px;
+    border-radius:22px;
+  }
+
+  .hero-box h1{
+    font-size:37px;
+  }
+
+  .hero-box p{
+    font-size:11px;
+  }
+
+  .panel{
+    padding:18px;
+  }
+
+  .tools-grid{
+    grid-template-columns:1fr;
+  }
+
+  .application-banner{
+    grid-template-columns:1fr;
+    padding:22px;
+  }
+
+  .footer-grid{
+    grid-template-columns:1fr;
+  }
+
+  .footer-bottom{
+    flex-direction:column;
+  }
+
+  .ai-floating{
+    right:14px;
+    bottom:14px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="page-glow"></div>
+
+
+<!-- =========================================================
+     HEADER
+========================================================= -->
+
+<header class="site-header">
+
+  <div class="container header-inner">
+
+    <a
+      class="brand"
+      href="/buyer/index.html"
+      aria-label="GHAR Buyer Home"
+    >
+
+      <div class="brand-mark">G</div>
+
+      <div class="brand-text">
+        <strong>GHAR</strong>
+        <span>Buyer Experience</span>
+      </div>
+
+    </a>
+
+
+    <nav class="desktop-nav" aria-label="Buyer navigation">
+
+      <a href="/buyer/index.html">
+        Home
+      </a>
+
+      <a href="/buyer/properties.html">
+        Properties
+      </a>
+
+      <a href="/buyer/saved-properties.html">
+        Saved
+      </a>
+
+      <a href="/buyer/visits.html">
+        Visits
+      </a>
+
+      <a href="/buyer/offers.html">
+        Offers
+      </a>
+
+      <a
+        class="active"
+        href="/buyer/loans.html"
+      >
+        Loans
+      </a>
+
+    </nav>
+
+
+    <div class="header-actions">
+
+      <button
+        class="icon-btn"
+        id="notificationButton"
+        type="button"
+        aria-label="Notifications"
+      >
+        ♢
+      </button>
+
+      <a
+        class="avatar"
+        id="profileButton"
+        href="/buyer/profile.html"
+        aria-label="Profile"
+      >
+        U
+      </a>
+
+      <button
+        class="icon-btn mobile-menu"
+        id="menuButton"
+        type="button"
+        aria-label="Open menu"
+      >
+        ☰
+      </button>
+
+    </div>
+
+  </div>
+
+</header>
+
+
+<main>
+
+
+<!-- =========================================================
+     HERO
+========================================================= -->
+
+<section class="page-hero">
+
+  <div class="container">
+
+    <div class="hero-box">
+
+      <div class="eyebrow">
+        GHAR FINANCING CENTRE
+      </div>
+
+      <h1>
+        Plan your purchase
+        with <span>confidence.</span>
+      </h1>
+
+      <p>
+        Estimate your EMI, understand your affordability,
+        review financing requirements and begin your
+        property loan journey through GHAR.
+      </p>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================================================
+     CALCULATOR
+========================================================= -->
+
+<section class="section">
+
+  <div class="container">
+
+    <div class="loan-grid">
+
+
+      <section class="panel">
+
+        <div class="panel-title">
+
+          <div>
+
+            <h2>
+              Home loan calculator
+            </h2>
+
+            <p>
+              Adjust the values to estimate your monthly repayment.
+            </p>
+
+          </div>
+
+          <span class="status-pill">
+            Live estimate
+          </span>
+
+        </div>
+
+
+        <div class="form-grid">
+
+
+          <div class="field">
+
+            <label for="propertyPrice">
+              Property price
+            </label>
+
+            <div class="input-wrap">
+
+              <span class="input-prefix">
+                ₹
+              </span>
+
+              <input
+                id="propertyPrice"
+                class="with-prefix"
+                type="number"
+                min="0"
+                step="10000"
+                value="7500000"
+              >
+
+            </div>
+
+          </div>
+
+
+          <div class="field">
+
+            <label for="downPayment">
+              Down payment
+            </label>
+
+            <div class="input-wrap">
+
+              <span class="input-prefix">
+                ₹
+              </span>
+
+              <input
+                id="downPayment"
+                class="with-prefix"
+                type="number"
+                min="0"
+                step="10000"
+                value="1500000"
+              >
+
+            </div>
+
+          </div>
+
+
+          <div class="field full">
+
+            <div class="range-wrap">
+
+              <div class="range-line">
+
+                <label for="loanRate">
+                  Interest rate
+                </label>
+
+                <span
+                  class="range-value"
+                  id="rateValue"
+                >
+                  8.50%
+                </span>
+
+              </div>
+
+              <input
+                id="loanRate"
+                type="range"
+                min="5"
+                max="15"
+                step="0.05"
+                value="8.5"
+              >
+
+            </div>
+
+          </div>
+
+
+          <div class="field full">
+
+            <div class="range-wrap">
+
+              <div class="range-line">
+
+                <label for="loanTenure">
+                  Loan tenure
+                </label>
+
+                <span
+                  class="range-value"
+                  id="tenureValue"
+                >
+                  20 years
+                </span>
+
+              </div>
+
+              <input
+                id="loanTenure"
+                type="range"
+                min="5"
+                max="30"
+                step="1"
+                value="20"
+              >
+
+            </div>
+
+          </div>
+
+
+          <div class="field">
+
+            <label for="monthlyIncome">
+              Monthly income
+            </label>
+
+            <div class="input-wrap">
+
+              <span class="input-prefix">
+                ₹
+              </span>
+
+              <input
+                id="monthlyIncome"
+                class="with-prefix"
+                type="number"
+                min="0"
+                step="1000"
+                value="150000"
+              >
+
+            </div>
+
+          </div>
+
+
+          <div class="field">
+
+            <label for="existingEmi">
+              Existing EMI
+            </label>
+
+            <div class="input-wrap">
+
+              <span class="input-prefix">
+                ₹
+              </span>
+
+              <input
+                id="existingEmi"
+                class="with-prefix"
+                type="number"
+                min="0"
+                step="1000"
+                value="10000"
+              >
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="calculator-actions">
+
+          <button
+            class="btn btn-primary"
+            id="calculateButton"
+            type="button"
+          >
+            Calculate EMI
+          </button>
+
+          <button
+            class="btn btn-secondary"
+            id="resetButton"
+            type="button"
+          >
+            Reset
+          </button>
+
+        </div>
+
+
+        <p class="disclaimer">
+          This calculator provides an indicative estimate only.
+          Actual interest rates, eligibility, fees, taxes and
+          repayment terms depend on the lender and applicant profile.
+        </p>
+
+      </section>
+
+
+      <!-- ===================================================
+           RESULT
+      ==================================================== -->
+
+      <aside class="result-card">
+
+        <div class="result-label">
+          ESTIMATED MONTHLY EMI
+        </div>
+
+        <div
+          class="emi-value"
+          id="emiValue"
+        >
+          ₹52,032
+          <span>/ month</span>
+        </div>
+
+
+        <div class="result-divider"></div>
+
+
+        <div class="result-row">
+
+          <span>
+            Property price
+          </span>
+
+          <strong id="resultProperty">
+            ₹75.00 L
+          </strong>
+
+        </div>
+
+
+        <div class="result-row">
+
+          <span>
+            Down payment
+          </span>
+
+          <strong id="resultDown">
+            ₹15.00 L
+          </strong>
+
+        </div>
+
+
+        <div class="result-row">
+
+          <span>
+            Loan amount
+          </span>
+
+          <strong id="resultLoan">
+            ₹60.00 L
+          </strong>
+
+        </div>
+
+
+        <div class="result-row">
+
+          <span>
+            Interest rate
+          </span>
+
+          <strong id="resultRate">
+            8.50%
+          </strong>
+
+        </div>
+
+
+        <div class="result-row">
+
+          <span>
+            Tenure
+          </span>
+
+          <strong id="resultTenure">
+            20 years
+          </strong>
+
+        </div>
+
+
+        <div class="result-row total">
+
+          <span>
+            Total interest
+          </span>
+
+          <strong id="resultInterest">
+            ₹64.88 L
+          </strong>
+
+        </div>
+
+
+        <div class="progress">
+          <span id="loanProgress"></span>
+        </div>
+
+      </aside>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================================================
+     FINANCING TOOLS
+========================================================= -->
+
+<section class="section">
+
+  <div class="container">
+
+    <div class="panel-title">
+
+      <div>
+
+        <h2>
+          Financing tools
+        </h2>
+
+        <p>
+          Use the right tool at each stage of your purchase.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <div class="tools-grid">
+
+
+      <article class="tool-card">
+
+        <div class="tool-icon">
+          ₹
+        </div>
+
+        <h3>
+          Eligibility
+        </h3>
+
+        <p>
+          Estimate your borrowing capacity using income,
+          obligations and purchase requirements.
+        </p>
+
+        <a href="#eligibility">
+          Check eligibility →
+        </a>
+
+      </article>
+
+
+      <article class="tool-card">
+
+        <div class="tool-icon">
+          %
+        </div>
+
+        <h3>
+          EMI planning
+        </h3>
+
+        <p>
+          Compare repayment amounts across interest rates
+          and loan tenures.
+        </p>
+
+        <a href="#calculator">
+          Calculate EMI →
+        </a>
+
+      </article>
+
+
+      <article class="tool-card">
+
+        <div class="tool-icon">
+          ◈
+        </div>
+
+        <h3>
+          Documents
+        </h3>
+
+        <p>
+          Prepare the documents commonly required for
+          a property financing application.
+        </p>
+
+        <a href="/buyer/documents.html">
+          Manage documents →
+        </a>
+
+      </article>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================================================
+     ELIGIBILITY
+========================================================= -->
+
+<section
+  class="section"
+  id="eligibility"
+>
+
+  <div class="container">
+
+    <div class="eligibility">
+
+
+      <section class="panel">
+
+        <div class="panel-title">
+
+          <div>
+
+            <h3>
+              Eligibility overview
+            </h3>
+
+            <p>
+              Based on the financial information entered above.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="check-list">
+
+
+          <div class="check-item">
+
+            <div class="check-icon">
+              ✓
+            </div>
+
+            <div>
+
+              <strong>
+                Income capacity
+              </strong>
+
+              <span>
+                Your monthly income is considered against
+                estimated repayment obligations.
+              </span>
+
+            </div>
+
+          </div>
+
+
+          <div class="check-item">
+
+            <div class="check-icon">
+              ✓
+            </div>
+
+            <div>
+
+              <strong>
+                Existing obligations
+              </strong>
+
+              <span>
+                Existing EMIs can reduce the amount available
+                for a new home loan.
+              </span>
+
+            </div>
+
+          </div>
+
+
+          <div class="check-item">
+
+            <div class="check-icon">
+              ✓
+            </div>
+
+            <div>
+
+              <strong>
+                Down payment
+              </strong>
+
+              <span>
+                A larger upfront contribution can reduce the
+                required loan amount and EMI.
+              </span>
+
+            </div>
+
+          </div>
+
+
+          <div class="check-item">
+
+            <div class="check-icon">
+              ✓
+            </div>
+
+            <div>
+
+              <strong>
+                Credit profile
+              </strong>
+
+              <span>
+                Final approval may depend on credit history,
+                documentation and lender-specific criteria.
+              </span>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <aside class="eligibility-score">
+
+        <div class="score-ring">
+
+          <div
+            class="score-number"
+            id="eligibilityScore"
+          >
+            82
+            <small>%</small>
+          </div>
+
+        </div>
+
+        <div class="score-label">
+          Indicative affordability score
+        </div>
+
+        <div
+          class="score-note"
+          id="eligibilityNote"
+        >
+          Comfortable estimated repayment range
+        </div>
+
+      </aside>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================================================
+     APPLICATION CTA
+========================================================= -->
+
+<section class="section">
+
+  <div class="container">
+
+    <div class="application-banner">
+
+      <div>
+
+        <h2>
+          Ready to explore financing?
+        </h2>
+
+        <p>
+          Start your GHAR loan journey, upload your required
+          documents and keep your financing application connected
+          with your property purchase.
+        </p>
+
+      </div>
+
+      <a
+        class="btn btn-primary"
+        href="/buyer/applications.html"
+      >
+        Start application
+      </a>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+</main>
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer class="site-footer">
+
+  <div class="container">
+
+    <div class="footer-grid">
+
+
+      <div class="footer-brand">
+
+        <div class="brand">
+
+          <div class="brand-mark">
+            G
+          </div>
+
+          <div class="brand-text">
+
+            <strong>
+              GHAR
+            </strong>
+
+            <span>
+              Real Estate Platform
+            </span>
+
+          </div>
+
+        </div>
+
+        <p>
+          A connected real estate platform for discovering,
+          evaluating, financing and managing property decisions.
+        </p>
+
+      </div>
+
+
+      <div class="footer-col">
+
+        <h4>
+          Discover
+        </h4>
+
+        <a href="/buyer/properties.html">
+          Properties
+        </a>
+
+        <a href="/buyer/search-properties.html">
+          Search Properties
+        </a>
+
+        <a href="/buyer/saved-properties.html">
+          Saved Properties
+        </a>
+
+        <a href="/buyer/favourites.html">
+          Favourites
+        </a>
+
+      </div>
+
+
+      <div class="footer-col">
+
+        <h4>
+          Buyer
+        </h4>
+
+        <a href="/buyer/profile.html">
+          Profile
+        </a>
+
+        <a href="/buyer/visits.html">
+          Visits
+        </a>
+
+        <a href="/buyer/offers.html">
+          Offers
+        </a>
+
+        <a href="/buyer/applications.html">
+          Applications
+        </a>
+
+      </div>
+
+
+      <div class="footer-col">
+
+        <h4>
+          Finance
+        </h4>
+
+        <a href="/buyer/loans.html">
+          Loans
+        </a>
+
+        <a href="/buyer/documents.html">
+          Documents
+        </a>
+
+        <a href="/help-centre.html">
+          Help Centre
+        </a>
+
+        <a href="/contact.html">
+          Contact
+        </a>
+
+      </div>
+
+    </div>
+
+
+    <div class="footer-bottom">
+
+      <span>
+        © <span id="footerYear"></span> GHAR.
+        All rights reserved.
+      </span>
+
+      <span>
+        Buyer Portal · Secure Session
+      </span>
+
+    </div>
+
+  </div>
+
+</footer>
+
+
+<!-- =========================================================
+     AI FLOATING BUTTON
+========================================================= -->
+
+<button
+  id="openAI"
+  class="ai-floating"
+  type="button"
+>
+  ✦ Ask GHAR AI
+</button>
+
+
+<script>
+"use strict";
+
+
+/* =========================================================
+   CONFIG
+========================================================= */
+
+const API_BASE =
+  window.GHAR_API_BASE ||
+  window.API_BASE ||
+  "/api";
+
+const AI_API =
+  API_BASE + "/ai";
+
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function $(selector){
+  return document.querySelector(selector);
+}
+
+function formatMoney(value){
+
+  const amount =
+    Number(value);
+
+  if(!Number.isFinite(amount)){
+    return "₹0";
+  }
+
+  if(amount >= 10000000){
+
+    return "₹" +
+      (amount / 10000000)
+        .toFixed(2) +
+      " Cr";
+
+  }
+
+  if(amount >= 100000){
+
+    return "₹" +
+      (amount / 100000)
+        .toFixed(2) +
+      " L";
+
+  }
+
+  return "₹" +
+    amount.toLocaleString("en-IN");
+
+}
+
+
+/* =========================================================
+   DOM
+========================================================= */
+
+const propertyPrice =
+  $("#propertyPrice");
+
+const downPayment =
+  $("#downPayment");
+
+const loanRate =
+  $("#loanRate");
+
+const loanTenure =
+  $("#loanTenure");
+
+const monthlyIncome =
+  $("#monthlyIncome");
+
+const existingEmi =
+  $("#existingEmi");
+
+
+/* =========================================================
+   CALCULATOR
+========================================================= */
+
+function calculateLoan(){
+
+  let price =
+    Number(propertyPrice.value) || 0;
+
+  let down =
+    Number(downPayment.value) || 0;
+
+  const rate =
+    Number(loanRate.value) || 0;
+
+  const years =
+    Number(loanTenure.value) || 0;
+
+  const income =
+    Number(monthlyIncome.value) || 0;
+
+  const currentEmi =
+    Number(existingEmi.value) || 0;
+
+
+  if(price < 0){
+    price = 0;
+  }
+
+  if(down < 0){
+    down = 0;
+  }
+
+  if(down > price){
+    down = price;
+    downPayment.value = price;
+  }
+
+
+  const principal =
+    Math.max(
+      price - down,
+      0
+    );
+
+
+  const months =
+    years * 12;
+
+  const monthlyRate =
+    rate / 12 / 100;
+
+
+  let emi = 0;
+
+
+  if(
+    principal > 0 &&
+    months > 0
+  ){
+
+    if(monthlyRate === 0){
+
+      emi =
+        principal / months;
+
+    }else{
+
+      emi =
+        principal *
+        monthlyRate *
+        Math.pow(
+          1 + monthlyRate,
+          months
+        ) /
+        (
+          Math.pow(
+            1 + monthlyRate,
+            months
+          ) - 1
+        );
+
+    }
+
+  }
+
+
+  const totalPayment =
+    emi * months;
+
+  const totalInterest =
+    Math.max(
+      totalPayment - principal,
+      0
+    );
+
+
+  const estimatedCapacity =
+    Math.max(
+      income * .50 -
+      currentEmi,
+      0
+    );
+
+
+  let score = 0;
+
+
+  if(income > 0){
+
+    const ratio =
+      emi /
+      Math.max(
+        estimatedCapacity,
+        1
+      );
+
+
+    score =
+      Math.round(
+        Math.max(
+          25,
+          Math.min(
+            96,
+            100 -
+            ratio * 55
+          )
+        )
+      );
+
+  }else{
+
+    score = 50;
+
+  }
+
+
+  $("#emiValue").innerHTML =
+    formatMoney(emi) +
+    ' <span>/ month</span>';
+
+
+  $("#resultProperty").textContent =
+    formatMoney(price);
+
+  $("#resultDown").textContent =
+    formatMoney(down);
+
+  $("#resultLoan").textContent =
+    formatMoney(principal);
+
+  $("#resultRate").textContent =
+    rate.toFixed(2) +
+    "%";
+
+  $("#resultTenure").textContent =
+    years +
+    " years";
+
+  $("#resultInterest").textContent =
+    formatMoney(totalInterest);
+
+
+  $("#rateValue").textContent =
+    rate.toFixed(2) +
+    "%";
+
+  $("#tenureValue").textContent =
+    years +
+    " years";
+
+
+  $("#eligibilityScore").innerHTML =
+    score +
+    '<small>%</small>';
+
+
+  let note =
+    "Review your financing profile before applying.";
+
+  if(score >= 75){
+    note =
+      "Comfortable estimated repayment range.";
+  }else if(score >= 55){
+    note =
+      "Moderate repayment range. Compare options carefully.";
+  }else{
+    note =
+      "Consider a larger down payment or lower loan amount.";
+  }
+
+  $("#eligibilityNote").textContent =
+    note;
+
+
+  const loanRatio =
+    price > 0
+      ? principal / price
+      : 0;
+
+  const progress =
+    Math.max(
+      10,
+      Math.min(
+        90,
+        loanRatio * 100
+      )
+    );
+
+
+  $("#loanProgress").style.width =
+    progress + "%";
+
+
+  return {
+    propertyPrice:price,
+    downPayment:down,
+    loanAmount:principal,
+    interestRate:rate,
+    tenureYears:years,
+    monthlyIncome:income,
+    existingEmi:currentEmi,
+    emi,
+    totalInterest,
+    totalPayment,
+    eligibilityScore:score
+  };
+
+}
+
+
+/* =========================================================
+   EVENTS
+========================================================= */
+
+[
+  propertyPrice,
+  downPayment,
+  loanRate,
+  loanTenure,
+  monthlyIncome,
+  existingEmi
+]
+.forEach(
+  element => {
+
+    element?.addEventListener(
+      "input",
+      calculateLoan
+    );
+
+    element?.addEventListener(
+      "change",
+      calculateLoan
+    );
+
+  }
+);
+
+
+$("#calculateButton")
+  ?.addEventListener(
+    "click",
+    calculateLoan
+  );
+
+
+$("#resetButton")
+  ?.addEventListener(
+    "click",
+    () => {
+
+      propertyPrice.value =
+        7500000;
+
+      downPayment.value =
+        1500000;
+
+      loanRate.value =
+        8.5;
+
+      loanTenure.value =
+        20;
+
+      monthlyIncome.value =
+        150000;
+
+      existingEmi.value =
+        10000;
+
+      calculateLoan();
+
+    }
+  );
+
+
+/* =========================================================
+   SAVE CALCULATION
+========================================================= */
+
+async function saveCalculation(){
+
+  const data =
+    calculateLoan();
+
+
+  try{
+
+    await fetch(
+      API_BASE +
+      "/buyer/loan-calculations",
+      {
+        method:"POST",
+
+        credentials:"include",
+
+        headers:{
+          "Content-Type":
+            "application/json"
+        },
+
+        body:
+          JSON.stringify(data)
+      }
+    );
+
+  }catch(error){
+
+    console.warn(
+      "Loan calculation could not be synced:",
+      error
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   NOTIFICATIONS
+========================================================= */
+
+$("#notificationButton")
+  ?.addEventListener(
+    "click",
+    () => {
+
+      window.location.href =
+        "/buyer/notifications.html";
+
+    }
+  );
+
+
+/* =========================================================
+   MOBILE MENU
+========================================================= */
+
+$("#menuButton")
+  ?.addEventListener(
+    "click",
+    () => {
+
+      const nav =
+        document.querySelector(
+          ".desktop-nav"
+        );
+
+      if(!nav){
+        return;
+      }
+
+
+      const open =
+        nav.dataset.mobileOpen ===
+        "true";
+
+
+      if(open){
+
+        nav.style.display = "";
+        nav.dataset.mobileOpen =
+          "false";
+
+        return;
+
+      }
+
+
+      nav.dataset.mobileOpen =
+        "true";
+
+      nav.style.display =
+        "flex";
+
+      nav.style.position =
+        "absolute";
+
+      nav.style.left =
+        "14px";
+
+      nav.style.right =
+        "14px";
+
+      nav.style.top =
+        "66px";
+
+      nav.style.padding =
+        "10px";
+
+      nav.style.flexDirection =
+        "column";
+
+      nav.style.alignItems =
+        "stretch";
+
+      nav.style.border =
+        "1px solid rgba(229,199,125,.14)";
+
+      nav.style.borderRadius =
+        "16px";
+
+      nav.style.background =
+        "#0b1c14";
+
+      nav.style.boxShadow =
+        "0 25px 60px rgba(0,0,0,.35)";
+
+    }
+  );
+
+
+/* =========================================================
+   AI
+========================================================= */
+
+async function openAI(){
+
+  const prompt =
+    "Help me plan financing for a property purchase. Explain my estimated EMI, affordability and what I should consider before applying for a home loan.";
+
+  try{
+
+    await fetch(
+      AI_API + "/chat",
+      {
+        method:"POST",
+
+        credentials:"include",
+
+        headers:{
+          "Content-Type":
+            "application/json"
+        },
+
+        body:
+          JSON.stringify({
+            message:prompt,
+            context:{
+              role:"buyer",
+              source:"buyer-loans"
+            }
+          })
+      }
+    );
+
+  }catch(error){
+
+    console.warn(
+      "GHAR AI:",
+      error
+    );
+
+  }
+
+
+  window.location.href =
+    "/buyer/ai.html?prompt=" +
+    encodeURIComponent(prompt);
+
+}
+
+
+$("#openAI")
+  ?.addEventListener(
+    "click",
+    openAI
+  );
+
+
+/* =========================================================
+   YEAR + INITIAL CALCULATION
+========================================================= */
+
+$("#footerYear").textContent =
+  new Date().getFullYear();
+
+calculateLoan();
+
+</script>
+
+</body>
+</html>

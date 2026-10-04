@@ -1,0 +1,3182 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<meta name="description"
+      content="GHAR Seller Profile -- Manage your seller account, contact details, verification and preferences.">
+
+<meta name="theme-color" content="#162d25">
+
+<title>GHAR · Seller Profile</title>
+
+<link rel="icon" href="../assets/images/favicon.svg">
+
+<style>
+
+/* =========================================================
+   GHAR SELLER PROFILE
+   Premium Seller Experience
+========================================================= */
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+:root{
+  --green-950:#07130e;
+  --green-925:#0a1912;
+  --green-900:#0b1c14;
+  --green-850:#10261c;
+  --green-800:#162d25;
+  --green-750:#1a382c;
+  --green-700:#214438;
+
+  --gold-100:#fff7df;
+  --gold-200:#f4dfaa;
+  --gold-300:#e5c77d;
+  --gold-400:#c9a95c;
+  --gold-500:#a98238;
+
+  --cream:#fffaf0;
+  --muted:rgba(255,255,255,.68);
+  --muted-2:rgba(255,255,255,.45);
+
+  --border:rgba(229,199,125,.18);
+  --border-light:rgba(255,255,255,.09);
+
+  --success:#82c995;
+  --danger:#e98c8c;
+  --blue:#91b9e8;
+
+  --shadow:0 25px 80px rgba(0,0,0,.25);
+
+  --radius-xl:28px;
+  --radius-lg:21px;
+  --radius-md:15px;
+
+  --container:1440px;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  min-height:100vh;
+  color:#f9f5ea;
+
+  font-family:
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  background:
+    radial-gradient(
+      circle at 5% 0%,
+      rgba(229,199,125,.12),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 100% 10%,
+      rgba(44,91,69,.22),
+      transparent 30%
+    ),
+    linear-gradient(
+      135deg,
+      #07130e,
+      #0b1c14 48%,
+      #10261c
+    );
+
+  overflow-x:hidden;
+}
+
+a{
+  color:inherit;
+  text-decoration:none;
+}
+
+button,
+input,
+select,
+textarea{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+img{
+  display:block;
+  max-width:100%;
+}
+
+.container{
+  width:min(
+    calc(100% - 40px),
+    var(--container)
+  );
+  margin:auto;
+}
+
+
+/* =========================================================
+   BACKGROUND
+========================================================= */
+
+.page-glow{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:-1;
+  overflow:hidden;
+}
+
+.page-glow::before{
+  content:"";
+  position:absolute;
+  width:550px;
+  height:550px;
+  top:-300px;
+  right:-220px;
+  border-radius:50%;
+  border:1px solid rgba(229,199,125,.12);
+  box-shadow:
+    0 0 0 60px rgba(229,199,125,.025),
+    0 0 0 120px rgba(229,199,125,.015);
+}
+
+.page-glow::after{
+  content:"";
+  position:absolute;
+  width:500px;
+  height:500px;
+  bottom:-300px;
+  left:-250px;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,.06);
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.site-header{
+  position:sticky;
+  top:0;
+  z-index:100;
+
+  border-bottom:
+    1px solid
+    rgba(229,199,125,.10);
+
+  background:
+    rgba(7,19,14,.90);
+
+  backdrop-filter:blur(22px);
+}
+
+.header-inner{
+  min-height:76px;
+
+  display:flex;
+  align-items:center;
+  gap:24px;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex-shrink:0;
+}
+
+.brand-mark{
+  width:45px;
+  height:45px;
+
+  display:grid;
+  place-items:center;
+
+  border-radius:14px;
+
+  color:#152116;
+  font-size:19px;
+  font-weight:1000;
+
+  background:
+    linear-gradient(
+      135deg,
+      #f1dda5,
+      #b98b3d
+    );
+
+  box-shadow:
+    0 10px 25px rgba(0,0,0,.25),
+    inset 0 1px 0 rgba(255,255,255,.5);
+}
+
+.brand-text strong{
+  display:block;
+  font-size:17px;
+  letter-spacing:.17em;
+}
+
+.brand-text span{
+  display:block;
+  margin-top:2px;
+  color:var(--muted-2);
+  font-size:8px;
+  font-weight:800;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+}
+
+.desktop-nav{
+  display:flex;
+  align-items:center;
+  gap:5px;
+  margin-left:auto;
+}
+
+.desktop-nav a{
+  padding:10px 12px;
+  border-radius:10px;
+  color:var(--muted);
+  font-size:11px;
+  font-weight:700;
+  transition:.2s ease;
+}
+
+.desktop-nav a:hover,
+.desktop-nav a.active{
+  color:var(--gold-200);
+  background:rgba(229,199,125,.07);
+}
+
+.header-actions{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.icon-btn{
+  width:41px;
+  height:41px;
+
+  display:grid;
+  place-items:center;
+
+  border:1px solid var(--border-light);
+  border-radius:12px;
+
+  color:var(--muted);
+  background:rgba(255,255,255,.035);
+
+  transition:.2s ease;
+}
+
+.icon-btn:hover{
+  color:var(--gold-200);
+  border-color:rgba(229,199,125,.25);
+}
+
+.avatar{
+  width:40px;
+  height:40px;
+
+  display:grid;
+  place-items:center;
+
+  border-radius:50%;
+
+  color:#172016;
+  font-size:12px;
+  font-weight:1000;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--gold-200),
+      var(--gold-500)
+    );
+}
+
+.mobile-menu{
+  display:none;
+}
+
+
+/* =========================================================
+   PAGE HERO
+========================================================= */
+
+.page-hero{
+  padding:44px 0 24px;
+}
+
+.page-hero-card{
+  position:relative;
+  overflow:hidden;
+
+  padding:38px;
+
+  border:1px solid var(--border);
+  border-radius:var(--radius-xl);
+
+  background:
+    radial-gradient(
+      circle at 90% 0%,
+      rgba(229,199,125,.13),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 0% 100%,
+      rgba(44,91,69,.30),
+      transparent 38%
+    ),
+    linear-gradient(
+      145deg,
+      #0a1a12,
+      #10251b 55%,
+      #142d22
+    );
+
+  box-shadow:var(--shadow);
+}
+
+.page-hero-card::after{
+  content:"";
+
+  position:absolute;
+
+  width:300px;
+  height:300px;
+
+  right:-170px;
+  bottom:-180px;
+
+  border-radius:50%;
+
+  border:1px solid rgba(229,199,125,.12);
+
+  box-shadow:
+    0 0 0 40px rgba(229,199,125,.02),
+    0 0 0 80px rgba(229,199,125,.015);
+}
+
+.eyebrow{
+  color:var(--gold-300);
+  font-size:10px;
+  font-weight:950;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+}
+
+.page-hero h1{
+  margin-top:10px;
+
+  font-size:
+    clamp(34px,5vw,56px);
+
+  line-height:1;
+  letter-spacing:-.055em;
+}
+
+.page-hero h1 span{
+  color:var(--gold-300);
+}
+
+.page-hero p{
+  max-width:680px;
+
+  margin-top:14px;
+
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.75;
+}
+
+
+/* =========================================================
+   PROFILE LAYOUT
+========================================================= */
+
+.profile-layout{
+  display:grid;
+
+  grid-template-columns:
+    .72fr 1.28fr;
+
+  gap:18px;
+
+  padding:20px 0 35px;
+}
+
+
+/* =========================================================
+   PANEL
+========================================================= */
+
+.panel{
+  padding:24px;
+
+  border:1px solid var(--border-light);
+  border-radius:var(--radius-lg);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(20,45,34,.95),
+      rgba(11,28,20,.95)
+    );
+
+  box-shadow:
+    0 18px 50px rgba(0,0,0,.12);
+}
+
+.panel-title{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  gap:15px;
+
+  margin-bottom:20px;
+}
+
+.panel-title h2,
+.panel-title h3{
+  font-size:17px;
+  letter-spacing:-.025em;
+}
+
+.panel-title p{
+  margin-top:4px;
+
+  color:var(--muted-2);
+  font-size:9px;
+}
+
+
+/* =========================================================
+   PROFILE SUMMARY
+========================================================= */
+
+.profile-summary{
+  position:relative;
+  overflow:hidden;
+}
+
+.profile-summary::before{
+  content:"";
+
+  position:absolute;
+
+  width:220px;
+  height:220px;
+
+  right:-110px;
+  top:-110px;
+
+  border-radius:50%;
+
+  border:1px solid rgba(229,199,125,.12);
+}
+
+.profile-avatar{
+  width:104px;
+  height:104px;
+
+  display:grid;
+  place-items:center;
+
+  margin-bottom:18px;
+
+  border-radius:30px;
+
+  color:#172016;
+
+  font-size:34px;
+  font-weight:1000;
+
+  background:
+    linear-gradient(
+      135deg,
+      #f4dfaa,
+      #b98b3d
+    );
+
+  box-shadow:
+    0 18px 40px rgba(0,0,0,.25);
+}
+
+.profile-name{
+  font-size:25px;
+  font-weight:900;
+  letter-spacing:-.04em;
+}
+
+.profile-email{
+  margin-top:5px;
+
+  color:var(--muted-2);
+  font-size:10px;
+}
+
+.verification{
+  display:inline-flex;
+
+  align-items:center;
+  gap:7px;
+
+  margin-top:14px;
+  padding:7px 10px;
+
+  border:1px solid rgba(130,201,149,.18);
+  border-radius:9px;
+
+  color:var(--success);
+  background:rgba(130,201,149,.07);
+
+  font-size:8px;
+  font-weight:900;
+  text-transform:uppercase;
+}
+
+.profile-meta{
+  display:grid;
+  gap:10px;
+
+  margin-top:23px;
+}
+
+.meta-item{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  gap:15px;
+
+  padding:12px;
+
+  border-radius:11px;
+
+  background:rgba(255,255,255,.025);
+}
+
+.meta-item span:first-child{
+  color:var(--muted-2);
+  font-size:9px;
+}
+
+.meta-item span:last-child{
+  color:var(--cream);
+  font-size:9px;
+  font-weight:800;
+  text-align:right;
+}
+
+
+/* =========================================================
+   QUICK ACTIONS
+========================================================= */
+
+.quick-actions{
+  display:grid;
+  gap:9px;
+
+  margin-top:20px;
+}
+
+.quick-action{
+  display:flex;
+  align-items:center;
+  gap:10px;
+
+  padding:12px;
+
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:11px;
+
+  color:var(--muted);
+
+  background:rgba(255,255,255,.025);
+
+  font-size:9px;
+  font-weight:800;
+
+  transition:.2s ease;
+}
+
+.quick-action:hover{
+  color:var(--gold-200);
+
+  border-color:
+    rgba(229,199,125,.22);
+
+  transform:translateX(2px);
+}
+
+.quick-action-icon{
+  width:32px;
+  height:32px;
+
+  display:grid;
+  place-items:center;
+
+  flex:0 0 32px;
+
+  border-radius:9px;
+
+  color:var(--gold-300);
+  background:rgba(229,199,125,.08);
+}
+
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.form-grid{
+  display:grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  gap:15px;
+}
+
+.form-group{
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+}
+
+.form-group.full{
+  grid-column:1 / -1;
+}
+
+.form-group label{
+  color:var(--muted);
+
+  font-size:9px;
+  font-weight:850;
+
+  letter-spacing:.04em;
+}
+
+.form-control{
+  width:100%;
+  min-height:45px;
+
+  padding:0 13px;
+
+  outline:none;
+
+  border:1px solid rgba(255,255,255,.09);
+  border-radius:11px;
+
+  color:var(--cream);
+
+  background:
+    rgba(255,255,255,.045);
+
+  transition:.2s ease;
+}
+
+textarea.form-control{
+  min-height:100px;
+  padding:12px 13px;
+  resize:vertical;
+}
+
+.form-control:focus{
+  border-color:rgba(229,199,125,.5);
+
+  box-shadow:
+    0 0 0 3px
+    rgba(229,199,125,.06);
+}
+
+.form-control::placeholder{
+  color:rgba(255,255,255,.32);
+}
+
+.form-control:disabled{
+  opacity:.65;
+  cursor:not-allowed;
+}
+
+.form-help{
+  color:var(--muted-2);
+  font-size:8px;
+  line-height:1.5;
+}
+
+.form-actions{
+  display:flex;
+  justify-content:flex-end;
+
+  gap:9px;
+
+  margin-top:20px;
+  padding-top:18px;
+
+  border-top:1px solid rgba(255,255,255,.06);
+}
+
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.btn{
+  min-height:43px;
+
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+
+  padding:0 16px;
+
+  border:1px solid transparent;
+  border-radius:11px;
+
+  font-size:10px;
+  font-weight:900;
+
+  transition:.2s ease;
+}
+
+.btn-primary{
+  color:#17170f;
+
+  background:
+    linear-gradient(
+      135deg,
+      #f1dca1,
+      #cda85d
+    );
+
+  box-shadow:
+    0 10px 25px rgba(0,0,0,.18);
+}
+
+.btn-primary:hover{
+  transform:translateY(-2px);
+}
+
+.btn-secondary{
+  color:var(--cream);
+
+  border-color:var(--border-light);
+
+  background:rgba(255,255,255,.045);
+}
+
+.btn-secondary:hover{
+  color:var(--gold-200);
+
+  border-color:
+    rgba(229,199,125,.25);
+}
+
+.btn-danger{
+  color:#ffdede;
+
+  border-color:
+    rgba(233,140,140,.20);
+
+  background:
+    rgba(233,140,140,.07);
+}
+
+.btn-danger:hover{
+  border-color:
+    rgba(233,140,140,.35);
+}
+
+
+/* =========================================================
+   VERIFICATION
+========================================================= */
+
+.verification-grid{
+  display:grid;
+
+  grid-template-columns:
+    repeat(3,1fr);
+
+  gap:10px;
+}
+
+.verification-card{
+  padding:15px;
+
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:13px;
+
+  background:rgba(255,255,255,.025);
+}
+
+.verification-icon{
+  width:34px;
+  height:34px;
+
+  display:grid;
+  place-items:center;
+
+  border-radius:10px;
+
+  color:var(--success);
+  background:rgba(130,201,149,.07);
+}
+
+.verification-card strong{
+  display:block;
+
+  margin-top:10px;
+
+  font-size:10px;
+}
+
+.verification-card span{
+  display:block;
+
+  margin-top:4px;
+
+  color:var(--muted-2);
+  font-size:8px;
+}
+
+
+/* =========================================================
+   PREFERENCES
+========================================================= */
+
+.preference-list{
+  display:grid;
+  gap:10px;
+}
+
+.preference-item{
+  display:flex;
+
+  align-items:center;
+  justify-content:space-between;
+
+  gap:20px;
+
+  padding:13px;
+
+  border-radius:12px;
+
+  background:rgba(255,255,255,.025);
+}
+
+.preference-info strong{
+  display:block;
+
+  font-size:10px;
+}
+
+.preference-info span{
+  display:block;
+
+  margin-top:4px;
+
+  color:var(--muted-2);
+
+  font-size:8px;
+}
+
+.switch{
+  position:relative;
+
+  width:42px;
+  height:23px;
+
+  flex:0 0 42px;
+}
+
+.switch input{
+  display:none;
+}
+
+.slider{
+  position:absolute;
+  inset:0;
+
+  border-radius:30px;
+
+  background:
+    rgba(255,255,255,.12);
+
+  transition:.2s;
+}
+
+.slider::before{
+  content:"";
+
+  position:absolute;
+
+  width:17px;
+  height:17px;
+
+  left:3px;
+  top:3px;
+
+  border-radius:50%;
+
+  background:#fff;
+
+  transition:.2s;
+}
+
+.switch input:checked + .slider{
+  background:var(--gold-400);
+}
+
+.switch input:checked + .slider::before{
+  transform:translateX(19px);
+  background:#172016;
+}
+
+
+/* =========================================================
+   ALERT
+========================================================= */
+
+.alert{
+  display:none;
+
+  margin-bottom:15px;
+
+  padding:12px 14px;
+
+  border-radius:11px;
+
+  font-size:9px;
+  line-height:1.5;
+}
+
+.alert.show{
+  display:block;
+}
+
+.alert.success{
+  color:#bce6c8;
+
+  border:1px solid rgba(130,201,149,.18);
+  background:rgba(130,201,149,.07);
+}
+
+.alert.error{
+  color:#ffd0d0;
+
+  border:1px solid rgba(233,140,140,.18);
+  background:rgba(233,140,140,.07);
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.site-footer{
+  margin-top:25px;
+
+  padding:35px 0 25px;
+
+  border-top:1px solid rgba(255,255,255,.07);
+
+  background:rgba(3,12,8,.35);
+}
+
+.footer-grid{
+  display:grid;
+
+  grid-template-columns:
+    1.4fr repeat(3,1fr);
+
+  gap:25px;
+}
+
+.footer-brand{
+  max-width:300px;
+}
+
+.footer-brand p{
+  margin-top:10px;
+
+  color:var(--muted-2);
+  font-size:9px;
+  line-height:1.7;
+}
+
+.footer-col h4{
+  color:var(--gold-200);
+  font-size:9px;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+}
+
+.footer-col a{
+  display:block;
+
+  margin-top:9px;
+
+  color:var(--muted-2);
+  font-size:9px;
+}
+
+.footer-col a:hover{
+  color:var(--gold-300);
+}
+
+.footer-bottom{
+  display:flex;
+  justify-content:space-between;
+
+  gap:15px;
+
+  margin-top:28px;
+  padding-top:17px;
+
+  border-top:1px solid rgba(255,255,255,.06);
+
+  color:var(--muted-2);
+  font-size:8px;
+}
+
+
+/* =========================================================
+   AI BUTTON
+========================================================= */
+
+.ai-floating{
+  position:fixed;
+
+  right:22px;
+  bottom:22px;
+
+  z-index:90;
+
+  min-height:48px;
+
+  display:flex;
+  align-items:center;
+  gap:8px;
+
+  padding:0 16px;
+
+  border:1px solid rgba(229,199,125,.25);
+  border-radius:30px;
+
+  color:#17170f;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--gold-200),
+      var(--gold-400)
+    );
+
+  box-shadow:
+    0 15px 35px rgba(0,0,0,.3);
+
+  font-size:10px;
+  font-weight:1000;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:1100px){
+
+  .desktop-nav{
+    display:none;
+  }
+
+  .mobile-menu{
+    display:grid;
+  }
+
+  .profile-layout{
+    grid-template-columns:1fr;
+  }
+
+}
+
+@media(max-width:800px){
+
+  .container{
+    width:min(
+      calc(100% - 28px),
+      var(--container)
+    );
+  }
+
+  .page-hero-card{
+    padding:28px;
+  }
+
+  .form-grid{
+    grid-template-columns:1fr;
+  }
+
+  .form-group.full{
+    grid-column:auto;
+  }
+
+  .verification-grid{
+    grid-template-columns:1fr;
+  }
+
+  .footer-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+}
+
+@media(max-width:560px){
+
+  .header-inner{
+    min-height:68px;
+  }
+
+  .brand-text span{
+    display:none;
+  }
+
+  .header-actions .icon-btn{
+    display:none;
+  }
+
+  .page-hero{
+    padding-top:25px;
+  }
+
+  .page-hero-card{
+    padding:24px;
+    border-radius:22px;
+  }
+
+  .page-hero h1{
+    font-size:37px;
+  }
+
+  .panel{
+    padding:18px;
+  }
+
+  .form-actions{
+    flex-direction:column;
+  }
+
+  .form-actions .btn{
+    width:100%;
+  }
+
+  .footer-grid{
+    grid-template-columns:1fr;
+  }
+
+  .footer-bottom{
+    flex-direction:column;
+  }
+
+  .ai-floating{
+    right:14px;
+    bottom:14px;
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="page-glow"></div>
+
+
+<!-- =========================================================
+     HEADER
+========================================================= -->
+
+<header class="site-header">
+
+  <div class="container header-inner">
+
+    <a
+      class="brand"
+      href="/seller/index.html"
+      aria-label="GHAR Seller Home"
+    >
+
+      <div class="brand-mark">
+        G
+      </div>
+
+      <div class="brand-text">
+
+        <strong>GHAR</strong>
+
+        <span>
+          Seller Experience
+        </span>
+
+      </div>
+
+    </a>
+
+
+    <nav
+      class="desktop-nav"
+      aria-label="Seller navigation"
+    >
+
+      <a href="/seller/index.html">
+        Home
+      </a>
+
+      <a href="/seller/dashboard.html">
+        Dashboard
+      </a>
+
+      <a href="/seller/list-property.html">
+        List Property
+      </a>
+
+      <a href="/seller/visits.html">
+        Visits
+      </a>
+
+      <a href="/seller/leads.html">
+        Leads
+      </a>
+
+      <a href="/seller/offers.html">
+        Offers
+      </a>
+
+      <a href="/seller/payments.html">
+        Payments
+      </a>
+
+      <a
+        class="active"
+        href="/seller/profile.html"
+      >
+        Profile
+      </a>
+
+    </nav>
+
+
+    <div class="header-actions">
+
+      <button
+        class="icon-btn"
+        id="notificationButton"
+        type="button"
+        aria-label="Notifications"
+      >
+        ♢
+      </button>
+
+      <div
+        class="avatar"
+        id="headerAvatar"
+      >
+        S
+      </div>
+
+      <button
+        class="icon-btn mobile-menu"
+        id="menuButton"
+        type="button"
+        aria-label="Open menu"
+      >
+        ☰
+      </button>
+
+    </div>
+
+  </div>
+
+</header>
+
+
+<main>
+
+
+<!-- =========================================================
+     PAGE HERO
+========================================================= -->
+
+<section class="page-hero">
+
+  <div class="container">
+
+    <div class="page-hero-card">
+
+      <div class="eyebrow">
+        SELLER ACCOUNT
+      </div>
+
+      <h1>
+        Manage your
+        <span>seller profile.</span>
+      </h1>
+
+      <p>
+        Keep your personal information, contact details,
+        verification status and seller preferences up to date
+        so GHAR can provide a smoother property-selling
+        experience.
+      </p>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================================================
+     PROFILE
+========================================================= -->
+
+<section>
+
+  <div class="container">
+
+    <div
+      id="alertBox"
+      class="alert"
+      role="alert"
+    ></div>
+
+
+    <div class="profile-layout">
+
+
+      <!-- ===================================================
+           LEFT
+      ==================================================== -->
+
+      <aside>
+
+
+        <!-- PROFILE SUMMARY -->
+
+        <div class="panel profile-summary">
+
+          <div
+            class="profile-avatar"
+            id="profileAvatar"
+          >
+            S
+          </div>
+
+          <div
+            class="profile-name"
+            id="profileName"
+          >
+            Seller
+          </div>
+
+          <div
+            class="profile-email"
+            id="profileEmail"
+          >
+            seller@ghar.in
+          </div>
+
+          <div
+            class="verification"
+            id="verificationStatus"
+          >
+            ✓ Verified Seller
+          </div>
+
+
+          <div class="profile-meta">
+
+            <div class="meta-item">
+
+              <span>
+                Account type
+              </span>
+
+              <span id="accountType">
+                Seller
+              </span>
+
+            </div>
+
+            <div class="meta-item">
+
+              <span>
+                Seller ID
+              </span>
+
+              <span id="sellerId">
+                GHAR-SELLER
+              </span>
+
+            </div>
+
+            <div class="meta-item">
+
+              <span>
+                Member since
+              </span>
+
+              <span id="memberSince">
+                --
+              </span>
+
+            </div>
+
+            <div class="meta-item">
+
+              <span>
+                Properties listed
+              </span>
+
+              <span id="propertyCount">
+                0
+              </span>
+
+            </div>
+
+          </div>
+
+
+          <div class="quick-actions">
+
+            <a
+              class="quick-action"
+              href="/seller/list-property.html"
+            >
+
+              <span class="quick-action-icon">
+                +
+              </span>
+
+              List a new property
+
+            </a>
+
+
+            <a
+              class="quick-action"
+              href="/seller/dashboard.html"
+            >
+
+              <span class="quick-action-icon">
+                ◈
+              </span>
+
+              Open seller dashboard
+
+            </a>
+
+
+            <a
+              class="quick-action"
+              href="/seller/property-approval.html"
+            >
+
+              <span class="quick-action-icon">
+                ✓
+              </span>
+
+              Property approvals
+
+            </a>
+
+
+            <a
+              class="quick-action"
+              href="/seller/support.html"
+            >
+
+              <span class="quick-action-icon">
+                ?
+              </span>
+
+              Contact GHAR support
+
+            </a>
+
+          </div>
+
+        </div>
+
+
+        <!-- VERIFICATION -->
+
+        <div
+          class="panel"
+          style="margin-top:16px"
+        >
+
+          <div class="panel-title">
+
+            <div>
+
+              <h3>
+                Verification
+              </h3>
+
+              <p>
+                Your seller verification status.
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <div class="verification-grid">
+
+            <div class="verification-card">
+
+              <div class="verification-icon">
+                ✓
+              </div>
+
+              <strong>
+                Identity
+              </strong>
+
+              <span id="identityStatus">
+                Verified
+              </span>
+
+            </div>
+
+
+            <div class="verification-card">
+
+              <div class="verification-icon">
+                ✓
+              </div>
+
+              <strong>
+                Contact
+              </strong>
+
+              <span id="contactStatus">
+                Verified
+              </span>
+
+            </div>
+
+
+            <div class="verification-card">
+
+              <div class="verification-icon">
+                ✓
+              </div>
+
+              <strong>
+                Account
+              </strong>
+
+              <span id="accountStatus">
+                Active
+              </span>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </aside>
+
+
+      <!-- ===================================================
+           RIGHT
+      ==================================================== -->
+
+      <div>
+
+
+        <!-- PERSONAL DETAILS -->
+
+        <div class="panel">
+
+          <div class="panel-title">
+
+            <div>
+
+              <h2>
+                Personal information
+              </h2>
+
+              <p>
+                Update the information associated with your GHAR account.
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <form
+            id="profileForm"
+            novalidate
+          >
+
+            <div class="form-grid">
+
+
+              <div class="form-group">
+
+                <label for="firstName">
+                  First name
+                </label>
+
+                <input
+                  id="firstName"
+                  class="form-control"
+                  name="firstName"
+                  type="text"
+                  placeholder="First name"
+                  autocomplete="given-name"
+                  required
+                >
+
+              </div>
+
+
+              <div class="form-group">
+
+                <label for="lastName">
+                  Last name
+                </label>
+
+                <input
+                  id="lastName"
+                  class="form-control"
+                  name="lastName"
+                  type="text"
+                  placeholder="Last name"
+                  autocomplete="family-name"
+                >
+
+              </div>
+
+
+              <div class="form-group">
+
+                <label for="email">
+                  Email address
+                </label>
+
+                <input
+                  id="email"
+                  class="form-control"
+                  name="email"
+                  type="email"
+                  placeholder="you@example.com"
+                  autocomplete="email"
+                  required
+                >
+
+              </div>
+
+
+              <div class="form-group">
+
+                <label for="phone">
+                  Phone number
+                </label>
+
+                <input
+                  id="phone"
+                  class="form-control"
+                  name="phone"
+                  type="tel"
+                  placeholder="+91 XXXXX XXXXX"
+                  autocomplete="tel"
+                >
+
+              </div>
+
+
+              <div class="form-group">
+
+                <label for="sellerType">
+                  Seller type
+                </label>
+
+                <select
+                  id="sellerType"
+                  class="form-control"
+                  name="sellerType"
+                >
+
+                  <option value="individual">
+                    Individual Seller
+                  </option>
+
+                  <option value="owner">
+                    Property Owner
+                  </option>
+
+                  <option value="investor">
+                    Investor
+                  </option>
+
+                  <option value="builder">
+                    Builder / Developer
+                  </option>
+
+                  <option value="agent">
+                    Real Estate Agent
+                  </option>
+
+                  <option value="company">
+                    Company
+                  </option>
+
+                </select>
+
+              </div>
+
+
+              <div class="form-group">
+
+                <label for="city">
+                  City
+                </label>
+
+                <input
+                  id="city"
+                  class="form-control"
+                  name="city"
+                  type="text"
+                  placeholder="Noida"
+                  autocomplete="address-level2"
+                >
+
+              </div>
+
+
+              <div class="form-group full">
+
+                <label for="address">
+                  Address
+                </label>
+
+                <textarea
+                  id="address"
+                  class="form-control"
+                  name="address"
+                  placeholder="Enter your correspondence address"
+                  autocomplete="street-address"
+                ></textarea>
+
+              </div>
+
+
+              <div class="form-group">
+
+                <label for="state">
+                  State
+                </label>
+
+                <input
+                  id="state"
+                  class="form-control"
+                  name="state"
+                  type="text"
+                  placeholder="Uttar Pradesh"
+                  autocomplete="address-level1"
+                >
+
+              </div>
+
+
+              <div class="form-group">
+
+                <label for="pincode">
+                  Pincode
+                </label>
+
+                <input
+                  id="pincode"
+                  class="form-control"
+                  name="pincode"
+                  type="text"
+                  inputmode="numeric"
+                  placeholder="201301"
+                  autocomplete="postal-code"
+                >
+
+              </div>
+
+
+              <div class="form-group full">
+
+                <label for="bio">
+                  Seller description
+                </label>
+
+                <textarea
+                  id="bio"
+                  class="form-control"
+                  name="bio"
+                  placeholder="Tell buyers a little about yourself or your business."
+                ></textarea>
+
+                <span class="form-help">
+                  This information may be used in seller-facing
+                  communications and verification workflows.
+                </span>
+
+              </div>
+
+            </div>
+
+
+            <div class="form-actions">
+
+              <button
+                class="btn btn-secondary"
+                id="resetButton"
+                type="button"
+              >
+                Reset
+              </button>
+
+              <button
+                class="btn btn-primary"
+                id="saveButton"
+                type="submit"
+              >
+                Save changes
+              </button>
+
+            </div>
+
+          </form>
+
+        </div>
+
+
+        <!-- PREFERENCES -->
+
+        <div
+          class="panel"
+          style="margin-top:16px"
+        >
+
+          <div class="panel-title">
+
+            <div>
+
+              <h3>
+                Seller preferences
+              </h3>
+
+              <p>
+                Control how GHAR communicates with you.
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <div class="preference-list">
+
+
+            <div class="preference-item">
+
+              <div class="preference-info">
+
+                <strong>
+                  Property enquiries
+                </strong>
+
+                <span>
+                  Receive notifications when buyers enquire
+                  about your properties.
+                </span>
+
+              </div>
+
+              <label class="switch">
+
+                <input
+                  id="prefEnquiries"
+                  type="checkbox"
+                  checked
+                >
+
+                <span class="slider"></span>
+
+              </label>
+
+            </div>
+
+
+            <div class="preference-item">
+
+              <div class="preference-info">
+
+                <strong>
+                  Visit notifications
+                </strong>
+
+                <span>
+                  Receive updates about property visits.
+                </span>
+
+              </div>
+
+              <label class="switch">
+
+                <input
+                  id="prefVisits"
+                  type="checkbox"
+                  checked
+                >
+
+                <span class="slider"></span>
+
+              </label>
+
+            </div>
+
+
+            <div class="preference-item">
+
+              <div class="preference-info">
+
+                <strong>
+                  Offer notifications
+                </strong>
+
+                <span>
+                  Get notified when buyers submit or update offers.
+                </span>
+
+              </div>
+
+              <label class="switch">
+
+                <input
+                  id="prefOffers"
+                  type="checkbox"
+                  checked
+                >
+
+                <span class="slider"></span>
+
+              </label>
+
+            </div>
+
+
+            <div class="preference-item">
+
+              <div class="preference-info">
+
+                <strong>
+                  GHAR recommendations
+                </strong>
+
+                <span>
+                  Receive relevant seller tips and platform recommendations.
+                </span>
+
+              </div>
+
+              <label class="switch">
+
+                <input
+                  id="prefRecommendations"
+                  type="checkbox"
+                  checked
+                >
+
+                <span class="slider"></span>
+
+              </label>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- SECURITY -->
+
+        <div
+          class="panel"
+          style="margin-top:16px"
+        >
+
+          <div class="panel-title">
+
+            <div>
+
+              <h3>
+                Account security
+              </h3>
+
+              <p>
+                Manage your account security and session.
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <div class="quick-actions">
+
+            <a
+              class="quick-action"
+              href="/seller/settings.html"
+            >
+
+              <span class="quick-action-icon">
+                ⚙
+              </span>
+
+              Open account settings
+
+            </a>
+
+
+            <button
+              class="quick-action"
+              id="logoutButton"
+              type="button"
+            >
+
+              <span class="quick-action-icon">
+                ↪
+              </span>
+
+              Sign out of GHAR
+
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+</main>
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer class="site-footer">
+
+  <div class="container">
+
+    <div class="footer-grid">
+
+
+      <div class="footer-brand">
+
+        <div class="brand">
+
+          <div class="brand-mark">
+            G
+          </div>
+
+          <div class="brand-text">
+
+            <strong>
+              GHAR
+            </strong>
+
+            <span>
+              Real Estate Platform
+            </span>
+
+          </div>
+
+        </div>
+
+        <p>
+          A connected real estate platform for listing,
+          managing, marketing and completing property
+          transactions.
+        </p>
+
+      </div>
+
+
+      <div class="footer-col">
+
+        <h4>
+          Seller
+        </h4>
+
+        <a href="/seller/dashboard.html">
+          Dashboard
+        </a>
+
+        <a href="/seller/list-property.html">
+          List Property
+        </a>
+
+        <a href="/seller/visits.html">
+          Visits
+        </a>
+
+        <a href="/seller/leads.html">
+          Leads
+        </a>
+
+      </div>
+
+
+      <div class="footer-col">
+
+        <h4>
+          Manage
+        </h4>
+
+        <a href="/seller/offers.html">
+          Offers
+        </a>
+
+        <a href="/seller/payments.html">
+          Payments
+        </a>
+
+        <a href="/seller/property-approval.html">
+          Approvals
+        </a>
+
+        <a href="/seller/profile.html">
+          Profile
+        </a>
+
+      </div>
+
+
+      <div class="footer-col">
+
+        <h4>
+          Support
+        </h4>
+
+        <a href="/help-centre.html">
+          Help Centre
+        </a>
+
+        <a href="/contact.html">
+          Contact
+        </a>
+
+        <a href="/seller/support.html">
+          Seller Support
+        </a>
+
+        <a href="/privacy.html">
+          Privacy
+        </a>
+
+      </div>
+
+    </div>
+
+
+    <div class="footer-bottom">
+
+      <span>
+        © <span id="footerYear"></span> GHAR.
+        All rights reserved.
+      </span>
+
+      <span>
+        Seller Portal · Secure Session
+      </span>
+
+    </div>
+
+  </div>
+
+</footer>
+
+
+<!-- =========================================================
+     AI BUTTON
+========================================================= -->
+
+<button
+  id="openAI"
+  class="ai-floating"
+  type="button"
+>
+  ✦ Ask GHAR AI
+</button>
+
+
+<script>
+
+"use strict";
+
+
+/* =========================================================
+   CONFIG
+========================================================= */
+
+const API_BASE =
+  window.GHAR_API_BASE ||
+  window.API_BASE ||
+  "/api";
+
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function $(selector){
+  return document.querySelector(selector);
+}
+
+
+function escapeHTML(value){
+
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+function showAlert(
+  message,
+  type="success"
+){
+
+  const box =
+    $("#alertBox");
+
+  box.textContent =
+    message;
+
+  box.className =
+    "alert show " +
+    type;
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+  setTimeout(
+    () => {
+      box.className =
+        "alert";
+    },
+    5000
+  );
+
+}
+
+
+/* =========================================================
+   API
+========================================================= */
+
+async function apiRequest(
+  url,
+  options={}
+){
+
+  const response =
+    await fetch(
+      url,
+      {
+        credentials:"include",
+
+        headers:{
+          "Accept":
+            "application/json",
+
+          "Content-Type":
+            "application/json",
+
+          ...(options.headers || {})
+        },
+
+        ...options
+      }
+    );
+
+
+  let data=null;
+
+  try{
+    data=await response.json();
+  }catch{
+    data=null;
+  }
+
+
+  if(!response.ok){
+
+    const message =
+      data?.error?.message ||
+      data?.message ||
+      "Request failed.";
+
+    const error =
+      new Error(message);
+
+    error.status =
+      response.status;
+
+    error.data =
+      data;
+
+    throw error;
+  }
+
+
+  return data;
+
+}
+
+
+/* =========================================================
+   PROFILE DATA
+========================================================= */
+
+let originalProfile = null;
+
+
+function normalizeUser(
+  response
+){
+
+  return (
+    response?.user ||
+    response?.data ||
+    response ||
+    {}
+  );
+
+}
+
+
+function splitName(
+  fullName=""
+){
+
+  const parts =
+    String(fullName)
+      .trim()
+      .split(/\s+/)
+      .filter(Boolean);
+
+
+  return {
+    firstName:
+      parts.shift() || "",
+
+    lastName:
+      parts.join(" ")
+  };
+
+}
+
+
+/* =========================================================
+   FILL PROFILE
+========================================================= */
+
+function populateProfile(
+  response
+){
+
+  const user =
+    normalizeUser(
+      response
+    );
+
+
+  originalProfile =
+    user;
+
+
+  const name =
+    user.name ||
+    user.fullName ||
+    user.displayName ||
+    "";
+
+
+  const split =
+    splitName(name);
+
+
+  $("#firstName").value =
+    user.firstName ||
+    split.firstName ||
+    "";
+
+
+  $("#lastName").value =
+    user.lastName ||
+    split.lastName ||
+    "";
+
+
+  $("#email").value =
+    user.email ||
+    "";
+
+
+  $("#phone").value =
+    user.phone ||
+    user.mobile ||
+    user.phoneNumber ||
+    "";
+
+
+  $("#sellerType").value =
+    user.sellerType ||
+    user.roleType ||
+    "individual";
+
+
+  $("#city").value =
+    user.city ||
+    "";
+
+
+  $("#state").value =
+    user.state ||
+    "";
+
+
+  $("#pincode").value =
+    user.pincode ||
+    user.postalCode ||
+    "";
+
+
+  $("#address").value =
+    user.address ||
+    "";
+
+
+  $("#bio").value =
+    user.bio ||
+    user.description ||
+    "";
+
+
+  const displayName =
+    name ||
+    [
+      user.firstName,
+      user.lastName
+    ]
+    .filter(Boolean)
+    .join(" ") ||
+    "Seller";
+
+
+  $("#profileName").textContent =
+    displayName;
+
+
+  $("#profileEmail").textContent =
+    user.email ||
+    "Seller account";
+
+
+  const initial =
+    displayName
+      .trim()
+      .charAt(0)
+      .toUpperCase() ||
+    "S";
+
+
+  $("#profileAvatar").textContent =
+    initial;
+
+  $("#headerAvatar").textContent =
+    initial;
+
+
+  $("#sellerId").textContent =
+    user.sellerId ||
+    user.id ||
+    user._id ||
+    "GHAR-SELLER";
+
+
+  $("#accountType").textContent =
+    user.sellerTypeLabel ||
+    user.sellerType ||
+    "Seller";
+
+
+  $("#memberSince").textContent =
+    formatDate(
+      user.createdAt ||
+      user.joinedAt
+    );
+
+
+  $("#propertyCount").textContent =
+    user.propertyCount ??
+    user.listedPropertyCount ??
+    0;
+
+
+  const verified =
+    user.verified === true ||
+    user.isVerified === true ||
+    user.verificationStatus === "verified";
+
+
+  if(verified){
+
+    $("#verificationStatus").textContent =
+      "✓ Verified Seller";
+
+    $("#identityStatus").textContent =
+      "Verified";
+
+    $("#contactStatus").textContent =
+      "Verified";
+
+  }else{
+
+    $("#verificationStatus").textContent =
+      "◷ Verification pending";
+
+    $("#verificationStatus").style.color =
+      "var(--gold-300)";
+
+    $("#identityStatus").textContent =
+      "Pending";
+
+  }
+
+
+  if(user.preferences){
+
+    $("#prefEnquiries").checked =
+      user.preferences.enquiries !== false;
+
+    $("#prefVisits").checked =
+      user.preferences.visits !== false;
+
+    $("#prefOffers").checked =
+      user.preferences.offers !== false;
+
+    $("#prefRecommendations").checked =
+      user.preferences.recommendations !== false;
+
+  }
+
+}
+
+
+function formatDate(
+value
+){
+
+  if(!value){
+    return "--";
+  }
+
+  const date =
+    new Date(value);
+
+  if(
+    Number.isNaN(
+      date.getTime()
+    )
+  ){
+    return "--";
+  }
+
+  return date.toLocaleDateString(
+    "en-IN",
+    {
+      month:"short",
+      year:"numeric"
+    }
+  );
+
+}
+
+
+/* =========================================================
+   LOAD PROFILE
+========================================================= */
+
+async function loadProfile(){
+
+  try{
+
+    const response =
+      await apiRequest(
+        API_BASE +
+        "/users/me"
+      );
+
+
+    populateProfile(
+      response
+    );
+
+  }catch(error){
+
+    console.warn(
+      "GHAR seller profile load:",
+      error
+    );
+
+    /*
+     * Keep the form usable even while
+     * the API is being developed.
+     */
+
+  }
+
+}
+
+
+/* =========================================================
+   COLLECT FORM
+========================================================= */
+
+function getFormData(){
+
+  const firstName =
+    $("#firstName")
+      .value
+      .trim();
+
+  const lastName =
+    $("#lastName")
+      .value
+      .trim();
+
+
+  const preferences = {
+
+    enquiries:
+      $("#prefEnquiries")
+        .checked,
+
+    visits:
+      $("#prefVisits")
+        .checked,
+
+    offers:
+      $("#prefOffers")
+        .checked,
+
+    recommendations:
+      $("#prefRecommendations")
+        .checked
+
+  };
+
+
+  return {
+
+    firstName,
+
+    lastName,
+
+    name:
+      [firstName,lastName]
+        .filter(Boolean)
+        .join(" "),
+
+    email:
+      $("#email")
+        .value
+        .trim(),
+
+    phone:
+      $("#phone")
+        .value
+        .trim(),
+
+    sellerType:
+      $("#sellerType")
+        .value,
+
+    city:
+      $("#city")
+        .value
+        .trim(),
+
+    state:
+      $("#state")
+        .value
+        .trim(),
+
+    pincode:
+      $("#pincode")
+        .value
+        .trim(),
+
+    address:
+      $("#address")
+        .value
+        .trim(),
+
+    bio:
+      $("#bio")
+        .value
+        .trim(),
+
+    preferences
+
+  };
+
+}
+
+
+/* =========================================================
+   SAVE PROFILE
+========================================================= */
+
+$("#profileForm")
+  .addEventListener(
+    "submit",
+    async event => {
+
+      event.preventDefault();
+
+
+      const payload =
+        getFormData();
+
+
+      if(
+        !payload.firstName
+      ){
+
+        showAlert(
+          "Please enter your first name.",
+          "error"
+        );
+
+        $("#firstName")
+          .focus();
+
+        return;
+
+      }
+
+
+      if(
+        !payload.email
+      ){
+
+        showAlert(
+          "Please enter your email address.",
+          "error"
+        );
+
+        $("#email")
+          .focus();
+
+        return;
+
+      }
+
+
+      const button =
+        $("#saveButton");
+
+
+      const originalText =
+        button.textContent;
+
+
+      button.disabled =
+        true;
+
+      button.textContent =
+        "Saving...";
+
+
+      try{
+
+        await apiRequest(
+          API_BASE +
+          "/users/me",
+          {
+            method:"PATCH",
+
+            body:
+              JSON.stringify(
+                payload
+              )
+          }
+        );
+
+
+        showAlert(
+          "Your seller profile has been updated successfully.",
+          "success"
+        );
+
+
+        await loadProfile();
+
+
+      }catch(error){
+
+        console.error(
+          "GHAR profile update:",
+          error
+        );
+
+
+        showAlert(
+          error.message ||
+          "Unable to update your profile. Please try again.",
+          "error"
+        );
+
+      }finally{
+
+        button.disabled =
+          false;
+
+        button.textContent =
+          originalText;
+
+      }
+
+    }
+  );
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+$("#resetButton")
+  .addEventListener(
+    "click",
+    () => {
+
+      if(
+        originalProfile
+      ){
+
+        populateProfile(
+          originalProfile
+        );
+
+        showAlert(
+          "Your unsaved changes were reset.",
+          "success"
+        );
+
+        return;
+
+      }
+
+
+      $("#profileForm").reset();
+
+    }
+  );
+
+
+/* =========================================================
+   PREFERENCES
+========================================================= */
+
+document
+  .querySelectorAll(
+    ".switch input"
+  )
+  .forEach(
+    input => {
+
+      input.addEventListener(
+        "change",
+        async () => {
+
+          try{
+
+            await apiRequest(
+              API_BASE +
+              "/users/me/preferences",
+              {
+                method:"PATCH",
+
+                body:
+                  JSON.stringify({
+
+                    [input.id.replace(
+                      "pref",
+                      ""
+                    ).toLowerCase()]:
+                      input.checked
+
+                  })
+              }
+            );
+
+
+          }catch(error){
+
+            console.warn(
+              "Preference update:",
+              error
+            );
+
+          }
+
+        }
+      );
+
+    }
+  );
+
+
+/* =========================================================
+   NOTIFICATIONS
+========================================================= */
+
+$("#notificationButton")
+  .addEventListener(
+    "click",
+    () => {
+
+      window.location.href =
+        "/seller/notifications.html";
+
+    }
+  );
+
+
+/* =========================================================
+   MOBILE MENU
+========================================================= */
+
+$("#menuButton")
+  .addEventListener(
+    "click",
+    () => {
+
+      const nav =
+        document.querySelector(
+          ".desktop-nav"
+        );
+
+
+      const open =
+        nav.dataset.mobileOpen ===
+        "true";
+
+
+      if(open){
+
+        nav.style.display =
+          "";
+
+        nav.dataset.mobileOpen =
+          "false";
+
+        return;
+
+      }
+
+
+      nav.dataset.mobileOpen =
+        "true";
+
+      nav.style.display =
+        "flex";
+
+      nav.style.position =
+        "absolute";
+
+      nav.style.left =
+        "14px";
+
+      nav.style.right =
+        "14px";
+
+      nav.style.top =
+        "66px";
+
+      nav.style.padding =
+        "10px";
+
+      nav.style.flexDirection =
+        "column";
+
+      nav.style.alignItems =
+        "stretch";
+
+      nav.style.border =
+        "1px solid rgba(229,199,125,.14)";
+
+      nav.style.borderRadius =
+        "16px";
+
+      nav.style.background =
+        "#0b1c14";
+
+      nav.style.boxShadow =
+        "0 25px 60px rgba(0,0,0,.35)";
+
+    }
+  );
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+$("#logoutButton")
+  .addEventListener(
+    "click",
+    async () => {
+
+      const confirmed =
+        window.confirm(
+          "Sign out of your GHAR seller account?"
+        );
+
+
+      if(!confirmed){
+        return;
+      }
+
+
+      try{
+
+        await apiRequest(
+          API_BASE +
+          "/auth/logout",
+          {
+            method:"POST"
+          }
+        );
+
+      }catch(error){
+
+        console.warn(
+          "GHAR logout:",
+          error
+        );
+
+      }
+
+
+      window.location.href =
+        "/login.html";
+
+    }
+  );
+
+
+/* =========================================================
+   AI
+========================================================= */
+
+$("#openAI")
+  .addEventListener(
+    "click",
+    () => {
+
+      window.location.href =
+        "/seller/ai.html";
+
+    }
+  );
+
+
+/* =========================================================
+   INITIALIZE
+========================================================= */
+
+async function initialize(){
+
+  $("#footerYear").textContent =
+    new Date()
+      .getFullYear();
+
+
+  await loadProfile();
+
+}
+
+
+if(
+  document.readyState ===
+  "loading"
+){
+
+  document.addEventListener(
+    "DOMContentLoaded",
+    initialize
+  );
+
+}else{
+
+  initialize();
+
+}
+
+</script>
+
+</body>
+</html>

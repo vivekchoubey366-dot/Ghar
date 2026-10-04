@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Notifications | GHAR</title>
+
+<meta name="description" content="View your latest GHAR property alerts, enquiries, offers, visits and account notifications.">
+<meta name="theme-color" content="#f4eee3">
+
+<link rel="icon" type="image/svg+xml" href="/assets/images/logo/favicon.svg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="/assets/css/variables.css">
+<link rel="stylesheet" href="/assets/css/reset.css">
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/css/layout.css">
+<link rel="stylesheet" href="/assets/css/components.css">
+<link rel="stylesheet" href="/assets/css/navigation.css">
+<link rel="stylesheet" href="/assets/css/cards.css">
+<link rel="stylesheet" href="/assets/css/forms.css">
+<link rel="stylesheet" href="/assets/css/property.css">
+<link rel="stylesheet" href="/assets/css/animations.css">
+<link rel="stylesheet" href="/assets/css/responsive.css">
+
+<style>
+:root{
+    --ivory:#f7f2e8;
+    --pearl:#eee7da;
+    --champagne:#dfcfb2;
+    --forest:#29463d;
+    --deep:#19352d;
+    --sage:#829488;
+    --sage-light:#dfe7df;
+    --gold:#b2935e;
+    --text:#263832;
+    --muted:#777d77;
+    --border:rgba(41,70,61,.12);
+}
+
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    color:var(--text);
+    font-family:"DM Sans",sans-serif;
+    background:
+        radial-gradient(circle at 8% 8%,rgba(219,199,159,.22),transparent 27%),
+        radial-gradient(circle at 92% 20%,rgba(130,148,136,.14),transparent 28%),
+        var(--ivory);
+    min-height:100vh;
+}
+
+a{text-decoration:none;color:inherit}
+button,input{font:inherit}
+
+.header{
+    position:sticky;
+    top:0;
+    z-index:1000;
+    background:rgba(247,242,232,.92);
+    backdrop-filter:blur(22px);
+    border-bottom:1px solid rgba(41,70,61,.1);
+}
+
+.nav{
+    max-width:1440px;
+    min-height:82px;
+    margin:auto;
+    padding:0 34px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:30px;
+}
+
+.logo img{width:132px}
+
+.main-nav{
+    display:flex;
+    gap:29px;
+}
+
+.main-nav a{
+    padding:9px 0;
+    color:#59665f;
+    font-size:14px;
+    font-weight:600;
+}
+
+.main-nav a:hover,
+.main-nav a.active{color:var(--forest)}
+
+.nav-actions{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.icon-btn{
+    width:42px;
+    height:42px;
+    display:grid;
+    place-items:center;
+    border:1px solid var(--border);
+    border-radius:50%;
+    background:rgba(255,255,255,.65);
+}
+
+.sell-btn{
+    padding:12px 19px;
+    color:white;
+    background:var(--forest);
+    border-radius:999px;
+    font-size:13px;
+    font-weight:700;
+}
+
+.hero{
+    max-width:1440px;
+    margin:auto;
+    padding:62px 34px 35px;
+}
+
+.eyebrow{
+    color:var(--gold);
+    font-size:11px;
+    font-weight:800;
+    text-transform:uppercase;
+    letter-spacing:.18em;
+}
+
+.hero h1{
+    margin:15px 0 0;
+    font-family:"Playfair Display",serif;
+    font-size:clamp(42px,5vw,68px);
+    line-height:1;
+    letter-spacing:-.045em;
+    color:var(--deep);
+}
+
+.hero h1 span{color:var(--gold)}
+
+.hero p{
+    max-width:680px;
+    margin:20px 0 0;
+    color:var(--muted);
+    font-size:15px;
+    line-height:1.8;
+}
+
+.page{
+    max-width:1440px;
+    margin:auto;
+    padding:0 34px 90px;
+}
+
+.toolbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+    margin-bottom:20px;
+}
+
+.toolbar-left{
+    display:flex;
+    gap:9px;
+}
+
+.filter{
+    padding:10px 16px;
+    border:1px solid var(--border);
+    border-radius:999px;
+    background:rgba(255,255,255,.7);
+    color:#68736d;
+    font-size:12px;
+    font-weight:700;
+    cursor:pointer;
+}
+
+.filter.active{
+    color:#fff;
+    background:var(--forest);
+}
+
+.mark-read{
+    border:0;
+    background:transparent;
+    color:var(--forest);
+    font-size:12px;
+    font-weight:800;
+    cursor:pointer;
+}
+
+.notification-list{
+    display:grid;
+    gap:12px;
+}
+
+.notification{
+    display:grid;
+    grid-template-columns:52px 1fr auto;
+    align-items:center;
+    gap:17px;
+    padding:20px;
+    border:1px solid var(--border);
+    border-radius:22px;
+    background:rgba(255,255,255,.76);
+    box-shadow:0 12px 38px rgba(45,55,48,.06);
+    transition:.25s ease;
+}
+
+.notification:hover{
+    transform:translateY(-3px);
+    box-shadow:0 20px 45px rgba(45,55,48,.1);
+}
+
+.notification.unread{
+    border-color:rgba(178,147,94,.3);
+    background:rgba(255,253,247,.9);
+}
+
+.notice-icon{
+    width:52px;
+    height:52px;
+    display:grid;
+    place-items:center;
+    border-radius:17px;
+    background:var(--sage-light);
+    color:var(--forest);
+    font-size:21px;
+}
+
+.notice-content h3{
+    margin:0 0 6px;
+    color:var(--deep);
+    font-family:"Playfair Display",serif;
+    font-size:19px;
+}
+
+.notice-content p{
+    margin:0;
+    color:var(--muted);
+    font-size:12px;
+    line-height:1.6;
+}
+
+.notice-time{
+    color:#929792;
+    font-size:10px;
+    white-space:nowrap;
+}
+
+.badge{
+    display:inline-block;
+    margin-top:8px;
+    padding:5px 8px;
+    border-radius:999px;
+    color:var(--forest);
+    background:var(--sage-light);
+    font-size:9px;
+    font-weight:800;
+}
+
+.footer{
+    background:#e6dfd2;
+    border-top:1px solid rgba(41,70,61,.09);
+}
+
+.footer-inner{
+    max-width:1440px;
+    margin:auto;
+    padding:60px 34px 35px;
+    display:grid;
+    grid-template-columns:1.5fr repeat(3,1fr);
+    gap:40px;
+}
+
+.footer-brand img{width:125px;margin-bottom:17px}
+
+.footer-brand p{
+    max-width:330px;
+    color:#68716c;
+    font-size:13px;
+    line-height:1.7;
+}
+
+.footer-column h4{
+    margin:0 0 16px;
+    color:var(--forest);
+    font-size:13px;
+}
+
+.footer-column a{
+    display:block;
+    margin-bottom:11px;
+    color:#717873;
+    font-size:12px;
+}
+
+.footer-bottom{
+    max-width:1440px;
+    margin:auto;
+    padding:18px 34px 25px;
+    display:flex;
+    justify-content:space-between;
+    border-top:1px solid rgba(41,70,61,.09);
+    color:#7d837f;
+    font-size:11px;
+}
+
+.mobile-dock{
+    display:none;
+}
+
+@media(max-width:850px){
+    .main-nav{display:none}
+    .sell-btn{display:none}
+    .nav{padding:0 20px;min-height:72px}
+    .hero,.page{padding-left:20px;padding-right:20px}
+    .mobile-dock{
+        display:block;
+        position:fixed;
+        left:12px;
+        right:12px;
+        bottom:12px;
+        z-index:999;
+        padding:9px;
+        background:rgba(255,255,255,.94);
+        border:1px solid var(--border);
+        border-radius:22px;
+        box-shadow:0 18px 55px rgba(39,72,61,.18);
+        backdrop-filter:blur(18px);
+    }
+    .mobile-dock-inner{
+        display:grid;
+        grid-template-columns:repeat(4,1fr);
+    }
+    .mobile-dock a{
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        gap:4px;
+        padding:8px;
+        color:#77807b;
+        font-size:10px;
+        font-weight:700;
+    }
+    .mobile-dock a.active{color:var(--forest)}
+    .footer{padding-bottom:90px}
+}
+
+@media(max-width:620px){
+    .logo img{width:108px}
+    .toolbar{align-items:flex-start;flex-direction:column}
+    .notification{
+        grid-template-columns:44px 1fr;
+    }
+    .notice-icon{
+        width:44px;
+        height:44px;
+    }
+    .notice-time{grid-column:2}
+    .footer-inner{
+        grid-template-columns:1fr;
+        padding:45px 20px 25px;
+    }
+    .footer-bottom{
+        padding-left:20px;
+        padding-right:20px;
+        flex-direction:column;
+        gap:8px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header class="header">
+<nav class="nav">
+
+<a href="/index.html" class="logo">
+<img src="/assets/images/logo/ghar-logo.png" alt="GHAR">
+</a>
+
+<div class="main-nav">
+<a href="/index.html">Home</a>
+<a href="/properties.html">Properties</a>
+<a href="/marketplace.html">Marketplace</a>
+<a href="/map.html">Map</a>
+<a href="/compare.html">Compare</a>
+<a href="/about.html">About</a>
+</div>
+
+<div class="nav-actions">
+<a href="/property-search.html" class="icon-btn">⌕</a>
+<a href="/favourites.html" class="icon-btn">♡</a>
+<a href="/login.html" class="sell-btn">List Property</a>
+</div>
+
+</nav>
+</header>
+
+<section class="hero">
+<div class="eyebrow">GHAR ACCOUNT CENTRE</div>
+
+<h1>
+Your latest
+<span>updates.</span>
+</h1>
+
+<p>
+Stay informed about your property enquiries, saved properties,
+offers, scheduled visits, account activity and important GHAR alerts.
+</p>
+</section>
+
+<main class="page">
+
+<div class="toolbar">
+<div class="toolbar-left">
+<button class="filter active" onclick="filterNotifications('all',this)">All</button>
+<button class="filter" onclick="filterNotifications('property',this)">Properties</button>
+<button class="filter" onclick="filterNotifications('offer',this)">Offers</button>
+<button class="filter" onclick="filterNotifications('account',this)">Account</button>
+</div>
+
+<button class="mark-read" onclick="markAllRead()">
+Mark all as read
+</button>
+</div>
+
+<section class="notification-list" id="notifications">
+
+<article class="notification unread" data-category="property">
+<div class="notice-icon">⌂</div>
+<div class="notice-content">
+<h3>New property matches your search</h3>
+<p>GHAR found 8 properties matching your recent Noida residential search.</p>
+<span class="badge">Property Match</span>
+</div>
+<div class="notice-time">12 min ago</div>
+</article>
+
+<article class="notification unread" data-category="offer">
+<div class="notice-icon">₹</div>
+<div class="notice-content">
+<h3>Your offer received a response</h3>
+<p>The seller has responded to your offer for The Pearl Residence.</p>
+<span class="badge">Offer Update</span>
+</div>
+<div class="notice-time">1 hour ago</div>
+</article>
+
+<article class="notification" data-category="property">
+<div class="notice-icon">♡</div>
+<div class="notice-content">
+<h3>Price update on a favourite</h3>
+<p>A property saved to your favourites has received a price update.</p>
+<span class="badge">Favourite</span>
+</div>
+<div class="notice-time">Yesterday</div>
+</article>
+
+<article class="notification" data-category="account">
+<div class="notice-icon">✓</div>
+<div class="notice-content">
+<h3>Profile successfully updated</h3>
+<p>Your GHAR profile information was successfully updated.</p>
+<span class="badge">Account</span>
+</div>
+<div class="notice-time">2 days ago</div>
+</article>
+
+<article class="notification" data-category="property">
+<div class="notice-icon">◷</div>
+<div class="notice-content">
+<h3>Property visit reminder</h3>
+<p>You have an upcoming property visit scheduled with GHAR.</p>
+<span class="badge">Visit</span>
+</div>
+<div class="notice-time">3 days ago</div>
+</article>
+
+</section>
+
+</main>
+
+<footer class="footer">
+<div class="footer-inner">
+
+<div class="footer-brand">
+<img src="/assets/images/logo/ghar-logo.png" alt="GHAR">
+<p>
+A premium real-estate experience designed to make discovering,
+buying, renting and managing property simpler.
+</p>
+</div>
+
+<div class="footer-column">
+<h4>Explore</h4>
+<a href="/properties.html">Properties</a>
+<a href="/property-search.html">Smart Search</a>
+<a href="/marketplace.html">Marketplace</a>
+<a href="/map.html">Property Map</a>
+<a href="/compare.html">Compare</a>
+</div>
+
+<div class="footer-column">
+<h4>GHAR</h4>
+<a href="/about.html">About GHAR</a>
+<a href="/services.html">Services</a>
+<a href="/ai-assistant.html">GHAR AI</a>
+<a href="/contact.html">Contact</a>
+<a href="/help-centre.html">Help Centre</a>
+</div>
+
+<div class="footer-column">
+<h4>Property</h4>
+<a href="/login.html">List Property</a>
+<a href="/login.html">Seller Login</a>
+<a href="/login.html">Buyer Login</a>
+<a href="/loan.html">Home Loans</a>
+<a href="/documents.html">Documents</a>
+</div>
+
+</div>
+
+<div class="footer-bottom">
+<span>© 2026 GHAR. All rights reserved.</span>
+<span>Privacy · Terms · Legal</span>
+</div>
+</footer>
+
+<nav class="mobile-dock">
+<div class="mobile-dock-inner">
+<a href="/index.html">⌂<span>Home</span></a>
+<a href="/properties.html">▦<span>Properties</span></a>
+<a href="/favourites.html">♡<span>Saved</span></a>
+<a href="/profile.html" class="active">●<span>Account</span></a>
+</div>
+</nav>
+
+<script src="/assets/js/constants.js"></script>
+<script src="/assets/js/config.js"></script>
+<script src="/assets/js/storage.js"></script>
+<script src="/assets/js/api.js"></script>
+<script src="/assets/js/auth.js"></script>
+<script src="/assets/js/core.js"></script>
+<script src="/assets/js/components.js"></script>
+<script src="/assets/js/components/global.js"></script>
+<script src="/assets/js/navigation.js"></script>
+
+<script>
+function filterNotifications(category,button){
+    document.querySelectorAll(".filter").forEach(x=>x.classList.remove("active"));
+    button.classList.add("active");
+
+    document.querySelectorAll(".notification").forEach(item=>{
+        item.style.display =
+            category==="all" || item.dataset.category===category
+            ? "grid"
+            : "none";
+    });
+}
+
+function markAllRead(){
+    document.querySelectorAll(".notification").forEach(item=>{
+        item.classList.remove("unread");
+    });
+}
+</script>
+
+</body>
+</html>

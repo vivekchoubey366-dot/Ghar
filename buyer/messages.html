@@ -1,0 +1,3410 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<meta name="description"
+      content="GHAR Buyer Messages -- Secure communication for property enquiries, sellers, agents and GHAR support.">
+
+<meta name="theme-color" content="#162d25">
+
+<title>GHAR · Buyer Messages</title>
+
+<link rel="icon" href="../assets/images/favicon.svg">
+
+<style>
+/* =========================================================
+   GHAR BUYER MESSAGES
+   Premium Buyer Communication Experience
+========================================================= */
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+:root{
+  --green-950:#07130e;
+  --green-925:#0a1912;
+  --green-900:#0b1c14;
+  --green-850:#10261c;
+  --green-800:#162d25;
+  --green-750:#1a382c;
+  --green-700:#214438;
+
+  --gold-100:#fff7df;
+  --gold-200:#f4dfaa;
+  --gold-300:#e5c77d;
+  --gold-400:#c9a95c;
+  --gold-500:#a98238;
+
+  --cream:#fffaf0;
+  --text:#f9f5ea;
+  --muted:rgba(255,255,255,.68);
+  --muted-2:rgba(255,255,255,.45);
+
+  --border:rgba(229,199,125,.18);
+  --border-light:rgba(255,255,255,.09);
+
+  --success:#82c995;
+  --danger:#e98c8c;
+  --blue:#91b9e8;
+
+  --shadow:0 25px 80px rgba(0,0,0,.25);
+
+  --radius-xl:28px;
+  --radius-lg:21px;
+  --radius-md:15px;
+
+  --container:1440px;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  min-height:100vh;
+  color:var(--text);
+
+  font-family:
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  background:
+    radial-gradient(
+      circle at 5% 0%,
+      rgba(229,199,125,.12),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 100% 10%,
+      rgba(44,91,69,.22),
+      transparent 30%
+    ),
+    linear-gradient(
+      135deg,
+      #07130e,
+      #0b1c14 48%,
+      #10261c
+    );
+
+  overflow-x:hidden;
+}
+
+a{
+  color:inherit;
+  text-decoration:none;
+}
+
+button,
+input,
+textarea{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+img{
+  display:block;
+  max-width:100%;
+}
+
+.container{
+  width:min(
+    calc(100% - 40px),
+    var(--container)
+  );
+  margin:auto;
+}
+
+/* =========================================================
+   BACKGROUND
+========================================================= */
+
+.page-glow{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:-1;
+  overflow:hidden;
+}
+
+.page-glow::before{
+  content:"";
+  position:absolute;
+  width:550px;
+  height:550px;
+  top:-300px;
+  right:-220px;
+  border-radius:50%;
+  border:1px solid rgba(229,199,125,.12);
+
+  box-shadow:
+    0 0 0 60px rgba(229,199,125,.025),
+    0 0 0 120px rgba(229,199,125,.015);
+}
+
+.page-glow::after{
+  content:"";
+  position:absolute;
+  width:500px;
+  height:500px;
+  bottom:-300px;
+  left:-250px;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,.06);
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.site-header{
+  position:sticky;
+  top:0;
+  z-index:100;
+  border-bottom:1px solid rgba(229,199,125,.10);
+  background:rgba(7,19,14,.90);
+  backdrop-filter:blur(22px);
+}
+
+.header-inner{
+  min-height:76px;
+  display:flex;
+  align-items:center;
+  gap:24px;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex-shrink:0;
+}
+
+.brand-mark{
+  width:45px;
+  height:45px;
+  display:grid;
+  place-items:center;
+  border-radius:14px;
+  color:#152116;
+  font-size:19px;
+  font-weight:1000;
+
+  background:
+    linear-gradient(
+      135deg,
+      #f1dda5,
+      #b98b3d
+    );
+
+  box-shadow:
+    0 10px 25px rgba(0,0,0,.25),
+    inset 0 1px 0 rgba(255,255,255,.5);
+}
+
+.brand-text strong{
+  display:block;
+  font-size:17px;
+  letter-spacing:.17em;
+}
+
+.brand-text span{
+  display:block;
+  margin-top:2px;
+  color:var(--muted-2);
+  font-size:8px;
+  font-weight:800;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+}
+
+.desktop-nav{
+  display:flex;
+  align-items:center;
+  gap:5px;
+  margin-left:auto;
+}
+
+.desktop-nav a{
+  padding:10px 12px;
+  border-radius:10px;
+  color:var(--muted);
+  font-size:11px;
+  font-weight:700;
+  transition:.2s ease;
+}
+
+.desktop-nav a:hover,
+.desktop-nav a.active{
+  color:var(--gold-200);
+  background:rgba(229,199,125,.07);
+}
+
+.header-actions{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.icon-btn{
+  width:41px;
+  height:41px;
+  display:grid;
+  place-items:center;
+  border:1px solid var(--border-light);
+  border-radius:12px;
+  color:var(--muted);
+  background:rgba(255,255,255,.035);
+  transition:.2s ease;
+}
+
+.icon-btn:hover{
+  color:var(--gold-200);
+  border-color:rgba(229,199,125,.25);
+}
+
+.avatar{
+  width:40px;
+  height:40px;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  color:#172016;
+  font-size:12px;
+  font-weight:1000;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--gold-200),
+      var(--gold-500)
+    );
+}
+
+.mobile-menu{
+  display:none;
+}
+
+/* =========================================================
+   PAGE HEADER
+========================================================= */
+
+.page-header{
+  padding:42px 0 25px;
+}
+
+.page-header-inner{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:20px;
+}
+
+.eyebrow{
+  color:var(--gold-300);
+  font-size:10px;
+  font-weight:950;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+}
+
+.page-header h1{
+  margin-top:10px;
+  font-size:clamp(32px,4vw,52px);
+  line-height:1;
+  letter-spacing:-.055em;
+}
+
+.page-header h1 span{
+  color:var(--gold-300);
+}
+
+.page-header p{
+  max-width:650px;
+  margin-top:12px;
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.7;
+}
+
+/* =========================================================
+   MAIN MESSAGES
+========================================================= */
+
+.messages-shell{
+  display:grid;
+  grid-template-columns:340px 1fr;
+  min-height:680px;
+  overflow:hidden;
+
+  border:1px solid var(--border-light);
+  border-radius:var(--radius-xl);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(20,45,34,.97),
+      rgba(8,23,16,.97)
+    );
+
+  box-shadow:var(--shadow);
+}
+
+/* =========================================================
+   CONVERSATION SIDEBAR
+========================================================= */
+
+.conversation-sidebar{
+  min-width:0;
+  border-right:1px solid rgba(255,255,255,.07);
+  background:rgba(5,17,11,.35);
+}
+
+.sidebar-top{
+  padding:20px;
+  border-bottom:1px solid rgba(255,255,255,.07);
+}
+
+.sidebar-heading{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.sidebar-heading h2{
+  font-size:16px;
+}
+
+.compose-btn{
+  width:34px;
+  height:34px;
+  display:grid;
+  place-items:center;
+  border:1px solid rgba(229,199,125,.18);
+  border-radius:10px;
+  color:var(--gold-300);
+  background:rgba(229,199,125,.07);
+}
+
+.message-search{
+  width:100%;
+  height:42px;
+  margin-top:14px;
+  padding:0 12px;
+
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:11px;
+  outline:none;
+
+  color:var(--cream);
+  background:rgba(255,255,255,.035);
+
+  font-size:10px;
+}
+
+.message-search:focus{
+  border-color:rgba(229,199,125,.40);
+}
+
+.filter-tabs{
+  display:flex;
+  gap:5px;
+  margin-top:10px;
+}
+
+.filter-tab{
+  padding:7px 9px;
+  border:1px solid transparent;
+  border-radius:8px;
+  color:var(--muted-2);
+  background:transparent;
+  font-size:8px;
+  font-weight:800;
+}
+
+.filter-tab.active{
+  color:var(--gold-200);
+  border-color:rgba(229,199,125,.14);
+  background:rgba(229,199,125,.07);
+}
+
+.conversation-list{
+  max-height:570px;
+  overflow-y:auto;
+}
+
+.conversation{
+  position:relative;
+  display:flex;
+  gap:11px;
+  padding:15px 18px;
+  border-bottom:1px solid rgba(255,255,255,.045);
+  cursor:pointer;
+  transition:.2s ease;
+}
+
+.conversation:hover{
+  background:rgba(255,255,255,.025);
+}
+
+.conversation.active{
+  background:
+    linear-gradient(
+      90deg,
+      rgba(229,199,125,.10),
+      transparent
+    );
+}
+
+.conversation.active::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:0;
+  bottom:0;
+  width:3px;
+  background:var(--gold-300);
+}
+
+.conversation-avatar{
+  width:43px;
+  height:43px;
+  flex:0 0 43px;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  color:#172016;
+  font-size:11px;
+  font-weight:1000;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--gold-200),
+      var(--gold-500)
+    );
+}
+
+.conversation-avatar.agent{
+  color:var(--cream);
+  background:
+    linear-gradient(
+      135deg,
+      #315c4a,
+      #173428
+    );
+}
+
+.conversation-body{
+  min-width:0;
+  flex:1;
+}
+
+.conversation-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+}
+
+.conversation-name{
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  font-size:10px;
+  font-weight:900;
+}
+
+.conversation-time{
+  color:var(--muted-2);
+  font-size:7px;
+  white-space:nowrap;
+}
+
+.conversation-property{
+  margin-top:3px;
+  color:var(--gold-300);
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  font-size:7px;
+}
+
+.conversation-preview{
+  margin-top:5px;
+  color:var(--muted-2);
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  font-size:8px;
+  line-height:1.4;
+}
+
+.unread{
+  min-width:17px;
+  height:17px;
+  display:grid;
+  place-items:center;
+  margin-left:auto;
+  border-radius:50%;
+  color:#172016;
+  background:var(--gold-300);
+  font-size:7px;
+  font-weight:1000;
+}
+
+/* =========================================================
+   CHAT PANEL
+========================================================= */
+
+.chat-panel{
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+  background:
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(229,199,125,.06),
+      transparent 30%
+    );
+}
+
+.chat-header{
+  min-height:79px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+  padding:15px 21px;
+  border-bottom:1px solid rgba(255,255,255,.07);
+}
+
+.chat-user{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  min-width:0;
+}
+
+.chat-avatar{
+  width:44px;
+  height:44px;
+  flex:0 0 44px;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  color:var(--cream);
+  font-size:11px;
+  font-weight:1000;
+
+  background:
+    linear-gradient(
+      135deg,
+      #315c4a,
+      #173428
+    );
+}
+
+.chat-user-info{
+  min-width:0;
+}
+
+.chat-user-info strong{
+  display:block;
+  font-size:12px;
+}
+
+.chat-user-info span{
+  display:block;
+  margin-top:3px;
+  color:var(--muted-2);
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  font-size:8px;
+}
+
+.online{
+  color:var(--success)!important;
+}
+
+.chat-actions{
+  display:flex;
+  gap:6px;
+}
+
+.chat-action{
+  width:35px;
+  height:35px;
+  display:grid;
+  place-items:center;
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:9px;
+  color:var(--muted);
+  background:rgba(255,255,255,.03);
+}
+
+.chat-action:hover{
+  color:var(--gold-300);
+  border-color:rgba(229,199,125,.20);
+}
+
+/* =========================================================
+   PROPERTY CONTEXT
+========================================================= */
+
+.property-context{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin:14px 20px 0;
+  padding:11px 13px;
+
+  border:1px solid rgba(229,199,125,.13);
+  border-radius:12px;
+
+  background:rgba(229,199,125,.035);
+}
+
+.property-context-image{
+  width:45px;
+  height:42px;
+  flex:0 0 45px;
+  overflow:hidden;
+  border-radius:9px;
+  background:#214438;
+}
+
+.property-context-image img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.property-context-info{
+  min-width:0;
+  flex:1;
+}
+
+.property-context-info strong{
+  display:block;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  font-size:9px;
+}
+
+.property-context-info span{
+  display:block;
+  margin-top:3px;
+  color:var(--muted-2);
+  font-size:7px;
+}
+
+.view-property{
+  color:var(--gold-300);
+  font-size:8px;
+  font-weight:900;
+}
+
+/* =========================================================
+   CHAT BODY
+========================================================= */
+
+.chat-body{
+  flex:1;
+  min-height:410px;
+  max-height:510px;
+  overflow-y:auto;
+  padding:22px 20px;
+}
+
+.date-divider{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin:7px 0 17px;
+  color:var(--muted-2);
+  font-size:7px;
+  font-weight:800;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+
+.date-divider::before,
+.date-divider::after{
+  content:"";
+  height:1px;
+  flex:1;
+  background:rgba(255,255,255,.06);
+}
+
+.message-row{
+  display:flex;
+  margin-bottom:13px;
+}
+
+.message-row.mine{
+  justify-content:flex-end;
+}
+
+.message-bubble{
+  max-width:min(68%,560px);
+  padding:11px 13px;
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:15px 15px 15px 4px;
+  background:rgba(255,255,255,.045);
+}
+
+.message-row.mine .message-bubble{
+  border-color:rgba(229,199,125,.18);
+  border-radius:15px 15px 4px 15px;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(229,199,125,.18),
+      rgba(229,199,125,.08)
+    );
+}
+
+.message-bubble p{
+  color:var(--cream);
+  font-size:9px;
+  line-height:1.65;
+}
+
+.message-meta{
+  display:flex;
+  justify-content:flex-end;
+  gap:7px;
+  margin-top:6px;
+  color:var(--muted-2);
+  font-size:7px;
+}
+
+.message-read{
+  color:var(--blue);
+}
+
+.typing{
+  display:none;
+  align-items:center;
+  gap:4px;
+  width:max-content;
+  padding:10px 12px;
+  border-radius:14px 14px 14px 4px;
+  background:rgba(255,255,255,.045);
+}
+
+.typing span{
+  width:5px;
+  height:5px;
+  border-radius:50%;
+  background:var(--muted-2);
+  animation:typing .9s infinite ease-in-out;
+}
+
+.typing span:nth-child(2){
+  animation-delay:.15s;
+}
+
+.typing span:nth-child(3){
+  animation-delay:.30s;
+}
+
+@keyframes typing{
+  0%,100%{opacity:.3;transform:translateY(0)}
+  50%{opacity:1;transform:translateY(-3px)}
+}
+
+/* =========================================================
+   QUICK REPLIES
+========================================================= */
+
+.quick-replies{
+  display:flex;
+  gap:6px;
+  padding:0 20px 10px;
+  overflow-x:auto;
+}
+
+.quick-reply{
+  flex:0 0 auto;
+  padding:7px 10px;
+  border:1px solid rgba(229,199,125,.12);
+  border-radius:20px;
+  color:var(--gold-200);
+  background:rgba(229,199,125,.045);
+  font-size:7px;
+  font-weight:800;
+}
+
+/* =========================================================
+   COMPOSER
+========================================================= */
+
+.chat-composer{
+  padding:13px 20px 17px;
+  border-top:1px solid rgba(255,255,255,.07);
+}
+
+.composer{
+  display:flex;
+  align-items:flex-end;
+  gap:8px;
+  padding:8px;
+
+  border:1px solid rgba(255,255,255,.09);
+  border-radius:15px;
+
+  background:rgba(255,255,255,.035);
+}
+
+.composer-tools{
+  display:flex;
+  gap:3px;
+}
+
+.tool-btn{
+  width:32px;
+  height:32px;
+  display:grid;
+  place-items:center;
+  border:0;
+  border-radius:8px;
+  color:var(--muted-2);
+  background:transparent;
+}
+
+.tool-btn:hover{
+  color:var(--gold-300);
+  background:rgba(255,255,255,.04);
+}
+
+.message-input{
+  min-width:0;
+  flex:1;
+  min-height:32px;
+  max-height:100px;
+  resize:none;
+  padding:7px 3px;
+
+  border:0;
+  outline:none;
+
+  color:var(--cream);
+  background:transparent;
+
+  font-size:9px;
+  line-height:1.5;
+}
+
+.message-input::placeholder{
+  color:var(--muted-2);
+}
+
+.send-btn{
+  width:35px;
+  height:35px;
+  flex:0 0 35px;
+  display:grid;
+  place-items:center;
+  border:0;
+  border-radius:10px;
+  color:#17170f;
+  background:var(--gold-300);
+  font-weight:1000;
+}
+
+.composer-note{
+  margin-top:7px;
+  color:var(--muted-2);
+  text-align:right;
+  font-size:7px;
+}
+
+/* =========================================================
+   EMPTY / INFORMATION PANELS
+========================================================= */
+
+.bottom-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:14px;
+  margin-top:18px;
+}
+
+.info-card{
+  padding:19px;
+  border:1px solid var(--border-light);
+  border-radius:var(--radius-lg);
+  background:
+    linear-gradient(
+      145deg,
+      rgba(20,45,34,.92),
+      rgba(11,28,20,.92)
+    );
+}
+
+.info-icon{
+  width:36px;
+  height:36px;
+  display:grid;
+  place-items:center;
+  border-radius:10px;
+  color:var(--gold-300);
+  background:rgba(229,199,125,.08);
+}
+
+.info-card h3{
+  margin-top:12px;
+  font-size:13px;
+}
+
+.info-card p{
+  margin-top:6px;
+  color:var(--muted-2);
+  font-size:8px;
+  line-height:1.65;
+}
+
+.info-card a{
+  display:inline-block;
+  margin-top:11px;
+  color:var(--gold-300);
+  font-size:8px;
+  font-weight:900;
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.site-footer{
+  margin-top:45px;
+  padding:35px 0 25px;
+  border-top:1px solid rgba(255,255,255,.07);
+  background:rgba(3,12,8,.35);
+}
+
+.footer-grid{
+  display:grid;
+  grid-template-columns:1.4fr repeat(3,1fr);
+  gap:25px;
+}
+
+.footer-brand{
+  max-width:300px;
+}
+
+.footer-brand p{
+  margin-top:10px;
+  color:var(--muted-2);
+  font-size:9px;
+  line-height:1.7;
+}
+
+.footer-col h4{
+  color:var(--gold-200);
+  font-size:9px;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+}
+
+.footer-col a{
+  display:block;
+  margin-top:9px;
+  color:var(--muted-2);
+  font-size:9px;
+}
+
+.footer-col a:hover{
+  color:var(--gold-300);
+}
+
+.footer-bottom{
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+  margin-top:28px;
+  padding-top:17px;
+  border-top:1px solid rgba(255,255,255,.06);
+  color:var(--muted-2);
+  font-size:8px;
+}
+
+/* =========================================================
+   AI BUTTON
+========================================================= */
+
+.ai-floating{
+  position:fixed;
+  right:22px;
+  bottom:22px;
+  z-index:90;
+
+  min-height:48px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:0 16px;
+
+  border:1px solid rgba(229,199,125,.25);
+  border-radius:30px;
+
+  color:#17170f;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--gold-200),
+      var(--gold-400)
+    );
+
+  box-shadow:0 15px 35px rgba(0,0,0,.3);
+
+  font-size:10px;
+  font-weight:1000;
+}
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+.toast{
+  position:fixed;
+  left:50%;
+  bottom:25px;
+  z-index:300;
+
+  max-width:calc(100% - 30px);
+  padding:12px 15px;
+
+  border:1px solid rgba(229,199,125,.22);
+  border-radius:12px;
+
+  color:var(--cream);
+  background:#0b1c14;
+
+  box-shadow:0 20px 60px rgba(0,0,0,.4);
+
+  font-size:9px;
+
+  transform:
+    translate(-50%,20px);
+
+  opacity:0;
+  pointer-events:none;
+
+  transition:.25s ease;
+}
+
+.toast.show{
+  opacity:1;
+  transform:translate(-50%,0);
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:1100px){
+
+  .desktop-nav{
+    display:none;
+  }
+
+  .mobile-menu{
+    display:grid;
+  }
+
+  .messages-shell{
+    grid-template-columns:300px 1fr;
+  }
+
+}
+
+@media(max-width:800px){
+
+  .container{
+    width:min(
+      calc(100% - 28px),
+      var(--container)
+    );
+  }
+
+  .page-header{
+    padding-top:30px;
+  }
+
+  .messages-shell{
+    grid-template-columns:1fr;
+    min-height:auto;
+  }
+
+  .conversation-sidebar{
+    border-right:0;
+    border-bottom:1px solid rgba(255,255,255,.07);
+  }
+
+  .conversation-list{
+    display:flex;
+    max-height:none;
+    overflow-x:auto;
+  }
+
+  .conversation{
+    min-width:245px;
+    border-bottom:0;
+    border-right:1px solid rgba(255,255,255,.045);
+  }
+
+  .conversation.active::before{
+    left:0;
+    right:0;
+    top:auto;
+    bottom:0;
+    width:auto;
+    height:3px;
+  }
+
+  .chat-body{
+    min-height:390px;
+  }
+
+  .bottom-grid{
+    grid-template-columns:1fr;
+  }
+
+  .footer-grid{
+    grid-template-columns:1fr 1fr;
+  }
+}
+
+@media(max-width:560px){
+
+  .container{
+    width:calc(100% - 22px);
+  }
+
+  .header-inner{
+    min-height:68px;
+  }
+
+  .brand-text span{
+    display:none;
+  }
+
+  .header-actions .icon-btn:not(.mobile-menu){
+    display:none;
+  }
+
+  .page-header-inner{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+
+  .page-header h1{
+    font-size:36px;
+  }
+
+  .sidebar-top{
+    padding:15px;
+  }
+
+  .conversation{
+    min-width:225px;
+    padding:13px;
+  }
+
+  .chat-header{
+    padding:13px;
+  }
+
+  .chat-actions .chat-action:nth-child(2){
+    display:none;
+  }
+
+  .property-context{
+    margin-left:13px;
+    margin-right:13px;
+  }
+
+  .chat-body{
+    padding:18px 13px;
+  }
+
+  .message-bubble{
+    max-width:84%;
+  }
+
+  .quick-replies{
+    padding-left:13px;
+    padding-right:13px;
+  }
+
+  .chat-composer{
+    padding-left:13px;
+    padding-right:13px;
+  }
+
+  .footer-grid{
+    grid-template-columns:1fr;
+  }
+
+  .footer-bottom{
+    flex-direction:column;
+  }
+
+  .ai-floating{
+    right:14px;
+    bottom:14px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="page-glow"></div>
+
+<!-- =========================================================
+     HEADER
+========================================================= -->
+
+<header class="site-header">
+
+  <div class="container header-inner">
+
+    <a
+      class="brand"
+      href="/buyer/index.html"
+      aria-label="GHAR Buyer Home"
+    >
+
+      <div class="brand-mark">G</div>
+
+      <div class="brand-text">
+        <strong>GHAR</strong>
+        <span>Buyer Experience</span>
+      </div>
+
+    </a>
+
+    <nav
+      class="desktop-nav"
+      aria-label="Buyer navigation"
+    >
+
+      <a href="/buyer/index.html">
+        Home
+      </a>
+
+      <a href="/properties.html">
+        Properties
+      </a>
+
+      <a href="/buyer/saved-properties.html">
+        Saved
+      </a>
+
+      <a href="/buyer/visits.html">
+        Visits
+      </a>
+
+      <a href="/buyer/offers.html">
+        Offers
+      </a>
+
+      <a href="/buyer/loans.html">
+        Loans
+      </a>
+
+      <a
+        class="active"
+        href="/buyer/messages.html"
+      >
+        Messages
+      </a>
+
+    </nav>
+
+    <div class="header-actions">
+
+      <button
+        class="icon-btn"
+        id="notificationButton"
+        type="button"
+        aria-label="Notifications"
+      >
+        ♢
+      </button>
+
+      <a
+        class="avatar"
+        id="profileButton"
+        href="/buyer/profile.html"
+        aria-label="Profile"
+      >
+        U
+      </a>
+
+      <button
+        class="icon-btn mobile-menu"
+        id="menuButton"
+        type="button"
+        aria-label="Open menu"
+      >
+        ☰
+      </button>
+
+    </div>
+
+  </div>
+
+</header>
+
+
+<main>
+
+<!-- =========================================================
+     PAGE HEADER
+========================================================= -->
+
+<section class="page-header">
+
+  <div class="container page-header-inner">
+
+    <div>
+
+      <div class="eyebrow">
+        SECURE BUYER COMMUNICATION
+      </div>
+
+      <h1>
+        Your <span>messages.</span>
+      </h1>
+
+      <p>
+        Communicate with sellers, property agents and GHAR
+        support while keeping your property conversations
+        organized in one secure place.
+      </p>
+
+    </div>
+
+    <button
+      class="btn btn-primary"
+      id="newMessageButton"
+      type="button"
+    >
+      + New message
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- =========================================================
+     MESSAGES
+========================================================= -->
+
+<section class="section">
+
+  <div class="container">
+
+    <div class="messages-shell">
+
+
+      <!-- ===================================================
+           CONVERSATIONS
+      ==================================================== -->
+
+      <aside class="conversation-sidebar">
+
+        <div class="sidebar-top">
+
+          <div class="sidebar-heading">
+
+            <h2>
+              Conversations
+            </h2>
+
+            <button
+              class="compose-btn"
+              id="composeButton"
+              type="button"
+              aria-label="Compose message"
+            >
+              +
+            </button>
+
+          </div>
+
+          <input
+            id="messageSearch"
+            class="message-search"
+            type="search"
+            placeholder="Search conversations..."
+            autocomplete="off"
+          >
+
+          <div class="filter-tabs">
+
+            <button
+              class="filter-tab active"
+              type="button"
+              data-filter="all"
+            >
+              All
+            </button>
+
+            <button
+              class="filter-tab"
+              type="button"
+              data-filter="unread"
+            >
+              Unread
+            </button>
+
+            <button
+              class="filter-tab"
+              type="button"
+              data-filter="support"
+            >
+              Support
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <div
+          id="conversationList"
+          class="conversation-list"
+        >
+
+          <!-- JS populated -->
+
+        </div>
+
+      </aside>
+
+
+      <!-- ===================================================
+           CHAT
+      ==================================================== -->
+
+      <section class="chat-panel">
+
+
+        <header class="chat-header">
+
+          <div class="chat-user">
+
+            <div
+              class="chat-avatar"
+              id="chatAvatar"
+            >
+              A
+            </div>
+
+            <div class="chat-user-info">
+
+              <strong id="chatName">
+                Property Advisor
+              </strong>
+
+              <span id="chatStatus" class="online">
+                Online · GHAR Property Advisor
+              </span>
+
+            </div>
+
+          </div>
+
+
+          <div class="chat-actions">
+
+            <button
+              class="chat-action"
+              id="callButton"
+              type="button"
+              aria-label="Call"
+            >
+              ☎
+            </button>
+
+            <button
+              class="chat-action"
+              id="propertyButton"
+              type="button"
+              aria-label="Open property"
+            >
+              ⌂
+            </button>
+
+            <button
+              class="chat-action"
+              id="chatMoreButton"
+              type="button"
+              aria-label="More options"
+            >
+              ⋯
+            </button>
+
+          </div>
+
+        </header>
+
+
+        <div
+          class="property-context"
+          id="propertyContext"
+        >
+
+          <div class="property-context-image">
+
+            <img
+              id="contextImage"
+              src="../assets/images/property-placeholder.jpg"
+              alt="Property"
+              onerror="this.src='../assets/images/property-placeholder.jpg'"
+            >
+
+          </div>
+
+          <div class="property-context-info">
+
+            <strong id="contextTitle">
+              Your property enquiry
+            </strong>
+
+            <span id="contextLocation">
+              Property conversation
+            </span>
+
+          </div>
+
+          <a
+            id="viewProperty"
+            class="view-property"
+            href="/property-details.html"
+          >
+            View →
+          </a>
+
+        </div>
+
+
+        <div
+          id="chatBody"
+          class="chat-body"
+        >
+
+          <!-- JS populated -->
+
+        </div>
+
+
+        <div
+          id="typingIndicator"
+          class="typing"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+
+
+        <div class="quick-replies">
+
+          <button
+            class="quick-reply"
+            type="button"
+            data-reply="Is the property still available?"
+          >
+            Is it available?
+          </button>
+
+          <button
+            class="quick-reply"
+            type="button"
+            data-reply="Can I schedule a property visit?"
+          >
+            Schedule visit
+          </button>
+
+          <button
+            class="quick-reply"
+            type="button"
+            data-reply="Can you share the latest property documents?"
+          >
+            Share documents
+          </button>
+
+          <button
+            class="quick-reply"
+            type="button"
+            data-reply="Can we discuss the property price?"
+          >
+            Discuss price
+          </button>
+
+        </div>
+
+
+        <form
+          id="messageForm"
+          class="chat-composer"
+        >
+
+          <div class="composer">
+
+            <div class="composer-tools">
+
+              <button
+                class="tool-btn"
+                id="attachmentButton"
+                type="button"
+                aria-label="Attach file"
+              >
+                ⊕
+              </button>
+
+            </div>
+
+            <textarea
+              id="messageInput"
+              class="message-input"
+              rows="1"
+              maxlength="2000"
+              placeholder="Write a message..."
+            ></textarea>
+
+            <button
+              class="send-btn"
+              type="submit"
+              aria-label="Send message"
+            >
+              →
+            </button>
+
+          </div>
+
+          <div class="composer-note">
+            Messages are protected by your GHAR account session.
+          </div>
+
+          <input
+            id="attachmentInput"
+            type="file"
+            hidden
+            multiple
+            accept=".pdf,.jpg,.jpeg,.png,.doc,.docx"
+          >
+
+        </form>
+
+      </section>
+
+    </div>
+
+
+    <!-- ===================================================
+         INFO CARDS
+    ==================================================== -->
+
+    <div class="bottom-grid">
+
+      <article class="info-card">
+
+        <div class="info-icon">
+          ✓
+        </div>
+
+        <h3>
+          Keep conversations organized
+        </h3>
+
+        <p>
+          Property enquiries, visits, offers and support
+          conversations remain connected to your GHAR account.
+        </p>
+
+        <a href="/buyer/activity.html">
+          View activity →
+        </a>
+
+      </article>
+
+
+      <article class="info-card">
+
+        <div class="info-icon">
+          ⌂
+        </div>
+
+        <h3>
+          Discuss a property
+        </h3>
+
+        <p>
+          Open a property listing and use its enquiry flow
+          to start a conversation with the relevant contact.
+        </p>
+
+        <a href="/properties.html">
+          Browse properties →
+        </a>
+
+      </article>
+
+
+      <article class="info-card">
+
+        <div class="info-icon">
+          ✦
+        </div>
+
+        <h3>
+          Need GHAR support?
+        </h3>
+
+        <p>
+          Contact the GHAR support team for account,
+          payment, document or transaction assistance.
+        </p>
+
+        <a href="/buyer/support.html">
+          Contact support →
+        </a>
+
+      </article>
+
+    </div>
+
+  </div>
+
+</section>
+
+</main>
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer class="site-footer">
+
+  <div class="container">
+
+    <div class="footer-grid">
+
+      <div class="footer-brand">
+
+        <div class="brand">
+
+          <div class="brand-mark">
+            G
+          </div>
+
+          <div class="brand-text">
+
+            <strong>
+              GHAR
+            </strong>
+
+            <span>
+              Real Estate Platform
+            </span>
+
+          </div>
+
+        </div>
+
+        <p>
+          A connected real estate platform for discovering,
+          evaluating, financing and managing property decisions.
+        </p>
+
+      </div>
+
+
+      <div class="footer-col">
+
+        <h4>
+          Discover
+        </h4>
+
+        <a href="/properties.html">
+          Properties
+        </a>
+
+        <a href="/property-search.html">
+          Property Search
+        </a>
+
+        <a href="/buyer/saved-properties.html">
+          Saved Properties
+        </a>
+
+        <a href="/buyer/visits.html">
+          Visits
+        </a>
+
+      </div>
+
+
+      <div class="footer-col">
+
+        <h4>
+          Buyer
+        </h4>
+
+        <a href="/buyer/profile.html">
+          Profile
+        </a>
+
+        <a href="/buyer/offers.html">
+          Offers
+        </a>
+
+        <a href="/buyer/loans.html">
+          Loans
+        </a>
+
+        <a href="/buyer/documents.html">
+          Documents
+        </a>
+
+      </div>
+
+
+      <div class="footer-col">
+
+        <h4>
+          Support
+        </h4>
+
+        <a href="/help-centre.html">
+          Help Centre
+        </a>
+
+        <a href="/contact.html">
+          Contact
+        </a>
+
+        <a href="/buyer/support.html">
+          Support
+        </a>
+
+        <a href="/privacy.html">
+          Privacy
+        </a>
+
+      </div>
+
+    </div>
+
+
+    <div class="footer-bottom">
+
+      <span>
+        © <span id="footerYear"></span> GHAR.
+        All rights reserved.
+      </span>
+
+      <span>
+        Buyer Portal · Secure Messages
+      </span>
+
+    </div>
+
+  </div>
+
+</footer>
+
+
+<!-- =========================================================
+     AI
+========================================================= -->
+
+<button
+  id="openAI"
+  class="ai-floating"
+  type="button"
+>
+  ✦ Ask GHAR AI
+</button>
+
+
+<div
+  id="toast"
+  class="toast"
+  role="status"
+  aria-live="polite"
+></div>
+
+
+<script>
+"use strict";
+
+/* =========================================================
+   GHAR BUYER MESSAGES
+========================================================= */
+
+const API_BASE =
+  window.GHAR_API_BASE ||
+  window.API_BASE ||
+  "/api";
+
+const MESSAGE_API =
+  API_BASE + "/messages";
+
+const AI_API =
+  API_BASE + "/ai";
+
+let conversations = [];
+let activeConversation = null;
+let currentFilter = "all";
+
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function $(selector){
+  return document.querySelector(selector);
+}
+
+function escapeHTML(value){
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+}
+
+function formatTime(value){
+
+  if(!value){
+    return "";
+  }
+
+  const date = new Date(value);
+
+  if(Number.isNaN(date.getTime())){
+    return "";
+  }
+
+  return date.toLocaleTimeString(
+    "en-IN",
+    {
+      hour:"numeric",
+      minute:"2-digit"
+    }
+  );
+}
+
+function showToast(message){
+
+  const toast = $("#toast");
+
+  if(!toast){
+    return;
+  }
+
+  toast.textContent = message;
+  toast.classList.add("show");
+
+  clearTimeout(
+    showToast.timer
+  );
+
+  showToast.timer =
+    setTimeout(
+      () => toast.classList.remove("show"),
+      2600
+    );
+}
+
+
+/* =========================================================
+   API
+========================================================= */
+
+async function apiRequest(
+  url,
+  options = {}
+){
+
+  const response =
+    await fetch(
+      url,
+      {
+        credentials:"include",
+
+        headers:{
+          "Accept":"application/json",
+          "Content-Type":"application/json",
+          ...(options.headers || {})
+        },
+
+        ...options
+      }
+    );
+
+  let data = null;
+
+  try{
+    data = await response.json();
+  }catch(error){
+    data = null;
+  }
+
+  if(!response.ok){
+
+    const message =
+      data?.error?.message ||
+      data?.message ||
+      "Request failed.";
+
+    const error =
+      new Error(message);
+
+    error.status =
+      response.status;
+
+    error.data =
+      data;
+
+    throw error;
+  }
+
+  return data;
+}
+
+
+/* =========================================================
+   NORMALIZE
+========================================================= */
+
+function normalizeCollection(response){
+
+  if(Array.isArray(response)){
+    return response;
+  }
+
+  if(Array.isArray(response?.data)){
+    return response.data;
+  }
+
+  if(Array.isArray(response?.items)){
+    return response.items;
+  }
+
+  if(Array.isArray(response?.messages)){
+    return response.messages;
+  }
+
+  if(Array.isArray(response?.conversations)){
+    return response.conversations;
+  }
+
+  if(Array.isArray(response?.results)){
+    return response.results;
+  }
+
+  return [];
+}
+
+
+/* =========================================================
+   DEMO FALLBACK DATA
+========================================================= */
+
+function fallbackConversations(){
+
+  return [
+
+    {
+      id:"demo-advisor",
+      name:"Property Advisor",
+      initials:"PA",
+      role:"GHAR Property Advisor",
+      status:"Online · GHAR Property Advisor",
+      online:true,
+      propertyId:"",
+      propertyTitle:"Your property enquiry",
+      propertyLocation:"Property conversation",
+      preview:"Hello! How can we help with your property search?",
+      unread:1,
+      updatedAt:new Date().toISOString(),
+
+      messages:[
+        {
+          id:"m1",
+          sender:"other",
+          text:"Hello! Welcome to GHAR. How can we help with your property search?",
+          createdAt:new Date(Date.now()-3600000).toISOString()
+        },
+        {
+          id:"m2",
+          sender:"mine",
+          text:"I am looking for a property and would like help with the options available.",
+          createdAt:new Date(Date.now()-3300000).toISOString(),
+          read:true
+        },
+        {
+          id:"m3",
+          sender:"other",
+          text:"Absolutely. You can share your preferred location, budget and property configuration, and we can guide you through the available options.",
+          createdAt:new Date(Date.now()-3000000).toISOString()
+        }
+      ]
+    },
+
+    {
+      id:"demo-seller",
+      name:"Property Seller",
+      initials:"PS",
+      role:"Seller · GHAR Property",
+      status:"Active conversation",
+      online:false,
+      propertyId:"",
+      propertyTitle:"Premium 3 BHK Apartment",
+      propertyLocation:"Noida, Uttar Pradesh",
+      preview:"The property is available for a scheduled visit.",
+      unread:0,
+      updatedAt:new Date(Date.now()-86400000).toISOString(),
+
+      messages:[
+        {
+          id:"m4",
+          sender:"other",
+          text:"The property is currently available for a scheduled visit.",
+          createdAt:new Date(Date.now()-86400000).toISOString()
+        }
+      ]
+    },
+
+    {
+      id:"demo-support",
+      name:"GHAR Support",
+      initials:"GS",
+      role:"GHAR Customer Support",
+      status:"Support team",
+      online:true,
+      propertyId:"",
+      propertyTitle:"GHAR Support",
+      propertyLocation:"Account & transaction assistance",
+      preview:"How can we assist you today?",
+      unread:0,
+      updatedAt:new Date(Date.now()-172800000).toISOString(),
+
+      messages:[
+        {
+          id:"m5",
+          sender:"other",
+          text:"How can we assist you today?",
+          createdAt:new Date(Date.now()-172800000).toISOString()
+        }
+      ]
+    }
+
+  ];
+}
+
+
+/* =========================================================
+   NORMALIZE SERVER CONVERSATIONS
+========================================================= */
+
+function normalizeConversation(item){
+
+  const messages =
+    normalizeCollection(
+      item.messages
+    );
+
+  return {
+
+    id:
+      item.id ||
+      item.conversationId ||
+      item._id,
+
+    name:
+      item.name ||
+      item.contact?.name ||
+      item.participant?.name ||
+      "GHAR Contact",
+
+    initials:
+      (
+        item.initials ||
+        item.contact?.initials ||
+        item.name ||
+        "G"
+      )
+      .trim()
+      .split(/\s+/)
+      .slice(0,2)
+      .map(x => x.charAt(0))
+      .join("")
+      .toUpperCase(),
+
+    role:
+      item.role ||
+      item.contact?.role ||
+      "GHAR Contact",
+
+    status:
+      item.statusText ||
+      item.status ||
+      "Available",
+
+    online:
+      Boolean(
+        item.online ||
+        item.contact?.online
+      ),
+
+    propertyId:
+      item.propertyId ||
+      item.property?.id ||
+      "",
+
+    propertyTitle:
+      item.propertyTitle ||
+      item.property?.title ||
+      "Property conversation",
+
+    propertyLocation:
+      item.propertyLocation ||
+      item.property?.location ||
+      "Property conversation",
+
+    propertyImage:
+      item.propertyImage ||
+      item.property?.image ||
+      "../assets/images/property-placeholder.jpg",
+
+    preview:
+      item.preview ||
+      item.lastMessage?.text ||
+      messages.at(-1)?.text ||
+      "No messages yet.",
+
+    unread:
+      Number(
+        item.unreadCount ||
+        item.unread ||
+        0
+      ),
+
+    updatedAt:
+      item.updatedAt ||
+      item.lastMessage?.createdAt ||
+      new Date().toISOString(),
+
+    messages:
+      messages.map(
+        normalizeMessage
+      )
+
+  };
+}
+
+function normalizeMessage(message){
+
+  return {
+
+    id:
+      message.id ||
+      message.messageId ||
+      message._id ||
+      crypto.randomUUID(),
+
+    sender:
+      message.sender ||
+      (
+        message.isMine
+          ? "mine"
+          : "other"
+      ),
+
+    text:
+      message.text ||
+      message.message ||
+      "",
+
+    createdAt:
+      message.createdAt ||
+      message.sentAt ||
+      new Date().toISOString(),
+
+    read:
+      Boolean(
+        message.read ||
+        message.isRead
+      )
+
+  };
+}
+
+
+/* =========================================================
+   LOAD CONVERSATIONS
+========================================================= */
+
+async function loadConversations(){
+
+  try{
+
+    const response =
+      await apiRequest(
+        MESSAGE_API +
+        "/conversations"
+      );
+
+    const data =
+      normalizeCollection(
+        response
+      );
+
+    if(data.length){
+
+      conversations =
+        data.map(
+          normalizeConversation
+        );
+
+    }else{
+
+      conversations =
+        fallbackConversations();
+
+    }
+
+  }catch(error){
+
+    console.warn(
+      "GHAR messages API unavailable:",
+      error
+    );
+
+    conversations =
+      fallbackConversations();
+
+  }
+
+}
+
+
+/* =========================================================
+   RENDER CONVERSATIONS
+========================================================= */
+
+function filteredConversations(){
+
+  const search =
+    ($("#messageSearch")?.value || "")
+      .trim()
+      .toLowerCase();
+
+  return conversations.filter(
+    conversation => {
+
+      const matchesSearch =
+        !search ||
+        conversation.name.toLowerCase().includes(search) ||
+        conversation.preview.toLowerCase().includes(search) ||
+        conversation.propertyTitle.toLowerCase().includes(search);
+
+      if(!matchesSearch){
+        return false;
+      }
+
+      if(currentFilter === "unread"){
+        return conversation.unread > 0;
+      }
+
+      if(currentFilter === "support"){
+        return (
+          conversation.role
+            .toLowerCase()
+            .includes("support")
+        );
+      }
+
+      return true;
+    }
+  );
+}
+
+
+function renderConversations(){
+
+  const list =
+    $("#conversationList");
+
+  if(!list){
+    return;
+  }
+
+  const items =
+    filteredConversations();
+
+  if(!items.length){
+
+    list.innerHTML = `
+
+      <div style="
+        padding:30px 20px;
+        color:rgba(255,255,255,.45);
+        text-align:center;
+        font-size:9px;
+      ">
+        No conversations found.
+      </div>
+
+    `;
+
+    return;
+  }
+
+  list.innerHTML =
+    items.map(
+      conversation => {
+
+        const active =
+          activeConversation?.id ===
+          conversation.id;
+
+        return `
+
+          <article
+            class="conversation ${active ? "active" : ""}"
+            data-conversation-id="${escapeHTML(conversation.id)}"
+          >
+
+            <div class="conversation-avatar ${
+              conversation.role
+                .toLowerCase()
+                .includes("support")
+                ? "agent"
+                : ""
+            }">
+              ${escapeHTML(conversation.initials)}
+            </div>
+
+            <div class="conversation-body">
+
+              <div class="conversation-top">
+
+                <span class="conversation-name">
+                  ${escapeHTML(conversation.name)}
+                </span>
+
+                <span class="conversation-time">
+                  ${escapeHTML(
+                    formatTime(
+                      conversation.updatedAt
+                    )
+                  )}
+                </span>
+
+              </div>
+
+              <div class="conversation-property">
+                ${escapeHTML(
+                  conversation.propertyTitle
+                )}
+              </div>
+
+              <div class="conversation-preview">
+                ${escapeHTML(
+                  conversation.preview
+                )}
+              </div>
+
+            </div>
+
+            ${
+              conversation.unread > 0
+                ? `
+                  <span class="unread">
+                    ${conversation.unread > 9 ? "9+" : conversation.unread}
+                  </span>
+                `
+                : ""
+            }
+
+          </article>
+
+        `;
+
+      }
+    )
+    .join("");
+
+}
+
+
+/* =========================================================
+   OPEN CONVERSATION
+========================================================= */
+
+function openConversation(id){
+
+  const conversation =
+    conversations.find(
+      item => String(item.id) === String(id)
+    );
+
+  if(!conversation){
+    return;
+  }
+
+  activeConversation =
+    conversation;
+
+  activeConversation.unread = 0;
+
+  renderConversations();
+  renderChat();
+
+  markConversationRead(
+    conversation.id
+  );
+}
+
+
+/* =========================================================
+   RENDER CHAT
+========================================================= */
+
+function renderChat(){
+
+  if(!activeConversation){
+    return;
+  }
+
+  $("#chatAvatar").textContent =
+    activeConversation.initials;
+
+  $("#chatName").textContent =
+    activeConversation.name;
+
+  $("#chatStatus").textContent =
+    activeConversation.status;
+
+  $("#chatStatus").classList.toggle(
+    "online",
+    activeConversation.online
+  );
+
+  $("#contextTitle").textContent =
+    activeConversation.propertyTitle;
+
+  $("#contextLocation").textContent =
+    activeConversation.propertyLocation;
+
+  $("#contextImage").src =
+    activeConversation.propertyImage ||
+    "../assets/images/property-placeholder.jpg";
+
+  $("#viewProperty").href =
+    activeConversation.propertyId
+      ? "/property-details.html?id=" +
+        encodeURIComponent(
+          activeConversation.propertyId
+        )
+      : "/properties.html";
+
+
+  const body =
+    $("#chatBody");
+
+  const messages =
+    activeConversation.messages || [];
+
+  if(!messages.length){
+
+    body.innerHTML = `
+
+      <div style="
+        display:grid;
+        place-items:center;
+        min-height:300px;
+        color:rgba(255,255,255,.45);
+        font-size:9px;
+        text-align:center;
+      ">
+        <div>
+          <strong style="
+            display:block;
+            color:#fffaf0;
+            font-size:13px;
+          ">
+            Start the conversation
+          </strong>
+
+          <span style="
+            display:block;
+            margin-top:6px;
+          ">
+            Send your first message below.
+          </span>
+        </div>
+      </div>
+
+    `;
+
+    return;
+  }
+
+
+  body.innerHTML = `
+
+    <div class="date-divider">
+      Conversation
+    </div>
+
+    ${
+      messages.map(
+        message => {
+
+          const mine =
+            message.sender === "mine" ||
+            message.sender === "buyer" ||
+            message.sender === "user";
+
+          return `
+
+            <div class="message-row ${
+              mine ? "mine" : ""
+            }">
+
+              <div class="message-bubble">
+
+                <p>
+                  ${escapeHTML(message.text)}
+                </p>
+
+                <div class="message-meta">
+
+                  <span>
+                    ${escapeHTML(
+                      formatTime(
+                        message.createdAt
+                      )
+                    )}
+                  </span>
+
+                  ${
+                    mine
+                      ? `
+                        <span class="message-read">
+                          ${message.read ? "✓✓" : "✓"}
+                        </span>
+                      `
+                      : ""
+                  }
+
+                </div>
+
+              </div>
+
+            </div>
+
+          `;
+
+        }
+      ).join("")
+    }
+
+  `;
+
+  requestAnimationFrame(
+    () => {
+      body.scrollTop =
+        body.scrollHeight;
+    }
+  );
+
+}
+
+
+/* =========================================================
+   MARK READ
+========================================================= */
+
+async function markConversationRead(
+  conversationId
+){
+
+  try{
+
+    await apiRequest(
+      MESSAGE_API +
+      "/conversations/" +
+      encodeURIComponent(
+        conversationId
+      ) +
+      "/read",
+      {
+        method:"POST"
+      }
+    );
+
+  }catch(error){
+
+    /*
+     * Local state has already been updated.
+     * The request remains optional until the
+     * corresponding server endpoint is enabled.
+     */
+
+    console.debug(
+      "Read status endpoint:",
+      error.message
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   SEND MESSAGE
+========================================================= */
+
+async function sendMessage(text){
+
+  if(!activeConversation){
+    showToast(
+      "Select a conversation first."
+    );
+    return;
+  }
+
+  const message =
+    text.trim();
+
+  if(!message){
+    return;
+  }
+
+
+  const optimistic = {
+
+    id:
+      "local-" +
+      Date.now(),
+
+    sender:"mine",
+
+    text:message,
+
+    createdAt:
+      new Date().toISOString(),
+
+    read:false
+
+  };
+
+
+  activeConversation.messages =
+    activeConversation.messages || [];
+
+  activeConversation.messages.push(
+    optimistic
+  );
+
+  activeConversation.preview =
+    message;
+
+  activeConversation.updatedAt =
+    optimistic.createdAt;
+
+  renderChat();
+  renderConversations();
+
+
+  try{
+
+    const response =
+      await apiRequest(
+        MESSAGE_API,
+        {
+          method:"POST",
+
+          body:
+            JSON.stringify({
+              conversationId:
+                activeConversation.id,
+
+              recipientId:
+                activeConversation.recipientId ||
+                null,
+
+              propertyId:
+                activeConversation.propertyId ||
+                null,
+
+              message
+            })
+        }
+      );
+
+
+    const serverMessage =
+      response?.data ||
+      response?.message ||
+      response;
+
+
+    if(
+      serverMessage &&
+      typeof serverMessage === "object" &&
+      (
+        serverMessage.id ||
+        serverMessage.messageId ||
+        serverMessage._id
+      )
+    ){
+
+      const index =
+        activeConversation.messages
+          .findIndex(
+            item =>
+              item.id === optimistic.id
+          );
+
+      if(index !== -1){
+
+        activeConversation.messages[index] =
+          normalizeMessage(
+            serverMessage
+          );
+
+      }
+
+      renderChat();
+
+    }
+
+  }catch(error){
+
+    console.warn(
+      "GHAR send message:",
+      error
+    );
+
+    showToast(
+      "Message saved locally. Server connection is not available yet."
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   COMPOSER
+========================================================= */
+
+$("#messageForm")
+  ?.addEventListener(
+    "submit",
+    event => {
+
+      event.preventDefault();
+
+      const input =
+        $("#messageInput");
+
+      const text =
+        input.value.trim();
+
+      if(!text){
+        return;
+      }
+
+      input.value = "";
+      input.style.height = "auto";
+
+      sendMessage(text);
+
+    }
+  );
+
+
+$("#messageInput")
+  ?.addEventListener(
+    "input",
+    event => {
+
+      const input =
+        event.target;
+
+      input.style.height =
+        "auto";
+
+      input.style.height =
+        Math.min(
+          input.scrollHeight,
+          100
+        ) +
+        "px";
+
+    }
+  );
+
+
+/* =========================================================
+   QUICK REPLIES
+========================================================= */
+
+document
+  .querySelectorAll(
+    "[data-reply]"
+  )
+  .forEach(
+    button => {
+
+      button.addEventListener(
+        "click",
+        () => {
+
+          $("#messageInput").value =
+            button.dataset.reply;
+
+          $("#messageInput").focus();
+
+        }
+      );
+
+    }
+  );
+
+
+/* =========================================================
+   CONVERSATION EVENTS
+========================================================= */
+
+$("#conversationList")
+  ?.addEventListener(
+    "click",
+    event => {
+
+      const conversation =
+        event.target.closest(
+          "[data-conversation-id]"
+        );
+
+      if(!conversation){
+        return;
+      }
+
+      openConversation(
+        conversation.dataset.conversationId
+      );
+
+    }
+  );
+
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+$("#messageSearch")
+  ?.addEventListener(
+    "input",
+    renderConversations
+  );
+
+
+document
+  .querySelectorAll(
+    "[data-filter]"
+  )
+  .forEach(
+    button => {
+
+      button.addEventListener(
+        "click",
+        () => {
+
+          currentFilter =
+            button.dataset.filter;
+
+          document
+            .querySelectorAll(
+              "[data-filter]"
+            )
+            .forEach(
+              item =>
+                item.classList.toggle(
+                  "active",
+                  item === button
+                )
+            );
+
+          renderConversations();
+
+        }
+      );
+
+    }
+  );
+
+
+/* =========================================================
+   NEW MESSAGE
+========================================================= */
+
+function startNewConversation(){
+
+  const conversation = {
+
+    id:
+      "local-" +
+      Date.now(),
+
+    name:"New conversation",
+
+    initials:"GH",
+
+    role:"GHAR Contact",
+
+    status:"Ready to receive your message",
+
+    online:true,
+
+    propertyId:"",
+
+    propertyTitle:"New property conversation",
+
+    propertyLocation:"GHAR",
+
+    propertyImage:
+      "../assets/images/property-placeholder.jpg",
+
+    preview:"No messages yet.",
+
+    unread:0,
+
+    updatedAt:
+      new Date().toISOString(),
+
+    messages:[]
+
+  };
+
+
+  conversations.unshift(
+    conversation
+  );
+
+  openConversation(
+    conversation.id
+  );
+
+  $("#messageInput").focus();
+
+}
+
+
+$("#composeButton")
+  ?.addEventListener(
+    "click",
+    startNewConversation
+  );
+
+$("#newMessageButton")
+  ?.addEventListener(
+    "click",
+    startNewConversation
+  );
+
+
+/* =========================================================
+   ATTACHMENTS
+========================================================= */
+
+$("#attachmentButton")
+  ?.addEventListener(
+    "click",
+    () => {
+
+      $("#attachmentInput").click();
+
+    }
+  );
+
+
+$("#attachmentInput")
+  ?.addEventListener(
+    "change",
+    event => {
+
+      const files =
+        Array.from(
+          event.target.files || []
+        );
+
+      if(!files.length){
+        return;
+      }
+
+      showToast(
+        files.length +
+        " attachment" +
+        (files.length > 1 ? "s" : "") +
+        " selected."
+      );
+
+    }
+  );
+
+
+/* =========================================================
+   CHAT ACTIONS
+========================================================= */
+
+$("#propertyButton")
+  ?.addEventListener(
+    "click",
+    () => {
+
+      if(!activeConversation){
+        return;
+      }
+
+      window.location.href =
+        activeConversation.propertyId
+          ? "/property-details.html?id=" +
+            encodeURIComponent(
+              activeConversation.propertyId
+            )
+          : "/properties.html";
+
+    }
+  );
+
+
+$("#callButton")
+  ?.addEventListener(
+    "click",
+    () => {
+
+      showToast(
+        "Calling is available when a verified contact number is connected."
+      );
+
+    }
+  );
+
+
+$("#chatMoreButton")
+  ?.addEventListener(
+    "click",
+    () => {
+
+      showToast(
+        "Conversation options will appear here."
+      );
+
+    }
+  );
+
+
+/* =========================================================
+   NOTIFICATION / PROFILE
+========================================================= */
+
+$("#notificationButton")
+  ?.addEventListener(
+    "click",
+    () => {
+
+      window.location.href =
+        "/buyer/notifications.html";
+
+    }
+  );
+
+
+/* =========================================================
+   MOBILE MENU
+========================================================= */
+
+$("#menuButton")
+  ?.addEventListener(
+    "click",
+    () => {
+
+      const nav =
+        document.querySelector(
+          ".desktop-nav"
+        );
+
+      if(!nav){
+        return;
+      }
+
+      const visible =
+        nav.dataset.mobileOpen ===
+        "true";
+
+      if(visible){
+
+        nav.style.display = "";
+        nav.dataset.mobileOpen = "false";
+
+        return;
+
+      }
+
+      nav.dataset.mobileOpen = "true";
+      nav.style.display = "flex";
+      nav.style.position = "absolute";
+      nav.style.left = "11px";
+      nav.style.right = "11px";
+      nav.style.top = "66px";
+      nav.style.padding = "10px";
+      nav.style.flexDirection = "column";
+      nav.style.alignItems = "stretch";
+      nav.style.border =
+        "1px solid rgba(229,199,125,.14)";
+      nav.style.borderRadius = "16px";
+      nav.style.background = "#0b1c14";
+      nav.style.boxShadow =
+        "0 25px 60px rgba(0,0,0,.35)";
+
+    }
+  );
+
+
+/* =========================================================
+   AI
+========================================================= */
+
+$("#openAI")
+  ?.addEventListener(
+    "click",
+    () => {
+
+      window.location.href =
+        "/buyer/ai.html";
+
+    }
+  );
+
+
+/* =========================================================
+   INITIALIZATION
+========================================================= */
+
+async function initializeMessages(){
+
+  $("#footerYear").textContent =
+    new Date().getFullYear();
+
+
+  await loadConversations();
+
+
+  if(conversations.length){
+
+    activeConversation =
+      conversations[0];
+
+  }
+
+
+  renderConversations();
+  renderChat();
+
+
+  /*
+   * Keep the buyer identity consistent with
+   * the rest of the GHAR account system.
+   */
+
+  try{
+
+    const user =
+      await apiRequest(
+        API_BASE +
+        "/users/me"
+      );
+
+    const name =
+      user?.name ||
+      user?.fullName ||
+      user?.email ||
+      "U";
+
+    $("#profileButton").textContent =
+      name
+        .trim()
+        .charAt(0)
+        .toUpperCase();
+
+  }catch(error){
+
+    /*
+     * The page remains usable if authentication
+     * data is temporarily unavailable.
+     */
+
+    console.debug(
+      "GHAR profile:",
+      error.message
+    );
+
+  }
+
+}
+
+
+if(
+  document.readyState === "loading"
+){
+
+  document.addEventListener(
+    "DOMContentLoaded",
+    initializeMessages
+  );
+
+}else{
+
+  initializeMessages();
+
+}
+</script>
+
+</body>
+</html>

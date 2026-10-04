@@ -1,0 +1,2794 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+  <meta name="theme-color" content="#f4ead9">
+  <meta name="description"
+        content="GHAR AI Investment Advisor -- explore property investment scenarios, rental potential, risks and estimated returns.">
+
+  <title>AI Investment Advisor -- GHAR</title>
+
+  <!-- LOGO -->
+  <link rel="icon" type="image/png" href="assets/images/logo/ghar-logo.jpg">
+
+  <!-- GLOBAL CSS -->
+  <link rel="stylesheet" href="assets/css/variables.css">
+  <link rel="stylesheet" href="assets/css/reset.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/layout.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <link rel="stylesheet" href="assets/css/navigation.css">
+  <link rel="stylesheet" href="assets/css/cards.css">
+  <link rel="stylesheet" href="assets/css/forms.css">
+  <link rel="stylesheet" href="assets/css/property.css">
+  <link rel="stylesheet" href="assets/css/animations.css">
+  <link rel="stylesheet" href="assets/css/responsive.css">
+  <link rel="stylesheet" href="assets/css/utilities.css">
+
+  <style>
+
+    :root{
+      --ivory:#f8f1e5;
+      --pearl:#fffaf2;
+      --sand:#eadbc4;
+      --champagne:#d9bd83;
+      --gold:#b18a48;
+      --gold2:#e7d09b;
+      --emerald:#163a2e;
+      --emerald2:#245442;
+      --deep:#10291f;
+      --ink:#17251f;
+      --muted:#737d76;
+      --line:rgba(23,58,46,.12);
+      --shadow:0 30px 80px rgba(30,49,40,.12);
+      --radius:28px;
+    }
+
+    *{
+      box-sizing:border-box;
+    }
+
+    html{
+      scroll-behavior:smooth;
+    }
+
+    body{
+      margin:0;
+      background:var(--ivory);
+      color:var(--ink);
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,
+        BlinkMacSystemFont,"Segoe UI",sans-serif;
+      line-height:1.55;
+      overflow-x:hidden;
+    }
+
+    a{
+      text-decoration:none;
+      color:inherit;
+    }
+
+    img{
+      display:block;
+      max-width:100%;
+    }
+
+    button,
+    input,
+    select,
+    textarea{
+      font:inherit;
+    }
+
+    /* =========================================================
+       TOP BAR
+    ========================================================= */
+
+    .topbar{
+      background:var(--emerald);
+      color:var(--ivory);
+      text-align:center;
+      font-size:11px;
+      letter-spacing:.1em;
+      padding:8px 16px;
+    }
+
+    .topbar b{
+      color:var(--gold2);
+    }
+
+    /* =========================================================
+       HEADER
+    ========================================================= */
+
+    .header{
+      position:sticky;
+      top:0;
+      z-index:1000;
+      padding:12px 3.5vw;
+      background:rgba(248,241,229,.92);
+      backdrop-filter:blur(18px);
+      border-bottom:1px solid var(--line);
+    }
+
+    .nav{
+      max-width:1380px;
+      margin:auto;
+      display:flex;
+      align-items:center;
+      gap:26px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:11px;
+      font-weight:900;
+      letter-spacing:.2em;
+      color:var(--emerald);
+    }
+
+    .brand img{
+      width:42px;
+      height:42px;
+      object-fit:contain;
+    }
+
+    .links{
+      display:flex;
+      gap:5px;
+      margin-left:auto;
+    }
+
+    .links a{
+      font-size:13px;
+      font-weight:700;
+      padding:10px 13px;
+      border-radius:999px;
+    }
+
+    .links a:hover{
+      background:#eee3d2;
+    }
+
+    .nav-actions{
+      display:flex;
+      gap:8px;
+      align-items:center;
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-height:44px;
+      padding:0 17px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      font-size:12px;
+      font-weight:800;
+    }
+
+    .pill.gold{
+      background:var(--emerald);
+      border-color:var(--emerald);
+      color:#fff;
+    }
+
+    .menu{
+      display:none;
+      border:0;
+      background:none;
+      font-size:24px;
+      color:var(--emerald);
+      cursor:pointer;
+    }
+
+    /* =========================================================
+       HERO
+    ========================================================= */
+
+    .hero{
+      position:relative;
+      min-height:650px;
+      display:flex;
+      align-items:center;
+      overflow:hidden;
+
+      background:
+        linear-gradient(
+          105deg,
+          rgba(17,48,38,.94),
+          rgba(17,48,38,.68) 48%,
+          rgba(17,48,38,.22)
+        ),
+        url("assets/images/banners/ghar-hero-evening.webp")
+        center/cover no-repeat;
+    }
+
+    .hero:after{
+      content:"";
+      position:absolute;
+      inset:auto 0 0;
+      height:130px;
+      background:linear-gradient(
+        transparent,
+        var(--ivory)
+      );
+      pointer-events:none;
+    }
+
+    .hero-inner{
+      position:relative;
+      z-index:2;
+      width:min(1320px,90vw);
+      margin:auto;
+      padding:90px 0 120px;
+
+      display:grid;
+      grid-template-columns:1.15fr .85fr;
+      gap:70px;
+      align-items:center;
+    }
+
+    .eyebrow{
+      display:inline-flex;
+      align-items:center;
+      gap:9px;
+      color:var(--gold2);
+      font-size:10px;
+      font-weight:900;
+      letter-spacing:.22em;
+      text-transform:uppercase;
+    }
+
+    .eyebrow:before{
+      content:"";
+      width:30px;
+      height:1px;
+      background:var(--gold2);
+    }
+
+    h1{
+      font:500 clamp(55px,7vw,96px)/.92 Georgia,serif;
+      letter-spacing:-.06em;
+      color:#fff;
+      margin:20px 0 25px;
+      max-width:800px;
+    }
+
+    h1 em{
+      font-style:normal;
+      color:#e8d19c;
+    }
+
+    .hero-copy{
+      max-width:650px;
+      color:rgba(255,255,255,.76);
+      font-size:15px;
+      line-height:1.8;
+    }
+
+    .actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:28px;
+    }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-height:52px;
+      padding:0 22px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.25);
+      font-size:12px;
+      font-weight:850;
+      transition:.25s;
+      cursor:pointer;
+    }
+
+    .btn:hover{
+      transform:translateY(-2px);
+    }
+
+    .btn.gold{
+      background:var(--champagne);
+      color:#14251e;
+      border-color:var(--champagne);
+    }
+
+    .btn.light{
+      color:#fff;
+      background:rgba(255,255,255,.08);
+      backdrop-filter:blur(12px);
+    }
+
+    /* =========================================================
+       HERO INVESTMENT CARD
+    ========================================================= */
+
+    .investment-card{
+      max-width:440px;
+      margin-left:auto;
+      padding:30px;
+
+      border:1px solid rgba(255,255,255,.22);
+      border-radius:30px;
+
+      background:rgba(255,250,242,.11);
+      backdrop-filter:blur(20px);
+
+      color:#fff;
+      box-shadow:0 25px 70px rgba(0,0,0,.16);
+    }
+
+    .investment-card small{
+      color:var(--gold2);
+      font-weight:900;
+      text-transform:uppercase;
+      letter-spacing:.16em;
+    }
+
+    .investment-card h2{
+      font:500 34px/1.08 Georgia,serif;
+      margin:12px 0;
+    }
+
+    .investment-card p{
+      color:rgba(255,255,255,.67);
+      font-size:12px;
+      line-height:1.8;
+    }
+
+    .mini-stats{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:8px;
+      margin-top:20px;
+    }
+
+    .mini-stat{
+      padding:15px;
+      border-radius:16px;
+      background:rgba(255,255,255,.07);
+      border:1px solid rgba(255,255,255,.1);
+    }
+
+    .mini-stat span{
+      display:block;
+      color:rgba(255,255,255,.5);
+      font-size:9px;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+    }
+
+    .mini-stat strong{
+      display:block;
+      margin-top:5px;
+      color:var(--gold2);
+      font-size:17px;
+    }
+
+    /* =========================================================
+       MAIN TOOL
+    ========================================================= */
+
+    .tool-section{
+      padding:100px 4.5vw;
+    }
+
+    .container{
+      max-width:1280px;
+      margin:auto;
+    }
+
+    .section-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:end;
+      gap:30px;
+      margin-bottom:38px;
+    }
+
+    .kicker{
+      font-size:10px;
+      font-weight:900;
+      text-transform:uppercase;
+      letter-spacing:.2em;
+      color:var(--gold);
+    }
+
+    .section-head h2{
+      font:500 clamp(38px,5vw,65px)/.98 Georgia,serif;
+      letter-spacing:-.045em;
+      color:var(--emerald);
+      margin:12px 0 0;
+    }
+
+    .section-head p{
+      max-width:500px;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.8;
+      margin:0;
+    }
+
+    /* =========================================================
+       ADVISOR GRID
+    ========================================================= */
+
+    .advisor-grid{
+      display:grid;
+      grid-template-columns:1.1fr .9fr;
+      gap:20px;
+      align-items:start;
+    }
+
+    .advisor-form{
+      background:var(--pearl);
+      border:1px solid rgba(177,138,72,.2);
+      border-radius:30px;
+      padding:30px;
+      box-shadow:var(--shadow);
+    }
+
+    .form-title{
+      font:500 31px Georgia,serif;
+      color:var(--emerald);
+      margin:0 0 8px;
+    }
+
+    .form-description{
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.7;
+      margin:0 0 25px;
+    }
+
+    .form-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:13px;
+    }
+
+    .form-field{
+      background:#f2e8d8;
+      border-radius:17px;
+      padding:12px 15px;
+      min-height:68px;
+    }
+
+    .form-field.full{
+      grid-column:1/-1;
+    }
+
+    .form-field label{
+      display:block;
+      color:#7a817c;
+      font-size:9px;
+      text-transform:uppercase;
+      letter-spacing:.15em;
+      font-weight:900;
+      margin-bottom:4px;
+    }
+
+    .form-field input,
+    .form-field select{
+      width:100%;
+      border:0;
+      outline:0;
+      background:transparent;
+      color:var(--ink);
+      font-size:13px;
+      font-weight:750;
+    }
+
+    .range-wrap{
+      padding:12px 15px 15px;
+      background:#f2e8d8;
+      border-radius:17px;
+    }
+
+    .range-top{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:8px;
+    }
+
+    .range-top label{
+      color:#7a817c;
+      font-size:9px;
+      text-transform:uppercase;
+      letter-spacing:.15em;
+      font-weight:900;
+    }
+
+    .range-value{
+      color:var(--emerald);
+      font-size:12px;
+      font-weight:900;
+    }
+
+    input[type="range"]{
+      width:100%;
+      accent-color:var(--emerald);
+    }
+
+    .advisor-submit{
+      width:100%;
+      margin-top:15px;
+      min-height:56px;
+      border:0;
+      border-radius:17px;
+      background:var(--emerald);
+      color:#fff;
+      font-weight:900;
+      cursor:pointer;
+    }
+
+    /* =========================================================
+       RESULT PANEL
+    ========================================================= */
+
+    .result-panel{
+      background:var(--emerald);
+      border-radius:30px;
+      padding:30px;
+      color:#fff;
+      min-height:100%;
+      position:relative;
+      overflow:hidden;
+      box-shadow:var(--shadow);
+    }
+
+    .result-panel:after{
+      content:"✦";
+      position:absolute;
+      right:20px;
+      top:-20px;
+      font-size:150px;
+      color:rgba(231,208,155,.08);
+      pointer-events:none;
+    }
+
+    .result-label{
+      color:var(--gold2);
+      font-size:9px;
+      text-transform:uppercase;
+      letter-spacing:.18em;
+      font-weight:900;
+    }
+
+    .result-panel h3{
+      font:500 34px/1.05 Georgia,serif;
+      margin:10px 0;
+    }
+
+    .result-panel > p{
+      color:rgba(255,255,255,.58);
+      font-size:12px;
+      line-height:1.8;
+    }
+
+    .result-empty{
+      margin-top:25px;
+      padding:25px;
+      border:1px dashed rgba(255,255,255,.2);
+      border-radius:20px;
+      color:rgba(255,255,255,.52);
+      font-size:12px;
+      line-height:1.8;
+    }
+
+    .result-content{
+      display:none;
+    }
+
+    .result-content.active{
+      display:block;
+    }
+
+    .score{
+      margin-top:20px;
+      padding:20px;
+      border-radius:20px;
+      background:rgba(255,255,255,.07);
+      border:1px solid rgba(255,255,255,.1);
+    }
+
+    .score-row{
+      display:flex;
+      align-items:end;
+      justify-content:space-between;
+      gap:15px;
+    }
+
+    .score-number{
+      font:500 48px Georgia,serif;
+      color:var(--gold2);
+    }
+
+    .score-label{
+      font-size:10px;
+      color:rgba(255,255,255,.52);
+    }
+
+    .score-bar{
+      height:8px;
+      background:rgba(255,255,255,.1);
+      border-radius:999px;
+      overflow:hidden;
+      margin-top:12px;
+    }
+
+    .score-bar span{
+      display:block;
+      height:100%;
+      width:0;
+      background:var(--champagne);
+      border-radius:999px;
+      transition:width .8s ease;
+    }
+
+    .result-stats{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:9px;
+      margin-top:12px;
+    }
+
+    .result-stat{
+      padding:16px;
+      border-radius:16px;
+      background:rgba(255,255,255,.06);
+    }
+
+    .result-stat span{
+      display:block;
+      color:rgba(255,255,255,.48);
+      font-size:9px;
+      text-transform:uppercase;
+      letter-spacing:.1em;
+    }
+
+    .result-stat strong{
+      display:block;
+      color:var(--gold2);
+      font-size:16px;
+      margin-top:5px;
+    }
+
+    /* =========================================================
+       INSIGHTS
+    ========================================================= */
+
+    .insights{
+      padding:100px 4.5vw;
+      background:#eee1ce;
+    }
+
+    .insight-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:15px;
+    }
+
+    .insight{
+      min-height:235px;
+      padding:28px;
+      border-radius:25px;
+      background:#fffaf2;
+      border:1px solid var(--line);
+      transition:.3s;
+    }
+
+    .insight:hover{
+      transform:translateY(-5px);
+      box-shadow:var(--shadow);
+    }
+
+    .insight-icon{
+      width:46px;
+      height:46px;
+      display:grid;
+      place-items:center;
+      border-radius:14px;
+      background:var(--emerald);
+      color:var(--gold2);
+      font-size:20px;
+    }
+
+    .insight h3{
+      font:500 25px Georgia,serif;
+      color:var(--emerald);
+      margin:30px 0 7px;
+    }
+
+    .insight p{
+      color:var(--muted);
+      font-size:11px;
+      line-height:1.8;
+      margin:0;
+    }
+
+    /* =========================================================
+       INVESTMENT CHECKLIST
+    ========================================================= */
+
+    .check-section{
+      padding:105px 4.5vw;
+    }
+
+    .check-grid{
+      display:grid;
+      grid-template-columns:.85fr 1.15fr;
+      gap:70px;
+      align-items:center;
+    }
+
+    .check-copy h2{
+      font:500 clamp(40px,5vw,68px)/.98 Georgia,serif;
+      color:var(--emerald);
+      letter-spacing:-.04em;
+      margin:12px 0 20px;
+    }
+
+    .check-copy p{
+      color:var(--muted);
+      max-width:550px;
+      font-size:13px;
+      line-height:1.9;
+    }
+
+    .check-list{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:13px;
+    }
+
+    .check-item{
+      padding:24px;
+      border-radius:22px;
+      background:var(--pearl);
+      border:1px solid var(--line);
+    }
+
+    .check-item strong{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      color:var(--emerald);
+      font-size:13px;
+    }
+
+    .check-item strong span{
+      width:27px;
+      height:27px;
+      display:grid;
+      place-items:center;
+      border-radius:50%;
+      background:var(--emerald);
+      color:var(--gold2);
+      font-size:11px;
+    }
+
+    .check-item p{
+      color:var(--muted);
+      font-size:10px;
+      line-height:1.7;
+      margin:10px 0 0;
+    }
+
+    /* =========================================================
+       DISCLAIMER
+    ========================================================= */
+
+    .disclaimer{
+      padding:30px 4.5vw;
+      background:var(--sand);
+    }
+
+    .disclaimer-box{
+      max-width:1000px;
+      margin:auto;
+      padding:22px 25px;
+      border:1px solid rgba(177,138,72,.25);
+      border-radius:20px;
+      background:rgba(255,250,242,.55);
+    }
+
+    .disclaimer-box strong{
+      color:var(--emerald);
+      font-size:11px;
+    }
+
+    .disclaimer-box p{
+      margin:6px 0 0;
+      color:var(--muted);
+      font-size:10px;
+      line-height:1.7;
+    }
+
+    /* =========================================================
+       FINAL CTA
+    ========================================================= */
+
+    .final-cta{
+      padding:110px 4.5vw;
+      background:var(--emerald);
+      color:#fff;
+      text-align:center;
+    }
+
+    .final-cta .kicker{
+      color:var(--gold2);
+    }
+
+    .final-cta h2{
+      font:500 clamp(48px,7vw,88px)/.95 Georgia,serif;
+      margin:15px auto;
+      max-width:950px;
+    }
+
+    .final-cta p{
+      color:rgba(255,255,255,.62);
+      max-width:600px;
+      margin:0 auto;
+      font-size:13px;
+    }
+
+    /* =========================================================
+       FOOTER
+    ========================================================= */
+
+    footer{
+      background:#10291f;
+      color:#fff;
+    }
+
+    .footer{
+      max-width:1280px;
+      margin:auto;
+      padding:70px 4.5vw;
+      display:grid;
+      grid-template-columns:2fr 1fr 1fr 1fr;
+      gap:45px;
+    }
+
+    .footer-brand{
+      font-size:25px;
+      font-weight:900;
+      letter-spacing:.2em;
+      color:var(--gold2);
+    }
+
+    .footer p{
+      color:rgba(255,255,255,.5);
+      max-width:380px;
+      font-size:12px;
+      line-height:1.8;
+    }
+
+    .footer h4{
+      color:var(--gold2);
+      margin:0 0 15px;
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.15em;
+    }
+
+    .footer a{
+      display:block;
+      color:rgba(255,255,255,.6);
+      font-size:11px;
+      margin:9px 0;
+    }
+
+    .footer a:hover{
+      color:#fff;
+    }
+
+    .bottom{
+      max-width:1280px;
+      margin:auto;
+      padding:18px 4.5vw 25px;
+      border-top:1px solid rgba(255,255,255,.1);
+      display:flex;
+      justify-content:space-between;
+      gap:20px;
+      color:rgba(255,255,255,.4);
+      font-size:10px;
+    }
+
+    .bottom a{
+      display:inline;
+      margin:0;
+    }
+
+    /* =========================================================
+       MOBILE DOCK
+    ========================================================= */
+
+    .mobile-dock{
+      display:none;
+    }
+
+    /* =========================================================
+       RESPONSIVE
+    ========================================================= */
+
+    @media(max-width:1050px){
+
+      .links{
+        display:none;
+      }
+
+      .menu{
+        display:block;
+      }
+
+      .hero-inner{
+        grid-template-columns:1fr;
+      }
+
+      .investment-card{
+        margin-left:0;
+      }
+
+      .advisor-grid,
+      .check-grid{
+        grid-template-columns:1fr;
+      }
+
+      .footer{
+        grid-template-columns:1fr 1fr;
+      }
+
+    }
+
+    @media(max-width:700px){
+
+      .topbar{
+        font-size:9px;
+      }
+
+      .header{
+        padding:9px 5vw;
+      }
+
+      .nav-actions .pill:first-child{
+        display:none;
+      }
+
+      .hero{
+        min-height:700px;
+      }
+
+      .hero-inner{
+        width:90vw;
+        padding-top:70px;
+      }
+
+      h1{
+        font-size:56px;
+      }
+
+      .investment-card h2{
+        font-size:29px;
+      }
+
+      .tool-section,
+      .insights,
+      .check-section{
+        padding:75px 5vw;
+      }
+
+      .section-head{
+        display:block;
+      }
+
+      .section-head p{
+        margin-top:20px;
+      }
+
+      .form-grid{
+        grid-template-columns:1fr;
+      }
+
+      .form-field.full{
+        grid-column:auto;
+      }
+
+      .insight-grid{
+        grid-template-columns:1fr;
+      }
+
+      .check-list{
+        grid-template-columns:1fr;
+      }
+
+      .result-stats{
+        grid-template-columns:1fr 1fr;
+      }
+
+      .footer{
+        grid-template-columns:1fr;
+      }
+
+      .bottom{
+        flex-direction:column;
+      }
+
+      .mobile-dock{
+        position:fixed;
+        z-index:9999;
+        left:10px;
+        right:10px;
+        bottom:10px;
+        display:grid;
+        grid-template-columns:repeat(5,1fr);
+        background:rgba(16,41,31,.95);
+        backdrop-filter:blur(18px);
+        border:1px solid rgba(255,255,255,.12);
+        border-radius:20px;
+        padding:8px;
+        box-shadow:0 20px 50px rgba(0,0,0,.2);
+      }
+
+      .mobile-dock a{
+        text-align:center;
+        color:rgba(255,255,255,.65);
+        font-size:8px;
+        font-weight:800;
+      }
+
+      .mobile-dock span{
+        display:block;
+        color:var(--gold2);
+        font-size:18px;
+        line-height:1;
+        margin-bottom:3px;
+      }
+
+      body{
+        padding-bottom:80px;
+      }
+
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- =======================================================
+       TOP BAR
+  ======================================================== -->
+
+  <div class="topbar">
+    <b>GHAR AI</b>
+    &nbsp; | &nbsp;
+    Intelligent property investment insights
+  </div>
+
+
+  <!-- =======================================================
+       HEADER
+  ======================================================== -->
+
+  <header class="header">
+
+    <nav class="nav">
+
+      <a href="index.html" class="brand">
+
+        <img
+          src="assets/images/logo/ghar-logo.png"
+          alt="GHAR"
+        >
+
+        <span>GHAR</span>
+
+      </a>
+
+
+      <div class="links">
+
+        <a href="properties.html">
+          Properties
+        </a>
+
+        <a href="about.html">
+          About
+        </a>
+
+        <a href="property-search.html">
+          Search
+        </a>
+
+        <a href="compare.html">
+          Compare
+        </a>
+
+        <a href="ai.html">
+          AI
+        </a>
+
+        <a href="contact.html">
+          Contact
+        </a>
+
+      </div>
+
+
+      <div class="nav-actions">
+
+        <a
+          href="login.html"
+          class="pill"
+        >
+          Login
+        </a>
+
+        <a
+          href="role-selection.html"
+          class="pill gold"
+        >
+          Get Started
+        </a>
+
+        <button
+          class="menu"
+          type="button"
+          aria-label="Open menu"
+        >
+          ☰
+        </button>
+
+      </div>
+
+    </nav>
+
+  </header>
+
+
+  <main>
+
+
+    <!-- =====================================================
+         HERO
+    ====================================================== -->
+
+    <section class="hero">
+
+      <div class="hero-inner">
+
+        <div>
+
+          <div class="eyebrow">
+            GHAR intelligence
+          </div>
+
+          <h1>
+            Invest with
+            <em>more clarity.</em>
+          </h1>
+
+          <p class="hero-copy">
+            Explore property investment scenarios using your
+            budget, location, expected rental income, holding
+            period and investment preferences.
+          </p>
+
+          <div class="actions">
+
+            <a
+              href="#advisor"
+              class="btn gold"
+            >
+              Start Investment Analysis
+            </a>
+
+            <a
+              href="properties.html"
+              class="btn light"
+            >
+              Explore Properties
+            </a>
+
+          </div>
+
+        </div>
+
+
+        <div class="investment-card">
+
+          <small>
+            Investment perspective
+          </small>
+
+          <h2>
+            Property decisions deserve more than a price tag.
+          </h2>
+
+          <p>
+            GHAR can organize the factors behind a potential
+            property investment and present scenario-based
+            estimates for comparison.
+          </p>
+
+          <div class="mini-stats">
+
+            <div class="mini-stat">
+
+              <span>
+                Rental yield
+              </span>
+
+              <strong>
+                Estimate
+              </strong>
+
+            </div>
+
+            <div class="mini-stat">
+
+              <span>
+                Appreciation
+              </span>
+
+              <strong>
+                Scenario
+              </strong>
+
+            </div>
+
+            <div class="mini-stat">
+
+              <span>
+                Holding period
+              </span>
+
+              <strong>
+                5–10 yrs
+              </strong>
+
+            </div>
+
+            <div class="mini-stat">
+
+              <span>
+                Risk
+              </span>
+
+              <strong>
+                Profile
+              </strong>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         ADVISOR
+    ====================================================== -->
+
+    <section
+      class="tool-section"
+      id="advisor"
+    >
+
+      <div class="container">
+
+        <div class="section-head">
+
+          <div>
+
+            <div class="kicker">
+              AI investment advisor
+            </div>
+
+            <h2>
+              Build your
+              <br>
+              investment scenario.
+            </h2>
+
+          </div>
+
+          <p>
+            Enter the assumptions you want GHAR to consider.
+            The result is an educational scenario, not a
+            guaranteed return or financial recommendation.
+          </p>
+
+        </div>
+
+
+        <div class="advisor-grid">
+
+
+          <!-- FORM -->
+
+          <form
+            class="advisor-form"
+            id="investmentForm"
+          >
+
+            <h3 class="form-title">
+              Investment profile
+            </h3>
+
+            <p class="form-description">
+              Give us a starting point for your property
+              investment analysis.
+            </p>
+
+
+            <div class="form-grid">
+
+
+              <div class="form-field">
+
+                <label>
+                  Location
+                </label>
+
+                <input
+                  id="location"
+                  name="location"
+                  placeholder="e.g. Noida"
+                  required
+                >
+
+              </div>
+
+
+              <div class="form-field">
+
+                <label>
+                  Property type
+                </label>
+
+                <select
+                  id="propertyType"
+                  name="propertyType"
+                >
+
+                  <option value="Apartment">
+                    Apartment
+                  </option>
+
+                  <option value="Villa">
+                    Villa
+                  </option>
+
+                  <option value="House">
+                    Independent House
+                  </option>
+
+                  <option value="Commercial">
+                    Commercial
+                  </option>
+
+                  <option value="Land">
+                    Land
+                  </option>
+
+                </select>
+
+              </div>
+
+
+              <div class="form-field">
+
+                <label>
+                  Purchase price
+                </label>
+
+                <input
+                  id="purchasePrice"
+                  name="purchasePrice"
+                  type="number"
+                  min="0"
+                  placeholder="₹"
+                  required
+                >
+
+              </div>
+
+
+              <div class="form-field">
+
+                <label>
+                  Down payment
+                </label>
+
+                <input
+                  id="downPayment"
+                  name="downPayment"
+                  type="number"
+                  min="0"
+                  placeholder="₹"
+                >
+
+              </div>
+
+
+              <div class="form-field">
+
+                <label>
+                  Expected monthly rent
+                </label>
+
+                <input
+                  id="monthlyRent"
+                  name="monthlyRent"
+                  type="number"
+                  min="0"
+                  placeholder="₹"
+                >
+
+              </div>
+
+
+              <div class="form-field">
+
+                <label>
+                  Annual expenses
+                </label>
+
+                <input
+                  id="annualExpenses"
+                  name="annualExpenses"
+                  type="number"
+                  min="0"
+                  placeholder="₹"
+                >
+
+              </div>
+
+
+              <div class="form-field full">
+
+                <div class="range-wrap">
+
+                  <div class="range-top">
+
+                    <label>
+                      Expected annual appreciation
+                    </label>
+
+                    <span
+                      class="range-value"
+                      id="appreciationValue"
+                    >
+                      7%
+                    </span>
+
+                  </div>
+
+                  <input
+                    id="appreciation"
+                    name="appreciation"
+                    type="range"
+                    min="0"
+                    max="15"
+                    value="7"
+                    step=".5"
+                  >
+
+                </div>
+
+              </div>
+
+
+              <div class="form-field full">
+
+                <div class="range-wrap">
+
+                  <div class="range-top">
+
+                    <label>
+                      Investment horizon
+                    </label>
+
+                    <span
+                      class="range-value"
+                      id="horizonValue"
+                    >
+                      10 years
+                    </span>
+
+                  </div>
+
+                  <input
+                    id="horizon"
+                    name="horizon"
+                    type="range"
+                    min="1"
+                    max="20"
+                    value="10"
+                  >
+
+                </div>
+
+              </div>
+
+
+              <div class="form-field">
+
+                <label>
+                  Investment goal
+                </label>
+
+                <select
+                  id="goal"
+                  name="goal"
+                >
+
+                  <option value="Rental income">
+                    Rental income
+                  </option>
+
+                  <option value="Capital appreciation">
+                    Capital appreciation
+                  </option>
+
+                  <option value="Balanced">
+                    Balanced
+                  </option>
+
+                  <option value="Long-term wealth">
+                    Long-term wealth
+                  </option>
+
+                </select>
+
+              </div>
+
+
+              <div class="form-field">
+
+                <label>
+                  Risk preference
+                </label>
+
+                <select
+                  id="risk"
+                  name="risk"
+                >
+
+                  <option value="Conservative">
+                    Conservative
+                  </option>
+
+                  <option value="Moderate" selected>
+                    Moderate
+                  </option>
+
+                  <option value="Growth">
+                    Growth
+                  </option>
+
+                </select>
+
+              </div>
+
+            </div>
+
+
+            <button
+              class="advisor-submit"
+              type="submit"
+            >
+              Generate Investment Analysis
+            </button>
+
+          </form>
+
+
+          <!-- RESULT -->
+
+          <aside class="result-panel">
+
+            <div class="result-label">
+              GHAR scenario engine
+            </div>
+
+            <h3>
+              Your investment outlook
+            </h3>
+
+            <p>
+              Generate an analysis to see estimated rental
+              yield, projected property value and a simple
+              scenario score.
+            </p>
+
+
+            <div
+              class="result-empty"
+              id="resultEmpty"
+            >
+              Enter your property assumptions and select
+              <strong>Generate Investment Analysis</strong>
+              to calculate the illustrative scenario.
+            </div>
+
+
+            <div
+              class="result-content"
+              id="resultContent"
+            >
+
+              <div class="score">
+
+                <div class="score-row">
+
+                  <div>
+
+                    <div class="score-number"
+                         id="scoreNumber">
+                      0
+                    </div>
+
+                    <div class="score-label">
+                      Scenario score / 100
+                    </div>
+
+                  </div>
+
+                  <div
+                    id="scoreText"
+                    class="score-label"
+                  >
+                    Moderate
+                  </div>
+
+                </div>
+
+                <div class="score-bar">
+
+                  <span
+                    id="scoreBar"
+                  ></span>
+
+                </div>
+
+              </div>
+
+
+              <div class="result-stats">
+
+                <div class="result-stat">
+
+                  <span>
+                    Gross rental yield
+                  </span>
+
+                  <strong id="yieldResult">
+                    --
+                  </strong>
+
+                </div>
+
+
+                <div class="result-stat">
+
+                  <span>
+                    Annual net rent
+                  </span>
+
+                  <strong id="netRentResult">
+                    --
+                  </strong>
+
+                </div>
+
+
+                <div class="result-stat">
+
+                  <span>
+                    Projected value
+                  </span>
+
+                  <strong id="futureValueResult">
+                    --
+                  </strong>
+
+                </div>
+
+
+                <div class="result-stat">
+
+                  <span>
+                    Estimated gain
+                  </span>
+
+                  <strong id="gainResult">
+                    --
+                  </strong>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </aside>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         INSIGHTS
+    ====================================================== -->
+
+    <section class="insights">
+
+      <div class="container">
+
+        <div class="section-head">
+
+          <div>
+
+            <div class="kicker">
+              What GHAR evaluates
+            </div>
+
+            <h2>
+              Look beyond
+              <br>
+              the purchase price.
+            </h2>
+
+          </div>
+
+          <p>
+            A property investment can involve income,
+            appreciation, expenses, financing, liquidity,
+            location and time horizon.
+          </p>
+
+        </div>
+
+
+        <div class="insight-grid">
+
+
+          <article class="insight">
+
+            <div class="insight-icon">
+              ₹
+            </div>
+
+            <h3>
+              Rental potential
+            </h3>
+
+            <p>
+              Compare expected rental income against the
+              purchase price to understand an indicative
+              gross rental yield.
+            </p>
+
+          </article>
+
+
+          <article class="insight">
+
+            <div class="insight-icon">
+              ↗
+            </div>
+
+            <h3>
+              Capital growth
+            </h3>
+
+            <p>
+              Model a hypothetical annual appreciation rate
+              over your selected investment horizon.
+            </p>
+
+          </article>
+
+
+          <article class="insight">
+
+            <div class="insight-icon">
+              ◈
+            </div>
+
+            <h3>
+              Risk perspective
+            </h3>
+
+            <p>
+              Consider concentration, liquidity, assumptions
+              and the relationship between income and
+              expected appreciation.
+            </p>
+
+          </article>
+
+
+          <article class="insight">
+
+            <div class="insight-icon">
+              ◫
+            </div>
+
+            <h3>
+              Location
+            </h3>
+
+            <p>
+              Location can influence rental demand,
+              infrastructure, connectivity and future
+              market conditions.
+            </p>
+
+          </article>
+
+
+          <article class="insight">
+
+            <div class="insight-icon">
+              ◌
+            </div>
+
+            <h3>
+              Holding period
+            </h3>
+
+            <p>
+              Longer horizons can materially change
+              hypothetical appreciation outcomes and
+              should be tested using multiple scenarios.
+            </p>
+
+          </article>
+
+
+          <article class="insight">
+
+            <div class="insight-icon">
+              ▣
+            </div>
+
+            <h3>
+              Expenses
+            </h3>
+
+            <p>
+              Maintenance, vacancy, taxes, transaction costs
+              and financing can materially affect actual
+              investment performance.
+            </p>
+
+          </article>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         CHECKLIST
+    ====================================================== -->
+
+    <section class="check-section">
+
+      <div class="container check-grid">
+
+
+        <div class="check-copy">
+
+          <div class="kicker">
+            Before you invest
+          </div>
+
+          <h2>
+            A better property
+            decision starts with
+            better questions.
+          </h2>
+
+          <p>
+            Use GHAR's analysis as a starting framework.
+            Before committing capital, independently verify
+            property documents, title, approvals, market
+            comparables, financing terms, taxes and all
+            transaction costs.
+          </p>
+
+          <a
+            href="ai-property-advisor.html"
+            class="btn"
+            style="
+              background:var(--emerald);
+              color:#fff;
+              border-color:var(--emerald);
+              margin-top:15px;
+            "
+          >
+            Ask Property Advisor →
+          </a>
+
+        </div>
+
+
+        <div class="check-list">
+
+
+          <div class="check-item">
+
+            <strong>
+              <span>01</span>
+              Verify title
+            </strong>
+
+            <p>
+              Review ownership and title-related documents
+              through appropriate professional channels.
+            </p>
+
+          </div>
+
+
+          <div class="check-item">
+
+            <strong>
+              <span>02</span>
+              Check approvals
+            </strong>
+
+            <p>
+              Verify relevant building, development and
+              regulatory approvals where applicable.
+            </p>
+
+          </div>
+
+
+          <div class="check-item">
+
+            <strong>
+              <span>03</span>
+              Compare the market
+            </strong>
+
+            <p>
+              Compare similar properties and recent
+              transaction evidence rather than relying on
+              one asking price.
+            </p>
+
+          </div>
+
+
+          <div class="check-item">
+
+            <strong>
+              <span>04</span>
+              Calculate total cost
+            </strong>
+
+            <p>
+              Consider registration, taxes, maintenance,
+              brokerage, financing and other applicable costs.
+            </p>
+
+          </div>
+
+
+          <div class="check-item">
+
+            <strong>
+              <span>05</span>
+              Stress-test rent
+            </strong>
+
+            <p>
+              Test scenarios with vacancy, lower rent and
+              higher expenses instead of assuming perfect
+              occupancy.
+            </p>
+
+          </div>
+
+
+          <div class="check-item">
+
+            <strong>
+              <span>06</span>
+              Check liquidity
+            </strong>
+
+            <p>
+              Consider how quickly and at what cost the
+              property could potentially be sold.
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         DISCLAIMER
+    ====================================================== -->
+
+    <section class="disclaimer">
+
+      <div class="disclaimer-box">
+
+        <strong>
+          Important investment information
+        </strong>
+
+        <p>
+          GHAR AI investment outputs are illustrative,
+          assumption-based scenarios for informational and
+          educational purposes only. They are not guaranteed
+          returns, financial advice, investment advice,
+          valuation certificates, lending decisions or a
+          substitute for advice from a qualified financial,
+          legal, tax or real-estate professional. Actual
+          property performance may differ materially.
+        </p>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         FINAL CTA
+    ====================================================== -->
+
+    <section class="final-cta">
+
+      <div class="container">
+
+        <div class="kicker">
+          Continue with GHAR
+        </div>
+
+        <h2>
+          Find the property behind the opportunity.
+        </h2>
+
+        <p>
+          Explore properties, compare opportunities or
+          continue your property journey with GHAR AI.
+        </p>
+
+        <div
+          class="actions"
+          style="justify-content:center"
+        >
+
+          <a
+            href="properties.html"
+            class="btn gold"
+          >
+            Explore Properties
+          </a>
+
+          <a
+            href="compare.html"
+            class="btn light"
+          >
+            Compare Properties
+          </a>
+
+          <a
+            href="ai.html"
+            class="btn light"
+          >
+            Explore GHAR AI
+          </a>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- =======================================================
+       FOOTER
+  ======================================================== -->
+
+  <footer>
+
+    <div class="footer">
+
+
+      <div>
+
+        <div class="footer-brand">
+          GHAR
+        </div>
+
+        <p>
+          A structured real-estate ecosystem connecting
+          buyers, sellers, renters and property transactions
+          through one premium digital experience.
+        </p>
+
+      </div>
+
+
+      <div>
+
+        <h4>
+          Properties
+        </h4>
+
+        <a href="properties.html">
+          Buy
+        </a>
+
+        <a href="properties.html?listing=rent">
+          Rent
+        </a>
+
+        <a href="properties.html?listing=lease">
+          Lease
+        </a>
+
+        <a href="properties.html?type=commercial">
+          Commercial
+        </a>
+
+        <a href="properties.html?type=land">
+          Land
+        </a>
+
+      </div>
+
+
+      <div>
+
+        <h4>
+          AI
+        </h4>
+
+        <a href="ai.html">
+          GHAR AI
+        </a>
+
+        <a href="ai-property-advisor.html">
+          Property Advisor
+        </a>
+
+        <a href="ai-price-estimator.html">
+          Price Estimator
+        </a>
+
+        <a href="ai-loan-advisor.html">
+          Loan Advisor
+        </a>
+
+        <a href="ai-document-assistant.html">
+          Document Assistant
+        </a>
+
+      </div>
+
+
+      <div>
+
+        <h4>
+          Account
+        </h4>
+
+        <a href="dashboard.html">
+          Dashboard
+        </a>
+
+        <a href="profile.html">
+          My Profile
+        </a>
+
+        <a href="buyer/saved-properties.html">
+          Saved Properties
+        </a>
+
+        <a href="buyer/enquiries.html">
+          My Enquiries
+        </a>
+
+        <a href="buyer/offers.html">
+          My Offers
+        </a>
+
+      </div>
+
+    </div>
+
+
+    <div class="bottom">
+
+      <span>
+        © 2026 GHAR. All rights reserved.
+      </span>
+
+      <span>
+
+        <a href="about.html">
+          About
+        </a>
+
+        ·
+
+        <a href="contact.html">
+          Contact
+        </a>
+
+        ·
+
+        <a href="help-centre.html">
+          Help & Support
+        </a>
+
+        ·
+
+        <a href="terms.html">
+          Terms
+        </a>
+
+        ·
+
+        <a href="privacy.html">
+          Privacy
+        </a>
+
+      </span>
+
+    </div>
+
+  </footer>
+
+
+  <!-- =======================================================
+       MOBILE NAVIGATION
+  ======================================================== -->
+
+  <nav
+    class="mobile-dock"
+    aria-label="Mobile navigation"
+  >
+
+    <a href="index.html">
+      <span>⌂</span>
+      Home
+    </a>
+
+    <a href="properties.html">
+      <span>⌕</span>
+      Search
+    </a>
+
+    <a href="buyer/saved-properties.html">
+      <span>♡</span>
+      Saved
+    </a>
+
+    <a href="profile.html">
+      <span>◉</span>
+      Account
+    </a>
+
+    <a href="ai.html">
+      <span>✦</span>
+      AI
+    </a>
+
+  </nav>
+
+
+  <!-- =======================================================
+       CORE JAVASCRIPT
+  ======================================================== -->
+
+  <script
+    src="assets/js/constants.js"
+    defer
+  ></script>
+
+  <script
+    src="assets/js/config.js"
+    defer
+  ></script>
+
+  <script
+    src="assets/js/storage.js"
+    defer
+  ></script>
+
+  <script
+    src="assets/js/api.js"
+    defer
+  ></script>
+
+  <script
+    src="assets/js/auth.js"
+    defer
+  ></script>
+
+  <script
+    src="assets/js/core.js"
+    defer
+  ></script>
+
+  <script
+    src="assets/js/components.js"
+    defer
+  ></script>
+
+  <script
+    src="assets/js/navigation.js"
+    defer
+  ></script>
+
+
+  <!-- =======================================================
+       PAGE JAVASCRIPT
+  ======================================================== -->
+
+  <script>
+
+    document.addEventListener(
+      "DOMContentLoaded",
+      () => {
+
+        /* ===================================================
+           RANGE CONTROLS
+        =================================================== */
+
+        const appreciation =
+          document.getElementById(
+            "appreciation"
+          );
+
+        const appreciationValue =
+          document.getElementById(
+            "appreciationValue"
+          );
+
+        appreciation?.addEventListener(
+          "input",
+          () => {
+
+            appreciationValue.textContent =
+              appreciation.value + "%";
+
+          }
+        );
+
+
+        const horizon =
+          document.getElementById(
+            "horizon"
+          );
+
+        const horizonValue =
+          document.getElementById(
+            "horizonValue"
+          );
+
+        horizon?.addEventListener(
+          "input",
+          () => {
+
+            horizonValue.textContent =
+              horizon.value +
+              (
+                Number(horizon.value) === 1
+                ? " year"
+                : " years"
+              );
+
+          }
+        );
+
+
+        /* ===================================================
+           CURRENCY FORMAT
+        =================================================== */
+
+        function formatCurrency(value){
+
+          if(
+            !Number.isFinite(value)
+            ||
+            value < 0
+          ){
+            return "--";
+          }
+
+          if(value >= 10000000){
+
+            return (
+              "₹" +
+              (
+                value / 10000000
+              ).toFixed(2) +
+              " Cr"
+            );
+
+          }
+
+          if(value >= 100000){
+
+            return (
+              "₹" +
+              (
+                value / 100000
+              ).toFixed(2) +
+              " L"
+            );
+
+          }
+
+          return (
+            "₹" +
+            Math.round(value)
+              .toLocaleString("en-IN")
+          );
+
+        }
+
+
+        /* ===================================================
+           INVESTMENT CALCULATION
+        =================================================== */
+
+        const form =
+          document.getElementById(
+            "investmentForm"
+          );
+
+        form?.addEventListener(
+          "submit",
+          event => {
+
+            event.preventDefault();
+
+
+            const purchasePrice =
+              Number(
+                document.getElementById(
+                  "purchasePrice"
+                ).value
+              ) || 0;
+
+
+            const monthlyRent =
+              Number(
+                document.getElementById(
+                  "monthlyRent"
+                ).value
+              ) || 0;
+
+
+            const annualExpenses =
+              Number(
+                document.getElementById(
+                  "annualExpenses"
+                ).value
+              ) || 0;
+
+
+            const appreciationRate =
+              Number(
+                document.getElementById(
+                  "appreciation"
+                ).value
+              ) || 0;
+
+
+            const years =
+              Number(
+                document.getElementById(
+                  "horizon"
+                ).value
+              ) || 1;
+
+
+            if(purchasePrice <= 0){
+
+              alert(
+                "Please enter a valid purchase price."
+              );
+
+              return;
+
+            }
+
+
+            /* Annual gross rent */
+
+            const annualGrossRent =
+              monthlyRent * 12;
+
+
+            /* Annual net rent */
+
+            const annualNetRent =
+              Math.max(
+                0,
+                annualGrossRent -
+                annualExpenses
+              );
+
+
+            /* Gross rental yield */
+
+            const grossYield =
+              purchasePrice > 0
+              ? (
+                  annualGrossRent /
+                  purchasePrice
+                ) * 100
+              : 0;
+
+
+            /*
+              Illustrative future value.
+
+              This is deliberately presented as a
+              scenario rather than a prediction.
+            */
+
+            const futureValue =
+              purchasePrice *
+              Math.pow(
+                1 + appreciationRate / 100,
+                years
+              );
+
+
+            const estimatedGain =
+              Math.max(
+                0,
+                futureValue -
+                purchasePrice
+              );
+
+
+            /*
+              Simple scenario score.
+
+              It combines:
+              - rental yield
+              - appreciation assumption
+              - investment horizon
+
+              It is NOT a financial rating.
+            */
+
+            let score = 45;
+
+            score +=
+              Math.min(
+                20,
+                grossYield * 4
+              );
+
+            score +=
+              Math.min(
+                20,
+                appreciationRate * 1.4
+              );
+
+            score +=
+              Math.min(
+                15,
+                years * .8
+              );
+
+            score =
+              Math.max(
+                0,
+                Math.min(
+                  100,
+                  Math.round(score)
+                )
+              );
+
+
+            let scoreText =
+              "Moderate";
+
+
+            if(score >= 75){
+
+              scoreText =
+                "Higher scenario";
+
+            }else if(score < 50){
+
+              scoreText =
+                "Needs review";
+
+            }
+
+
+            document.getElementById(
+              "resultEmpty"
+            ).style.display =
+              "none";
+
+
+            document.getElementById(
+              "resultContent"
+            ).classList.add(
+              "active"
+            );
+
+
+            document.getElementById(
+              "scoreNumber"
+            ).textContent =
+              score;
+
+
+            document.getElementById(
+              "scoreText"
+            ).textContent =
+              scoreText;
+
+
+            document.getElementById(
+              "scoreBar"
+            ).style.width =
+              score + "%";
+
+
+            document.getElementById(
+              "yieldResult"
+            ).textContent =
+              grossYield.toFixed(2) +
+              "%";
+
+
+            document.getElementById(
+              "netRentResult"
+            ).textContent =
+              formatCurrency(
+                annualNetRent
+              );
+
+
+            document.getElementById(
+              "futureValueResult"
+            ).textContent =
+              formatCurrency(
+                futureValue
+              );
+
+
+            document.getElementById(
+              "gainResult"
+            ).textContent =
+              formatCurrency(
+                estimatedGain
+              );
+
+
+            document
+              .getElementById(
+                "resultContent"
+              )
+              .scrollIntoView({
+                behavior:"smooth",
+                block:"nearest"
+              });
+
+          }
+        );
+
+
+        /* ===================================================
+           MOBILE MENU
+        =================================================== */
+
+        const menu =
+          document.querySelector(
+            ".menu"
+          );
+
+        const links =
+          document.querySelector(
+            ".links"
+          );
+
+        menu?.addEventListener(
+          "click",
+          () => {
+
+            const visible =
+              links.style.display ===
+              "flex";
+
+
+            links.style.display =
+              visible
+              ? ""
+              : "flex";
+
+
+            if(!visible){
+
+              links.style.position =
+                "absolute";
+
+              links.style.top =
+                "68px";
+
+              links.style.left =
+                "4vw";
+
+              links.style.right =
+                "4vw";
+
+              links.style.padding =
+                "12px";
+
+              links.style.flexDirection =
+                "column";
+
+              links.style.background =
+                "rgba(255,250,242,.98)";
+
+              links.style.border =
+                "1px solid var(--line)";
+
+              links.style.borderRadius =
+                "20px";
+
+              links.style.boxShadow =
+                "var(--shadow)";
+
+            }
+
+          }
+        );
+
+      }
+
+    );
+
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,5539 @@
+<!-- /buyer/profile.html -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<meta name="description"
+      content="GHAR Buyer Profile -- Manage your personal information, property preferences, documents, security and account settings.">
+
+<meta name="theme-color" content="#162d25">
+
+<title>GHAR · Buyer Profile</title>
+
+<link rel="icon" href="../assets/images/favicon.svg">
+
+<style>
+/* =========================================================
+   GHAR BUYER PROFILE
+   Premium Buyer Experience
+========================================================= */
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+:root{
+  --green-950:#07130e;
+  --green-925:#0a1912;
+  --green-900:#0b1c14;
+  --green-850:#10261c;
+  --green-800:#162d25;
+  --green-750:#1a382c;
+  --green-700:#214438;
+  --green-600:#2b5847;
+
+  --gold-100:#fff7df;
+  --gold-200:#f4dfaa;
+  --gold-300:#e5c77d;
+  --gold-400:#c9a95c;
+  --gold-500:#a98238;
+
+  --cream:#fffaf0;
+  --cream-2:#f7eedc;
+  --sand:#eee1c8;
+
+  --text:#f9f5ea;
+  --text-dark:#17231c;
+
+  --muted:rgba(255,255,255,.68);
+  --muted-2:rgba(255,255,255,.45);
+
+  --border:rgba(229,199,125,.18);
+  --border-light:rgba(255,255,255,.09);
+
+  --danger:#e98c8c;
+  --success:#82c995;
+  --blue:#91b9e8;
+
+  --shadow:0 25px 80px rgba(0,0,0,.25);
+
+  --radius-xl:28px;
+  --radius-lg:21px;
+  --radius-md:15px;
+
+  --container:1440px;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  min-height:100vh;
+  color:var(--text);
+
+  font-family:
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  background:
+    radial-gradient(
+      circle at 5% 0%,
+      rgba(229,199,125,.12),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 100% 10%,
+      rgba(44,91,69,.22),
+      transparent 30%
+    ),
+    linear-gradient(
+      135deg,
+      #07130e,
+      #0b1c14 48%,
+      #10261c
+    );
+
+  overflow-x:hidden;
+}
+
+a{
+  color:inherit;
+  text-decoration:none;
+}
+
+button,
+input,
+select,
+textarea{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+img{
+  display:block;
+  max-width:100%;
+}
+
+.container{
+  width:min(
+    calc(100% - 40px),
+    var(--container)
+  );
+  margin:auto;
+}
+
+
+/* =========================================================
+   BACKGROUND
+========================================================= */
+
+.page-glow{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:-1;
+  overflow:hidden;
+}
+
+.page-glow::before{
+  content:"";
+  position:absolute;
+
+  width:550px;
+  height:550px;
+
+  top:-300px;
+  right:-220px;
+
+  border-radius:50%;
+  border:1px solid rgba(229,199,125,.12);
+
+  box-shadow:
+    0 0 0 60px rgba(229,199,125,.025),
+    0 0 0 120px rgba(229,199,125,.015);
+}
+
+.page-glow::after{
+  content:"";
+  position:absolute;
+
+  width:500px;
+  height:500px;
+
+  bottom:-300px;
+  left:-250px;
+
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,.06);
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.site-header{
+  position:sticky;
+  top:0;
+  z-index:100;
+
+  border-bottom:
+    1px solid
+    rgba(229,199,125,.10);
+
+  background:
+    rgba(7,19,14,.90);
+
+  backdrop-filter:blur(22px);
+}
+
+.header-inner{
+  min-height:76px;
+
+  display:flex;
+  align-items:center;
+  gap:24px;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex-shrink:0;
+}
+
+.brand-mark{
+  width:45px;
+  height:45px;
+
+  display:grid;
+  place-items:center;
+
+  border-radius:14px;
+
+  color:#152116;
+  font-size:19px;
+  font-weight:1000;
+
+  background:
+    linear-gradient(
+      135deg,
+      #f1dda5,
+      #b98b3d
+    );
+
+  box-shadow:
+    0 10px 25px rgba(0,0,0,.25),
+    inset 0 1px 0 rgba(255,255,255,.5);
+}
+
+.brand-text strong{
+  display:block;
+  font-size:17px;
+  letter-spacing:.17em;
+}
+
+.brand-text span{
+  display:block;
+  margin-top:2px;
+
+  color:var(--muted-2);
+  font-size:8px;
+  font-weight:800;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+}
+
+.desktop-nav{
+  display:flex;
+  align-items:center;
+  gap:5px;
+  margin-left:auto;
+}
+
+.desktop-nav a{
+  padding:10px 12px;
+  border-radius:10px;
+
+  color:var(--muted);
+  font-size:11px;
+  font-weight:700;
+
+  transition:.2s ease;
+}
+
+.desktop-nav a:hover,
+.desktop-nav a.active{
+  color:var(--gold-200);
+  background:rgba(229,199,125,.07);
+}
+
+.header-actions{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.icon-btn{
+  width:41px;
+  height:41px;
+
+  display:grid;
+  place-items:center;
+
+  border:1px solid var(--border-light);
+  border-radius:12px;
+
+  color:var(--muted);
+  background:rgba(255,255,255,.035);
+
+  transition:.2s ease;
+}
+
+.icon-btn:hover{
+  color:var(--gold-200);
+  border-color:rgba(229,199,125,.25);
+}
+
+.avatar{
+  width:40px;
+  height:40px;
+
+  display:grid;
+  place-items:center;
+
+  border-radius:50%;
+
+  color:#172016;
+  font-size:12px;
+  font-weight:1000;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--gold-200),
+      var(--gold-500)
+    );
+}
+
+.mobile-menu{
+  display:none;
+}
+
+
+/* =========================================================
+   PAGE HEADER
+========================================================= */
+
+.page-header{
+  padding:42px 0 22px;
+}
+
+.page-header-card{
+  position:relative;
+  overflow:hidden;
+
+  padding:34px;
+
+  border:1px solid var(--border);
+  border-radius:var(--radius-xl);
+
+  background:
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(229,199,125,.13),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 0% 100%,
+      rgba(44,91,69,.25),
+      transparent 38%
+    ),
+    linear-gradient(
+      145deg,
+      #0a1a12,
+      #10251b 55%,
+      #142d22
+    );
+
+  box-shadow:var(--shadow);
+}
+
+.page-header-card::after{
+  content:"";
+
+  position:absolute;
+
+  width:330px;
+  height:330px;
+
+  right:-210px;
+  bottom:-220px;
+
+  border:1px solid rgba(229,199,125,.10);
+  border-radius:50%;
+
+  box-shadow:
+    0 0 0 45px rgba(229,199,125,.02),
+    0 0 0 90px rgba(229,199,125,.015);
+}
+
+.eyebrow{
+  color:var(--gold-300);
+  font-size:10px;
+  font-weight:950;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+}
+
+.page-header h1{
+  margin-top:10px;
+
+  font-size:
+    clamp(
+      32px,
+      4vw,
+      52px
+    );
+
+  line-height:1;
+  letter-spacing:-.05em;
+}
+
+.page-header h1 span{
+  color:var(--gold-300);
+}
+
+.page-header p{
+  max-width:720px;
+  margin-top:13px;
+
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.7;
+}
+
+
+/* =========================================================
+   PROFILE LAYOUT
+========================================================= */
+
+.profile-layout{
+  display:grid;
+
+  grid-template-columns:
+    280px
+    minmax(0,1fr);
+
+  gap:18px;
+
+  padding:18px 0 35px;
+}
+
+
+/* =========================================================
+   PROFILE SIDEBAR
+========================================================= */
+
+.profile-sidebar{
+  align-self:start;
+
+  position:sticky;
+  top:96px;
+
+  padding:18px;
+
+  border:1px solid var(--border-light);
+  border-radius:var(--radius-lg);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(20,45,34,.96),
+      rgba(11,28,20,.96)
+    );
+}
+
+.profile-summary{
+  padding:5px 4px 17px;
+  text-align:center;
+}
+
+.profile-avatar-large{
+  width:82px;
+  height:82px;
+
+  margin:auto;
+
+  display:grid;
+  place-items:center;
+
+  border-radius:50%;
+
+  color:#172016;
+  font-size:25px;
+  font-weight:1000;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--gold-200),
+      var(--gold-500)
+    );
+
+  box-shadow:
+    0 15px 30px rgba(0,0,0,.25),
+    inset 0 1px 0 rgba(255,255,255,.45);
+}
+
+.profile-summary h2{
+  margin-top:13px;
+  font-size:17px;
+}
+
+.profile-summary p{
+  margin-top:4px;
+  color:var(--muted-2);
+  font-size:9px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.profile-completion{
+  margin-top:15px;
+  padding-top:15px;
+  border-top:1px solid rgba(255,255,255,.06);
+}
+
+.completion-top{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+
+  color:var(--muted);
+  font-size:9px;
+  font-weight:800;
+}
+
+.completion-value{
+  color:var(--gold-300);
+}
+
+.progress{
+  height:6px;
+  margin-top:8px;
+
+  overflow:hidden;
+
+  border-radius:30px;
+
+  background:rgba(255,255,255,.07);
+}
+
+.progress span{
+  display:block;
+  height:100%;
+  width:72%;
+
+  border-radius:inherit;
+
+  background:
+    linear-gradient(
+      90deg,
+      var(--gold-500),
+      var(--gold-200)
+    );
+
+  transition:.35s ease;
+}
+
+.profile-nav{
+  display:grid;
+  gap:5px;
+}
+
+.profile-nav button{
+  width:100%;
+
+  display:flex;
+  align-items:center;
+  gap:10px;
+
+  padding:11px 12px;
+
+  border:1px solid transparent;
+  border-radius:11px;
+
+  color:var(--muted);
+  background:transparent;
+
+  text-align:left;
+  font-size:10px;
+  font-weight:800;
+
+  transition:.2s ease;
+}
+
+.profile-nav button:hover{
+  color:var(--gold-200);
+  background:rgba(255,255,255,.035);
+}
+
+.profile-nav button.active{
+  color:var(--gold-200);
+
+  border-color:
+    rgba(229,199,125,.15);
+
+  background:
+    rgba(229,199,125,.07);
+}
+
+.profile-nav-icon{
+  width:27px;
+  height:27px;
+
+  display:grid;
+  place-items:center;
+
+  border-radius:8px;
+
+  color:var(--gold-300);
+
+  background:
+    rgba(229,199,125,.07);
+}
+
+.sidebar-divider{
+  height:1px;
+  margin:14px 0;
+
+  background:
+    rgba(255,255,255,.06);
+}
+
+.sidebar-link{
+  width:100%;
+
+  display:flex;
+  align-items:center;
+  gap:9px;
+
+  padding:10px 12px;
+
+  border-radius:10px;
+
+  color:var(--muted-2);
+  font-size:9px;
+  font-weight:800;
+}
+
+.sidebar-link:hover{
+  color:var(--gold-300);
+  background:rgba(255,255,255,.035);
+}
+
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
+.profile-content{
+  min-width:0;
+}
+
+.profile-section{
+  display:none;
+}
+
+.profile-section.active{
+  display:block;
+}
+
+.panel{
+  padding:22px;
+
+  border:1px solid var(--border-light);
+  border-radius:var(--radius-lg);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(20,45,34,.95),
+      rgba(11,28,20,.95)
+    );
+}
+
+.panel + .panel{
+  margin-top:16px;
+}
+
+.panel-heading{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:15px;
+
+  margin-bottom:20px;
+}
+
+.panel-heading h2{
+  font-size:18px;
+  letter-spacing:-.025em;
+}
+
+.panel-heading p{
+  margin-top:5px;
+  color:var(--muted-2);
+  font-size:9px;
+  line-height:1.5;
+}
+
+.heading-action{
+  flex-shrink:0;
+}
+
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.form-grid{
+  display:grid;
+
+  grid-template-columns:
+    repeat(2,minmax(0,1fr));
+
+  gap:14px;
+}
+
+.form-group{
+  min-width:0;
+}
+
+.form-group.full{
+  grid-column:1/-1;
+}
+
+.form-label{
+  display:block;
+
+  margin-bottom:7px;
+
+  color:var(--muted);
+  font-size:9px;
+  font-weight:850;
+  letter-spacing:.03em;
+}
+
+.form-control{
+  width:100%;
+  min-height:44px;
+
+  padding:0 12px;
+
+  border:
+    1px solid
+    rgba(255,255,255,.09);
+
+  border-radius:11px;
+
+  outline:none;
+
+  color:var(--cream);
+
+  background:
+    rgba(255,255,255,.045);
+
+  transition:.2s ease;
+}
+
+textarea.form-control{
+  min-height:100px;
+  padding:12px;
+  resize:vertical;
+}
+
+select.form-control{
+  appearance:auto;
+}
+
+.form-control:focus{
+  border-color:
+    rgba(229,199,125,.48);
+
+  box-shadow:
+    0 0 0 3px
+    rgba(229,199,125,.06);
+}
+
+.form-control:disabled{
+  opacity:.6;
+  cursor:not-allowed;
+}
+
+.form-help{
+  margin-top:5px;
+  color:var(--muted-2);
+  font-size:8px;
+}
+
+.form-actions{
+  display:flex;
+  align-items:center;
+  gap:9px;
+
+  margin-top:18px;
+  padding-top:17px;
+
+  border-top:
+    1px solid
+    rgba(255,255,255,.06);
+}
+
+.btn{
+  min-height:43px;
+
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+
+  padding:0 16px;
+
+  border-radius:11px;
+  border:1px solid transparent;
+
+  font-size:10px;
+  font-weight:900;
+
+  transition:.2s ease;
+}
+
+.btn-primary{
+  color:#17170f;
+
+  background:
+    linear-gradient(
+      135deg,
+      #f1dca1,
+      #cda85d
+    );
+
+  box-shadow:
+    0 10px 25px rgba(0,0,0,.18);
+}
+
+.btn-primary:hover{
+  transform:translateY(-2px);
+}
+
+.btn-secondary{
+  color:var(--cream);
+
+  border-color:
+    var(--border-light);
+
+  background:
+    rgba(255,255,255,.045);
+}
+
+.btn-secondary:hover{
+  color:var(--gold-200);
+  border-color:rgba(229,199,125,.25);
+}
+
+.btn-danger{
+  color:#ffdede;
+
+  border-color:
+    rgba(233,140,140,.18);
+
+  background:
+    rgba(233,140,140,.06);
+}
+
+.btn-danger:hover{
+  background:
+    rgba(233,140,140,.12);
+}
+
+
+/* =========================================================
+   PERSONAL PROFILE HERO
+========================================================= */
+
+.identity-card{
+  display:grid;
+
+  grid-template-columns:
+    120px
+    minmax(0,1fr);
+
+  gap:20px;
+
+  align-items:center;
+
+  margin-bottom:16px;
+}
+
+.identity-avatar{
+  width:110px;
+  height:110px;
+
+  position:relative;
+
+  display:grid;
+  place-items:center;
+
+  border-radius:50%;
+
+  color:#172016;
+
+  font-size:34px;
+  font-weight:1000;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--gold-200),
+      var(--gold-500)
+    );
+
+  box-shadow:
+    0 18px 40px rgba(0,0,0,.25);
+}
+
+.identity-avatar input{
+  display:none;
+}
+
+.avatar-camera{
+  position:absolute;
+
+  right:-1px;
+  bottom:4px;
+
+  width:31px;
+  height:31px;
+
+  display:grid;
+  place-items:center;
+
+  border:
+    2px solid
+    var(--green-850);
+
+  border-radius:50%;
+
+  color:#17170f;
+
+  background:var(--gold-300);
+
+  font-size:11px;
+}
+
+.identity-copy h2{
+  font-size:25px;
+  letter-spacing:-.035em;
+}
+
+.identity-copy p{
+  margin-top:5px;
+
+  color:var(--muted-2);
+
+  font-size:10px;
+}
+
+.identity-badges{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+
+  margin-top:12px;
+}
+
+.badge{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+
+  padding:6px 9px;
+
+  border-radius:8px;
+
+  font-size:8px;
+  font-weight:900;
+}
+
+.badge-gold{
+  color:#292216;
+  background:var(--gold-300);
+}
+
+.badge-green{
+  color:#c9f4d4;
+  background:rgba(130,201,149,.10);
+  border:1px solid rgba(130,201,149,.16);
+}
+
+.badge-blue{
+  color:#d3e6ff;
+  background:rgba(145,185,232,.09);
+  border:1px solid rgba(145,185,232,.15);
+}
+
+
+/* =========================================================
+   PREFERENCE CHIPS
+========================================================= */
+
+.preference-grid{
+  display:grid;
+
+  grid-template-columns:
+    repeat(2,minmax(0,1fr));
+
+  gap:12px;
+}
+
+.preference-card{
+  padding:15px;
+
+  border:
+    1px solid
+    rgba(255,255,255,.07);
+
+  border-radius:13px;
+
+  background:
+    rgba(255,255,255,.025);
+}
+
+.preference-card strong{
+  display:block;
+
+  color:var(--cream);
+
+  font-size:10px;
+}
+
+.preference-card span{
+  display:block;
+
+  margin-top:5px;
+
+  color:var(--muted-2);
+
+  font-size:8px;
+  line-height:1.5;
+}
+
+
+/* =========================================================
+   CHECKBOXES
+========================================================= */
+
+.checkbox-grid{
+  display:grid;
+
+  grid-template-columns:
+    repeat(2,minmax(0,1fr));
+
+  gap:9px;
+}
+
+.check-option{
+  position:relative;
+}
+
+.check-option input{
+  position:absolute;
+  opacity:0;
+  pointer-events:none;
+}
+
+.check-option label{
+  min-height:42px;
+
+  display:flex;
+  align-items:center;
+  gap:8px;
+
+  padding:9px 11px;
+
+  border:
+    1px solid
+    rgba(255,255,255,.07);
+
+  border-radius:10px;
+
+  color:var(--muted);
+
+  background:
+    rgba(255,255,255,.025);
+
+  cursor:pointer;
+
+  font-size:9px;
+  font-weight:700;
+
+  transition:.2s ease;
+}
+
+.check-option label::before{
+  content:"";
+
+  width:15px;
+  height:15px;
+
+  flex:0 0 15px;
+
+  border:
+    1px solid
+    rgba(255,255,255,.18);
+
+  border-radius:5px;
+}
+
+.check-option input:checked + label{
+  color:var(--gold-200);
+
+  border-color:
+    rgba(229,199,125,.25);
+
+  background:
+    rgba(229,199,125,.07);
+}
+
+.check-option input:checked + label::before{
+  content:"✓";
+
+  display:grid;
+  place-items:center;
+
+  color:#17170f;
+  border-color:var(--gold-300);
+
+  background:var(--gold-300);
+
+  font-size:10px;
+  font-weight:1000;
+}
+
+
+/* =========================================================
+   SECURITY
+========================================================= */
+
+.security-list{
+  display:grid;
+  gap:9px;
+}
+
+.security-item{
+  display:flex;
+  align-items:center;
+  gap:12px;
+
+  padding:13px;
+
+  border:
+    1px solid
+    rgba(255,255,255,.07);
+
+  border-radius:12px;
+
+  background:
+    rgba(255,255,255,.025);
+}
+
+.security-icon{
+  width:38px;
+  height:38px;
+
+  flex:0 0 38px;
+
+  display:grid;
+  place-items:center;
+
+  border-radius:10px;
+
+  color:var(--gold-300);
+
+  background:
+    rgba(229,199,125,.08);
+}
+
+.security-copy{
+  flex:1;
+  min-width:0;
+}
+
+.security-copy strong{
+  display:block;
+  font-size:10px;
+}
+
+.security-copy span{
+  display:block;
+  margin-top:3px;
+  color:var(--muted-2);
+  font-size:8px;
+}
+
+
+/* =========================================================
+   DOCUMENTS
+========================================================= */
+
+.document-grid{
+  display:grid;
+
+  grid-template-columns:
+    repeat(2,minmax(0,1fr));
+
+  gap:11px;
+}
+
+.document-card{
+  display:flex;
+  align-items:center;
+  gap:11px;
+
+  padding:14px;
+
+  border:
+    1px solid
+    rgba(255,255,255,.07);
+
+  border-radius:12px;
+
+  background:
+    rgba(255,255,255,.025);
+}
+
+.document-icon{
+  width:38px;
+  height:38px;
+
+  display:grid;
+  place-items:center;
+
+  flex:0 0 38px;
+
+  border-radius:10px;
+
+  color:var(--gold-300);
+
+  background:
+    rgba(229,199,125,.08);
+}
+
+.document-copy{
+  min-width:0;
+  flex:1;
+}
+
+.document-copy strong{
+  display:block;
+  font-size:10px;
+}
+
+.document-copy span{
+  display:block;
+  margin-top:3px;
+  color:var(--muted-2);
+  font-size:8px;
+}
+
+.document-status{
+  color:var(--success);
+  font-size:8px;
+  font-weight:900;
+}
+
+
+/* =========================================================
+   NOTIFICATION TOGGLES
+========================================================= */
+
+.notification-list{
+  display:grid;
+  gap:8px;
+}
+
+.notification-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+
+  padding:13px;
+
+  border:
+    1px solid
+    rgba(255,255,255,.07);
+
+  border-radius:12px;
+
+  background:
+    rgba(255,255,255,.025);
+}
+
+.notification-copy{
+  min-width:0;
+}
+
+.notification-copy strong{
+  display:block;
+  font-size:10px;
+}
+
+.notification-copy span{
+  display:block;
+  margin-top:3px;
+  color:var(--muted-2);
+  font-size:8px;
+  line-height:1.5;
+}
+
+.toggle{
+  width:42px;
+  height:24px;
+
+  flex:0 0 42px;
+
+  position:relative;
+
+  border:0;
+  border-radius:20px;
+
+  background:
+    rgba(255,255,255,.12);
+}
+
+.toggle span{
+  position:absolute;
+
+  top:4px;
+  left:4px;
+
+  width:16px;
+  height:16px;
+
+  border-radius:50%;
+
+  background:#fff;
+
+  transition:.2s ease;
+}
+
+.toggle.active{
+  background:
+    linear-gradient(
+      90deg,
+      var(--gold-500),
+      var(--gold-300)
+    );
+}
+
+.toggle.active span{
+  left:22px;
+}
+
+
+/* =========================================================
+   DANGER ZONE
+========================================================= */
+
+.danger-panel{
+  border-color:
+    rgba(233,140,140,.15);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(61,27,27,.38),
+      rgba(25,17,17,.30)
+    );
+}
+
+.danger-panel h2{
+  color:#ffdede;
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+.toast{
+  position:fixed;
+
+  right:22px;
+  bottom:22px;
+
+  z-index:200;
+
+  max-width:360px;
+
+  display:flex;
+  align-items:center;
+  gap:9px;
+
+  padding:13px 15px;
+
+  border:
+    1px solid
+    rgba(229,199,125,.20);
+
+  border-radius:12px;
+
+  color:var(--cream);
+
+  background:
+    rgba(10,25,18,.96);
+
+  box-shadow:
+    0 20px 50px rgba(0,0,0,.35);
+
+  font-size:9px;
+  font-weight:800;
+
+  opacity:0;
+  transform:translateY(15px);
+
+  pointer-events:none;
+
+  transition:.25s ease;
+}
+
+.toast.show{
+  opacity:1;
+  transform:translateY(0);
+}
+
+.toast.success{
+  border-color:
+    rgba(130,201,149,.25);
+}
+
+.toast.error{
+  border-color:
+    rgba(233,140,140,.25);
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.site-footer{
+  margin-top:25px;
+
+  padding:
+    35px 0 25px;
+
+  border-top:
+    1px solid
+    rgba(255,255,255,.07);
+
+  background:
+    rgba(3,12,8,.35);
+}
+
+.footer-grid{
+  display:grid;
+
+  grid-template-columns:
+    1.4fr repeat(3,1fr);
+
+  gap:25px;
+}
+
+.footer-brand{
+  max-width:300px;
+}
+
+.footer-brand p{
+  margin-top:10px;
+
+  color:var(--muted-2);
+  font-size:9px;
+  line-height:1.7;
+}
+
+.footer-col h4{
+  color:var(--gold-200);
+  font-size:9px;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+}
+
+.footer-col a{
+  display:block;
+  margin-top:9px;
+
+  color:var(--muted-2);
+  font-size:9px;
+}
+
+.footer-col a:hover{
+  color:var(--gold-300);
+}
+
+.footer-bottom{
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+
+  margin-top:28px;
+  padding-top:17px;
+
+  border-top:
+    1px solid
+    rgba(255,255,255,.06);
+
+  color:var(--muted-2);
+  font-size:8px;
+}
+
+
+/* =========================================================
+   AI FLOATING BUTTON
+========================================================= */
+
+.ai-floating{
+  position:fixed;
+
+  right:22px;
+  bottom:22px;
+
+  z-index:90;
+
+  min-height:48px;
+
+  display:flex;
+  align-items:center;
+  gap:8px;
+
+  padding:0 16px;
+
+  border:
+    1px solid
+    rgba(229,199,125,.25);
+
+  border-radius:30px;
+
+  color:#17170f;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--gold-200),
+      var(--gold-400)
+    );
+
+  box-shadow:
+    0 15px 35px rgba(0,0,0,.3);
+
+  font-size:10px;
+  font-weight:1000;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:1100px){
+
+  .desktop-nav{
+    display:none;
+  }
+
+  .mobile-menu{
+    display:grid;
+  }
+
+  .profile-layout{
+    grid-template-columns:1fr;
+  }
+
+  .profile-sidebar{
+    position:static;
+  }
+
+  .profile-nav{
+    grid-template-columns:
+      repeat(3,1fr);
+  }
+
+  .sidebar-divider,
+  .sidebar-link{
+    display:none;
+  }
+
+}
+
+@media(max-width:800px){
+
+  .container{
+    width:min(
+      calc(100% - 28px),
+      var(--container)
+    );
+  }
+
+  .page-header{
+    padding-top:25px;
+  }
+
+  .page-header-card{
+    padding:26px;
+  }
+
+  .form-grid,
+  .preference-grid,
+  .document-grid{
+    grid-template-columns:1fr;
+  }
+
+  .checkbox-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .footer-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+}
+
+@media(max-width:560px){
+
+  .header-inner{
+    min-height:68px;
+  }
+
+  .brand-text span{
+    display:none;
+  }
+
+  .header-actions .icon-btn{
+    display:none;
+  }
+
+  .profile-layout{
+    padding-top:10px;
+  }
+
+  .profile-sidebar{
+    padding:12px;
+  }
+
+  .profile-nav{
+    grid-template-columns:
+      repeat(2,1fr);
+  }
+
+  .profile-nav button{
+    padding:9px;
+  }
+
+  .page-header-card{
+    padding:22px;
+    border-radius:22px;
+  }
+
+  .page-header h1{
+    font-size:34px;
+  }
+
+  .panel{
+    padding:17px;
+  }
+
+  .panel-heading{
+    flex-direction:column;
+  }
+
+  .identity-card{
+    grid-template-columns:1fr;
+    text-align:center;
+  }
+
+  .identity-avatar{
+    margin:auto;
+  }
+
+  .identity-badges{
+    justify-content:center;
+  }
+
+  .checkbox-grid{
+    grid-template-columns:1fr;
+  }
+
+  .form-actions{
+    flex-wrap:wrap;
+  }
+
+  .form-actions .btn{
+    flex:1;
+  }
+
+  .footer-grid{
+    grid-template-columns:1fr;
+  }
+
+  .footer-bottom{
+    flex-direction:column;
+  }
+
+  .ai-floating{
+    right:14px;
+    bottom:14px;
+  }
+
+}
+</style>
+</head>
+
+<body>
+
+<div class="page-glow"></div>
+
+
+<!-- =========================================================
+     HEADER
+========================================================= -->
+
+<header class="site-header">
+
+  <div class="container header-inner">
+
+    <a
+      class="brand"
+      href="/buyer/index.html"
+      aria-label="GHAR Buyer Home"
+    >
+
+      <div class="brand-mark">G</div>
+
+      <div class="brand-text">
+        <strong>GHAR</strong>
+        <span>Buyer Experience</span>
+      </div>
+
+    </a>
+
+
+    <nav
+      class="desktop-nav"
+      aria-label="Buyer navigation"
+    >
+
+      <a href="/buyer/index.html">
+        Home
+      </a>
+
+      <a href="/properties.html">
+        Properties
+      </a>
+
+      <a href="/buyer/saved.html">
+        Saved
+      </a>
+
+      <a href="/buyer/visits.html">
+        Visits
+      </a>
+
+      <a href="/buyer/offers.html">
+        Offers
+      </a>
+
+      <a href="/buyer/loans.html">
+        Loans
+      </a>
+
+    </nav>
+
+
+    <div class="header-actions">
+
+      <button
+        class="icon-btn"
+        id="notificationButton"
+        type="button"
+        aria-label="Notifications"
+      >
+        ♢
+      </button>
+
+      <a
+        class="avatar"
+        id="headerAvatar"
+        href="/buyer/profile.html"
+        aria-label="Profile"
+      >
+        U
+      </a>
+
+      <button
+        class="icon-btn mobile-menu"
+        id="menuButton"
+        type="button"
+        aria-label="Open menu"
+      >
+        ☰
+      </button>
+
+    </div>
+
+  </div>
+
+</header>
+
+
+<main>
+
+<!-- =========================================================
+     PAGE HEADER
+========================================================= -->
+
+<section class="page-header">
+
+  <div class="container">
+
+    <div class="page-header-card">
+
+      <div class="eyebrow">
+        BUYER ACCOUNT
+      </div>
+
+      <h1>
+        Your profile,
+        <span>your preferences.</span>
+      </h1>
+
+      <p>
+        Manage your personal information, property preferences,
+        verification details, documents, notifications and
+        account security from one secure GHAR profile.
+      </p>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================================================
+     PROFILE LAYOUT
+========================================================= -->
+
+<section>
+
+  <div class="container">
+
+    <div class="profile-layout">
+
+
+      <!-- ===================================================
+           SIDEBAR
+      ==================================================== -->
+
+      <aside class="profile-sidebar">
+
+        <div class="profile-summary">
+
+          <div
+            class="profile-avatar-large"
+            id="sidebarAvatar"
+          >
+            U
+          </div>
+
+          <h2 id="sidebarName">
+            Buyer
+          </h2>
+
+          <p id="sidebarEmail">
+            Loading profile...
+          </p>
+
+          <div class="profile-completion">
+
+            <div class="completion-top">
+
+              <span>
+                Profile completion
+              </span>
+
+              <span
+                class="completion-value"
+                id="completionValue"
+              >
+                72%
+              </span>
+
+            </div>
+
+            <div class="progress">
+              <span
+                id="completionBar"
+                style="width:72%"
+              ></span>
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <nav
+          class="profile-nav"
+          aria-label="Profile sections"
+        >
+
+          <button
+            class="active"
+            type="button"
+            data-section="personal"
+          >
+            <span class="profile-nav-icon">◎</span>
+            Personal information
+          </button>
+
+          <button
+            type="button"
+            data-section="preferences"
+          >
+            <span class="profile-nav-icon">⌂</span>
+            Property preferences
+          </button>
+
+          <button
+            type="button"
+            data-section="documents"
+          >
+            <span class="profile-nav-icon">▣</span>
+            Documents
+          </button>
+
+          <button
+            type="button"
+            data-section="notifications"
+          >
+            <span class="profile-nav-icon">♢</span>
+            Notifications
+          </button>
+
+          <button
+            type="button"
+            data-section="security"
+          >
+            <span class="profile-nav-icon">◇</span>
+            Security
+          </button>
+
+          <button
+            type="button"
+            data-section="account"
+          >
+            <span class="profile-nav-icon">⚙</span>
+            Account
+          </button>
+
+        </nav>
+
+
+        <div class="sidebar-divider"></div>
+
+        <a
+          class="sidebar-link"
+          href="/buyer/dashboard.html"
+        >
+          ← Buyer dashboard
+        </a>
+
+        <a
+          class="sidebar-link"
+          href="/help-centre.html"
+        >
+          ? Help centre
+        </a>
+
+      </aside>
+
+
+      <!-- =================================================
+           CONTENT
+      ================================================== -->
+
+      <div class="profile-content">
+
+
+        <!-- ===============================================
+             PERSONAL
+        ================================================ -->
+
+        <section
+          class="profile-section active"
+          id="section-personal"
+        >
+
+          <div class="panel">
+
+            <div class="identity-card">
+
+              <div class="identity-avatar" id="identityAvatar">
+
+                U
+
+                <label
+                  class="avatar-camera"
+                  for="avatarInput"
+                  title="Change profile image"
+                >
+                  ✎
+                </label>
+
+                <input
+                  id="avatarInput"
+                  type="file"
+                  accept="image/*"
+                >
+
+              </div>
+
+
+              <div class="identity-copy">
+
+                <h2 id="identityName">
+                  Buyer Profile
+                </h2>
+
+                <p id="identityEmail">
+                  Manage your GHAR buyer account.
+                </p>
+
+                <div class="identity-badges">
+
+                  <span
+                    class="badge badge-gold"
+                    id="accountRoleBadge"
+                  >
+                    BUYER
+                  </span>
+
+                  <span
+                    class="badge badge-green"
+                    id="verificationBadge"
+                  >
+                    ✓ Profile active
+                  </span>
+
+                  <span class="badge badge-blue">
+                    Secure account
+                  </span>
+
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <div class="panel-heading">
+
+              <div>
+                <h2>Personal information</h2>
+
+                <p>
+                  Keep your contact and identity information
+                  accurate for property transactions and
+                  communications.
+                </p>
+              </div>
+
+            </div>
+
+
+            <form id="personalForm">
+
+              <div class="form-grid">
+
+                <div class="form-group">
+
+                  <label
+                    class="form-label"
+                    for="firstName"
+                  >
+                    First name
+                  </label>
+
+                  <input
+                    class="form-control"
+                    id="firstName"
+                    name="firstName"
+                    type="text"
+                    autocomplete="given-name"
+                    placeholder="First name"
+                  >
+
+                </div>
+
+
+                <div class="form-group">
+
+                  <label
+                    class="form-label"
+                    for="lastName"
+                  >
+                    Last name
+                  </label>
+
+                  <input
+                    class="form-control"
+                    id="lastName"
+                    name="lastName"
+                    type="text"
+                    autocomplete="family-name"
+                    placeholder="Last name"
+                  >
+
+                </div>
+
+
+                <div class="form-group">
+
+                  <label
+                    class="form-label"
+                    for="email"
+                  >
+                    Email address
+                  </label>
+
+                  <input
+                    class="form-control"
+                    id="email"
+                    name="email"
+                    type="email"
+                    autocomplete="email"
+                    placeholder="name@example.com"
+                  >
+
+                </div>
+
+
+                <div class="form-group">
+
+                  <label
+                    class="form-label"
+                    for="phone"
+                  >
+                    Mobile number
+                  </label>
+
+                  <input
+                    class="form-control"
+                    id="phone"
+                    name="phone"
+                    type="tel"
+                    autocomplete="tel"
+                    placeholder="+91 XXXXX XXXXX"
+                  >
+
+                </div>
+
+
+                <div class="form-group">
+
+                  <label
+                    class="form-label"
+                    for="dateOfBirth"
+                  >
+                    Date of birth
+                  </label>
+
+                  <input
+                    class="form-control"
+                    id="dateOfBirth"
+                    name="dateOfBirth"
+                    type="date"
+                  >
+
+                </div>
+
+
+                <div class="form-group">
+
+                  <label
+                    class="form-label"
+                    for="occupation"
+                  >
+                    Occupation
+                  </label>
+
+                  <input
+                    class="form-control"
+                    id="occupation"
+                    name="occupation"
+                    type="text"
+                    placeholder="Occupation"
+                  >
+
+                </div>
+
+
+                <div class="form-group">
+
+                  <label
+                    class="form-label"
+                    for="city"
+                  >
+                    City
+                  </label>
+
+                  <input
+                    class="form-control"
+                    id="city"
+                    name="city"
+                    type="text"
+                    autocomplete="address-level2"
+                    placeholder="City"
+                  >
+
+                </div>
+
+
+                <div class="form-group">
+
+                  <label
+                    class="form-label"
+                    for="state"
+                  >
+                    State
+                  </label>
+
+                  <input
+                    class="form-control"
+                    id="state"
+                    name="state"
+                    type="text"
+                    autocomplete="address-level1"
+                    placeholder="State"
+                  >
+
+                </div>
+
+
+                <div class="form-group">
+
+                  <label
+                    class="form-label"
+                    for="pincode"
+                  >
+                    Pincode
+                  </label>
+
+                  <input
+                    class="form-control"
+                    id="pincode"
+                    name="pincode"
+                    type="text"
+                    inputmode="numeric"
+                    autocomplete="postal-code"
+                    placeholder="Pincode"
+                  >
+
+                </div>
+
+
+                <div class="form-group">
+
+                  <label
+                    class="form-label"
+                    for="preferredContact"
+                  >
+                    Preferred contact method
+                  </label>
+
+                  <select
+                    class="form-control"
+                    id="preferredContact"
+                    name="preferredContact"
+                  >
+                    <option value="phone">
+                      Phone
+                    </option>
+
+                    <option value="email">
+                      Email
+                    </option>
+
+                    <option value="whatsapp">
+                      WhatsApp
+                    </option>
+                  </select>
+
+                </div>
+
+
+                <div class="form-group full">
+
+                  <label
+                    class="form-label"
+                    for="address"
+                  >
+                    Address
+                  </label>
+
+                  <textarea
+                    class="form-control"
+                    id="address"
+                    name="address"
+                    autocomplete="street-address"
+                    placeholder="Enter your current address"
+                  ></textarea>
+
+                </div>
+
+              </div>
+
+
+              <div class="form-actions">
+
+                <button
+                  class="btn btn-primary"
+                  type="submit"
+                >
+                  Save changes
+                </button>
+
+                <button
+                  class="btn btn-secondary"
+                  id="personalReset"
+                  type="button"
+                >
+                  Reset
+                </button>
+
+              </div>
+
+            </form>
+
+          </div>
+
+
+          <div class="panel">
+
+            <div class="panel-heading">
+
+              <div>
+                <h2>Account overview</h2>
+                <p>
+                  Key information associated with your GHAR
+                  buyer account.
+                </p>
+              </div>
+
+            </div>
+
+
+            <div class="preference-grid">
+
+              <div class="preference-card">
+                <strong>Account role</strong>
+                <span id="overviewRole">
+                  Buyer
+                </span>
+              </div>
+
+              <div class="preference-card">
+                <strong>Account status</strong>
+                <span id="overviewStatus">
+                  Active
+                </span>
+              </div>
+
+              <div class="preference-card">
+                <strong>Member since</strong>
+                <span id="overviewJoined">
+                  --
+                </span>
+              </div>
+
+              <div class="preference-card">
+                <strong>Last updated</strong>
+                <span id="overviewUpdated">
+                  --
+                </span>
+              </div>
+
+            </div>
+
+          </div>
+
+        </section>
+
+
+        <!-- ===============================================
+             PREFERENCES
+        ================================================ -->
+
+        <section
+          class="profile-section"
+          id="section-preferences"
+        >
+
+          <div class="panel">
+
+            <div class="panel-heading">
+
+              <div>
+                <h2>Property preferences</h2>
+
+                <p>
+                  Tell GHAR what you are looking for so
+                  recommendations can become more relevant.
+                </p>
+              </div>
+
+              <button
+                class="btn btn-secondary"
+                type="button"
+                id="loadPreferences"
+              >
+                Refresh
+              </button>
+
+            </div>
+
+
+            <form id="preferencesForm">
+
+              <div class="form-grid">
+
+                <div class="form-group">
+
+                  <label
+                    class="form-label"
+                    for="propertyPurpose"
+                  >
+                    Buying purpose
+                  </label>
+
+                  <select
+                    class="form-control"
+                    id="propertyPurpose"
+                    name="purpose"
+                  >
+                    <option value="end_use">
+                      End use
+                    </option>
+
+                    <option value="investment">
+                      Investment
+                    </option>
+
+                    <option value="both">
+                      Both
+                    </option>
+                  </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                  <label
+                    class="form-label"
+                    for="listingPreference"
+                  >
+                    Listing preference
+                  </label>
+
+                  <select
+                    class="form-control"
+                    id="listingPreference"
+                    name="listingType"
+                  >
+                    <option value="sale">
+                      Purchase
+                    </option>
+
+                    <option value="rent">
+                      Rent
+                    </option>
+
+                    <option value="both">
+                      Purchase or rent
+                    </option>
+                  </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                  <label
+                    class="form-label"
+                    for="minBudget"
+                  >
+                    Minimum budget
+                  </label>
+
+                  <input
+                    class="form-control"
+                    id="minBudget"
+                    name="minBudget"
+                    type="number"
+                    min="0"
+                    step="10000"
+                    placeholder="₹ Minimum"
+                  >
+
+                </div>
+
+
+                <div class="form-group">
+
+                  <label
+                    class="form-label"
+                    for="maxBudget"
+                  >
+                    Maximum budget
+                  </label>
+
+                  <input
+                    class="form-control"
+                    id="maxBudget"
+                    name="maxBudget"
+                    type="number"
+                    min="0"
+                    step="10000"
+                    placeholder="₹ Maximum"
+                  >
+
+                </div>
+
+
+                <div class="form-group">
+
+                  <label
+                    class="form-label"
+                    for="minArea"
+                  >
+                    Minimum area
+                  </label>
+
+                  <input
+                    class="form-control"
+                    id="minArea"
+                    name="minArea"
+                    type="number"
+                    min="0"
+                    placeholder="Sq. ft."
+                  >
+
+                </div>
+
+
+                <div class="form-group">
+
+                  <label
+                    class="form-label"
+                    for="maxArea"
+                  >
+                    Maximum area
+                  </label>
+
+                  <input
+                    class="form-control"
+                    id="maxArea"
+                    name="maxArea"
+                    type="number"
+                    min="0"
+                    placeholder="Sq. ft."
+                  >
+
+                </div>
+
+
+                <div class="form-group full">
+
+                  <label class="form-label">
+                    Preferred BHK
+                  </label>
+
+                  <div class="checkbox-grid">
+
+                    <div class="check-option">
+                      <input
+                        id="bhk1"
+                        type="checkbox"
+                        name="bhk"
+                        value="1"
+                      >
+                      <label for="bhk1">
+                        1 BHK
+                      </label>
+                    </div>
+
+                    <div class="check-option">
+                      <input
+                        id="bhk2"
+                        type="checkbox"
+                        name="bhk"
+                        value="2"
+                      >
+                      <label for="bhk2">
+                        2 BHK
+                      </label>
+                    </div>
+
+                    <div class="check-option">
+                      <input
+                        id="bhk3"
+                        type="checkbox"
+                        name="bhk"
+                        value="3"
+                      >
+                      <label for="bhk3">
+                        3 BHK
+                      </label>
+                    </div>
+
+                    <div class="check-option">
+                      <input
+                        id="bhk4"
+                        type="checkbox"
+                        name="bhk"
+                        value="4"
+                      >
+                      <label for="bhk4">
+                        4 BHK
+                      </label>
+                    </div>
+
+                    <div class="check-option">
+                      <input
+                        id="bhk5"
+                        type="checkbox"
+                        name="bhk"
+                        value="5"
+                      >
+                      <label for="bhk5">
+                        5+ BHK
+                      </label>
+                    </div>
+
+                  </div>
+
+                </div>
+
+
+                <div class="form-group full">
+
+                  <label class="form-label">
+                    Property types
+                  </label>
+
+                  <div class="checkbox-grid">
+
+                    <div class="check-option">
+                      <input
+                        id="typeApartment"
+                        type="checkbox"
+                        name="propertyTypes"
+                        value="apartment"
+                      >
+                      <label for="typeApartment">
+                        Apartment
+                      </label>
+                    </div>
+
+                    <div class="check-option">
+                      <input
+                        id="typeVilla"
+                        type="checkbox"
+                        name="propertyTypes"
+                        value="villa"
+                      >
+                      <label for="typeVilla">
+                        Villa
+                      </label>
+                    </div>
+
+                    <div class="check-option">
+                      <input
+                        id="typeHouse"
+                        type="checkbox"
+                        name="propertyTypes"
+                        value="house"
+                      >
+                      <label for="typeHouse">
+                        Independent house
+                      </label>
+                    </div>
+
+                    <div class="check-option">
+                      <input
+                        id="typePlot"
+                        type="checkbox"
+                        name="propertyTypes"
+                        value="plot"
+                      >
+                      <label for="typePlot">
+                        Plot
+                      </label>
+                    </div>
+
+                    <div class="check-option">
+                      <input
+                        id="typeCommercial"
+                        type="checkbox"
+                        name="propertyTypes"
+                        value="commercial"
+                      >
+                      <label for="typeCommercial">
+                        Commercial
+                      </label>
+                    </div>
+
+                    <div class="check-option">
+                      <input
+                        id="typeFarm"
+                        type="checkbox"
+                        name="propertyTypes"
+                        value="farm"
+                      >
+                      <label for="typeFarm">
+                        Farm / land
+                      </label>
+                    </div>
+
+                  </div>
+
+                </div>
+
+
+                <div class="form-group full">
+
+                  <label
+                    class="form-label"
+                    for="preferredLocations"
+                  >
+                    Preferred locations
+                  </label>
+
+                  <textarea
+                    class="form-control"
+                    id="preferredLocations"
+                    name="locations"
+                    placeholder="Noida, Greater Noida, Gurgaon..."
+                  ></textarea>
+
+                  <div class="form-help">
+                    Separate multiple locations with commas.
+                  </div>
+
+                </div>
+
+              </div>
+
+
+              <div class="form-actions">
+
+                <button
+                  class="btn btn-primary"
+                  type="submit"
+                >
+                  Save preferences
+                </button>
+
+              </div>
+
+            </form>
+
+          </div>
+
+        </section>
+
+
+        <!-- ===============================================
+             DOCUMENTS
+        ================================================ -->
+
+        <section
+          class="profile-section"
+          id="section-documents"
+        >
+
+          <div class="panel">
+
+            <div class="panel-heading">
+
+              <div>
+                <h2>Buyer documents</h2>
+
+                <p>
+                  Access documents associated with your buyer
+                  profile and property transactions.
+                </p>
+              </div>
+
+              <a
+                class="btn btn-primary heading-action"
+                href="/buyer/documents.html"
+              >
+                Manage documents
+              </a>
+
+            </div>
+
+
+            <div
+              class="document-grid"
+              id="documentGrid"
+            >
+
+              <div class="document-card">
+
+                <div class="document-icon">
+                  ▣
+                </div>
+
+                <div class="document-copy">
+                  <strong>
+                    Identity document
+                  </strong>
+
+                  <span>
+                    Verification document
+                  </span>
+                </div>
+
+                <span class="document-status">
+                  --
+                </span>
+
+              </div>
+
+
+              <div class="document-card">
+
+                <div class="document-icon">
+                  ▤
+                </div>
+
+                <div class="document-copy">
+                  <strong>
+                    Address proof
+                  </strong>
+
+                  <span>
+                    Buyer address verification
+                  </span>
+                </div>
+
+                <span class="document-status">
+                  --
+                </span>
+
+              </div>
+
+
+              <div class="document-card">
+
+                <div class="document-icon">
+                  ₹
+                </div>
+
+                <div class="document-copy">
+                  <strong>
+                    Financial documents
+                  </strong>
+
+                  <span>
+                    Income / financing documents
+                  </span>
+                </div>
+
+                <span class="document-status">
+                  --
+                </span>
+
+              </div>
+
+
+              <div class="document-card">
+
+                <div class="document-icon">
+                  ✓
+                </div>
+
+                <div class="document-copy">
+                  <strong>
+                    Transaction documents
+                  </strong>
+
+                  <span>
+                    Purchase-related documents
+                  </span>
+                </div>
+
+                <span class="document-status">
+                  --
+                </span>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <div class="panel">
+
+            <div class="panel-heading">
+
+              <div>
+                <h2>Document centre</h2>
+
+                <p>
+                  Use the dedicated document portal to upload,
+                  review and manage buyer documentation.
+                </p>
+              </div>
+
+            </div>
+
+            <a
+              class="btn btn-secondary"
+              href="/buyer/documents.html"
+            >
+              Open buyer document centre →
+            </a>
+
+          </div>
+
+        </section>
+
+
+        <!-- ===============================================
+             NOTIFICATIONS
+        ================================================ -->
+
+        <section
+          class="profile-section"
+          id="section-notifications"
+        >
+
+          <div class="panel">
+
+            <div class="panel-heading">
+
+              <div>
+                <h2>Notification preferences</h2>
+
+                <p>
+                  Control the types of GHAR buyer updates you
+                  want to receive.
+                </p>
+              </div>
+
+            </div>
+
+
+            <div class="notification-list">
+
+              <div class="notification-row">
+
+                <div class="notification-copy">
+
+                  <strong>
+                    Property recommendations
+                  </strong>
+
+                  <span>
+                    Receive recommendations based on your
+                    property preferences.
+                  </span>
+
+                </div>
+
+                <button
+                  class="toggle active"
+                  type="button"
+                  data-notification="recommendations"
+                  aria-label="Toggle property recommendations"
+                >
+                  <span></span>
+                </button>
+
+              </div>
+
+
+              <div class="notification-row">
+
+                <div class="notification-copy">
+
+                  <strong>
+                    Saved property updates
+                  </strong>
+
+                  <span>
+                    Get updates when saved properties change.
+                  </span>
+
+                </div>
+
+                <button
+                  class="toggle active"
+                  type="button"
+                  data-notification="saved"
+                  aria-label="Toggle saved property updates"
+                >
+                  <span></span>
+                </button>
+
+              </div>
+
+
+              <div class="notification-row">
+
+                <div class="notification-copy">
+
+                  <strong>
+                    Visit reminders
+                  </strong>
+
+                  <span>
+                    Receive reminders for scheduled property
+                    visits.
+                  </span>
+
+                </div>
+
+                <button
+                  class="toggle active"
+                  type="button"
+                  data-notification="visits"
+                  aria-label="Toggle visit reminders"
+                >
+                  <span></span>
+                </button>
+
+              </div>
+
+
+              <div class="notification-row">
+
+                <div class="notification-copy">
+
+                  <strong>
+                    Offers and negotiations
+                  </strong>
+
+                  <span>
+                    Receive updates regarding offers,
+                    counteroffers and negotiation activity.
+                  </span>
+
+                </div>
+
+                <button
+                  class="toggle active"
+                  type="button"
+                  data-notification="offers"
+                  aria-label="Toggle offer notifications"
+                >
+                  <span></span>
+                </button>
+
+              </div>
+
+
+              <div class="notification-row">
+
+                <div class="notification-copy">
+
+                  <strong>
+                    Loan and financing updates
+                  </strong>
+
+                  <span>
+                    Receive financing and application updates.
+                  </span>
+
+                </div>
+
+                <button
+                  class="toggle"
+                  type="button"
+                  data-notification="loans"
+                  aria-label="Toggle loan notifications"
+                >
+                  <span></span>
+                </button>
+
+              </div>
+
+
+              <div class="notification-row">
+
+                <div class="notification-copy">
+
+                  <strong>
+                    Marketing communications
+                  </strong>
+
+                  <span>
+                    Receive optional GHAR offers and promotional
+                    communications.
+                  </span>
+
+                </div>
+
+                <button
+                  class="toggle"
+                  type="button"
+                  data-notification="marketing"
+                  aria-label="Toggle marketing notifications"
+                >
+                  <span></span>
+                </button>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </section>
+
+
+        <!-- ===============================================
+             SECURITY
+        ================================================ -->
+
+        <section
+          class="profile-section"
+          id="section-security"
+        >
+
+          <div class="panel">
+
+            <div class="panel-heading">
+
+              <div>
+                <h2>Security</h2>
+
+                <p>
+                  Manage authentication and account protection
+                  settings.
+                </p>
+              </div>
+
+            </div>
+
+
+            <div class="security-list">
+
+              <div class="security-item">
+
+                <div class="security-icon">
+                  🔒
+                </div>
+
+                <div class="security-copy">
+
+                  <strong>
+                    Password
+                  </strong>
+
+                  <span>
+                    Change your GHAR account password.
+                  </span>
+
+                </div>
+
+                <button
+                  class="btn btn-secondary"
+                  id="changePasswordButton"
+                  type="button"
+                >
+                  Change
+                </button>
+
+              </div>
+
+
+              <div class="security-item">
+
+                <div class="security-icon">
+                  ✓
+                </div>
+
+                <div class="security-copy">
+
+                  <strong>
+                    Email verification
+                  </strong>
+
+                  <span id="emailSecurityStatus">
+                    Checking verification status...
+                  </span>
+
+                </div>
+
+                <button
+                  class="btn btn-secondary"
+                  id="verifyEmailButton"
+                  type="button"
+                >
+                  Verify
+                </button>
+
+              </div>
+
+
+              <div class="security-item">
+
+                <div class="security-icon">
+                  ☎
+                </div>
+
+                <div class="security-copy">
+
+                  <strong>
+                    Mobile verification
+                  </strong>
+
+                  <span id="phoneSecurityStatus">
+                    Checking verification status...
+                  </span>
+
+                </div>
+
+                <button
+                  class="btn btn-secondary"
+                  id="verifyPhoneButton"
+                  type="button"
+                >
+                  Verify
+                </button>
+
+              </div>
+
+
+              <div class="security-item">
+
+                <div class="security-icon">
+                  ◈
+                </div>
+
+                <div class="security-copy">
+
+                  <strong>
+                    Active sessions
+                  </strong>
+
+                  <span>
+                    Review and manage devices connected to
+                    your account.
+                  </span>
+
+                </div>
+
+                <button
+                  class="btn btn-secondary"
+                  id="sessionsButton"
+                  type="button"
+                >
+                  Review
+                </button>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <div class="panel">
+
+            <div class="panel-heading">
+
+              <div>
+                <h2>Login protection</h2>
+
+                <p>
+                  Additional security options can be managed
+                  from your account security centre.
+                </p>
+              </div>
+
+            </div>
+
+            <a
+              class="btn btn-secondary"
+              href="/security.html"
+            >
+              Open security centre →
+            </a>
+
+          </div>
+
+        </section>
+
+
+        <!-- ===============================================
+             ACCOUNT
+        ================================================ -->
+
+        <section
+          class="profile-section"
+          id="section-account"
+        >
+
+          <div class="panel">
+
+            <div class="panel-heading">
+
+              <div>
+                <h2>Account settings</h2>
+
+                <p>
+                  Manage your GHAR account and buyer portal
+                  preferences.
+                </p>
+              </div>
+
+            </div>
+
+
+            <div class="security-list">
+
+              <div class="security-item">
+
+                <div class="security-icon">
+                  ⌂
+                </div>
+
+                <div class="security-copy">
+
+                  <strong>
+                    Buyer dashboard
+                  </strong>
+
+                  <span>
+                    Return to your complete property journey.
+                  </span>
+
+                </div>
+
+                <a
+                  class="btn btn-secondary"
+                  href="/buyer/dashboard.html"
+                >
+                  Open
+                </a>
+
+              </div>
+
+
+              <div class="security-item">
+
+                <div class="security-icon">
+                  ♡
+                </div>
+
+                <div class="security-copy">
+
+                  <strong>
+                    Saved properties
+                  </strong>
+
+                  <span>
+                    Review properties you have shortlisted.
+                  </span>
+
+                </div>
+
+                <a
+                  class="btn btn-secondary"
+                  href="/buyer/saved.html"
+                >
+                  Open
+                </a>
+
+              </div>
+
+
+              <div class="security-item">
+
+                <div class="security-icon">
+                  ◷
+                </div>
+
+                <div class="security-copy">
+
+                  <strong>
+                    Property visits
+                  </strong>
+
+                  <span>
+                    View and manage your scheduled visits.
+                  </span>
+
+                </div>
+
+                <a
+                  class="btn btn-secondary"
+                  href="/buyer/visits.html"
+                >
+                  Open
+                </a>
+
+              </div>
+
+
+              <div class="security-item">
+
+                <div class="security-icon">
+                  ₹
+                </div>
+
+                <div class="security-copy">
+
+                  <strong>
+                    Offers
+                  </strong>
+
+                  <span>
+                    Manage your property offers and negotiations.
+                  </span>
+
+                </div>
+
+                <a
+                  class="btn btn-secondary"
+                  href="/buyer/offers.html"
+                >
+                  Open
+                </a>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <div class="panel danger-panel">
+
+            <div class="panel-heading">
+
+              <div>
+                <h2>Sign out</h2>
+
+                <p>
+                  Sign out of your current GHAR buyer session
+                  on this device.
+                </p>
+              </div>
+
+              <button
+                class="btn btn-danger"
+                id="logoutButton"
+                type="button"
+              >
+                Sign out
+              </button>
+
+            </div>
+
+          </div>
+
+
+          <div class="panel danger-panel">
+
+            <div class="panel-heading">
+
+              <div>
+                <h2>Account deletion</h2>
+
+                <p>
+                  Account deletion is a permanent action.
+                  Contact GHAR support if you need assistance.
+                </p>
+              </div>
+
+              <a
+                class="btn btn-danger"
+                href="/contact.html?subject=Account%20deletion"
+              >
+                Contact support
+              </a>
+
+            </div>
+
+          </div>
+
+        </section>
+
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+</main>
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer class="site-footer">
+
+  <div class="container">
+
+    <div class="footer-grid">
+
+      <div class="footer-brand">
+
+        <div class="brand">
+
+          <div class="brand-mark">
+            G
+          </div>
+
+          <div class="brand-text">
+
+            <strong>
+              GHAR
+            </strong>
+
+            <span>
+              Real Estate Platform
+            </span>
+
+          </div>
+
+        </div>
+
+        <p>
+          A connected real estate platform for discovering,
+          evaluating, financing and managing property decisions.
+        </p>
+
+      </div>
+
+
+      <div class="footer-col">
+
+        <h4>Discover</h4>
+
+        <a href="/properties.html">
+          Properties
+        </a>
+
+        <a href="/property-search.html">
+          Property Search
+        </a>
+
+        <a href="/buyer/saved.html">
+          Saved Properties
+        </a>
+
+        <a href="/buyer/visits.html">
+          Visits
+        </a>
+
+      </div>
+
+
+      <div class="footer-col">
+
+        <h4>Buyer</h4>
+
+        <a href="/buyer/dashboard.html">
+          Dashboard
+        </a>
+
+        <a href="/buyer/offers.html">
+          Offers
+        </a>
+
+        <a href="/buyer/loans.html">
+          Loans
+        </a>
+
+        <a href="/buyer/documents.html">
+          Documents
+        </a>
+
+      </div>
+
+
+      <div class="footer-col">
+
+        <h4>Support</h4>
+
+        <a href="/help-centre.html">
+          Help Centre
+        </a>
+
+        <a href="/contact.html">
+          Contact
+        </a>
+
+        <a href="/buyer/support.html">
+          Buyer Support
+        </a>
+
+        <a href="/privacy.html">
+          Privacy
+        </a>
+
+      </div>
+
+    </div>
+
+
+    <div class="footer-bottom">
+
+      <span>
+        © <span id="footerYear"></span> GHAR.
+        All rights reserved.
+      </span>
+
+      <span>
+        Buyer Portal · Secure Session
+      </span>
+
+    </div>
+
+  </div>
+
+</footer>
+
+
+<!-- =========================================================
+     AI
+========================================================= -->
+
+<button
+  id="openAI"
+  class="ai-floating"
+  type="button"
+>
+  ✦ Ask GHAR AI
+</button>
+
+
+<!-- =========================================================
+     TOAST
+========================================================= -->
+
+<div
+  id="toast"
+  class="toast"
+  role="status"
+  aria-live="polite"
+>
+  <span id="toastIcon">✓</span>
+  <span id="toastMessage">
+    Saved.
+  </span>
+</div>
+
+
+<script>
+"use strict";
+
+/* =========================================================
+   GHAR BUYER PROFILE
+========================================================= */
+
+const API_BASE =
+  window.GHAR_API_BASE ||
+  window.API_BASE ||
+  "/api";
+
+
+const endpoints = {
+  me:
+    API_BASE + "/users/me",
+
+  profile:
+    API_BASE + "/users/me/profile",
+
+  preferences:
+    API_BASE + "/users/me/preferences",
+
+  documents:
+    API_BASE + "/users/me/documents",
+
+  notifications:
+    API_BASE + "/users/me/notifications",
+
+  password:
+    API_BASE + "/auth/change-password",
+
+  logout:
+    API_BASE + "/auth/logout"
+};
+
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+const $ = selector =>
+  document.querySelector(selector);
+
+
+const $$ = selector =>
+  [...document.querySelectorAll(selector)];
+
+
+function escapeHTML(value){
+
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+function unwrap(data){
+
+  if(data?.data !== undefined){
+    return data.data;
+  }
+
+  return data;
+}
+
+
+function collection(data){
+
+  const value = unwrap(data);
+
+  if(Array.isArray(value)){
+    return value;
+  }
+
+  if(Array.isArray(value?.items)){
+    return value.items;
+  }
+
+  if(Array.isArray(value?.documents)){
+    return value.documents;
+  }
+
+  return [];
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+let toastTimer;
+
+function showToast(
+  message,
+  type = "success"
+){
+
+  const toast =
+    $("#toast");
+
+  const icon =
+    $("#toastIcon");
+
+  const text =
+    $("#toastMessage");
+
+  if(!toast){
+    return;
+  }
+
+  toast.className =
+    "toast show " + type;
+
+  icon.textContent =
+    type === "error"
+      ? "!"
+      : "✓";
+
+  text.textContent =
+    message;
+
+  clearTimeout(
+    toastTimer
+  );
+
+  toastTimer =
+    setTimeout(
+      () => {
+        toast.classList.remove(
+          "show"
+        );
+      },
+      3200
+    );
+
+}
+
+
+/* =========================================================
+   API
+========================================================= */
+
+async function apiRequest(
+  url,
+  options = {}
+){
+
+  const config = {
+    credentials:"include",
+    ...options
+  };
+
+  config.headers = {
+    "Accept":"application/json",
+    ...(options.body
+      ? {"Content-Type":"application/json"}
+      : {}),
+    ...(options.headers || {})
+  };
+
+
+  const response =
+    await fetch(
+      url,
+      config
+    );
+
+
+  let data = null;
+
+  try{
+    data = await response.json();
+  }catch{
+    data = null;
+  }
+
+
+  if(!response.ok){
+
+    const message =
+      data?.error?.message ||
+      data?.message ||
+      "Request failed.";
+
+    const error =
+      new Error(message);
+
+    error.status =
+      response.status;
+
+    error.data =
+      data;
+
+    throw error;
+  }
+
+
+  return data;
+}
+
+
+/* =========================================================
+   CURRENT USER
+========================================================= */
+
+let currentUser = null;
+let originalPersonalData = null;
+let originalPreferences = null;
+
+
+function getNameParts(user){
+
+  const first =
+    user?.firstName ||
+    user?.givenName ||
+    "";
+
+  const last =
+    user?.lastName ||
+    user?.familyName ||
+    "";
+
+  if(first || last){
+    return {
+      first,
+      last
+    };
+  }
+
+
+  const full =
+    user?.fullName ||
+    user?.name ||
+    "";
+
+
+  const parts =
+    String(full)
+      .trim()
+      .split(/\s+/)
+      .filter(Boolean);
+
+
+  return {
+    first:
+      parts.shift() || "",
+
+    last:
+      parts.join(" ")
+  };
+
+}
+
+
+function displayName(user){
+
+  return (
+    user?.fullName ||
+    user?.name ||
+    [
+      user?.firstName,
+      user?.lastName
+    ]
+      .filter(Boolean)
+      .join(" ") ||
+    "Buyer"
+  );
+
+}
+
+
+function initials(name){
+
+  const parts =
+    String(name || "U")
+      .trim()
+      .split(/\s+/)
+      .filter(Boolean);
+
+  if(!parts.length){
+    return "U";
+  }
+
+  if(parts.length === 1){
+    return parts[0]
+      .charAt(0)
+      .toUpperCase();
+  }
+
+  return (
+    parts[0].charAt(0) +
+    parts[parts.length - 1].charAt(0)
+  ).toUpperCase();
+
+}
+
+
+/* =========================================================
+   PROFILE RENDER
+========================================================= */
+
+function renderUser(user){
+
+  if(!user){
+    return;
+  }
+
+  currentUser =
+    unwrap(user);
+
+
+  const name =
+    displayName(
+      currentUser
+    );
+
+  const email =
+    currentUser.email ||
+    "No email available";
+
+  const avatar =
+    initials(name);
+
+
+  $("#sidebarAvatar").textContent =
+    avatar;
+
+  $("#identityAvatar").childNodes[0].textContent =
+    avatar;
+
+  $("#headerAvatar").textContent =
+    avatar;
+
+  $("#sidebarName").textContent =
+    name;
+
+  $("#sidebarEmail").textContent =
+    email;
+
+  $("#identityName").textContent =
+    name;
+
+  $("#identityEmail").textContent =
+    email;
+
+
+  const parts =
+    getNameParts(
+      currentUser
+    );
+
+
+  $("#firstName").value =
+    parts.first;
+
+  $("#lastName").value =
+    parts.last;
+
+  $("#email").value =
+    currentUser.email || "";
+
+  $("#phone").value =
+    currentUser.phone ||
+    currentUser.mobile ||
+    currentUser.mobileNumber ||
+    "";
+
+  $("#dateOfBirth").value =
+    normalizeDate(
+      currentUser.dateOfBirth ||
+      currentUser.dob
+    );
+
+  $("#occupation").value =
+    currentUser.occupation ||
+    "";
+
+  $("#city").value =
+    currentUser.city ||
+    currentUser.address?.city ||
+    "";
+
+  $("#state").value =
+    currentUser.state ||
+    currentUser.address?.state ||
+    "";
+
+  $("#pincode").value =
+    currentUser.pincode ||
+    currentUser.postalCode ||
+    currentUser.address?.pincode ||
+    "";
+
+  $("#preferredContact").value =
+    currentUser.preferredContact ||
+    currentUser.preferredContactMethod ||
+    "phone";
+
+  $("#address").value =
+    currentUser.address?.line1 ||
+    currentUser.address?.street ||
+    currentUser.addressText ||
+    (
+      typeof currentUser.address === "string"
+        ? currentUser.address
+        : ""
+    );
+
+
+  $("#overviewRole").textContent =
+    currentUser.role ||
+    "Buyer";
+
+  $("#overviewStatus").textContent =
+    currentUser.status ||
+    "Active";
+
+  $("#overviewJoined").textContent =
+    formatDate(
+      currentUser.createdAt ||
+      currentUser.joinedAt
+    );
+
+  $("#overviewUpdated").textContent =
+    formatDate(
+      currentUser.updatedAt ||
+      currentUser.lastUpdated
+    );
+
+
+  const emailVerified =
+    Boolean(
+      currentUser.emailVerified ||
+      currentUser.isEmailVerified
+    );
+
+  const phoneVerified =
+    Boolean(
+      currentUser.phoneVerified ||
+      currentUser.isPhoneVerified
+    );
+
+
+  $("#emailSecurityStatus").textContent =
+    emailVerified
+      ? "Your email address is verified."
+      : "Your email address needs verification.";
+
+  $("#phoneSecurityStatus").textContent =
+    phoneVerified
+      ? "Your mobile number is verified."
+      : "Your mobile number needs verification.";
+
+
+  $("#verifyEmailButton").textContent =
+    emailVerified
+      ? "Verified"
+      : "Verify";
+
+  $("#verifyPhoneButton").textContent =
+    phoneVerified
+      ? "Verified"
+      : "Verify";
+
+
+  $("#verificationBadge").textContent =
+    emailVerified && phoneVerified
+      ? "✓ Fully verified"
+      : "Profile active";
+
+
+  originalPersonalData =
+    getPersonalFormData();
+
+  updateCompletion();
+}
+
+
+/* =========================================================
+   DATE HELPERS
+========================================================= */
+
+function normalizeDate(value){
+
+  if(!value){
+    return "";
+  }
+
+  const date =
+    new Date(value);
+
+  if(
+    Number.isNaN(
+      date.getTime()
+    )
+  ){
+    return String(value)
+      .slice(0,10);
+  }
+
+  return date
+    .toISOString()
+    .slice(0,10);
+
+}
+
+
+function formatDate(value){
+
+  if(!value){
+    return "--";
+  }
+
+  const date =
+    new Date(value);
+
+  if(
+    Number.isNaN(
+      date.getTime()
+    )
+  ){
+    return String(value);
+  }
+
+  return date.toLocaleDateString(
+    "en-IN",
+    {
+      day:"2-digit",
+      month:"short",
+      year:"numeric"
+    }
+  );
+
+}
+
+
+/* =========================================================
+   FORM DATA
+========================================================= */
+
+function getPersonalFormData(){
+
+  return {
+    firstName:
+      $("#firstName").value.trim(),
+
+    lastName:
+      $("#lastName").value.trim(),
+
+    email:
+      $("#email").value.trim(),
+
+    phone:
+      $("#phone").value.trim(),
+
+    dateOfBirth:
+      $("#dateOfBirth").value,
+
+    occupation:
+      $("#occupation").value.trim(),
+
+    city:
+      $("#city").value.trim(),
+
+    state:
+      $("#state").value.trim(),
+
+    pincode:
+      $("#pincode").value.trim(),
+
+    preferredContact:
+      $("#preferredContact").value,
+
+    address:
+      $("#address").value.trim()
+  };
+
+}
+
+
+function getCheckedValues(
+  name
+){
+
+  return $$(
+    `input[name="${name}"]:checked`
+  ).map(
+    input => input.value
+  );
+
+}
+
+
+function getPreferencesFormData(){
+
+  return {
+    purpose:
+      $("#propertyPurpose").value,
+
+    listingType:
+      $("#listingPreference").value,
+
+    minBudget:
+      numberOrNull(
+        $("#minBudget").value
+      ),
+
+    maxBudget:
+      numberOrNull(
+        $("#maxBudget").value
+      ),
+
+    minArea:
+      numberOrNull(
+        $("#minArea").value
+      ),
+
+    maxArea:
+      numberOrNull(
+        $("#maxArea").value
+      ),
+
+    bhk:
+      getCheckedValues("bhk"),
+
+    propertyTypes:
+      getCheckedValues(
+        "propertyTypes"
+      ),
+
+    locations:
+      $("#preferredLocations")
+        .value
+        .split(",")
+        .map(value => value.trim())
+        .filter(Boolean)
+  };
+
+}
+
+
+function numberOrNull(value){
+
+  if(
+    value === "" ||
+    value == null
+  ){
+    return null;
+  }
+
+  const number =
+    Number(value);
+
+  return Number.isFinite(number)
+    ? number
+    : null;
+
+}
+
+
+/* =========================================================
+   PREFERENCES
+========================================================= */
+
+function setCheckedValues(
+  name,
+  values = []
+){
+
+  const selected =
+    new Set(
+      values.map(
+        value => String(value)
+      )
+    );
+
+  $$(
+    `input[name="${name}"]`
+  ).forEach(
+    input => {
+      input.checked =
+        selected.has(
+          String(input.value)
+        );
+    }
+  );
+
+}
+
+
+function renderPreferences(
+  response
+){
+
+  const data =
+    unwrap(response);
+
+  if(!data){
+    return;
+  }
+
+  originalPreferences =
+    data;
+
+
+  $("#propertyPurpose").value =
+    data.purpose ||
+    data.buyingPurpose ||
+    "end_use";
+
+  $("#listingPreference").value =
+    data.listingType ||
+    "sale";
+
+  $("#minBudget").value =
+    data.minBudget ??
+    "";
+
+  $("#maxBudget").value =
+    data.maxBudget ??
+    "";
+
+  $("#minArea").value =
+    data.minArea ??
+    "";
+
+  $("#maxArea").value =
+    data.maxArea ??
+    "";
+
+  setCheckedValues(
+    "bhk",
+    data.bhk ||
+    data.bhkPreferences ||
+    []
+  );
+
+  setCheckedValues(
+    "propertyTypes",
+    data.propertyTypes ||
+    []
+  );
+
+
+  const locations =
+    data.locations ||
+    data.preferredLocations ||
+    [];
+
+
+  $("#preferredLocations").value =
+    Array.isArray(locations)
+      ? locations.join(", ")
+      : String(locations || "");
+
+
+  updateCompletion();
+}
+
+
+/* =========================================================
+   COMPLETION
+========================================================= */
+
+function updateCompletion(){
+
+  const fields = [
+    $("#firstName").value,
+    $("#lastName").value,
+    $("#email").value,
+    $("#phone").value,
+    $("#dateOfBirth").value,
+    $("#occupation").value,
+    $("#city").value,
+    $("#state").value,
+    $("#pincode").value,
+    $("#address").value
+  ];
+
+
+  const filled =
+    fields.filter(
+      value =>
+        String(value || "").trim()
+    ).length;
+
+
+  const percentage =
+    Math.round(
+      (
+        filled /
+        fields.length
+      ) * 100
+    );
+
+
+  const finalPercentage =
+    Math.max(
+      10,
+      Math.min(
+        100,
+        percentage
+      )
+    );
+
+
+  $("#completionValue").textContent =
+    finalPercentage + "%";
+
+  $("#completionBar").style.width =
+    finalPercentage + "%";
+
+}
+
+
+/* =========================================================
+   PERSONAL SAVE
+========================================================= */
+
+$("#personalForm")
+  ?.addEventListener(
+    "submit",
+    async event => {
+
+      event.preventDefault();
+
+
+      const payload =
+        getPersonalFormData();
+
+
+      const saveButton =
+        event.submitter;
+
+
+      if(saveButton){
+        saveButton.disabled =
+          true;
+
+        saveButton.textContent =
+          "Saving...";
+      }
+
+
+      try{
+
+        const response =
+          await apiRequest(
+            endpoints.profile,
+            {
+              method:"PATCH",
+              body:
+                JSON.stringify(
+                  payload
+                )
+            }
+          );
+
+
+        const returnedUser =
+          unwrap(response);
+
+
+        if(returnedUser){
+          renderUser(
+            returnedUser
+          );
+        }
+
+
+        originalPersonalData =
+          getPersonalFormData();
+
+
+        showToast(
+          "Profile changes saved successfully."
+        );
+
+
+      }catch(error){
+
+        console.error(
+          "GHAR profile update:",
+          error
+        );
+
+        showToast(
+          error.message ||
+          "Unable to save profile.",
+          "error"
+        );
+
+      }finally{
+
+        if(saveButton){
+          saveButton.disabled =
+            false;
+
+          saveButton.textContent =
+            "Save changes";
+        }
+
+      }
+
+    }
+  );
+
+
+$("#personalReset")
+  ?.addEventListener(
+    "click",
+    () => {
+
+      if(
+        !originalPersonalData
+      ){
+        return;
+      }
+
+
+      Object.entries(
+        originalPersonalData
+      ).forEach(
+        ([key,value]) => {
+
+          const input =
+            $(`#${key}`);
+
+          if(input){
+            input.value =
+              value ?? "";
+          }
+
+        }
+      );
+
+
+      updateCompletion();
+
+      showToast(
+        "Changes were reset."
+      );
+
+    }
+  );
+
+
+/* =========================================================
+   PREFERENCES SAVE
+========================================================= */
+
+$("#preferencesForm")
+  ?.addEventListener(
+    "submit",
+    async event => {
+
+      event.preventDefault();
+
+
+      const payload =
+        getPreferencesFormData();
+
+
+      const button =
+        event.submitter;
+
+
+      if(button){
+        button.disabled =
+          true;
+
+        button.textContent =
+          "Saving...";
+      }
+
+
+      try{
+
+        await apiRequest(
+          endpoints.preferences,
+          {
+            method:"PATCH",
+            body:
+              JSON.stringify(
+                payload
+              )
+          }
+        );
+
+
+        originalPreferences =
+          payload;
+
+
+        showToast(
+          "Property preferences saved."
+        );
+
+
+      }catch(error){
+
+        console.error(
+          "GHAR preferences:",
+          error
+        );
+
+        showToast(
+          error.message ||
+          "Unable to save preferences.",
+          "error"
+        );
+
+      }finally{
+
+        if(button){
+          button.disabled =
+            false;
+
+          button.textContent =
+            "Save preferences";
+        }
+
+      }
+
+    }
+  );
+
+
+/* =========================================================
+   DOCUMENTS
+========================================================= */
+
+async function loadDocuments(){
+
+  try{
+
+    const response =
+      await apiRequest(
+        endpoints.documents
+      );
+
+
+    const documents =
+      collection(
+        response
+      );
+
+
+    const grid =
+      $("#documentGrid");
+
+
+    if(
+      !documents.length
+    ){
+      return;
+    }
+
+
+    grid.innerHTML =
+      documents
+        .slice(0,8)
+        .map(
+          document => `
+
+            <div class="document-card">
+
+              <div class="document-icon">
+                ▣
+              </div>
+
+              <div class="document-copy">
+
+                <strong>
+                  ${escapeHTML(
+                    document.name ||
+                    document.title ||
+                    "Document"
+                  )}
+                </strong>
+
+                <span>
+                  ${escapeHTML(
+                    document.type ||
+                    document.category ||
+                    "Buyer document"
+                  )}
+                </span>
+
+              </div>
+
+              <span class="document-status">
+                ${escapeHTML(
+                  document.status ||
+                  "Uploaded"
+                )}
+              </span>
+
+            </div>
+
+          `
+        )
+        .join("");
+
+
+  }catch(error){
+
+    console.warn(
+      "GHAR documents:",
+      error
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   NOTIFICATIONS
+========================================================= */
+
+function notificationPayload(){
+
+  const result = {};
+
+  $$(
+    "[data-notification]"
+  ).forEach(
+    button => {
+
+      result[
+        button.dataset.notification
+      ] =
+        button.classList.contains(
+          "active"
+        );
+
+    }
+  );
+
+  return result;
+
+}
+
+
+async function saveNotifications(){
+
+  try{
+
+    await apiRequest(
+      endpoints.notifications,
+      {
+        method:"PATCH",
+        body:
+          JSON.stringify(
+            notificationPayload()
+          )
+      }
+    );
+
+
+    showToast(
+      "Notification preference updated."
+    );
+
+
+  }catch(error){
+
+    console.warn(
+      "GHAR notifications:",
+      error
+    );
+
+    showToast(
+      "Notification preference changed locally. Server update was unavailable.",
+      "error"
+    );
+
+  }
+
+}
+
+
+$$(
+  "[data-notification]"
+)
+.forEach(
+  button => {
+
+    button.addEventListener(
+      "click",
+      () => {
+
+        button.classList.toggle(
+          "active"
+        );
+
+        saveNotifications();
+
+      }
+    );
+
+  }
+);
+
+
+/* =========================================================
+   LOAD NOTIFICATIONS
+========================================================= */
+
+async function loadNotifications(){
+
+  try{
+
+    const response =
+      await apiRequest(
+        endpoints.notifications
+      );
+
+
+    const data =
+      unwrap(response);
+
+
+    if(!data){
+      return;
+    }
+
+
+    $$(
+      "[data-notification]"
+    ).forEach(
+      button => {
+
+        const key =
+          button.dataset.notification;
+
+        if(
+          typeof data[key] ===
+          "boolean"
+        ){
+
+          button.classList.toggle(
+            "active",
+            data[key]
+          );
+
+        }
+
+      }
+    );
+
+
+  }catch(error){
+
+    console.warn(
+      "GHAR notification loading:",
+      error
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   SECURITY ACTIONS
+========================================================= */
+
+$("#changePasswordButton")
+  ?.addEventListener(
+    "click",
+    () => {
+
+      window.location.href =
+        "/change-password.html";
+
+    }
+  );
+
+
+$("#sessionsButton")
+  ?.addEventListener(
+    "click",
+    () => {
+
+      window.location.href =
+        "/security/sessions.html";
+
+    }
+  );
+
+
+$("#verifyEmailButton")
+  ?.addEventListener(
+    "click",
+    async () => {
+
+      try{
+
+        await apiRequest(
+          API_BASE +
+          "/auth/send-verification",
+          {
+            method:"POST",
+            body:
+              JSON.stringify({
+                type:"email"
+              })
+          }
+        );
+
+
+        showToast(
+          "Email verification instructions sent."
+        );
+
+      }catch(error){
+
+        showToast(
+          error.message ||
+          "Unable to send verification email.",
+          "error"
+        );
+
+      }
+
+    }
+  );
+
+
+$("#verifyPhoneButton")
+  ?.addEventListener(
+    "click",
+    async () => {
+
+      try{
+
+        await apiRequest(
+          API_BASE +
+          "/auth/send-otp",
+          {
+            method:"POST",
+            body:
+              JSON.stringify({
+                type:"phone"
+              })
+          }
+        );
+
+
+        showToast(
+          "Mobile verification OTP requested."
+        );
+
+      }catch(error){
+
+        showToast(
+          error.message ||
+          "Unable to request mobile verification.",
+          "error"
+        );
+
+      }
+
+    }
+  );
+
+
+/* =========================================================
+   AVATAR
+========================================================= */
+
+$("#avatarInput")
+  ?.addEventListener(
+    "change",
+    event => {
+
+      const file =
+        event.target.files?.[0];
+
+      if(!file){
+        return;
+      }
+
+
+      if(
+        !file.type.startsWith(
+          "image/"
+        )
+      ){
+
+        showToast(
+          "Please select an image file.",
+          "error"
+        );
+
+        return;
+
+      }
+
+
+      const reader =
+        new FileReader();
+
+
+      reader.onload =
+        () => {
+
+          /*
+           * Preview only.
+           * Actual upload can be connected to
+           * the GHAR media/profile endpoint.
+           */
+
+          $("#identityAvatar").style.backgroundImage =
+            `url("${reader.result}")`;
+
+          $("#identityAvatar").style.backgroundSize =
+            "cover";
+
+          $("#identityAvatar").style.backgroundPosition =
+            "center";
+
+          $("#identityAvatar").childNodes[0].textContent =
+            "";
+
+          showToast(
+            "Profile image preview updated. Save/upload it through the profile media service."
+          );
+
+        };
+
+
+      reader.readAsDataURL(
+        file
+      );
+
+    }
+  );
+
+
+/* =========================================================
+   SECTION NAVIGATION
+========================================================= */
+
+function activateSection(
+  section
+){
+
+  $$(".profile-section")
+    .forEach(
+      element => {
+
+        element.classList.toggle(
+          "active",
+          element.id ===
+          "section-" + section
+        );
+
+      }
+    );
+
+
+  $$(".profile-nav button")
+    .forEach(
+      button => {
+
+        button.classList.toggle(
+          "active",
+          button.dataset.section ===
+          section
+        );
+
+      }
+    );
+
+
+  if(section === "documents"){
+    loadDocuments();
+  }
+
+
+  if(section === "notifications"){
+    loadNotifications();
+  }
+
+
+  history.replaceState(
+    null,
+    "",
+    "#" + section
+  );
+
+}
+
+
+$$(
+  ".profile-nav button"
+)
+.forEach(
+  button => {
+
+    button.addEventListener(
+      "click",
+      () => {
+
+        activateSection(
+          button.dataset.section
+        );
+
+      }
+    );
+
+  }
+);
+
+
+/* =========================================================
+   MOBILE MENU
+========================================================= */
+
+$("#menuButton")
+  ?.addEventListener(
+    "click",
+    () => {
+
+      const nav =
+        document.querySelector(
+          ".desktop-nav"
+        );
+
+
+      if(!nav){
+        return;
+      }
+
+
+      const visible =
+        nav.dataset.mobileOpen ===
+        "true";
+
+
+      if(visible){
+
+        nav.style.display = "";
+        nav.dataset.mobileOpen =
+          "false";
+
+        return;
+
+      }
+
+
+      nav.dataset.mobileOpen =
+        "true";
+
+      nav.style.display =
+        "flex";
+
+      nav.style.position =
+        "absolute";
+
+      nav.style.left =
+        "14px";
+
+      nav.style.right =
+        "14px";
+
+      nav.style.top =
+        "66px";
+
+      nav.style.padding =
+        "10px";
+
+      nav.style.flexDirection =
+        "column";
+
+      nav.style.alignItems =
+        "stretch";
+
+      nav.style.border =
+        "1px solid rgba(229,199,125,.14)";
+
+      nav.style.borderRadius =
+        "16px";
+
+      nav.style.background =
+        "#0b1c14";
+
+      nav.style.boxShadow =
+        "0 25px 60px rgba(0,0,0,.35)";
+
+    }
+  );
+
+
+/* =========================================================
+   NOTIFICATIONS LINK
+========================================================= */
+
+$("#notificationButton")
+  ?.addEventListener(
+    "click",
+    () => {
+
+      window.location.href =
+        "/buyer/notifications.html";
+
+    }
+  );
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+$("#logoutButton")
+  ?.addEventListener(
+    "click",
+    async () => {
+
+      const confirmed =
+        window.confirm(
+          "Are you sure you want to sign out of GHAR?"
+        );
+
+
+      if(!confirmed){
+        return;
+      }
+
+
+      try{
+
+        await apiRequest(
+          endpoints.logout,
+          {
+            method:"POST"
+          }
+        );
+
+      }catch(error){
+
+        console.warn(
+          "GHAR logout:",
+          error
+        );
+
+      }finally{
+
+        window.location.href =
+          "/login.html";
+
+      }
+
+    }
+  );
+
+
+/* =========================================================
+   AI
+========================================================= */
+
+$("#openAI")
+  ?.addEventListener(
+    "click",
+    () => {
+
+      window.location.href =
+        "/buyer/ai.html";
+
+    }
+  );
+
+
+/* =========================================================
+   LOAD PROFILE
+========================================================= */
+
+async function loadProfile(){
+
+  try{
+
+    const response =
+      await apiRequest(
+        endpoints.me
+      );
+
+
+    renderUser(
+      response
+    );
+
+
+  }catch(error){
+
+    console.error(
+      "GHAR buyer profile:",
+      error
+    );
+
+
+    /*
+     * Do not fabricate account information.
+     * If the authentication endpoint is unavailable,
+     * retain the editable empty state.
+     */
+
+    $("#sidebarName").textContent =
+      "Buyer";
+
+    $("#sidebarEmail").textContent =
+      "Profile information unavailable";
+
+
+    showToast(
+      "Unable to load your profile from the server.",
+      "error"
+    );
+
+  }
+
+}
+
+
+async function loadPreferences(){
+
+  try{
+
+    const response =
+      await apiRequest(
+        endpoints.preferences
+      );
+
+
+    renderPreferences(
+      response
+    );
+
+
+  }catch(error){
+
+    console.warn(
+      "GHAR preferences loading:",
+      error
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   HASH ROUTING
+========================================================= */
+
+function initializeSectionFromHash(){
+
+  const hash =
+    window.location.hash
+      .replace("#","")
+      .trim();
+
+
+  const valid =
+    [
+      "personal",
+      "preferences",
+      "documents",
+      "notifications",
+      "security",
+      "account"
+    ];
+
+
+  if(
+    valid.includes(hash)
+  ){
+
+    activateSection(
+      hash
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   INPUT LISTENERS
+========================================================= */
+
+$$(
+  "#personalForm input, #personalForm textarea, #personalForm select"
+)
+.forEach(
+  input => {
+
+    input.addEventListener(
+      "input",
+      updateCompletion
+    );
+
+    input.addEventListener(
+      "change",
+      updateCompletion
+    );
+
+  }
+);
+
+
+/* =========================================================
+   INITIALIZATION
+========================================================= */
+
+async function initialize(){
+
+  $("#footerYear").textContent =
+    new Date().getFullYear();
+
+
+  initializeSectionFromHash();
+
+
+  await Promise.allSettled([
+    loadProfile(),
+    loadPreferences(),
+    loadNotifications()
+  ]);
+
+
+  updateCompletion();
+
+}
+
+
+if(
+  document.readyState ===
+  "loading"
+){
+
+  document.addEventListener(
+    "DOMContentLoaded",
+    initialize
+  );
+
+}else{
+
+  initialize();
+
+}
+</script>
+
+</body>
+</html>

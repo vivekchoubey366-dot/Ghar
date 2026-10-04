@@ -1,0 +1,1894 @@
+<!-- /buyer/applications.html -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<meta name="description"
+      content="GHAR Buyer Applications -- Track property applications, documents, verification and application progress.">
+
+<meta name="theme-color" content="#162d25">
+
+<title>GHAR · Applications</title>
+
+<link rel="icon" href="../assets/images/favicon.svg">
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --green-950:#07130e;
+  --green-925:#0a1912;
+  --green-900:#0b1c14;
+  --green-850:#10261c;
+  --green-800:#162d25;
+  --green-750:#1a382c;
+  --green-700:#214438;
+  --green-600:#2b5847;
+
+  --gold-100:#fff7df;
+  --gold-200:#f4dfaa;
+  --gold-300:#e5c77d;
+  --gold-400:#c9a95c;
+  --gold-500:#a98238;
+
+  --cream:#fffaf0;
+  --cream-2:#f7eedc;
+  --sand:#eee1c8;
+
+  --text:#f9f5ea;
+  --muted:rgba(255,255,255,.68);
+  --muted-2:rgba(255,255,255,.45);
+
+  --border:rgba(229,199,125,.18);
+  --border-light:rgba(255,255,255,.09);
+
+  --success:#82c995;
+  --warning:#e6c477;
+  --danger:#e98c8c;
+  --blue:#91b9e8;
+
+  --shadow:0 25px 80px rgba(0,0,0,.25);
+
+  --radius-xl:28px;
+  --radius-lg:21px;
+  --radius-md:15px;
+
+  --container:1440px;
+}
+
+html{scroll-behavior:smooth}
+
+body{
+  min-height:100vh;
+  color:var(--text);
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  background:
+    radial-gradient(circle at 5% 0%,rgba(229,199,125,.12),transparent 28%),
+    radial-gradient(circle at 100% 10%,rgba(44,91,69,.22),transparent 30%),
+    linear-gradient(135deg,#07130e,#0b1c14 48%,#10261c);
+  overflow-x:hidden;
+}
+
+a{color:inherit;text-decoration:none}
+button,input,select{font:inherit}
+button{cursor:pointer}
+img{display:block;max-width:100%}
+
+.container{
+  width:min(calc(100% - 40px),var(--container));
+  margin:auto;
+}
+
+.page-glow{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:-1;
+  overflow:hidden;
+}
+
+.page-glow:before{
+  content:"";
+  position:absolute;
+  width:550px;
+  height:550px;
+  top:-300px;
+  right:-220px;
+  border-radius:50%;
+  border:1px solid rgba(229,199,125,.12);
+  box-shadow:
+    0 0 0 60px rgba(229,199,125,.025),
+    0 0 0 120px rgba(229,199,125,.015);
+}
+
+.page-glow:after{
+  content:"";
+  position:absolute;
+  width:500px;
+  height:500px;
+  bottom:-300px;
+  left:-250px;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,.06);
+}
+
+/* HEADER */
+
+.site-header{
+  position:sticky;
+  top:0;
+  z-index:100;
+  border-bottom:1px solid rgba(229,199,125,.10);
+  background:rgba(7,19,14,.90);
+  backdrop-filter:blur(22px);
+}
+
+.header-inner{
+  min-height:76px;
+  display:flex;
+  align-items:center;
+  gap:24px;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex-shrink:0;
+}
+
+.brand-mark{
+  width:45px;
+  height:45px;
+  display:grid;
+  place-items:center;
+  border-radius:14px;
+  color:#152116;
+  font-size:19px;
+  font-weight:1000;
+  background:linear-gradient(135deg,#f1dda5,#b98b3d);
+  box-shadow:0 10px 25px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.5);
+}
+
+.brand-text strong{
+  display:block;
+  font-size:17px;
+  letter-spacing:.17em;
+}
+
+.brand-text span{
+  display:block;
+  margin-top:2px;
+  color:var(--muted-2);
+  font-size:8px;
+  font-weight:800;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+}
+
+.desktop-nav{
+  display:flex;
+  align-items:center;
+  gap:5px;
+  margin-left:auto;
+}
+
+.desktop-nav a{
+  padding:10px 12px;
+  border-radius:10px;
+  color:var(--muted);
+  font-size:11px;
+  font-weight:700;
+  transition:.2s ease;
+}
+
+.desktop-nav a:hover,
+.desktop-nav a.active{
+  color:var(--gold-200);
+  background:rgba(229,199,125,.07);
+}
+
+.header-actions{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.icon-btn{
+  width:41px;
+  height:41px;
+  display:grid;
+  place-items:center;
+  border:1px solid var(--border-light);
+  border-radius:12px;
+  color:var(--muted);
+  background:rgba(255,255,255,.035);
+  transition:.2s ease;
+}
+
+.icon-btn:hover{
+  color:var(--gold-200);
+  border-color:rgba(229,199,125,.25);
+}
+
+.avatar{
+  width:40px;
+  height:40px;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  color:#172016;
+  font-size:12px;
+  font-weight:1000;
+  background:linear-gradient(135deg,var(--gold-200),var(--gold-500));
+}
+
+.mobile-menu{display:none}
+
+/* PAGE */
+
+.page{
+  padding:44px 0 20px;
+}
+
+.page-heading{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:20px;
+  margin-bottom:25px;
+}
+
+.eyebrow{
+  color:var(--gold-300);
+  font-size:10px;
+  font-weight:950;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+}
+
+.page-heading h1{
+  margin-top:9px;
+  font-size:clamp(34px,5vw,56px);
+  line-height:1;
+  letter-spacing:-.055em;
+}
+
+.page-heading p{
+  max-width:720px;
+  margin-top:13px;
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.7;
+}
+
+.heading-actions{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+/* BUTTONS */
+
+.btn{
+  min-height:43px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  padding:0 16px;
+  border-radius:11px;
+  border:1px solid transparent;
+  font-size:10px;
+  font-weight:900;
+  transition:.2s ease;
+}
+
+.btn-primary{
+  color:#17170f;
+  background:linear-gradient(135deg,#f1dca1,#cda85d);
+}
+
+.btn-primary:hover{transform:translateY(-2px)}
+
+.btn-secondary{
+  color:var(--cream);
+  border-color:var(--border-light);
+  background:rgba(255,255,255,.045);
+}
+
+.btn-secondary:hover{
+  color:var(--gold-200);
+  border-color:rgba(229,199,125,.28);
+}
+
+/* SUMMARY */
+
+.summary-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:13px;
+  margin-bottom:22px;
+}
+
+.summary-card{
+  padding:20px;
+  border:1px solid var(--border-light);
+  border-radius:var(--radius-lg);
+  background:linear-gradient(145deg,rgba(20,45,34,.94),rgba(11,28,20,.94));
+}
+
+.summary-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.summary-label{
+  color:var(--muted-2);
+  font-size:9px;
+  font-weight:850;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+
+.summary-icon{
+  width:35px;
+  height:35px;
+  display:grid;
+  place-items:center;
+  border-radius:10px;
+  color:var(--gold-300);
+  background:rgba(229,199,125,.08);
+}
+
+.summary-value{
+  margin-top:14px;
+  font-size:27px;
+  font-weight:950;
+  letter-spacing:-.04em;
+}
+
+.summary-note{
+  margin-top:4px;
+  color:var(--muted-2);
+  font-size:9px;
+}
+
+/* FILTER */
+
+.filter-panel{
+  padding:17px;
+  margin-bottom:18px;
+  border:1px solid var(--border-light);
+  border-radius:var(--radius-lg);
+  background:linear-gradient(145deg,rgba(20,45,34,.92),rgba(11,28,20,.92));
+}
+
+.filter-row{
+  display:grid;
+  grid-template-columns:1.5fr repeat(3,1fr) auto;
+  gap:9px;
+}
+
+.input,
+.select{
+  width:100%;
+  height:44px;
+  padding:0 12px;
+  outline:none;
+  color:var(--cream);
+  border:1px solid rgba(255,255,255,.09);
+  border-radius:10px;
+  background:rgba(255,255,255,.035);
+  font-size:10px;
+}
+
+.select option{
+  color:#172016;
+}
+
+.input:focus,
+.select:focus{
+  border-color:rgba(229,199,125,.45);
+}
+
+/* APPLICATION LIST */
+
+.application-list{
+  display:grid;
+  gap:14px;
+}
+
+.application-card{
+  overflow:hidden;
+  border:1px solid var(--border-light);
+  border-radius:var(--radius-lg);
+  background:linear-gradient(145deg,#142d22,#0b1c14);
+  transition:.2s ease;
+}
+
+.application-card:hover{
+  border-color:rgba(229,199,125,.25);
+  box-shadow:0 20px 50px rgba(0,0,0,.18);
+}
+
+.application-main{
+  display:grid;
+  grid-template-columns:170px 1fr auto;
+  gap:20px;
+  padding:18px;
+  align-items:center;
+}
+
+.property-thumb{
+  height:125px;
+  overflow:hidden;
+  border-radius:14px;
+  background:linear-gradient(135deg,#284c3c,#142d22);
+}
+
+.property-thumb img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.application-info{
+  min-width:0;
+}
+
+.application-label{
+  color:var(--gold-300);
+  font-size:8px;
+  font-weight:950;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+
+.application-title{
+  margin-top:6px;
+  font-size:18px;
+  font-weight:900;
+  line-height:1.25;
+}
+
+.application-location{
+  margin-top:6px;
+  color:var(--muted-2);
+  font-size:9px;
+}
+
+.application-meta{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  margin-top:12px;
+}
+
+.meta-chip{
+  padding:6px 8px;
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:7px;
+  color:var(--muted);
+  background:rgba(255,255,255,.025);
+  font-size:8px;
+}
+
+.application-id{
+  margin-top:11px;
+  color:var(--muted-2);
+  font-size:8px;
+}
+
+.application-side{
+  min-width:160px;
+  text-align:right;
+}
+
+.status{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:7px 9px;
+  border-radius:8px;
+  font-size:8px;
+  font-weight:950;
+  text-transform:uppercase;
+}
+
+.status-pending{
+  color:#f4dfaa;
+  background:rgba(229,199,125,.10);
+}
+
+.status-review{
+  color:#91b9e8;
+  background:rgba(145,185,232,.10);
+}
+
+.status-approved{
+  color:#82c995;
+  background:rgba(130,201,149,.10);
+}
+
+.status-rejected{
+  color:#e98c8c;
+  background:rgba(233,140,140,.10);
+}
+
+.application-price{
+  margin-top:14px;
+  color:var(--cream);
+  font-size:17px;
+  font-weight:950;
+}
+
+.application-price small{
+  color:var(--muted-2);
+  font-size:8px;
+  font-weight:600;
+}
+
+.application-date{
+  margin-top:4px;
+  color:var(--muted-2);
+  font-size:8px;
+}
+
+.application-footer{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+  padding:13px 18px;
+  border-top:1px solid rgba(255,255,255,.06);
+  background:rgba(255,255,255,.018);
+}
+
+.progress-wrap{
+  flex:1;
+  max-width:650px;
+}
+
+.progress-head{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:7px;
+  color:var(--muted-2);
+  font-size:8px;
+}
+
+.progress{
+  width:100%;
+  height:5px;
+  overflow:hidden;
+  border-radius:10px;
+  background:rgba(255,255,255,.07);
+}
+
+.progress-bar{
+  height:100%;
+  border-radius:10px;
+  background:linear-gradient(90deg,var(--gold-500),var(--gold-200));
+}
+
+/* EMPTY */
+
+.empty-state{
+  padding:65px 25px;
+  text-align:center;
+  border:1px dashed rgba(229,199,125,.20);
+  border-radius:var(--radius-lg);
+  background:rgba(255,255,255,.025);
+}
+
+.empty-icon{
+  width:55px;
+  height:55px;
+  margin:0 auto;
+  display:grid;
+  place-items:center;
+  border-radius:16px;
+  color:var(--gold-300);
+  background:rgba(229,199,125,.08);
+  font-size:22px;
+}
+
+.empty-state h3{
+  margin-top:15px;
+  font-size:18px;
+}
+
+.empty-state p{
+  max-width:480px;
+  margin:7px auto 18px;
+  color:var(--muted-2);
+  font-size:10px;
+  line-height:1.7;
+}
+
+/* FOOTER */
+
+.site-footer{
+  margin-top:45px;
+  padding:35px 0 25px;
+  border-top:1px solid rgba(255,255,255,.07);
+  background:rgba(3,12,8,.35);
+}
+
+.footer-grid{
+  display:grid;
+  grid-template-columns:1.4fr repeat(3,1fr);
+  gap:25px;
+}
+
+.footer-brand{max-width:300px}
+
+.footer-brand p{
+  margin-top:10px;
+  color:var(--muted-2);
+  font-size:9px;
+  line-height:1.7;
+}
+
+.footer-col h4{
+  color:var(--gold-200);
+  font-size:9px;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+}
+
+.footer-col a{
+  display:block;
+  margin-top:9px;
+  color:var(--muted-2);
+  font-size:9px;
+}
+
+.footer-col a:hover{color:var(--gold-300)}
+
+.footer-bottom{
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+  margin-top:28px;
+  padding-top:17px;
+  border-top:1px solid rgba(255,255,255,.06);
+  color:var(--muted-2);
+  font-size:8px;
+}
+
+/* AI */
+
+.ai-floating{
+  position:fixed;
+  right:22px;
+  bottom:22px;
+  z-index:90;
+  min-height:48px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:0 16px;
+  border:1px solid rgba(229,199,125,.25);
+  border-radius:30px;
+  color:#17170f;
+  background:linear-gradient(135deg,var(--gold-200),var(--gold-400));
+  box-shadow:0 15px 35px rgba(0,0,0,.3);
+  font-size:10px;
+  font-weight:1000;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1100px){
+  .desktop-nav{display:none}
+  .mobile-menu{display:grid}
+
+  .summary-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .filter-row{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .filter-row .filter-search{
+    grid-column:1/-1;
+  }
+}
+
+@media(max-width:800px){
+  .container{
+    width:min(calc(100% - 28px),var(--container));
+  }
+
+  .page-heading{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+
+  .application-main{
+    grid-template-columns:125px 1fr;
+  }
+
+  .application-side{
+    grid-column:2;
+    min-width:0;
+    text-align:left;
+  }
+
+  .application-footer{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+
+  .progress-wrap{
+    width:100%;
+    max-width:none;
+  }
+
+  .footer-grid{
+    grid-template-columns:1fr 1fr;
+  }
+}
+
+@media(max-width:560px){
+  .header-inner{min-height:68px}
+  .brand-text span{display:none}
+  .header-actions .icon-btn{display:none}
+
+  .page{padding-top:28px}
+
+  .summary-grid{
+    grid-template-columns:1fr 1fr;
+    gap:9px;
+  }
+
+  .summary-card{padding:15px}
+
+  .summary-value{font-size:22px}
+
+  .filter-row{
+    grid-template-columns:1fr;
+  }
+
+  .filter-row .filter-search{
+    grid-column:auto;
+  }
+
+  .application-main{
+    grid-template-columns:1fr;
+  }
+
+  .property-thumb{
+    height:190px;
+  }
+
+  .application-side{
+    grid-column:auto;
+  }
+
+  .application-footer{
+    padding:13px;
+  }
+
+  .footer-grid{
+    grid-template-columns:1fr;
+  }
+
+  .footer-bottom{
+    flex-direction:column;
+  }
+
+  .ai-floating{
+    right:14px;
+    bottom:14px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="page-glow"></div>
+
+<header class="site-header">
+  <div class="container header-inner">
+
+    <a class="brand" href="/buyer/index.html">
+      <div class="brand-mark">G</div>
+      <div class="brand-text">
+        <strong>GHAR</strong>
+        <span>Buyer Experience</span>
+      </div>
+    </a>
+
+    <nav class="desktop-nav" id="mainNav">
+
+      <a href="/buyer/index.html">Home</a>
+      <a href="/buyer/properties.html">Properties</a>
+      <a href="/buyer/search.html">Search</a>
+      <a href="/buyer/saved-properties.html">Saved</a>
+      <a href="/buyer/favourites.html">Favourites</a>
+      <a href="/buyer/visits.html">Visits</a>
+      <a href="/buyer/offers.html">Offers</a>
+      <a class="active" href="/buyer/applications.html">Applications</a>
+
+    </nav>
+
+    <div class="header-actions">
+
+      <button
+        class="icon-btn"
+        id="notificationButton"
+        type="button"
+        aria-label="Notifications"
+      >♢</button>
+
+      <a
+        class="avatar"
+        id="profileButton"
+        href="/buyer/profile.html"
+      >U</a>
+
+      <button
+        class="icon-btn mobile-menu"
+        id="menuButton"
+        type="button"
+        aria-label="Open menu"
+      >☰</button>
+
+    </div>
+
+  </div>
+</header>
+
+<main>
+
+<section class="page">
+
+<div class="container">
+
+  <div class="page-heading">
+
+    <div>
+      <div class="eyebrow">BUYER APPLICATION CENTER</div>
+
+      <h1>
+        Your applications.
+      </h1>
+
+      <p>
+        Track every property application from submission and
+        document verification through review, approval and
+        final purchase processing.
+      </p>
+    </div>
+
+    <div class="heading-actions">
+      <a class="btn btn-secondary" href="/buyer/documents.html">
+        Manage documents
+      </a>
+
+      <a class="btn btn-primary" href="/buyer/properties.html">
+        Find a property
+      </a>
+    </div>
+
+  </div>
+
+  <div class="summary-grid">
+
+    <article class="summary-card">
+      <div class="summary-top">
+        <span class="summary-label">Total</span>
+        <div class="summary-icon">▣</div>
+      </div>
+      <div class="summary-value" id="totalApplications">0</div>
+      <div class="summary-note">All applications</div>
+    </article>
+
+    <article class="summary-card">
+      <div class="summary-top">
+        <span class="summary-label">Pending</span>
+        <div class="summary-icon">◷</div>
+      </div>
+      <div class="summary-value" id="pendingApplications">0</div>
+      <div class="summary-note">Awaiting action</div>
+    </article>
+
+    <article class="summary-card">
+      <div class="summary-top">
+        <span class="summary-label">Review</span>
+        <div class="summary-icon">⌕</div>
+      </div>
+      <div class="summary-value" id="reviewApplications">0</div>
+      <div class="summary-note">Under verification</div>
+    </article>
+
+    <article class="summary-card">
+      <div class="summary-top">
+        <span class="summary-label">Approved</span>
+        <div class="summary-icon">✓</div>
+      </div>
+      <div class="summary-value" id="approvedApplications">0</div>
+      <div class="summary-note">Approved applications</div>
+    </article>
+
+  </div>
+
+  <section class="filter-panel">
+
+    <div class="filter-row">
+
+      <input
+        id="applicationSearch"
+        class="input filter-search"
+        type="search"
+        placeholder="Search by property, location or application ID..."
+      >
+
+      <select id="statusFilter" class="select">
+        <option value="">All statuses</option>
+        <option value="pending">Pending</option>
+        <option value="review">Under review</option>
+        <option value="approved">Approved</option>
+        <option value="rejected">Rejected</option>
+      </select>
+
+      <select id="typeFilter" class="select">
+        <option value="">All property types</option>
+        <option value="apartment">Apartment</option>
+        <option value="villa">Villa</option>
+        <option value="house">House</option>
+        <option value="commercial">Commercial</option>
+        <option value="plot">Plot</option>
+      </select>
+
+      <select id="sortFilter" class="select">
+        <option value="recent">Most recent</option>
+        <option value="oldest">Oldest</option>
+        <option value="price-high">Highest value</option>
+        <option value="price-low">Lowest value</option>
+      </select>
+
+      <button
+        id="clearFilters"
+        class="btn btn-secondary"
+        type="button"
+      >
+        Clear
+      </button>
+
+    </div>
+
+  </section>
+
+  <section>
+
+    <div
+      id="applicationList"
+      class="application-list"
+    ></div>
+
+  </section>
+
+</div>
+
+</section>
+
+</main>
+
+<footer class="site-footer">
+
+  <div class="container">
+
+    <div class="footer-grid">
+
+      <div class="footer-brand">
+
+        <div class="brand">
+          <div class="brand-mark">G</div>
+
+          <div class="brand-text">
+            <strong>GHAR</strong>
+            <span>Real Estate Platform</span>
+          </div>
+        </div>
+
+        <p>
+          A connected real estate platform for discovering,
+          evaluating, financing and managing property decisions.
+        </p>
+
+      </div>
+
+      <div class="footer-col">
+        <h4>Discover</h4>
+        <a href="/buyer/properties.html">Properties</a>
+        <a href="/buyer/search.html">Search</a>
+        <a href="/buyer/saved-properties.html">Saved</a>
+        <a href="/buyer/favourites.html">Favourites</a>
+      </div>
+
+      <div class="footer-col">
+        <h4>Buyer</h4>
+        <a href="/buyer/profile.html">Profile</a>
+        <a href="/buyer/visits.html">Visits</a>
+        <a href="/buyer/offers.html">Offers</a>
+        <a href="/buyer/applications.html">Applications</a>
+      </div>
+
+      <div class="footer-col">
+        <h4>Support</h4>
+        <a href="/help-centre.html">Help Centre</a>
+        <a href="/contact.html">Contact</a>
+        <a href="/buyer/support.html">Support</a>
+        <a href="/privacy.html">Privacy</a>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <span>
+        © <span id="footerYear"></span> GHAR. All rights reserved.
+      </span>
+
+      <span>
+        Buyer Portal · Secure Session
+      </span>
+    </div>
+
+  </div>
+
+</footer>
+
+<button id="openAI" class="ai-floating" type="button">
+  ✦ Ask GHAR AI
+</button>
+
+<script>
+"use strict";
+
+const API_BASE =
+  window.GHAR_API_BASE ||
+  window.API_BASE ||
+  "/api";
+
+const applicationList =
+  document.getElementById("applicationList");
+
+let applications = [];
+
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function $(selector){
+  return document.querySelector(selector);
+}
+
+function escapeHTML(value){
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+}
+
+async function apiRequest(url,options={}){
+  const response = await fetch(url,{
+    credentials:"include",
+
+    headers:{
+      "Accept":"application/json",
+      "Content-Type":"application/json",
+      ...(options.headers || {})
+    },
+
+    ...options
+  });
+
+  let data=null;
+
+  try{
+    data=await response.json();
+  }catch{
+    data=null;
+  }
+
+  if(!response.ok){
+    const error=new Error(
+      data?.error?.message ||
+      data?.message ||
+      "Request failed."
+    );
+
+    error.status=response.status;
+    error.data=data;
+
+    throw error;
+  }
+
+  return data;
+}
+
+function normalizeCollection(response){
+
+  if(Array.isArray(response))
+    return response;
+
+  if(Array.isArray(response?.data))
+    return response.data;
+
+  if(Array.isArray(response?.applications))
+    return response.applications;
+
+  if(Array.isArray(response?.items))
+    return response.items;
+
+  if(Array.isArray(response?.results))
+    return response.results;
+
+  return [];
+}
+
+function getStatus(application){
+
+  return String(
+    application.status ||
+    application.applicationStatus ||
+    "pending"
+  ).toLowerCase().replace(/\s+/g,"-");
+}
+
+function formatPrice(value){
+
+  const amount=Number(value);
+
+  if(!Number.isFinite(amount))
+    return "Price on request";
+
+  if(amount>=10000000)
+    return "₹"+(amount/10000000).toFixed(2)+" Cr";
+
+  if(amount>=100000)
+    return "₹"+(amount/100000).toFixed(2)+" L";
+
+  return "₹"+amount.toLocaleString("en-IN");
+}
+
+function formatDate(value){
+
+  if(!value)
+    return "Date unavailable";
+
+  const date=new Date(value);
+
+  if(Number.isNaN(date.getTime()))
+    return "Date unavailable";
+
+  return date.toLocaleDateString(
+    "en-IN",
+    {
+      day:"2-digit",
+      month:"short",
+      year:"numeric"
+    }
+  );
+}
+
+function getProgress(application){
+
+  const status=getStatus(application);
+
+  if(
+    application.progress !== undefined
+  ){
+    return Math.max(
+      0,
+      Math.min(
+        100,
+        Number(application.progress)
+      )
+    );
+  }
+
+  const map={
+    pending:25,
+    "under-review":55,
+    review:55,
+    approved:100,
+    rejected:100
+  };
+
+  return map[status] ?? 25;
+}
+
+function statusLabel(status){
+
+  const labels={
+    pending:"Pending",
+    review:"Under Review",
+    "under-review":"Under Review",
+    approved:"Approved",
+    rejected:"Rejected"
+  };
+
+  return labels[status] || "Pending";
+}
+
+
+/* =========================================================
+   APPLICATION CARD
+========================================================= */
+
+function createApplicationCard(application){
+
+  const id =
+    application.id ||
+    application.applicationId ||
+    application._id ||
+    "GHAR-APPLICATION";
+
+  const property =
+    application.property ||
+    {};
+
+  const propertyId =
+    application.propertyId ||
+    property.id ||
+    property.propertyId ||
+    "";
+
+  const title =
+    application.propertyTitle ||
+    property.title ||
+    property.name ||
+    application.title ||
+    "Property Application";
+
+  const location =
+    application.location ||
+    property.location ||
+    property.city ||
+    "Location available";
+
+  const type =
+    application.propertyType ||
+    property.propertyType ||
+    property.type ||
+    "Property";
+
+  const price =
+    application.price ||
+    property.price ||
+    property.salePrice ||
+    application.amount;
+
+  const image =
+    application.image ||
+    property.image ||
+    property.coverImage ||
+    property.thumbnail ||
+    property.images?.[0] ||
+    "../assets/images/property-placeholder.jpg";
+
+  const status=getStatus(application);
+
+  const progress=getProgress(application);
+
+  const submitted =
+    application.createdAt ||
+    application.submittedAt ||
+    application.date;
+
+  const configuration =
+    property.configuration ||
+    property.bhk ||
+    application.configuration ||
+    "--";
+
+  const area =
+    property.area ||
+    property.areaSqFt ||
+    application.area ||
+    "--";
+
+  return `
+
+  <article
+    class="application-card"
+    data-application-id="${escapeHTML(id)}"
+    data-property-id="${escapeHTML(propertyId)}"
+    data-status="${escapeHTML(status)}"
+    data-type="${escapeHTML(String(type).toLowerCase())}"
+    data-title="${escapeHTML(title)}"
+    data-location="${escapeHTML(location)}"
+    data-price="${escapeHTML(price || 0)}"
+    data-date="${escapeHTML(submitted || "")}"
+  >
+
+    <div class="application-main">
+
+      <a
+        class="property-thumb"
+        href="/buyer/property-details.html?id=${encodeURIComponent(propertyId)}"
+        aria-label="View property"
+      >
+        <img
+          src="${escapeHTML(image)}"
+          alt="${escapeHTML(title)}"
+          loading="lazy"
+          onerror="this.src='../assets/images/property-placeholder.jpg'"
+        >
+      </a>
+
+      <div class="application-info">
+
+        <div class="application-label">
+          ${escapeHTML(type)}
+        </div>
+
+        <h2 class="application-title">
+          ${escapeHTML(title)}
+        </h2>
+
+        <div class="application-location">
+          ${escapeHTML(location)}
+        </div>
+
+        <div class="application-meta">
+
+          <span class="meta-chip">
+            ${escapeHTML(configuration)}
+          </span>
+
+          <span class="meta-chip">
+            ${escapeHTML(area)}
+          </span>
+
+          <span class="meta-chip">
+            Application ${escapeHTML(id)}
+          </span>
+
+        </div>
+
+        <div class="application-id">
+          Submitted ${escapeHTML(formatDate(submitted))}
+        </div>
+
+      </div>
+
+      <div class="application-side">
+
+        <span class="status status-${escapeHTML(status)}">
+          ${escapeHTML(statusLabel(status))}
+        </span>
+
+        <div class="application-price">
+          ${escapeHTML(formatPrice(price))}
+          <small>application value</small>
+        </div>
+
+        <div class="application-date">
+          ${status==="approved"
+            ? "Application approved"
+            : status==="rejected"
+              ? "Application closed"
+              : "Application in progress"}
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="application-footer">
+
+      <div class="progress-wrap">
+
+        <div class="progress-head">
+
+          <span>
+            Application progress
+          </span>
+
+          <strong>
+            ${progress}%
+          </strong>
+
+        </div>
+
+        <div class="progress">
+          <div
+            class="progress-bar"
+            style="width:${progress}%"
+          ></div>
+        </div>
+
+      </div>
+
+      <div style="display:flex;gap:7px;flex-wrap:wrap">
+
+        <a
+          class="btn btn-secondary"
+          href="/buyer/application-details.html?id=${encodeURIComponent(id)}"
+        >
+          View application
+        </a>
+
+        ${
+          propertyId
+          ?
+          `<a
+             class="btn btn-primary"
+             href="/buyer/property-details.html?id=${encodeURIComponent(propertyId)}"
+           >
+             View property
+           </a>`
+          :
+          ""
+        }
+
+      </div>
+
+    </div>
+
+  </article>
+
+  `;
+}
+
+
+/* =========================================================
+   RENDER
+========================================================= */
+
+function renderApplications(list){
+
+  if(!applicationList)
+    return;
+
+  if(!list.length){
+
+    applicationList.innerHTML=`
+
+      <div class="empty-state">
+
+        <div class="empty-icon">
+          ▣
+        </div>
+
+        <h3>
+          No applications found
+        </h3>
+
+        <p>
+          You don't have any applications matching the
+          current filters. Start exploring properties and
+          submit an application when you find the right one.
+        </p>
+
+        <a
+          class="btn btn-primary"
+          href="/buyer/properties.html"
+        >
+          Explore properties
+        </a>
+
+      </div>
+
+    `;
+
+    return;
+  }
+
+  applicationList.innerHTML=
+    list.map(createApplicationCard).join("");
+}
+
+
+/* =========================================================
+   SUMMARY
+========================================================= */
+
+function updateSummary(list){
+
+  const total=list.length;
+
+  const pending=list.filter(
+    item=>{
+      const status=getStatus(item);
+      return status==="pending";
+    }
+  ).length;
+
+  const review=list.filter(
+    item=>{
+      const status=getStatus(item);
+      return (
+        status==="review" ||
+        status==="under-review"
+      );
+    }
+  ).length;
+
+  const approved=list.filter(
+    item=>{
+      return getStatus(item)==="approved";
+    }
+  ).length;
+
+  $("#totalApplications").textContent=total;
+  $("#pendingApplications").textContent=pending;
+  $("#reviewApplications").textContent=review;
+  $("#approvedApplications").textContent=approved;
+}
+
+
+/* =========================================================
+   FILTER
+========================================================= */
+
+function applyFilters(){
+
+  const search=
+    $("#applicationSearch")
+      .value
+      .trim()
+      .toLowerCase();
+
+  const status=
+    $("#statusFilter")
+      .value
+      .toLowerCase();
+
+  const type=
+    $("#typeFilter")
+      .value
+      .toLowerCase();
+
+  const sort=
+    $("#sortFilter")
+      .value;
+
+  let filtered=applications.filter(item=>{
+
+    const itemStatus=
+      getStatus(item);
+
+    const property=
+      item.property || {};
+
+    const title=String(
+      item.propertyTitle ||
+      property.title ||
+      property.name ||
+      item.title ||
+      ""
+    ).toLowerCase();
+
+    const location=String(
+      item.location ||
+      property.location ||
+      property.city ||
+      ""
+    ).toLowerCase();
+
+    const id=String(
+      item.id ||
+      item.applicationId ||
+      item._id ||
+      ""
+    ).toLowerCase();
+
+    const itemType=String(
+      item.propertyType ||
+      property.propertyType ||
+      property.type ||
+      ""
+    ).toLowerCase();
+
+    const matchesSearch=
+      !search ||
+      title.includes(search) ||
+      location.includes(search) ||
+      id.includes(search);
+
+    const matchesStatus=
+      !status ||
+      itemStatus===status;
+
+    const matchesType=
+      !type ||
+      itemType.includes(type);
+
+    return (
+      matchesSearch &&
+      matchesStatus &&
+      matchesType
+    );
+  });
+
+
+  filtered.sort((a,b)=>{
+
+    if(sort==="price-high"){
+      return Number(
+        b.price ||
+        b.amount ||
+        b.property?.price ||
+        0
+      )-
+      Number(
+        a.price ||
+        a.amount ||
+        a.property?.price ||
+        0
+      );
+    }
+
+    if(sort==="price-low"){
+      return Number(
+        a.price ||
+        a.amount ||
+        a.property?.price ||
+        0
+      )-
+      Number(
+        b.price ||
+        b.amount ||
+        b.property?.price ||
+        0
+      );
+    }
+
+    const dateA=
+      new Date(
+        a.createdAt ||
+        a.submittedAt ||
+        a.date ||
+        0
+      ).getTime();
+
+    const dateB=
+      new Date(
+        b.createdAt ||
+        b.submittedAt ||
+        b.date ||
+        0
+      ).getTime();
+
+    return sort==="oldest"
+      ? dateA-dateB
+      : dateB-dateA;
+
+  });
+
+  renderApplications(filtered);
+}
+
+
+/* =========================================================
+   LOAD APPLICATIONS
+========================================================= */
+
+async function loadApplications(){
+
+  try{
+
+    const response=
+      await apiRequest(
+        API_BASE+
+        "/applications?mine=true"
+      );
+
+    applications=
+      normalizeCollection(response);
+
+  }catch(error){
+
+    console.warn(
+      "GHAR applications API:",
+      error
+    );
+
+    /*
+     * No fake application records are created.
+     * If the backend is not connected, the buyer sees
+     * the proper empty state.
+     */
+
+    applications=[];
+
+  }
+
+  updateSummary(applications);
+  applyFilters();
+}
+
+
+/* =========================================================
+   PROFILE
+========================================================= */
+
+async function loadProfile(){
+
+  try{
+
+    const response=
+      await apiRequest(
+        API_BASE+
+        "/users/me"
+      );
+
+    const user=
+      response?.data ||
+      response?.user ||
+      response;
+
+    const name=
+      user?.name ||
+      user?.fullName ||
+      user?.email ||
+      "U";
+
+    $("#profileButton").textContent=
+      String(name)
+        .trim()
+        .charAt(0)
+        .toUpperCase();
+
+  }catch(error){
+
+    console.warn(
+      "GHAR profile:",
+      error
+    );
+
+  }
+}
+
+
+/* =========================================================
+   FILTER EVENTS
+========================================================= */
+
+[
+  "#applicationSearch",
+  "#statusFilter",
+  "#typeFilter",
+  "#sortFilter"
+].forEach(selector=>{
+
+  $(selector)?.addEventListener(
+    "input",
+    applyFilters
+  );
+
+  $(selector)?.addEventListener(
+    "change",
+    applyFilters
+  );
+
+});
+
+$("#clearFilters")?.addEventListener(
+  "click",
+  ()=>{
+
+    $("#applicationSearch").value="";
+    $("#statusFilter").value="";
+    $("#typeFilter").value="";
+    $("#sortFilter").value="recent";
+
+    applyFilters();
+
+  }
+);
+
+
+/* =========================================================
+   MOBILE MENU
+========================================================= */
+
+$("#menuButton")?.addEventListener(
+  "click",
+  ()=>{
+
+    const nav=$("#mainNav");
+
+    const visible=
+      nav.dataset.mobileOpen==="true";
+
+    if(visible){
+
+      nav.style.display="";
+      nav.dataset.mobileOpen="false";
+
+      return;
+    }
+
+    nav.dataset.mobileOpen="true";
+    nav.style.display="flex";
+    nav.style.position="absolute";
+    nav.style.left="14px";
+    nav.style.right="14px";
+    nav.style.top="66px";
+    nav.style.padding="10px";
+    nav.style.flexDirection="column";
+    nav.style.alignItems="stretch";
+    nav.style.border="1px solid rgba(229,199,125,.14)";
+    nav.style.borderRadius="16px";
+    nav.style.background="#0b1c14";
+    nav.style.boxShadow="0 25px 60px rgba(0,0,0,.35)";
+
+  }
+);
+
+
+/* =========================================================
+   NOTIFICATIONS
+========================================================= */
+
+$("#notificationButton")?.addEventListener(
+  "click",
+  ()=>{
+    window.location.href=
+      "/buyer/notifications.html";
+  }
+);
+
+
+/* =========================================================
+   AI
+========================================================= */
+
+$("#openAI")?.addEventListener(
+  "click",
+  ()=>{
+    window.location.href=
+      "/buyer/ai.html";
+  }
+);
+
+
+/* =========================================================
+   INIT
+========================================================= */
+
+async function initialize(){
+
+  $("#footerYear").textContent=
+    new Date().getFullYear();
+
+  await Promise.all([
+    loadApplications(),
+    loadProfile()
+  ]);
+
+}
+
+if(document.readyState==="loading"){
+
+  document.addEventListener(
+    "DOMContentLoaded",
+    initialize
+  );
+
+}else{
+
+  initialize();
+
+}
+</script>
+
+</body>
+</html>

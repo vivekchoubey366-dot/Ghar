@@ -1,0 +1,2102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<meta name="theme-color" content="#f4ead9">
+<meta name="description" content="GHAR AI Property Search -- describe what you want and discover matching properties.">
+
+<title>AI Property Search -- GHAR</title>
+
+<link rel="icon" type="image/png" href="assets/images/logo/ghar-logo.jpg">
+
+<link rel="stylesheet" href="assets/css/variables.css">
+<link rel="stylesheet" href="assets/css/reset.css">
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/layout.css">
+<link rel="stylesheet" href="assets/css/components.css">
+<link rel="stylesheet" href="assets/css/navigation.css">
+<link rel="stylesheet" href="assets/css/cards.css">
+<link rel="stylesheet" href="assets/css/forms.css">
+<link rel="stylesheet" href="assets/css/home.css">
+<link rel="stylesheet" href="assets/css/property.css">
+<link rel="stylesheet" href="assets/css/animations.css">
+<link rel="stylesheet" href="assets/css/responsive.css">
+<link rel="stylesheet" href="assets/css/utilities.css">
+
+<style>
+:root{
+  --ivory:#f8f1e5;
+  --pearl:#fffaf2;
+  --sand:#eadbc4;
+  --champagne:#d9bd83;
+  --gold:#b18a48;
+  --gold2:#e7d09b;
+  --emerald:#163a2e;
+  --emerald2:#245442;
+  --ink:#17251f;
+  --muted:#737d76;
+  --line:rgba(23,58,46,.12);
+  --shadow:0 30px 80px rgba(30,49,40,.12);
+  --radius:28px;
+}
+
+*{box-sizing:border-box}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  margin:0;
+  background:var(--ivory);
+  color:var(--ink);
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  line-height:1.55;
+  overflow-x:hidden;
+}
+
+a{
+  text-decoration:none;
+  color:inherit;
+}
+
+button,
+input,
+select,
+textarea{
+  font:inherit;
+}
+
+/* =========================
+   TOP BAR
+========================= */
+
+.topbar{
+  background:var(--emerald);
+  color:#f8f1e5;
+  text-align:center;
+  font-size:11px;
+  letter-spacing:.1em;
+  padding:8px 16px;
+}
+
+.topbar b{
+  color:var(--gold2);
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.header{
+  position:sticky;
+  top:0;
+  z-index:1000;
+  padding:12px 3.5vw;
+  background:rgba(248,241,229,.92);
+  backdrop-filter:blur(18px);
+  border-bottom:1px solid var(--line);
+}
+
+.nav{
+  max-width:1380px;
+  margin:auto;
+  display:flex;
+  align-items:center;
+  gap:26px;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  font-weight:900;
+  letter-spacing:.2em;
+  color:var(--emerald);
+}
+
+.brand img{
+  width:42px;
+  height:42px;
+  object-fit:contain;
+}
+
+.links{
+  display:flex;
+  gap:5px;
+  margin-left:auto;
+}
+
+.links a{
+  font-size:13px;
+  font-weight:700;
+  padding:10px 13px;
+  border-radius:999px;
+}
+
+.links a:hover,
+.links a.active{
+  background:#eee3d2;
+}
+
+.nav-actions{
+  display:flex;
+  gap:8px;
+  align-items:center;
+}
+
+.pill{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:44px;
+  padding:0 17px;
+  border-radius:999px;
+  border:1px solid var(--line);
+  font-size:12px;
+  font-weight:800;
+}
+
+.pill.gold{
+  background:var(--emerald);
+  border-color:var(--emerald);
+  color:#fff;
+}
+
+.menu{
+  display:none;
+  border:0;
+  background:none;
+  font-size:24px;
+  color:var(--emerald);
+}
+
+/* =========================
+   HERO
+========================= */
+
+.hero{
+  position:relative;
+  min-height:650px;
+  display:flex;
+  align-items:center;
+  overflow:hidden;
+
+  background:
+    linear-gradient(
+      105deg,
+      rgba(17,48,38,.94),
+      rgba(17,48,38,.67) 48%,
+      rgba(17,48,38,.25)
+    ),
+    url("assets/images/banners/ghar-hero-evening.webp")
+    center/cover no-repeat;
+}
+
+.hero:after{
+  content:"";
+  position:absolute;
+  inset:auto 0 0;
+  height:130px;
+  background:linear-gradient(
+    transparent,
+    var(--ivory)
+  );
+  pointer-events:none;
+}
+
+.hero-inner{
+  position:relative;
+  z-index:2;
+  width:min(1280px,90vw);
+  margin:auto;
+  padding:95px 0 120px;
+
+  display:grid;
+  grid-template-columns:1.2fr .8fr;
+  gap:70px;
+  align-items:center;
+}
+
+.eyebrow{
+  display:inline-flex;
+  align-items:center;
+  gap:9px;
+  color:var(--gold2);
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+}
+
+.eyebrow:before{
+  content:"";
+  width:30px;
+  height:1px;
+  background:var(--gold2);
+}
+
+.hero h1{
+  font:500 clamp(55px,7vw,100px)/.9 Georgia,serif;
+  letter-spacing:-.06em;
+  color:#fff;
+  margin:20px 0 25px;
+  max-width:850px;
+}
+
+.hero h1 em{
+  font-style:normal;
+  color:#e8d19c;
+}
+
+.hero-copy{
+  max-width:650px;
+  color:rgba(255,255,255,.78);
+  font-size:16px;
+  line-height:1.8;
+}
+
+.actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:28px;
+}
+
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:52px;
+  padding:0 22px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.25);
+  font-size:12px;
+  font-weight:850;
+  transition:.25s;
+}
+
+.btn:hover{
+  transform:translateY(-2px);
+}
+
+.btn.gold{
+  background:var(--champagne);
+  color:#14251e;
+  border-color:var(--champagne);
+}
+
+.btn.light{
+  color:#fff;
+  background:rgba(255,255,255,.08);
+  backdrop-filter:blur(12px);
+}
+
+/* =========================
+   AI HERO CARD
+========================= */
+
+.ai-card{
+  padding:30px;
+  border-radius:32px;
+  border:1px solid rgba(255,255,255,.2);
+  background:rgba(255,250,242,.11);
+  backdrop-filter:blur(22px);
+  color:#fff;
+  box-shadow:0 25px 70px rgba(0,0,0,.18);
+}
+
+.ai-symbol{
+  width:58px;
+  height:58px;
+  display:grid;
+  place-items:center;
+  border-radius:18px;
+  background:var(--champagne);
+  color:var(--emerald);
+  font-size:27px;
+  margin-bottom:22px;
+}
+
+.ai-card small{
+  color:var(--gold2);
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:.16em;
+  font-size:9px;
+}
+
+.ai-card h2{
+  font:500 34px/1.08 Georgia,serif;
+  margin:12px 0;
+}
+
+.ai-card p{
+  color:rgba(255,255,255,.67);
+  font-size:12px;
+}
+
+.ai-status{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-top:25px;
+  padding-top:18px;
+  border-top:1px solid rgba(255,255,255,.14);
+  font-size:10px;
+  color:rgba(255,255,255,.65);
+}
+
+.status-dot{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:#d9bd83;
+}
+
+/* =========================
+   SEARCH PANEL
+========================= */
+
+.search-shell{
+  position:relative;
+  z-index:5;
+  margin:-55px auto 0;
+  width:min(1120px,88vw);
+}
+
+.search-panel{
+  background:var(--pearl);
+  padding:12px;
+  border:1px solid rgba(177,138,72,.25);
+  border-radius:27px;
+  box-shadow:var(--shadow);
+}
+
+.search-label{
+  padding:12px 15px 4px;
+  color:var(--gold);
+  font-size:9px;
+  text-transform:uppercase;
+  letter-spacing:.17em;
+  font-weight:900;
+}
+
+.search-row{
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:8px;
+  padding:4px;
+}
+
+.search-input{
+  min-width:0;
+  border:0;
+  outline:0;
+  background:#f2e8d8;
+  border-radius:17px;
+  padding:18px 19px;
+  color:var(--ink);
+  font-size:14px;
+  font-weight:700;
+}
+
+.search-input::placeholder{
+  color:#8b918c;
+}
+
+.search-button{
+  border:0;
+  border-radius:17px;
+  padding:0 27px;
+  background:var(--emerald);
+  color:#fff;
+  font-size:12px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+/* =========================
+   QUICK PROMPTS
+========================= */
+
+.section{
+  padding:105px 4.5vw;
+}
+
+.container{
+  max-width:1280px;
+  margin:auto;
+}
+
+.head{
+  display:flex;
+  justify-content:space-between;
+  align-items:end;
+  gap:30px;
+  margin-bottom:42px;
+}
+
+.kicker{
+  font-size:10px;
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:.2em;
+  color:var(--gold);
+}
+
+.section h2{
+  font:500 clamp(40px,5vw,70px)/.98 Georgia,serif;
+  letter-spacing:-.045em;
+  color:var(--emerald);
+  margin:12px 0 0;
+}
+
+.head p{
+  max-width:500px;
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.8;
+  margin:0;
+}
+
+.prompt-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+}
+
+.prompt{
+  min-height:180px;
+  padding:25px;
+  border-radius:25px;
+  background:
+    linear-gradient(145deg,#fffaf2,#f0e4d1);
+  border:1px solid var(--line);
+  transition:.3s;
+  cursor:pointer;
+}
+
+.prompt:hover{
+  transform:translateY(-6px);
+  box-shadow:var(--shadow);
+}
+
+.prompt-icon{
+  width:45px;
+  height:45px;
+  display:grid;
+  place-items:center;
+  border-radius:14px;
+  background:var(--emerald);
+  color:var(--gold2);
+  font-size:20px;
+}
+
+.prompt h3{
+  font:500 22px Georgia,serif;
+  margin:30px 0 6px;
+  color:var(--emerald);
+}
+
+.prompt p{
+  margin:0;
+  color:var(--muted);
+  font-size:11px;
+}
+
+/* =========================
+   AI WORKSPACE
+========================= */
+
+.workspace{
+  background:
+    linear-gradient(
+      135deg,
+      #eee1ce,
+      #f8f0e2
+    );
+}
+
+.workspace-grid{
+  display:grid;
+  grid-template-columns:.72fr 1.28fr;
+  gap:28px;
+  align-items:stretch;
+}
+
+.preference-card,
+.result-card{
+  background:var(--pearl);
+  border:1px solid var(--line);
+  border-radius:30px;
+  box-shadow:var(--shadow);
+}
+
+.preference-card{
+  padding:30px;
+}
+
+.preference-card h3,
+.result-card h3{
+  font:500 30px Georgia,serif;
+  color:var(--emerald);
+  margin:8px 0 22px;
+}
+
+.preference-card p{
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.8;
+}
+
+.form-group{
+  margin-top:18px;
+}
+
+.form-group label{
+  display:block;
+  margin-bottom:7px;
+  color:var(--emerald);
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:.13em;
+  font-weight:900;
+}
+
+.form-group input,
+.form-group select{
+  width:100%;
+  min-height:48px;
+  border:1px solid var(--line);
+  outline:0;
+  border-radius:14px;
+  padding:0 14px;
+  background:#f5ecdf;
+  color:var(--ink);
+}
+
+.preference-submit{
+  width:100%;
+  margin-top:22px;
+  min-height:52px;
+  border:0;
+  border-radius:15px;
+  background:var(--emerald);
+  color:#fff;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.result-card{
+  padding:30px;
+}
+
+.result-head{
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+  align-items:center;
+  padding-bottom:20px;
+  border-bottom:1px solid var(--line);
+}
+
+.ai-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  padding:8px 11px;
+  border-radius:999px;
+  background:#eee3d2;
+  color:var(--emerald);
+  font-size:9px;
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:.1em;
+}
+
+.result-empty{
+  min-height:430px;
+  display:grid;
+  place-items:center;
+  text-align:center;
+  padding:40px;
+}
+
+.result-empty-icon{
+  width:75px;
+  height:75px;
+  margin:auto;
+  display:grid;
+  place-items:center;
+  border-radius:25px;
+  background:var(--emerald);
+  color:var(--gold2);
+  font-size:30px;
+}
+
+.result-empty h4{
+  font:500 28px Georgia,serif;
+  margin:20px 0 8px;
+  color:var(--emerald);
+}
+
+.result-empty p{
+  max-width:450px;
+  margin:auto;
+  color:var(--muted);
+  font-size:12px;
+}
+
+/* =========================
+   HOW IT WORKS
+========================= */
+
+.steps{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:15px;
+}
+
+.step{
+  padding:30px;
+  min-height:240px;
+  border-radius:26px;
+  background:#fffaf2;
+  border:1px solid var(--line);
+}
+
+.step-number{
+  color:var(--gold);
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:.2em;
+}
+
+.step h3{
+  font:500 28px Georgia,serif;
+  color:var(--emerald);
+  margin:45px 0 8px;
+}
+
+.step p{
+  color:var(--muted);
+  font-size:11px;
+  margin:0;
+}
+
+/* =========================
+   TRUST BAND
+========================= */
+
+.trust{
+  background:var(--emerald);
+  color:#fff;
+}
+
+.trust-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:15px;
+}
+
+.trust-item{
+  padding:30px;
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:24px;
+  background:rgba(255,255,255,.045);
+}
+
+.trust-item b{
+  color:var(--gold2);
+  font-size:24px;
+}
+
+.trust-item h3{
+  font:500 25px Georgia,serif;
+  margin:15px 0 6px;
+}
+
+.trust-item p{
+  margin:0;
+  color:rgba(255,255,255,.58);
+  font-size:11px;
+}
+
+/* =========================
+   CTA
+========================= */
+
+.final-cta{
+  padding:110px 4.5vw;
+  background:var(--emerald);
+  color:#fff;
+  text-align:center;
+}
+
+.final-cta .kicker{
+  color:var(--gold2);
+}
+
+.final-cta h2{
+  font:500 clamp(45px,7vw,85px)/.95 Georgia,serif;
+  margin:15px auto;
+  max-width:950px;
+}
+
+.final-cta p{
+  color:rgba(255,255,255,.62);
+  max-width:600px;
+  margin:0 auto;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer{
+  background:#10291f;
+  color:#fff;
+}
+
+.footer{
+  max-width:1280px;
+  margin:auto;
+  padding:70px 4.5vw;
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr 1fr;
+  gap:45px;
+}
+
+.footer-brand{
+  font-size:25px;
+  font-weight:900;
+  letter-spacing:.2em;
+  color:var(--gold2);
+}
+
+.footer p{
+  color:rgba(255,255,255,.5);
+  max-width:380px;
+  font-size:12px;
+  line-height:1.8;
+}
+
+.footer h4{
+  color:var(--gold2);
+  margin:0 0 15px;
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:.15em;
+}
+
+.footer a{
+  display:block;
+  color:rgba(255,255,255,.6);
+  font-size:11px;
+  margin:9px 0;
+}
+
+.footer a:hover{
+  color:#fff;
+}
+
+.bottom{
+  max-width:1280px;
+  margin:auto;
+  padding:18px 4.5vw 25px;
+  border-top:1px solid rgba(255,255,255,.1);
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+  color:rgba(255,255,255,.4);
+  font-size:10px;
+}
+
+/* =========================
+   MOBILE DOCK
+========================= */
+
+.mobile-dock{
+  display:none;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:1050px){
+
+  .links{
+    display:none;
+  }
+
+  .menu{
+    display:block;
+  }
+
+  .hero-inner{
+    grid-template-columns:1fr;
+  }
+
+  .ai-card{
+    max-width:500px;
+  }
+
+  .prompt-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .workspace-grid{
+    grid-template-columns:1fr;
+  }
+
+  .steps,
+  .trust-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .footer{
+    grid-template-columns:1fr 1fr;
+  }
+}
+
+@media(max-width:700px){
+
+  .topbar{
+    font-size:9px;
+  }
+
+  .header{
+    padding:9px 5vw;
+  }
+
+  .nav-actions .pill:first-child{
+    display:none;
+  }
+
+  .hero{
+    min-height:700px;
+  }
+
+  .hero-inner{
+    width:90vw;
+    padding-top:70px;
+  }
+
+  .hero h1{
+    font-size:57px;
+  }
+
+  .search-shell{
+    width:90vw;
+    margin-top:-40px;
+  }
+
+  .search-row{
+    grid-template-columns:1fr;
+  }
+
+  .search-button{
+    min-height:56px;
+  }
+
+  .prompt-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .steps,
+  .trust-grid{
+    grid-template-columns:1fr;
+  }
+
+  .result-empty{
+    min-height:330px;
+  }
+
+  .footer{
+    grid-template-columns:1fr;
+  }
+
+  .bottom{
+    flex-direction:column;
+  }
+
+  .mobile-dock{
+    position:fixed;
+    z-index:9999;
+    left:10px;
+    right:10px;
+    bottom:10px;
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    background:rgba(16,41,31,.95);
+    backdrop-filter:blur(18px);
+    border:1px solid rgba(255,255,255,.12);
+    border-radius:20px;
+    padding:8px;
+    box-shadow:0 20px 50px rgba(0,0,0,.2);
+  }
+
+  .mobile-dock a{
+    text-align:center;
+    color:rgba(255,255,255,.65);
+    font-size:8px;
+    font-weight:800;
+  }
+
+  .mobile-dock span{
+    display:block;
+    color:var(--gold2);
+    font-size:18px;
+    line-height:1;
+    margin-bottom:3px;
+  }
+
+  body{
+    padding-bottom:80px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- TOP BAR -->
+
+<div class="topbar">
+  <b>GHAR AI</b>
+  &nbsp; | &nbsp;
+  Intelligent property discovery, built around your requirements
+</div>
+
+
+<!-- HEADER -->
+
+<header class="header">
+
+<nav class="nav">
+
+<a href="index.html" class="brand">
+  <img src="assets/images/logo/ghar-logo.png" alt="GHAR">
+  <span>GHAR</span>
+</a>
+
+<div class="links">
+
+<a href="properties.html">Properties</a>
+<a href="about.html">About</a>
+<a href="property-search.html">Search</a>
+<a href="compare.html">Compare</a>
+<a href="ai.html" class="active">AI</a>
+<a href="contact.html">Contact</a>
+
+</div>
+
+<div class="nav-actions">
+
+<a href="login.html" class="pill">
+  Login
+</a>
+
+<a href="role-selection.html" class="pill gold">
+  Get Started
+</a>
+
+<button class="menu" type="button">
+  ☰
+</button>
+
+</div>
+
+</nav>
+
+</header>
+
+
+<main>
+
+
+<!-- HERO -->
+
+<section class="hero">
+
+<div class="hero-inner">
+
+<div>
+
+<div class="eyebrow">
+  GHAR intelligence
+</div>
+
+<h1>
+  Search smarter.
+  <em>Find better.</em>
+</h1>
+
+<p class="hero-copy">
+  Tell GHAR what kind of property you want in your own
+  words. Our intelligent search experience can organize
+  your requirements around location, budget, property type,
+  configuration and lifestyle preferences.
+</p>
+
+<div class="actions">
+
+<a href="#search" class="btn gold">
+  Start AI Search
+</a>
+
+<a href="ai.html" class="btn light">
+  Explore AI Services
+</a>
+
+</div>
+
+</div>
+
+
+<div class="ai-card">
+
+<div class="ai-symbol">
+  ✦
+</div>
+
+<small>
+  AI Property Search
+</small>
+
+<h2>
+  Describe your ideal property.
+</h2>
+
+<p>
+  For example: "Find a 3 BHK apartment in Noida
+  under ₹2 crore with parking and good connectivity."
+</p>
+
+<div class="ai-status">
+  <span class="status-dot"></span>
+  GHAR AI search assistant ready
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- SEARCH -->
+
+<div class="search-shell" id="search">
+
+<form class="search-panel" id="aiSearchForm">
+
+<div class="search-label">
+  Describe what you are looking for
+</div>
+
+<div class="search-row">
+
+<input
+  class="search-input"
+  id="aiQuery"
+  name="query"
+  autocomplete="off"
+  placeholder="Example: 3 BHK near Noida under ₹2 Cr..."
+  required
+>
+
+<button
+  class="search-button"
+  type="submit"
+>
+  ✦ Find Properties
+</button>
+
+</div>
+
+</form>
+
+</div>
+
+
+<!-- QUICK PROMPTS -->
+
+<section class="section">
+
+<div class="container">
+
+<div class="head">
+
+<div>
+
+<div class="kicker">
+  Start with an idea
+</div>
+
+<h2>
+  Search naturally.
+</h2>
+
+</div>
+
+<p>
+  You don't need to know exactly which filters to select.
+  Start with a simple description and refine your search.
+</p>
+
+</div>
+
+
+<div class="prompt-grid">
+
+<button
+  class="prompt"
+  type="button"
+  data-query="Find a 3 BHK apartment in Noida under ₹2 Cr"
+>
+
+<div class="prompt-icon">
+  ◫
+</div>
+
+<h3>
+  Family Apartment
+</h3>
+
+<p>
+  3 BHK · Noida · under ₹2 Cr
+</p>
+
+</button>
+
+
+<button
+  class="prompt"
+  type="button"
+  data-query="Find a luxury 4 BHK villa in Greater Noida with parking"
+>
+
+<div class="prompt-icon">
+  ◇
+</div>
+
+<h3>
+  Luxury Villa
+</h3>
+
+<p>
+  4 BHK · villa · parking
+</p>
+
+</button>
+
+
+<button
+  class="prompt"
+  type="button"
+  data-query="Find a rental apartment near a metro station"
+>
+
+<div class="prompt-icon">
+  ⌂
+</div>
+
+<h3>
+  Rental Home
+</h3>
+
+<p>
+  Apartment · metro connectivity
+</p>
+
+</button>
+
+
+<button
+  class="prompt"
+  type="button"
+  data-query="Find commercial property suitable for an office"
+>
+
+<div class="prompt-icon">
+  ▦
+</div>
+
+<h3>
+  Commercial
+</h3>
+
+<p>
+  Office · business property
+</p>
+
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- WORKSPACE -->
+
+<section class="section workspace">
+
+<div class="container">
+
+<div class="head">
+
+<div>
+
+<div class="kicker">
+  Intelligent matching
+</div>
+
+<h2>
+  Turn your requirements
+  into a property search.
+</h2>
+
+</div>
+
+<p>
+  Add a few preferences and GHAR can prepare a
+  structured search request for the property discovery
+  system.
+</p>
+
+</div>
+
+
+<div class="workspace-grid">
+
+
+<!-- PREFERENCES -->
+
+<div class="preference-card">
+
+<div class="kicker">
+  Your preferences
+</div>
+
+<h3>
+  Refine your search
+</h3>
+
+<p>
+  These optional details help narrow down the
+  property results.
+</p>
+
+<form id="preferenceForm">
+
+<div class="form-group">
+
+<label for="location">
+  Location
+</label>
+
+<input
+  id="location"
+  name="location"
+  placeholder="Noida, Delhi, Gurgaon..."
+>
+
+</div>
+
+
+<div class="form-group">
+
+<label for="propertyType">
+  Property type
+</label>
+
+<select id="propertyType" name="type">
+
+<option value="">
+  Any property
+</option>
+
+<option value="apartment">
+  Apartment
+</option>
+
+<option value="villa">
+  Villa
+</option>
+
+<option value="house">
+  Independent House
+</option>
+
+<option value="plot">
+  Plot / Land
+</option>
+
+<option value="commercial">
+  Commercial
+</option>
+
+</select>
+
+</div>
+
+
+<div class="form-group">
+
+<label for="configuration">
+  Configuration
+</label>
+
+<select id="configuration" name="configuration">
+
+<option value="">
+  Any configuration
+</option>
+
+<option value="1rk">
+  1 RK
+</option>
+
+<option value="1bhk">
+  1 BHK
+</option>
+
+<option value="2bhk">
+  2 BHK
+</option>
+
+<option value="3bhk">
+  3 BHK
+</option>
+
+<option value="4bhk">
+  4 BHK
+</option>
+
+<option value="5bhk">
+  5+ BHK
+</option>
+
+</select>
+
+</div>
+
+
+<div class="form-group">
+
+<label for="budget">
+  Maximum budget
+</label>
+
+<select id="budget" name="budget">
+
+<option value="">
+  Any budget
+</option>
+
+<option value="5000000">
+  ₹50 Lakh
+</option>
+
+<option value="10000000">
+  ₹1 Cr
+</option>
+
+<option value="20000000">
+  ₹2 Cr
+</option>
+
+<option value="50000000">
+  ₹5 Cr
+</option>
+
+<option value="100000000">
+  ₹10 Cr+
+</option>
+
+</select>
+
+</div>
+
+
+<button
+  class="preference-submit"
+  type="submit"
+>
+  ✦ Generate Search
+</button>
+
+</form>
+
+</div>
+
+
+<!-- RESULT -->
+
+<div class="result-card">
+
+<div class="result-head">
+
+<div>
+
+<div class="kicker">
+  AI search workspace
+</div>
+
+<h3>
+  Matching properties
+</h3>
+
+</div>
+
+<div class="ai-badge">
+  ✦ AI ready
+</div>
+
+</div>
+
+
+<div class="result-empty" id="resultArea">
+
+<div>
+
+<div class="result-empty-icon">
+  ⌕
+</div>
+
+<h4>
+  Your search starts here.
+</h4>
+
+<p>
+  Describe what you want above or choose your
+  preferences. GHAR will prepare your property
+  discovery request.
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- HOW IT WORKS -->
+
+<section class="section">
+
+<div class="container">
+
+<div class="head">
+
+<div>
+
+<div class="kicker">
+  How it works
+</div>
+
+<h2>
+  From words to
+  property discovery.
+</h2>
+
+</div>
+
+<p>
+  The AI search experience is designed to make
+  property discovery easier without hiding the
+  actual requirements behind complicated filters.
+</p>
+
+</div>
+
+
+<div class="steps">
+
+<div class="step">
+
+<div class="step-number">
+  01
+</div>
+
+<h3>
+  Describe
+</h3>
+
+<p>
+  Tell GHAR about the property, location,
+  budget and lifestyle you have in mind.
+</p>
+
+</div>
+
+
+<div class="step">
+
+<div class="step-number">
+  02
+</div>
+
+<h3>
+  Structure
+</h3>
+
+<p>
+  Your request can be converted into structured
+  property-search criteria.
+</p>
+
+</div>
+
+
+<div class="step">
+
+<div class="step-number">
+  03
+</div>
+
+<h3>
+  Discover
+</h3>
+
+<p>
+  Continue to the property results and refine
+  your requirements as you explore.
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- TRUST -->
+
+<section class="section trust">
+
+<div class="container">
+
+<div class="head">
+
+<div>
+
+<div class="kicker">
+  Designed responsibly
+</div>
+
+<h2>
+  AI should assist
+  your decision.
+</h2>
+
+</div>
+
+<p style="color:rgba(255,255,255,.58)">
+  Property decisions involve money, documents and
+  personal circumstances. GHAR keeps AI assistance
+  separate from professional, legal and lender decisions.
+</p>
+
+</div>
+
+
+<div class="trust-grid">
+
+<div class="trust-item">
+
+<b>✦</b>
+
+<h3>
+  Transparent assistance
+</h3>
+
+<p>
+  AI suggestions should be treated as assistance,
+  not guaranteed property recommendations.
+</p>
+
+</div>
+
+
+<div class="trust-item">
+
+<b>◈</b>
+
+<h3>
+  Human decisions
+</h3>
+
+<p>
+  Verify property details, ownership, documents,
+  pricing and legal conditions before proceeding.
+</p>
+
+</div>
+
+
+<div class="trust-item">
+
+<b>▣</b>
+
+<h3>
+  One connected ecosystem
+</h3>
+
+<p>
+  Move from discovery into saved properties,
+  enquiries, visits, offers and other GHAR services.
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- CTA -->
+
+<section class="final-cta">
+
+<div class="container">
+
+<div class="kicker">
+  GHAR AI
+</div>
+
+<h2>
+  Your property search,
+  in your own words.
+</h2>
+
+<p>
+  Start with an idea and turn it into a structured
+  property discovery journey.
+</p>
+
+<div class="actions" style="justify-content:center">
+
+<a href="#search" class="btn gold">
+  Start Searching
+</a>
+
+<a href="properties.html" class="btn light">
+  Browse Properties
+</a>
+
+</div>
+
+</div>
+
+</section>
+
+</main>
+
+
+<!-- FOOTER -->
+
+<footer>
+
+<div class="footer">
+
+<div>
+
+<div class="footer-brand">
+  GHAR
+</div>
+
+<p>
+  A structured real-estate ecosystem connecting
+  buyers, sellers, renters and property transactions
+  through one premium digital experience.
+</p>
+
+</div>
+
+
+<div>
+
+<h4>
+  Properties
+</h4>
+
+<a href="properties.html">
+  Buy
+</a>
+
+<a href="properties.html?listing=rent">
+  Rent
+</a>
+
+<a href="properties.html?listing=lease">
+  Lease
+</a>
+
+<a href="properties.html?type=commercial">
+  Commercial
+</a>
+
+<a href="properties.html?type=land">
+  Land
+</a>
+
+</div>
+
+
+<div>
+
+<h4>
+  AI Services
+</h4>
+
+<a href="ai-property-advisor.html">
+  Property Advisor
+</a>
+
+<a href="ai-price-estimator.html">
+  Price Estimator
+</a>
+
+<a href="ai-investment-advisor.html">
+  Investment Advisor
+</a>
+
+<a href="ai-loan-advisor.html">
+  Loan Advisor
+</a>
+
+<a href="ai-document-assistant.html">
+  Document Assistant
+</a>
+
+</div>
+
+
+<div>
+
+<h4>
+  Account
+</h4>
+
+<a href="dashboard.html">
+  Dashboard
+</a>
+
+<a href="buyer/saved-properties.html">
+  Saved Properties
+</a>
+
+<a href="buyer/enquiries.html">
+  My Enquiries
+</a>
+
+<a href="buyer/offers.html">
+  My Offers
+</a>
+
+<a href="profile.html">
+  My Profile
+</a>
+
+</div>
+
+</div>
+
+
+<div class="bottom">
+
+<span>
+  © 2026 GHAR. All rights reserved.
+</span>
+
+<span>
+
+<a href="about.html">About</a>
+·
+<a href="contact.html">Contact</a>
+·
+<a href="help-centre.html">Help & Support</a>
+·
+<a href="terms.html">Terms</a>
+·
+<a href="privacy.html">Privacy</a>
+
+</span>
+
+</div>
+
+</footer>
+
+
+<!-- MOBILE NAV -->
+
+<nav class="mobile-dock" aria-label="Mobile navigation">
+
+<a href="index.html">
+  <span>⌂</span>
+  Home
+</a>
+
+<a href="properties.html">
+  <span>⌕</span>
+  Search
+</a>
+
+<a href="buyer/saved-properties.html">
+  <span>♡</span>
+  Saved
+</a>
+
+<a href="profile.html">
+  <span>◉</span>
+  Account
+</a>
+
+<a href="ai.html">
+  <span>✦</span>
+  AI
+</a>
+
+</nav>
+
+
+<!-- CORE JS -->
+
+<script src="assets/js/constants.js" defer></script>
+<script src="assets/js/config.js" defer></script>
+<script src="assets/js/storage.js" defer></script>
+<script src="assets/js/api.js" defer></script>
+<script src="assets/js/auth.js" defer></script>
+<script src="assets/js/core.js" defer></script>
+<script src="assets/js/components.js" defer></script>
+<script src="assets/js/navigation.js" defer></script>
+<script src="assets/js/property/property.js" defer></script>
+<script src="assets/js/property/property-search.js" defer></script>
+
+
+<script>
+document.addEventListener("DOMContentLoaded",()=>{
+
+  const queryInput =
+    document.getElementById("aiQuery");
+
+  const searchForm =
+    document.getElementById("aiSearchForm");
+
+  const resultArea =
+    document.getElementById("resultArea");
+
+
+  /* =========================
+     AI SEARCH
+  ========================= */
+
+  function runSearch(query){
+
+    query = String(query || "").trim();
+
+    if(!query){
+      return;
+    }
+
+    if(queryInput){
+      queryInput.value = query;
+    }
+
+    const encoded =
+      encodeURIComponent(query);
+
+    /*
+      Connect this route to your real
+      AI/property matching backend later.
+    */
+
+    window.location.href =
+      "properties.html?ai_query=" +
+      encoded;
+  }
+
+
+  searchForm?.addEventListener(
+    "submit",
+    e=>{
+      e.preventDefault();
+
+      runSearch(
+        queryInput?.value
+      );
+    }
+  );
+
+
+  /* =========================
+     QUICK PROMPTS
+  ========================= */
+
+  document
+    .querySelectorAll("[data-query]")
+    .forEach(button=>{
+
+      button.addEventListener(
+        "click",
+        ()=>{
+
+          const query =
+            button.dataset.query;
+
+          if(queryInput){
+            queryInput.value = query;
+            queryInput.focus();
+          }
+
+          document
+            .getElementById("search")
+            ?.scrollIntoView({
+              behavior:"smooth",
+              block:"center"
+            });
+
+        }
+      );
+
+    });
+
+
+  /* =========================
+     PREFERENCE FORM
+  ========================= */
+
+  document
+    .getElementById("preferenceForm")
+    ?.addEventListener(
+      "submit",
+      e=>{
+
+        e.preventDefault();
+
+        const form =
+          new FormData(e.currentTarget);
+
+        const location =
+          form.get("location");
+
+        const type =
+          form.get("type");
+
+        const configuration =
+          form.get("configuration");
+
+        const budget =
+          form.get("budget");
+
+
+        const parts = [];
+
+        if(configuration){
+          parts.push(configuration);
+        }
+
+        if(type){
+          parts.push(type);
+        }
+
+        if(location){
+          parts.push("in " + location);
+        }
+
+        if(budget){
+
+          const budgetMap = {
+            "5000000":"under ₹50 Lakh",
+            "10000000":"under ₹1 Cr",
+            "20000000":"under ₹2 Cr",
+            "50000000":"under ₹5 Cr",
+            "100000000":"under ₹10 Cr"
+          };
+
+          parts.push(
+            budgetMap[budget] ||
+            "within selected budget"
+          );
+        }
+
+
+        const query =
+          parts.length
+          ? "Find " + parts.join(" ")
+          : "Find suitable properties";
+
+
+        if(queryInput){
+          queryInput.value = query;
+        }
+
+
+        if(resultArea){
+
+          resultArea.innerHTML = `
+
+            <div>
+
+              <div class="result-empty-icon">
+                ✦
+              </div>
+
+              <h4>
+                Search prepared.
+              </h4>
+
+              <p>
+                Your requirements have been structured.
+                Continue to property results to discover
+                matching listings.
+              </p>
+
+              <div style="margin-top:22px">
+
+                <a
+                  href="properties.html?ai_query=${encodeURIComponent(query)}"
+                  class="btn"
+                  style="
+                    background:var(--emerald);
+                    color:#fff;
+                    border-color:var(--emerald)
+                  "
+                >
+                  View Property Results →
+                </a>
+
+              </div>
+
+            </div>
+
+          `;
+
+        }
+
+      }
+    );
+
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,4601 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<meta name="description"
+      content="GHAR Buyer Settings -- Manage your account, preferences, notifications, privacy and security.">
+
+<meta name="theme-color" content="#162d25">
+
+<title>GHAR · Buyer Settings</title>
+
+<link rel="icon" href="../assets/images/favicon.svg">
+
+<style>
+
+/* =========================================================
+   GHAR BUYER SETTINGS
+   Premium Buyer Experience
+========================================================= */
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+:root{
+  --green-950:#07130e;
+  --green-925:#0a1912;
+  --green-900:#0b1c14;
+  --green-850:#10261c;
+  --green-800:#162d25;
+  --green-750:#1a382c;
+  --green-700:#214438;
+
+  --gold-100:#fff7df;
+  --gold-200:#f4dfaa;
+  --gold-300:#e5c77d;
+  --gold-400:#c9a95c;
+  --gold-500:#a98238;
+
+  --cream:#fffaf0;
+  --cream-2:#f7eedc;
+
+  --text:#f9f5ea;
+  --text-dark:#17231c;
+
+  --muted:rgba(255,255,255,.68);
+  --muted-2:rgba(255,255,255,.45);
+
+  --border:rgba(229,199,125,.18);
+  --border-light:rgba(255,255,255,.09);
+
+  --success:#82c995;
+  --danger:#e98c8c;
+  --blue:#91b9e8;
+
+  --shadow:0 25px 80px rgba(0,0,0,.25);
+
+  --radius-xl:28px;
+  --radius-lg:21px;
+  --radius-md:15px;
+
+  --container:1440px;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  min-height:100vh;
+
+  color:var(--text);
+
+  font-family:
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  background:
+    radial-gradient(
+      circle at 5% 0%,
+      rgba(229,199,125,.12),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 100% 10%,
+      rgba(44,91,69,.22),
+      transparent 30%
+    ),
+    linear-gradient(
+      135deg,
+      #07130e,
+      #0b1c14 48%,
+      #10261c
+    );
+
+  overflow-x:hidden;
+}
+
+a{
+  color:inherit;
+  text-decoration:none;
+}
+
+button,
+input,
+select,
+textarea{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+img{
+  display:block;
+  max-width:100%;
+}
+
+.container{
+  width:min(
+    calc(100% - 40px),
+    var(--container)
+  );
+  margin:auto;
+}
+
+
+/* =========================================================
+   BACKGROUND
+========================================================= */
+
+.page-glow{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:-1;
+  overflow:hidden;
+}
+
+.page-glow::before{
+  content:"";
+  position:absolute;
+
+  width:550px;
+  height:550px;
+
+  top:-300px;
+  right:-220px;
+
+  border-radius:50%;
+
+  border:1px solid rgba(229,199,125,.12);
+
+  box-shadow:
+    0 0 0 60px rgba(229,199,125,.025),
+    0 0 0 120px rgba(229,199,125,.015);
+}
+
+.page-glow::after{
+  content:"";
+  position:absolute;
+
+  width:500px;
+  height:500px;
+
+  bottom:-300px;
+  left:-250px;
+
+  border-radius:50%;
+
+  border:1px solid rgba(255,255,255,.06);
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.site-header{
+  position:sticky;
+  top:0;
+  z-index:100;
+
+  border-bottom:
+    1px solid
+    rgba(229,199,125,.10);
+
+  background:
+    rgba(7,19,14,.90);
+
+  backdrop-filter:blur(22px);
+}
+
+.header-inner{
+  min-height:76px;
+
+  display:flex;
+  align-items:center;
+  gap:24px;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex-shrink:0;
+}
+
+.brand-mark{
+  width:45px;
+  height:45px;
+
+  display:grid;
+  place-items:center;
+
+  border-radius:14px;
+
+  color:#152116;
+
+  font-size:19px;
+  font-weight:1000;
+
+  background:
+    linear-gradient(
+      135deg,
+      #f1dda5,
+      #b98b3d
+    );
+
+  box-shadow:
+    0 10px 25px rgba(0,0,0,.25),
+    inset 0 1px 0 rgba(255,255,255,.5);
+}
+
+.brand-text strong{
+  display:block;
+  font-size:17px;
+  letter-spacing:.17em;
+}
+
+.brand-text span{
+  display:block;
+  margin-top:2px;
+
+  color:var(--muted-2);
+
+  font-size:8px;
+  font-weight:800;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+}
+
+.desktop-nav{
+  display:flex;
+  align-items:center;
+  gap:5px;
+  margin-left:auto;
+}
+
+.desktop-nav a{
+  padding:10px 12px;
+
+  border-radius:10px;
+
+  color:var(--muted);
+
+  font-size:11px;
+  font-weight:700;
+
+  transition:.2s ease;
+}
+
+.desktop-nav a:hover,
+.desktop-nav a.active{
+  color:var(--gold-200);
+  background:rgba(229,199,125,.07);
+}
+
+.header-actions{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.icon-btn{
+  width:41px;
+  height:41px;
+
+  display:grid;
+  place-items:center;
+
+  border:
+    1px solid
+    var(--border-light);
+
+  border-radius:12px;
+
+  color:var(--muted);
+
+  background:
+    rgba(255,255,255,.035);
+
+  transition:.2s ease;
+}
+
+.icon-btn:hover{
+  color:var(--gold-200);
+  border-color:rgba(229,199,125,.25);
+}
+
+.avatar{
+  width:40px;
+  height:40px;
+
+  display:grid;
+  place-items:center;
+
+  border-radius:50%;
+
+  color:#172016;
+
+  font-size:12px;
+  font-weight:1000;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--gold-200),
+      var(--gold-500)
+    );
+}
+
+.mobile-menu{
+  display:none;
+}
+
+
+/* =========================================================
+   PAGE
+========================================================= */
+
+.page{
+  padding:42px 0 60px;
+}
+
+.page-header{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:20px;
+
+  margin-bottom:25px;
+}
+
+.eyebrow{
+  color:var(--gold-300);
+
+  font-size:10px;
+  font-weight:950;
+
+  letter-spacing:.18em;
+  text-transform:uppercase;
+}
+
+.page-header h1{
+  margin-top:9px;
+
+  color:var(--cream);
+
+  font-size:
+    clamp(
+      34px,
+      5vw,
+      54px
+    );
+
+  line-height:1;
+  letter-spacing:-.055em;
+}
+
+.page-header p{
+  max-width:700px;
+
+  margin-top:12px;
+
+  color:var(--muted);
+
+  font-size:12px;
+  line-height:1.7;
+}
+
+.back-link{
+  color:var(--gold-300);
+  font-size:10px;
+  font-weight:900;
+}
+
+
+/* =========================================================
+   LAYOUT
+========================================================= */
+
+.settings-layout{
+  display:grid;
+
+  grid-template-columns:
+    280px 1fr;
+
+  gap:20px;
+
+  align-items:start;
+}
+
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+.settings-sidebar{
+  position:sticky;
+  top:96px;
+
+  padding:13px;
+
+  border:
+    1px solid
+    var(--border-light);
+
+  border-radius:
+    var(--radius-lg);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(20,45,34,.96),
+      rgba(11,28,20,.96)
+    );
+
+  box-shadow:var(--shadow);
+}
+
+.settings-nav{
+  display:grid;
+  gap:5px;
+}
+
+.settings-nav button{
+  width:100%;
+
+  display:flex;
+  align-items:center;
+  gap:11px;
+
+  padding:12px 13px;
+
+  border:1px solid transparent;
+  border-radius:11px;
+
+  color:var(--muted);
+
+  background:transparent;
+
+  text-align:left;
+
+  font-size:10px;
+  font-weight:800;
+
+  transition:.2s ease;
+}
+
+.settings-nav button:hover{
+  color:var(--gold-200);
+  background:rgba(255,255,255,.035);
+}
+
+.settings-nav button.active{
+  color:var(--gold-200);
+
+  border-color:
+    rgba(229,199,125,.14);
+
+  background:
+    rgba(229,199,125,.075);
+}
+
+.nav-icon{
+  width:29px;
+  height:29px;
+
+  display:grid;
+  place-items:center;
+
+  flex:0 0 29px;
+
+  border-radius:9px;
+
+  color:var(--gold-300);
+
+  background:
+    rgba(229,199,125,.07);
+}
+
+.sidebar-user{
+  margin-top:14px;
+  padding:14px;
+
+  border-top:
+    1px solid
+    rgba(255,255,255,.07);
+}
+
+.sidebar-user strong{
+  display:block;
+  font-size:11px;
+}
+
+.sidebar-user span{
+  display:block;
+
+  margin-top:4px;
+
+  color:var(--muted-2);
+
+  font-size:8px;
+}
+
+
+/* =========================================================
+   SETTINGS CONTENT
+========================================================= */
+
+.settings-content{
+  min-width:0;
+}
+
+.settings-section{
+  display:none;
+}
+
+.settings-section.active{
+  display:block;
+}
+
+.section-card{
+  margin-bottom:16px;
+
+  padding:22px;
+
+  border:
+    1px solid
+    var(--border-light);
+
+  border-radius:
+    var(--radius-lg);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(20,45,34,.96),
+      rgba(11,28,20,.96)
+    );
+}
+
+.section-card:last-child{
+  margin-bottom:0;
+}
+
+.section-title{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:15px;
+
+  margin-bottom:19px;
+}
+
+.section-title h2{
+  font-size:17px;
+  letter-spacing:-.025em;
+}
+
+.section-title p{
+  margin-top:5px;
+
+  color:var(--muted-2);
+
+  font-size:9px;
+  line-height:1.6;
+}
+
+
+/* =========================================================
+   PROFILE SUMMARY
+========================================================= */
+
+.profile-summary{
+  display:flex;
+  align-items:center;
+  gap:15px;
+
+  padding:16px;
+
+  border:
+    1px solid
+    rgba(229,199,125,.12);
+
+  border-radius:15px;
+
+  background:
+    rgba(229,199,125,.035);
+}
+
+.large-avatar{
+  width:62px;
+  height:62px;
+
+  display:grid;
+  place-items:center;
+
+  flex:0 0 62px;
+
+  border-radius:18px;
+
+  color:#172016;
+
+  font-size:20px;
+  font-weight:1000;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--gold-200),
+      var(--gold-500)
+    );
+}
+
+.profile-summary strong{
+  display:block;
+  font-size:14px;
+}
+
+.profile-summary span{
+  display:block;
+
+  margin-top:4px;
+
+  color:var(--muted-2);
+
+  font-size:9px;
+}
+
+.profile-summary a{
+  margin-left:auto;
+
+  color:var(--gold-300);
+
+  font-size:9px;
+  font-weight:900;
+}
+
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.form-grid{
+  display:grid;
+
+  grid-template-columns:
+    repeat(2,1fr);
+
+  gap:14px;
+}
+
+.field{
+  display:grid;
+  gap:7px;
+}
+
+.field.full{
+  grid-column:1 / -1;
+}
+
+.field label{
+  color:var(--muted);
+
+  font-size:9px;
+  font-weight:800;
+}
+
+.field input,
+.field select,
+.field textarea{
+  width:100%;
+
+  min-height:43px;
+
+  padding:0 12px;
+
+  outline:none;
+
+  color:var(--cream);
+
+  border:
+    1px solid
+    rgba(255,255,255,.09);
+
+  border-radius:11px;
+
+  background:
+    rgba(255,255,255,.035);
+
+  transition:.2s ease;
+}
+
+.field textarea{
+  min-height:105px;
+  padding:12px;
+  resize:vertical;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus{
+  border-color:
+    rgba(229,199,125,.48);
+
+  background:
+    rgba(255,255,255,.045);
+}
+
+.field input::placeholder,
+.field textarea::placeholder{
+  color:rgba(255,255,255,.30);
+}
+
+.field select option{
+  color:#172016;
+}
+
+.form-actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:9px;
+
+  margin-top:18px;
+  padding-top:16px;
+
+  border-top:
+    1px solid
+    rgba(255,255,255,.06);
+}
+
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.btn{
+  min-height:43px;
+
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+
+  padding:0 16px;
+
+  border-radius:11px;
+
+  border:1px solid transparent;
+
+  font-size:10px;
+  font-weight:900;
+
+  transition:.2s ease;
+}
+
+.btn-primary{
+  color:#17170f;
+
+  background:
+    linear-gradient(
+      135deg,
+      #f1dca1,
+      #cda85d
+    );
+
+  box-shadow:
+    0 10px 25px rgba(0,0,0,.18);
+}
+
+.btn-primary:hover{
+  transform:translateY(-2px);
+}
+
+.btn-secondary{
+  color:var(--cream);
+
+  border-color:
+    var(--border-light);
+
+  background:
+    rgba(255,255,255,.045);
+}
+
+.btn-secondary:hover{
+  color:var(--gold-200);
+  border-color:
+    rgba(229,199,125,.25);
+}
+
+.btn-danger{
+  color:#ffd4d4;
+
+  border-color:
+    rgba(233,140,140,.20);
+
+  background:
+    rgba(233,140,140,.06);
+}
+
+
+/* =========================================================
+   TOGGLE ROW
+========================================================= */
+
+.preference-list{
+  display:grid;
+}
+
+.preference-row{
+  min-height:67px;
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+
+  padding:12px 0;
+
+  border-bottom:
+    1px solid
+    rgba(255,255,255,.06);
+}
+
+.preference-row:last-child{
+  border-bottom:0;
+}
+
+.preference-info{
+  min-width:0;
+}
+
+.preference-info strong{
+  display:block;
+  font-size:10px;
+}
+
+.preference-info span{
+  display:block;
+
+  margin-top:4px;
+
+  color:var(--muted-2);
+
+  font-size:8px;
+  line-height:1.5;
+}
+
+.toggle{
+  position:relative;
+
+  width:45px;
+  height:25px;
+
+  flex:0 0 45px;
+
+  border:0;
+  border-radius:30px;
+
+  background:
+    rgba(255,255,255,.13);
+
+  transition:.2s ease;
+}
+
+.toggle::after{
+  content:"";
+
+  position:absolute;
+
+  width:19px;
+  height:19px;
+
+  top:3px;
+  left:3px;
+
+  border-radius:50%;
+
+  background:
+    rgba(255,255,255,.75);
+
+  transition:.2s ease;
+}
+
+.toggle.active{
+  background:
+    var(--gold-400);
+}
+
+.toggle.active::after{
+  left:23px;
+  background:#fffaf0;
+}
+
+
+/* =========================================================
+   SELECT ROW
+========================================================= */
+
+.select-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+
+  padding:14px 0;
+
+  border-bottom:
+    1px solid
+    rgba(255,255,255,.06);
+}
+
+.select-row:last-child{
+  border-bottom:0;
+}
+
+.select-info strong{
+  display:block;
+  font-size:10px;
+}
+
+.select-info span{
+  display:block;
+
+  margin-top:4px;
+
+  color:var(--muted-2);
+
+  font-size:8px;
+}
+
+.small-select{
+  min-width:150px;
+  height:39px;
+
+  padding:0 10px;
+
+  outline:none;
+
+  color:var(--cream);
+
+  border:
+    1px solid
+    rgba(255,255,255,.09);
+
+  border-radius:10px;
+
+  background:
+    rgba(255,255,255,.035);
+}
+
+.small-select option{
+  color:#172016;
+}
+
+
+/* =========================================================
+   SECURITY CARDS
+========================================================= */
+
+.security-grid{
+  display:grid;
+
+  grid-template-columns:
+    repeat(2,1fr);
+
+  gap:12px;
+}
+
+.security-card{
+  padding:16px;
+
+  border:
+    1px solid
+    rgba(255,255,255,.07);
+
+  border-radius:14px;
+
+  background:
+    rgba(255,255,255,.025);
+}
+
+.security-icon{
+  width:38px;
+  height:38px;
+
+  display:grid;
+  place-items:center;
+
+  border-radius:11px;
+
+  color:var(--gold-300);
+
+  background:
+    rgba(229,199,125,.08);
+}
+
+.security-card h3{
+  margin-top:12px;
+  font-size:12px;
+}
+
+.security-card p{
+  margin-top:5px;
+
+  color:var(--muted-2);
+
+  font-size:8px;
+  line-height:1.6;
+}
+
+.security-card button{
+  margin-top:13px;
+}
+
+
+/* =========================================================
+   SESSION
+========================================================= */
+
+.session{
+  display:flex;
+  align-items:center;
+  gap:12px;
+
+  padding:13px;
+
+  border-radius:12px;
+
+  background:
+    rgba(255,255,255,.025);
+}
+
+.session-icon{
+  width:38px;
+  height:38px;
+
+  display:grid;
+  place-items:center;
+
+  border-radius:10px;
+
+  color:var(--success);
+
+  background:
+    rgba(130,201,149,.08);
+}
+
+.session-info{
+  flex:1;
+}
+
+.session-info strong{
+  display:block;
+  font-size:10px;
+}
+
+.session-info span{
+  display:block;
+
+  margin-top:3px;
+
+  color:var(--muted-2);
+
+  font-size:8px;
+}
+
+.session-status{
+  color:var(--success);
+
+  font-size:8px;
+  font-weight:900;
+}
+
+
+/* =========================================================
+   DANGER ZONE
+========================================================= */
+
+.danger-zone{
+  border-color:
+    rgba(233,140,140,.18);
+}
+
+.danger-zone .section-title h2{
+  color:#ffd4d4;
+}
+
+.danger-warning{
+  padding:13px;
+
+  border-radius:11px;
+
+  color:rgba(255,220,220,.72);
+
+  background:
+    rgba(233,140,140,.055);
+
+  font-size:9px;
+  line-height:1.6;
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+.toast{
+  position:fixed;
+
+  right:22px;
+  bottom:22px;
+
+  z-index:500;
+
+  max-width:340px;
+
+  padding:13px 16px;
+
+  border:
+    1px solid
+    rgba(229,199,125,.22);
+
+  border-radius:12px;
+
+  color:var(--cream);
+
+  background:
+    rgba(11,28,20,.96);
+
+  box-shadow:
+    0 20px 50px rgba(0,0,0,.30);
+
+  font-size:9px;
+  font-weight:800;
+
+  opacity:0;
+  transform:translateY(12px);
+
+  pointer-events:none;
+
+  transition:.25s ease;
+}
+
+.toast.show{
+  opacity:1;
+  transform:translateY(0);
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.site-footer{
+  margin-top:20px;
+
+  padding:
+    35px 0 25px;
+
+  border-top:
+    1px solid
+    rgba(255,255,255,.07);
+
+  background:
+    rgba(3,12,8,.35);
+}
+
+.footer-grid{
+  display:grid;
+
+  grid-template-columns:
+    1.4fr repeat(3,1fr);
+
+  gap:25px;
+}
+
+.footer-brand{
+  max-width:300px;
+}
+
+.footer-brand p{
+  margin-top:10px;
+
+  color:var(--muted-2);
+
+  font-size:9px;
+  line-height:1.7;
+}
+
+.footer-col h4{
+  color:var(--gold-200);
+
+  font-size:9px;
+
+  letter-spacing:.1em;
+  text-transform:uppercase;
+}
+
+.footer-col a{
+  display:block;
+
+  margin-top:9px;
+
+  color:var(--muted-2);
+
+  font-size:9px;
+}
+
+.footer-col a:hover{
+  color:var(--gold-300);
+}
+
+.footer-bottom{
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+
+  margin-top:28px;
+  padding-top:17px;
+
+  border-top:
+    1px solid
+    rgba(255,255,255,.06);
+
+  color:var(--muted-2);
+
+  font-size:8px;
+}
+
+
+/* =========================================================
+   AI FLOATING BUTTON
+========================================================= */
+
+.ai-floating{
+  position:fixed;
+
+  right:22px;
+  bottom:22px;
+
+  z-index:90;
+
+  min-height:48px;
+
+  display:flex;
+  align-items:center;
+  gap:8px;
+
+  padding:0 16px;
+
+  border:
+    1px solid
+    rgba(229,199,125,.25);
+
+  border-radius:30px;
+
+  color:#17170f;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--gold-200),
+      var(--gold-400)
+    );
+
+  box-shadow:
+    0 15px 35px rgba(0,0,0,.3);
+
+  font-size:10px;
+  font-weight:1000;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:1100px){
+
+  .desktop-nav{
+    display:none;
+  }
+
+  .mobile-menu{
+    display:grid;
+  }
+
+  .settings-layout{
+    grid-template-columns:1fr;
+  }
+
+  .settings-sidebar{
+    position:static;
+  }
+
+  .settings-nav{
+    grid-template-columns:
+      repeat(4,1fr);
+  }
+
+  .sidebar-user{
+    display:none;
+  }
+
+}
+
+@media(max-width:800px){
+
+  .container{
+    width:
+      min(
+        calc(100% - 28px),
+        var(--container)
+      );
+  }
+
+  .page{
+    padding-top:30px;
+  }
+
+  .page-header{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+
+  .settings-nav{
+    grid-template-columns:
+      repeat(2,1fr);
+  }
+
+  .security-grid{
+    grid-template-columns:1fr;
+  }
+
+  .footer-grid{
+    grid-template-columns:
+      1fr 1fr;
+  }
+
+}
+
+@media(max-width:560px){
+
+  .header-inner{
+    min-height:68px;
+  }
+
+  .brand-text span{
+    display:none;
+  }
+
+  .header-actions .icon-btn{
+    display:none;
+  }
+
+  .header-actions .mobile-menu{
+    display:grid;
+  }
+
+  .page-header h1{
+    font-size:38px;
+  }
+
+  .settings-nav{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .settings-nav button{
+    padding:10px;
+  }
+
+  .settings-nav button span:last-child{
+    font-size:9px;
+  }
+
+  .section-card{
+    padding:17px;
+  }
+
+  .profile-summary{
+    align-items:flex-start;
+    flex-wrap:wrap;
+  }
+
+  .profile-summary a{
+    width:100%;
+    margin-left:0;
+  }
+
+  .form-grid{
+    grid-template-columns:1fr;
+  }
+
+  .field.full{
+    grid-column:auto;
+  }
+
+  .form-actions{
+    justify-content:stretch;
+    flex-direction:column;
+  }
+
+  .form-actions .btn{
+    width:100%;
+  }
+
+  .select-row{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+
+  .small-select{
+    width:100%;
+  }
+
+  .footer-grid{
+    grid-template-columns:1fr;
+  }
+
+  .footer-bottom{
+    flex-direction:column;
+  }
+
+  .ai-floating{
+    right:14px;
+    bottom:14px;
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="page-glow"></div>
+
+
+<!-- =========================================================
+     HEADER
+========================================================= -->
+
+<header class="site-header">
+
+  <div class="container header-inner">
+
+    <a
+      class="brand"
+      href="/buyer/index.html"
+      aria-label="GHAR Buyer Home"
+    >
+
+      <div class="brand-mark">
+        G
+      </div>
+
+      <div class="brand-text">
+
+        <strong>GHAR</strong>
+
+        <span>
+          Buyer Experience
+        </span>
+
+      </div>
+
+    </a>
+
+
+    <nav
+      class="desktop-nav"
+      aria-label="Buyer navigation"
+    >
+
+      <a href="/buyer/index.html">
+        Home
+      </a>
+
+      <a href="/properties.html">
+        Properties
+      </a>
+
+      <a href="/buyer/saved-properties.html">
+        Saved
+      </a>
+
+      <a href="/buyer/visits.html">
+        Visits
+      </a>
+
+      <a href="/buyer/offers.html">
+        Offers
+      </a>
+
+      <a href="/buyer/loans.html">
+        Loans
+      </a>
+
+    </nav>
+
+
+    <div class="header-actions">
+
+      <button
+        class="icon-btn"
+        id="notificationButton"
+        type="button"
+        aria-label="Notifications"
+      >
+        ♢
+      </button>
+
+      <a
+        class="avatar"
+        id="profileButton"
+        href="/buyer/profile.html"
+        aria-label="Profile"
+      >
+        U
+      </a>
+
+      <button
+        class="icon-btn mobile-menu"
+        id="menuButton"
+        type="button"
+        aria-label="Open menu"
+      >
+        ☰
+      </button>
+
+    </div>
+
+  </div>
+
+</header>
+
+
+<!-- =========================================================
+     MAIN
+========================================================= -->
+
+<main class="page">
+
+  <div class="container">
+
+
+    <!-- =====================================================
+         PAGE HEADER
+    ====================================================== -->
+
+    <div class="page-header">
+
+      <div>
+
+        <div class="eyebrow">
+          BUYER ACCOUNT
+        </div>
+
+        <h1>
+          Settings
+        </h1>
+
+        <p>
+          Manage your GHAR account, property preferences,
+          notifications, privacy, security and application
+          experience from one place.
+        </p>
+
+      </div>
+
+      <a
+        class="back-link"
+        href="/buyer/index.html"
+      >
+        ← Back to buyer home
+      </a>
+
+    </div>
+
+
+    <!-- =====================================================
+         SETTINGS LAYOUT
+    ====================================================== -->
+
+    <div class="settings-layout">
+
+
+      <!-- ===================================================
+           SIDEBAR
+      ==================================================== -->
+
+      <aside class="settings-sidebar">
+
+        <nav
+          class="settings-nav"
+          id="settingsNav"
+          aria-label="Settings sections"
+        >
+
+          <button
+            class="active"
+            type="button"
+            data-section="account"
+          >
+            <span class="nav-icon">◎</span>
+            <span>Account</span>
+          </button>
+
+          <button
+            type="button"
+            data-section="preferences"
+          >
+            <span class="nav-icon">⌂</span>
+            <span>Preferences</span>
+          </button>
+
+          <button
+            type="button"
+            data-section="notifications"
+          >
+            <span class="nav-icon">♢</span>
+            <span>Notifications</span>
+          </button>
+
+          <button
+            type="button"
+            data-section="privacy"
+          >
+            <span class="nav-icon">◇</span>
+            <span>Privacy</span>
+          </button>
+
+          <button
+            type="button"
+            data-section="security"
+          >
+            <span class="nav-icon">✓</span>
+            <span>Security</span>
+          </button>
+
+          <button
+            type="button"
+            data-section="sessions"
+          >
+            <span class="nav-icon">◷</span>
+            <span>Sessions</span>
+          </button>
+
+          <button
+            type="button"
+            data-section="danger"
+          >
+            <span class="nav-icon">!</span>
+            <span>Account actions</span>
+          </button>
+
+        </nav>
+
+
+        <div class="sidebar-user">
+
+          <strong id="sidebarUserName">
+            GHAR Buyer
+          </strong>
+
+          <span id="sidebarUserEmail">
+            Manage your account securely.
+          </span>
+
+        </div>
+
+      </aside>
+
+
+      <!-- ===================================================
+           CONTENT
+      ==================================================== -->
+
+      <section class="settings-content">
+
+
+        <!-- =================================================
+             ACCOUNT
+        ================================================== -->
+
+        <div
+          class="settings-section active"
+          id="section-account"
+        >
+
+          <article class="section-card">
+
+            <div class="section-title">
+
+              <div>
+
+                <h2>
+                  Account overview
+                </h2>
+
+                <p>
+                  Your primary GHAR buyer account information.
+                </p>
+
+              </div>
+
+            </div>
+
+
+            <div class="profile-summary">
+
+              <div
+                class="large-avatar"
+                id="largeAvatar"
+              >
+                U
+              </div>
+
+              <div>
+
+                <strong id="summaryName">
+                  GHAR Buyer
+                </strong>
+
+                <span id="summaryEmail">
+                  Loading account...
+                </span>
+
+              </div>
+
+              <a href="/buyer/profile.html">
+                Open profile →
+              </a>
+
+            </div>
+
+          </article>
+
+
+          <article class="section-card">
+
+            <div class="section-title">
+
+              <div>
+
+                <h2>
+                  Personal information
+                </h2>
+
+                <p>
+                  Update the information associated with your
+                  GHAR buyer account.
+                </p>
+
+              </div>
+
+            </div>
+
+
+            <form id="accountForm">
+
+              <div class="form-grid">
+
+                <div class="field">
+
+                  <label for="firstName">
+                    First name
+                  </label>
+
+                  <input
+                    id="firstName"
+                    name="firstName"
+                    type="text"
+                    autocomplete="given-name"
+                    placeholder="First name"
+                  >
+
+                </div>
+
+
+                <div class="field">
+
+                  <label for="lastName">
+                    Last name
+                  </label>
+
+                  <input
+                    id="lastName"
+                    name="lastName"
+                    type="text"
+                    autocomplete="family-name"
+                    placeholder="Last name"
+                  >
+
+                </div>
+
+
+                <div class="field">
+
+                  <label for="email">
+                    Email address
+                  </label>
+
+                  <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    autocomplete="email"
+                    placeholder="you@example.com"
+                  >
+
+                </div>
+
+
+                <div class="field">
+
+                  <label for="phone">
+                    Phone number
+                  </label>
+
+                  <input
+                    id="phone"
+                    name="phone"
+                    type="tel"
+                    autocomplete="tel"
+                    placeholder="+91"
+                  >
+
+                </div>
+
+
+                <div class="field">
+
+                  <label for="city">
+                    Preferred city
+                  </label>
+
+                  <input
+                    id="city"
+                    name="city"
+                    type="text"
+                    placeholder="Noida"
+                  >
+
+                </div>
+
+
+                <div class="field">
+
+                  <label for="pincode">
+                    Pincode
+                  </label>
+
+                  <input
+                    id="pincode"
+                    name="pincode"
+                    type="text"
+                    inputmode="numeric"
+                    maxlength="6"
+                    placeholder="201301"
+                  >
+
+                </div>
+
+
+                <div class="field full">
+
+                  <label for="address">
+                    Address
+                  </label>
+
+                  <textarea
+                    id="address"
+                    name="address"
+                    placeholder="Your current address"
+                  ></textarea>
+
+                </div>
+
+              </div>
+
+
+              <div class="form-actions">
+
+                <button
+                  class="btn btn-secondary"
+                  type="reset"
+                >
+                  Reset
+                </button>
+
+                <button
+                  class="btn btn-primary"
+                  type="submit"
+                >
+                  Save changes
+                </button>
+
+              </div>
+
+            </form>
+
+          </article>
+
+        </div>
+
+
+        <!-- =================================================
+             PREFERENCES
+        ================================================== -->
+
+        <div
+          class="settings-section"
+          id="section-preferences"
+        >
+
+          <article class="section-card">
+
+            <div class="section-title">
+
+              <div>
+
+                <h2>
+                  Property preferences
+                </h2>
+
+                <p>
+                  Tell GHAR what you are looking for so
+                  recommendations become more relevant.
+                </p>
+
+              </div>
+
+            </div>
+
+
+            <div class="form-grid">
+
+              <div class="field">
+
+                <label for="propertyType">
+                  Property type
+                </label>
+
+                <select id="propertyType">
+
+                  <option value="">
+                    Any property type
+                  </option>
+
+                  <option value="apartment">
+                    Apartment
+                  </option>
+
+                  <option value="villa">
+                    Villa
+                  </option>
+
+                  <option value="independent-house">
+                    Independent House
+                  </option>
+
+                  <option value="plot">
+                    Plot
+                  </option>
+
+                  <option value="commercial">
+                    Commercial
+                  </option>
+
+                </select>
+
+              </div>
+
+
+              <div class="field">
+
+                <label for="configuration">
+                  Configuration
+                </label>
+
+                <select id="configuration">
+
+                  <option value="">
+                    Any configuration
+                  </option>
+
+                  <option value="1-bhk">
+                    1 BHK
+                  </option>
+
+                  <option value="2-bhk">
+                    2 BHK
+                  </option>
+
+                  <option value="3-bhk">
+                    3 BHK
+                  </option>
+
+                  <option value="4-bhk">
+                    4 BHK
+                  </option>
+
+                  <option value="5-bhk-plus">
+                    5+ BHK
+                  </option>
+
+                </select>
+
+              </div>
+
+
+              <div class="field">
+
+                <label for="minBudget">
+                  Minimum budget
+                </label>
+
+                <input
+                  id="minBudget"
+                  type="number"
+                  min="0"
+                  placeholder="₹ Minimum"
+                >
+
+              </div>
+
+
+              <div class="field">
+
+                <label for="maxBudget">
+                  Maximum budget
+                </label>
+
+                <input
+                  id="maxBudget"
+                  type="number"
+                  min="0"
+                  placeholder="₹ Maximum"
+                >
+
+              </div>
+
+
+              <div class="field full">
+
+                <label for="preferredLocations">
+                  Preferred locations
+                </label>
+
+                <input
+                  id="preferredLocations"
+                  type="text"
+                  placeholder="Noida, Greater Noida, Gurgaon"
+                >
+
+              </div>
+
+            </div>
+
+
+            <div class="form-actions">
+
+              <button
+                id="savePreferences"
+                class="btn btn-primary"
+                type="button"
+              >
+                Save preferences
+              </button>
+
+            </div>
+
+          </article>
+
+
+          <article class="section-card">
+
+            <div class="section-title">
+
+              <div>
+
+                <h2>
+                  Recommendation controls
+                </h2>
+
+                <p>
+                  Control how GHAR uses your activity to improve
+                  property recommendations.
+                </p>
+
+              </div>
+
+            </div>
+
+
+            <div class="preference-list">
+
+              <div class="preference-row">
+
+                <div class="preference-info">
+
+                  <strong>
+                    Personalized recommendations
+                  </strong>
+
+                  <span>
+                    Use your saved properties, searches and
+                    preferences to improve recommendations.
+                  </span>
+
+                </div>
+
+                <button
+                  class="toggle active"
+                  type="button"
+                  data-setting="personalizedRecommendations"
+                  aria-label="Personalized recommendations"
+                ></button>
+
+              </div>
+
+
+              <div class="preference-row">
+
+                <div class="preference-info">
+
+                  <strong>
+                    Similar property suggestions
+                  </strong>
+
+                  <span>
+                    Show properties similar to properties you
+                    view or save.
+                  </span>
+
+                </div>
+
+                <button
+                  class="toggle active"
+                  type="button"
+                  data-setting="similarProperties"
+                  aria-label="Similar property suggestions"
+                ></button>
+
+              </div>
+
+
+              <div class="preference-row">
+
+                <div class="preference-info">
+
+                  <strong>
+                    Price-change alerts
+                  </strong>
+
+                  <span>
+                    Receive alerts when saved properties change
+                    their listed price.
+                  </span>
+
+                </div>
+
+                <button
+                  class="toggle active"
+                  type="button"
+                  data-setting="priceAlerts"
+                  aria-label="Price change alerts"
+                ></button>
+
+              </div>
+
+            </div>
+
+          </article>
+
+        </div>
+
+
+        <!-- =================================================
+             NOTIFICATIONS
+        ================================================== -->
+
+        <div
+          class="settings-section"
+          id="section-notifications"
+        >
+
+          <article class="section-card">
+
+            <div class="section-title">
+
+              <div>
+
+                <h2>
+                  Notification preferences
+                </h2>
+
+                <p>
+                  Choose what GHAR can notify you about.
+                </p>
+
+              </div>
+
+            </div>
+
+
+            <div class="preference-list">
+
+              <div class="preference-row">
+
+                <div class="preference-info">
+
+                  <strong>
+                    Property recommendations
+                  </strong>
+
+                  <span>
+                    New properties matching your requirements.
+                  </span>
+
+                </div>
+
+                <button
+                  class="toggle active"
+                  type="button"
+                  data-setting="propertyNotifications"
+                ></button>
+
+              </div>
+
+
+              <div class="preference-row">
+
+                <div class="preference-info">
+
+                  <strong>
+                    Visit reminders
+                  </strong>
+
+                  <span>
+                    Reminders for scheduled property visits.
+                  </span>
+
+                </div>
+
+                <button
+                  class="toggle active"
+                  type="button"
+                  data-setting="visitNotifications"
+                ></button>
+
+              </div>
+
+
+              <div class="preference-row">
+
+                <div class="preference-info">
+
+                  <strong>
+                    Offer updates
+                  </strong>
+
+                  <span>
+                    Updates about offers and seller responses.
+                  </span>
+
+                </div>
+
+                <button
+                  class="toggle active"
+                  type="button"
+                  data-setting="offerNotifications"
+                ></button>
+
+              </div>
+
+
+              <div class="preference-row">
+
+                <div class="preference-info">
+
+                  <strong>
+                    Loan and financing updates
+                  </strong>
+
+                  <span>
+                    Important financing and application updates.
+                  </span>
+
+                </div>
+
+                <button
+                  class="toggle active"
+                  type="button"
+                  data-setting="loanNotifications"
+                ></button>
+
+              </div>
+
+
+              <div class="preference-row">
+
+                <div class="preference-info">
+
+                  <strong>
+                    Marketing communications
+                  </strong>
+
+                  <span>
+                    Optional GHAR offers, features and promotional
+                    communications.
+                  </span>
+
+                </div>
+
+                <button
+                  class="toggle"
+                  type="button"
+                  data-setting="marketingNotifications"
+                ></button>
+
+              </div>
+
+            </div>
+
+          </article>
+
+
+          <article class="section-card">
+
+            <div class="section-title">
+
+              <div>
+
+                <h2>
+                  Delivery channels
+                </h2>
+
+                <p>
+                  Select how you want to receive notifications.
+                </p>
+
+              </div>
+
+            </div>
+
+
+            <div class="preference-list">
+
+              <div class="preference-row">
+
+                <div class="preference-info">
+
+                  <strong>
+                    Email
+                  </strong>
+
+                  <span>
+                    Send important updates to your registered email.
+                  </span>
+
+                </div>
+
+                <button
+                  class="toggle active"
+                  type="button"
+                  data-setting="emailNotifications"
+                ></button>
+
+              </div>
+
+
+              <div class="preference-row">
+
+                <div class="preference-info">
+
+                  <strong>
+                    Browser notifications
+                  </strong>
+
+                  <span>
+                    Show notifications while using GHAR.
+                  </span>
+
+                </div>
+
+                <button
+                  class="toggle active"
+                  type="button"
+                  data-setting="browserNotifications"
+                ></button>
+
+              </div>
+
+
+              <div class="preference-row">
+
+                <div class="preference-info">
+
+                  <strong>
+                    SMS
+                  </strong>
+
+                  <span>
+                    Receive selected transactional updates by SMS.
+                  </span>
+
+                </div>
+
+                <button
+                  class="toggle active"
+                  type="button"
+                  data-setting="smsNotifications"
+                ></button>
+
+              </div>
+
+            </div>
+
+          </article>
+
+        </div>
+
+
+        <!-- =================================================
+             PRIVACY
+        ================================================== -->
+
+        <div
+          class="settings-section"
+          id="section-privacy"
+        >
+
+          <article class="section-card">
+
+            <div class="section-title">
+
+              <div>
+
+                <h2>
+                  Privacy controls
+                </h2>
+
+                <p>
+                  Manage how your account and activity are used.
+                </p>
+
+              </div>
+
+            </div>
+
+
+            <div class="preference-list">
+
+              <div class="preference-row">
+
+                <div class="preference-info">
+
+                  <strong>
+                    Activity-based recommendations
+                  </strong>
+
+                  <span>
+                    Allow GHAR to use your property activity to
+                    personalize recommendations.
+                  </span>
+
+                </div>
+
+                <button
+                  class="toggle active"
+                  type="button"
+                  data-setting="activityRecommendations"
+                ></button>
+
+              </div>
+
+
+              <div class="preference-row">
+
+                <div class="preference-info">
+
+                  <strong>
+                    Search history
+                  </strong>
+
+                  <span>
+                    Keep your recent property searches available
+                    for faster discovery.
+                  </span>
+
+                </div>
+
+                <button
+                  class="toggle active"
+                  type="button"
+                  data-setting="searchHistory"
+                ></button>
+
+              </div>
+
+
+              <div class="preference-row">
+
+                <div class="preference-info">
+
+                  <strong>
+                    AI personalization
+                  </strong>
+
+                  <span>
+                    Allow GHAR AI to use your buyer preferences
+                    during property conversations.
+                  </span>
+
+                </div>
+
+                <button
+                  class="toggle active"
+                  type="button"
+                  data-setting="aiPersonalization"
+                ></button>
+
+              </div>
+
+            </div>
+
+          </article>
+
+
+          <article class="section-card">
+
+            <div class="section-title">
+
+              <div>
+
+                <h2>
+                  Data controls
+                </h2>
+
+                <p>
+                  Manage your account data and privacy requests.
+                </p>
+
+              </div>
+
+            </div>
+
+
+            <div class="security-grid">
+
+              <div class="security-card">
+
+                <div class="security-icon">
+                  ↓
+                </div>
+
+                <h3>
+                  Download your data
+                </h3>
+
+                <p>
+                  Request a copy of your available GHAR account
+                  and buyer activity data.
+                </p>
+
+                <button
+                  class="btn btn-secondary"
+                  id="downloadData"
+                  type="button"
+                >
+                  Request data
+                </button>
+
+              </div>
+
+
+              <div class="security-card">
+
+                <div class="security-icon">
+                  ◇
+                </div>
+
+                <h3>
+                  Privacy centre
+                </h3>
+
+                <p>
+                  Review GHAR privacy information and available
+                  data-control options.
+                </p>
+
+                <a
+                  class="btn btn-secondary"
+                  href="/privacy.html"
+                >
+                  Privacy centre
+                </a>
+
+              </div>
+
+            </div>
+
+          </article>
+
+        </div>
+
+
+        <!-- =================================================
+             SECURITY
+        ================================================== -->
+
+        <div
+          class="settings-section"
+          id="section-security"
+        >
+
+          <article class="section-card">
+
+            <div class="section-title">
+
+              <div>
+
+                <h2>
+                  Password & authentication
+                </h2>
+
+                <p>
+                  Keep your GHAR account protected.
+                </p>
+
+              </div>
+
+            </div>
+
+
+            <form id="passwordForm">
+
+              <div class="form-grid">
+
+                <div class="field full">
+
+                  <label for="currentPassword">
+                    Current password
+                  </label>
+
+                  <input
+                    id="currentPassword"
+                    type="password"
+                    autocomplete="current-password"
+                    placeholder="Current password"
+                  >
+
+                </div>
+
+
+                <div class="field">
+
+                  <label for="newPassword">
+                    New password
+                  </label>
+
+                  <input
+                    id="newPassword"
+                    type="password"
+                    autocomplete="new-password"
+                    placeholder="New password"
+                  >
+
+                </div>
+
+
+                <div class="field">
+
+                  <label for="confirmPassword">
+                    Confirm new password
+                  </label>
+
+                  <input
+                    id="confirmPassword"
+                    type="password"
+                    autocomplete="new-password"
+                    placeholder="Confirm new password"
+                  >
+
+                </div>
+
+              </div>
+
+
+              <div class="form-actions">
+
+                <button
+                  class="btn btn-primary"
+                  type="submit"
+                >
+                  Change password
+                </button>
+
+              </div>
+
+            </form>
+
+          </article>
+
+
+          <article class="section-card">
+
+            <div class="section-title">
+
+              <div>
+
+                <h2>
+                  Two-factor authentication
+                </h2>
+
+                <p>
+                  Add an additional verification layer to your
+                  account.
+                </p>
+
+              </div>
+
+            </div>
+
+
+            <div class="preference-row">
+
+              <div class="preference-info">
+
+                <strong>
+                  Two-factor authentication
+                </strong>
+
+                <span id="twoFactorStatus">
+                  Enable an additional authentication step when
+                  signing in.
+                </span>
+
+              </div>
+
+              <button
+                class="toggle"
+                id="twoFactorToggle"
+                type="button"
+              ></button>
+
+            </div>
+
+          </article>
+
+
+          <article class="section-card">
+
+            <div class="section-title">
+
+              <div>
+
+                <h2>
+                  Account verification
+                </h2>
+
+                <p>
+                  Verification helps protect sensitive buyer
+                  actions.
+                </p>
+
+              </div>
+
+            </div>
+
+
+            <div class="security-grid">
+
+              <div class="security-card">
+
+                <div class="security-icon">
+                  ✓
+                </div>
+
+                <h3>
+                  Email verification
+                </h3>
+
+                <p id="emailVerificationStatus">
+                  Checking verification status...
+                </p>
+
+                <button
+                  class="btn btn-secondary"
+                  id="verifyEmailButton"
+                  type="button"
+                >
+                  Verify email
+                </button>
+
+              </div>
+
+
+              <div class="security-card">
+
+                <div class="security-icon">
+                  ☎
+                </div>
+
+                <h3>
+                  Phone verification
+                </h3>
+
+                <p id="phoneVerificationStatus">
+                  Checking verification status...
+                </p>
+
+                <button
+                  class="btn btn-secondary"
+                  id="verifyPhoneButton"
+                  type="button"
+                >
+                  Verify phone
+                </button>
+
+              </div>
+
+            </div>
+
+          </article>
+
+        </div>
+
+
+        <!-- =================================================
+             SESSIONS
+        ================================================== -->
+
+        <div
+          class="settings-section"
+          id="section-sessions"
+        >
+
+          <article class="section-card">
+
+            <div class="section-title">
+
+              <div>
+
+                <h2>
+                  Active sessions
+                </h2>
+
+                <p>
+                  Review devices currently connected to your
+                  GHAR account.
+                </p>
+
+              </div>
+
+              <button
+                class="btn btn-secondary"
+                id="logoutOtherSessions"
+                type="button"
+              >
+                Sign out others
+              </button>
+
+            </div>
+
+
+            <div
+              id="sessionList"
+              class="activity"
+            >
+
+              <div class="session">
+
+                <div class="session-icon">
+                  ✓
+                </div>
+
+                <div class="session-info">
+
+                  <strong>
+                    Current browser
+                  </strong>
+
+                  <span id="currentSessionDetails">
+                    This device · Active now
+                  </span>
+
+                </div>
+
+                <span class="session-status">
+                  Active
+                </span>
+
+              </div>
+
+            </div>
+
+          </article>
+
+        </div>
+
+
+        <!-- =================================================
+             DANGER
+        ================================================== -->
+
+        <div
+          class="settings-section"
+          id="section-danger"
+        >
+
+          <article class="section-card danger-zone">
+
+            <div class="section-title">
+
+              <div>
+
+                <h2>
+                  Account actions
+                </h2>
+
+                <p>
+                  These actions can affect access to your GHAR
+                  buyer account.
+                </p>
+
+              </div>
+
+            </div>
+
+
+            <div class="danger-warning">
+
+              Before deleting or disabling your account, make sure
+              you have completed any active property purchases,
+              visits, offers, loan applications or document
+              processes that you still need.
+
+            </div>
+
+
+            <div class="form-actions">
+
+              <button
+                class="btn btn-danger"
+                id="logoutButton"
+                type="button"
+              >
+                Sign out
+              </button>
+
+              <button
+                class="btn btn-danger"
+                id="deleteAccountButton"
+                type="button"
+              >
+                Request account deletion
+              </button>
+
+            </div>
+
+          </article>
+
+        </div>
+
+
+      </section>
+
+    </div>
+
+  </div>
+
+</main>
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer class="site-footer">
+
+  <div class="container">
+
+    <div class="footer-grid">
+
+
+      <div class="footer-brand">
+
+        <div class="brand">
+
+          <div class="brand-mark">
+            G
+          </div>
+
+          <div class="brand-text">
+
+            <strong>
+              GHAR
+            </strong>
+
+            <span>
+              Real Estate Platform
+            </span>
+
+          </div>
+
+        </div>
+
+        <p>
+          A connected real estate platform for discovering,
+          evaluating, financing and managing property decisions.
+        </p>
+
+      </div>
+
+
+      <div class="footer-col">
+
+        <h4>
+          Discover
+        </h4>
+
+        <a href="/properties.html">
+          Properties
+        </a>
+
+        <a href="/property-search.html">
+          Property Search
+        </a>
+
+        <a href="/buyer/saved-properties.html">
+          Saved Properties
+        </a>
+
+        <a href="/buyer/visits.html">
+          Visits
+        </a>
+
+      </div>
+
+
+      <div class="footer-col">
+
+        <h4>
+          Buyer
+        </h4>
+
+        <a href="/buyer/profile.html">
+          Profile
+        </a>
+
+        <a href="/buyer/offers.html">
+          Offers
+        </a>
+
+        <a href="/buyer/loans.html">
+          Loans
+        </a>
+
+        <a href="/buyer/documents.html">
+          Documents
+        </a>
+
+      </div>
+
+
+      <div class="footer-col">
+
+        <h4>
+          Support
+        </h4>
+
+        <a href="/help-centre.html">
+          Help Centre
+        </a>
+
+        <a href="/contact.html">
+          Contact
+        </a>
+
+        <a href="/buyer/messages.html">
+          Messages
+        </a>
+
+        <a href="/privacy.html">
+          Privacy
+        </a>
+
+      </div>
+
+    </div>
+
+
+    <div class="footer-bottom">
+
+      <span>
+        © <span id="footerYear"></span> GHAR.
+        All rights reserved.
+      </span>
+
+      <span>
+        Buyer Portal · Secure Session
+      </span>
+
+    </div>
+
+  </div>
+
+</footer>
+
+
+<!-- =========================================================
+     AI
+========================================================= -->
+
+<button
+  id="openAI"
+  class="ai-floating"
+  type="button"
+>
+  ✦ Ask GHAR AI
+</button>
+
+
+<!-- =========================================================
+     TOAST
+========================================================= -->
+
+<div
+  id="toast"
+  class="toast"
+  role="status"
+  aria-live="polite"
+></div>
+
+
+<script>
+
+"use strict";
+
+
+/* =========================================================
+   CONFIG
+========================================================= */
+
+const API_BASE =
+  window.GHAR_API_BASE ||
+  window.API_BASE ||
+  "/api";
+
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function $(selector){
+  return document.querySelector(selector);
+}
+
+
+function $$(selector){
+  return document.querySelectorAll(selector);
+}
+
+
+function escapeHTML(value){
+
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+function showToast(message){
+
+  const toast =
+    $("#toast");
+
+  if(!toast){
+    return;
+  }
+
+  toast.textContent =
+    message;
+
+  toast.classList.add("show");
+
+  clearTimeout(
+    window.__gharToastTimer
+  );
+
+  window.__gharToastTimer =
+    setTimeout(
+      () => {
+        toast.classList.remove("show");
+      },
+      2800
+    );
+
+}
+
+
+async function apiRequest(
+  url,
+  options = {}
+){
+
+  const response =
+    await fetch(
+      url,
+      {
+        credentials:"include",
+
+        headers:{
+          "Accept":
+            "application/json",
+
+          "Content-Type":
+            "application/json",
+
+          ...(options.headers || {})
+        },
+
+        ...options
+      }
+    );
+
+
+  let data = null;
+
+  try{
+    data =
+      await response.json();
+  }catch(error){
+    data = null;
+  }
+
+
+  if(!response.ok){
+
+    const message =
+      data?.error?.message ||
+      data?.message ||
+      "Request failed.";
+
+    const error =
+      new Error(message);
+
+    error.status =
+      response.status;
+
+    error.data =
+      data;
+
+    throw error;
+  }
+
+
+  return data;
+
+}
+
+
+/* =========================================================
+   SETTINGS NAVIGATION
+========================================================= */
+
+function activateSection(
+  sectionName,
+  updateHash = true
+){
+
+  const target =
+    document.getElementById(
+      "section-" +
+      sectionName
+    );
+
+  if(!target){
+    return;
+  }
+
+
+  $$(".settings-section")
+    .forEach(
+      section => {
+        section.classList.remove(
+          "active"
+        );
+      }
+    );
+
+
+  target.classList.add(
+    "active"
+  );
+
+
+  $$("#settingsNav button")
+    .forEach(
+      button => {
+
+        button.classList.toggle(
+          "active",
+          button.dataset.section ===
+          sectionName
+        );
+
+      }
+    );
+
+
+  if(updateHash){
+
+    history.replaceState(
+      null,
+      "",
+      "#" +
+      sectionName
+    );
+
+  }
+
+}
+
+
+$$("#settingsNav button")
+  .forEach(
+    button => {
+
+      button.addEventListener(
+        "click",
+        () => {
+
+          activateSection(
+            button.dataset.section
+          );
+
+          window.scrollTo({
+            top:0,
+            behavior:"smooth"
+          });
+
+        }
+      );
+
+    }
+  );
+
+
+/* =========================================================
+   LOAD ACCOUNT
+========================================================= */
+
+async function loadAccount(){
+
+  try{
+
+    const response =
+      await apiRequest(
+        API_BASE +
+        "/users/me"
+      );
+
+
+    const user =
+      response?.user ||
+      response?.data ||
+      response;
+
+
+    if(!user){
+      return;
+    }
+
+
+    const firstName =
+      user.firstName ||
+      "";
+
+    const lastName =
+      user.lastName ||
+      "";
+
+    const fullName =
+      user.fullName ||
+      user.name ||
+      `${firstName} ${lastName}`.trim() ||
+      "GHAR Buyer";
+
+    const email =
+      user.email ||
+      "";
+
+    const phone =
+      user.phone ||
+      user.mobile ||
+      "";
+
+
+    $("#summaryName").textContent =
+      fullName;
+
+    $("#summaryEmail").textContent =
+      email ||
+      "Account email unavailable";
+
+
+    $("#sidebarUserName").textContent =
+      fullName;
+
+    $("#sidebarUserEmail").textContent =
+      email ||
+      "GHAR Buyer";
+
+
+    const initial =
+      fullName
+        .trim()
+        .charAt(0)
+        .toUpperCase() ||
+      "U";
+
+
+    $("#largeAvatar").textContent =
+      initial;
+
+    $("#profileButton").textContent =
+      initial;
+
+
+    $("#firstName").value =
+      firstName;
+
+    $("#lastName").value =
+      lastName;
+
+    $("#email").value =
+      email;
+
+    $("#phone").value =
+      phone;
+
+    $("#city").value =
+      user.city ||
+      user.preferredCity ||
+      "";
+
+    $("#pincode").value =
+      user.pincode ||
+      "";
+
+    $("#address").value =
+      user.address ||
+      "";
+
+
+    if(
+      user.emailVerified === true
+    ){
+
+      $("#emailVerificationStatus")
+        .textContent =
+        "Your email address is verified.";
+
+      $("#verifyEmailButton")
+        .textContent =
+        "Verified";
+
+    }
+
+
+    if(
+      user.phoneVerified === true
+    ){
+
+      $("#phoneVerificationStatus")
+        .textContent =
+        "Your phone number is verified.";
+
+      $("#verifyPhoneButton")
+        .textContent =
+        "Verified";
+
+    }
+
+
+    return user;
+
+  }catch(error){
+
+    console.warn(
+      "GHAR account:",
+      error
+    );
+
+    $("#summaryEmail").textContent =
+      "Account information unavailable";
+
+  }
+
+}
+
+
+/* =========================================================
+   ACCOUNT FORM
+========================================================= */
+
+$("#accountForm")
+  ?.addEventListener(
+    "submit",
+    async event => {
+
+      event.preventDefault();
+
+
+      const payload = {
+
+        firstName:
+          $("#firstName").value.trim(),
+
+        lastName:
+          $("#lastName").value.trim(),
+
+        email:
+          $("#email").value.trim(),
+
+        phone:
+          $("#phone").value.trim(),
+
+        city:
+          $("#city").value.trim(),
+
+        pincode:
+          $("#pincode").value.trim(),
+
+        address:
+          $("#address").value.trim()
+
+      };
+
+
+      try{
+
+        await apiRequest(
+          API_BASE +
+          "/users/me",
+          {
+            method:"PATCH",
+
+            body:
+              JSON.stringify(
+                payload
+              )
+          }
+        );
+
+
+        showToast(
+          "Account information saved."
+        );
+
+
+        await loadAccount();
+
+      }catch(error){
+
+        console.warn(
+          "GHAR account update:",
+          error
+        );
+
+        showToast(
+          error.message ||
+          "Unable to save account information."
+        );
+
+      }
+
+    }
+  );
+
+
+/* =========================================================
+   PREFERENCES
+========================================================= */
+
+$("#savePreferences")
+  ?.addEventListener(
+    "click",
+    async () => {
+
+      const payload = {
+
+        propertyType:
+          $("#propertyType").value,
+
+        configuration:
+          $("#configuration").value,
+
+        minBudget:
+          Number(
+            $("#minBudget").value
+          ) || null,
+
+        maxBudget:
+          Number(
+            $("#maxBudget").value
+          ) || null,
+
+        preferredLocations:
+          $("#preferredLocations")
+            .value
+            .split(",")
+            .map(
+              value =>
+                value.trim()
+            )
+            .filter(Boolean)
+
+      };
+
+
+      try{
+
+        await apiRequest(
+          API_BASE +
+          "/users/me/preferences",
+          {
+            method:"PUT",
+
+            body:
+              JSON.stringify(
+                payload
+              )
+          }
+        );
+
+
+        showToast(
+          "Property preferences saved."
+        );
+
+      }catch(error){
+
+        console.warn(
+          "GHAR preferences:",
+          error
+        );
+
+        showToast(
+          error.message ||
+          "Unable to save preferences."
+        );
+
+      }
+
+    }
+  );
+
+
+/* =========================================================
+   TOGGLES
+========================================================= */
+
+function saveLocalSetting(
+  key,
+  value
+){
+
+  try{
+
+    localStorage.setItem(
+      "ghar_buyer_setting_" +
+      key,
+      value
+        ? "1"
+        : "0"
+    );
+
+  }catch(error){
+
+    console.warn(
+      "GHAR local setting:",
+      error
+    );
+
+  }
+
+}
+
+
+function restoreLocalSettings(){
+
+  $$("[data-setting]")
+    .forEach(
+      toggle => {
+
+        const key =
+          toggle.dataset.setting;
+
+        try{
+
+          const stored =
+            localStorage.getItem(
+              "ghar_buyer_setting_" +
+              key
+            );
+
+
+          if(stored === null){
+            return;
+          }
+
+
+          toggle.classList.toggle(
+            "active",
+            stored === "1"
+          );
+
+        }catch(error){
+
+          console.warn(
+            error
+          );
+
+        }
+
+      }
+    );
+
+}
+
+
+$$(".toggle")
+  .forEach(
+    toggle => {
+
+      toggle.addEventListener(
+        "click",
+        async () => {
+
+          const active =
+            !toggle.classList.contains(
+              "active"
+            );
+
+
+          toggle.classList.toggle(
+            "active",
+            active
+          );
+
+
+          const key =
+            toggle.dataset.setting ||
+            toggle.id ||
+            "unknown";
+
+
+          saveLocalSetting(
+            key,
+            active
+          );
+
+
+          if(
+            toggle.id ===
+            "twoFactorToggle"
+          ){
+
+            $("#twoFactorStatus")
+              .textContent =
+              active
+                ? "Two-factor authentication is enabled."
+                : "Two-factor authentication is currently disabled.";
+
+          }
+
+
+          try{
+
+            await apiRequest(
+              API_BASE +
+              "/users/me/settings",
+              {
+                method:"PATCH",
+
+                body:
+                  JSON.stringify({
+                    [key]:
+                      active
+                  })
+              }
+            );
+
+          }catch(error){
+
+            /*
+             * Local state remains usable while an API endpoint
+             * is being connected. No false success message is
+             * displayed.
+             */
+
+            console.warn(
+              "GHAR setting update:",
+              error
+            );
+
+          }
+
+        }
+      );
+
+    }
+  );
+
+
+/* =========================================================
+   PASSWORD
+========================================================= */
+
+$("#passwordForm")
+  ?.addEventListener(
+    "submit",
+    async event => {
+
+      event.preventDefault();
+
+
+      const currentPassword =
+        $("#currentPassword").value;
+
+      const newPassword =
+        $("#newPassword").value;
+
+      const confirmPassword =
+        $("#confirmPassword").value;
+
+
+      if(
+        !currentPassword ||
+        !newPassword ||
+        !confirmPassword
+      ){
+
+        showToast(
+          "Please complete all password fields."
+        );
+
+        return;
+
+      }
+
+
+      if(
+        newPassword !==
+        confirmPassword
+      ){
+
+        showToast(
+          "New passwords do not match."
+        );
+
+        return;
+
+      }
+
+
+      if(
+        newPassword.length < 8
+      ){
+
+        showToast(
+          "Password must contain at least 8 characters."
+        );
+
+        return;
+
+      }
+
+
+      try{
+
+        await apiRequest(
+          API_BASE +
+          "/auth/change-password",
+          {
+            method:"POST",
+
+            body:
+              JSON.stringify({
+                currentPassword,
+                newPassword
+              })
+          }
+        );
+
+
+        $("#passwordForm")
+          .reset();
+
+
+        showToast(
+          "Password changed successfully."
+        );
+
+      }catch(error){
+
+        console.warn(
+          "GHAR password:",
+          error
+        );
+
+        showToast(
+          error.message ||
+          "Unable to change password."
+        );
+
+      }
+
+    }
+  );
+
+
+/* =========================================================
+   TWO FACTOR
+========================================================= */
+
+$("#twoFactorToggle")
+  ?.addEventListener(
+    "click",
+    async () => {
+
+      const enabled =
+        $("#twoFactorToggle")
+          .classList
+          .contains("active");
+
+
+      try{
+
+        const response =
+          await apiRequest(
+            API_BASE +
+            "/auth/2fa",
+            {
+              method:"PATCH",
+
+              body:
+                JSON.stringify({
+                  enabled:
+                    !enabled
+                })
+            }
+          );
+
+
+        const newState =
+          response?.enabled ??
+          !enabled;
+
+
+        $("#twoFactorToggle")
+          .classList.toggle(
+            "active",
+            newState
+          );
+
+
+        $("#twoFactorStatus")
+          .textContent =
+          newState
+            ? "Two-factor authentication is enabled."
+            : "Two-factor authentication is currently disabled.";
+
+
+      }catch(error){
+
+        console.warn(
+          "GHAR 2FA:",
+          error
+        );
+
+        showToast(
+          error.message ||
+          "Unable to update two-factor authentication."
+        );
+
+      }
+
+    }
+  );
+
+
+/* =========================================================
+   DATA REQUEST
+========================================================= */
+
+$("#downloadData")
+  ?.addEventListener(
+    "click",
+    async () => {
+
+      try{
+
+        await apiRequest(
+          API_BASE +
+          "/users/me/data-request",
+          {
+            method:"POST"
+          }
+        );
+
+
+        showToast(
+          "Your data request has been submitted."
+        );
+
+      }catch(error){
+
+        console.warn(
+          "GHAR data request:",
+          error
+        );
+
+        showToast(
+          error.message ||
+          "Unable to submit data request."
+        );
+
+      }
+
+    }
+  );
+
+
+/* =========================================================
+   VERIFICATION
+========================================================= */
+
+$("#verifyEmailButton")
+  ?.addEventListener(
+    "click",
+    async () => {
+
+      try{
+
+        await apiRequest(
+          API_BASE +
+          "/auth/verify-email/resend",
+          {
+            method:"POST"
+          }
+        );
+
+
+        showToast(
+          "Verification email requested."
+        );
+
+      }catch(error){
+
+        console.warn(
+          "GHAR email verification:",
+          error
+        );
+
+        showToast(
+          error.message ||
+          "Unable to request email verification."
+        );
+
+      }
+
+    }
+  );
+
+
+$("#verifyPhoneButton")
+  ?.addEventListener(
+    "click",
+    async () => {
+
+      try{
+
+        await apiRequest(
+          API_BASE +
+          "/auth/verify-phone",
+          {
+            method:"POST"
+          }
+        );
+
+
+        showToast(
+          "Phone verification requested."
+        );
+
+      }catch(error){
+
+        console.warn(
+          "GHAR phone verification:",
+          error
+        );
+
+        showToast(
+          error.message ||
+          "Unable to request phone verification."
+        );
+
+      }
+
+    }
+  );
+
+
+/* =========================================================
+   SESSIONS
+========================================================= */
+
+async function loadSessions(){
+
+  const list =
+    $("#sessionList");
+
+  if(!list){
+    return;
+  }
+
+
+  try{
+
+    const response =
+      await apiRequest(
+        API_BASE +
+        "/auth/sessions"
+      );
+
+
+    const sessions =
+      Array.isArray(response)
+        ? response
+        : response?.sessions || [];
+
+
+    if(!sessions.length){
+      return;
+    }
+
+
+    list.innerHTML =
+      sessions
+        .map(
+          session => `
+
+            <div class="session">
+
+              <div class="session-icon">
+                ${session.current ? "✓" : "◇"}
+              </div>
+
+              <div class="session-info">
+
+                <strong>
+                  ${escapeHTML(
+                    session.device ||
+                    session.browser ||
+                    "GHAR session"
+                  )}
+                </strong>
+
+                <span>
+                  ${escapeHTML(
+                    session.location ||
+                    "Location unavailable"
+                  )}
+                  ·
+                  ${escapeHTML(
+                    session.lastActive ||
+                    "Activity unavailable"
+                  )}
+                </span>
+
+              </div>
+
+              <span class="session-status">
+                ${session.current ? "Active" : "Connected"}
+              </span>
+
+            </div>
+
+          `
+        )
+        .join("");
+
+
+  }catch(error){
+
+    console.warn(
+      "GHAR sessions:",
+      error
+    );
+
+  }
+
+}
+
+
+$("#logoutOtherSessions")
+  ?.addEventListener(
+    "click",
+    async () => {
+
+      if(
+        !confirm(
+          "Sign out of all other GHAR sessions?"
+        )
+      ){
+        return;
+      }
+
+
+      try{
+
+        await apiRequest(
+          API_BASE +
+          "/auth/sessions/logout-others",
+          {
+            method:"POST"
+          }
+        );
+
+
+        showToast(
+          "Other sessions have been signed out."
+        );
+
+
+        loadSessions();
+
+      }catch(error){
+
+        console.warn(
+          "GHAR sessions logout:",
+          error
+        );
+
+        showToast(
+          error.message ||
+          "Unable to sign out other sessions."
+        );
+
+      }
+
+    }
+  );
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+async function logout(){
+
+  try{
+
+    await apiRequest(
+      API_BASE +
+      "/auth/logout",
+      {
+        method:"POST"
+      }
+    );
+
+  }catch(error){
+
+    console.warn(
+      "GHAR logout:",
+      error
+    );
+
+  }finally{
+
+    window.location.href =
+      "/login.html";
+
+  }
+
+}
+
+
+$("#logoutButton")
+  ?.addEventListener(
+    "click",
+    () => {
+
+      if(
+        confirm(
+          "Are you sure you want to sign out?"
+        )
+      ){
+
+        logout();
+
+      }
+
+    }
+  );
+
+
+/* =========================================================
+   DELETE ACCOUNT
+========================================================= */
+
+$("#deleteAccountButton")
+  ?.addEventListener(
+    "click",
+    async () => {
+
+      const confirmation =
+        prompt(
+          "Type DELETE to request account deletion."
+        );
+
+
+      if(
+        confirmation !==
+        "DELETE"
+      ){
+
+        return;
+
+      }
+
+
+      try{
+
+        await apiRequest(
+          API_BASE +
+          "/users/me/deletion-request",
+          {
+            method:"POST"
+          }
+        );
+
+
+        showToast(
+          "Account deletion request submitted."
+        );
+
+      }catch(error){
+
+        console.warn(
+          "GHAR account deletion:",
+          error
+        );
+
+        showToast(
+          error.message ||
+          "Unable to submit account deletion request."
+        );
+
+      }
+
+    }
+  );
+
+
+/* =========================================================
+   AI
+========================================================= */
+
+$("#openAI")
+  ?.addEventListener(
+    "click",
+    () => {
+
+      window.location.href =
+        "/buyer/ai.html";
+
+    }
+  );
+
+
+/* =========================================================
+   NOTIFICATIONS
+========================================================= */
+
+$("#notificationButton")
+  ?.addEventListener(
+    "click",
+    () => {
+
+      window.location.href =
+        "/buyer/notifications.html";
+
+    }
+  );
+
+
+/* =========================================================
+   MOBILE MENU
+========================================================= */
+
+$("#menuButton")
+  ?.addEventListener(
+    "click",
+    () => {
+
+      const nav =
+        document.querySelector(
+          ".desktop-nav"
+        );
+
+
+      if(!nav){
+        return;
+      }
+
+
+      const visible =
+        nav.dataset.mobileOpen ===
+        "true";
+
+
+      if(visible){
+
+        nav.style.display =
+          "";
+
+        nav.dataset.mobileOpen =
+          "false";
+
+        return;
+
+      }
+
+
+      nav.dataset.mobileOpen =
+        "true";
+
+      nav.style.display =
+        "flex";
+
+      nav.style.position =
+        "absolute";
+
+      nav.style.left =
+        "14px";
+
+      nav.style.right =
+        "14px";
+
+      nav.style.top =
+        "66px";
+
+      nav.style.padding =
+        "10px";
+
+      nav.style.flexDirection =
+        "column";
+
+      nav.style.alignItems =
+        "stretch";
+
+      nav.style.border =
+        "1px solid rgba(229,199,125,.14)";
+
+      nav.style.borderRadius =
+        "16px";
+
+      nav.style.background =
+        "#0b1c14";
+
+      nav.style.boxShadow =
+        "0 25px 60px rgba(0,0,0,.35)";
+
+    }
+  );
+
+
+/* =========================================================
+   HASH ROUTING
+========================================================= */
+
+function initializeHash(){
+
+  const hash =
+    window.location.hash
+      .replace("#","")
+      .trim();
+
+
+  const validSections = [
+    "account",
+    "preferences",
+    "notifications",
+    "privacy",
+    "security",
+    "sessions",
+    "danger"
+  ];
+
+
+  if(
+    validSections.includes(
+      hash
+    )
+  ){
+
+    activateSection(
+      hash,
+      false
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   INITIALIZATION
+========================================================= */
+
+async function initialize(){
+
+  $("#footerYear").textContent =
+    new Date().getFullYear();
+
+
+  restoreLocalSettings();
+
+  initializeHash();
+
+  await loadAccount();
+
+  await loadSessions();
+
+}
+
+
+if(
+  document.readyState ===
+  "loading"
+){
+
+  document.addEventListener(
+    "DOMContentLoaded",
+    initialize
+  );
+
+}else{
+
+  initialize();
+
+}
+
+</script>
+
+</body>
+</html>

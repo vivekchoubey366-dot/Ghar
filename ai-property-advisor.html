@@ -1,0 +1,2480 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<meta name="theme-color" content="#f4ead9">
+<meta name="description" content="GHAR AI Property Advisor -- intelligent guidance for finding the right property.">
+
+<title>AI Property Advisor -- GHAR</title>
+
+<link rel="icon" type="image/png" href="assets/images/logo/ghar-logo.jpg">
+
+<!-- GLOBAL CSS -- SAME ROOT DESIGN SYSTEM -->
+<link rel="stylesheet" href="assets/css/variables.css">
+<link rel="stylesheet" href="assets/css/reset.css">
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/layout.css">
+<link rel="stylesheet" href="assets/css/components.css">
+<link rel="stylesheet" href="assets/css/navigation.css">
+<link rel="stylesheet" href="assets/css/cards.css">
+<link rel="stylesheet" href="assets/css/forms.css">
+<link rel="stylesheet" href="assets/css/home.css">
+<link rel="stylesheet" href="assets/css/property.css">
+<link rel="stylesheet" href="assets/css/animations.css">
+<link rel="stylesheet" href="assets/css/responsive.css">
+<link rel="stylesheet" href="assets/css/utilities.css">
+
+<style>
+
+:root{
+  --ivory:#f8f1e5;
+  --pearl:#fffaf2;
+  --sand:#eadbc4;
+  --champagne:#d9bd83;
+  --gold:#b18a48;
+  --gold2:#e7d09b;
+  --emerald:#163a2e;
+  --emerald2:#245442;
+  --ink:#17251f;
+  --muted:#737d76;
+  --line:rgba(23,58,46,.12);
+  --shadow:0 30px 80px rgba(30,49,40,.12);
+  --radius:28px;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  margin:0;
+  background:var(--ivory);
+  color:var(--ink);
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  line-height:1.55;
+  overflow-x:hidden;
+}
+
+a{
+  text-decoration:none;
+  color:inherit;
+}
+
+button,
+input,
+select,
+textarea{
+  font:inherit;
+}
+
+img{
+  max-width:100%;
+  display:block;
+}
+
+/* =========================================================
+   TOP BAR
+========================================================= */
+
+.topbar{
+  background:var(--emerald);
+  color:#f8f1e5;
+  text-align:center;
+  font-size:11px;
+  letter-spacing:.1em;
+  padding:8px 16px;
+}
+
+.topbar b{
+  color:var(--gold2);
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.header{
+  position:sticky;
+  top:0;
+  z-index:1000;
+  padding:12px 3.5vw;
+  background:rgba(248,241,229,.92);
+  backdrop-filter:blur(18px);
+  border-bottom:1px solid var(--line);
+}
+
+.nav{
+  max-width:1380px;
+  margin:auto;
+  display:flex;
+  align-items:center;
+  gap:26px;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  font-weight:900;
+  letter-spacing:.2em;
+  color:var(--emerald);
+}
+
+.brand img{
+  width:42px;
+  height:42px;
+  object-fit:contain;
+}
+
+.links{
+  display:flex;
+  gap:5px;
+  margin-left:auto;
+}
+
+.links a{
+  font-size:13px;
+  font-weight:700;
+  padding:10px 13px;
+  border-radius:999px;
+}
+
+.links a:hover{
+  background:#eee3d2;
+}
+
+.nav-actions{
+  display:flex;
+  gap:8px;
+  align-items:center;
+}
+
+.pill{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:44px;
+  padding:0 17px;
+  border-radius:999px;
+  border:1px solid var(--line);
+  font-size:12px;
+  font-weight:800;
+}
+
+.pill.gold{
+  background:var(--emerald);
+  border-color:var(--emerald);
+  color:#fff;
+}
+
+.menu{
+  display:none;
+  border:0;
+  background:none;
+  font-size:24px;
+  color:var(--emerald);
+}
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero{
+  position:relative;
+  min-height:650px;
+  display:flex;
+  align-items:center;
+  overflow:hidden;
+
+  background:
+    linear-gradient(
+      105deg,
+      rgba(17,48,38,.94),
+      rgba(17,48,38,.68) 50%,
+      rgba(17,48,38,.25)
+    ),
+    url("assets/images/banners/ghar-hero-evening.webp")
+    center/cover no-repeat;
+}
+
+.hero:after{
+  content:"";
+  position:absolute;
+  inset:auto 0 0;
+  height:140px;
+  background:linear-gradient(
+    transparent,
+    var(--ivory)
+  );
+  pointer-events:none;
+}
+
+.hero-inner{
+  position:relative;
+  z-index:2;
+  width:min(1320px,90vw);
+  margin:auto;
+  padding:95px 0 120px;
+
+  display:grid;
+  grid-template-columns:1.2fr .8fr;
+  gap:65px;
+  align-items:center;
+}
+
+.eyebrow{
+  display:inline-flex;
+  align-items:center;
+  gap:9px;
+  color:var(--gold2);
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+}
+
+.eyebrow:before{
+  content:"";
+  width:30px;
+  height:1px;
+  background:var(--gold2);
+}
+
+.hero h1{
+  font:500 clamp(52px,7vw,96px)/.92 Georgia,serif;
+  letter-spacing:-.06em;
+  color:#fff;
+  margin:20px 0 25px;
+  max-width:850px;
+}
+
+.hero h1 em{
+  font-style:normal;
+  color:#e8d19c;
+}
+
+.hero-copy{
+  max-width:680px;
+  color:rgba(255,255,255,.76);
+  font-size:15px;
+  line-height:1.85;
+}
+
+.actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:28px;
+}
+
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:52px;
+  padding:0 22px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.25);
+  font-size:12px;
+  font-weight:850;
+  transition:.25s;
+  cursor:pointer;
+}
+
+.btn:hover{
+  transform:translateY(-2px);
+}
+
+.btn.gold{
+  background:var(--champagne);
+  color:#14251e;
+  border-color:var(--champagne);
+}
+
+.btn.light{
+  color:#fff;
+  background:rgba(255,255,255,.08);
+  backdrop-filter:blur(12px);
+}
+
+/* =========================================================
+   AI HERO CARD
+========================================================= */
+
+.ai-hero-card{
+  max-width:410px;
+  margin-left:auto;
+  padding:30px;
+
+  border:1px solid rgba(255,255,255,.22);
+  border-radius:30px;
+
+  background:rgba(255,250,242,.11);
+  backdrop-filter:blur(22px);
+
+  color:#fff;
+  box-shadow:0 25px 70px rgba(0,0,0,.18);
+}
+
+.ai-symbol{
+  width:58px;
+  height:58px;
+  display:grid;
+  place-items:center;
+
+  border-radius:18px;
+
+  background:rgba(217,189,131,.18);
+  border:1px solid rgba(231,208,155,.28);
+
+  color:var(--gold2);
+  font-size:28px;
+}
+
+.ai-hero-card small{
+  display:block;
+  color:var(--gold2);
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:.16em;
+  font-size:9px;
+  margin-top:20px;
+}
+
+.ai-hero-card h2{
+  font:500 32px/1.08 Georgia,serif;
+  margin:10px 0;
+}
+
+.ai-hero-card p{
+  color:rgba(255,255,255,.64);
+  font-size:12px;
+}
+
+.ai-status{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-top:20px;
+  padding-top:18px;
+  border-top:1px solid rgba(255,255,255,.14);
+  font-size:10px;
+  color:rgba(255,255,255,.7);
+}
+
+.status-dot{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:#a9d9a7;
+  box-shadow:0 0 15px rgba(169,217,167,.8);
+}
+
+/* =========================================================
+   ADVISOR PANEL
+========================================================= */
+
+.advisor-wrap{
+  position:relative;
+  z-index:5;
+  margin:-48px auto 0;
+  width:min(1120px,88vw);
+}
+
+.advisor-panel{
+  background:var(--pearl);
+  padding:12px;
+
+  border:1px solid rgba(177,138,72,.25);
+  border-radius:27px;
+
+  box-shadow:var(--shadow);
+}
+
+.advisor-form{
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:9px;
+}
+
+.advisor-input{
+  min-height:64px;
+  border:0;
+  outline:0;
+  background:#f2e8d8;
+  border-radius:18px;
+  padding:0 20px;
+  color:var(--ink);
+  font-size:13px;
+  font-weight:650;
+}
+
+.advisor-input::placeholder{
+  color:#8a918b;
+}
+
+.advisor-submit{
+  border:0;
+  border-radius:18px;
+  background:var(--emerald);
+  color:#fff;
+  padding:0 28px;
+  font-size:12px;
+  font-weight:900;
+  cursor:pointer;
+  transition:.25s;
+}
+
+.advisor-submit:hover{
+  background:var(--emerald2);
+  transform:translateY(-1px);
+}
+
+.quick-prompts{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  padding:10px 3px 2px;
+}
+
+.quick-prompts button{
+  border:1px solid var(--line);
+  background:#f7eee1;
+  color:var(--emerald);
+  border-radius:999px;
+  padding:8px 12px;
+  font-size:10px;
+  font-weight:800;
+  cursor:pointer;
+}
+
+/* =========================================================
+   SECTIONS
+========================================================= */
+
+.section{
+  padding:105px 4.5vw;
+}
+
+.container{
+  max-width:1280px;
+  margin:auto;
+}
+
+.head{
+  display:flex;
+  justify-content:space-between;
+  align-items:end;
+  gap:30px;
+  margin-bottom:42px;
+}
+
+.kicker{
+  font-size:10px;
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:.2em;
+  color:var(--gold);
+}
+
+.section h2{
+  font:500 clamp(40px,5vw,70px)/.98 Georgia,serif;
+  letter-spacing:-.045em;
+  color:var(--emerald);
+  margin:12px 0 0;
+}
+
+.head p{
+  max-width:500px;
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.8;
+  margin:0;
+}
+
+/* =========================================================
+   AI CAPABILITIES
+========================================================= */
+
+.capabilities{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:15px;
+}
+
+.capability{
+  min-height:280px;
+  padding:28px;
+
+  border-radius:27px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #fffaf2,
+      #f0e4d1
+    );
+
+  border:1px solid var(--line);
+
+  transition:.3s;
+  position:relative;
+  overflow:hidden;
+}
+
+.capability:hover{
+  transform:translateY(-6px);
+  box-shadow:var(--shadow);
+}
+
+.capability:after{
+  content:"✦";
+  position:absolute;
+  right:20px;
+  bottom:-35px;
+  color:rgba(177,138,72,.09);
+  font-size:120px;
+}
+
+.cap-icon{
+  width:50px;
+  height:50px;
+  border-radius:16px;
+
+  display:grid;
+  place-items:center;
+
+  background:var(--emerald);
+  color:var(--gold2);
+
+  font-size:22px;
+}
+
+.capability h3{
+  font:500 26px Georgia,serif;
+  color:var(--emerald);
+  margin:38px 0 8px;
+}
+
+.capability p{
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.8;
+  max-width:330px;
+}
+
+/* =========================================================
+   CONVERSATION
+========================================================= */
+
+.conversation-section{
+  background:
+    linear-gradient(
+      135deg,
+      #eee1ce,
+      #f8f0e2
+    );
+}
+
+.conversation{
+  display:grid;
+  grid-template-columns:.72fr 1.28fr;
+  gap:55px;
+  align-items:center;
+}
+
+.conversation-copy p{
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.9;
+  max-width:520px;
+  margin:25px 0;
+}
+
+.chat-preview{
+  background:var(--emerald);
+  border-radius:32px;
+  padding:25px;
+  box-shadow:var(--shadow);
+  color:#fff;
+}
+
+.chat-top{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding-bottom:18px;
+  border-bottom:1px solid rgba(255,255,255,.1);
+}
+
+.chat-avatar{
+  width:45px;
+  height:45px;
+  display:grid;
+  place-items:center;
+  border-radius:15px;
+  background:rgba(217,189,131,.18);
+  color:var(--gold2);
+  font-size:20px;
+}
+
+.chat-top strong{
+  display:block;
+  font-size:13px;
+}
+
+.chat-top span{
+  display:block;
+  color:rgba(255,255,255,.5);
+  font-size:9px;
+  margin-top:2px;
+}
+
+.messages{
+  display:grid;
+  gap:12px;
+  padding:22px 0;
+}
+
+.message{
+  max-width:78%;
+  padding:13px 15px;
+  border-radius:17px;
+  font-size:11px;
+  line-height:1.6;
+}
+
+.message.ai{
+  background:#245442;
+  color:rgba(255,255,255,.85);
+  border-bottom-left-radius:5px;
+}
+
+.message.user{
+  margin-left:auto;
+  background:#f3e7d3;
+  color:var(--ink);
+  border-bottom-right-radius:5px;
+}
+
+.chat-input{
+  display:flex;
+  gap:7px;
+  border-top:1px solid rgba(255,255,255,.1);
+  padding-top:18px;
+}
+
+.chat-input input{
+  flex:1;
+  min-width:0;
+  border:0;
+  outline:0;
+  border-radius:13px;
+  padding:13px 15px;
+  background:#fffaf2;
+}
+
+.chat-input button{
+  width:48px;
+  border:0;
+  border-radius:13px;
+  background:var(--champagne);
+  color:var(--emerald);
+  font-weight:900;
+  cursor:pointer;
+}
+
+/* =========================================================
+   ADVISOR FEATURES
+========================================================= */
+
+.feature-band{
+  background:var(--emerald);
+  color:#fff;
+}
+
+.feature-band .kicker{
+  color:var(--gold2);
+}
+
+.feature-band h2{
+  color:#fff;
+}
+
+.feature-band .head p{
+  color:rgba(255,255,255,.57);
+}
+
+.advisor-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+}
+
+.advisor-card{
+  padding:25px;
+  min-height:245px;
+
+  background:#204737;
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:24px;
+}
+
+.advisor-card .number{
+  color:var(--gold2);
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:.2em;
+}
+
+.advisor-card h3{
+  font:500 24px Georgia,serif;
+  margin:35px 0 8px;
+}
+
+.advisor-card p{
+  color:rgba(255,255,255,.57);
+  font-size:11px;
+  line-height:1.8;
+}
+
+/* =========================================================
+   ADVISOR RESULT
+========================================================= */
+
+.result-section{
+  padding:105px 4.5vw;
+}
+
+.result-card{
+  max-width:1280px;
+  margin:auto;
+
+  display:grid;
+  grid-template-columns:1fr 1fr;
+
+  overflow:hidden;
+
+  border-radius:35px;
+
+  background:#fffaf2;
+
+  border:1px solid var(--line);
+
+  box-shadow:var(--shadow);
+}
+
+.result-visual{
+  min-height:520px;
+
+  background:
+    linear-gradient(
+      120deg,
+      rgba(22,58,46,.82),
+      rgba(22,58,46,.15)
+    ),
+    url("assets/images/properties/residential/apartment/apartment-01.webp")
+    center/cover no-repeat;
+
+  position:relative;
+}
+
+.result-label{
+  position:absolute;
+  left:25px;
+  top:25px;
+
+  padding:9px 12px;
+  border-radius:999px;
+
+  background:rgba(22,58,46,.85);
+  color:var(--gold2);
+
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+}
+
+.result-copy{
+  padding:50px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+
+.result-copy .kicker{
+  margin-bottom:5px;
+}
+
+.result-copy h3{
+  font:500 44px/.98 Georgia,serif;
+  color:var(--emerald);
+  margin:12px 0 15px;
+}
+
+.result-copy p{
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.8;
+}
+
+.match-list{
+  display:grid;
+  gap:9px;
+  margin:20px 0;
+}
+
+.match{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  padding:12px 14px;
+
+  background:#f3e8d7;
+  border-radius:13px;
+
+  font-size:10px;
+  font-weight:750;
+}
+
+.match strong{
+  color:var(--emerald);
+}
+
+/* =========================================================
+   CTA
+========================================================= */
+
+.final-cta{
+  padding:110px 4.5vw;
+  background:var(--emerald);
+  color:#fff;
+  text-align:center;
+}
+
+.final-cta .kicker{
+  color:var(--gold2);
+}
+
+.final-cta h2{
+  font:500 clamp(48px,7vw,88px)/.95 Georgia,serif;
+  margin:15px auto;
+  max-width:950px;
+}
+
+.final-cta p{
+  color:rgba(255,255,255,.62);
+  max-width:600px;
+  margin:0 auto;
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer{
+  background:#10291f;
+  color:#fff;
+}
+
+.footer{
+  max-width:1280px;
+  margin:auto;
+  padding:70px 4.5vw;
+
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr 1fr;
+  gap:45px;
+}
+
+.footer-brand{
+  font-size:25px;
+  font-weight:900;
+  letter-spacing:.2em;
+  color:var(--gold2);
+}
+
+.footer p{
+  color:rgba(255,255,255,.5);
+  max-width:380px;
+  font-size:12px;
+  line-height:1.8;
+}
+
+.footer h4{
+  color:var(--gold2);
+  margin:0 0 15px;
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:.15em;
+}
+
+.footer a{
+  display:block;
+  color:rgba(255,255,255,.6);
+  font-size:11px;
+  margin:9px 0;
+}
+
+.footer a:hover{
+  color:#fff;
+}
+
+.bottom{
+  max-width:1280px;
+  margin:auto;
+  padding:18px 4.5vw 25px;
+
+  border-top:1px solid rgba(255,255,255,.1);
+
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+
+  color:rgba(255,255,255,.4);
+  font-size:10px;
+}
+
+/* =========================================================
+   MOBILE DOCK
+========================================================= */
+
+.mobile-dock{
+  display:none;
+}
+
+/* =========================================================
+   REVEAL
+========================================================= */
+
+.reveal{
+  opacity:0;
+  transform:translateY(18px);
+  transition:
+    opacity .7s ease,
+    transform .7s ease;
+}
+
+.reveal.visible{
+  opacity:1;
+  transform:none;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:1050px){
+
+  .links{
+    display:none;
+  }
+
+  .menu{
+    display:block;
+  }
+
+  .hero-inner{
+    grid-template-columns:1fr;
+  }
+
+  .ai-hero-card{
+    margin-left:0;
+  }
+
+  .capabilities{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .conversation{
+    grid-template-columns:1fr;
+  }
+
+  .advisor-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .result-card{
+    grid-template-columns:1fr;
+  }
+
+  .result-visual{
+    min-height:400px;
+  }
+
+  .footer{
+    grid-template-columns:1fr 1fr;
+  }
+}
+
+@media(max-width:700px){
+
+  body{
+    padding-bottom:80px;
+  }
+
+  .topbar{
+    font-size:9px;
+  }
+
+  .header{
+    padding:9px 5vw;
+  }
+
+  .nav-actions .pill:first-child{
+    display:none;
+  }
+
+  .hero{
+    min-height:700px;
+  }
+
+  .hero-inner{
+    width:90vw;
+    padding-top:70px;
+  }
+
+  .hero h1{
+    font-size:55px;
+  }
+
+  .advisor-wrap{
+    width:90vw;
+    margin-top:-40px;
+  }
+
+  .advisor-form{
+    grid-template-columns:1fr;
+  }
+
+  .advisor-submit{
+    min-height:56px;
+  }
+
+  .capabilities{
+    grid-template-columns:1fr;
+  }
+
+  .advisor-grid{
+    grid-template-columns:1fr;
+  }
+
+  .result-copy{
+    padding:30px;
+  }
+
+  .result-copy h3{
+    font-size:36px;
+  }
+
+  .result-visual{
+    min-height:340px;
+  }
+
+  .chat-preview{
+    padding:20px;
+  }
+
+  .footer{
+    grid-template-columns:1fr;
+  }
+
+  .bottom{
+    flex-direction:column;
+  }
+
+  .mobile-dock{
+    position:fixed;
+    z-index:9999;
+
+    left:10px;
+    right:10px;
+    bottom:10px;
+
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+
+    background:rgba(16,41,31,.95);
+    backdrop-filter:blur(18px);
+
+    border:1px solid rgba(255,255,255,.12);
+    border-radius:20px;
+
+    padding:8px;
+
+    box-shadow:0 20px 50px rgba(0,0,0,.2);
+  }
+
+  .mobile-dock a{
+    text-align:center;
+    color:rgba(255,255,255,.65);
+    font-size:8px;
+    font-weight:800;
+  }
+
+  .mobile-dock span{
+    display:block;
+    color:var(--gold2);
+    font-size:18px;
+    line-height:1;
+    margin-bottom:3px;
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- =======================================================
+     TOP BAR
+======================================================= -->
+
+<div class="topbar">
+  <b>GHAR AI</b>
+  &nbsp; | &nbsp;
+  Intelligent guidance for your property journey
+</div>
+
+
+<!-- =======================================================
+     HEADER
+======================================================= -->
+
+<header class="header">
+
+<nav class="nav">
+
+<a href="index.html" class="brand">
+
+<img
+  src="assets/images/logo/ghar-logo.png"
+  alt="GHAR"
+>
+
+<span>GHAR</span>
+
+</a>
+
+<div class="links">
+
+<a href="properties.html">Properties</a>
+<a href="about.html">About</a>
+<a href="property-search.html">Search</a>
+<a href="compare.html">Compare</a>
+<a href="ai.html">AI</a>
+<a href="contact.html">Contact</a>
+
+</div>
+
+<div class="nav-actions">
+
+<a href="login.html" class="pill">
+Login
+</a>
+
+<a href="role-selection.html" class="pill gold">
+Get Started
+</a>
+
+<button
+  class="menu"
+  type="button"
+  aria-label="Open menu"
+>
+☰
+</button>
+
+</div>
+
+</nav>
+
+</header>
+
+
+<main>
+
+<!-- =======================================================
+     HERO
+======================================================= -->
+
+<section class="hero">
+
+<div class="hero-inner">
+
+<div>
+
+<div class="eyebrow">
+GHAR intelligence
+</div>
+
+<h1>
+Meet your
+<em>property advisor.</em>
+</h1>
+
+<p class="hero-copy">
+
+Tell GHAR what you are looking for, what you can afford
+and what matters to you. The AI Property Advisor helps
+organize your requirements and guide your property search.
+
+</p>
+
+<div class="actions">
+
+<a
+  href="#advisor"
+  class="btn gold"
+>
+Start advising
+</a>
+
+<a
+  href="ai-chat.html"
+  class="btn light"
+>
+Open AI Chat
+</a>
+
+</div>
+
+</div>
+
+
+<div class="ai-hero-card">
+
+<div class="ai-symbol">
+✦
+</div>
+
+<small>
+AI Property Advisor
+</small>
+
+<h2>
+A smarter way to begin your search.
+</h2>
+
+<p>
+
+From location and budget to configuration and lifestyle,
+GHAR helps turn your requirements into a structured
+property journey.
+
+</p>
+
+<div class="ai-status">
+
+<span class="status-dot"></span>
+
+AI advisor available
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =======================================================
+     ADVISOR SEARCH
+======================================================= -->
+
+<div
+  class="advisor-wrap"
+  id="advisor"
+>
+
+<div class="advisor-panel">
+
+<form
+  class="advisor-form"
+  id="advisorForm"
+>
+
+<input
+  id="advisorQuery"
+  class="advisor-input"
+  type="text"
+  autocomplete="off"
+  placeholder="Example: I need a 3 BHK in Noida under ₹2 Cr for my family..."
+  required
+>
+
+<button
+  class="advisor-submit"
+  type="submit"
+>
+Ask GHAR AI →
+</button>
+
+</form>
+
+
+<div class="quick-prompts">
+
+<button
+  type="button"
+  data-prompt="Find a 3 BHK apartment in Noida under ₹2 Cr"
+>
+3 BHK under ₹2 Cr
+</button>
+
+<button
+  type="button"
+  data-prompt="Find a family house near Noida with good connectivity"
+>
+Family house
+</button>
+
+<button
+  type="button"
+  data-prompt="I want a luxury villa in Greater Noida"
+>
+Luxury villa
+</button>
+
+<button
+  type="button"
+  data-prompt="Find a property suitable for investment"
+>
+Investment
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- =======================================================
+     CAPABILITIES
+======================================================= -->
+
+<section class="section">
+
+<div class="container">
+
+<div class="head">
+
+<div>
+
+<div class="kicker">
+What your advisor can do
+</div>
+
+<h2>
+More than a
+<br>
+property search.
+</h2>
+
+</div>
+
+<p>
+
+GHAR AI helps structure your property requirements
+before you start comparing individual listings.
+
+</p>
+
+</div>
+
+
+<div class="capabilities">
+
+
+<div class="capability reveal">
+
+<div class="cap-icon">
+⌕
+</div>
+
+<h3>
+Understand your needs
+</h3>
+
+<p>
+
+Turn natural-language requirements into structured
+preferences such as location, budget, property type,
+configuration and purpose.
+
+</p>
+
+</div>
+
+
+<div class="capability reveal">
+
+<div class="cap-icon">
+◇
+</div>
+
+<h3>
+Match properties
+</h3>
+
+<p>
+
+Use your preferences to identify properties that may
+fit your requirements and highlight the factors behind
+a potential match.
+
+</p>
+
+</div>
+
+
+<div class="capability reveal">
+
+<div class="cap-icon">
+◈
+</div>
+
+<h3>
+Compare choices
+</h3>
+
+<p>
+
+Review trade-offs between properties instead of
+looking only at headline prices.
+
+</p>
+
+</div>
+
+
+<div class="capability reveal">
+
+<div class="cap-icon">
+₹
+</div>
+
+<h3>
+Think about budget
+</h3>
+
+<p>
+
+Explore purchase-budget scenarios and understand
+how price, configuration and location affect your
+property choices.
+
+</p>
+
+</div>
+
+
+<div class="capability reveal">
+
+<div class="cap-icon">
+⌂
+</div>
+
+<h3>
+Lifestyle guidance
+</h3>
+
+<p>
+
+Consider family requirements, commute preferences,
+space needs and the type of home you want.
+
+</p>
+
+</div>
+
+
+<div class="capability reveal">
+
+<div class="cap-icon">
+✦
+</div>
+
+<h3>
+Continue with GHAR
+</h3>
+
+<p>
+
+Move from AI guidance into property discovery,
+saved properties, enquiries, visits and offers.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =======================================================
+     CONVERSATION
+======================================================= -->
+
+<section class="section conversation-section">
+
+<div class="container conversation">
+
+<div class="conversation-copy reveal">
+
+<div class="kicker">
+Natural language
+</div>
+
+<h2>
+Just tell GHAR
+what you need.
+</h2>
+
+<p>
+
+You do not need to know the exact filters before
+starting. Describe your requirement naturally and
+the advisor can help organize it into a property
+search.
+
+</p>
+
+<a
+  href="ai-chat.html"
+  class="btn"
+  style="
+    background:var(--emerald);
+    color:#fff;
+    border-color:var(--emerald)
+  "
+>
+Talk to AI →
+</a>
+
+</div>
+
+
+<div class="chat-preview reveal">
+
+<div class="chat-top">
+
+<div class="chat-avatar">
+✦
+</div>
+
+<div>
+
+<strong>
+GHAR AI Advisor
+</strong>
+
+<span>
+Property guidance assistant
+</span>
+
+</div>
+
+</div>
+
+
+<div class="messages">
+
+<div class="message user">
+
+I want a 3 BHK for my family in Noida.
+Budget is around ₹2 Cr.
+
+</div>
+
+
+<div class="message ai">
+
+Understood. I can help structure that search.
+Let's consider location, property type,
+budget, configuration and your priorities.
+
+</div>
+
+
+<div class="message user">
+
+Good connectivity and a quiet area are important.
+
+</div>
+
+
+<div class="message ai">
+
+I'll treat connectivity and quieter surroundings
+as important preferences when comparing suitable
+properties.
+
+</div>
+
+</div>
+
+
+<form
+  class="chat-input"
+  id="chatForm"
+>
+
+<input
+  id="chatMessage"
+  placeholder="Ask GHAR AI..."
+  autocomplete="off"
+>
+
+<button
+  type="submit"
+  aria-label="Send"
+>
+→
+</button>
+
+</form>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =======================================================
+     ADVISOR JOURNEY
+======================================================= -->
+
+<section class="section feature-band">
+
+<div class="container">
+
+<div class="head">
+
+<div>
+
+<div class="kicker">
+Your AI journey
+</div>
+
+<h2>
+From idea to
+property decision.
+</h2>
+
+</div>
+
+<p>
+
+Use AI as a decision-support layer while keeping
+the final property, financial and legal decisions
+under your control.
+
+</p>
+
+</div>
+
+
+<div class="advisor-grid">
+
+
+<div class="advisor-card reveal">
+
+<div class="number">
+01 · DISCOVER
+</div>
+
+<h3>
+Describe
+</h3>
+
+<p>
+
+Tell GHAR where you want to live, what you need,
+your approximate budget and what matters most.
+
+</p>
+
+</div>
+
+
+<div class="advisor-card reveal">
+
+<div class="number">
+02 · UNDERSTAND
+</div>
+
+<h3>
+Structure
+</h3>
+
+<p>
+
+Turn your conversation into organized property
+requirements that are easier to search and compare.
+
+</p>
+
+</div>
+
+
+<div class="advisor-card reveal">
+
+<div class="number">
+03 · COMPARE
+</div>
+
+<h3>
+Evaluate
+</h3>
+
+<p>
+
+Explore possible matches and understand their
+strengths, limitations and trade-offs.
+
+</p>
+
+</div>
+
+
+<div class="advisor-card reveal">
+
+<div class="number">
+04 · CONTINUE
+</div>
+
+<h3>
+Take action
+</h3>
+
+<p>
+
+Save properties, enquire, schedule visits and
+continue your journey through GHAR.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =======================================================
+     EXAMPLE RESULT
+======================================================= -->
+
+<section class="result-section">
+
+<div class="result-card reveal">
+
+<div class="result-visual">
+
+<div class="result-label">
+Example AI match
+</div>
+
+</div>
+
+
+<div class="result-copy">
+
+<div class="kicker">
+Illustrative recommendation
+</div>
+
+<h3>
+A property that fits the brief.
+</h3>
+
+<p>
+
+Based on a hypothetical requirement for a 3 BHK
+family residence in Noida around a ₹2 Cr budget,
+an AI-assisted result could highlight factors such
+as these:
+
+</p>
+
+
+<div class="match-list">
+
+<div class="match">
+
+<span>
+Configuration
+</span>
+
+<strong>
+3 BHK
+</strong>
+
+</div>
+
+
+<div class="match">
+
+<span>
+Purpose
+</span>
+
+<strong>
+Family living
+</strong>
+
+</div>
+
+
+<div class="match">
+
+<span>
+Budget
+</span>
+
+<strong>
+Around ₹2 Cr
+</strong>
+
+</div>
+
+
+<div class="match">
+
+<span>
+Priority
+</span>
+
+<strong>
+Connectivity
+</strong>
+
+</div>
+
+</div>
+
+
+<a
+  href="properties.html"
+  class="btn"
+  style="
+    background:var(--emerald);
+    color:#fff;
+    border-color:var(--emerald);
+    align-self:flex-start
+  "
+>
+Explore Properties →
+</a>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =======================================================
+     AI TOOLS
+======================================================= -->
+
+<section class="section">
+
+<div class="container">
+
+<div class="head">
+
+<div>
+
+<div class="kicker">
+Explore GHAR AI
+</div>
+
+<h2>
+Choose the right
+AI tool.
+</h2>
+
+</div>
+
+<p>
+
+Different stages of your property journey can use
+different AI-assisted workflows.
+
+</p>
+
+</div>
+
+
+<div class="capabilities">
+
+
+<a
+  href="ai-property-search.html"
+  class="capability reveal"
+>
+
+<div class="cap-icon">
+⌕
+</div>
+
+<h3>
+AI Property Search
+</h3>
+
+<p>
+Describe your ideal property and organize your
+search requirements.
+</p>
+
+</a>
+
+
+<a
+  href="ai-price-estimator.html"
+  class="capability reveal"
+>
+
+<div class="cap-icon">
+₹
+</div>
+
+<h3>
+AI Price Estimator
+</h3>
+
+<p>
+Explore indicative property-price scenarios.
+</p>
+
+</a>
+
+
+<a
+  href="ai-investment-advisor.html"
+  class="capability reveal"
+>
+
+<div class="cap-icon">
+◈
+</div>
+
+<h3>
+Investment Advisor
+</h3>
+
+<p>
+Explore investment considerations and property
+trade-offs.
+</p>
+
+</a>
+
+
+<a
+  href="ai-loan-advisor.html"
+  class="capability reveal"
+>
+
+<div class="cap-icon">
+▣
+</div>
+
+<h3>
+Loan Advisor
+</h3>
+
+<p>
+Explore loan-related scenarios and affordability
+considerations.
+</p>
+
+</a>
+
+
+<a
+  href="ai-document-assistant.html"
+  class="capability reveal"
+>
+
+<div class="cap-icon">
+□
+</div>
+
+<h3>
+Document Assistant
+</h3>
+
+<p>
+Organize property-document questions and checklists.
+</p>
+
+</a>
+
+
+<a
+  href="ai-chat.html"
+  class="capability reveal"
+>
+
+<div class="cap-icon">
+✦
+</div>
+
+<h3>
+AI Chat
+</h3>
+
+<p>
+Have a general conversation about your property
+journey.
+</p>
+
+</a>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =======================================================
+     FINAL CTA
+======================================================= -->
+
+<section class="final-cta">
+
+<div class="container reveal">
+
+<div class="kicker">
+Your property journey starts here
+</div>
+
+<h2>
+Ask better questions.
+Find better possibilities.
+</h2>
+
+<p>
+
+Use GHAR AI to organize your requirements, explore
+options and continue into the GHAR property ecosystem.
+
+</p>
+
+<div
+  class="actions"
+  style="justify-content:center"
+>
+
+<a
+  href="properties.html"
+  class="btn gold"
+>
+Explore Properties
+</a>
+
+<a
+  href="ai-chat.html"
+  class="btn light"
+>
+Talk to GHAR AI
+</a>
+
+</div>
+
+</div>
+
+</section>
+
+</main>
+
+
+<!-- =======================================================
+     FOOTER
+======================================================= -->
+
+<footer>
+
+<div class="footer">
+
+
+<div>
+
+<div class="footer-brand">
+GHAR
+</div>
+
+<p>
+
+A structured real-estate ecosystem connecting
+buyers, sellers, renters and property journeys
+through one premium digital experience.
+
+</p>
+
+</div>
+
+
+<div>
+
+<h4>
+Properties
+</h4>
+
+<a href="properties.html">
+Buy
+</a>
+
+<a href="properties.html?listing=rent">
+Rent
+</a>
+
+<a href="properties.html?listing=lease">
+Lease
+</a>
+
+<a href="properties.html?type=commercial">
+Commercial
+</a>
+
+<a href="properties.html?type=land">
+Land
+</a>
+
+</div>
+
+
+<div>
+
+<h4>
+Account
+</h4>
+
+<a href="dashboard.html">
+Dashboard
+</a>
+
+<a href="profile.html">
+Profile
+</a>
+
+<a href="buyer/saved-properties.html">
+Saved Properties
+</a>
+
+<a href="buyer/enquiries.html">
+My Enquiries
+</a>
+
+<a href="buyer/offers.html">
+My Offers
+</a>
+
+</div>
+
+
+<div>
+
+<h4>
+AI
+</h4>
+
+<a href="ai-property-advisor.html">
+Property Advisor
+</a>
+
+<a href="ai-property-search.html">
+Property Search
+</a>
+
+<a href="ai-price-estimator.html">
+Price Estimator
+</a>
+
+<a href="ai-investment-advisor.html">
+Investment Advisor
+</a>
+
+<a href="ai-chat.html">
+AI Chat
+</a>
+
+</div>
+
+</div>
+
+
+<div class="bottom">
+
+<span>
+© 2026 GHAR. All rights reserved.
+</span>
+
+<span>
+
+<a href="about.html">
+About
+</a>
+
+·
+
+<a href="contact.html">
+Contact
+</a>
+
+·
+
+<a href="help-centre.html">
+Help & Support
+</a>
+
+·
+
+<a href="terms.html">
+Terms
+</a>
+
+·
+
+<a href="privacy.html">
+Privacy
+</a>
+
+</span>
+
+</div>
+
+</footer>
+
+
+<!-- =======================================================
+     MOBILE NAVIGATION
+======================================================= -->
+
+<nav
+  class="mobile-dock"
+  aria-label="Mobile navigation"
+>
+
+<a href="index.html">
+<span>⌂</span>
+Home
+</a>
+
+<a href="properties.html">
+<span>⌕</span>
+Search
+</a>
+
+<a href="buyer/saved-properties.html">
+<span>♡</span>
+Saved
+</a>
+
+<a href="profile.html">
+<span>◉</span>
+Account
+</a>
+
+<a href="ai.html">
+<span>✦</span>
+AI
+</a>
+
+</nav>
+
+
+<!-- =======================================================
+     CORE JAVASCRIPT
+======================================================= -->
+
+<script src="assets/js/constants.js" defer></script>
+<script src="assets/js/config.js" defer></script>
+<script src="assets/js/storage.js" defer></script>
+<script src="assets/js/api.js" defer></script>
+<script src="assets/js/auth.js" defer></script>
+<script src="assets/js/core.js" defer></script>
+<script src="assets/js/components.js" defer></script>
+<script src="assets/js/navigation.js" defer></script>
+
+
+<!-- =======================================================
+     PAGE JAVASCRIPT
+======================================================= -->
+
+<script>
+
+document.addEventListener(
+  "DOMContentLoaded",
+  () => {
+
+    /* =====================================================
+       REVEAL
+    ===================================================== */
+
+    const observer =
+      new IntersectionObserver(
+        entries => {
+
+          entries.forEach(
+            entry => {
+
+              if(entry.isIntersecting){
+
+                entry.target.classList.add("visible");
+
+                observer.unobserve(
+                  entry.target
+                );
+
+              }
+
+            }
+          );
+
+        },
+        {
+          threshold:.1
+        }
+      );
+
+
+    document
+      .querySelectorAll(".reveal")
+      .forEach(
+        element => observer.observe(element)
+      );
+
+
+    /* =====================================================
+       QUICK PROMPTS
+    ===================================================== */
+
+    document
+      .querySelectorAll("[data-prompt]")
+      .forEach(
+        button => {
+
+          button.addEventListener(
+            "click",
+            () => {
+
+              const input =
+                document.getElementById(
+                  "advisorQuery"
+                );
+
+              if(!input){
+                return;
+              }
+
+              input.value =
+                button.dataset.prompt;
+
+              input.focus();
+
+            }
+          );
+
+        }
+      );
+
+
+    /* =====================================================
+       ADVISOR FORM
+    ===================================================== */
+
+    document
+      .getElementById("advisorForm")
+      ?.addEventListener(
+        "submit",
+        event => {
+
+          event.preventDefault();
+
+          const input =
+            document.getElementById(
+              "advisorQuery"
+            );
+
+          const query =
+            input?.value.trim();
+
+          if(!query){
+            return;
+          }
+
+          /*
+            Send the requirement to the AI-property
+            workflow. The destination can later be
+            connected to your real AI API.
+          */
+
+          window.location.href =
+            "ai-property-search.html?q=" +
+            encodeURIComponent(query);
+
+        }
+      );
+
+
+    /* =====================================================
+       CHAT PREVIEW
+    ===================================================== */
+
+    document
+      .getElementById("chatForm")
+      ?.addEventListener(
+        "submit",
+        event => {
+
+          event.preventDefault();
+
+          const input =
+            document.getElementById(
+              "chatMessage"
+            );
+
+          const value =
+            input?.value.trim();
+
+          if(!value){
+            return;
+          }
+
+          window.location.href =
+            "ai-chat.html?q=" +
+            encodeURIComponent(value);
+
+        }
+      );
+
+  }
+
+);
+
+</script>
+
+</body>
+</html>

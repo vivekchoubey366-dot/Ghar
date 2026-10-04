@@ -1,0 +1,3422 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+  <meta
+    name="theme-color"
+    content="#f4ead9"
+  >
+
+  <meta
+    name="description"
+    content="GHAR property comparison -- compare selected properties, prices, locations, configurations and amenities."
+  >
+
+  <title>Compare Properties -- GHAR</title>
+
+  <!-- =====================================================
+       LOGO
+  ====================================================== -->
+
+  <link
+    rel="icon"
+    type="image/png"
+    href="assets/images/logo/ghar-logo.jpg"
+  >
+
+
+  <!-- =====================================================
+       GLOBAL CSS
+  ====================================================== -->
+
+  <link
+    rel="stylesheet"
+    href="assets/css/variables.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="assets/css/reset.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="assets/css/style.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="assets/css/layout.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="assets/css/components.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="assets/css/navigation.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="assets/css/cards.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="assets/css/forms.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="assets/css/home.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="assets/css/property.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="assets/css/animations.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="assets/css/responsive.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="assets/css/utilities.css"
+  >
+
+
+  <!-- =====================================================
+       PAGE STYLE
+  ====================================================== -->
+
+  <style>
+
+    :root{
+
+      --ivory:#f8f1e5;
+      --pearl:#fffaf2;
+      --sand:#eadbc4;
+      --champagne:#d9bd83;
+      --gold:#b18a48;
+      --gold2:#e7d09b;
+
+      --emerald:#163a2e;
+      --emerald2:#245442;
+
+      --ink:#17251f;
+      --muted:#737d76;
+
+      --line:rgba(23,58,46,.12);
+
+      --shadow:
+        0 30px 80px rgba(30,49,40,.12);
+
+      --radius:28px;
+
+    }
+
+
+    *{
+      box-sizing:border-box;
+    }
+
+
+    html{
+      scroll-behavior:smooth;
+    }
+
+
+    body{
+
+      margin:0;
+
+      background:var(--ivory);
+
+      color:var(--ink);
+
+      font-family:
+        Inter,
+        ui-sans-serif,
+        system-ui,
+        -apple-system,
+        "Segoe UI",
+        sans-serif;
+
+      line-height:1.55;
+
+      overflow-x:hidden;
+
+    }
+
+
+    a{
+      text-decoration:none;
+      color:inherit;
+    }
+
+
+    img{
+      display:block;
+      max-width:100%;
+    }
+
+
+    button,
+    input,
+    select{
+      font:inherit;
+    }
+
+
+    /* =====================================================
+       TOP BAR
+    ====================================================== */
+
+    .topbar{
+
+      background:var(--emerald);
+
+      color:#f8f1e5;
+
+      text-align:center;
+
+      font-size:11px;
+
+      letter-spacing:.1em;
+
+      padding:8px 16px;
+
+    }
+
+
+    .topbar b{
+      color:var(--gold2);
+    }
+
+
+    /* =====================================================
+       HEADER
+    ====================================================== */
+
+    .header{
+
+      position:sticky;
+
+      top:0;
+
+      z-index:1000;
+
+      padding:12px 3.5vw;
+
+      background:
+        rgba(248,241,229,.92);
+
+      backdrop-filter:blur(18px);
+
+      border-bottom:
+        1px solid var(--line);
+
+    }
+
+
+    .nav{
+
+      max-width:1380px;
+
+      margin:auto;
+
+      display:flex;
+
+      align-items:center;
+
+      gap:26px;
+
+    }
+
+
+    .brand{
+
+      display:flex;
+
+      align-items:center;
+
+      gap:11px;
+
+      font-weight:900;
+
+      letter-spacing:.2em;
+
+      color:var(--emerald);
+
+    }
+
+
+    .brand img{
+
+      width:42px;
+
+      height:42px;
+
+      object-fit:contain;
+
+    }
+
+
+    .links{
+
+      display:flex;
+
+      gap:5px;
+
+      margin-left:auto;
+
+    }
+
+
+    .links a{
+
+      font-size:13px;
+
+      font-weight:700;
+
+      padding:10px 13px;
+
+      border-radius:999px;
+
+    }
+
+
+    .links a:hover{
+
+      background:#eee3d2;
+
+    }
+
+
+    .links a.active{
+
+      background:#eee3d2;
+
+      color:var(--emerald);
+
+    }
+
+
+    .nav-actions{
+
+      display:flex;
+
+      gap:8px;
+
+      align-items:center;
+
+    }
+
+
+    .pill{
+
+      display:inline-flex;
+
+      align-items:center;
+
+      justify-content:center;
+
+      min-height:44px;
+
+      padding:0 17px;
+
+      border-radius:999px;
+
+      border:1px solid var(--line);
+
+      font-size:12px;
+
+      font-weight:800;
+
+    }
+
+
+    .pill.gold{
+
+      background:var(--emerald);
+
+      border-color:var(--emerald);
+
+      color:#fff;
+
+    }
+
+
+    .menu{
+
+      display:none;
+
+      border:0;
+
+      background:none;
+
+      font-size:24px;
+
+      color:var(--emerald);
+
+      cursor:pointer;
+
+    }
+
+
+    /* =====================================================
+       PAGE HERO
+    ====================================================== */
+
+    .page-hero{
+
+      position:relative;
+
+      min-height:500px;
+
+      display:flex;
+
+      align-items:center;
+
+      overflow:hidden;
+
+      background:
+
+        linear-gradient(
+          105deg,
+          rgba(17,48,38,.91),
+          rgba(17,48,38,.62) 48%,
+          rgba(17,48,38,.20)
+        ),
+
+        url(
+          "assets/images/banners/ghar-hero-evening.webp"
+        )
+
+        center/cover no-repeat;
+
+    }
+
+
+    .page-hero:after{
+
+      content:"";
+
+      position:absolute;
+
+      left:0;
+
+      right:0;
+
+      bottom:0;
+
+      height:100px;
+
+      background:
+        linear-gradient(
+          transparent,
+          var(--ivory)
+        );
+
+      pointer-events:none;
+
+    }
+
+
+    .hero-inner{
+
+      position:relative;
+
+      z-index:2;
+
+      width:min(1280px,90vw);
+
+      margin:auto;
+
+      padding:90px 0 95px;
+
+    }
+
+
+    .eyebrow{
+
+      display:inline-flex;
+
+      align-items:center;
+
+      gap:9px;
+
+      color:var(--gold2);
+
+      font-size:10px;
+
+      font-weight:900;
+
+      letter-spacing:.22em;
+
+      text-transform:uppercase;
+
+    }
+
+
+    .eyebrow:before{
+
+      content:"";
+
+      width:30px;
+
+      height:1px;
+
+      background:var(--gold2);
+
+    }
+
+
+    .page-hero h1{
+
+      font:
+
+        500
+
+        clamp(55px,7vw,92px)
+
+        /.92
+
+        Georgia,
+        serif;
+
+      letter-spacing:-.055em;
+
+      color:#fff;
+
+      margin:20px 0;
+
+      max-width:900px;
+
+    }
+
+
+    .page-hero h1 em{
+
+      font-style:normal;
+
+      color:#e8d19c;
+
+    }
+
+
+    .page-hero p{
+
+      max-width:650px;
+
+      color:
+
+        rgba(255,255,255,.70);
+
+      font-size:15px;
+
+      line-height:1.8;
+
+      margin:0;
+
+    }
+
+
+    /* =====================================================
+       MAIN
+    ====================================================== */
+
+    .section{
+
+      padding:95px 4.5vw;
+
+    }
+
+
+    .container{
+
+      max-width:1280px;
+
+      margin:auto;
+
+    }
+
+
+    .head{
+
+      display:flex;
+
+      justify-content:space-between;
+
+      align-items:end;
+
+      gap:30px;
+
+      margin-bottom:40px;
+
+    }
+
+
+    .kicker{
+
+      font-size:10px;
+
+      font-weight:900;
+
+      text-transform:uppercase;
+
+      letter-spacing:.2em;
+
+      color:var(--gold);
+
+    }
+
+
+    .section h2{
+
+      font:
+
+        500
+
+        clamp(38px,5vw,65px)
+
+        /.98
+
+        Georgia,
+        serif;
+
+      letter-spacing:-.045em;
+
+      color:var(--emerald);
+
+      margin:12px 0 0;
+
+    }
+
+
+    .head p{
+
+      max-width:500px;
+
+      color:var(--muted);
+
+      font-size:13px;
+
+      line-height:1.8;
+
+      margin:0;
+
+    }
+
+
+    /* =====================================================
+       COMPARE TOOLBAR
+    ====================================================== */
+
+    .compare-toolbar{
+
+      display:flex;
+
+      justify-content:space-between;
+
+      align-items:center;
+
+      gap:20px;
+
+      padding:18px 20px;
+
+      margin-bottom:22px;
+
+      background:
+
+        linear-gradient(
+          135deg,
+          #fffaf2,
+          #f1e5d3
+        );
+
+      border:
+
+        1px solid
+        rgba(177,138,72,.20);
+
+      border-radius:22px;
+
+      box-shadow:
+
+        0 15px 45px
+        rgba(30,49,40,.07);
+
+    }
+
+
+    .compare-status{
+
+      display:flex;
+
+      align-items:center;
+
+      gap:12px;
+
+    }
+
+
+    .compare-status-icon{
+
+      width:42px;
+
+      height:42px;
+
+      display:grid;
+
+      place-items:center;
+
+      border-radius:14px;
+
+      background:var(--emerald);
+
+      color:var(--gold2);
+
+      font-size:19px;
+
+    }
+
+
+    .compare-status strong{
+
+      display:block;
+
+      font-size:13px;
+
+    }
+
+
+    .compare-status span{
+
+      display:block;
+
+      color:var(--muted);
+
+      font-size:10px;
+
+      margin-top:2px;
+
+    }
+
+
+    .toolbar-actions{
+
+      display:flex;
+
+      gap:8px;
+
+      flex-wrap:wrap;
+
+    }
+
+
+    .small-btn{
+
+      min-height:42px;
+
+      padding:0 15px;
+
+      border-radius:999px;
+
+      border:
+
+        1px solid
+        var(--line);
+
+      background:var(--pearl);
+
+      color:var(--emerald);
+
+      font-size:11px;
+
+      font-weight:850;
+
+      cursor:pointer;
+
+    }
+
+
+    .small-btn.dark{
+
+      background:var(--emerald);
+
+      color:#fff;
+
+      border-color:var(--emerald);
+
+    }
+
+
+    .small-btn:hover{
+
+      transform:translateY(-1px);
+
+    }
+
+
+    /* =====================================================
+       COMPARE TABLE
+    ====================================================== */
+
+    .compare-shell{
+
+      background:var(--pearl);
+
+      border:
+
+        1px solid
+        rgba(177,138,72,.18);
+
+      border-radius:30px;
+
+      box-shadow:var(--shadow);
+
+      overflow:hidden;
+
+    }
+
+
+    .compare-scroll{
+
+      overflow-x:auto;
+
+      scrollbar-width:thin;
+
+    }
+
+
+    .compare-grid{
+
+      min-width:1050px;
+
+      display:grid;
+
+      grid-template-columns:
+
+        210px
+        repeat(3,1fr);
+
+    }
+
+
+    .compare-label{
+
+      background:#f1e5d3;
+
+      border-right:
+
+        1px solid
+        var(--line);
+
+      border-bottom:
+
+        1px solid
+        var(--line);
+
+      padding:20px;
+
+      font-size:11px;
+
+      font-weight:900;
+
+      color:var(--emerald);
+
+      display:flex;
+
+      align-items:center;
+
+    }
+
+
+    .property-column{
+
+      position:relative;
+
+      padding:18px;
+
+      border-right:
+
+        1px solid
+        var(--line);
+
+      border-bottom:
+
+        1px solid
+        var(--line);
+
+      background:var(--pearl);
+
+    }
+
+
+    .property-column:last-child{
+
+      border-right:0;
+
+    }
+
+
+    .property-image{
+
+      position:relative;
+
+      height:205px;
+
+      overflow:hidden;
+
+      border-radius:20px;
+
+      background:#ddd;
+
+    }
+
+
+    .property-image img{
+
+      width:100%;
+
+      height:100%;
+
+      object-fit:cover;
+
+      transition:.5s;
+
+    }
+
+
+    .property-column:hover
+    .property-image img{
+
+      transform:scale(1.045);
+
+    }
+
+
+    .property-badge{
+
+      position:absolute;
+
+      top:12px;
+
+      left:12px;
+
+      padding:7px 10px;
+
+      border-radius:999px;
+
+      background:
+
+        rgba(16,44,34,.88);
+
+      color:var(--gold2);
+
+      font-size:8px;
+
+      text-transform:uppercase;
+
+      letter-spacing:.13em;
+
+      font-weight:900;
+
+    }
+
+
+    .remove-property{
+
+      position:absolute;
+
+      top:10px;
+
+      right:10px;
+
+      width:34px;
+
+      height:34px;
+
+      border:1px solid
+        rgba(255,255,255,.2);
+
+      border-radius:50%;
+
+      background:
+        rgba(16,44,34,.82);
+
+      color:#fff;
+
+      cursor:pointer;
+
+    }
+
+
+    .property-name{
+
+      font:
+
+        500 25px/1.05 Georgia,serif;
+
+      color:var(--emerald);
+
+      margin:17px 0 5px;
+
+    }
+
+
+    .property-location{
+
+      color:var(--muted);
+
+      font-size:10px;
+
+    }
+
+
+    .property-price{
+
+      color:var(--gold);
+
+      font-size:16px;
+
+      font-weight:900;
+
+      margin-top:12px;
+
+    }
+
+
+    .detail-cell{
+
+      min-height:62px;
+
+      display:flex;
+
+      align-items:center;
+
+      border-right:
+
+        1px solid
+        var(--line);
+
+      border-bottom:
+
+        1px solid
+        var(--line);
+
+      padding:15px 18px;
+
+      font-size:12px;
+
+      color:var(--ink);
+
+    }
+
+
+    .detail-cell:last-child{
+
+      border-right:0;
+
+    }
+
+
+    .detail-cell strong{
+
+      font-weight:850;
+
+    }
+
+
+    .detail-cell.muted{
+
+      color:var(--muted);
+
+    }
+
+
+    .detail-cell.highlight{
+
+      background:
+
+        rgba(217,189,131,.12);
+
+    }
+
+
+    .tick{
+
+      color:var(--emerald);
+
+      font-weight:900;
+
+    }
+
+
+    .cross{
+
+      color:#a06c62;
+
+      font-weight:900;
+
+    }
+
+
+    /* =====================================================
+       ADD PROPERTY
+    ====================================================== */
+
+    .add-section{
+
+      margin-top:25px;
+
+      display:grid;
+
+      grid-template-columns:
+
+        repeat(3,1fr);
+
+      gap:14px;
+
+    }
+
+
+    .add-card{
+
+      min-height:155px;
+
+      padding:24px;
+
+      border-radius:24px;
+
+      border:
+
+        1px dashed
+        rgba(177,138,72,.45);
+
+      background:
+
+        linear-gradient(
+          145deg,
+          #fffaf2,
+          #f0e4d1
+        );
+
+      display:flex;
+
+      flex-direction:column;
+
+      justify-content:center;
+
+      align-items:center;
+
+      text-align:center;
+
+      cursor:pointer;
+
+      transition:.3s;
+
+    }
+
+
+    .add-card:hover{
+
+      transform:translateY(-5px);
+
+      box-shadow:var(--shadow);
+
+      border-style:solid;
+
+    }
+
+
+    .add-icon{
+
+      width:48px;
+
+      height:48px;
+
+      border-radius:16px;
+
+      display:grid;
+
+      place-items:center;
+
+      background:var(--emerald);
+
+      color:var(--gold2);
+
+      font-size:22px;
+
+      margin-bottom:12px;
+
+    }
+
+
+    .add-card h3{
+
+      margin:0;
+
+      font:
+
+        500 20px Georgia,serif;
+
+      color:var(--emerald);
+
+    }
+
+
+    .add-card p{
+
+      margin:5px 0 0;
+
+      font-size:10px;
+
+      color:var(--muted);
+
+    }
+
+
+    /* =====================================================
+       INSIGHT SECTION
+    ====================================================== */
+
+    .insight-band{
+
+      background:
+
+        linear-gradient(
+          135deg,
+          #eee1ce,
+          #f8f0e2
+        );
+
+      padding:95px 4.5vw;
+
+    }
+
+
+    .insight-grid{
+
+      display:grid;
+
+      grid-template-columns:
+
+        1fr 1fr;
+
+      gap:25px;
+
+    }
+
+
+    .insight-card{
+
+      background:var(--emerald);
+
+      color:#fff;
+
+      border-radius:30px;
+
+      padding:34px;
+
+      min-height:280px;
+
+      position:relative;
+
+      overflow:hidden;
+
+    }
+
+
+    .insight-card:after{
+
+      content:"✦";
+
+      position:absolute;
+
+      right:20px;
+
+      top:5px;
+
+      font-size:120px;
+
+      color:
+
+        rgba(231,208,155,.12);
+
+    }
+
+
+    .insight-card .kicker{
+
+      color:var(--gold2);
+
+    }
+
+
+    .insight-card h3{
+
+      font:
+
+        500 35px/1.05 Georgia,serif;
+
+      margin:13px 0;
+
+      max-width:500px;
+
+    }
+
+
+    .insight-card p{
+
+      color:
+
+        rgba(255,255,255,.61);
+
+      font-size:12px;
+
+      max-width:550px;
+
+      line-height:1.8;
+
+    }
+
+
+    .insight-list{
+
+      display:grid;
+
+      gap:12px;
+
+    }
+
+
+    .insight-point{
+
+      padding:21px;
+
+      border-radius:20px;
+
+      background:
+
+        rgba(255,255,255,.68);
+
+      border:
+
+        1px solid
+        var(--line);
+
+    }
+
+
+    .insight-point h4{
+
+      margin:0 0 5px;
+
+      font-size:13px;
+
+      color:var(--emerald);
+
+    }
+
+
+    .insight-point p{
+
+      margin:0;
+
+      color:var(--muted);
+
+      font-size:10px;
+
+      line-height:1.7;
+
+    }
+
+
+    /* =====================================================
+       EMPTY STATE
+    ====================================================== */
+
+    .empty-state{
+
+      display:none;
+
+      padding:75px 30px;
+
+      text-align:center;
+
+    }
+
+
+    .empty-icon{
+
+      width:72px;
+
+      height:72px;
+
+      margin:0 auto 20px;
+
+      border-radius:24px;
+
+      display:grid;
+
+      place-items:center;
+
+      background:var(--emerald);
+
+      color:var(--gold2);
+
+      font-size:30px;
+
+    }
+
+
+    .empty-state h3{
+
+      margin:0;
+
+      color:var(--emerald);
+
+      font:
+
+        500 32px Georgia,serif;
+
+    }
+
+
+    .empty-state p{
+
+      color:var(--muted);
+
+      font-size:12px;
+
+      max-width:480px;
+
+      margin:10px auto 22px;
+
+    }
+
+
+    /* =====================================================
+       FOOTER
+    ====================================================== */
+
+    footer{
+
+      background:#10291f;
+
+      color:#fff;
+
+    }
+
+
+    .footer{
+
+      max-width:1280px;
+
+      margin:auto;
+
+      padding:70px 4.5vw;
+
+      display:grid;
+
+      grid-template-columns:
+
+        2fr 1fr 1fr 1fr;
+
+      gap:45px;
+
+    }
+
+
+    .footer-brand{
+
+      font-size:25px;
+
+      font-weight:900;
+
+      letter-spacing:.2em;
+
+      color:var(--gold2);
+
+    }
+
+
+    .footer p{
+
+      color:
+
+        rgba(255,255,255,.5);
+
+      max-width:380px;
+
+      font-size:12px;
+
+      line-height:1.8;
+
+    }
+
+
+    .footer h4{
+
+      color:var(--gold2);
+
+      margin:0 0 15px;
+
+      font-size:11px;
+
+      text-transform:uppercase;
+
+      letter-spacing:.15em;
+
+    }
+
+
+    .footer a{
+
+      display:block;
+
+      color:
+
+        rgba(255,255,255,.6);
+
+      font-size:11px;
+
+      margin:9px 0;
+
+    }
+
+
+    .footer a:hover{
+
+      color:#fff;
+
+    }
+
+
+    .bottom{
+
+      max-width:1280px;
+
+      margin:auto;
+
+      padding:
+
+        18px 4.5vw 25px;
+
+      border-top:
+
+        1px solid
+        rgba(255,255,255,.1);
+
+      display:flex;
+
+      justify-content:space-between;
+
+      gap:20px;
+
+      color:
+
+        rgba(255,255,255,.4);
+
+      font-size:10px;
+
+    }
+
+
+    /* =====================================================
+       MOBILE DOCK
+    ====================================================== */
+
+    .mobile-dock{
+
+      display:none;
+
+    }
+
+
+    /* =====================================================
+       RESPONSIVE
+    ====================================================== */
+
+    @media(max-width:1050px){
+
+      .links{
+        display:none;
+      }
+
+      .menu{
+        display:block;
+      }
+
+      .compare-grid{
+        min-width:950px;
+      }
+
+      .footer{
+        grid-template-columns:1fr 1fr;
+      }
+
+    }
+
+
+    @media(max-width:700px){
+
+      .topbar{
+        font-size:9px;
+      }
+
+
+      .header{
+        padding:9px 5vw;
+      }
+
+
+      .nav-actions
+      .pill:first-child{
+        display:none;
+      }
+
+
+      .page-hero{
+        min-height:550px;
+      }
+
+
+      .hero-inner{
+        width:90vw;
+
+        padding-top:75px;
+
+        padding-bottom:100px;
+      }
+
+
+      .page-hero h1{
+        font-size:55px;
+      }
+
+
+      .section{
+        padding:75px 5vw;
+      }
+
+
+      .head{
+
+        align-items:flex-start;
+
+        flex-direction:column;
+
+      }
+
+
+      .compare-toolbar{
+
+        align-items:flex-start;
+
+        flex-direction:column;
+
+      }
+
+
+      .toolbar-actions{
+
+        width:100%;
+      }
+
+
+      .small-btn{
+
+        flex:1;
+      }
+
+
+      .compare-grid{
+
+        min-width:850px;
+
+        grid-template-columns:
+
+          170px
+          repeat(3,1fr);
+
+      }
+
+
+      .property-image{
+        height:165px;
+      }
+
+
+      .property-name{
+        font-size:21px;
+      }
+
+
+      .add-section{
+
+        grid-template-columns:1fr;
+
+      }
+
+
+      .insight-grid{
+
+        grid-template-columns:1fr;
+
+      }
+
+
+      .footer{
+
+        grid-template-columns:1fr;
+
+      }
+
+
+      .bottom{
+
+        flex-direction:column;
+
+      }
+
+
+      .mobile-dock{
+
+        position:fixed;
+
+        z-index:9999;
+
+        left:10px;
+
+        right:10px;
+
+        bottom:10px;
+
+        display:grid;
+
+        grid-template-columns:
+
+          repeat(5,1fr);
+
+        background:
+
+          rgba(16,41,31,.95);
+
+        backdrop-filter:blur(18px);
+
+        border:
+
+          1px solid
+          rgba(255,255,255,.12);
+
+        border-radius:20px;
+
+        padding:8px;
+
+        box-shadow:
+
+          0 20px 50px
+          rgba(0,0,0,.2);
+
+      }
+
+
+      .mobile-dock a{
+
+        text-align:center;
+
+        color:
+
+          rgba(255,255,255,.65);
+
+        font-size:8px;
+
+        font-weight:800;
+
+      }
+
+
+      .mobile-dock span{
+
+        display:block;
+
+        color:var(--gold2);
+
+        font-size:18px;
+
+        line-height:1;
+
+        margin-bottom:3px;
+
+      }
+
+
+      body{
+        padding-bottom:80px;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+  <!-- =====================================================
+       TOP BAR
+  ====================================================== -->
+
+  <div class="topbar">
+
+    <b>GHAR</b>
+
+    &nbsp; | &nbsp;
+
+    Compare properties with clarity before you decide
+
+  </div>
+
+
+  <!-- =====================================================
+       HEADER
+  ====================================================== -->
+
+  <header class="header">
+
+    <nav class="nav">
+
+
+      <a
+        href="index.html"
+        class="brand"
+      >
+
+        <img
+          src="assets/images/logo/ghar-logo.png"
+          alt="GHAR"
+        >
+
+        <span>GHAR</span>
+
+      </a>
+
+
+      <div class="links">
+
+        <a href="properties.html">
+          Properties
+        </a>
+
+        <a href="about.html">
+          About
+        </a>
+
+        <a href="property-search.html">
+          Search
+        </a>
+
+        <a
+          href="compare.html"
+          class="active"
+        >
+          Compare
+        </a>
+
+        <a href="contact.html">
+          Contact
+        </a>
+
+      </div>
+
+
+      <div class="nav-actions">
+
+        <a
+          href="login.html"
+          class="pill"
+        >
+          Login
+        </a>
+
+        <a
+          href="role-selection.html"
+          class="pill gold"
+        >
+          Get Started
+        </a>
+
+        <button
+          class="menu"
+          type="button"
+          aria-label="Open menu"
+        >
+          ☰
+        </button>
+
+      </div>
+
+    </nav>
+
+  </header>
+
+
+  <main>
+
+
+    <!-- =================================================
+         HERO
+    ================================================== -->
+
+    <section class="page-hero">
+
+      <div class="hero-inner">
+
+        <div class="eyebrow">
+          GHAR property comparison
+        </div>
+
+        <h1>
+          Compare before
+          <em>you choose.</em>
+        </h1>
+
+        <p>
+          Put your shortlisted properties side by side.
+          Compare pricing, configuration, location,
+          area, amenities and other important details
+          through one clear GHAR experience.
+        </p>
+
+      </div>
+
+    </section>
+
+
+    <!-- =================================================
+         COMPARISON
+    ================================================== -->
+
+    <section class="section">
+
+      <div class="container">
+
+
+        <div class="head">
+
+          <div>
+
+            <div class="kicker">
+              Your shortlist
+            </div>
+
+            <h2>
+              See the
+              <br>
+              difference.
+            </h2>
+
+          </div>
+
+          <p>
+            Compare up to three properties at once.
+            Review the information side by side before
+            scheduling a visit, making an enquiry or
+            proceeding with an offer.
+          </p>
+
+        </div>
+
+
+        <!-- TOOLBAR -->
+
+        <div class="compare-toolbar">
+
+
+          <div class="compare-status">
+
+            <div class="compare-status-icon">
+              ⇄
+            </div>
+
+            <div>
+
+              <strong id="compareCount">
+                3 properties selected
+              </strong>
+
+              <span>
+                Compare your shortlisted properties
+              </span>
+
+            </div>
+
+          </div>
+
+
+          <div class="toolbar-actions">
+
+            <button
+              class="small-btn"
+              type="button"
+              id="addPropertyBtn"
+            >
+              + Add Property
+            </button>
+
+            <button
+              class="small-btn"
+              type="button"
+              id="clearCompare"
+            >
+              Clear All
+            </button>
+
+            <button
+              class="small-btn dark"
+              type="button"
+              id="printCompare"
+            >
+              Print Comparison
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <!-- COMPARISON TABLE -->
+
+        <div
+          class="compare-shell"
+          id="compareShell"
+        >
+
+          <div class="compare-scroll">
+
+            <div
+              class="compare-grid"
+              id="compareGrid"
+            >
+
+
+              <!-- =========================================
+                   PROPERTY HEADER
+              ========================================== -->
+
+              <div class="compare-label">
+                PROPERTY
+              </div>
+
+
+              <!-- PROPERTY 1 -->
+
+              <div
+                class="property-column"
+                data-property="GHAR-P001"
+              >
+
+                <div class="property-image">
+
+                  <img
+                    src="assets/images/properties/residential/apartment/apartment-01.webp"
+                    alt="Emerald Heights"
+                  >
+
+                  <span class="property-badge">
+                    Featured
+                  </span>
+
+                  <button
+                    class="remove-property"
+                    type="button"
+                    title="Remove property"
+                  >
+                    ×
+                  </button>
+
+                </div>
+
+
+                <div class="property-name">
+                  Emerald Heights
+                </div>
+
+                <div class="property-location">
+                  ⌖ Sector 150, Noida
+                </div>
+
+                <div class="property-price">
+                  ₹1.48 Cr
+                </div>
+
+              </div>
+
+
+              <!-- PROPERTY 2 -->
+
+              <div
+                class="property-column"
+                data-property="GHAR-P002"
+              >
+
+                <div class="property-image">
+
+                  <img
+                    src="assets/images/properties/residential/villa/villa-01.webp"
+                    alt="The Palm Villa"
+                  >
+
+                  <span class="property-badge">
+                    Luxury Villa
+                  </span>
+
+                  <button
+                    class="remove-property"
+                    type="button"
+                    title="Remove property"
+                  >
+                    ×
+                  </button>
+
+                </div>
+
+
+                <div class="property-name">
+                  The Palm Villa
+                </div>
+
+                <div class="property-location">
+                  ⌖ Greater Noida West
+                </div>
+
+                <div class="property-price">
+                  ₹2.75 Cr
+                </div>
+
+              </div>
+
+
+              <!-- PROPERTY 3 -->
+
+              <div
+                class="property-column"
+                data-property="GHAR-P003"
+              >
+
+                <div class="property-image">
+
+                  <img
+                    src="assets/images/properties/residential/apartment/apartment-04.webp"
+                    alt="The Grand Residences"
+                  >
+
+                  <span class="property-badge">
+                    New Listing
+                  </span>
+
+                  <button
+                    class="remove-property"
+                    type="button"
+                    title="Remove property"
+                  >
+                    ×
+                  </button>
+
+                </div>
+
+
+                <div class="property-name">
+                  The Grand Residences
+                </div>
+
+                <div class="property-location">
+                  ⌖ Sector 79, Noida
+                </div>
+
+                <div class="property-price">
+                  ₹1.86 Cr
+                </div>
+
+              </div>
+
+
+              <!-- =========================================
+                   LISTING TYPE
+              ========================================== -->
+
+              <div class="compare-label">
+                Listing Type
+              </div>
+
+              <div class="detail-cell">
+                <strong>For Sale</strong>
+              </div>
+
+              <div class="detail-cell">
+                <strong>For Sale</strong>
+              </div>
+
+              <div class="detail-cell">
+                <strong>For Sale</strong>
+              </div>
+
+
+              <!-- =========================================
+                   PROPERTY TYPE
+              ========================================== -->
+
+              <div class="compare-label">
+                Property Type
+              </div>
+
+              <div class="detail-cell">
+                Apartment
+              </div>
+
+              <div class="detail-cell">
+                Villa
+              </div>
+
+              <div class="detail-cell">
+                Apartment
+              </div>
+
+
+              <!-- =========================================
+                   CONFIGURATION
+              ========================================== -->
+
+              <div class="compare-label">
+                Configuration
+              </div>
+
+              <div class="detail-cell highlight">
+                <strong>3 BHK</strong>
+              </div>
+
+              <div class="detail-cell highlight">
+                <strong>4 BHK</strong>
+              </div>
+
+              <div class="detail-cell highlight">
+                <strong>3 BHK</strong>
+              </div>
+
+
+              <!-- =========================================
+                   AREA
+              ========================================== -->
+
+              <div class="compare-label">
+                Built-up Area
+              </div>
+
+              <div class="detail-cell">
+                1,850 sq.ft.
+              </div>
+
+              <div class="detail-cell">
+                3,250 sq.ft.
+              </div>
+
+              <div class="detail-cell">
+                2,050 sq.ft.
+              </div>
+
+
+              <!-- =========================================
+                   BEDROOMS
+              ========================================== -->
+
+              <div class="compare-label">
+                Bedrooms
+              </div>
+
+              <div class="detail-cell">
+                3
+              </div>
+
+              <div class="detail-cell">
+                4
+              </div>
+
+              <div class="detail-cell">
+                3
+              </div>
+
+
+              <!-- =========================================
+                   BATHROOMS
+              ========================================== -->
+
+              <div class="compare-label">
+                Bathrooms
+              </div>
+
+              <div class="detail-cell">
+                2
+              </div>
+
+              <div class="detail-cell">
+                4
+              </div>
+
+              <div class="detail-cell">
+                3
+              </div>
+
+
+              <!-- =========================================
+                   PARKING
+              ========================================== -->
+
+              <div class="compare-label">
+                Parking
+              </div>
+
+              <div class="detail-cell">
+                <span class="tick">✓</span>
+                &nbsp; 2 Cars
+              </div>
+
+              <div class="detail-cell">
+                <span class="tick">✓</span>
+                &nbsp; 3 Cars
+              </div>
+
+              <div class="detail-cell">
+                <span class="tick">✓</span>
+                &nbsp; 2 Cars
+              </div>
+
+
+              <!-- =========================================
+                   FURNISHING
+              ========================================== -->
+
+              <div class="compare-label">
+                Furnishing
+              </div>
+
+              <div class="detail-cell">
+                Semi-Furnished
+              </div>
+
+              <div class="detail-cell">
+                Fully Furnished
+              </div>
+
+              <div class="detail-cell">
+                Semi-Furnished
+              </div>
+
+
+              <!-- =========================================
+                   BALCONY
+              ========================================== -->
+
+              <div class="compare-label">
+                Balcony
+              </div>
+
+              <div class="detail-cell">
+                <span class="tick">✓</span>
+                &nbsp; 2
+              </div>
+
+              <div class="detail-cell">
+                <span class="tick">✓</span>
+                &nbsp; 4
+              </div>
+
+              <div class="detail-cell">
+                <span class="tick">✓</span>
+                &nbsp; 3
+              </div>
+
+
+              <!-- =========================================
+                   LIFT
+              ========================================== -->
+
+              <div class="compare-label">
+                Lift
+              </div>
+
+              <div class="detail-cell">
+                <span class="tick">✓</span>
+                &nbsp; Available
+              </div>
+
+              <div class="detail-cell">
+                <span class="tick">✓</span>
+                &nbsp; Private + Service
+              </div>
+
+              <div class="detail-cell">
+                <span class="tick">✓</span>
+                &nbsp; Available
+              </div>
+
+
+              <!-- =========================================
+                   SECURITY
+              ========================================== -->
+
+              <div class="compare-label">
+                Security
+              </div>
+
+              <div class="detail-cell">
+                24 × 7 Security
+              </div>
+
+              <div class="detail-cell">
+                24 × 7 Security
+              </div>
+
+              <div class="detail-cell">
+                24 × 7 Security
+              </div>
+
+
+              <!-- =========================================
+                   AMENITIES
+              ========================================== -->
+
+              <div class="compare-label">
+                Amenities
+              </div>
+
+              <div class="detail-cell muted">
+                Clubhouse · Pool · Gym
+              </div>
+
+              <div class="detail-cell muted">
+                Garden · Pool · Gym · Clubhouse
+              </div>
+
+              <div class="detail-cell muted">
+                Clubhouse · Gym · Park
+              </div>
+
+
+              <!-- =========================================
+                   LOCATION
+              ========================================== -->
+
+              <div class="compare-label">
+                Location
+              </div>
+
+              <div class="detail-cell">
+                Sector 150, Noida
+              </div>
+
+              <div class="detail-cell">
+                Greater Noida West
+              </div>
+
+              <div class="detail-cell">
+                Sector 79, Noida
+              </div>
+
+
+              <!-- =========================================
+                   PRICE
+              ========================================== -->
+
+              <div class="compare-label">
+                Asking Price
+              </div>
+
+              <div class="detail-cell highlight">
+                <strong>₹1.48 Cr</strong>
+              </div>
+
+              <div class="detail-cell highlight">
+                <strong>₹2.75 Cr</strong>
+              </div>
+
+              <div class="detail-cell highlight">
+                <strong>₹1.86 Cr</strong>
+              </div>
+
+
+              <!-- =========================================
+                   ACTIONS
+              ========================================== -->
+
+              <div class="compare-label">
+                Action
+              </div>
+
+              <div class="detail-cell">
+
+                <a
+                  href="property-details.html?id=GHAR-P001"
+                  class="small-btn dark"
+                >
+                  View Property
+                </a>
+
+              </div>
+
+              <div class="detail-cell">
+
+                <a
+                  href="property-details.html?id=GHAR-P002"
+                  class="small-btn dark"
+                >
+                  View Property
+                </a>
+
+              </div>
+
+              <div class="detail-cell">
+
+                <a
+                  href="property-details.html?id=GHAR-P003"
+                  class="small-btn dark"
+                >
+                  View Property
+                </a>
+
+              </div>
+
+
+            </div>
+
+          </div>
+
+
+          <!-- EMPTY STATE -->
+
+          <div
+            class="empty-state"
+            id="emptyState"
+          >
+
+            <div class="empty-icon">
+              ⇄
+            </div>
+
+            <h3>
+              Your comparison is empty.
+            </h3>
+
+            <p>
+              Add properties from the property listings
+              to compare their prices, specifications,
+              locations and amenities.
+            </p>
+
+            <a
+              href="properties.html"
+              class="small-btn dark"
+            >
+              Explore Properties
+            </a>
+
+          </div>
+
+        </div>
+
+
+        <!-- =================================================
+             ADD PROPERTY CARDS
+        ================================================== -->
+
+        <div class="add-section">
+
+
+          <a
+            href="properties.html"
+            class="add-card"
+          >
+
+            <div class="add-icon">
+              +
+            </div>
+
+            <h3>
+              Add another property
+            </h3>
+
+            <p>
+              Browse GHAR listings
+            </p>
+
+          </a>
+
+
+          <a
+            href="buyer/saved-properties.html"
+            class="add-card"
+          >
+
+            <div class="add-icon">
+              ♡
+            </div>
+
+            <h3>
+              View saved properties
+            </h3>
+
+            <p>
+              Choose from your shortlist
+            </p>
+
+          </a>
+
+
+          <a
+            href="property-search.html"
+            class="add-card"
+          >
+
+            <div class="add-icon">
+              ⌕
+            </div>
+
+            <h3>
+              Start a new search
+            </h3>
+
+            <p>
+              Find properties by your requirements
+            </p>
+
+          </a>
+
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =================================================
+         INSIGHTS
+    ================================================== -->
+
+    <section class="insight-band">
+
+      <div class="container insight-grid">
+
+
+        <div class="insight-card">
+
+          <div class="kicker">
+            GHAR intelligence
+          </div>
+
+          <h3>
+            The right property is not always the cheapest.
+          </h3>
+
+          <p>
+            Compare the complete picture -- price,
+            usable space, location, configuration,
+            amenities and lifestyle suitability -- before
+            making your decision.
+          </p>
+
+        </div>
+
+
+        <div class="insight-list">
+
+
+          <div class="insight-point">
+
+            <h4>
+              Compare total value
+            </h4>
+
+            <p>
+              Look beyond the headline asking price
+              and evaluate what each property provides.
+            </p>
+
+          </div>
+
+
+          <div class="insight-point">
+
+            <h4>
+              Check location carefully
+            </h4>
+
+            <p>
+              Distance, connectivity, surroundings and
+              future development can materially affect
+              property suitability.
+            </p>
+
+          </div>
+
+
+          <div class="insight-point">
+
+            <h4>
+              Visit before deciding
+            </h4>
+
+            <p>
+              Online information should support your
+              decision, not replace physical inspection
+              and document verification.
+            </p>
+
+          </div>
+
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =================================================
+         FINAL CTA
+    ================================================== -->
+
+    <section
+      class="section"
+      style="
+        background:var(--emerald);
+        color:#fff;
+        text-align:center;
+      "
+    >
+
+      <div class="container">
+
+        <div class="kicker" style="color:var(--gold2);">
+          Continue your journey
+        </div>
+
+        <h2
+          style="
+            color:#fff;
+            max-width:850px;
+            margin:15px auto;
+          "
+        >
+          Found your strongest match?
+        </h2>
+
+        <p
+          style="
+            color:rgba(255,255,255,.62);
+            max-width:580px;
+            margin:0 auto;
+            font-size:13px;
+          "
+        >
+          Explore the full property details, schedule a
+          visit, send an enquiry or continue towards an
+          offer through GHAR.
+        </p>
+
+
+        <div
+          style="
+            display:flex;
+            justify-content:center;
+            flex-wrap:wrap;
+            gap:10px;
+            margin-top:28px;
+          "
+        >
+
+          <a
+            href="properties.html"
+            class="small-btn"
+            style="
+              background:var(--champagne);
+              border-color:var(--champagne);
+              color:var(--emerald);
+              min-height:50px;
+              padding:0 22px;
+            "
+          >
+            Explore Properties
+          </a>
+
+          <a
+            href="buyer/offers.html"
+            class="small-btn"
+            style="
+              background:rgba(255,255,255,.08);
+              border-color:rgba(255,255,255,.22);
+              color:#fff;
+              min-height:50px;
+              padding:0 22px;
+            "
+          >
+            My Offers
+          </a>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- =====================================================
+       FOOTER
+  ====================================================== -->
+
+  <footer>
+
+    <div class="footer">
+
+
+      <div>
+
+        <div class="footer-brand">
+          GHAR
+        </div>
+
+        <p>
+          A structured real-estate ecosystem connecting
+          buyers, sellers, renters and property transactions
+          through one premium digital experience.
+        </p>
+
+      </div>
+
+
+      <div>
+
+        <h4>
+          Properties
+        </h4>
+
+        <a href="properties.html">
+          Buy
+        </a>
+
+        <a href="properties.html?listing=rent">
+          Rent
+        </a>
+
+        <a href="properties.html?listing=lease">
+          Lease
+        </a>
+
+        <a href="properties.html?type=commercial">
+          Commercial
+        </a>
+
+        <a href="properties.html?type=land">
+          Land
+        </a>
+
+      </div>
+
+
+      <div>
+
+        <h4>
+          Account
+        </h4>
+
+        <a href="dashboard.html">
+          Dashboard
+        </a>
+
+        <a href="buyer/saved-properties.html">
+          Saved Properties
+        </a>
+
+        <a href="buyer/enquiries.html">
+          My Enquiries
+        </a>
+
+        <a href="buyer/offers.html">
+          My Offers
+        </a>
+
+        <a href="profile.html">
+          My Profile
+        </a>
+
+      </div>
+
+
+      <div>
+
+        <h4>
+          Seller
+        </h4>
+
+        <a href="seller/list-property.html">
+          List Property
+        </a>
+
+        <a href="seller/seller-dashboard.html">
+          Seller Dashboard
+        </a>
+
+        <a href="seller/my-properties.html">
+          My Properties
+        </a>
+
+        <a href="seller/visits.html">
+          Scheduled Visits
+        </a>
+
+        <a href="seller/offers.html">
+          Offers
+        </a>
+
+      </div>
+
+
+    </div>
+
+
+    <div class="bottom">
+
+      <span>
+        © 2026 GHAR. All rights reserved.
+      </span>
+
+      <span>
+
+        <a href="about.html">
+          About
+        </a>
+
+        ·
+
+        <a href="contact.html">
+          Contact
+        </a>
+
+        ·
+
+        <a href="help-centre.html">
+          Help & Support
+        </a>
+
+        ·
+
+        <a href="terms.html">
+          Terms
+        </a>
+
+        ·
+
+        <a href="privacy.html">
+          Privacy
+        </a>
+
+      </span>
+
+    </div>
+
+  </footer>
+
+
+  <!-- =====================================================
+       MOBILE NAVIGATION
+  ====================================================== -->
+
+  <nav
+    class="mobile-dock"
+    aria-label="Mobile navigation"
+  >
+
+    <a href="index.html">
+      <span>⌂</span>
+      Home
+    </a>
+
+    <a href="properties.html">
+      <span>⌕</span>
+      Search
+    </a>
+
+    <a href="compare.html">
+      <span>⇄</span>
+      Compare
+    </a>
+
+    <a href="profile.html">
+      <span>◉</span>
+      Account
+    </a>
+
+    <a href="ai/ai-assistant.html">
+      <span>✦</span>
+      AI
+    </a>
+
+  </nav>
+
+
+  <!-- =====================================================
+       CORE JAVASCRIPT
+  ====================================================== -->
+
+  <script
+    src="assets/js/constants.js"
+    defer
+  ></script>
+
+  <script
+    src="assets/js/config.js"
+    defer
+  ></script>
+
+  <script
+    src="assets/js/storage.js"
+    defer
+  ></script>
+
+  <script
+    src="assets/js/api.js"
+    defer
+  ></script>
+
+  <script
+    src="assets/js/auth.js"
+    defer
+  ></script>
+
+  <script
+    src="assets/js/core.js"
+    defer
+  ></script>
+
+  <script
+    src="assets/js/components.js"
+    defer
+  ></script>
+
+  <script
+    src="assets/js/navigation.js"
+    defer
+  ></script>
+
+  <script
+    src="assets/js/property/property.js"
+    defer
+  ></script>
+
+  <script
+    src="assets/js/property/property-search.js"
+    defer
+  ></script>
+
+
+  <!-- =====================================================
+       PAGE JAVASCRIPT
+  ====================================================== -->
+
+  <script>
+
+    document.addEventListener(
+      "DOMContentLoaded",
+      () => {
+
+
+        /* ================================================
+           REVEAL ANIMATION
+        ================================================= */
+
+        const observer =
+          new IntersectionObserver(
+            entries => {
+
+              entries.forEach(
+                entry => {
+
+                  if(
+                    entry.isIntersecting
+                  ){
+
+                    entry.target.classList.add(
+                      "visible"
+                    );
+
+                    observer.unobserve(
+                      entry.target
+                    );
+
+                  }
+
+                }
+              );
+
+            },
+            {
+              threshold:.1
+            }
+          );
+
+
+        document
+          .querySelectorAll(".reveal")
+          .forEach(
+            element =>
+              observer.observe(element)
+          );
+
+
+        /* ================================================
+           REMOVE PROPERTY
+        ================================================= */
+
+        const removeButtons =
+          document.querySelectorAll(
+            ".remove-property"
+          );
+
+
+        removeButtons.forEach(
+          button => {
+
+            button.addEventListener(
+              "click",
+              () => {
+
+                const column =
+                  button.closest(
+                    ".property-column"
+                  );
+
+
+                if(!column){
+                  return;
+                }
+
+
+                column.style.display =
+                  "none";
+
+
+                updateCount();
+
+                checkEmpty();
+
+              }
+            );
+
+          }
+        );
+
+
+        /* ================================================
+           UPDATE COUNT
+        ================================================= */
+
+        function updateCount(){
+
+          const properties =
+            document.querySelectorAll(
+              ".property-column"
+            );
+
+
+          const visible =
+            [...properties]
+              .filter(
+                property =>
+                  property.style.display !==
+                  "none"
+              )
+              .length;
+
+
+          const count =
+            document.getElementById(
+              "compareCount"
+            );
+
+
+          if(count){
+
+            count.textContent =
+              visible +
+              (
+                visible === 1
+                ? " property selected"
+                : " properties selected"
+              );
+
+          }
+
+        }
+
+
+        /* ================================================
+           EMPTY STATE
+        ================================================= */
+
+        function checkEmpty(){
+
+          const properties =
+            [...document.querySelectorAll(
+              ".property-column"
+            )];
+
+
+          const visible =
+            properties.filter(
+              property =>
+                property.style.display !==
+                "none"
+            );
+
+
+          const empty =
+            document.getElementById(
+              "emptyState"
+            );
+
+
+          const grid =
+            document.getElementById(
+              "compareGrid"
+            );
+
+
+          if(
+            visible.length === 0
+          ){
+
+            grid.style.display =
+              "none";
+
+            empty.style.display =
+              "block";
+
+          }else{
+
+            grid.style.display =
+              "grid";
+
+            empty.style.display =
+              "none";
+
+          }
+
+        }
+
+
+        /* ================================================
+           CLEAR ALL
+        ================================================= */
+
+        document
+          .getElementById("clearCompare")
+          ?.addEventListener(
+            "click",
+            () => {
+
+              document
+                .querySelectorAll(
+                  ".property-column"
+                )
+                .forEach(
+                  property =>
+                    property.style.display =
+                      "none"
+                );
+
+
+              updateCount();
+
+              checkEmpty();
+
+            }
+          );
+
+
+        /* ================================================
+           ADD PROPERTY
+        ================================================= */
+
+        document
+          .getElementById("addPropertyBtn")
+          ?.addEventListener(
+            "click",
+            () => {
+
+              window.location.href =
+                "properties.html";
+
+            }
+          );
+
+
+        /* ================================================
+           PRINT
+        ================================================= */
+
+        document
+          .getElementById("printCompare")
+          ?.addEventListener(
+            "click",
+            () => {
+
+              window.print();
+
+            }
+          );
+
+
+        /* ================================================
+           LOAD SAVED COMPARE DATA
+        ================================================= */
+
+        try{
+
+          const saved =
+            localStorage.getItem(
+              "ghar_compare"
+            );
+
+
+          if(saved){
+
+            const ids =
+              JSON.parse(saved);
+
+
+            if(
+              Array.isArray(ids)
+              &&
+              ids.length
+            ){
+
+              document
+                .querySelectorAll(
+                  ".property-column"
+                )
+                .forEach(
+                  property => {
+
+                    const id =
+                      property.dataset.property;
+
+
+                    if(
+                      !ids.includes(id)
+                    ){
+
+                      property.style.display =
+                        "none";
+
+                    }
+
+                  }
+                );
+
+
+              updateCount();
+
+              checkEmpty();
+
+            }
+
+          }
+
+        }catch(error){
+
+          console.warn(
+            "GHAR compare storage unavailable",
+            error
+          );
+
+        }
+
+      }
+    );
+
+  </script>
+
+
+  <!-- =====================================================
+       PRINT STYLES
+  ====================================================== -->
+
+  <style>
+
+    @media print{
+
+      .topbar,
+      .header,
+      .toolbar-actions,
+      .add-section,
+      .insight-band,
+      .mobile-dock,
+      footer,
+      .page-hero,
+      .final-cta{
+
+        display:none !important;
+
+      }
+
+
+      body{
+
+        background:#fff;
+
+        padding:0;
+
+      }
+
+
+      .section{
+
+        padding:20px;
+
+      }
+
+
+      .compare-shell{
+
+        box-shadow:none;
+
+        border:1px solid #ccc;
+
+      }
+
+    }
+
+  </style>
+
+
+</body>
+</html>

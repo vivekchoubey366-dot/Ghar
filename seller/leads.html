@@ -1,0 +1,2685 @@
+<!-- /seller/leads.html -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<meta name="description"
+      content="GHAR Seller -- Manage property leads, enquiries, follow-ups and buyer communication.">
+
+<meta name="theme-color" content="#162d25">
+
+<title>GHAR · Seller Leads</title>
+
+<link rel="icon" href="../assets/images/favicon.svg">
+
+<style>
+
+/* =========================================================
+   GHAR SELLER LEADS
+   Premium Seller Experience
+========================================================= */
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+:root{
+  --green-950:#07130e;
+  --green-925:#0a1912;
+  --green-900:#0b1c14;
+  --green-850:#10261c;
+  --green-800:#162d25;
+  --green-750:#1a382c;
+  --green-700:#214438;
+  --green-600:#2b5847;
+
+  --gold-100:#fff7df;
+  --gold-200:#f4dfaa;
+  --gold-300:#e5c77d;
+  --gold-400:#c9a95c;
+  --gold-500:#a98238;
+
+  --cream:#fffaf0;
+  --cream-2:#f7eedc;
+  --sand:#eee1c8;
+
+  --text:#f9f5ea;
+  --text-dark:#17231c;
+
+  --muted:rgba(255,255,255,.68);
+  --muted-2:rgba(255,255,255,.45);
+
+  --border:rgba(229,199,125,.18);
+  --border-light:rgba(255,255,255,.09);
+
+  --success:#82c995;
+  --warning:#e5c77d;
+  --danger:#e98c8c;
+  --blue:#91b9e8;
+
+  --shadow:0 25px 80px rgba(0,0,0,.25);
+
+  --radius-xl:28px;
+  --radius-lg:21px;
+  --radius-md:15px;
+
+  --container:1440px;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  min-height:100vh;
+  color:var(--text);
+  font-family:
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  background:
+    radial-gradient(
+      circle at 5% 0%,
+      rgba(229,199,125,.12),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 100% 10%,
+      rgba(44,91,69,.22),
+      transparent 30%
+    ),
+    linear-gradient(
+      135deg,
+      #07130e,
+      #0b1c14 48%,
+      #10261c
+    );
+
+  overflow-x:hidden;
+}
+
+a{
+  color:inherit;
+  text-decoration:none;
+}
+
+button,
+input,
+select,
+textarea{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+img{
+  display:block;
+  max-width:100%;
+}
+
+.container{
+  width:min(
+    calc(100% - 40px),
+    var(--container)
+  );
+  margin:auto;
+}
+
+/* =========================================================
+   BACKGROUND
+========================================================= */
+
+.page-glow{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:-1;
+  overflow:hidden;
+}
+
+.page-glow::before{
+  content:"";
+  position:absolute;
+  width:550px;
+  height:550px;
+  top:-300px;
+  right:-220px;
+  border-radius:50%;
+  border:1px solid rgba(229,199,125,.12);
+  box-shadow:
+    0 0 0 60px rgba(229,199,125,.025),
+    0 0 0 120px rgba(229,199,125,.015);
+}
+
+.page-glow::after{
+  content:"";
+  position:absolute;
+  width:500px;
+  height:500px;
+  bottom:-300px;
+  left:-250px;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,.06);
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.site-header{
+  position:sticky;
+  top:0;
+  z-index:100;
+  border-bottom:1px solid rgba(229,199,125,.10);
+  background:rgba(7,19,14,.90);
+  backdrop-filter:blur(22px);
+}
+
+.header-inner{
+  min-height:76px;
+  display:flex;
+  align-items:center;
+  gap:24px;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex-shrink:0;
+}
+
+.brand-mark{
+  width:45px;
+  height:45px;
+  display:grid;
+  place-items:center;
+  border-radius:14px;
+  color:#152116;
+  font-size:19px;
+  font-weight:1000;
+  background:
+    linear-gradient(
+      135deg,
+      #f1dda5,
+      #b98b3d
+    );
+  box-shadow:
+    0 10px 25px rgba(0,0,0,.25),
+    inset 0 1px 0 rgba(255,255,255,.5);
+}
+
+.brand-text strong{
+  display:block;
+  font-size:17px;
+  letter-spacing:.17em;
+}
+
+.brand-text span{
+  display:block;
+  margin-top:2px;
+  color:var(--muted-2);
+  font-size:8px;
+  font-weight:800;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+}
+
+.desktop-nav{
+  display:flex;
+  align-items:center;
+  gap:5px;
+  margin-left:auto;
+}
+
+.desktop-nav a{
+  padding:10px 12px;
+  border-radius:10px;
+  color:var(--muted);
+  font-size:11px;
+  font-weight:700;
+  transition:.2s ease;
+}
+
+.desktop-nav a:hover,
+.desktop-nav a.active{
+  color:var(--gold-200);
+  background:rgba(229,199,125,.07);
+}
+
+.header-actions{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.icon-btn{
+  width:41px;
+  height:41px;
+  display:grid;
+  place-items:center;
+  border:1px solid var(--border-light);
+  border-radius:12px;
+  color:var(--muted);
+  background:rgba(255,255,255,.035);
+  transition:.2s ease;
+}
+
+.icon-btn:hover{
+  color:var(--gold-200);
+  border-color:rgba(229,199,125,.25);
+}
+
+.avatar{
+  width:40px;
+  height:40px;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  color:#172016;
+  font-size:12px;
+  font-weight:1000;
+  background:
+    linear-gradient(
+      135deg,
+      var(--gold-200),
+      var(--gold-500)
+    );
+}
+
+.mobile-menu{
+  display:none;
+}
+
+/* =========================================================
+   PAGE HERO
+========================================================= */
+
+.page-hero{
+  padding:42px 0 25px;
+}
+
+.hero-panel{
+  position:relative;
+  overflow:hidden;
+  padding:34px;
+  border:1px solid var(--border);
+  border-radius:var(--radius-xl);
+
+  background:
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(229,199,125,.14),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 0% 100%,
+      rgba(44,91,69,.25),
+      transparent 40%
+    ),
+    linear-gradient(
+      145deg,
+      #0d2118,
+      #142d22
+    );
+
+  box-shadow:var(--shadow);
+}
+
+.hero-panel::after{
+  content:"";
+  position:absolute;
+  width:350px;
+  height:350px;
+  right:-220px;
+  bottom:-220px;
+  border-radius:50%;
+  border:1px solid rgba(229,199,125,.10);
+  box-shadow:
+    0 0 0 45px rgba(229,199,125,.018),
+    0 0 0 90px rgba(229,199,125,.012);
+}
+
+.eyebrow{
+  color:var(--gold-300);
+  font-size:10px;
+  font-weight:950;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+}
+
+.hero-title-row{
+  position:relative;
+  z-index:2;
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  gap:25px;
+}
+
+.hero-title{
+  margin-top:10px;
+  font-size:clamp(34px,5vw,52px);
+  line-height:1;
+  letter-spacing:-.055em;
+}
+
+.hero-title span{
+  color:var(--gold-300);
+}
+
+.hero-copy{
+  max-width:650px;
+  margin-top:13px;
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.7;
+}
+
+.hero-actions{
+  display:flex;
+  gap:9px;
+  flex-wrap:wrap;
+}
+
+.btn{
+  min-height:43px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  padding:0 15px;
+  border:1px solid transparent;
+  border-radius:11px;
+  font-size:10px;
+  font-weight:900;
+  transition:.2s ease;
+}
+
+.btn-primary{
+  color:#17170f;
+  background:
+    linear-gradient(
+      135deg,
+      #f1dca1,
+      #cda85d
+    );
+}
+
+.btn-primary:hover{
+  transform:translateY(-2px);
+}
+
+.btn-secondary{
+  color:var(--cream);
+  border-color:var(--border-light);
+  background:rgba(255,255,255,.045);
+}
+
+.btn-secondary:hover{
+  color:var(--gold-200);
+  border-color:rgba(229,199,125,.28);
+}
+
+/* =========================================================
+   STATS
+========================================================= */
+
+.section{
+  padding:24px 0;
+}
+
+.section-heading{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:15px;
+  margin-bottom:16px;
+}
+
+.section-heading h2{
+  font-size:22px;
+  letter-spacing:-.035em;
+}
+
+.section-heading p{
+  margin-top:5px;
+  color:var(--muted-2);
+  font-size:9px;
+}
+
+.stats-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:13px;
+}
+
+.stat-card{
+  padding:19px;
+  border:1px solid var(--border-light);
+  border-radius:var(--radius-lg);
+  background:
+    linear-gradient(
+      145deg,
+      rgba(20,45,34,.94),
+      rgba(11,28,20,.94)
+    );
+}
+
+.stat-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.stat-label{
+  color:var(--muted-2);
+  font-size:9px;
+  font-weight:850;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+
+.stat-icon{
+  width:36px;
+  height:36px;
+  display:grid;
+  place-items:center;
+  border-radius:11px;
+  color:var(--gold-300);
+  background:rgba(229,199,125,.08);
+}
+
+.stat-value{
+  margin-top:14px;
+  font-size:27px;
+  font-weight:950;
+  letter-spacing:-.04em;
+}
+
+.stat-note{
+  margin-top:4px;
+  color:var(--muted-2);
+  font-size:9px;
+}
+
+/* =========================================================
+   TOOLBAR
+========================================================= */
+
+.toolbar{
+  display:grid;
+  grid-template-columns:1fr auto auto;
+  gap:9px;
+  padding:14px;
+  margin-bottom:15px;
+  border:1px solid var(--border-light);
+  border-radius:var(--radius-lg);
+  background:
+    linear-gradient(
+      145deg,
+      rgba(20,45,34,.95),
+      rgba(11,28,20,.95)
+    );
+}
+
+.search-box{
+  position:relative;
+}
+
+.search-box input{
+  width:100%;
+  height:43px;
+  padding:0 13px 0 38px;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:11px;
+  outline:none;
+  color:var(--cream);
+  background:rgba(255,255,255,.035);
+}
+
+.search-box input:focus{
+  border-color:rgba(229,199,125,.45);
+}
+
+.search-symbol{
+  position:absolute;
+  left:14px;
+  top:50%;
+  transform:translateY(-50%);
+  color:var(--muted-2);
+}
+
+.filter-select{
+  height:43px;
+  min-width:145px;
+  padding:0 12px;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:11px;
+  outline:none;
+  color:var(--cream);
+  background:#10251b;
+}
+
+.filter-select option{
+  color:#111;
+}
+
+/* =========================================================
+   LEADS LAYOUT
+========================================================= */
+
+.leads-layout{
+  display:grid;
+  grid-template-columns:1.55fr .45fr;
+  gap:16px;
+}
+
+.panel{
+  min-width:0;
+  padding:20px;
+  border:1px solid var(--border-light);
+  border-radius:var(--radius-lg);
+  background:
+    linear-gradient(
+      145deg,
+      rgba(20,45,34,.96),
+      rgba(11,28,20,.96)
+    );
+}
+
+.panel-title{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:15px;
+}
+
+.panel-title h3{
+  font-size:15px;
+}
+
+.panel-title span{
+  color:var(--muted-2);
+  font-size:9px;
+}
+
+/* =========================================================
+   LEAD LIST
+========================================================= */
+
+.leads-list{
+  display:grid;
+  gap:9px;
+}
+
+.lead-card{
+  display:grid;
+  grid-template-columns:42px minmax(0,1fr) auto;
+  gap:12px;
+  align-items:center;
+  padding:13px;
+  border:1px solid rgba(255,255,255,.06);
+  border-radius:14px;
+  background:rgba(255,255,255,.025);
+  transition:.2s ease;
+}
+
+.lead-card:hover{
+  border-color:rgba(229,199,125,.20);
+  background:rgba(229,199,125,.035);
+}
+
+.lead-avatar{
+  width:42px;
+  height:42px;
+  display:grid;
+  place-items:center;
+  border-radius:12px;
+  color:#172016;
+  font-size:11px;
+  font-weight:1000;
+  background:
+    linear-gradient(
+      135deg,
+      var(--gold-200),
+      var(--gold-500)
+    );
+}
+
+.lead-main{
+  min-width:0;
+}
+
+.lead-name{
+  font-size:11px;
+  font-weight:900;
+}
+
+.lead-property{
+  margin-top:4px;
+  color:var(--gold-300);
+  font-size:8px;
+  font-weight:800;
+}
+
+.lead-meta{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:5px;
+  color:var(--muted-2);
+  font-size:8px;
+}
+
+.lead-side{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.status{
+  display:inline-flex;
+  align-items:center;
+  min-height:24px;
+  padding:0 8px;
+  border-radius:8px;
+  font-size:8px;
+  font-weight:900;
+}
+
+.status-new{
+  color:#b9d7f4;
+  background:rgba(145,185,232,.10);
+}
+
+.status-contacted{
+  color:var(--gold-200);
+  background:rgba(229,199,125,.10);
+}
+
+.status-qualified{
+  color:var(--success);
+  background:rgba(130,201,149,.10);
+}
+
+.status-closed{
+  color:var(--muted);
+  background:rgba(255,255,255,.07);
+}
+
+.lead-actions{
+  display:flex;
+  gap:5px;
+}
+
+.small-btn{
+  width:31px;
+  height:31px;
+  display:grid;
+  place-items:center;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:9px;
+  color:var(--muted);
+  background:rgba(255,255,255,.035);
+}
+
+.small-btn:hover{
+  color:var(--gold-200);
+  border-color:rgba(229,199,125,.25);
+}
+
+/* =========================================================
+   DETAIL / SUMMARY
+========================================================= */
+
+.summary-list{
+  display:grid;
+  gap:8px;
+}
+
+.summary-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:11px;
+  border-radius:11px;
+  background:rgba(255,255,255,.025);
+}
+
+.summary-row span:first-child{
+  color:var(--muted-2);
+  font-size:9px;
+}
+
+.summary-row strong{
+  font-size:10px;
+}
+
+.pipeline{
+  margin-top:17px;
+}
+
+.pipeline-title{
+  margin-bottom:10px;
+  color:var(--muted-2);
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+
+.pipeline-bar{
+  height:8px;
+  overflow:hidden;
+  border-radius:30px;
+  background:rgba(255,255,255,.07);
+}
+
+.pipeline-fill{
+  width:68%;
+  height:100%;
+  border-radius:30px;
+  background:
+    linear-gradient(
+      90deg,
+      var(--gold-500),
+      var(--gold-200)
+    );
+}
+
+.pipeline-note{
+  margin-top:7px;
+  color:var(--muted-2);
+  font-size:8px;
+}
+
+/* =========================================================
+   QUICK ACTIONS
+========================================================= */
+
+.quick-actions{
+  display:grid;
+  gap:7px;
+  margin-top:16px;
+}
+
+.quick-action{
+  width:100%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:11px;
+  border:1px solid rgba(255,255,255,.06);
+  border-radius:10px;
+  color:var(--muted);
+  background:rgba(255,255,255,.025);
+  font-size:9px;
+  font-weight:750;
+}
+
+.quick-action:hover{
+  color:var(--gold-200);
+  border-color:rgba(229,199,125,.20);
+}
+
+/* =========================================================
+   EMPTY / LOADING
+========================================================= */
+
+.empty-state{
+  padding:35px 15px;
+  text-align:center;
+  border:1px dashed rgba(255,255,255,.10);
+  border-radius:14px;
+  color:var(--muted-2);
+}
+
+.empty-state strong{
+  display:block;
+  color:var(--cream);
+  font-size:12px;
+}
+
+.empty-state span{
+  display:block;
+  margin-top:6px;
+  font-size:9px;
+  line-height:1.6;
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.site-footer{
+  margin-top:45px;
+  padding:35px 0 25px;
+  border-top:1px solid rgba(255,255,255,.07);
+  background:rgba(3,12,8,.35);
+}
+
+.footer-grid{
+  display:grid;
+  grid-template-columns:1.4fr repeat(3,1fr);
+  gap:25px;
+}
+
+.footer-brand{
+  max-width:300px;
+}
+
+.footer-brand p{
+  margin-top:10px;
+  color:var(--muted-2);
+  font-size:9px;
+  line-height:1.7;
+}
+
+.footer-col h4{
+  color:var(--gold-200);
+  font-size:9px;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+}
+
+.footer-col a{
+  display:block;
+  margin-top:9px;
+  color:var(--muted-2);
+  font-size:9px;
+}
+
+.footer-col a:hover{
+  color:var(--gold-300);
+}
+
+.footer-bottom{
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+  margin-top:28px;
+  padding-top:17px;
+  border-top:1px solid rgba(255,255,255,.06);
+  color:var(--muted-2);
+  font-size:8px;
+}
+
+/* =========================================================
+   AI FLOATING
+========================================================= */
+
+.ai-floating{
+  position:fixed;
+  right:22px;
+  bottom:22px;
+  z-index:90;
+  min-height:48px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:0 16px;
+  border:1px solid rgba(229,199,125,.25);
+  border-radius:30px;
+  color:#17170f;
+  background:
+    linear-gradient(
+      135deg,
+      var(--gold-200),
+      var(--gold-400)
+    );
+  box-shadow:0 15px 35px rgba(0,0,0,.3);
+  font-size:10px;
+  font-weight:1000;
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:1100px){
+
+  .desktop-nav{
+    display:none;
+  }
+
+  .mobile-menu{
+    display:grid;
+  }
+
+  .stats-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .leads-layout{
+    grid-template-columns:1fr;
+  }
+
+}
+
+@media(max-width:800px){
+
+  .container{
+    width:min(
+      calc(100% - 28px),
+      var(--container)
+    );
+  }
+
+  .hero-title-row{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+  .toolbar{
+    grid-template-columns:1fr;
+  }
+
+  .filter-select{
+    width:100%;
+  }
+
+  .footer-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+}
+
+@media(max-width:560px){
+
+  .header-inner{
+    min-height:68px;
+  }
+
+  .brand-text span{
+    display:none;
+  }
+
+  .header-actions .icon-btn{
+    display:none;
+  }
+
+  .page-hero{
+    padding-top:25px;
+  }
+
+  .hero-panel{
+    padding:24px;
+    border-radius:22px;
+  }
+
+  .hero-title{
+    font-size:36px;
+  }
+
+  .stats-grid{
+    grid-template-columns:1fr 1fr;
+    gap:9px;
+  }
+
+  .stat-card{
+    padding:14px;
+  }
+
+  .stat-value{
+    font-size:22px;
+  }
+
+  .lead-card{
+    grid-template-columns:40px minmax(0,1fr);
+  }
+
+  .lead-side{
+    grid-column:2;
+    justify-content:space-between;
+  }
+
+  .footer-grid{
+    grid-template-columns:1fr;
+  }
+
+  .footer-bottom{
+    flex-direction:column;
+  }
+
+  .ai-floating{
+    right:14px;
+    bottom:14px;
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="page-glow"></div>
+
+<!-- =========================================================
+     HEADER
+========================================================= -->
+
+<header class="site-header">
+
+  <div class="container header-inner">
+
+    <a
+      class="brand"
+      href="/seller/index.html"
+      aria-label="GHAR Seller Home"
+    >
+
+      <div class="brand-mark">G</div>
+
+      <div class="brand-text">
+
+        <strong>GHAR</strong>
+
+        <span>Seller Experience</span>
+
+      </div>
+
+    </a>
+
+    <nav
+      class="desktop-nav"
+      aria-label="Seller navigation"
+    >
+
+      <a href="/seller/index.html">
+        Home
+      </a>
+
+      <a href="/seller/dashboard.html">
+        Dashboard
+      </a>
+
+      <a href="/seller/list-property.html">
+        List Property
+      </a>
+
+      <a href="/seller/edit-property.html">
+        Properties
+      </a>
+
+      <a href="/seller/property-approval.html">
+        Approvals
+      </a>
+
+      <a href="/seller/visits.html">
+        Visits
+      </a>
+
+      <a
+        class="active"
+        href="/seller/leads.html"
+      >
+        Leads
+      </a>
+
+    </nav>
+
+    <div class="header-actions">
+
+      <button
+        class="icon-btn"
+        id="notificationButton"
+        type="button"
+        aria-label="Notifications"
+      >
+        ♢
+      </button>
+
+      <a
+        class="avatar"
+        id="profileButton"
+        href="/seller/profile.html"
+        aria-label="Seller profile"
+      >
+        U
+      </a>
+
+      <button
+        class="icon-btn mobile-menu"
+        id="menuButton"
+        type="button"
+        aria-label="Open menu"
+      >
+        ☰
+      </button>
+
+    </div>
+
+  </div>
+
+</header>
+
+<main>
+
+<!-- =========================================================
+     HERO
+========================================================= -->
+
+<section class="page-hero">
+
+  <div class="container">
+
+    <div class="hero-panel">
+
+      <div class="hero-title-row">
+
+        <div>
+
+          <div class="eyebrow">
+            SELLER LEAD MANAGEMENT
+          </div>
+
+          <h1 class="hero-title">
+            Turn buyer interest into
+            <span>real opportunities.</span>
+          </h1>
+
+          <p class="hero-copy">
+            View enquiries, identify qualified buyers,
+            follow up with prospects and manage every
+            property lead from one GHAR workspace.
+          </p>
+
+        </div>
+
+        <div class="hero-actions">
+
+          <a
+            class="btn btn-primary"
+            href="/seller/visits.html"
+          >
+            Manage visits
+          </a>
+
+          <a
+            class="btn btn-secondary"
+            href="/seller/edit-property.html"
+          >
+            My properties
+          </a>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- =========================================================
+     STATS
+========================================================= -->
+
+<section class="section">
+
+  <div class="container">
+
+    <div class="section-heading">
+
+      <div>
+
+        <h2>Lead overview</h2>
+
+        <p>
+          Track enquiries and conversion activity.
+        </p>
+
+      </div>
+
+      <span
+        id="lastUpdated"
+        class="section-link"
+      >
+        Updating...
+      </span>
+
+    </div>
+
+    <div class="stats-grid">
+
+      <article class="stat-card">
+
+        <div class="stat-top">
+
+          <span class="stat-label">
+            Total Leads
+          </span>
+
+          <div class="stat-icon">
+            ◇
+          </div>
+
+        </div>
+
+        <div
+          class="stat-value"
+          id="totalLeads"
+        >
+          0
+        </div>
+
+        <div class="stat-note">
+          All buyer enquiries
+        </div>
+
+      </article>
+
+      <article class="stat-card">
+
+        <div class="stat-top">
+
+          <span class="stat-label">
+            New
+          </span>
+
+          <div class="stat-icon">
+            +
+          </div>
+
+        </div>
+
+        <div
+          class="stat-value"
+          id="newLeads"
+        >
+          0
+        </div>
+
+        <div class="stat-note">
+          Need first contact
+        </div>
+
+      </article>
+
+      <article class="stat-card">
+
+        <div class="stat-top">
+
+          <span class="stat-label">
+            Qualified
+          </span>
+
+          <div class="stat-icon">
+            ✓
+          </div>
+
+        </div>
+
+        <div
+          class="stat-value"
+          id="qualifiedLeads"
+        >
+          0
+        </div>
+
+        <div class="stat-note">
+          High-intent buyers
+        </div>
+
+      </article>
+
+      <article class="stat-card">
+
+        <div class="stat-top">
+
+          <span class="stat-label">
+            Conversion
+          </span>
+
+          <div class="stat-icon">
+            %
+          </div>
+
+        </div>
+
+        <div
+          class="stat-value"
+          id="conversionRate"
+        >
+          0%
+        </div>
+
+        <div class="stat-note">
+          Lead-to-closed rate
+        </div>
+
+      </article>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- =========================================================
+     FILTER TOOLBAR
+========================================================= -->
+
+<section class="section">
+
+  <div class="container">
+
+    <div class="toolbar">
+
+      <div class="search-box">
+
+        <span class="search-symbol">
+          ⌕
+        </span>
+
+        <input
+          id="leadSearch"
+          type="search"
+          placeholder="Search buyer, property or phone..."
+          autocomplete="off"
+        >
+
+      </div>
+
+      <select
+        id="statusFilter"
+        class="filter-select"
+        aria-label="Filter by status"
+      >
+
+        <option value="all">
+          All statuses
+        </option>
+
+        <option value="new">
+          New
+        </option>
+
+        <option value="contacted">
+          Contacted
+        </option>
+
+        <option value="qualified">
+          Qualified
+        </option>
+
+        <option value="closed">
+          Closed
+        </option>
+
+      </select>
+
+      <select
+        id="sortFilter"
+        class="filter-select"
+        aria-label="Sort leads"
+      >
+
+        <option value="newest">
+          Newest first
+        </option>
+
+        <option value="oldest">
+          Oldest first
+        </option>
+
+        <option value="name">
+          Buyer name
+        </option>
+
+      </select>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- =========================================================
+     LEADS
+========================================================= -->
+
+<section class="section">
+
+  <div class="container">
+
+    <div class="leads-layout">
+
+      <div class="panel">
+
+        <div class="panel-title">
+
+          <div>
+
+            <h3>
+              Buyer leads
+            </h3>
+
+            <span id="leadResultCount">
+              Loading leads...
+            </span>
+
+          </div>
+
+          <a
+            class="btn btn-secondary"
+            href="/seller/list-property.html"
+          >
+            + List property
+          </a>
+
+        </div>
+
+        <div
+          id="leadsList"
+          class="leads-list"
+        >
+
+          <div class="empty-state">
+
+            <strong>
+              Loading buyer leads
+            </strong>
+
+            <span>
+              Connecting to your GHAR seller account...
+            </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- ===================================================
+           SUMMARY
+      ==================================================== -->
+
+      <aside class="panel">
+
+        <div class="panel-title">
+
+          <h3>
+            Lead pipeline
+          </h3>
+
+        </div>
+
+        <div class="summary-list">
+
+          <div class="summary-row">
+
+            <span>
+              New
+            </span>
+
+            <strong id="summaryNew">
+              0
+            </strong>
+
+          </div>
+
+          <div class="summary-row">
+
+            <span>
+              Contacted
+            </span>
+
+            <strong id="summaryContacted">
+              0
+            </strong>
+
+          </div>
+
+          <div class="summary-row">
+
+            <span>
+              Qualified
+            </span>
+
+            <strong id="summaryQualified">
+              0
+            </strong>
+
+          </div>
+
+          <div class="summary-row">
+
+            <span>
+              Closed
+            </span>
+
+            <strong id="summaryClosed">
+              0
+            </strong>
+
+          </div>
+
+        </div>
+
+        <div class="pipeline">
+
+          <div class="pipeline-title">
+            Qualification progress
+          </div>
+
+          <div class="pipeline-bar">
+
+            <div
+              id="pipelineFill"
+              class="pipeline-fill"
+            ></div>
+
+          </div>
+
+          <div
+            id="pipelineNote"
+            class="pipeline-note"
+          >
+            No lead data available yet.
+          </div>
+
+        </div>
+
+        <div class="quick-actions">
+
+          <a
+            class="quick-action"
+            href="/seller/visits.html"
+          >
+            <span>
+              View scheduled visits
+            </span>
+
+            <span>→</span>
+
+          </a>
+
+          <a
+            class="quick-action"
+            href="/seller/offers.html"
+          >
+            <span>
+              Review buyer offers
+            </span>
+
+            <span>→</span>
+
+          </a>
+
+          <a
+            class="quick-action"
+            href="/seller/messages.html"
+          >
+            <span>
+              Open messages
+            </span>
+
+            <span>→</span>
+
+          </a>
+
+          <a
+            class="quick-action"
+            href="/seller/support.html"
+          >
+            <span>
+              Seller support
+            </span>
+
+            <span>→</span>
+
+          </a>
+
+        </div>
+
+      </aside>
+
+    </div>
+
+  </div>
+
+</section>
+
+</main>
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer class="site-footer">
+
+  <div class="container">
+
+    <div class="footer-grid">
+
+      <div class="footer-brand">
+
+        <div class="brand">
+
+          <div class="brand-mark">
+            G
+          </div>
+
+          <div class="brand-text">
+
+            <strong>
+              GHAR
+            </strong>
+
+            <span>
+              Real Estate Platform
+            </span>
+
+          </div>
+
+        </div>
+
+        <p>
+          A connected real estate platform for listing,
+          marketing, managing and selling property.
+        </p>
+
+      </div>
+
+      <div class="footer-col">
+
+        <h4>
+          Seller
+        </h4>
+
+        <a href="/seller/index.html">
+          Seller Home
+        </a>
+
+        <a href="/seller/dashboard.html">
+          Dashboard
+        </a>
+
+        <a href="/seller/list-property.html">
+          List Property
+        </a>
+
+        <a href="/seller/edit-property.html">
+          My Properties
+        </a>
+
+      </div>
+
+      <div class="footer-col">
+
+        <h4>
+          Management
+        </h4>
+
+        <a href="/seller/property-approval.html">
+          Approvals
+        </a>
+
+        <a href="/seller/visits.html">
+          Visits
+        </a>
+
+        <a href="/seller/leads.html">
+          Leads
+        </a>
+
+        <a href="/seller/offers.html">
+          Offers
+        </a>
+
+      </div>
+
+      <div class="footer-col">
+
+        <h4>
+          Support
+        </h4>
+
+        <a href="/help-centre.html">
+          Help Centre
+        </a>
+
+        <a href="/contact.html">
+          Contact
+        </a>
+
+        <a href="/seller/support.html">
+          Seller Support
+        </a>
+
+        <a href="/privacy.html">
+          Privacy
+        </a>
+
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+
+      <span>
+        © <span id="footerYear"></span> GHAR.
+        All rights reserved.
+      </span>
+
+      <span>
+        Seller Portal · Secure Session
+      </span>
+
+    </div>
+
+  </div>
+
+</footer>
+
+<!-- =========================================================
+     AI
+========================================================= -->
+
+<button
+  id="openAI"
+  class="ai-floating"
+  type="button"
+>
+  ✦ Ask GHAR AI
+</button>
+
+<script>
+
+"use strict";
+
+/* =========================================================
+   CONFIG
+========================================================= */
+
+const API_BASE =
+  window.GHAR_API_BASE ||
+  window.API_BASE ||
+  "/api";
+
+const LEADS_API =
+  API_BASE + "/seller/leads";
+
+const AI_API =
+  API_BASE + "/ai";
+
+/* =========================================================
+   STATE
+========================================================= */
+
+let allLeads = [];
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function $(selector){
+  return document.querySelector(selector);
+}
+
+function escapeHTML(value){
+
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+function normalizeCollection(response){
+
+  if(Array.isArray(response)){
+    return response;
+  }
+
+  if(Array.isArray(response?.data)){
+    return response.data;
+  }
+
+  if(Array.isArray(response?.leads)){
+    return response.leads;
+  }
+
+  if(Array.isArray(response?.items)){
+    return response.items;
+  }
+
+  if(Array.isArray(response?.results)){
+    return response.results;
+  }
+
+  return [];
+}
+
+async function apiRequest(
+  url,
+  options={}
+){
+
+  const response =
+    await fetch(
+      url,
+      {
+        credentials:"include",
+
+        headers:{
+          "Accept":"application/json",
+          "Content-Type":"application/json",
+          ...(options.headers || {})
+        },
+
+        ...options
+      }
+    );
+
+  let data=null;
+
+  try{
+    data=await response.json();
+  }catch(error){
+    data=null;
+  }
+
+  if(!response.ok){
+
+    const error =
+      new Error(
+        data?.error?.message ||
+        data?.message ||
+        "Request failed."
+      );
+
+    error.status=response.status;
+    error.data=data;
+
+    throw error;
+  }
+
+  return data;
+}
+
+/* =========================================================
+   LEAD NORMALIZATION
+========================================================= */
+
+function normalizeLead(raw){
+
+  const buyer =
+    raw.buyer ||
+    raw.user ||
+    raw.customer ||
+    {};
+
+  const property =
+    raw.property ||
+    {};
+
+  const name =
+    raw.name ||
+    raw.buyerName ||
+    buyer.name ||
+    buyer.fullName ||
+    "Buyer";
+
+  const email =
+    raw.email ||
+    raw.buyerEmail ||
+    buyer.email ||
+    "";
+
+  const phone =
+    raw.phone ||
+    raw.mobile ||
+    raw.buyerPhone ||
+    buyer.phone ||
+    "";
+
+  const propertyName =
+    raw.propertyTitle ||
+    property.title ||
+    property.name ||
+    "Property enquiry";
+
+  const status =
+    String(
+      raw.status ||
+      "new"
+    ).toLowerCase();
+
+  return {
+
+    id:
+      raw.id ||
+      raw.leadId ||
+      raw._id ||
+      "",
+
+    name,
+    email,
+    phone,
+    propertyName,
+    status,
+
+    createdAt:
+      raw.createdAt ||
+      raw.created_at ||
+      raw.date ||
+      null,
+
+    source:
+      raw.source ||
+      "GHAR",
+
+    budget:
+      raw.budget ||
+      raw.budgetRange ||
+      "",
+
+    message:
+      raw.message ||
+      raw.note ||
+      ""
+
+  };
+
+}
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+function statusClass(status){
+
+  const normalized =
+    String(status || "new")
+      .toLowerCase();
+
+  if(
+    normalized === "contacted"
+  ){
+    return "status-contacted";
+  }
+
+  if(
+    normalized === "qualified"
+  ){
+    return "status-qualified";
+  }
+
+  if(
+    normalized === "closed"
+  ){
+    return "status-closed";
+  }
+
+  return "status-new";
+}
+
+function statusLabel(status){
+
+  const value =
+    String(status || "new")
+      .toLowerCase();
+
+  return value.charAt(0).toUpperCase() +
+         value.slice(1);
+}
+
+/* =========================================================
+   DATE
+========================================================= */
+
+function formatDate(value){
+
+  if(!value){
+    return "Recently";
+  }
+
+  const date =
+    new Date(value);
+
+  if(
+    Number.isNaN(
+      date.getTime()
+    )
+  ){
+    return "Recently";
+  }
+
+  return date.toLocaleDateString(
+    "en-IN",
+    {
+      day:"2-digit",
+      month:"short",
+      year:"numeric"
+    }
+  );
+
+}
+
+/* =========================================================
+   INITIALS
+========================================================= */
+
+function initials(name){
+
+  const parts =
+    String(name || "Buyer")
+      .trim()
+      .split(/\s+/)
+      .filter(Boolean);
+
+  if(!parts.length){
+    return "B";
+  }
+
+  if(parts.length === 1){
+    return parts[0]
+      .slice(0,2)
+      .toUpperCase();
+  }
+
+  return (
+    parts[0][0] +
+    parts[1][0]
+  ).toUpperCase();
+
+}
+
+/* =========================================================
+   RENDER LEAD
+========================================================= */
+
+function createLeadCard(lead){
+
+  const phone =
+    lead.phone
+      ? escapeHTML(lead.phone)
+      : "No phone";
+
+  const email =
+    lead.email
+      ? escapeHTML(lead.email)
+      : "No email";
+
+  const property =
+    escapeHTML(
+      lead.propertyName
+    );
+
+  return `
+
+    <article
+      class="lead-card"
+      data-lead-id="${escapeHTML(lead.id)}"
+    >
+
+      <div class="lead-avatar">
+        ${escapeHTML(
+          initials(lead.name)
+        )}
+      </div>
+
+      <div class="lead-main">
+
+        <div class="lead-name">
+          ${escapeHTML(lead.name)}
+        </div>
+
+        <div class="lead-property">
+          ${property}
+        </div>
+
+        <div class="lead-meta">
+
+          <span>
+            ${phone}
+          </span>
+
+          <span>
+            ${email}
+          </span>
+
+          <span>
+            ${escapeHTML(
+              formatDate(
+                lead.createdAt
+              )
+            )}
+          </span>
+
+        </div>
+
+      </div>
+
+      <div class="lead-side">
+
+        <span
+          class="status ${statusClass(lead.status)}"
+        >
+          ${escapeHTML(
+            statusLabel(lead.status)
+          )}
+        </span>
+
+        <div class="lead-actions">
+
+          ${
+            lead.phone
+              ? `
+                <a
+                  class="small-btn"
+                  href="tel:${escapeHTML(lead.phone)}"
+                  aria-label="Call buyer"
+                >
+                  ☎
+                </a>
+              `
+              : ""
+          }
+
+          ${
+            lead.email
+              ? `
+                <a
+                  class="small-btn"
+                  href="mailto:${escapeHTML(lead.email)}"
+                  aria-label="Email buyer"
+                >
+                  @
+                </a>
+              `
+              : ""
+          }
+
+          <button
+            class="small-btn"
+            type="button"
+            data-view-lead="${escapeHTML(lead.id)}"
+            aria-label="View lead"
+          >
+            →
+          </button>
+
+        </div>
+
+      </div>
+
+    </article>
+
+  `;
+
+}
+
+/* =========================================================
+   RENDER LEADS
+========================================================= */
+
+function renderLeads(){
+
+  const list =
+    $("#leadsList");
+
+  const count =
+    $("#leadResultCount");
+
+  if(!list){
+    return;
+  }
+
+  const search =
+    ($("#leadSearch")?.value || "")
+      .trim()
+      .toLowerCase();
+
+  const status =
+    $("#statusFilter")?.value ||
+    "all";
+
+  const sort =
+    $("#sortFilter")?.value ||
+    "newest";
+
+  let leads =
+    allLeads.filter(
+      lead => {
+
+        const matchesSearch =
+          !search ||
+          [
+            lead.name,
+            lead.email,
+            lead.phone,
+            lead.propertyName,
+            lead.source
+          ]
+          .join(" ")
+          .toLowerCase()
+          .includes(search);
+
+        const matchesStatus =
+          status === "all" ||
+          lead.status === status;
+
+        return (
+          matchesSearch &&
+          matchesStatus
+        );
+
+      }
+    );
+
+  leads.sort(
+    (a,b) => {
+
+      if(sort === "name"){
+
+        return a.name
+          .localeCompare(
+            b.name
+          );
+
+      }
+
+      const aTime =
+        new Date(
+          a.createdAt || 0
+        ).getTime();
+
+      const bTime =
+        new Date(
+          b.createdAt || 0
+        ).getTime();
+
+      return sort === "oldest"
+        ? aTime - bTime
+        : bTime - aTime;
+
+    }
+  );
+
+  if(count){
+
+    count.textContent =
+      `${leads.length} lead${
+        leads.length === 1
+          ? ""
+          : "s"
+      }`;
+
+  }
+
+  if(!leads.length){
+
+    list.innerHTML = `
+
+      <div class="empty-state">
+
+        <strong>
+          No matching leads
+        </strong>
+
+        <span>
+          Try changing the search or status filter.
+        </span>
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+  list.innerHTML =
+    leads
+      .map(createLeadCard)
+      .join("");
+
+}
+
+/* =========================================================
+   UPDATE STATISTICS
+========================================================= */
+
+function updateStats(){
+
+  const total =
+    allLeads.length;
+
+  const fresh =
+    allLeads.filter(
+      lead =>
+        lead.status === "new"
+    ).length;
+
+  const contacted =
+    allLeads.filter(
+      lead =>
+        lead.status === "contacted"
+    ).length;
+
+  const qualified =
+    allLeads.filter(
+      lead =>
+        lead.status === "qualified"
+    ).length;
+
+  const closed =
+    allLeads.filter(
+      lead =>
+        lead.status === "closed"
+    ).length;
+
+  const conversion =
+    total
+      ? Math.round(
+          (closed / total) * 100
+        )
+      : 0;
+
+  const qualification =
+    total
+      ? Math.round(
+          (qualified / total) * 100
+        )
+      : 0;
+
+  $("#totalLeads").textContent =
+    total;
+
+  $("#newLeads").textContent =
+    fresh;
+
+  $("#qualifiedLeads").textContent =
+    qualified;
+
+  $("#conversionRate").textContent =
+    conversion + "%";
+
+  $("#summaryNew").textContent =
+    fresh;
+
+  $("#summaryContacted").textContent =
+    contacted;
+
+  $("#summaryQualified").textContent =
+    qualified;
+
+  $("#summaryClosed").textContent =
+    closed;
+
+  $("#pipelineFill").style.width =
+    qualification + "%";
+
+  $("#pipelineNote").textContent =
+    total
+      ? `${qualification}% of your leads are currently qualified.`
+      : "No lead data available yet.";
+
+}
+
+/* =========================================================
+   LOAD LEADS
+========================================================= */
+
+async function loadLeads(){
+
+  try{
+
+    const response =
+      await apiRequest(
+        LEADS_API
+      );
+
+    allLeads =
+      normalizeCollection(
+        response
+      )
+      .map(
+        normalizeLead
+      );
+
+  }catch(error){
+
+    console.warn(
+      "GHAR seller leads API:",
+      error
+    );
+
+    /*
+     * Do not fabricate lead records.
+     * The interface remains usable when the API
+     * is unavailable.
+     */
+
+    allLeads = [];
+
+  }
+
+  updateStats();
+  renderLeads();
+
+  $("#lastUpdated").textContent =
+    "Updated " +
+    new Date()
+      .toLocaleTimeString(
+        "en-IN",
+        {
+          hour:"2-digit",
+          minute:"2-digit"
+        }
+      );
+
+}
+
+/* =========================================================
+   FILTER EVENTS
+========================================================= */
+
+$("#leadSearch")
+  ?.addEventListener(
+    "input",
+    renderLeads
+  );
+
+$("#statusFilter")
+  ?.addEventListener(
+    "change",
+    renderLeads
+  );
+
+$("#sortFilter")
+  ?.addEventListener(
+    "change",
+    renderLeads
+  );
+
+/* =========================================================
+   VIEW LEAD
+========================================================= */
+
+document.addEventListener(
+  "click",
+  event => {
+
+    const button =
+      event.target.closest(
+        "[data-view-lead]"
+      );
+
+    if(!button){
+      return;
+    }
+
+    const id =
+      button.dataset.viewLead;
+
+    if(!id){
+      return;
+    }
+
+    window.location.href =
+      "/seller/lead-details.html?id=" +
+      encodeURIComponent(id);
+
+  }
+);
+
+/* =========================================================
+   NOTIFICATIONS
+========================================================= */
+
+$("#notificationButton")
+  ?.addEventListener(
+    "click",
+    () => {
+
+      window.location.href =
+        "/seller/notifications.html";
+
+    }
+  );
+
+/* =========================================================
+   MOBILE MENU
+========================================================= */
+
+$("#menuButton")
+  ?.addEventListener(
+    "click",
+    () => {
+
+      const nav =
+        document.querySelector(
+          ".desktop-nav"
+        );
+
+      if(!nav){
+        return;
+      }
+
+      const open =
+        nav.dataset.mobileOpen ===
+        "true";
+
+      if(open){
+
+        nav.style.display = "";
+        nav.dataset.mobileOpen =
+          "false";
+
+        return;
+
+      }
+
+      nav.dataset.mobileOpen =
+        "true";
+
+      nav.style.display =
+        "flex";
+
+      nav.style.position =
+        "absolute";
+
+      nav.style.left =
+        "14px";
+
+      nav.style.right =
+        "14px";
+
+      nav.style.top =
+        "66px";
+
+      nav.style.padding =
+        "10px";
+
+      nav.style.flexDirection =
+        "column";
+
+      nav.style.alignItems =
+        "stretch";
+
+      nav.style.border =
+        "1px solid rgba(229,199,125,.14)";
+
+      nav.style.borderRadius =
+        "16px";
+
+      nav.style.background =
+        "#0b1c14";
+
+      nav.style.boxShadow =
+        "0 25px 60px rgba(0,0,0,.35)";
+
+    }
+  );
+
+/* =========================================================
+   AI
+========================================================= */
+
+$("#openAI")
+  ?.addEventListener(
+    "click",
+    () => {
+
+      window.location.href =
+        "/seller/ai.html";
+
+    }
+  );
+
+/* =========================================================
+   INITIALIZE
+========================================================= */
+
+async function initialize(){
+
+  $("#footerYear").textContent =
+    new Date().getFullYear();
+
+  await loadLeads();
+
+}
+
+if(
+  document.readyState ===
+  "loading"
+){
+
+  document.addEventListener(
+    "DOMContentLoaded",
+    initialize
+  );
+
+}else{
+
+  initialize();
+
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,2750 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<meta name="description"
+      content="GHAR Buyer -- Manage property offers, negotiations and seller responses.">
+
+<meta name="theme-color" content="#162d25">
+
+<title>GHAR · Buyer · Offers</title>
+
+<link rel="icon" href="../assets/images/favicon.svg">
+
+<style>
+/* =========================================================
+   GHAR BUYER -- OFFERS
+   Premium Buyer Experience
+========================================================= */
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+:root{
+  --green-950:#07130e;
+  --green-925:#0a1912;
+  --green-900:#0b1c14;
+  --green-850:#10261c;
+  --green-800:#162d25;
+  --green-750:#1a382c;
+  --green-700:#214438;
+  --green-600:#2b5847;
+
+  --gold-100:#fff7df;
+  --gold-200:#f4dfaa;
+  --gold-300:#e5c77d;
+  --gold-400:#c9a95c;
+  --gold-500:#a98238;
+
+  --cream:#fffaf0;
+  --cream-2:#f7eedc;
+  --sand:#eee1c8;
+
+  --text:#f9f5ea;
+  --text-dark:#17231c;
+
+  --muted:rgba(255,255,255,.68);
+  --muted-2:rgba(255,255,255,.45);
+
+  --border:rgba(229,199,125,.18);
+  --border-light:rgba(255,255,255,.09);
+
+  --success:#82c995;
+  --warning:#e5c77d;
+  --danger:#e98c8c;
+  --blue:#91b9e8;
+
+  --shadow:0 25px 80px rgba(0,0,0,.25);
+
+  --radius-xl:28px;
+  --radius-lg:21px;
+  --radius-md:15px;
+
+  --container:1440px;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  min-height:100vh;
+  color:var(--text);
+  font-family:
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  background:
+    radial-gradient(
+      circle at 5% 0%,
+      rgba(229,199,125,.12),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 100% 10%,
+      rgba(44,91,69,.22),
+      transparent 30%
+    ),
+    linear-gradient(
+      135deg,
+      #07130e,
+      #0b1c14 48%,
+      #10261c
+    );
+
+  overflow-x:hidden;
+}
+
+a{
+  color:inherit;
+  text-decoration:none;
+}
+
+button,
+input,
+select{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+img{
+  display:block;
+  max-width:100%;
+}
+
+.container{
+  width:min(
+    calc(100% - 40px),
+    var(--container)
+  );
+  margin:auto;
+}
+
+/* =========================================================
+   BACKGROUND
+========================================================= */
+
+.page-glow{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:-1;
+  overflow:hidden;
+}
+
+.page-glow::before{
+  content:"";
+  position:absolute;
+  width:550px;
+  height:550px;
+  top:-300px;
+  right:-220px;
+  border-radius:50%;
+  border:1px solid rgba(229,199,125,.12);
+  box-shadow:
+    0 0 0 60px rgba(229,199,125,.025),
+    0 0 0 120px rgba(229,199,125,.015);
+}
+
+.page-glow::after{
+  content:"";
+  position:absolute;
+  width:500px;
+  height:500px;
+  bottom:-300px;
+  left:-250px;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,.06);
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.site-header{
+  position:sticky;
+  top:0;
+  z-index:100;
+  border-bottom:1px solid rgba(229,199,125,.10);
+  background:rgba(7,19,14,.90);
+  backdrop-filter:blur(22px);
+}
+
+.header-inner{
+  min-height:76px;
+  display:flex;
+  align-items:center;
+  gap:24px;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex-shrink:0;
+}
+
+.brand-mark{
+  width:45px;
+  height:45px;
+  display:grid;
+  place-items:center;
+  border-radius:14px;
+  color:#152116;
+  font-size:19px;
+  font-weight:1000;
+  background:linear-gradient(
+    135deg,
+    #f1dda5,
+    #b98b3d
+  );
+  box-shadow:
+    0 10px 25px rgba(0,0,0,.25),
+    inset 0 1px 0 rgba(255,255,255,.5);
+}
+
+.brand-text strong{
+  display:block;
+  font-size:17px;
+  letter-spacing:.17em;
+}
+
+.brand-text span{
+  display:block;
+  margin-top:2px;
+  color:var(--muted-2);
+  font-size:8px;
+  font-weight:800;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+}
+
+.desktop-nav{
+  display:flex;
+  align-items:center;
+  gap:5px;
+  margin-left:auto;
+}
+
+.desktop-nav a{
+  padding:10px 12px;
+  border-radius:10px;
+  color:var(--muted);
+  font-size:11px;
+  font-weight:700;
+  transition:.2s ease;
+}
+
+.desktop-nav a:hover,
+.desktop-nav a.active{
+  color:var(--gold-200);
+  background:rgba(229,199,125,.07);
+}
+
+.header-actions{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.icon-btn{
+  width:41px;
+  height:41px;
+  display:grid;
+  place-items:center;
+  border:1px solid var(--border-light);
+  border-radius:12px;
+  color:var(--muted);
+  background:rgba(255,255,255,.035);
+  transition:.2s ease;
+}
+
+.icon-btn:hover{
+  color:var(--gold-200);
+  border-color:rgba(229,199,125,.25);
+}
+
+.avatar{
+  width:40px;
+  height:40px;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  color:#172016;
+  font-size:12px;
+  font-weight:1000;
+  background:linear-gradient(
+    135deg,
+    var(--gold-200),
+    var(--gold-500)
+  );
+}
+
+.mobile-menu{
+  display:none;
+}
+
+/* =========================================================
+   PAGE HERO
+========================================================= */
+
+.page-hero{
+  padding:46px 0 24px;
+}
+
+.page-hero-card{
+  position:relative;
+  overflow:hidden;
+  padding:38px;
+  border:1px solid var(--border);
+  border-radius:var(--radius-xl);
+
+  background:
+    radial-gradient(
+      circle at 95% 0%,
+      rgba(229,199,125,.14),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 0% 100%,
+      rgba(44,91,69,.28),
+      transparent 38%
+    ),
+    linear-gradient(
+      145deg,
+      #0a1a12,
+      #10251b 55%,
+      #142d22
+    );
+
+  box-shadow:var(--shadow);
+}
+
+.page-hero-card::after{
+  content:"";
+  position:absolute;
+  width:360px;
+  height:360px;
+  right:-220px;
+  bottom:-240px;
+  border-radius:50%;
+  border:1px solid rgba(229,199,125,.12);
+  box-shadow:
+    0 0 0 45px rgba(229,199,125,.02),
+    0 0 0 90px rgba(229,199,125,.015);
+}
+
+.eyebrow{
+  color:var(--gold-300);
+  font-size:10px;
+  font-weight:950;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+}
+
+.page-hero h1{
+  position:relative;
+  z-index:2;
+  margin-top:10px;
+  color:var(--cream);
+  font-size:clamp(36px,5vw,58px);
+  line-height:1;
+  letter-spacing:-.055em;
+}
+
+.page-hero h1 span{
+  color:var(--gold-300);
+}
+
+.page-hero p{
+  position:relative;
+  z-index:2;
+  max-width:720px;
+  margin-top:15px;
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.75;
+}
+
+/* =========================================================
+   ACTION BAR
+========================================================= */
+
+.action-bar{
+  margin-top:18px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  flex-wrap:wrap;
+}
+
+.filters{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.filter-btn{
+  min-height:38px;
+  padding:0 13px;
+  border:1px solid var(--border-light);
+  border-radius:10px;
+  color:var(--muted);
+  background:rgba(255,255,255,.035);
+  font-size:9px;
+  font-weight:850;
+}
+
+.filter-btn:hover,
+.filter-btn.active{
+  color:var(--gold-200);
+  border-color:rgba(229,199,125,.25);
+  background:rgba(229,199,125,.07);
+}
+
+.search-box{
+  width:260px;
+  height:40px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:0 12px;
+  border:1px solid var(--border-light);
+  border-radius:11px;
+  background:rgba(255,255,255,.035);
+}
+
+.search-box span{
+  color:var(--muted-2);
+  font-size:12px;
+}
+
+.search-box input{
+  width:100%;
+  border:0;
+  outline:0;
+  color:var(--cream);
+  background:transparent;
+  font-size:10px;
+}
+
+.search-box input::placeholder{
+  color:var(--muted-2);
+}
+
+/* =========================================================
+   STATS
+========================================================= */
+
+.stats-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:13px;
+}
+
+.stat-card{
+  padding:19px;
+  border:1px solid var(--border-light);
+  border-radius:var(--radius-lg);
+  background:
+    linear-gradient(
+      145deg,
+      rgba(20,45,34,.92),
+      rgba(11,28,20,.92)
+    );
+}
+
+.stat-label{
+  color:var(--muted-2);
+  font-size:9px;
+  font-weight:850;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+
+.stat-value{
+  margin-top:10px;
+  font-size:26px;
+  font-weight:950;
+  letter-spacing:-.04em;
+}
+
+.stat-note{
+  margin-top:3px;
+  color:var(--muted-2);
+  font-size:9px;
+}
+
+/* =========================================================
+   OFFERS
+========================================================= */
+
+.section{
+  padding:25px 0;
+}
+
+.offer-list{
+  display:grid;
+  gap:15px;
+}
+
+.offer-card{
+  overflow:hidden;
+  border:1px solid var(--border-light);
+  border-radius:var(--radius-lg);
+  background:
+    linear-gradient(
+      145deg,
+      rgba(20,45,34,.96),
+      rgba(11,28,20,.96)
+    );
+  transition:.25s ease;
+}
+
+.offer-card:hover{
+  border-color:rgba(229,199,125,.25);
+  transform:translateY(-2px);
+  box-shadow:0 20px 55px rgba(0,0,0,.20);
+}
+
+.offer-main{
+  display:grid;
+  grid-template-columns:230px 1fr auto;
+  gap:20px;
+  padding:18px;
+}
+
+.offer-image{
+  height:165px;
+  overflow:hidden;
+  position:relative;
+  border-radius:15px;
+  background:#142d22;
+}
+
+.offer-image img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.offer-badge{
+  position:absolute;
+  left:10px;
+  top:10px;
+  padding:6px 9px;
+  border-radius:7px;
+  color:#182016;
+  background:var(--gold-200);
+  font-size:8px;
+  font-weight:1000;
+  text-transform:uppercase;
+}
+
+.offer-details{
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+
+.offer-type{
+  color:var(--gold-300);
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+
+.offer-title{
+  margin-top:7px;
+  font-size:17px;
+  line-height:1.25;
+}
+
+.offer-location{
+  margin-top:6px;
+  color:var(--muted-2);
+  font-size:9px;
+}
+
+.offer-meta{
+  display:flex;
+  flex-wrap:wrap;
+  gap:9px 15px;
+  margin-top:14px;
+  color:var(--muted);
+  font-size:9px;
+}
+
+.offer-meta span{
+  white-space:nowrap;
+}
+
+.offer-side{
+  min-width:190px;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-end;
+  justify-content:center;
+}
+
+.offer-label{
+  color:var(--muted-2);
+  font-size:8px;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+}
+
+.offer-amount{
+  margin-top:5px;
+  color:var(--cream);
+  font-size:22px;
+  font-weight:950;
+  letter-spacing:-.04em;
+}
+
+.offer-original{
+  margin-top:3px;
+  color:var(--muted-2);
+  font-size:9px;
+}
+
+.status{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  margin-top:12px;
+  padding:7px 10px;
+  border-radius:8px;
+  font-size:8px;
+  font-weight:950;
+  text-transform:uppercase;
+  letter-spacing:.06em;
+}
+
+.status::before{
+  content:"";
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:currentColor;
+}
+
+.status-pending{
+  color:var(--warning);
+  background:rgba(229,199,125,.09);
+}
+
+.status-accepted{
+  color:var(--success);
+  background:rgba(130,201,149,.09);
+}
+
+.status-rejected{
+  color:var(--danger);
+  background:rgba(233,140,140,.09);
+}
+
+.status-countered{
+  color:var(--blue);
+  background:rgba(145,185,232,.09);
+}
+
+.status-withdrawn{
+  color:var(--muted-2);
+  background:rgba(255,255,255,.06);
+}
+
+.offer-footer{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:13px 18px;
+  border-top:1px solid rgba(255,255,255,.06);
+  background:rgba(255,255,255,.018);
+}
+
+.offer-date{
+  color:var(--muted-2);
+  font-size:8px;
+}
+
+.offer-actions{
+  display:flex;
+  gap:7px;
+  flex-wrap:wrap;
+}
+
+.btn{
+  min-height:38px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  padding:0 13px;
+  border-radius:10px;
+  border:1px solid transparent;
+  font-size:9px;
+  font-weight:900;
+  transition:.2s ease;
+}
+
+.btn-primary{
+  color:#17170f;
+  background:linear-gradient(
+    135deg,
+    #f1dca1,
+    #cda85d
+  );
+}
+
+.btn-primary:hover{
+  transform:translateY(-1px);
+}
+
+.btn-secondary{
+  color:var(--cream);
+  border-color:var(--border-light);
+  background:rgba(255,255,255,.04);
+}
+
+.btn-danger{
+  color:var(--danger);
+  border-color:rgba(233,140,140,.18);
+  background:rgba(233,140,140,.05);
+}
+
+/* =========================================================
+   EMPTY / LOADING
+========================================================= */
+
+.state-card{
+  padding:55px 25px;
+  text-align:center;
+  border:1px solid var(--border-light);
+  border-radius:var(--radius-lg);
+  background:
+    linear-gradient(
+      145deg,
+      rgba(20,45,34,.94),
+      rgba(11,28,20,.94)
+    );
+}
+
+.state-icon{
+  width:55px;
+  height:55px;
+  display:grid;
+  place-items:center;
+  margin:0 auto 14px;
+  border-radius:16px;
+  color:var(--gold-300);
+  background:rgba(229,199,125,.08);
+  font-size:22px;
+}
+
+.state-card h3{
+  font-size:18px;
+}
+
+.state-card p{
+  max-width:470px;
+  margin:8px auto 17px;
+  color:var(--muted-2);
+  font-size:10px;
+  line-height:1.7;
+}
+
+/* =========================================================
+   SUMMARY PANEL
+========================================================= */
+
+.summary-grid{
+  display:grid;
+  grid-template-columns:1.1fr .9fr;
+  gap:15px;
+}
+
+.panel{
+  padding:21px;
+  border:1px solid var(--border-light);
+  border-radius:var(--radius-lg);
+  background:
+    linear-gradient(
+      145deg,
+      rgba(20,45,34,.95),
+      rgba(11,28,20,.95)
+    );
+}
+
+.panel-title{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:16px;
+}
+
+.panel-title h3{
+  font-size:15px;
+}
+
+.timeline{
+  display:grid;
+  gap:13px;
+}
+
+.timeline-item{
+  display:grid;
+  grid-template-columns:28px 1fr;
+  gap:11px;
+}
+
+.timeline-dot{
+  width:28px;
+  height:28px;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  color:var(--gold-300);
+  background:rgba(229,199,125,.08);
+  font-size:10px;
+}
+
+.timeline-content strong{
+  display:block;
+  font-size:10px;
+}
+
+.timeline-content span{
+  display:block;
+  margin-top:3px;
+  color:var(--muted-2);
+  font-size:8px;
+  line-height:1.5;
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.site-footer{
+  margin-top:45px;
+  padding:35px 0 25px;
+  border-top:1px solid rgba(255,255,255,.07);
+  background:rgba(3,12,8,.35);
+}
+
+.footer-grid{
+  display:grid;
+  grid-template-columns:1.4fr repeat(3,1fr);
+  gap:25px;
+}
+
+.footer-brand{
+  max-width:300px;
+}
+
+.footer-brand p{
+  margin-top:10px;
+  color:var(--muted-2);
+  font-size:9px;
+  line-height:1.7;
+}
+
+.footer-col h4{
+  color:var(--gold-200);
+  font-size:9px;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+}
+
+.footer-col a{
+  display:block;
+  margin-top:9px;
+  color:var(--muted-2);
+  font-size:9px;
+}
+
+.footer-col a:hover{
+  color:var(--gold-300);
+}
+
+.footer-bottom{
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+  margin-top:28px;
+  padding-top:17px;
+  border-top:1px solid rgba(255,255,255,.06);
+  color:var(--muted-2);
+  font-size:8px;
+}
+
+/* =========================================================
+   AI FLOATING
+========================================================= */
+
+.ai-floating{
+  position:fixed;
+  right:22px;
+  bottom:22px;
+  z-index:90;
+  min-height:48px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:0 16px;
+  border:1px solid rgba(229,199,125,.25);
+  border-radius:30px;
+  color:#17170f;
+  background:
+    linear-gradient(
+      135deg,
+      var(--gold-200),
+      var(--gold-400)
+    );
+  box-shadow:0 15px 35px rgba(0,0,0,.3);
+  font-size:10px;
+  font-weight:1000;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:1100px){
+
+  .desktop-nav{
+    display:none;
+  }
+
+  .mobile-menu{
+    display:grid;
+  }
+
+  .stats-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .offer-main{
+    grid-template-columns:190px 1fr;
+  }
+
+  .offer-side{
+    grid-column:2;
+    align-items:flex-start;
+    min-width:0;
+  }
+
+  .summary-grid{
+    grid-template-columns:1fr;
+  }
+}
+
+@media(max-width:800px){
+
+  .container{
+    width:min(
+      calc(100% - 28px),
+      var(--container)
+    );
+  }
+
+  .page-hero-card{
+    padding:28px;
+  }
+
+  .offer-main{
+    grid-template-columns:1fr;
+  }
+
+  .offer-image{
+    height:210px;
+  }
+
+  .offer-side{
+    grid-column:auto;
+    align-items:flex-start;
+  }
+
+  .footer-grid{
+    grid-template-columns:1fr 1fr;
+  }
+}
+
+@media(max-width:560px){
+
+  .header-inner{
+    min-height:68px;
+  }
+
+  .brand-text span{
+    display:none;
+  }
+
+  .header-actions .icon-btn{
+    display:none;
+  }
+
+  .page-hero{
+    padding-top:25px;
+  }
+
+  .page-hero-card{
+    padding:23px;
+    border-radius:22px;
+  }
+
+  .page-hero h1{
+    font-size:37px;
+  }
+
+  .action-bar{
+    align-items:stretch;
+    flex-direction:column;
+  }
+
+  .filters{
+    width:100%;
+    overflow-x:auto;
+    flex-wrap:nowrap;
+    padding-bottom:3px;
+  }
+
+  .filter-btn{
+    flex:0 0 auto;
+  }
+
+  .search-box{
+    width:100%;
+  }
+
+  .stats-grid{
+    grid-template-columns:1fr 1fr;
+    gap:9px;
+  }
+
+  .stat-card{
+    padding:15px;
+  }
+
+  .stat-value{
+    font-size:22px;
+  }
+
+  .offer-main{
+    padding:13px;
+  }
+
+  .offer-image{
+    height:190px;
+  }
+
+  .offer-title{
+    font-size:15px;
+  }
+
+  .offer-footer{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+
+  .offer-actions{
+    width:100%;
+  }
+
+  .offer-actions .btn{
+    flex:1;
+  }
+
+  .footer-grid{
+    grid-template-columns:1fr;
+  }
+
+  .footer-bottom{
+    flex-direction:column;
+  }
+
+  .ai-floating{
+    right:14px;
+    bottom:14px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="page-glow"></div>
+
+<!-- =========================================================
+     HEADER
+========================================================= -->
+
+<header class="site-header">
+
+  <div class="container header-inner">
+
+    <a
+      class="brand"
+      href="/buyer/index.html"
+      aria-label="GHAR Buyer Home"
+    >
+
+      <div class="brand-mark">G</div>
+
+      <div class="brand-text">
+        <strong>GHAR</strong>
+        <span>Buyer Experience</span>
+      </div>
+
+    </a>
+
+    <nav
+      class="desktop-nav"
+      id="buyerNavigation"
+      aria-label="Buyer navigation"
+    >
+
+      <a href="/buyer/index.html">
+        Home
+      </a>
+
+      <a href="/properties.html">
+        Properties
+      </a>
+
+      <a href="/buyer/saved-properties.html">
+        Saved
+      </a>
+
+      <a href="/buyer/favourites.html">
+        Favourites
+      </a>
+
+      <a href="/buyer/visits.html">
+        Visits
+      </a>
+
+      <a
+        class="active"
+        href="/buyer/offers.html"
+      >
+        Offers
+      </a>
+
+      <a href="/buyer/loans.html">
+        Loans
+      </a>
+
+    </nav>
+
+    <div class="header-actions">
+
+      <button
+        class="icon-btn"
+        id="notificationButton"
+        type="button"
+        aria-label="Notifications"
+      >
+        ♢
+      </button>
+
+      <a
+        class="avatar"
+        id="profileButton"
+        href="/buyer/profile.html"
+        aria-label="Profile"
+      >
+        U
+      </a>
+
+      <button
+        class="icon-btn mobile-menu"
+        id="menuButton"
+        type="button"
+        aria-label="Open menu"
+      >
+        ☰
+      </button>
+
+    </div>
+
+  </div>
+
+</header>
+
+<main>
+
+<!-- =========================================================
+     PAGE HERO
+========================================================= -->
+
+<section class="page-hero">
+
+  <div class="container">
+
+    <div class="page-hero-card">
+
+      <div class="eyebrow">
+        BUYER · NEGOTIATION CENTER
+      </div>
+
+      <h1>
+        Your property
+        <span>offers.</span>
+      </h1>
+
+      <p>
+        Track every offer you have submitted, review seller
+        responses, manage counter-offers and continue your
+        property purchase from one secure GHAR workspace.
+      </p>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- =========================================================
+     STATS
+========================================================= -->
+
+<section class="section">
+
+  <div class="container">
+
+    <div class="stats-grid">
+
+      <article class="stat-card">
+        <div class="stat-label">
+          Total Offers
+        </div>
+
+        <div
+          class="stat-value"
+          id="totalOffers"
+        >
+          0
+        </div>
+
+        <div class="stat-note">
+          Submitted offers
+        </div>
+      </article>
+
+      <article class="stat-card">
+        <div class="stat-label">
+          Pending
+        </div>
+
+        <div
+          class="stat-value"
+          id="pendingOffers"
+        >
+          0
+        </div>
+
+        <div class="stat-note">
+          Awaiting seller response
+        </div>
+      </article>
+
+      <article class="stat-card">
+        <div class="stat-label">
+          Accepted
+        </div>
+
+        <div
+          class="stat-value"
+          id="acceptedOffers"
+        >
+          0
+        </div>
+
+        <div class="stat-note">
+          Successful offers
+        </div>
+      </article>
+
+      <article class="stat-card">
+        <div class="stat-label">
+          Counter Offers
+        </div>
+
+        <div
+          class="stat-value"
+          id="counteredOffers"
+        >
+          0
+        </div>
+
+        <div class="stat-note">
+          Need your response
+        </div>
+      </article>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- =========================================================
+     FILTERS
+========================================================= -->
+
+<section class="section">
+
+  <div class="container">
+
+    <div class="action-bar">
+
+      <div class="filters">
+
+        <button
+          class="filter-btn active"
+          type="button"
+          data-filter="all"
+        >
+          All offers
+        </button>
+
+        <button
+          class="filter-btn"
+          type="button"
+          data-filter="pending"
+        >
+          Pending
+        </button>
+
+        <button
+          class="filter-btn"
+          type="button"
+          data-filter="accepted"
+        >
+          Accepted
+        </button>
+
+        <button
+          class="filter-btn"
+          type="button"
+          data-filter="countered"
+        >
+          Countered
+        </button>
+
+        <button
+          class="filter-btn"
+          type="button"
+          data-filter="rejected"
+        >
+          Rejected
+        </button>
+
+        <button
+          class="filter-btn"
+          type="button"
+          data-filter="withdrawn"
+        >
+          Withdrawn
+        </button>
+
+      </div>
+
+      <label class="search-box">
+
+        <span>⌕</span>
+
+        <input
+          id="offerSearch"
+          type="search"
+          placeholder="Search offers..."
+          autocomplete="off"
+        >
+
+      </label>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- =========================================================
+     OFFER LIST
+========================================================= -->
+
+<section class="section">
+
+  <div class="container">
+
+    <div
+      id="offerList"
+      class="offer-list"
+      aria-live="polite"
+    >
+
+      <div class="state-card">
+
+        <div class="state-icon">
+          ◷
+        </div>
+
+        <h3>
+          Loading your offers
+        </h3>
+
+        <p>
+          GHAR is securely retrieving your latest property
+          offers and seller responses.
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- =========================================================
+     NEGOTIATION SUMMARY
+========================================================= -->
+
+<section class="section">
+
+  <div class="container">
+
+    <div class="summary-grid">
+
+      <div class="panel">
+
+        <div class="panel-title">
+
+          <h3>
+            Offer process
+          </h3>
+
+        </div>
+
+        <div class="timeline">
+
+          <div class="timeline-item">
+
+            <div class="timeline-dot">
+              1
+            </div>
+
+            <div class="timeline-content">
+
+              <strong>
+                Submit your offer
+              </strong>
+
+              <span>
+                Select a property, enter your proposed amount
+                and submit the offer securely.
+              </span>
+
+            </div>
+
+          </div>
+
+          <div class="timeline-item">
+
+            <div class="timeline-dot">
+              2
+            </div>
+
+            <div class="timeline-content">
+
+              <strong>
+                Seller reviews
+              </strong>
+
+              <span>
+                The seller can accept, reject or submit a
+                counter-offer.
+              </span>
+
+            </div>
+
+          </div>
+
+          <div class="timeline-item">
+
+            <div class="timeline-dot">
+              3
+            </div>
+
+            <div class="timeline-content">
+
+              <strong>
+                Continue negotiation
+              </strong>
+
+              <span>
+                Review counter terms and respond from your
+                GHAR buyer account.
+              </span>
+
+            </div>
+
+          </div>
+
+          <div class="timeline-item">
+
+            <div class="timeline-dot">
+              4
+            </div>
+
+            <div class="timeline-content">
+
+              <strong>
+                Move toward purchase
+              </strong>
+
+              <span>
+                Once an offer is accepted, continue with the
+                required application, documents and financing.
+              </span>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="panel">
+
+        <div class="panel-title">
+
+          <h3>
+            Need a new offer?
+          </h3>
+
+        </div>
+
+        <p
+          style="
+            color:var(--muted-2);
+            font-size:10px;
+            line-height:1.7;
+          "
+        >
+          Browse available GHAR properties and open the
+          property details page to submit a new purchase offer.
+        </p>
+
+        <a
+          class="btn btn-primary"
+          style="margin-top:17px"
+          href="/property-search.html"
+        >
+          Find a property →
+        </a>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+</main>
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer class="site-footer">
+
+  <div class="container">
+
+    <div class="footer-grid">
+
+      <div class="footer-brand">
+
+        <div class="brand">
+
+          <div class="brand-mark">
+            G
+          </div>
+
+          <div class="brand-text">
+
+            <strong>
+              GHAR
+            </strong>
+
+            <span>
+              Real Estate Platform
+            </span>
+
+          </div>
+
+        </div>
+
+        <p>
+          A connected real estate platform for discovering,
+          evaluating, financing and managing property decisions.
+        </p>
+
+      </div>
+
+      <div class="footer-col">
+
+        <h4>
+          Discover
+        </h4>
+
+        <a href="/properties.html">
+          Properties
+        </a>
+
+        <a href="/property-search.html">
+          Property Search
+        </a>
+
+        <a href="/buyer/saved-properties.html">
+          Saved Properties
+        </a>
+
+        <a href="/buyer/visits.html">
+          Visits
+        </a>
+
+      </div>
+
+      <div class="footer-col">
+
+        <h4>
+          Buyer
+        </h4>
+
+        <a href="/buyer/profile.html">
+          Profile
+        </a>
+
+        <a href="/buyer/offers.html">
+          Offers
+        </a>
+
+        <a href="/buyer/loans.html">
+          Loans
+        </a>
+
+        <a href="/buyer/documents.html">
+          Documents
+        </a>
+
+      </div>
+
+      <div class="footer-col">
+
+        <h4>
+          Support
+        </h4>
+
+        <a href="/help-centre.html">
+          Help Centre
+        </a>
+
+        <a href="/contact.html">
+          Contact
+        </a>
+
+        <a href="/buyer/support.html">
+          Support
+        </a>
+
+        <a href="/privacy.html">
+          Privacy
+        </a>
+
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+
+      <span>
+        © <span id="footerYear"></span> GHAR.
+        All rights reserved.
+      </span>
+
+      <span>
+        Buyer Portal · Secure Session
+      </span>
+
+    </div>
+
+  </div>
+
+</footer>
+
+<!-- =========================================================
+     AI
+========================================================= -->
+
+<button
+  id="openAI"
+  class="ai-floating"
+  type="button"
+>
+  ✦ Ask GHAR AI
+</button>
+
+<script>
+"use strict";
+
+/* =========================================================
+   CONFIG
+========================================================= */
+
+const API_BASE =
+  window.GHAR_API_BASE ||
+  window.API_BASE ||
+  "/api";
+
+const OFFERS_API =
+  API_BASE + "/offers";
+
+const AI_API =
+  API_BASE + "/ai";
+
+/* =========================================================
+   STATE
+========================================================= */
+
+let offers = [];
+let activeFilter = "all";
+let searchTerm = "";
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function $(selector){
+  return document.querySelector(selector);
+}
+
+function escapeHTML(value){
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+}
+
+async function apiRequest(
+  url,
+  options = {}
+){
+
+  const response =
+    await fetch(
+      url,
+      {
+        credentials:"include",
+
+        headers:{
+          "Accept":"application/json",
+          "Content-Type":"application/json",
+          ...(options.headers || {})
+        },
+
+        ...options
+      }
+    );
+
+  let data = null;
+
+  try{
+    data = await response.json();
+  }catch(error){
+    data = null;
+  }
+
+  if(!response.ok){
+
+    const error =
+      new Error(
+        data?.error?.message ||
+        data?.message ||
+        "Request failed."
+      );
+
+    error.status = response.status;
+    error.data = data;
+
+    throw error;
+  }
+
+  return data;
+}
+
+function normalizeCollection(response){
+
+  if(Array.isArray(response)){
+    return response;
+  }
+
+  if(Array.isArray(response?.data)){
+    return response.data;
+  }
+
+  if(Array.isArray(response?.offers)){
+    return response.offers;
+  }
+
+  if(Array.isArray(response?.items)){
+    return response.items;
+  }
+
+  if(Array.isArray(response?.results)){
+    return response.results;
+  }
+
+  return [];
+}
+
+function getStatus(offer){
+
+  return String(
+    offer.status ||
+    offer.offerStatus ||
+    "pending"
+  )
+  .toLowerCase()
+  .replace(/\s+/g,"-");
+}
+
+function formatPrice(value){
+
+  const amount = Number(value);
+
+  if(!Number.isFinite(amount)){
+    return "Price on request";
+  }
+
+  if(amount >= 10000000){
+    return "₹" + (
+      amount / 10000000
+    ).toFixed(2) + " Cr";
+  }
+
+  if(amount >= 100000){
+    return "₹" + (
+      amount / 100000
+    ).toFixed(2) + " L";
+  }
+
+  return "₹" +
+    amount.toLocaleString("en-IN");
+}
+
+function formatDate(value){
+
+  if(!value){
+    return "Date unavailable";
+  }
+
+  const date = new Date(value);
+
+  if(Number.isNaN(date.getTime())){
+    return String(value);
+  }
+
+  return date.toLocaleDateString(
+    "en-IN",
+    {
+      day:"2-digit",
+      month:"short",
+      year:"numeric"
+    }
+  );
+}
+
+function getImage(offer){
+
+  const property =
+    offer.property ||
+    {};
+
+  return (
+    offer.image ||
+    offer.propertyImage ||
+    offer.imageUrl ||
+    property.image ||
+    property.coverImage ||
+    property.thumbnail ||
+    property.images?.[0] ||
+    "../assets/images/property-placeholder.jpg"
+  );
+}
+
+/* =========================================================
+   LOAD OFFERS
+========================================================= */
+
+async function loadOffers(){
+
+  const list = $("#offerList");
+
+  list.innerHTML = `
+    <div class="state-card">
+      <div class="state-icon">◷</div>
+      <h3>Loading your offers</h3>
+      <p>
+        GHAR is retrieving your latest offers.
+      </p>
+    </div>
+  `;
+
+  try{
+
+    const response =
+      await apiRequest(
+        OFFERS_API +
+        "?buyer=true"
+      );
+
+    offers =
+      normalizeCollection(
+        response
+      );
+
+    renderStats();
+    renderOffers();
+
+  }catch(error){
+
+    console.error(
+      "GHAR offers:",
+      error
+    );
+
+    list.innerHTML = `
+      <div class="state-card">
+
+        <div class="state-icon">
+          !
+        </div>
+
+        <h3>
+          Offers could not be loaded
+        </h3>
+
+        <p>
+          We could not retrieve your offers right now.
+          Please try again.
+        </p>
+
+        <button
+          class="btn btn-primary"
+          type="button"
+          id="retryOffers"
+        >
+          Try again
+        </button>
+
+      </div>
+    `;
+
+    $("#retryOffers")
+      ?.addEventListener(
+        "click",
+        loadOffers
+      );
+
+  }
+}
+
+/* =========================================================
+   STATS
+========================================================= */
+
+function renderStats(){
+
+  const total =
+    offers.length;
+
+  const pending =
+    offers.filter(
+      offer =>
+        getStatus(offer) ===
+        "pending"
+    ).length;
+
+  const accepted =
+    offers.filter(
+      offer =>
+        getStatus(offer) ===
+        "accepted"
+    ).length;
+
+  const countered =
+    offers.filter(
+      offer =>
+        getStatus(offer) ===
+        "countered"
+    ).length;
+
+  $("#totalOffers").textContent =
+    total;
+
+  $("#pendingOffers").textContent =
+    pending;
+
+  $("#acceptedOffers").textContent =
+    accepted;
+
+  $("#counteredOffers").textContent =
+    countered;
+}
+
+/* =========================================================
+   FILTER
+========================================================= */
+
+function getFilteredOffers(){
+
+  return offers.filter(
+    offer => {
+
+      const status =
+        getStatus(offer);
+
+      const property =
+        offer.property ||
+        {};
+
+      const searchable = [
+        offer.title,
+        offer.propertyTitle,
+        offer.propertyName,
+        property.title,
+        property.name,
+        offer.location,
+        property.location,
+        offer.offerId
+      ]
+      .filter(Boolean)
+      .join(" ")
+      .toLowerCase();
+
+      const matchesFilter =
+        activeFilter === "all" ||
+        status === activeFilter;
+
+      const matchesSearch =
+        !searchTerm ||
+        searchable.includes(
+          searchTerm
+        );
+
+      return (
+        matchesFilter &&
+        matchesSearch
+      );
+    }
+  );
+}
+
+/* =========================================================
+   OFFER CARD
+========================================================= */
+
+function createOfferCard(offer){
+
+  const id =
+    offer.id ||
+    offer.offerId ||
+    offer._id ||
+    "";
+
+  const property =
+    offer.property ||
+    {};
+
+  const title =
+    offer.title ||
+    offer.propertyTitle ||
+    offer.propertyName ||
+    property.title ||
+    property.name ||
+    "Property offer";
+
+  const location =
+    offer.location ||
+    property.location ||
+    property.city ||
+    "Location available";
+
+  const propertyId =
+    offer.propertyId ||
+    property.id ||
+    property.propertyId ||
+    property._id ||
+    "";
+
+  const offerAmount =
+    offer.amount ||
+    offer.offerAmount ||
+    offer.price ||
+    0;
+
+  const originalPrice =
+    offer.originalPrice ||
+    offer.propertyPrice ||
+    property.price ||
+    property.salePrice ||
+    null;
+
+  const counterAmount =
+    offer.counterOfferAmount ||
+    offer.counterAmount ||
+    offer.counterPrice ||
+    null;
+
+  const status =
+    getStatus(offer);
+
+  const displayAmount =
+    status === "countered" &&
+    counterAmount
+      ? counterAmount
+      : offerAmount;
+
+  const type =
+    offer.propertyType ||
+    property.type ||
+    property.propertyType ||
+    "Property";
+
+  const image =
+    getImage(offer);
+
+  const submitted =
+    offer.createdAt ||
+    offer.submittedAt ||
+    offer.date ||
+    offer.created_on;
+
+  let statusLabel =
+    status;
+
+  statusLabel =
+    statusLabel
+      .replace(/-/g," ")
+      .replace(
+        /\b\w/g,
+        letter =>
+          letter.toUpperCase()
+      );
+
+  let actions = `
+    <a
+      class="btn btn-secondary"
+      href="/property-details.html?id=${encodeURIComponent(propertyId)}"
+    >
+      View property
+    </a>
+  `;
+
+  if(status === "countered"){
+
+    actions += `
+      <button
+        class="btn btn-primary"
+        type="button"
+        data-respond-offer="${escapeHTML(id)}"
+      >
+        Respond
+      </button>
+    `;
+
+  }
+
+  if(status === "pending"){
+
+    actions += `
+      <button
+        class="btn btn-danger"
+        type="button"
+        data-withdraw-offer="${escapeHTML(id)}"
+      >
+        Withdraw
+      </button>
+    `;
+
+  }
+
+  if(status === "accepted"){
+
+    actions += `
+      <a
+        class="btn btn-primary"
+        href="/buyer/applications.html?offerId=${encodeURIComponent(id)}"
+      >
+        Continue purchase
+      </a>
+    `;
+
+  }
+
+  return `
+    <article
+      class="offer-card"
+      data-offer-id="${escapeHTML(id)}"
+    >
+
+      <div class="offer-main">
+
+        <div class="offer-image">
+
+          <img
+            src="${escapeHTML(image)}"
+            alt="${escapeHTML(title)}"
+            loading="lazy"
+            onerror="this.src='../assets/images/property-placeholder.jpg'"
+          >
+
+          <span class="offer-badge">
+            ${escapeHTML(
+              offer.badge ||
+              "GHAR"
+            )}
+          </span>
+
+        </div>
+
+        <div class="offer-details">
+
+          <div class="offer-type">
+            ${escapeHTML(type)}
+          </div>
+
+          <h2 class="offer-title">
+            ${escapeHTML(title)}
+          </h2>
+
+          <div class="offer-location">
+            ${escapeHTML(location)}
+          </div>
+
+          <div class="offer-meta">
+
+            <span>
+              Offer #${escapeHTML(
+                offer.offerNumber ||
+                offer.offerId ||
+                id ||
+                "--"
+              )}
+            </span>
+
+            ${
+              offer.bhk ||
+              property.bhk ||
+              property.configuration
+                ? `
+                  <span>
+                    ${escapeHTML(
+                      offer.bhk ||
+                      property.bhk ||
+                      property.configuration
+                    )}
+                  </span>
+                `
+                : ""
+            }
+
+            ${
+              offer.area ||
+              property.area ||
+              property.areaSqFt
+                ? `
+                  <span>
+                    ${escapeHTML(
+                      offer.area ||
+                      property.area ||
+                      property.areaSqFt
+                    )}
+                  </span>
+                `
+                : ""
+            }
+
+          </div>
+
+        </div>
+
+        <div class="offer-side">
+
+          <div class="offer-label">
+            ${
+              status === "countered"
+                ? "Counter offer"
+                : "Your offer"
+            }
+          </div>
+
+          <div class="offer-amount">
+            ${escapeHTML(
+              formatPrice(
+                displayAmount
+              )
+            )}
+          </div>
+
+          ${
+            originalPrice
+              ? `
+                <div class="offer-original">
+                  Listed at
+                  ${escapeHTML(
+                    formatPrice(
+                      originalPrice
+                    )
+                  )}
+                </div>
+              `
+              : ""
+          }
+
+          <span
+            class="
+              status
+              status-${escapeHTML(status)}
+            "
+          >
+            ${escapeHTML(
+              statusLabel
+            )}
+          </span>
+
+        </div>
+
+      </div>
+
+      <div class="offer-footer">
+
+        <div class="offer-date">
+          Submitted ${escapeHTML(
+            formatDate(submitted)
+          )}
+        </div>
+
+        <div class="offer-actions">
+          ${actions}
+        </div>
+
+      </div>
+
+    </article>
+  `;
+}
+
+/* =========================================================
+   RENDER
+========================================================= */
+
+function renderOffers(){
+
+  const list =
+    $("#offerList");
+
+  const filtered =
+    getFilteredOffers();
+
+  if(!filtered.length){
+
+    list.innerHTML = `
+      <div class="state-card">
+
+        <div class="state-icon">
+          ◇
+        </div>
+
+        <h3>
+          No offers found
+        </h3>
+
+        <p>
+          ${
+            offers.length
+              ? "No offers match your current filter or search."
+              : "You have not submitted any property offers yet."
+          }
+        </p>
+
+        <a
+          class="btn btn-primary"
+          href="/property-search.html"
+        >
+          Find a property
+        </a>
+
+      </div>
+    `;
+
+    return;
+  }
+
+  list.innerHTML =
+    filtered
+      .map(createOfferCard)
+      .join("");
+}
+
+/* =========================================================
+   FILTER EVENTS
+========================================================= */
+
+document
+  .querySelectorAll(
+    "[data-filter]"
+  )
+  .forEach(
+    button => {
+
+      button.addEventListener(
+        "click",
+        () => {
+
+          document
+            .querySelectorAll(
+              "[data-filter]"
+            )
+            .forEach(
+              item =>
+                item.classList.remove(
+                  "active"
+                )
+            );
+
+          button.classList.add(
+            "active"
+          );
+
+          activeFilter =
+            button.dataset.filter;
+
+          renderOffers();
+
+        }
+      );
+
+    }
+  );
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+$("#offerSearch")
+  ?.addEventListener(
+    "input",
+    event => {
+
+      searchTerm =
+        event.target.value
+          .trim()
+          .toLowerCase();
+
+      renderOffers();
+
+    }
+  );
+
+/* =========================================================
+   OFFER ACTIONS
+========================================================= */
+
+document.addEventListener(
+  "click",
+  async event => {
+
+    const withdraw =
+      event.target.closest(
+        "[data-withdraw-offer]"
+      );
+
+    if(withdraw){
+
+      const id =
+        withdraw.dataset.withdrawOffer;
+
+      const confirmed =
+        window.confirm(
+          "Withdraw this offer?"
+        );
+
+      if(!confirmed){
+        return;
+      }
+
+      try{
+
+        withdraw.disabled =
+          true;
+
+        await apiRequest(
+          OFFERS_API +
+          "/" +
+          encodeURIComponent(id) +
+          "/withdraw",
+          {
+            method:"POST"
+          }
+        );
+
+        await loadOffers();
+
+      }catch(error){
+
+        console.error(
+          "Withdraw offer:",
+          error
+        );
+
+        alert(
+          error.message ||
+          "Unable to withdraw the offer."
+        );
+
+        withdraw.disabled =
+          false;
+      }
+
+      return;
+    }
+
+    const respond =
+      event.target.closest(
+        "[data-respond-offer]"
+      );
+
+    if(respond){
+
+      const id =
+        respond.dataset.respondOffer;
+
+      window.location.href =
+        "/buyer/offers/respond.html?id=" +
+        encodeURIComponent(id);
+
+    }
+
+  }
+);
+
+/* =========================================================
+   PROFILE
+========================================================= */
+
+async function loadProfile(){
+
+  try{
+
+    const response =
+      await apiRequest(
+        API_BASE +
+        "/users/me"
+      );
+
+    const user =
+      response?.user ||
+      response?.data ||
+      response;
+
+    const name =
+      user?.name ||
+      user?.fullName ||
+      user?.email ||
+      "U";
+
+    $("#profileButton").textContent =
+      name
+        .trim()
+        .charAt(0)
+        .toUpperCase();
+
+  }catch(error){
+
+    console.warn(
+      "GHAR profile:",
+      error
+    );
+
+  }
+}
+
+/* =========================================================
+   MOBILE MENU
+========================================================= */
+
+$("#menuButton")
+  ?.addEventListener(
+    "click",
+    () => {
+
+      const nav =
+        $("#buyerNavigation");
+
+      if(!nav){
+        return;
+      }
+
+      const open =
+        nav.dataset.mobileOpen ===
+        "true";
+
+      if(open){
+
+        nav.style.display =
+          "";
+
+        nav.dataset.mobileOpen =
+          "false";
+
+        return;
+      }
+
+      nav.dataset.mobileOpen =
+        "true";
+
+      nav.style.display =
+        "flex";
+
+      nav.style.position =
+        "absolute";
+
+      nav.style.left =
+        "14px";
+
+      nav.style.right =
+        "14px";
+
+      nav.style.top =
+        "66px";
+
+      nav.style.padding =
+        "10px";
+
+      nav.style.flexDirection =
+        "column";
+
+      nav.style.alignItems =
+        "stretch";
+
+      nav.style.border =
+        "1px solid rgba(229,199,125,.14)";
+
+      nav.style.borderRadius =
+        "16px";
+
+      nav.style.background =
+        "#0b1c14";
+
+      nav.style.boxShadow =
+        "0 25px 60px rgba(0,0,0,.35)";
+    }
+  );
+
+/* =========================================================
+   NOTIFICATIONS
+========================================================= */
+
+$("#notificationButton")
+  ?.addEventListener(
+    "click",
+    () => {
+
+      window.location.href =
+        "/buyer/notifications.html";
+
+    }
+  );
+
+/* =========================================================
+   AI
+========================================================= */
+
+async function openAI(){
+
+  window.location.href =
+    "/buyer/ai.html?prompt=" +
+    encodeURIComponent(
+      "Help me review and negotiate my property offers."
+    );
+}
+
+$("#openAI")
+  ?.addEventListener(
+    "click",
+    openAI
+  );
+
+/* =========================================================
+   INIT
+========================================================= */
+
+async function initialize(){
+
+  $("#footerYear").textContent =
+    new Date().getFullYear();
+
+  await Promise.allSettled([
+    loadOffers(),
+    loadProfile()
+  ]);
+}
+
+if(
+  document.readyState ===
+  "loading"
+){
+
+  document.addEventListener(
+    "DOMContentLoaded",
+    initialize
+  );
+
+}else{
+
+  initialize();
+
+}
+</script>
+
+</body>
+</html>

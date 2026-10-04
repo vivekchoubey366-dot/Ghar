@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Offers | GHAR -- Property Offers & Deals</title>
+
+<meta name="description"
+content="Explore personalised property offers, negotiated deals and GHAR opportunities.">
+
+<link rel="icon"
+type="image/svg+xml"
+href="/assets/images/logo/favicon.svg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap"
+rel="stylesheet">
+
+<link rel="stylesheet" href="/assets/css/variables.css">
+<link rel="stylesheet" href="/assets/css/reset.css">
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/css/layout.css">
+<link rel="stylesheet" href="/assets/css/components.css">
+<link rel="stylesheet" href="/assets/css/navigation.css">
+<link rel="stylesheet" href="/assets/css/cards.css">
+<link rel="stylesheet" href="/assets/css/forms.css">
+<link rel="stylesheet" href="/assets/css/property.css">
+<link rel="stylesheet" href="/assets/css/animations.css">
+<link rel="stylesheet" href="/assets/css/responsive.css">
+
+<style>
+
+:root {
+    --ivory:#f8f5ee;
+    --pearl:#f1eee6;
+    --champagne:#e8dcc7;
+    --gold:#b79a68;
+    --gold-light:#d9c39b;
+    --sage:#dfe6dc;
+    --emerald:#27483d;
+    --emerald-deep:#19372f;
+    --text:#23342f;
+    --muted:#737b76;
+    --border:rgba(39,72,61,.11);
+}
+
+* {
+    box-sizing:border-box;
+}
+
+body {
+    margin:0;
+    background:
+        radial-gradient(circle at 8% 0%,rgba(217,195,155,.20),transparent 28%),
+        radial-gradient(circle at 95% 15%,rgba(135,150,135,.14),transparent 30%),
+        var(--ivory);
+    color:var(--text);
+    font-family:"DM Sans",sans-serif;
+}
+
+a {
+    color:inherit;
+    text-decoration:none;
+}
+
+button,
+input,
+select {
+    font:inherit;
+}
+
+.ghar-header {
+    position:sticky;
+    top:0;
+    z-index:1000;
+
+    background:rgba(248,245,238,.92);
+    backdrop-filter:blur(20px);
+
+    border-bottom:1px solid var(--border);
+}
+
+.ghar-nav {
+    max-width:1440px;
+    min-height:82px;
+    margin:auto;
+    padding:0 34px;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:30px;
+}
+
+.logo img {
+    width:132px;
+}
+
+.main-nav {
+    display:flex;
+    gap:30px;
+}
+
+.main-nav a {
+    padding:9px 0;
+    color:#59655f;
+    font-size:14px;
+    font-weight:600;
+}
+
+.main-nav a:hover,
+.main-nav a.active {
+    color:var(--emerald);
+}
+
+.main-nav a.active {
+    border-bottom:2px solid var(--gold);
+}
+
+.nav-actions {
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.nav-icon {
+    width:42px;
+    height:42px;
+
+    display:grid;
+    place-items:center;
+
+    border:1px solid var(--border);
+    border-radius:50%;
+
+    background:rgba(255,255,255,.65);
+}
+
+.list-btn {
+    padding:12px 19px;
+    border-radius:999px;
+    background:var(--emerald);
+    color:white;
+    font-size:13px;
+    font-weight:700;
+}
+
+/* HERO */
+
+.hero {
+    max-width:1440px;
+    margin:auto;
+    padding:78px 34px 45px;
+}
+
+.eyebrow {
+    color:var(--gold);
+    font-size:11px;
+    font-weight:800;
+    text-transform:uppercase;
+    letter-spacing:.18em;
+}
+
+.hero h1 {
+    max-width:850px;
+    margin:14px 0 0;
+
+    color:var(--emerald-deep);
+    font-family:"Playfair Display",serif;
+    font-size:clamp(44px,5vw,72px);
+    line-height:1;
+    letter-spacing:-.04em;
+}
+
+.hero h1 span {
+    color:var(--gold);
+}
+
+.hero p {
+    max-width:650px;
+    margin:22px 0 0;
+
+    color:var(--muted);
+    line-height:1.8;
+}
+
+/* OFFER GRID */
+
+.container {
+    max-width:1440px;
+    margin:auto;
+    padding:0 34px 100px;
+}
+
+.offer-grid {
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:24px;
+}
+
+.offer-card {
+    position:relative;
+    overflow:hidden;
+
+    min-height:360px;
+
+    padding:29px;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+
+    border:1px solid var(--border);
+    border-radius:28px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.92),
+            rgba(237,231,218,.85)
+        );
+
+    box-shadow:0 18px 55px rgba(50,59,49,.08);
+
+    transition:.3s ease;
+}
+
+.offer-card:hover {
+    transform:translateY(-7px);
+    box-shadow:0 25px 65px rgba(50,59,49,.14);
+}
+
+.offer-card::after {
+    content:"";
+
+    position:absolute;
+
+    width:220px;
+    height:220px;
+
+    border-radius:50%;
+
+    border:1px solid rgba(183,154,104,.16);
+
+    right:-80px;
+    top:-80px;
+}
+
+.offer-label {
+    display:inline-flex;
+    width:max-content;
+
+    padding:7px 11px;
+
+    border-radius:999px;
+
+    background:var(--sage);
+    color:var(--emerald);
+
+    font-size:10px;
+    font-weight:800;
+    text-transform:uppercase;
+    letter-spacing:.08em;
+}
+
+.offer-card h2 {
+    position:relative;
+    z-index:2;
+
+    margin:20px 0 9px;
+
+    color:var(--emerald-deep);
+    font-family:"Playfair Display",serif;
+    font-size:29px;
+    line-height:1.1;
+}
+
+.offer-card p {
+    position:relative;
+    z-index:2;
+
+    color:var(--muted);
+    font-size:13px;
+    line-height:1.7;
+}
+
+.offer-value {
+    position:relative;
+    z-index:2;
+
+    margin-top:20px;
+
+    color:var(--gold);
+    font-size:30px;
+    font-weight:800;
+}
+
+.offer-value small {
+    color:#7b827d;
+    font-size:11px;
+    font-weight:500;
+}
+
+.offer-btn {
+    position:relative;
+    z-index:3;
+
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+
+    margin-top:24px;
+    padding:13px 18px;
+
+    border-radius:999px;
+
+    background:var(--emerald);
+    color:white;
+
+    font-size:12px;
+    font-weight:800;
+}
+
+.offer-btn:hover {
+    background:var(--emerald-deep);
+}
+
+/* FEATURED BANNER */
+
+.featured-offer {
+    margin-top:50px;
+
+    min-height:300px;
+
+    padding:42px;
+
+    display:grid;
+    grid-template-columns:1.3fr .7fr;
+    align-items:center;
+    gap:30px;
+
+    border-radius:32px;
+
+    background:
+        linear-gradient(
+            125deg,
+            #27483d,
+            #3d6254
+        );
+
+    color:white;
+
+    overflow:hidden;
+    position:relative;
+}
+
+.featured-offer::before {
+    content:"";
+
+    position:absolute;
+
+    width:430px;
+    height:430px;
+
+    border-radius:50%;
+
+    border:1px solid rgba(255,255,255,.10);
+
+    right:-130px;
+    top:-180px;
+}
+
+.featured-offer .eyebrow {
+    color:var(--gold-light);
+}
+
+.featured-offer h2 {
+    margin:14px 0;
+
+    font-family:"Playfair Display",serif;
+    font-size:42px;
+    line-height:1.05;
+}
+
+.featured-offer p {
+    max-width:620px;
+    color:rgba(255,255,255,.72);
+    line-height:1.7;
+    font-size:13px;
+}
+
+.offer-cta {
+    display:flex;
+    justify-content:flex-end;
+}
+
+.offer-cta a {
+    padding:15px 22px;
+    border-radius:999px;
+    background:white;
+    color:var(--emerald);
+    font-size:12px;
+    font-weight:800;
+}
+
+/* TERMS */
+
+.offer-info {
+    margin-top:30px;
+    padding:23px;
+
+    border:1px solid var(--border);
+    border-radius:20px;
+
+    background:rgba(255,255,255,.55);
+}
+
+.offer-info h3 {
+    margin:0 0 8px;
+
+    color:var(--emerald);
+    font-family:"Playfair Display",serif;
+}
+
+.offer-info p {
+    margin:0;
+    color:var(--muted);
+    font-size:12px;
+    line-height:1.7;
+}
+
+/* FOOTER */
+
+.footer {
+    background:#e7e1d5;
+    border-top:1px solid var(--border);
+}
+
+.footer-inner {
+    max-width:1440px;
+    margin:auto;
+    padding:60px 34px 35px;
+
+    display:grid;
+    grid-template-columns:1.5fr repeat(3,1fr);
+    gap:40px;
+}
+
+.footer-logo {
+    width:125px;
+    margin-bottom:16px;
+}
+
+.footer p {
+    max-width:330px;
+    color:#68716c;
+    font-size:13px;
+    line-height:1.7;
+}
+
+.footer h4 {
+    margin:0 0 16px;
+    color:var(--emerald);
+    font-size:13px;
+}
+
+.footer a {
+    display:block;
+    margin-bottom:11px;
+    color:#717873;
+    font-size:12px;
+}
+
+.footer-bottom {
+    max-width:1440px;
+    margin:auto;
+    padding:18px 34px 25px;
+
+    display:flex;
+    justify-content:space-between;
+
+    border-top:1px solid var(--border);
+
+    color:#7d837f;
+    font-size:11px;
+}
+
+/* MOBILE */
+
+.mobile-dock {
+    display:none;
+}
+
+@media(max-width:1100px) {
+
+    .main-nav {
+        gap:18px;
+    }
+
+    .offer-grid {
+        grid-template-columns:repeat(2,minmax(0,1fr));
+    }
+
+    .footer-inner {
+        grid-template-columns:repeat(2,1fr);
+    }
+}
+
+@media(max-width:820px) {
+
+    .ghar-nav {
+        padding:0 20px;
+    }
+
+    .main-nav,
+    .list-btn {
+        display:none;
+    }
+
+    .hero {
+        padding:55px 20px 35px;
+    }
+
+    .container {
+        padding:0 20px 110px;
+    }
+
+    .offer-grid {
+        grid-template-columns:1fr;
+    }
+
+    .featured-offer {
+        grid-template-columns:1fr;
+        padding:30px;
+    }
+
+    .offer-cta {
+        justify-content:flex-start;
+    }
+
+    .mobile-dock {
+        display:block;
+
+        position:fixed;
+        left:12px;
+        right:12px;
+        bottom:12px;
+        z-index:999;
+
+        padding:9px;
+
+        border:1px solid var(--border);
+        border-radius:22px;
+
+        background:rgba(255,255,255,.94);
+        backdrop-filter:blur(18px);
+    }
+
+    .mobile-dock-inner {
+        display:grid;
+        grid-template-columns:repeat(4,1fr);
+    }
+
+    .mobile-dock a {
+        padding:8px;
+        text-align:center;
+        color:#77807b;
+        font-size:10px;
+        font-weight:700;
+    }
+
+    .mobile-dock a.active {
+        color:var(--emerald);
+    }
+
+    .footer {
+        padding-bottom:90px;
+    }
+}
+
+@media(max-width:620px) {
+
+    .logo img {
+        width:108px;
+    }
+
+    .featured-offer h2 {
+        font-size:32px;
+    }
+
+    .footer-inner {
+        grid-template-columns:1fr;
+        padding:45px 20px 25px;
+    }
+
+    .footer-bottom {
+        padding:18px 20px 25px;
+        flex-direction:column;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<header class="ghar-header">
+
+<nav class="ghar-nav">
+
+<a href="/index.html" class="logo">
+<img
+src="/assets/images/logo/ghar-logo.png"
+alt="GHAR">
+</a>
+
+<div class="main-nav">
+
+<a href="/index.html">Home</a>
+<a href="/properties.html">Properties</a>
+<a href="/property-search.html">Search</a>
+<a href="/compare.html">Compare</a>
+<a href="/favourites.html">Favourites</a>
+<a href="/offers.html" class="active">Offers</a>
+<a href="/about.html">About</a>
+
+</div>
+
+<div class="nav-actions">
+
+<a
+href="/property-search.html"
+class="nav-icon"
+aria-label="Search"
+>
+⌕
+</a>
+
+<a
+href="/favourites.html"
+class="nav-icon"
+aria-label="Favourites"
+>
+♡
+</a>
+
+<a
+href="/login.html"
+class="list-btn"
+>
+List Property
+</a>
+
+</div>
+
+</nav>
+
+</header>
+
+
+<section class="hero">
+
+<div class="eyebrow">
+GHAR Privileges
+</div>
+
+<h1>
+Opportunities worth
+<span>discovering.</span>
+</h1>
+
+<p>
+Explore exclusive property opportunities, selected listings,
+negotiation possibilities and limited GHAR campaigns designed
+to help you make a smarter property decision.
+</p>
+
+</section>
+
+
+<main class="container">
+
+<section class="offer-grid">
+
+<article class="offer-card">
+
+<div>
+
+<span class="offer-label">
+New Buyer
+</span>
+
+<h2>
+First Home Advantage
+</h2>
+
+<p>
+Selected first-home properties with attractive pricing
+opportunities and dedicated GHAR assistance.
+</p>
+
+<div class="offer-value">
+₹25L+
+<small>eligible property range</small>
+</div>
+
+</div>
+
+<a
+href="/properties.html"
+class="offer-btn"
+>
+Explore Eligible Homes →
+</a>
+
+</article>
+
+
+<article class="offer-card">
+
+<div>
+
+<span class="offer-label">
+Limited Opportunity
+</span>
+
+<h2>
+Premium Property Deals
+</h2>
+
+<p>
+Discover selected premium residences where sellers may
+be open to serious buyer discussions.
+</p>
+
+<div class="offer-value">
+Exclusive
+<small>selected listings</small>
+</div>
+
+</div>
+
+<a
+href="/properties.html"
+class="offer-btn"
+>
+View Properties →
+</a>
+
+</article>
+
+
+<article class="offer-card">
+
+<div>
+
+<span class="offer-label">
+GHAR Concierge
+</span>
+
+<h2>
+Personalised Search
+</h2>
+
+<p>
+Tell GHAR your preferred location, budget and lifestyle
+requirements and discover relevant opportunities.
+</p>
+
+<div class="offer-value">
+AI
+<small>assisted discovery</small>
+</div>
+
+</div>
+
+<a
+href="/property-search.html"
+class="offer-btn"
+>
+Start Smart Search →
+</a>
+
+</article>
+
+
+<article class="offer-card">
+
+<div>
+
+<span class="offer-label">
+Home Finance
+</span>
+
+<h2>
+Loan Assistance
+</h2>
+
+<p>
+Understand potential financing options and prepare for
+the next stage of your property purchase.
+</p>
+
+<div class="offer-value">
+Finance
+<small>assistance</small>
+</div>
+
+</div>
+
+<a
+href="/loan.html"
+class="offer-btn"
+>
+Explore Finance →
+</a>
+
+</article>
+
+
+<article class="offer-card">
+
+<div>
+
+<span class="offer-label">
+Seller Opportunity
+</span>
+
+<h2>
+Premium Listing
+</h2>
+
+<p>
+Give your property enhanced visibility across the GHAR
+property discovery ecosystem.
+</p>
+
+<div class="offer-value">
+GHAR
+<small>seller platform</small>
+</div>
+
+</div>
+
+<a
+href="/login.html"
+class="offer-btn"
+>
+List Your Property →
+</a>
+
+</article>
+
+
+<article class="offer-card">
+
+<div>
+
+<span class="offer-label">
+Smart Decision
+</span>
+
+<h2>
+Compare Before You Buy
+</h2>
+
+<p>
+Shortlist properties and compare pricing, area, features
+and other important factors before deciding.
+</p>
+
+<div class="offer-value">
+Compare
+<small>multiple properties</small>
+</div>
+
+</div>
+
+<a
+href="/compare.html"
+class="offer-btn"
+>
+Start Comparing →
+</a>
+
+</article>
+
+</section>
+
+
+<section class="featured-offer">
+
+<div>
+
+<div class="eyebrow">
+GHAR Concierge
+</div>
+
+<h2>
+Your ideal property may be closer than you think.
+</h2>
+
+<p>
+Give GHAR your requirements and let the platform help you
+discover suitable properties, shortlist your favourites and
+move towards a confident decision.
+</p>
+
+</div>
+
+<div class="offer-cta">
+
+<a href="/property-search.html">
+Find My Property →
+</a>
+
+</div>
+
+</section>
+
+
+<section class="offer-info">
+
+<h3>
+Important Information
+</h3>
+
+<p>
+Offers, discounts, pricing opportunities and financing
+information may vary by property, seller, location and
+eligibility. Any displayed opportunity should be verified
+with GHAR or the relevant property representative before
+making a financial commitment.
+</p>
+
+</section>
+
+</main>
+
+
+<footer class="footer">
+
+<div class="footer-inner">
+
+<div>
+
+<img
+src="/assets/images/logo/ghar-logo.png"
+class="footer-logo"
+alt="GHAR">
+
+<p>
+A premium real-estate experience designed to make finding,
+selling, renting and managing property simpler.
+</p>
+
+</div>
+
+<div>
+
+<h4>Explore</h4>
+
+<a href="/properties.html">Properties</a>
+<a href="/property-search.html">Smart Search</a>
+<a href="/compare.html">Compare</a>
+<a href="/favourites.html">Favourites</a>
+
+</div>
+
+<div>
+
+<h4>GHAR</h4>
+
+<a href="/about.html">About GHAR</a>
+<a href="/services.html">Services</a>
+<a href="/ai-assistant.html">GHAR AI</a>
+<a href="/contact.html">Contact</a>
+
+</div>
+
+<div>
+
+<h4>Property</h4>
+
+<a href="/login.html">List Property</a>
+<a href="/loan.html">Home Loans</a>
+<a href="/documents.html">Documents</a>
+<a href="/help-centre.html">Help Centre</a>
+
+</div>
+
+</div>
+
+<div class="footer-bottom">
+
+<span>
+© 2026 GHAR. All rights reserved.
+</span>
+
+<span>
+Privacy · Terms · Legal
+</span>
+
+</div>
+
+</footer>
+
+
+<nav class="mobile-dock">
+
+<div class="mobile-dock-inner">
+
+<a href="/index.html">
+⌂<br>Home
+</a>
+
+<a href="/properties.html">
+⌂<br>Properties
+</a>
+
+<a href="/favourites.html">
+♡<br>Favourites
+</a>
+
+<a href="/offers.html" class="active">
+◇<br>Offers
+</a>
+
+</div>
+
+</nav>
+
+
+<script src="/assets/js/constants.js"></script>
+<script src="/assets/js/config.js"></script>
+<script src="/assets/js/storage.js"></script>
+<script src="/assets/js/api.js"></script>
+<script src="/assets/js/auth.js"></script>
+<script src="/assets/js/core.js"></script>
+<script src="/assets/js/components.js"></script>
+<script src="/assets/js/components/global.js"></script>
+<script src="/assets/js/navigation.js"></script>
+<script src="/assets/js/property.js"></script>
+<script src="/assets/js/properties.js"></script>
+
+<script>
+
+document.addEventListener(
+"DOMContentLoaded",
+function() {
+
+    /*
+     * GHAR offers can later be loaded from:
+     *
+     * /data/offers.json
+     *
+     * Example structure:
+     *
+     * {
+     *   "id": "GHAR-O001",
+     *   "title": "Premium Property Deal",
+     *   "type": "limited",
+     *   "value": "₹10L",
+     *   "propertyId": "GHAR-P001"
+     * }
+     */
+
+    console.log(
+        "GHAR Offers initialized"
+    );
+
+});
+
+</script>
+
+</body>
+</html>

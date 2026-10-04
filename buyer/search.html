@@ -1,0 +1,4026 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<meta name="description"
+      content="GHAR Buyer -- Search, filter and compare verified properties.">
+
+<meta name="theme-color" content="#162d25">
+
+<title>GHAR · Search Properties</title>
+
+<link rel="icon" href="../assets/images/favicon.svg">
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+:root{
+  --green-950:#07130e;
+  --green-925:#0a1912;
+  --green-900:#0b1c14;
+  --green-850:#10261c;
+  --green-800:#162d25;
+  --green-750:#1a382c;
+  --green-700:#214438;
+
+  --gold-100:#fff7df;
+  --gold-200:#f4dfaa;
+  --gold-300:#e5c77d;
+  --gold-400:#c9a95c;
+  --gold-500:#a98238;
+
+  --cream:#fffaf0;
+  --cream-2:#f7eedc;
+
+  --text:#f9f5ea;
+  --muted:rgba(255,255,255,.68);
+  --muted-2:rgba(255,255,255,.45);
+
+  --border:rgba(229,199,125,.18);
+  --border-light:rgba(255,255,255,.09);
+
+  --success:#82c995;
+  --danger:#e98c8c;
+
+  --shadow:0 25px 80px rgba(0,0,0,.25);
+
+  --radius-xl:28px;
+  --radius-lg:21px;
+  --radius-md:15px;
+
+  --container:1440px;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  min-height:100vh;
+  color:var(--text);
+  font-family:
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  background:
+    radial-gradient(
+      circle at 5% 0%,
+      rgba(229,199,125,.12),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 100% 10%,
+      rgba(44,91,69,.22),
+      transparent 30%
+    ),
+    linear-gradient(
+      135deg,
+      #07130e,
+      #0b1c14 48%,
+      #10261c
+    );
+
+  overflow-x:hidden;
+}
+
+a{
+  color:inherit;
+  text-decoration:none;
+}
+
+button,
+input,
+select{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+img{
+  display:block;
+  max-width:100%;
+}
+
+.container{
+  width:min(
+    calc(100% - 40px),
+    var(--container)
+  );
+  margin:auto;
+}
+
+
+/* =========================================================
+   BACKGROUND
+========================================================= */
+
+.page-glow{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:-1;
+  overflow:hidden;
+}
+
+.page-glow::before{
+  content:"";
+  position:absolute;
+  width:550px;
+  height:550px;
+  top:-300px;
+  right:-220px;
+  border-radius:50%;
+  border:1px solid rgba(229,199,125,.12);
+  box-shadow:
+    0 0 0 60px rgba(229,199,125,.025),
+    0 0 0 120px rgba(229,199,125,.015);
+}
+
+.page-glow::after{
+  content:"";
+  position:absolute;
+  width:500px;
+  height:500px;
+  bottom:-300px;
+  left:-250px;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,.06);
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.site-header{
+  position:sticky;
+  top:0;
+  z-index:100;
+  border-bottom:1px solid rgba(229,199,125,.10);
+  background:rgba(7,19,14,.90);
+  backdrop-filter:blur(22px);
+}
+
+.header-inner{
+  min-height:76px;
+  display:flex;
+  align-items:center;
+  gap:24px;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex-shrink:0;
+}
+
+.brand-mark{
+  width:45px;
+  height:45px;
+  display:grid;
+  place-items:center;
+  border-radius:14px;
+  color:#152116;
+  font-size:19px;
+  font-weight:1000;
+  background:
+    linear-gradient(
+      135deg,
+      #f1dda5,
+      #b98b3d
+    );
+  box-shadow:
+    0 10px 25px rgba(0,0,0,.25),
+    inset 0 1px 0 rgba(255,255,255,.5);
+}
+
+.brand-text strong{
+  display:block;
+  font-size:17px;
+  letter-spacing:.17em;
+}
+
+.brand-text span{
+  display:block;
+  margin-top:2px;
+  color:var(--muted-2);
+  font-size:8px;
+  font-weight:800;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+}
+
+.desktop-nav{
+  display:flex;
+  align-items:center;
+  gap:5px;
+  margin-left:auto;
+}
+
+.desktop-nav a{
+  padding:10px 12px;
+  border-radius:10px;
+  color:var(--muted);
+  font-size:11px;
+  font-weight:700;
+  transition:.2s ease;
+}
+
+.desktop-nav a:hover,
+.desktop-nav a.active{
+  color:var(--gold-200);
+  background:rgba(229,199,125,.07);
+}
+
+.header-actions{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.icon-btn{
+  width:41px;
+  height:41px;
+  display:grid;
+  place-items:center;
+  border:1px solid var(--border-light);
+  border-radius:12px;
+  color:var(--muted);
+  background:rgba(255,255,255,.035);
+  transition:.2s ease;
+}
+
+.icon-btn:hover{
+  color:var(--gold-200);
+  border-color:rgba(229,199,125,.25);
+}
+
+.avatar{
+  width:40px;
+  height:40px;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  color:#172016;
+  font-size:12px;
+  font-weight:1000;
+  background:
+    linear-gradient(
+      135deg,
+      var(--gold-200),
+      var(--gold-500)
+    );
+}
+
+.mobile-menu{
+  display:none;
+}
+
+
+/* =========================================================
+   PAGE HEADER
+========================================================= */
+
+.page-header{
+  padding:42px 0 22px;
+}
+
+.page-header-inner{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  gap:25px;
+}
+
+.eyebrow{
+  color:var(--gold-300);
+  font-size:10px;
+  font-weight:950;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+}
+
+.page-header h1{
+  margin-top:10px;
+  font-size:
+    clamp(
+      34px,
+      4vw,
+      52px
+    );
+  line-height:1;
+  letter-spacing:-.055em;
+}
+
+.page-header h1 span{
+  color:var(--gold-300);
+}
+
+.page-header p{
+  max-width:700px;
+  margin-top:12px;
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.7;
+}
+
+.result-summary{
+  color:var(--muted-2);
+  font-size:10px;
+  white-space:nowrap;
+}
+
+
+/* =========================================================
+   SEARCH BAR
+========================================================= */
+
+.search-shell{
+  padding:20px;
+  border:1px solid var(--border);
+  border-radius:var(--radius-xl);
+  background:
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(229,199,125,.10),
+      transparent 30%
+    ),
+    linear-gradient(
+      145deg,
+      #142d22,
+      #0b1c14
+    );
+  box-shadow:var(--shadow);
+}
+
+.main-search{
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:10px;
+}
+
+.search-input-wrap{
+  position:relative;
+}
+
+.search-input{
+  width:100%;
+  height:54px;
+  padding:0 17px 0 45px;
+  outline:none;
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:13px;
+  color:var(--cream);
+  background:rgba(255,255,255,.045);
+  font-size:12px;
+}
+
+.search-input:focus{
+  border-color:rgba(229,199,125,.45);
+}
+
+.search-icon{
+  position:absolute;
+  left:15px;
+  top:50%;
+  transform:translateY(-50%);
+  color:var(--gold-300);
+  font-size:16px;
+}
+
+.search-button{
+  min-width:120px;
+  height:54px;
+  border:0;
+  border-radius:13px;
+  color:#17170f;
+  background:
+    linear-gradient(
+      135deg,
+      #f1dca1,
+      #cda85d
+    );
+  font-size:11px;
+  font-weight:950;
+}
+
+
+/* =========================================================
+   FILTER BAR
+========================================================= */
+
+.filter-bar{
+  display:grid;
+  grid-template-columns:
+    repeat(5,1fr) auto;
+  gap:9px;
+  margin-top:12px;
+}
+
+.filter-control{
+  min-width:0;
+}
+
+.filter-control label{
+  display:block;
+  margin:0 0 6px 3px;
+  color:var(--muted-2);
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+
+.filter-control select,
+.filter-control input{
+  width:100%;
+  height:43px;
+  padding:0 11px;
+  outline:none;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:10px;
+  color:var(--cream);
+  background:#10261c;
+  font-size:10px;
+}
+
+.filter-control select option{
+  background:#10261c;
+  color:var(--cream);
+}
+
+.filter-control select:focus,
+.filter-control input:focus{
+  border-color:rgba(229,199,125,.4);
+}
+
+.filter-actions{
+  display:flex;
+  align-items:flex-end;
+  gap:7px;
+}
+
+.small-btn{
+  height:43px;
+  padding:0 13px;
+  border:1px solid var(--border-light);
+  border-radius:10px;
+  color:var(--muted);
+  background:rgba(255,255,255,.035);
+  font-size:9px;
+  font-weight:900;
+}
+
+.small-btn:hover{
+  color:var(--gold-200);
+  border-color:rgba(229,199,125,.25);
+}
+
+.small-btn.primary{
+  color:#17170f;
+  border-color:transparent;
+  background:var(--gold-300);
+}
+
+
+/* =========================================================
+   QUICK FILTERS
+========================================================= */
+
+.quick-filters{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:7px;
+  margin-top:13px;
+}
+
+.quick-label{
+  margin-right:4px;
+  color:var(--muted-2);
+  font-size:9px;
+  font-weight:800;
+}
+
+.quick-filter{
+  padding:7px 11px;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:30px;
+  color:var(--muted);
+  background:rgba(255,255,255,.03);
+  font-size:9px;
+  transition:.2s ease;
+}
+
+.quick-filter:hover,
+.quick-filter.active{
+  color:#172016;
+  background:var(--gold-300);
+  border-color:var(--gold-300);
+}
+
+
+/* =========================================================
+   CONTENT LAYOUT
+========================================================= */
+
+.results-section{
+  padding:28px 0 40px;
+}
+
+.results-layout{
+  display:grid;
+  grid-template-columns:240px 1fr;
+  gap:18px;
+}
+
+
+/* =========================================================
+   ADVANCED FILTER PANEL
+========================================================= */
+
+.filter-panel{
+  align-self:start;
+  position:sticky;
+  top:94px;
+  padding:19px;
+  border:1px solid var(--border-light);
+  border-radius:var(--radius-lg);
+  background:
+    linear-gradient(
+      145deg,
+      rgba(20,45,34,.96),
+      rgba(11,28,20,.96)
+    );
+}
+
+.filter-panel-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:8px;
+  padding-bottom:14px;
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+
+.filter-panel-header h3{
+  font-size:14px;
+}
+
+.filter-panel-header span{
+  color:var(--gold-300);
+  font-size:9px;
+  font-weight:900;
+}
+
+.filter-group{
+  padding:15px 0;
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+
+.filter-group:last-child{
+  border-bottom:0;
+}
+
+.filter-group h4{
+  margin-bottom:10px;
+  font-size:10px;
+  color:var(--cream);
+}
+
+.filter-group label{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-top:9px;
+  color:var(--muted);
+  font-size:9px;
+}
+
+.filter-group input[type="checkbox"]{
+  accent-color:var(--gold-300);
+}
+
+.range-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:7px;
+}
+
+.range-row input{
+  width:100%;
+  height:36px;
+  padding:0 8px;
+  outline:none;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:8px;
+  color:var(--cream);
+  background:rgba(255,255,255,.035);
+  font-size:9px;
+}
+
+
+/* =========================================================
+   RESULTS
+========================================================= */
+
+.results-main{
+  min-width:0;
+}
+
+.results-toolbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  margin-bottom:14px;
+}
+
+.results-toolbar-left{
+  color:var(--muted);
+  font-size:10px;
+}
+
+.results-toolbar-left strong{
+  color:var(--cream);
+}
+
+.sort-box{
+  display:flex;
+  align-items:center;
+  gap:7px;
+}
+
+.sort-box label{
+  color:var(--muted-2);
+  font-size:9px;
+}
+
+.sort-box select{
+  height:36px;
+  padding:0 10px;
+  border:1px solid var(--border-light);
+  border-radius:9px;
+  outline:none;
+  color:var(--cream);
+  background:#10261c;
+  font-size:9px;
+}
+
+.property-grid{
+  display:grid;
+  grid-template-columns:
+    repeat(3,1fr);
+  gap:15px;
+}
+
+
+/* =========================================================
+   PROPERTY CARD
+========================================================= */
+
+.property-card{
+  overflow:hidden;
+  border:1px solid var(--border-light);
+  border-radius:var(--radius-lg);
+  background:
+    linear-gradient(
+      145deg,
+      #142d22,
+      #0b1c14
+    );
+  transition:
+    transform .25s ease,
+    border-color .25s ease,
+    box-shadow .25s ease;
+}
+
+.property-card:hover{
+  transform:translateY(-4px);
+  border-color:rgba(229,199,125,.28);
+  box-shadow:
+    0 22px 50px rgba(0,0,0,.20);
+}
+
+.property-image{
+  height:205px;
+  position:relative;
+  overflow:hidden;
+  background:
+    linear-gradient(
+      135deg,
+      #284c3c,
+      #142d22
+    );
+}
+
+.property-image img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  transition:transform .5s ease;
+}
+
+.property-card:hover .property-image img{
+  transform:scale(1.045);
+}
+
+.property-badge{
+  position:absolute;
+  top:11px;
+  left:11px;
+  padding:6px 9px;
+  border-radius:8px;
+  color:#1b2116;
+  background:var(--gold-200);
+  font-size:8px;
+  font-weight:1000;
+  text-transform:uppercase;
+}
+
+.property-badge.rent{
+  color:#f8f3e8;
+  background:#315b4a;
+}
+
+.save-btn{
+  position:absolute;
+  top:10px;
+  right:10px;
+  width:35px;
+  height:35px;
+  display:grid;
+  place-items:center;
+  border:1px solid rgba(255,255,255,.15);
+  border-radius:10px;
+  color:white;
+  background:rgba(0,0,0,.38);
+  backdrop-filter:blur(8px);
+}
+
+.save-btn.saved{
+  color:#17170f;
+  background:var(--gold-300);
+}
+
+.property-content{
+  padding:16px;
+}
+
+.property-type{
+  color:var(--gold-300);
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+
+.property-title{
+  margin-top:7px;
+  font-size:15px;
+  font-weight:850;
+  line-height:1.3;
+}
+
+.property-location{
+  margin-top:7px;
+  color:var(--muted-2);
+  font-size:9px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.property-meta{
+  display:flex;
+  gap:11px;
+  margin-top:13px;
+  padding-top:12px;
+  border-top:1px solid rgba(255,255,255,.06);
+  color:var(--muted);
+  font-size:9px;
+}
+
+.property-price{
+  margin-top:13px;
+  color:var(--cream);
+  font-size:17px;
+  font-weight:950;
+}
+
+.property-price span{
+  color:var(--muted-2);
+  font-size:9px;
+  font-weight:600;
+}
+
+.property-footer{
+  display:flex;
+  gap:7px;
+  margin-top:14px;
+}
+
+.view-btn{
+  flex:1;
+  height:37px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:9px;
+  color:#17170f;
+  background:var(--gold-300);
+  font-size:9px;
+  font-weight:950;
+}
+
+.compare-btn{
+  width:37px;
+  height:37px;
+  display:grid;
+  place-items:center;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:9px;
+  color:var(--muted);
+  background:rgba(255,255,255,.035);
+  font-size:12px;
+}
+
+.compare-btn.active{
+  color:#17170f;
+  background:var(--gold-300);
+}
+
+
+/* =========================================================
+   EMPTY / LOADING
+========================================================= */
+
+.state-card{
+  grid-column:1/-1;
+  min-height:280px;
+  display:grid;
+  place-items:center;
+  padding:30px;
+  text-align:center;
+  border:1px solid var(--border-light);
+  border-radius:var(--radius-lg);
+  background:
+    linear-gradient(
+      145deg,
+      #142d22,
+      #0b1c14
+    );
+}
+
+.state-icon{
+  font-size:34px;
+  color:var(--gold-300);
+}
+
+.state-card h3{
+  margin-top:12px;
+  font-size:17px;
+}
+
+.state-card p{
+  max-width:450px;
+  margin:7px auto 0;
+  color:var(--muted-2);
+  font-size:10px;
+  line-height:1.6;
+}
+
+.state-card a{
+  display:inline-flex;
+  margin-top:15px;
+  padding:10px 14px;
+  border-radius:9px;
+  color:#17170f;
+  background:var(--gold-300);
+  font-size:9px;
+  font-weight:950;
+}
+
+
+/* =========================================================
+   PAGINATION
+========================================================= */
+
+.pagination{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:6px;
+  margin-top:24px;
+}
+
+.page-btn{
+  width:36px;
+  height:36px;
+  display:grid;
+  place-items:center;
+  border:1px solid var(--border-light);
+  border-radius:9px;
+  color:var(--muted);
+  background:rgba(255,255,255,.035);
+  font-size:9px;
+  font-weight:900;
+}
+
+.page-btn:hover,
+.page-btn.active{
+  color:#17170f;
+  background:var(--gold-300);
+  border-color:var(--gold-300);
+}
+
+
+/* =========================================================
+   COMPARE BAR
+========================================================= */
+
+.compare-bar{
+  position:fixed;
+  left:50%;
+  bottom:18px;
+  transform:translateX(-50%);
+  z-index:80;
+  width:min(
+    calc(100% - 30px),
+    650px
+  );
+  display:none;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+  padding:13px 15px;
+  border:1px solid rgba(229,199,125,.25);
+  border-radius:16px;
+  background:
+    rgba(7,19,14,.94);
+  backdrop-filter:blur(20px);
+  box-shadow:
+    0 20px 55px rgba(0,0,0,.35);
+}
+
+.compare-bar.visible{
+  display:flex;
+}
+
+.compare-info strong{
+  display:block;
+  font-size:10px;
+}
+
+.compare-info span{
+  display:block;
+  margin-top:3px;
+  color:var(--muted-2);
+  font-size:8px;
+}
+
+.compare-actions{
+  display:flex;
+  gap:7px;
+}
+
+.compare-actions button{
+  height:36px;
+  padding:0 12px;
+  border-radius:9px;
+  font-size:9px;
+  font-weight:900;
+}
+
+.compare-clear{
+  color:var(--muted);
+  border:1px solid var(--border-light);
+  background:rgba(255,255,255,.035);
+}
+
+.compare-open{
+  color:#17170f;
+  border:0;
+  background:var(--gold-300);
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.site-footer{
+  margin-top:35px;
+  padding:35px 0 25px;
+  border-top:1px solid rgba(255,255,255,.07);
+  background:rgba(3,12,8,.35);
+}
+
+.footer-grid{
+  display:grid;
+  grid-template-columns:
+    1.4fr repeat(3,1fr);
+  gap:25px;
+}
+
+.footer-brand{
+  max-width:300px;
+}
+
+.footer-brand p{
+  margin-top:10px;
+  color:var(--muted-2);
+  font-size:9px;
+  line-height:1.7;
+}
+
+.footer-col h4{
+  color:var(--gold-200);
+  font-size:9px;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+}
+
+.footer-col a{
+  display:block;
+  margin-top:9px;
+  color:var(--muted-2);
+  font-size:9px;
+}
+
+.footer-col a:hover{
+  color:var(--gold-300);
+}
+
+.footer-bottom{
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+  margin-top:28px;
+  padding-top:17px;
+  border-top:1px solid rgba(255,255,255,.06);
+  color:var(--muted-2);
+  font-size:8px;
+}
+
+
+/* =========================================================
+   AI FLOAT
+========================================================= */
+
+.ai-floating{
+  position:fixed;
+  right:22px;
+  bottom:22px;
+  z-index:70;
+  min-height:48px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:0 16px;
+  border:1px solid rgba(229,199,125,.25);
+  border-radius:30px;
+  color:#17170f;
+  background:
+    linear-gradient(
+      135deg,
+      var(--gold-200),
+      var(--gold-400)
+    );
+  box-shadow:
+    0 15px 35px rgba(0,0,0,.3);
+  font-size:10px;
+  font-weight:1000;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width:1150px){
+
+  .desktop-nav{
+    display:none;
+  }
+
+  .mobile-menu{
+    display:grid;
+  }
+
+  .filter-bar{
+    grid-template-columns:
+      repeat(3,1fr);
+  }
+
+  .filter-actions{
+    align-items:stretch;
+  }
+
+  .results-layout{
+    grid-template-columns:210px 1fr;
+  }
+
+  .property-grid{
+    grid-template-columns:
+      repeat(2,1fr);
+  }
+}
+
+@media (max-width:850px){
+
+  .container{
+    width:min(
+      calc(100% - 28px),
+      var(--container)
+    );
+  }
+
+  .page-header-inner{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+
+  .filter-bar{
+    grid-template-columns:
+      repeat(2,1fr);
+  }
+
+  .results-layout{
+    grid-template-columns:1fr;
+  }
+
+  .filter-panel{
+    position:static;
+  }
+
+  .property-grid{
+    grid-template-columns:
+      repeat(2,1fr);
+  }
+
+  .footer-grid{
+    grid-template-columns:
+      1fr 1fr;
+  }
+}
+
+@media (max-width:560px){
+
+  .header-inner{
+    min-height:68px;
+  }
+
+  .brand-text span{
+    display:none;
+  }
+
+  .header-actions .icon-btn{
+    display:none;
+  }
+
+  .page-header{
+    padding-top:28px;
+  }
+
+  .page-header h1{
+    font-size:38px;
+  }
+
+  .search-shell{
+    padding:14px;
+    border-radius:21px;
+  }
+
+  .main-search{
+    grid-template-columns:1fr;
+  }
+
+  .search-button{
+    width:100%;
+  }
+
+  .filter-bar{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .filter-actions{
+    grid-column:1/-1;
+  }
+
+  .filter-actions button{
+    flex:1;
+  }
+
+  .property-grid{
+    grid-template-columns:1fr;
+  }
+
+  .property-image{
+    height:225px;
+  }
+
+  .results-toolbar{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+
+  .sort-box{
+    width:100%;
+  }
+
+  .sort-box select{
+    flex:1;
+  }
+
+  .footer-grid{
+    grid-template-columns:1fr;
+  }
+
+  .footer-bottom{
+    flex-direction:column;
+  }
+
+  .ai-floating{
+    right:14px;
+    bottom:14px;
+  }
+
+  .compare-bar{
+    bottom:12px;
+  }
+
+  .compare-info{
+    min-width:0;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="page-glow"></div>
+
+
+<!-- =========================================================
+     HEADER
+========================================================= -->
+
+<header class="site-header">
+
+  <div class="container header-inner">
+
+    <a
+      class="brand"
+      href="/buyer/index.html"
+      aria-label="GHAR Buyer Home"
+    >
+
+      <div class="brand-mark">G</div>
+
+      <div class="brand-text">
+        <strong>GHAR</strong>
+        <span>Buyer Experience</span>
+      </div>
+
+    </a>
+
+
+    <nav
+      class="desktop-nav"
+      aria-label="Buyer navigation"
+    >
+
+      <a href="/buyer/index.html">
+        Home
+      </a>
+
+      <a
+        class="active"
+        href="/buyer/properties.html"
+      >
+        Properties
+      </a>
+
+      <a href="/buyer/saved.html">
+        Saved
+      </a>
+
+      <a href="/buyer/visits.html">
+        Visits
+      </a>
+
+      <a href="/buyer/offers.html">
+        Offers
+      </a>
+
+      <a href="/buyer/loans.html">
+        Loans
+      </a>
+
+    </nav>
+
+
+    <div class="header-actions">
+
+      <button
+        class="icon-btn"
+        id="notificationButton"
+        type="button"
+        aria-label="Notifications"
+      >
+        ♢
+      </button>
+
+      <a
+        class="avatar"
+        id="profileButton"
+        href="/buyer/profile.html"
+        aria-label="Profile"
+      >
+        U
+      </a>
+
+      <button
+        class="icon-btn mobile-menu"
+        id="menuButton"
+        type="button"
+        aria-label="Open menu"
+      >
+        ☰
+      </button>
+
+    </div>
+
+  </div>
+
+</header>
+
+
+<main>
+
+
+<!-- =========================================================
+     PAGE HEADER
+========================================================= -->
+
+<section class="page-header">
+
+  <div class="container page-header-inner">
+
+    <div>
+
+      <div class="eyebrow">
+        GHAR PROPERTY DISCOVERY
+      </div>
+
+      <h1>
+        Search your
+        <span>next home.</span>
+      </h1>
+
+      <p>
+        Search verified properties by location, budget,
+        configuration, property type and transaction type.
+        Refine your results and compare shortlisted properties.
+      </p>
+
+    </div>
+
+    <div
+      id="resultSummary"
+      class="result-summary"
+    >
+      Loading properties...
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================================================
+     SEARCH
+========================================================= -->
+
+<section>
+
+  <div class="container">
+
+    <div class="search-shell">
+
+      <div class="main-search">
+
+        <div class="search-input-wrap">
+
+          <span class="search-icon">
+            ⌕
+          </span>
+
+          <input
+            id="searchInput"
+            class="search-input"
+            type="search"
+            placeholder="Search by city, locality, project or landmark..."
+            autocomplete="off"
+          >
+
+        </div>
+
+        <button
+          id="searchButton"
+          class="search-button"
+          type="button"
+        >
+          Search
+        </button>
+
+      </div>
+
+
+      <div class="filter-bar">
+
+
+        <div class="filter-control">
+
+          <label for="transactionFilter">
+            Transaction
+          </label>
+
+          <select id="transactionFilter">
+
+            <option value="">
+              Buy or Rent
+            </option>
+
+            <option value="sale">
+              Buy
+            </option>
+
+            <option value="rent">
+              Rent
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <div class="filter-control">
+
+          <label for="typeFilter">
+            Property Type
+          </label>
+
+          <select id="typeFilter">
+
+            <option value="">
+              All Types
+            </option>
+
+            <option value="apartment">
+              Apartment
+            </option>
+
+            <option value="villa">
+              Villa
+            </option>
+
+            <option value="house">
+              Independent House
+            </option>
+
+            <option value="plot">
+              Plot
+            </option>
+
+            <option value="office">
+              Office
+            </option>
+
+            <option value="shop">
+              Shop
+            </option>
+
+            <option value="commercial">
+              Commercial
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <div class="filter-control">
+
+          <label for="bhkFilter">
+            Configuration
+          </label>
+
+          <select id="bhkFilter">
+
+            <option value="">
+              Any BHK
+            </option>
+
+            <option value="1">
+              1 BHK
+            </option>
+
+            <option value="2">
+              2 BHK
+            </option>
+
+            <option value="3">
+              3 BHK
+            </option>
+
+            <option value="4">
+              4 BHK
+            </option>
+
+            <option value="5">
+              5+ BHK
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <div class="filter-control">
+
+          <label for="minPrice">
+            Min Price
+          </label>
+
+          <input
+            id="minPrice"
+            type="number"
+            min="0"
+            placeholder="₹ Minimum"
+          >
+
+        </div>
+
+
+        <div class="filter-control">
+
+          <label for="maxPrice">
+            Max Price
+          </label>
+
+          <input
+            id="maxPrice"
+            type="number"
+            min="0"
+            placeholder="₹ Maximum"
+          >
+
+        </div>
+
+
+        <div class="filter-actions">
+
+          <button
+            id="applyFilters"
+            class="small-btn primary"
+            type="button"
+          >
+            Apply
+          </button>
+
+          <button
+            id="resetFilters"
+            class="small-btn"
+            type="button"
+          >
+            Reset
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <div class="quick-filters">
+
+        <span class="quick-label">
+          Popular:
+        </span>
+
+        <button
+          class="quick-filter"
+          type="button"
+          data-location="Noida"
+        >
+          Noida
+        </button>
+
+        <button
+          class="quick-filter"
+          type="button"
+          data-location="Greater Noida"
+        >
+          Greater Noida
+        </button>
+
+        <button
+          class="quick-filter"
+          type="button"
+          data-location="Gurgaon"
+        >
+          Gurgaon
+        </button>
+
+        <button
+          class="quick-filter"
+          type="button"
+          data-location="Delhi"
+        >
+          Delhi
+        </button>
+
+        <button
+          class="quick-filter"
+          type="button"
+          data-type="apartment"
+        >
+          Apartments
+        </button>
+
+        <button
+          class="quick-filter"
+          type="button"
+          data-type="villa"
+        >
+          Villas
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================================================
+     RESULTS
+========================================================= -->
+
+<section class="results-section">
+
+  <div class="container">
+
+    <div class="results-layout">
+
+
+      <!-- ===================================================
+           ADVANCED FILTERS
+      ==================================================== -->
+
+      <aside class="filter-panel">
+
+        <div class="filter-panel-header">
+
+          <h3>
+            Refine search
+          </h3>
+
+          <span>
+            FILTERS
+          </span>
+
+        </div>
+
+
+        <div class="filter-group">
+
+          <h4>
+            Listing
+          </h4>
+
+          <label>
+            <input
+              type="checkbox"
+              value="verified"
+              data-advanced-filter="verified"
+            >
+            Verified properties
+          </label>
+
+          <label>
+            <input
+              type="checkbox"
+              value="ready"
+              data-advanced-filter="ready"
+            >
+            Ready to move
+          </label>
+
+          <label>
+            <input
+              type="checkbox"
+              value="new"
+              data-advanced-filter="new"
+            >
+            New / recently listed
+          </label>
+
+        </div>
+
+
+        <div class="filter-group">
+
+          <h4>
+            Property type
+          </h4>
+
+          <label>
+            <input
+              type="checkbox"
+              value="apartment"
+              data-type-check
+            >
+            Apartment
+          </label>
+
+          <label>
+            <input
+              type="checkbox"
+              value="villa"
+              data-type-check
+            >
+            Villa
+          </label>
+
+          <label>
+            <input
+              type="checkbox"
+              value="house"
+              data-type-check
+            >
+            Independent House
+          </label>
+
+          <label>
+            <input
+              type="checkbox"
+              value="plot"
+              data-type-check
+            >
+            Plot
+          </label>
+
+          <label>
+            <input
+              type="checkbox"
+              value="commercial"
+              data-type-check
+            >
+            Commercial
+          </label>
+
+        </div>
+
+
+        <div class="filter-group">
+
+          <h4>
+            Price range
+          </h4>
+
+          <div class="range-row">
+
+            <input
+              id="sideMinPrice"
+              type="number"
+              min="0"
+              placeholder="Min"
+            >
+
+            <input
+              id="sideMaxPrice"
+              type="number"
+              min="0"
+              placeholder="Max"
+            >
+
+          </div>
+
+        </div>
+
+
+        <div class="filter-group">
+
+          <h4>
+            Bedrooms
+          </h4>
+
+          <label>
+            <input
+              type="radio"
+              name="sideBhk"
+              value=""
+              checked
+            >
+            Any
+          </label>
+
+          <label>
+            <input
+              type="radio"
+              name="sideBhk"
+              value="1"
+            >
+            1 BHK
+          </label>
+
+          <label>
+            <input
+              type="radio"
+              name="sideBhk"
+              value="2"
+            >
+            2 BHK
+          </label>
+
+          <label>
+            <input
+              type="radio"
+              name="sideBhk"
+              value="3"
+            >
+            3 BHK
+          </label>
+
+          <label>
+            <input
+              type="radio"
+              name="sideBhk"
+              value="4"
+            >
+            4+ BHK
+          </label>
+
+        </div>
+
+      </aside>
+
+
+      <!-- =================================================
+           RESULTS MAIN
+      ================================================== -->
+
+      <div class="results-main">
+
+        <div class="results-toolbar">
+
+          <div
+            id="resultsText"
+            class="results-toolbar-left"
+          >
+            <strong>0</strong>
+            properties found
+          </div>
+
+
+          <div class="sort-box">
+
+            <label for="sortSelect">
+              Sort
+            </label>
+
+            <select id="sortSelect">
+
+              <option value="recommended">
+                Recommended
+              </option>
+
+              <option value="newest">
+                Newest
+              </option>
+
+              <option value="price-low">
+                Price: Low to High
+              </option>
+
+              <option value="price-high">
+                Price: High to Low
+              </option>
+
+              <option value="area-high">
+                Largest Area
+              </option>
+
+            </select>
+
+          </div>
+
+        </div>
+
+
+        <div
+          id="propertyGrid"
+          class="property-grid"
+        >
+
+          <div class="state-card">
+
+            <div>
+
+              <div class="state-icon">
+                ◌
+              </div>
+
+              <h3>
+                Loading properties
+              </h3>
+
+              <p>
+                GHAR is finding properties matching your
+                search and preferences.
+              </p>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div
+          id="pagination"
+          class="pagination"
+        ></div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+</main>
+
+
+<!-- =========================================================
+     COMPARE BAR
+========================================================= -->
+
+<div
+  id="compareBar"
+  class="compare-bar"
+>
+
+  <div class="compare-info">
+
+    <strong>
+      Property comparison
+    </strong>
+
+    <span id="compareCount">
+      Select up to 3 properties.
+    </span>
+
+  </div>
+
+  <div class="compare-actions">
+
+    <button
+      id="clearCompare"
+      class="compare-clear"
+      type="button"
+    >
+      Clear
+    </button>
+
+    <button
+      id="openCompare"
+      class="compare-open"
+      type="button"
+    >
+      Compare
+    </button>
+
+  </div>
+
+</div>
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer class="site-footer">
+
+  <div class="container">
+
+    <div class="footer-grid">
+
+
+      <div class="footer-brand">
+
+        <div class="brand">
+
+          <div class="brand-mark">
+            G
+          </div>
+
+          <div class="brand-text">
+
+            <strong>
+              GHAR
+            </strong>
+
+            <span>
+              Real Estate Platform
+            </span>
+
+          </div>
+
+        </div>
+
+        <p>
+          A connected real estate platform for discovering,
+          evaluating, financing and managing property decisions.
+        </p>
+
+      </div>
+
+
+      <div class="footer-col">
+
+        <h4>
+          Discover
+        </h4>
+
+        <a href="/properties.html">
+          Properties
+        </a>
+
+        <a href="/buyer/search-properties.html">
+          Search Properties
+        </a>
+
+        <a href="/buyer/saved.html">
+          Saved Properties
+        </a>
+
+        <a href="/buyer/visits.html">
+          Visits
+        </a>
+
+      </div>
+
+
+      <div class="footer-col">
+
+        <h4>
+          Buyer
+        </h4>
+
+        <a href="/buyer/dashboard.html">
+          Dashboard
+        </a>
+
+        <a href="/buyer/profile.html">
+          Profile
+        </a>
+
+        <a href="/buyer/offers.html">
+          Offers
+        </a>
+
+        <a href="/buyer/loans.html">
+          Loans
+        </a>
+
+      </div>
+
+
+      <div class="footer-col">
+
+        <h4>
+          Support
+        </h4>
+
+        <a href="/help-centre.html">
+          Help Centre
+        </a>
+
+        <a href="/contact.html">
+          Contact
+        </a>
+
+        <a href="/buyer/support.html">
+          Buyer Support
+        </a>
+
+        <a href="/privacy.html">
+          Privacy
+        </a>
+
+      </div>
+
+    </div>
+
+
+    <div class="footer-bottom">
+
+      <span>
+        © <span id="footerYear"></span> GHAR.
+        All rights reserved.
+      </span>
+
+      <span>
+        Buyer Portal · Secure Search
+      </span>
+
+    </div>
+
+  </div>
+
+</footer>
+
+
+<!-- =========================================================
+     AI
+========================================================= -->
+
+<button
+  id="openAI"
+  class="ai-floating"
+  type="button"
+>
+  ✦ Ask GHAR AI
+</button>
+
+
+<script>
+"use strict";
+
+
+/* =========================================================
+   CONFIG
+========================================================= */
+
+const API_BASE =
+  window.GHAR_API_BASE ||
+  window.API_BASE ||
+  "/api";
+
+const PROPERTY_API =
+  API_BASE + "/properties";
+
+const SEARCH_API =
+  API_BASE + "/search";
+
+
+/* =========================================================
+   STATE
+========================================================= */
+
+const state = {
+
+  allProperties:[],
+
+  filteredProperties:[],
+
+  page:1,
+
+  pageSize:9,
+
+  totalPages:1,
+
+  search:"",
+
+  transaction:"",
+
+  type:"",
+
+  bhk:"",
+
+  minPrice:"",
+
+  maxPrice:"",
+
+  sort:"recommended",
+
+  advanced:{
+
+    verified:false,
+
+    ready:false,
+
+    new:false
+
+  },
+
+  compare:[]
+
+};
+
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function $(selector){
+  return document.querySelector(selector);
+}
+
+
+function escapeHTML(value){
+
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+async function apiRequest(
+  url,
+  options={}
+){
+
+  const response =
+    await fetch(
+      url,
+      {
+        credentials:"include",
+
+        headers:{
+          "Accept":"application/json",
+          "Content-Type":"application/json",
+          ...(options.headers || {})
+        },
+
+        ...options
+      }
+    );
+
+  let data=null;
+
+  try{
+    data=await response.json();
+  }catch{
+    data=null;
+  }
+
+  if(!response.ok){
+
+    const error =
+      new Error(
+        data?.error?.message ||
+        data?.message ||
+        "Request failed."
+      );
+
+    error.status=response.status;
+    error.data=data;
+
+    throw error;
+  }
+
+  return data;
+}
+
+
+function normalizeCollection(response){
+
+  if(Array.isArray(response))
+    return response;
+
+  if(Array.isArray(response?.data))
+    return response.data;
+
+  if(Array.isArray(response?.properties))
+    return response.properties;
+
+  if(Array.isArray(response?.items))
+    return response.items;
+
+  if(Array.isArray(response?.results))
+    return response.results;
+
+  return [];
+}
+
+
+function propertyImage(property){
+
+  return (
+    property.image ||
+    property.coverImage ||
+    property.thumbnail ||
+    property.imageUrl ||
+    property.images?.[0] ||
+    "../assets/images/property-placeholder.jpg"
+  );
+}
+
+
+function propertyPrice(property){
+
+  return Number(
+    property.price ??
+    property.salePrice ??
+    property.rent ??
+    property.amount ??
+    property.priceValue ??
+    0
+  );
+}
+
+
+function formatPrice(value){
+
+  const amount=Number(value);
+
+  if(!Number.isFinite(amount) || amount<=0)
+    return "Price on request";
+
+  if(amount>=10000000){
+
+    return "₹" +
+      (amount/10000000)
+      .toFixed(2) +
+      " Cr";
+
+  }
+
+  if(amount>=100000){
+
+    return "₹" +
+      (amount/100000)
+      .toFixed(2) +
+      " L";
+
+  }
+
+  return "₹" +
+    amount.toLocaleString("en-IN");
+}
+
+
+function propertyType(property){
+
+  return String(
+    property.type ||
+    property.propertyType ||
+    "Property"
+  ).toLowerCase();
+}
+
+
+function propertyBhk(property){
+
+  return (
+    property.bedrooms ??
+    property.bhk ??
+    property.configuration ??
+    ""
+  );
+}
+
+
+function propertyArea(property){
+
+  return (
+    property.area ||
+    property.areaSqFt ||
+    property.size ||
+    "--"
+  );
+}
+
+
+function propertyLocation(property){
+
+  return (
+    property.location ||
+    property.locality ||
+    property.city ||
+    "Location available"
+  );
+}
+
+
+/* =========================================================
+   URL PARAMS
+========================================================= */
+
+function readURLParams(){
+
+  const params =
+    new URLSearchParams(
+      window.location.search
+    );
+
+  state.search =
+    params.get("location") ||
+    params.get("q") ||
+    params.get("search") ||
+    "";
+
+  state.type =
+    params.get("type") ||
+    "";
+
+  state.transaction =
+    params.get("transaction") ||
+    params.get("listingType") ||
+    "";
+
+  state.bhk =
+    params.get("bhk") ||
+    "";
+
+  state.minPrice =
+    params.get("minPrice") ||
+    "";
+
+  state.maxPrice =
+    params.get("maxPrice") ||
+    "";
+
+  $("#searchInput").value =
+    state.search;
+
+  $("#typeFilter").value =
+    state.type;
+
+  $("#transactionFilter").value =
+    state.transaction;
+
+  $("#bhkFilter").value =
+    state.bhk;
+
+  $("#minPrice").value =
+    state.minPrice;
+
+  $("#maxPrice").value =
+    state.maxPrice;
+
+}
+
+
+/* =========================================================
+   LOAD PROPERTIES
+========================================================= */
+
+async function loadProperties(){
+
+  try{
+
+    const params =
+      new URLSearchParams();
+
+    params.set(
+      "status",
+      "active"
+    );
+
+    const response =
+      await apiRequest(
+        PROPERTY_API +
+        "?" +
+        params.toString()
+      );
+
+    state.allProperties =
+      normalizeCollection(
+        response
+      );
+
+  }catch(error){
+
+    console.warn(
+      "GHAR property API:",
+      error
+    );
+
+    /*
+     * Secondary search endpoint.
+     */
+
+    try{
+
+      const response =
+        await apiRequest(
+          SEARCH_API +
+          "/properties"
+        );
+
+      state.allProperties =
+        normalizeCollection(
+          response
+        );
+
+    }catch(searchError){
+
+      console.warn(
+        "GHAR search API:",
+        searchError
+      );
+
+      state.allProperties=[];
+    }
+
+  }
+
+
+  applyFilters();
+}
+
+
+/* =========================================================
+   FILTERING
+========================================================= */
+
+function matchesSearch(property){
+
+  if(!state.search)
+    return true;
+
+  const query =
+    state.search
+      .toLowerCase()
+      .trim();
+
+  const haystack =
+    [
+      property.title,
+      property.name,
+      property.location,
+      property.locality,
+      property.city,
+      property.projectName,
+      property.address,
+      property.landmark
+    ]
+      .filter(Boolean)
+      .join(" ")
+      .toLowerCase();
+
+  return haystack.includes(query);
+}
+
+
+function matchesTransaction(property){
+
+  if(!state.transaction)
+    return true;
+
+  const listing =
+    String(
+      property.listingType ||
+      property.transactionType ||
+      property.saleType ||
+      ""
+    ).toLowerCase();
+
+  if(state.transaction==="sale"){
+
+    return (
+      listing==="sale" ||
+      listing==="buy" ||
+      listing==="sell" ||
+      listing===""
+    );
+
+  }
+
+  if(state.transaction==="rent"){
+
+    return (
+      listing==="rent" ||
+      listing==="lease"
+    );
+
+  }
+
+  return true;
+}
+
+
+function matchesType(property){
+
+  if(!state.type)
+    return true;
+
+  const type =
+    propertyType(property);
+
+  return (
+    type.includes(
+      state.type.toLowerCase()
+    )
+  );
+}
+
+
+function matchesBhk(property){
+
+  if(!state.bhk)
+    return true;
+
+  const bhk =
+    Number(
+      propertyBhk(property)
+    );
+
+  if(!Number.isFinite(bhk))
+    return false;
+
+  if(state.bhk==="5")
+    return bhk>=5;
+
+  return bhk===Number(state.bhk);
+}
+
+
+function matchesPrice(property){
+
+  const price =
+    propertyPrice(property);
+
+  if(state.minPrice){
+
+    if(
+      !price ||
+      price <
+      Number(state.minPrice)
+    ){
+
+      return false;
+    }
+
+  }
+
+  if(state.maxPrice){
+
+    if(
+      !price ||
+      price >
+      Number(state.maxPrice)
+    ){
+
+      return false;
+    }
+
+  }
+
+  return true;
+}
+
+
+function matchesAdvanced(property){
+
+  if(state.advanced.verified){
+
+    const verified =
+      property.verified === true ||
+      property.isVerified === true ||
+      String(
+        property.verificationStatus || ""
+      ).toLowerCase()==="verified";
+
+    if(!verified)
+      return false;
+  }
+
+  if(state.advanced.ready){
+
+    const ready =
+      property.readyToMove === true ||
+      String(
+        property.possessionStatus || ""
+      ).toLowerCase()
+        .includes("ready");
+
+    if(!ready)
+      return false;
+  }
+
+  if(state.advanced.new){
+
+    const date =
+      property.createdAt ||
+      property.listedAt ||
+      property.updatedAt;
+
+    if(date){
+
+      const age =
+        Date.now() -
+        new Date(date).getTime();
+
+      if(
+        age >
+        1000 *
+        60 *
+        60 *
+        24 *
+        60
+      ){
+
+        return false;
+      }
+
+    }
+
+  }
+
+  return true;
+}
+
+
+/* =========================================================
+   SORTING
+========================================================= */
+
+function sortProperties(properties){
+
+  const result =
+    [...properties];
+
+  if(state.sort==="price-low"){
+
+    result.sort(
+      (a,b) =>
+        propertyPrice(a) -
+        propertyPrice(b)
+    );
+
+  }
+
+  else if(state.sort==="price-high"){
+
+    result.sort(
+      (a,b) =>
+        propertyPrice(b) -
+        propertyPrice(a)
+    );
+
+  }
+
+  else if(state.sort==="area-high"){
+
+    result.sort(
+      (a,b) =>
+        Number(
+          propertyArea(b)
+        ) -
+        Number(
+          propertyArea(a)
+        )
+    );
+
+  }
+
+  else if(state.sort==="newest"){
+
+    result.sort(
+      (a,b) =>
+        new Date(
+          b.createdAt ||
+          b.listedAt ||
+          0
+        ) -
+        new Date(
+          a.createdAt ||
+          a.listedAt ||
+          0
+        )
+    );
+
+  }
+
+  return result;
+}
+
+
+/* =========================================================
+   APPLY
+========================================================= */
+
+function applyFilters(){
+
+  const filtered =
+    state.allProperties
+      .filter(matchesSearch)
+      .filter(matchesTransaction)
+      .filter(matchesType)
+      .filter(matchesBhk)
+      .filter(matchesPrice)
+      .filter(matchesAdvanced);
+
+  state.filteredProperties =
+    sortProperties(
+      filtered
+    );
+
+  state.page=1;
+
+  renderResults();
+}
+
+
+/* =========================================================
+   PROPERTY CARD
+========================================================= */
+
+function createPropertyCard(property){
+
+  const id =
+    property.id ||
+    property.propertyId ||
+    property._id ||
+    "";
+
+  const title =
+    property.title ||
+    property.name ||
+    "Premium Property";
+
+  const type =
+    property.type ||
+    property.propertyType ||
+    "Property";
+
+  const location =
+    propertyLocation(
+      property
+    );
+
+  const price =
+    formatPrice(
+      propertyPrice(
+        property
+      )
+    );
+
+  const bedrooms =
+    propertyBhk(
+      property
+    ) || "--";
+
+  const area =
+    propertyArea(
+      property
+    );
+
+  const image =
+    propertyImage(
+      property
+    );
+
+  const listingType =
+    String(
+      property.listingType ||
+      property.transactionType ||
+      "sale"
+    ).toLowerCase();
+
+  const isRent =
+    listingType==="rent" ||
+    listingType==="lease";
+
+  const verified =
+    property.verified === true ||
+    property.isVerified === true ||
+    String(
+      property.verificationStatus ||
+      ""
+    ).toLowerCase()==="verified";
+
+  const compareSelected =
+    state.compare.includes(
+      String(id)
+    );
+
+
+  return `
+
+    <article
+      class="property-card"
+      data-property-id="${escapeHTML(id)}"
+    >
+
+      <div class="property-image">
+
+        <img
+          src="${escapeHTML(image)}"
+          alt="${escapeHTML(title)}"
+          loading="lazy"
+          onerror="
+            this.src='../assets/images/property-placeholder.jpg'
+          "
+        >
+
+        <span
+          class="property-badge ${isRent ? "rent" : ""}"
+        >
+          ${
+            verified
+              ? "Verified"
+              : isRent
+                ? "For Rent"
+                : "For Sale"
+          }
+        </span>
+
+        <button
+          class="save-btn"
+          type="button"
+          data-save-property="${escapeHTML(id)}"
+          aria-label="Save property"
+        >
+          ♡
+        </button>
+
+      </div>
+
+
+      <div class="property-content">
+
+        <div class="property-type">
+          ${escapeHTML(type)}
+        </div>
+
+        <h3 class="property-title">
+          ${escapeHTML(title)}
+        </h3>
+
+        <div class="property-location">
+          ${escapeHTML(location)}
+        </div>
+
+        <div class="property-meta">
+
+          <span>
+            🛏
+            ${escapeHTML(bedrooms)}
+            ${
+              bedrooms !== "--"
+                ? " BHK"
+                : ""
+            }
+          </span>
+
+          <span>
+            ⌂
+            ${escapeHTML(area)}
+          </span>
+
+        </div>
+
+        <div class="property-price">
+
+          ${escapeHTML(price)}
+
+          <span>
+            ${
+              isRent
+                ? "/ month"
+                : ""
+            }
+          </span>
+
+        </div>
+
+
+        <div class="property-footer">
+
+          <a
+            class="view-btn"
+            href="/buyer/property-details.html?id=${encodeURIComponent(id)}"
+          >
+            View property
+          </a>
+
+          <button
+            class="compare-btn ${
+              compareSelected
+                ? "active"
+                : ""
+            }"
+            type="button"
+            data-compare-property="${escapeHTML(id)}"
+            aria-label="Compare property"
+            title="Compare property"
+          >
+            ◈
+          </button>
+
+        </div>
+
+      </div>
+
+    </article>
+
+  `;
+
+}
+
+
+/* =========================================================
+   RENDER RESULTS
+========================================================= */
+
+function renderResults(){
+
+  const grid =
+    $("#propertyGrid");
+
+  const total =
+    state.filteredProperties.length;
+
+  state.totalPages =
+    Math.max(
+      1,
+      Math.ceil(
+        total /
+        state.pageSize
+      )
+    );
+
+  if(
+    state.page >
+    state.totalPages
+  ){
+
+    state.page =
+      state.totalPages;
+  }
+
+
+  const start =
+    (state.page-1) *
+    state.pageSize;
+
+  const pageItems =
+    state.filteredProperties
+      .slice(
+        start,
+        start +
+        state.pageSize
+      );
+
+
+  $("#resultsText").innerHTML =
+    "<strong>" +
+    total.toLocaleString("en-IN") +
+    "</strong> properties found";
+
+
+  $("#resultSummary").textContent =
+    total === 1
+      ? "1 property available"
+      : total +
+        " properties available";
+
+
+  if(!pageItems.length){
+
+    grid.innerHTML = `
+
+      <div class="state-card">
+
+        <div>
+
+          <div class="state-icon">
+            ⌕
+          </div>
+
+          <h3>
+            No properties found
+          </h3>
+
+          <p>
+            Try changing your location, price range,
+            property type or filters.
+          </p>
+
+          <button
+            id="emptyReset"
+            class="small-btn primary"
+            type="button"
+            style="margin-top:15px"
+          >
+            Clear filters
+          </button>
+
+        </div>
+
+      </div>
+
+    `;
+
+    $("#emptyReset")
+      ?.addEventListener(
+        "click",
+        resetFilters
+      );
+
+  }else{
+
+    grid.innerHTML =
+      pageItems
+        .map(
+          createPropertyCard
+        )
+        .join("");
+
+  }
+
+
+  renderPagination();
+  updateCompareBar();
+}
+
+
+/* =========================================================
+   PAGINATION
+========================================================= */
+
+function renderPagination(){
+
+  const pagination =
+    $("#pagination");
+
+  if(
+    state.totalPages<=1
+  ){
+
+    pagination.innerHTML="";
+    return;
+  }
+
+
+  let html="";
+
+
+  html += `
+    <button
+      class="page-btn"
+      type="button"
+      data-page="${Math.max(
+        1,
+        state.page-1
+      )}"
+      ${
+        state.page===1
+          ? "disabled"
+          : ""
+      }
+    >
+      ‹
+    </button>
+  `;
+
+
+  const start =
+    Math.max(
+      1,
+      state.page-2
+    );
+
+  const end =
+    Math.min(
+      state.totalPages,
+      state.page+2
+    );
+
+
+  for(
+    let page=start;
+    page<=end;
+    page++
+  ){
+
+    html += `
+
+      <button
+        class="page-btn ${
+          page===state.page
+            ? "active"
+            : ""
+        }"
+        type="button"
+        data-page="${page}"
+      >
+        ${page}
+      </button>
+
+    `;
+
+  }
+
+
+  html += `
+    <button
+      class="page-btn"
+      type="button"
+      data-page="${Math.min(
+        state.totalPages,
+        state.page+1
+      )}"
+      ${
+        state.page===
+        state.totalPages
+          ? "disabled"
+          : ""
+      }
+    >
+      ›
+    </button>
+  `;
+
+
+  pagination.innerHTML=html;
+}
+
+
+/* =========================================================
+   SEARCH ACTION
+========================================================= */
+
+function executeSearch(){
+
+  state.search =
+    $("#searchInput")
+      .value
+      .trim();
+
+  state.transaction =
+    $("#transactionFilter")
+      .value;
+
+  state.type =
+    $("#typeFilter")
+      .value;
+
+  state.bhk =
+    $("#bhkFilter")
+      .value;
+
+  state.minPrice =
+    $("#minPrice")
+      .value;
+
+  state.maxPrice =
+    $("#maxPrice")
+      .value;
+
+  updateURL();
+
+  applyFilters();
+}
+
+
+function updateURL(){
+
+  const params =
+    new URLSearchParams();
+
+
+  if(state.search)
+    params.set(
+      "location",
+      state.search
+    );
+
+  if(state.transaction)
+    params.set(
+      "transaction",
+      state.transaction
+    );
+
+  if(state.type)
+    params.set(
+      "type",
+      state.type
+    );
+
+  if(state.bhk)
+    params.set(
+      "bhk",
+      state.bhk
+    );
+
+  if(state.minPrice)
+    params.set(
+      "minPrice",
+      state.minPrice
+    );
+
+  if(state.maxPrice)
+    params.set(
+      "maxPrice",
+      state.maxPrice
+    );
+
+
+  const query =
+    params.toString();
+
+
+  history.replaceState(
+    {},
+    "",
+    query
+      ? "?" + query
+      : window.location.pathname
+  );
+
+}
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+function resetFilters(){
+
+  state.search="";
+  state.transaction="";
+  state.type="";
+  state.bhk="";
+  state.minPrice="";
+  state.maxPrice="";
+
+  state.advanced={
+    verified:false,
+    ready:false,
+    new:false
+  };
+
+
+  $("#searchInput").value="";
+  $("#transactionFilter").value="";
+  $("#typeFilter").value="";
+  $("#bhkFilter").value="";
+  $("#minPrice").value="";
+  $("#maxPrice").value="";
+  $("#sideMinPrice").value="";
+  $("#sideMaxPrice").value="";
+
+
+  document
+    .querySelectorAll(
+      "[data-advanced-filter]"
+    )
+    .forEach(
+      input => {
+        input.checked=false;
+      }
+    );
+
+
+  document
+    .querySelectorAll(
+      "[data-type-check]"
+    )
+    .forEach(
+      input => {
+        input.checked=false;
+      }
+    );
+
+
+  document
+    .querySelectorAll(
+      "[name='sideBhk']"
+    )
+    .forEach(
+      input => {
+        input.checked =
+          input.value==="";
+      }
+    );
+
+
+  updateURL();
+  applyFilters();
+}
+
+
+/* =========================================================
+   QUICK FILTERS
+========================================================= */
+
+document
+  .querySelectorAll(
+    "[data-location]"
+  )
+  .forEach(
+    button => {
+
+      button.addEventListener(
+        "click",
+        () => {
+
+          $("#searchInput").value =
+            button.dataset.location;
+
+          executeSearch();
+
+        }
+      );
+
+    }
+  );
+
+
+document
+  .querySelectorAll(
+    "[data-type]"
+  )
+  .forEach(
+    button => {
+
+      button.addEventListener(
+        "click",
+        () => {
+
+          $("#typeFilter").value =
+            button.dataset.type;
+
+          executeSearch();
+
+        }
+      );
+
+    }
+  );
+
+
+/* =========================================================
+   SEARCH EVENTS
+========================================================= */
+
+$("#searchButton")
+  .addEventListener(
+    "click",
+    executeSearch
+  );
+
+
+$("#searchInput")
+  .addEventListener(
+    "keydown",
+    event => {
+
+      if(
+        event.key==="Enter"
+      ){
+
+        event.preventDefault();
+        executeSearch();
+
+      }
+
+    }
+  );
+
+
+$("#applyFilters")
+  .addEventListener(
+    "click",
+    executeSearch
+  );
+
+
+$("#resetFilters")
+  .addEventListener(
+    "click",
+    resetFilters
+  );
+
+
+$("#sortSelect")
+  .addEventListener(
+    "change",
+    event => {
+
+      state.sort =
+        event.target.value;
+
+      applyFilters();
+
+    }
+  );
+
+
+/* =========================================================
+   SIDE FILTERS
+========================================================= */
+
+document
+  .querySelectorAll(
+    "[data-advanced-filter]"
+  )
+  .forEach(
+    input => {
+
+      input.addEventListener(
+        "change",
+        () => {
+
+          state.advanced[
+            input.value
+          ] =
+            input.checked;
+
+          applyFilters();
+
+        }
+      );
+
+    }
+  );
+
+
+document
+  .querySelectorAll(
+    "[data-type-check]"
+  )
+  .forEach(
+    input => {
+
+      input.addEventListener(
+        "change",
+        () => {
+
+          const selected =
+            [
+              ...document
+                .querySelectorAll(
+                  "[data-type-check]:checked"
+                )
+            ]
+            .map(
+              item =>
+                item.value
+            );
+
+          state.type =
+            selected.length
+              ? selected[0]
+              : "";
+
+          $("#typeFilter").value =
+            state.type;
+
+          applyFilters();
+
+        }
+      );
+
+    }
+  );
+
+
+document
+  .querySelectorAll(
+    "[name='sideBhk']"
+  )
+  .forEach(
+    input => {
+
+      input.addEventListener(
+        "change",
+        () => {
+
+          state.bhk =
+            input.value;
+
+          $("#bhkFilter").value =
+            state.bhk;
+
+          applyFilters();
+
+        }
+      );
+
+    }
+  );
+
+
+$("#sideMinPrice")
+  .addEventListener(
+    "change",
+    event => {
+
+      state.minPrice =
+        event.target.value;
+
+      $("#minPrice").value =
+        state.minPrice;
+
+      applyFilters();
+
+    }
+  );
+
+
+$("#sideMaxPrice")
+  .addEventListener(
+    "change",
+    event => {
+
+      state.maxPrice =
+        event.target.value;
+
+      $("#maxPrice").value =
+        state.maxPrice;
+
+      applyFilters();
+
+    }
+  );
+
+
+/* =========================================================
+   PAGINATION EVENT
+========================================================= */
+
+$("#pagination")
+  .addEventListener(
+    "click",
+    event => {
+
+      const button =
+        event.target.closest(
+          "[data-page]"
+        );
+
+      if(!button)
+        return;
+
+      const page =
+        Number(
+          button.dataset.page
+        );
+
+      if(!page)
+        return;
+
+      state.page=page;
+
+      renderResults();
+
+      window.scrollTo({
+        top:
+          document
+            .querySelector(
+              ".results-section"
+            )
+            .offsetTop - 80,
+
+        behavior:"smooth"
+      });
+
+    }
+  );
+
+
+/* =========================================================
+   SAVE PROPERTY
+========================================================= */
+
+document.addEventListener(
+  "click",
+  async event => {
+
+    const button =
+      event.target.closest(
+        "[data-save-property]"
+      );
+
+    if(!button)
+      return;
+
+    const propertyId =
+      button.dataset.saveProperty;
+
+    if(!propertyId)
+      return;
+
+
+    try{
+
+      button.disabled=true;
+
+      await apiRequest(
+        API_BASE +
+        "/users/me/saved-properties",
+        {
+          method:"POST",
+
+          body:
+            JSON.stringify({
+              propertyId
+            })
+        }
+      );
+
+      button.classList.toggle(
+        "saved"
+      );
+
+      button.textContent =
+        button.classList.contains(
+          "saved"
+        )
+          ? "♥"
+          : "♡";
+
+    }catch(error){
+
+      console.warn(
+        "GHAR save property:",
+        error
+      );
+
+    }finally{
+
+      button.disabled=false;
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   COMPARE
+========================================================= */
+
+document.addEventListener(
+  "click",
+  event => {
+
+    const button =
+      event.target.closest(
+        "[data-compare-property]"
+      );
+
+    if(!button)
+      return;
+
+
+    const id =
+      String(
+        button.dataset.compareProperty
+      );
+
+
+    const index =
+      state.compare.indexOf(id);
+
+
+    if(index>=0){
+
+      state.compare.splice(
+        index,
+        1
+      );
+
+    }else{
+
+      if(
+        state.compare.length>=3
+      ){
+
+        alert(
+          "You can compare up to 3 properties."
+        );
+
+        return;
+
+      }
+
+      state.compare.push(id);
+
+    }
+
+
+    renderResults();
+
+  }
+);
+
+
+function updateCompareBar(){
+
+  const bar =
+    $("#compareBar");
+
+  const count =
+    state.compare.length;
+
+
+  $("#compareCount")
+    .textContent =
+      count
+        ? count +
+          " of 3 properties selected."
+        : "Select up to 3 properties.";
+
+
+  bar.classList.toggle(
+    "visible",
+    count>0
+  );
+
+}
+
+
+$("#clearCompare")
+  .addEventListener(
+    "click",
+    () => {
+
+      state.compare=[];
+
+      renderResults();
+
+    }
+  );
+
+
+$("#openCompare")
+  .addEventListener(
+    "click",
+    () => {
+
+      if(
+        state.compare.length<2
+      ){
+
+        alert(
+          "Select at least 2 properties to compare."
+        );
+
+        return;
+
+      }
+
+
+      window.location.href =
+        "/buyer/compare.html?ids=" +
+        encodeURIComponent(
+          state.compare.join(",")
+        );
+
+    }
+  );
+
+
+/* =========================================================
+   MOBILE MENU
+========================================================= */
+
+$("#menuButton")
+  ?.addEventListener(
+    "click",
+    () => {
+
+      const nav =
+        document.querySelector(
+          ".desktop-nav"
+        );
+
+      if(!nav)
+        return;
+
+
+      const visible =
+        nav.dataset.mobileOpen ===
+        "true";
+
+
+      if(visible){
+
+        nav.style.display="";
+        nav.dataset.mobileOpen="false";
+        return;
+
+      }
+
+
+      nav.dataset.mobileOpen="true";
+      nav.style.display="flex";
+      nav.style.position="absolute";
+      nav.style.left="14px";
+      nav.style.right="14px";
+      nav.style.top="66px";
+      nav.style.padding="10px";
+      nav.style.flexDirection="column";
+      nav.style.alignItems="stretch";
+      nav.style.border=
+        "1px solid rgba(229,199,125,.14)";
+      nav.style.borderRadius="16px";
+      nav.style.background="#0b1c14";
+      nav.style.boxShadow=
+        "0 25px 60px rgba(0,0,0,.35)";
+
+    }
+  );
+
+
+/* =========================================================
+   NOTIFICATIONS
+========================================================= */
+
+$("#notificationButton")
+  ?.addEventListener(
+    "click",
+    () => {
+
+      window.location.href =
+        "/buyer/notifications.html";
+
+    }
+  );
+
+
+/* =========================================================
+   AI
+========================================================= */
+
+$("#openAI")
+  ?.addEventListener(
+    "click",
+    () => {
+
+      window.location.href =
+        "/buyer/ai.html";
+
+    }
+  );
+
+
+/* =========================================================
+   INITIALIZE
+========================================================= */
+
+async function initialize(){
+
+  $("#footerYear")
+    .textContent =
+      new Date()
+        .getFullYear();
+
+
+  readURLParams();
+
+  await loadProperties();
+
+}
+
+
+if(
+  document.readyState===
+  "loading"
+){
+
+  document.addEventListener(
+    "DOMContentLoaded",
+    initialize
+  );
+
+}else{
+
+  initialize();
+
+}
+</script>
+
+</body>
+</html>

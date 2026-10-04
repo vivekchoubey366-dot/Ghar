@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Referrals | GHAR</title>
+<meta name="description" content="Invite people to GHAR and manage your real estate referrals.">
+
+<link rel="icon" type="image/svg+xml" href="/assets/images/logo/favicon.svg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="/assets/css/variables.css">
+<link rel="stylesheet" href="/assets/css/reset.css">
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/css/layout.css">
+<link rel="stylesheet" href="/assets/css/components.css">
+<link rel="stylesheet" href="/assets/css/navigation.css">
+<link rel="stylesheet" href="/assets/css/cards.css">
+<link rel="stylesheet" href="/assets/css/forms.css">
+<link rel="stylesheet" href="/assets/css/property.css">
+<link rel="stylesheet" href="/assets/css/animations.css">
+<link rel="stylesheet" href="/assets/css/responsive.css">
+
+<style>
+:root{
+--ivory:#f7f2e8;
+--forest:#29463d;
+--deep:#19352d;
+--gold:#b2935e;
+--sage:#829488;
+--sage-light:#dfe7df;
+--muted:#777d77;
+--border:rgba(41,70,61,.12);
+}
+
+*{box-sizing:border-box}
+
+body{
+margin:0;
+font-family:"DM Sans",sans-serif;
+color:#263832;
+background:
+radial-gradient(circle at 8% 8%,rgba(219,199,159,.22),transparent 27%),
+radial-gradient(circle at 92% 20%,rgba(130,148,136,.14),transparent 28%),
+var(--ivory);
+}
+
+a{text-decoration:none;color:inherit}
+button,input{font:inherit}
+
+.header{
+position:sticky;
+top:0;
+z-index:1000;
+background:rgba(247,242,232,.92);
+backdrop-filter:blur(22px);
+border-bottom:1px solid rgba(41,70,61,.1);
+}
+
+.nav{
+max-width:1440px;
+min-height:82px;
+margin:auto;
+padding:0 34px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:30px;
+}
+
+.logo img{width:132px}
+
+.main-nav{display:flex;gap:29px}
+
+.main-nav a{
+color:#59665f;
+font-size:14px;
+font-weight:600;
+padding:9px 0;
+}
+
+.main-nav a:hover{color:var(--forest)}
+
+.nav-actions{display:flex;gap:10px;align-items:center}
+
+.icon-btn{
+width:42px;
+height:42px;
+display:grid;
+place-items:center;
+border:1px solid var(--border);
+border-radius:50%;
+background:rgba(255,255,255,.65);
+}
+
+.sell-btn{
+padding:12px 19px;
+border-radius:999px;
+background:var(--forest);
+color:white;
+font-size:13px;
+font-weight:700;
+}
+
+.hero{
+max-width:1440px;
+margin:auto;
+padding:62px 34px 35px;
+}
+
+.eyebrow{
+color:var(--gold);
+font-size:11px;
+font-weight:800;
+letter-spacing:.18em;
+text-transform:uppercase;
+}
+
+.hero h1{
+margin:15px 0 0;
+font-family:"Playfair Display",serif;
+font-size:clamp(42px,5vw,68px);
+line-height:1;
+letter-spacing:-.045em;
+color:var(--deep);
+}
+
+.hero h1 span{color:var(--gold)}
+
+.hero p{
+max-width:700px;
+margin:20px 0 0;
+color:var(--muted);
+font-size:15px;
+line-height:1.8;
+}
+
+.page{
+max-width:1440px;
+margin:auto;
+padding:0 34px 90px;
+}
+
+.referral-grid{
+display:grid;
+grid-template-columns:1.1fr .9fr;
+gap:22px;
+}
+
+.panel{
+padding:28px;
+border:1px solid var(--border);
+border-radius:26px;
+background:rgba(255,255,255,.76);
+box-shadow:0 18px 50px rgba(45,55,48,.07);
+}
+
+.panel h2{
+margin:0 0 8px;
+font-family:"Playfair Display",serif;
+font-size:28px;
+color:var(--deep);
+}
+
+.panel p{
+margin:0 0 22px;
+color:var(--muted);
+font-size:13px;
+line-height:1.7;
+}
+
+.referral-code{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:15px;
+padding:18px;
+border-radius:18px;
+background:var(--sage-light);
+}
+
+.referral-code strong{
+color:var(--forest);
+font-size:22px;
+letter-spacing:.12em;
+}
+
+.copy-btn{
+padding:10px 15px;
+border:0;
+border-radius:999px;
+background:var(--forest);
+color:white;
+font-size:11px;
+font-weight:800;
+cursor:pointer;
+}
+
+.stats{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:12px;
+margin-top:20px;
+}
+
+.stat{
+padding:18px;
+border-radius:18px;
+background:#faf8f2;
+border:1px solid var(--border);
+}
+
+.stat strong{
+display:block;
+color:var(--deep);
+font-size:25px;
+}
+
+.stat span{
+color:var(--muted);
+font-size:10px;
+}
+
+.share-grid{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:10px;
+}
+
+.share-btn{
+padding:14px;
+border:1px solid var(--border);
+border-radius:14px;
+background:#faf8f2;
+color:var(--forest);
+font-size:12px;
+font-weight:800;
+cursor:pointer;
+}
+
+.history{
+margin-top:22px;
+}
+
+.history-row{
+display:grid;
+grid-template-columns:1fr auto auto;
+gap:15px;
+align-items:center;
+padding:17px 0;
+border-bottom:1px solid rgba(41,70,61,.08);
+}
+
+.history-row:last-child{border-bottom:0}
+
+.person{
+font-weight:700;
+color:var(--deep);
+font-size:13px;
+}
+
+.person small{
+display:block;
+margin-top:4px;
+color:var(--muted);
+font-weight:400;
+}
+
+.status{
+padding:6px 10px;
+border-radius:999px;
+background:var(--sage-light);
+color:var(--forest);
+font-size:9px;
+font-weight:800;
+}
+
+.reward{
+color:var(--gold);
+font-weight:800;
+font-size:12px;
+}
+
+.footer{
+background:#e6dfd2;
+border-top:1px solid rgba(41,70,61,.09);
+}
+
+.footer-inner{
+max-width:1440px;
+margin:auto;
+padding:60px 34px 35px;
+display:grid;
+grid-template-columns:1.5fr repeat(3,1fr);
+gap:40px;
+}
+
+.footer-brand img{width:125px;margin-bottom:17px}
+.footer-brand p{max-width:330px;color:#68716c;font-size:13px;line-height:1.7}
+.footer-column h4{margin:0 0 16px;color:var(--forest);font-size:13px}
+.footer-column a{display:block;margin-bottom:11px;color:#717873;font-size:12px}
+
+.footer-bottom{
+max-width:1440px;
+margin:auto;
+padding:18px 34px 25px;
+display:flex;
+justify-content:space-between;
+border-top:1px solid rgba(41,70,61,.09);
+color:#7d837f;
+font-size:11px;
+}
+
+.mobile-dock{display:none}
+
+@media(max-width:850px){
+.main-nav{display:none}
+.sell-btn{display:none}
+.nav{padding:0 20px;min-height:72px}
+.hero,.page{padding-left:20px;padding-right:20px}
+.referral-grid{grid-template-columns:1fr}
+.mobile-dock{
+display:block;
+position:fixed;
+left:12px;
+right:12px;
+bottom:12px;
+z-index:999;
+padding:9px;
+background:rgba(255,255,255,.94);
+border:1px solid var(--border);
+border-radius:22px;
+box-shadow:0 18px 55px rgba(39,72,61,.18);
+backdrop-filter:blur(18px);
+}
+.mobile-dock-inner{display:grid;grid-template-columns:repeat(4,1fr)}
+.mobile-dock a{
+display:flex;
+flex-direction:column;
+align-items:center;
+gap:4px;
+padding:8px;
+color:#77807b;
+font-size:10px;
+font-weight:700;
+}
+.mobile-dock a.active{color:var(--forest)}
+.footer{padding-bottom:90px}
+}
+
+@media(max-width:620px){
+.logo img{width:108px}
+.stats{grid-template-columns:1fr}
+.share-grid{grid-template-columns:1fr}
+.footer-inner{grid-template-columns:1fr;padding:45px 20px 25px}
+.footer-bottom{padding:18px 20px;flex-direction:column;gap:8px}
+}
+</style>
+</head>
+
+<body>
+
+<header class="header">
+<nav class="nav">
+
+<a href="/index.html" class="logo">
+<img src="/assets/images/logo/ghar-logo.png" alt="GHAR">
+</a>
+
+<div class="main-nav">
+<a href="/index.html">Home</a>
+<a href="/properties.html">Properties</a>
+<a href="/marketplace.html">Marketplace</a>
+<a href="/map.html">Map</a>
+<a href="/compare.html">Compare</a>
+<a href="/about.html">About</a>
+</div>
+
+<div class="nav-actions">
+<a href="/property-search.html" class="icon-btn">⌕</a>
+<a href="/favourites.html" class="icon-btn">♡</a>
+<a href="/login.html" class="sell-btn">List Property</a>
+</div>
+
+</nav>
+</header>
+
+<section class="hero">
+<div class="eyebrow">GHAR REFERRAL PROGRAM</div>
+
+<h1>
+Share GHAR.
+<span>Earn rewards.</span>
+</h1>
+
+<p>
+Invite friends, family, buyers and property owners to GHAR.
+Track your referrals and see your rewards from one premium dashboard.
+</p>
+</section>
+
+<main class="page">
+
+<section class="referral-grid">
+
+<div class="panel">
+
+<h2>Your referral link</h2>
+
+<p>
+Share this referral code with someone looking to buy, rent,
+sell or discover property through GHAR.
+</p>
+
+<div class="referral-code">
+<strong id="refCode">GHAR-VK2026</strong>
+<button class="copy-btn" onclick="copyReferral()">Copy</button>
+</div>
+
+<div class="stats">
+
+<div class="stat">
+<strong>18</strong>
+<span>Total Referrals</span>
+</div>
+
+<div class="stat">
+<strong>7</strong>
+<span>Successful</span>
+</div>
+
+<div class="stat">
+<strong>₹12,500</strong>
+<span>Rewards</span>
+</div>
+
+</div>
+
+</div>
+
+<div class="panel">
+
+<h2>Invite someone</h2>
+
+<p>
+Choose how you want to share your GHAR referral invitation.
+</p>
+
+<div class="share-grid">
+
+<button class="share-btn" onclick="shareReferral()">↗ Share</button>
+<button class="share-btn" onclick="copyReferral()">⌑ Copy Link</button>
+<button class="share-btn" onclick="alert('Email referral opened')">✉ Email</button>
+<button class="share-btn" onclick="alert('SMS referral opened')">▣ SMS</button>
+
+</div>
+
+</div>
+
+</section>
+
+<section class="panel history">
+
+<h2>Referral activity</h2>
+
+<div class="history-row">
+<div class="person">
+Rahul Sharma
+<small>Property buyer · Noida</small>
+</div>
+<div class="status">Completed</div>
+<div class="reward">₹2,500</div>
+</div>
+
+<div class="history-row">
+<div class="person">
+Amit Verma
+<small>Property seller · Greater Noida</small>
+</div>
+<div class="status">In Progress</div>
+<div class="reward">Pending</div>
+</div>
+
+<div class="history-row">
+<div class="person">
+Neha Singh
+<small>Buyer · Delhi NCR</small>
+</div>
+<div class="status">Completed</div>
+<div class="reward">₹5,000</div>
+</div>
+
+<div class="history-row">
+<div class="person">
+Rohit Gupta
+<small>Rental enquiry · Noida</small>
+</div>
+<div class="status">Review</div>
+<div class="reward">Pending</div>
+</div>
+
+</section>
+
+</main>
+
+<footer class="footer">
+
+<div class="footer-inner">
+
+<div class="footer-brand">
+<img src="/assets/images/logo/ghar-logo.png" alt="GHAR">
+<p>A premium real-estate experience designed to make discovering, buying, renting and managing property simpler.</p>
+</div>
+
+<div class="footer-column">
+<h4>Explore</h4>
+<a href="/properties.html">Properties</a>
+<a href="/property-search.html">Smart Search</a>
+<a href="/marketplace.html">Marketplace</a>
+<a href="/map.html">Property Map</a>
+<a href="/compare.html">Compare</a>
+</div>
+
+<div class="footer-column">
+<h4>GHAR</h4>
+<a href="/about.html">About GHAR</a>
+<a href="/services.html">Services</a>
+<a href="/ai-assistant.html">GHAR AI</a>
+<a href="/contact.html">Contact</a>
+<a href="/help-centre.html">Help Centre</a>
+</div>
+
+<div class="footer-column">
+<h4>Property</h4>
+<a href="/login.html">List Property</a>
+<a href="/login.html">Seller Login</a>
+<a href="/login.html">Buyer Login</a>
+<a href="/loan.html">Home Loans</a>
+<a href="/documents.html">Documents</a>
+</div>
+
+</div>
+
+<div class="footer-bottom">
+<span>© 2026 GHAR. All rights reserved.</span>
+<span>Privacy · Terms · Legal</span>
+</div>
+
+</footer>
+
+<nav class="mobile-dock">
+<div class="mobile-dock-inner">
+<a href="/index.html">⌂<span>Home</span></a>
+<a href="/properties.html">▦<span>Properties</span></a>
+<a href="/favourites.html">♡<span>Saved</span></a>
+<a href="/profile.html" class="active">●<span>Account</span></a>
+</div>
+</nav>
+
+<script src="/assets/js/constants.js"></script>
+<script src="/assets/js/config.js"></script>
+<script src="/assets/js/storage.js"></script>
+<script src="/assets/js/api.js"></script>
+<script src="/assets/js/auth.js"></script>
+<script src="/assets/js/core.js"></script>
+<script src="/assets/js/components.js"></script>
+<script src="/assets/js/components/global.js"></script>
+<script src="/assets/js/navigation.js"></script>
+
+<script>
+function copyReferral(){
+    const code=document.getElementById("refCode").textContent;
+    navigator.clipboard.writeText(code);
+    alert("Referral code copied");
+}
+
+function shareReferral(){
+    const text="Discover properties with GHAR. Use my referral code GHAR-VK2026.";
+    if(navigator.share){
+        navigator.share({
+            title:"GHAR Referral",
+            text:text
+        });
+    }else{
+        copyReferral();
+    }
+}
+</script>
+
+</body>
+</html>

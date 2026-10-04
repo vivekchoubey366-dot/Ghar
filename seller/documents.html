@@ -1,0 +1,3267 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<meta name="description"
+      content="GHAR Seller Documents -- Upload, verify and manage property and seller documents securely.">
+
+<meta name="theme-color" content="#162d25">
+
+<title>GHAR · Seller Documents</title>
+
+<link rel="icon" href="../assets/images/favicon.svg">
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+:root{
+  --green-950:#07130e;
+  --green-925:#0a1912;
+  --green-900:#0b1c14;
+  --green-850:#10261c;
+  --green-800:#162d25;
+  --green-750:#1a382c;
+  --green-700:#214438;
+  --green-600:#2b5847;
+
+  --gold-100:#fff7df;
+  --gold-200:#f4dfaa;
+  --gold-300:#e5c77d;
+  --gold-400:#c9a95c;
+  --gold-500:#a98238;
+
+  --cream:#fffaf0;
+  --cream-2:#f7eedc;
+  --sand:#eee1c8;
+
+  --text:#f9f5ea;
+  --muted:rgba(255,255,255,.68);
+  --muted-2:rgba(255,255,255,.45);
+
+  --border:rgba(229,199,125,.18);
+  --border-light:rgba(255,255,255,.09);
+
+  --success:#82c995;
+  --danger:#e98c8c;
+  --blue:#91b9e8;
+
+  --shadow:0 25px 80px rgba(0,0,0,.25);
+
+  --radius-xl:28px;
+  --radius-lg:21px;
+  --radius-md:15px;
+
+  --container:1440px;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  min-height:100vh;
+  color:var(--text);
+  font-family:
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  background:
+    radial-gradient(
+      circle at 5% 0%,
+      rgba(229,199,125,.12),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 100% 10%,
+      rgba(44,91,69,.22),
+      transparent 30%
+    ),
+    linear-gradient(
+      135deg,
+      #07130e,
+      #0b1c14 48%,
+      #10261c
+    );
+
+  overflow-x:hidden;
+}
+
+a{
+  color:inherit;
+  text-decoration:none;
+}
+
+button,
+input,
+select,
+textarea{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+img{
+  display:block;
+  max-width:100%;
+}
+
+.container{
+  width:min(
+    calc(100% - 40px),
+    var(--container)
+  );
+  margin:auto;
+}
+
+
+/* =========================================================
+   BACKGROUND
+========================================================= */
+
+.page-glow{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:-1;
+  overflow:hidden;
+}
+
+.page-glow::before{
+  content:"";
+  position:absolute;
+  width:550px;
+  height:550px;
+  top:-300px;
+  right:-220px;
+  border-radius:50%;
+  border:1px solid rgba(229,199,125,.12);
+  box-shadow:
+    0 0 0 60px rgba(229,199,125,.025),
+    0 0 0 120px rgba(229,199,125,.015);
+}
+
+.page-glow::after{
+  content:"";
+  position:absolute;
+  width:500px;
+  height:500px;
+  bottom:-300px;
+  left:-250px;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,.06);
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.site-header{
+  position:sticky;
+  top:0;
+  z-index:100;
+  border-bottom:1px solid rgba(229,199,125,.10);
+  background:rgba(7,19,14,.90);
+  backdrop-filter:blur(22px);
+}
+
+.header-inner{
+  min-height:76px;
+  display:flex;
+  align-items:center;
+  gap:24px;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex-shrink:0;
+}
+
+.brand-mark{
+  width:45px;
+  height:45px;
+  display:grid;
+  place-items:center;
+  border-radius:14px;
+  color:#152116;
+  font-size:19px;
+  font-weight:1000;
+
+  background:
+    linear-gradient(
+      135deg,
+      #f1dda5,
+      #b98b3d
+    );
+
+  box-shadow:
+    0 10px 25px rgba(0,0,0,.25),
+    inset 0 1px 0 rgba(255,255,255,.5);
+}
+
+.brand-text strong{
+  display:block;
+  font-size:17px;
+  letter-spacing:.17em;
+}
+
+.brand-text span{
+  display:block;
+  margin-top:2px;
+  color:var(--muted-2);
+  font-size:8px;
+  font-weight:800;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+}
+
+.desktop-nav{
+  display:flex;
+  align-items:center;
+  gap:5px;
+  margin-left:auto;
+}
+
+.desktop-nav a{
+  padding:10px 12px;
+  border-radius:10px;
+  color:var(--muted);
+  font-size:11px;
+  font-weight:700;
+  transition:.2s ease;
+}
+
+.desktop-nav a:hover,
+.desktop-nav a.active{
+  color:var(--gold-200);
+  background:rgba(229,199,125,.07);
+}
+
+.header-actions{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.icon-btn{
+  width:41px;
+  height:41px;
+  display:grid;
+  place-items:center;
+  border:1px solid var(--border-light);
+  border-radius:12px;
+  color:var(--muted);
+  background:rgba(255,255,255,.035);
+  transition:.2s ease;
+}
+
+.icon-btn:hover{
+  color:var(--gold-200);
+  border-color:rgba(229,199,125,.25);
+}
+
+.avatar{
+  width:40px;
+  height:40px;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  color:#172016;
+  font-size:12px;
+  font-weight:1000;
+  background:
+    linear-gradient(
+      135deg,
+      var(--gold-200),
+      var(--gold-500)
+    );
+}
+
+.mobile-menu{
+  display:none;
+}
+
+
+/* =========================================================
+   PAGE HERO
+========================================================= */
+
+.page-hero{
+  padding:42px 0 24px;
+}
+
+.page-hero-card{
+  position:relative;
+  overflow:hidden;
+  padding:38px 42px;
+
+  border:1px solid var(--border);
+  border-radius:var(--radius-xl);
+
+  background:
+    radial-gradient(
+      circle at 90% 0%,
+      rgba(229,199,125,.13),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 0% 100%,
+      rgba(44,91,69,.28),
+      transparent 38%
+    ),
+    linear-gradient(
+      145deg,
+      #0a1a12,
+      #10251b 55%,
+      #142d22
+    );
+
+  box-shadow:var(--shadow);
+}
+
+.page-hero-card::after{
+  content:"";
+  position:absolute;
+  width:300px;
+  height:300px;
+  right:-160px;
+  bottom:-190px;
+  border-radius:50%;
+  border:1px solid rgba(229,199,125,.12);
+}
+
+.eyebrow{
+  color:var(--gold-300);
+  font-size:10px;
+  font-weight:950;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+}
+
+.page-hero h1{
+  max-width:800px;
+  margin-top:10px;
+  color:var(--cream);
+  font-size:clamp(34px,5vw,55px);
+  line-height:1;
+  letter-spacing:-.055em;
+}
+
+.page-hero h1 span{
+  color:var(--gold-300);
+}
+
+.page-hero p{
+  max-width:760px;
+  margin-top:14px;
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.7;
+}
+
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.btn{
+  min-height:44px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  padding:0 16px;
+  border:1px solid transparent;
+  border-radius:12px;
+  font-size:10px;
+  font-weight:900;
+  transition:.2s ease;
+}
+
+.btn-primary{
+  color:#17170f;
+  background:
+    linear-gradient(
+      135deg,
+      #f1dca1,
+      #cda85d
+    );
+}
+
+.btn-primary:hover{
+  transform:translateY(-2px);
+}
+
+.btn-secondary{
+  color:var(--cream);
+  border-color:var(--border-light);
+  background:rgba(255,255,255,.045);
+}
+
+.btn-secondary:hover{
+  color:var(--gold-200);
+  border-color:rgba(229,199,125,.25);
+}
+
+.btn-danger{
+  color:#ffdede;
+  border-color:rgba(233,140,140,.20);
+  background:rgba(233,140,140,.07);
+}
+
+
+/* =========================================================
+   SUMMARY
+========================================================= */
+
+.section{
+  padding:24px 0;
+}
+
+.section-heading{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:15px;
+  margin-bottom:16px;
+}
+
+.section-heading h2{
+  font-size:23px;
+  letter-spacing:-.035em;
+}
+
+.section-heading p{
+  margin-top:5px;
+  color:var(--muted-2);
+  font-size:10px;
+}
+
+.summary-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:13px;
+}
+
+.summary-card{
+  padding:20px;
+  border:1px solid var(--border-light);
+  border-radius:var(--radius-lg);
+  background:
+    linear-gradient(
+      145deg,
+      rgba(20,45,34,.92),
+      rgba(11,28,20,.92)
+    );
+}
+
+.summary-icon{
+  width:37px;
+  height:37px;
+  display:grid;
+  place-items:center;
+  border-radius:11px;
+  color:var(--gold-300);
+  background:rgba(229,199,125,.08);
+}
+
+.summary-label{
+  margin-top:13px;
+  color:var(--muted-2);
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+
+.summary-value{
+  margin-top:5px;
+  font-size:26px;
+  font-weight:950;
+  letter-spacing:-.04em;
+}
+
+.summary-note{
+  margin-top:4px;
+  color:var(--muted-2);
+  font-size:9px;
+}
+
+
+/* =========================================================
+   MAIN GRID
+========================================================= */
+
+.main-grid{
+  display:grid;
+  grid-template-columns:1.35fr .65fr;
+  gap:16px;
+  align-items:start;
+}
+
+.panel{
+  padding:22px;
+  border:1px solid var(--border-light);
+  border-radius:var(--radius-lg);
+  background:
+    linear-gradient(
+      145deg,
+      rgba(20,45,34,.95),
+      rgba(11,28,20,.95)
+    );
+}
+
+.panel-title{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:17px;
+}
+
+.panel-title h2,
+.panel-title h3{
+  font-size:17px;
+  letter-spacing:-.02em;
+}
+
+.panel-title p{
+  margin-top:4px;
+  color:var(--muted-2);
+  font-size:9px;
+}
+
+
+/* =========================================================
+   UPLOAD AREA
+========================================================= */
+
+.upload-area{
+  position:relative;
+  padding:30px;
+  text-align:center;
+  border:1px dashed rgba(229,199,125,.32);
+  border-radius:18px;
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(229,199,125,.07),
+      transparent 45%
+    ),
+    rgba(255,255,255,.025);
+  transition:.2s ease;
+}
+
+.upload-area.dragover{
+  border-color:var(--gold-300);
+  background:rgba(229,199,125,.07);
+  transform:scale(1.005);
+}
+
+.upload-icon{
+  width:56px;
+  height:56px;
+  display:grid;
+  place-items:center;
+  margin:0 auto;
+  border-radius:17px;
+  color:var(--gold-300);
+  font-size:22px;
+  background:rgba(229,199,125,.09);
+}
+
+.upload-area h3{
+  margin-top:13px;
+  font-size:16px;
+}
+
+.upload-area p{
+  max-width:500px;
+  margin:7px auto 0;
+  color:var(--muted-2);
+  font-size:9px;
+  line-height:1.7;
+}
+
+.upload-actions{
+  display:flex;
+  justify-content:center;
+  gap:8px;
+  margin-top:16px;
+  flex-wrap:wrap;
+}
+
+.file-note{
+  margin-top:11px;
+  color:var(--muted-2);
+  font-size:8px;
+}
+
+#documentInput{
+  display:none;
+}
+
+
+/* =========================================================
+   DOCUMENT LIST
+========================================================= */
+
+.document-list{
+  display:grid;
+  gap:10px;
+}
+
+.document-item{
+  display:grid;
+  grid-template-columns:auto 1fr auto;
+  align-items:center;
+  gap:13px;
+  padding:13px;
+  border:1px solid rgba(255,255,255,.06);
+  border-radius:14px;
+  background:rgba(255,255,255,.025);
+}
+
+.document-icon{
+  width:42px;
+  height:42px;
+  display:grid;
+  place-items:center;
+  border-radius:12px;
+  color:var(--gold-300);
+  background:rgba(229,199,125,.08);
+  font-size:17px;
+}
+
+.document-info{
+  min-width:0;
+}
+
+.document-info strong{
+  display:block;
+  font-size:10px;
+}
+
+.document-info span{
+  display:block;
+  margin-top:4px;
+  color:var(--muted-2);
+  font-size:8px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.document-actions{
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+
+.small-btn{
+  min-height:32px;
+  padding:0 10px;
+  border:1px solid var(--border-light);
+  border-radius:9px;
+  color:var(--muted);
+  background:rgba(255,255,255,.035);
+  font-size:8px;
+  font-weight:800;
+}
+
+.small-btn:hover{
+  color:var(--gold-200);
+  border-color:rgba(229,199,125,.25);
+}
+
+.status{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:5px 7px;
+  border-radius:7px;
+  font-size:7px;
+  font-weight:950;
+  text-transform:uppercase;
+}
+
+.status.verified{
+  color:#bcebc9;
+  background:rgba(130,201,149,.09);
+}
+
+.status.pending{
+  color:var(--gold-200);
+  background:rgba(229,199,125,.08);
+}
+
+.status.rejected{
+  color:#ffd0d0;
+  background:rgba(233,140,140,.09);
+}
+
+.status.missing{
+  color:#b9d3f3;
+  background:rgba(145,185,232,.09);
+}
+
+
+/* =========================================================
+   CHECKLIST
+========================================================= */
+
+.checklist{
+  display:grid;
+  gap:9px;
+}
+
+.check-item{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:11px;
+  border-radius:11px;
+  background:rgba(255,255,255,.025);
+}
+
+.check-icon{
+  width:27px;
+  height:27px;
+  display:grid;
+  place-items:center;
+  flex:0 0 27px;
+  border-radius:8px;
+  color:var(--gold-300);
+  background:rgba(229,199,125,.08);
+  font-size:10px;
+}
+
+.check-text{
+  flex:1;
+}
+
+.check-text strong{
+  display:block;
+  font-size:9px;
+}
+
+.check-text span{
+  display:block;
+  margin-top:3px;
+  color:var(--muted-2);
+  font-size:7px;
+  line-height:1.5;
+}
+
+.check-state{
+  color:var(--success);
+  font-size:8px;
+  font-weight:900;
+}
+
+
+/* =========================================================
+   VERIFICATION PANEL
+========================================================= */
+
+.verification-card{
+  margin-top:16px;
+  padding:18px;
+  border:1px solid rgba(229,199,125,.16);
+  border-radius:16px;
+  background:
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(229,199,125,.11),
+      transparent 40%
+    ),
+    rgba(255,255,255,.025);
+}
+
+.verification-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.verification-top strong{
+  font-size:11px;
+}
+
+.progress{
+  height:7px;
+  margin-top:13px;
+  overflow:hidden;
+  border-radius:20px;
+  background:rgba(255,255,255,.07);
+}
+
+.progress-bar{
+  width:0%;
+  height:100%;
+  border-radius:20px;
+  background:
+    linear-gradient(
+      90deg,
+      var(--gold-500),
+      var(--gold-300)
+    );
+  transition:.4s ease;
+}
+
+.verification-note{
+  margin-top:8px;
+  color:var(--muted-2);
+  font-size:8px;
+}
+
+
+/* =========================================================
+   ACTIVITY
+========================================================= */
+
+.activity-list{
+  display:grid;
+  gap:9px;
+}
+
+.activity-item{
+  display:flex;
+  gap:10px;
+  align-items:flex-start;
+  padding:11px;
+  border-radius:11px;
+  background:rgba(255,255,255,.025);
+}
+
+.activity-icon{
+  width:30px;
+  height:30px;
+  display:grid;
+  place-items:center;
+  flex:0 0 30px;
+  border-radius:9px;
+  color:var(--gold-300);
+  background:rgba(229,199,125,.08);
+}
+
+.activity-text{
+  flex:1;
+}
+
+.activity-text strong{
+  display:block;
+  font-size:9px;
+}
+
+.activity-text span{
+  display:block;
+  margin-top:3px;
+  color:var(--muted-2);
+  font-size:7px;
+  line-height:1.5;
+}
+
+.activity-time{
+  color:var(--muted-2);
+  font-size:7px;
+}
+
+
+/* =========================================================
+   SECURITY
+========================================================= */
+
+.security-box{
+  margin-top:16px;
+  padding:17px;
+  border:1px solid rgba(130,201,149,.14);
+  border-radius:15px;
+  background:rgba(130,201,149,.035);
+}
+
+.security-box strong{
+  display:block;
+  color:#bcebc9;
+  font-size:10px;
+}
+
+.security-box p{
+  margin-top:6px;
+  color:var(--muted-2);
+  font-size:8px;
+  line-height:1.6;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.site-footer{
+  margin-top:45px;
+  padding:35px 0 25px;
+  border-top:1px solid rgba(255,255,255,.07);
+  background:rgba(3,12,8,.35);
+}
+
+.footer-grid{
+  display:grid;
+  grid-template-columns:1.4fr repeat(3,1fr);
+  gap:25px;
+}
+
+.footer-brand{
+  max-width:300px;
+}
+
+.footer-brand p{
+  margin-top:10px;
+  color:var(--muted-2);
+  font-size:9px;
+  line-height:1.7;
+}
+
+.footer-col h4{
+  color:var(--gold-200);
+  font-size:9px;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+}
+
+.footer-col a{
+  display:block;
+  margin-top:9px;
+  color:var(--muted-2);
+  font-size:9px;
+}
+
+.footer-col a:hover{
+  color:var(--gold-300);
+}
+
+.footer-bottom{
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+  margin-top:28px;
+  padding-top:17px;
+  border-top:1px solid rgba(255,255,255,.06);
+  color:var(--muted-2);
+  font-size:8px;
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+.toast{
+  position:fixed;
+  right:20px;
+  bottom:20px;
+  z-index:300;
+
+  max-width:340px;
+  padding:13px 15px;
+
+  border:1px solid rgba(229,199,125,.22);
+  border-radius:12px;
+
+  color:var(--cream);
+
+  background:#0b1c14;
+
+  box-shadow:0 20px 50px rgba(0,0,0,.35);
+
+  font-size:9px;
+
+  opacity:0;
+  transform:translateY(15px);
+  pointer-events:none;
+
+  transition:.25s ease;
+}
+
+.toast.show{
+  opacity:1;
+  transform:translateY(0);
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:1100px){
+
+  .desktop-nav{
+    display:none;
+  }
+
+  .mobile-menu{
+    display:grid;
+  }
+
+  .summary-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .main-grid{
+    grid-template-columns:1fr;
+  }
+}
+
+@media(max-width:800px){
+
+  .container{
+    width:min(
+      calc(100% - 28px),
+      var(--container)
+    );
+  }
+
+  .page-hero-card{
+    padding:30px;
+  }
+
+  .footer-grid{
+    grid-template-columns:1fr 1fr;
+  }
+}
+
+@media(max-width:560px){
+
+  .header-inner{
+    min-height:68px;
+  }
+
+  .brand-text span{
+    display:none;
+  }
+
+  .header-actions .icon-btn{
+    display:none;
+  }
+
+  .page-hero{
+    padding-top:25px;
+  }
+
+  .page-hero-card{
+    padding:24px;
+    border-radius:22px;
+  }
+
+  .page-hero h1{
+    font-size:37px;
+  }
+
+  .page-hero p{
+    font-size:11px;
+  }
+
+  .summary-grid{
+    grid-template-columns:1fr 1fr;
+    gap:9px;
+  }
+
+  .summary-card{
+    padding:15px;
+  }
+
+  .summary-value{
+    font-size:22px;
+  }
+
+  .panel{
+    padding:16px;
+  }
+
+  .upload-area{
+    padding:23px 15px;
+  }
+
+  .document-item{
+    grid-template-columns:auto 1fr;
+  }
+
+  .document-actions{
+    grid-column:2;
+    justify-content:flex-start;
+    flex-wrap:wrap;
+  }
+
+  .footer-grid{
+    grid-template-columns:1fr;
+  }
+
+  .footer-bottom{
+    flex-direction:column;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="page-glow"></div>
+
+
+<!-- =========================================================
+     HEADER
+========================================================= -->
+
+<header class="site-header">
+
+  <div class="container header-inner">
+
+    <a
+      class="brand"
+      href="/seller/index.html"
+      aria-label="GHAR Seller Home"
+    >
+
+      <div class="brand-mark">
+        G
+      </div>
+
+      <div class="brand-text">
+
+        <strong>GHAR</strong>
+
+        <span>
+          Seller Experience
+        </span>
+
+      </div>
+
+    </a>
+
+
+    <nav
+      class="desktop-nav"
+      aria-label="Seller navigation"
+    >
+
+      <a href="/seller/index.html">
+        Home
+      </a>
+
+      <a href="/seller/dashboard.html">
+        Dashboard
+      </a>
+
+      <a href="/seller/list-property.html">
+        List Property
+      </a>
+
+      <a href="/seller/visits.html">
+        Visits
+      </a>
+
+      <a href="/seller/leads.html">
+        Leads
+      </a>
+
+      <a href="/seller/offers.html">
+        Offers
+      </a>
+
+      <a
+        class="active"
+        href="/seller/documents.html"
+      >
+        Documents
+      </a>
+
+      <a href="/seller/payments.html">
+        Payments
+      </a>
+
+    </nav>
+
+
+    <div class="header-actions">
+
+      <button
+        class="icon-btn"
+        id="notificationButton"
+        type="button"
+        aria-label="Notifications"
+      >
+        ♢
+      </button>
+
+      <a
+        class="avatar"
+        id="profileButton"
+        href="/seller/profile.html"
+        aria-label="Seller profile"
+      >
+        U
+      </a>
+
+      <button
+        class="icon-btn mobile-menu"
+        id="menuButton"
+        type="button"
+        aria-label="Open menu"
+      >
+        ☰
+      </button>
+
+    </div>
+
+  </div>
+
+</header>
+
+
+<main>
+
+
+<!-- =========================================================
+     HERO
+========================================================= -->
+
+<section class="page-hero">
+
+  <div class="container">
+
+    <div class="page-hero-card">
+
+      <div class="eyebrow">
+        SELLER DOCUMENT CENTER
+      </div>
+
+      <h1>
+        Keep every document
+        <span>ready and verified.</span>
+      </h1>
+
+      <p>
+        Upload, organize and track the documents required for
+        property approval, verification, offers, transactions
+        and secure seller onboarding through GHAR.
+      </p>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================================================
+     SUMMARY
+========================================================= -->
+
+<section class="section">
+
+  <div class="container">
+
+    <div class="section-heading">
+
+      <div>
+        <h2>Document overview</h2>
+
+        <p>
+          Monitor your seller verification status.
+        </p>
+      </div>
+
+      <a
+        class="btn btn-secondary"
+        href="/seller/property-approval.html"
+      >
+        Property approval →
+      </a>
+
+    </div>
+
+
+    <div class="summary-grid">
+
+      <article class="summary-card">
+
+        <div class="summary-icon">
+          ◈
+        </div>
+
+        <div class="summary-label">
+          Total documents
+        </div>
+
+        <div
+          class="summary-value"
+          id="totalDocuments"
+        >
+          0
+        </div>
+
+        <div class="summary-note">
+          Uploaded to GHAR
+        </div>
+
+      </article>
+
+
+      <article class="summary-card">
+
+        <div class="summary-icon">
+          ✓
+        </div>
+
+        <div class="summary-label">
+          Verified
+        </div>
+
+        <div
+          class="summary-value"
+          id="verifiedDocuments"
+        >
+          0
+        </div>
+
+        <div class="summary-note">
+          Successfully verified
+        </div>
+
+      </article>
+
+
+      <article class="summary-card">
+
+        <div class="summary-icon">
+          ◷
+        </div>
+
+        <div class="summary-label">
+          Pending
+        </div>
+
+        <div
+          class="summary-value"
+          id="pendingDocuments"
+        >
+          0
+        </div>
+
+        <div class="summary-note">
+          Awaiting verification
+        </div>
+
+      </article>
+
+
+      <article class="summary-card">
+
+        <div class="summary-icon">
+          !
+        </div>
+
+        <div class="summary-label">
+          Action required
+        </div>
+
+        <div
+          class="summary-value"
+          id="actionDocuments"
+        >
+          0
+        </div>
+
+        <div class="summary-note">
+          Missing or rejected
+        </div>
+
+      </article>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================================================
+     MAIN DOCUMENT WORKSPACE
+========================================================= -->
+
+<section class="section">
+
+  <div class="container">
+
+    <div class="main-grid">
+
+
+      <!-- ===================================================
+           LEFT
+      ==================================================== -->
+
+      <div>
+
+        <div class="panel">
+
+          <div class="panel-title">
+
+            <div>
+
+              <h2>
+                Upload documents
+              </h2>
+
+              <p>
+                Add ownership, identity and property documents.
+              </p>
+
+            </div>
+
+            <span
+              class="status pending"
+              id="uploadStatus"
+            >
+              Secure upload
+            </span>
+
+          </div>
+
+
+          <div
+            class="upload-area"
+            id="uploadArea"
+          >
+
+            <div class="upload-icon">
+              ↑
+            </div>
+
+            <h3>
+              Drop documents here
+            </h3>
+
+            <p>
+              Drag and drop your files here or select documents
+              from your device. GHAR will associate uploads with
+              your seller account.
+            </p>
+
+            <div class="upload-actions">
+
+              <button
+                class="btn btn-primary"
+                id="chooseFiles"
+                type="button"
+              >
+                Choose documents
+              </button>
+
+              <button
+                class="btn btn-secondary"
+                id="refreshDocuments"
+                type="button"
+              >
+                Refresh
+              </button>
+
+            </div>
+
+            <div class="file-note">
+              PDF, JPG, JPEG, PNG · Maximum size depends on GHAR API configuration.
+            </div>
+
+            <input
+              id="documentInput"
+              type="file"
+              multiple
+              accept=".pdf,.jpg,.jpeg,.png"
+            >
+
+          </div>
+
+        </div>
+
+
+        <!-- =================================================
+             DOCUMENT LIST
+        ================================================== -->
+
+        <div
+          class="panel"
+          style="margin-top:16px"
+        >
+
+          <div class="panel-title">
+
+            <div>
+
+              <h2>
+                Your documents
+              </h2>
+
+              <p>
+                Review status and manage uploaded files.
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <div
+            id="documentList"
+            class="document-list"
+          >
+
+            <div class="document-item">
+
+              <div class="document-icon">
+                …
+              </div>
+
+              <div class="document-info">
+
+                <strong>
+                  Loading documents
+                </strong>
+
+                <span>
+                  Connecting to GHAR secure document service...
+                </span>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- ===================================================
+           RIGHT
+      ==================================================== -->
+
+      <aside>
+
+
+        <!-- =================================================
+             REQUIRED DOCUMENTS
+        ================================================== -->
+
+        <div class="panel">
+
+          <div class="panel-title">
+
+            <div>
+
+              <h3>
+                Seller checklist
+              </h3>
+
+              <p>
+                Common documents required for verification.
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <div class="checklist">
+
+            <div class="check-item">
+
+              <div class="check-icon">
+                ID
+              </div>
+
+              <div class="check-text">
+
+                <strong>
+                  Identity proof
+                </strong>
+
+                <span>
+                  Government-issued identity document.
+                </span>
+
+              </div>
+
+              <span
+                class="check-state"
+                data-check="identity"
+              >
+                --
+              </span>
+
+            </div>
+
+
+            <div class="check-item">
+
+              <div class="check-icon">
+                AD
+              </div>
+
+              <div class="check-text">
+
+                <strong>
+                  Address proof
+                </strong>
+
+                <span>
+                  Current address verification document.
+                </span>
+
+              </div>
+
+              <span
+                class="check-state"
+                data-check="address"
+              >
+                --
+              </span>
+
+            </div>
+
+
+            <div class="check-item">
+
+              <div class="check-icon">
+                DE
+              </div>
+
+              <div class="check-text">
+
+                <strong>
+                  Ownership document
+                </strong>
+
+                <span>
+                  Relevant title or ownership documentation.
+                </span>
+
+              </div>
+
+              <span
+                class="check-state"
+                data-check="ownership"
+              >
+                --
+              </span>
+
+            </div>
+
+
+            <div class="check-item">
+
+              <div class="check-icon">
+                TX
+              </div>
+
+              <div class="check-text">
+
+                <strong>
+                  Property tax document
+                </strong>
+
+                <span>
+                  Applicable property tax documentation.
+                </span>
+
+              </div>
+
+              <span
+                class="check-state"
+                data-check="tax"
+              >
+                --
+              </span>
+
+            </div>
+
+
+            <div class="check-item">
+
+              <div class="check-icon">
+                NOC
+              </div>
+
+              <div class="check-text">
+
+                <strong>
+                  NOC / clearance
+                </strong>
+
+                <span>
+                  Upload when applicable to your property.
+                </span>
+
+              </div>
+
+              <span
+                class="check-state"
+                data-check="noc"
+              >
+                --
+              </span>
+
+            </div>
+
+          </div>
+
+
+          <div class="verification-card">
+
+            <div class="verification-top">
+
+              <strong>
+                Verification readiness
+              </strong>
+
+              <span
+                id="verificationPercent"
+                class="status pending"
+              >
+                0%
+              </span>
+
+            </div>
+
+            <div class="progress">
+
+              <div
+                id="verificationBar"
+                class="progress-bar"
+              ></div>
+
+            </div>
+
+            <div
+              id="verificationNote"
+              class="verification-note"
+            >
+              Upload required documents to improve readiness.
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- =================================================
+             ACTIVITY
+        ================================================== -->
+
+        <div
+          class="panel"
+          style="margin-top:16px"
+        >
+
+          <div class="panel-title">
+
+            <div>
+
+              <h3>
+                Recent document activity
+              </h3>
+
+              <p>
+                Latest document events.
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <div
+            id="activityList"
+            class="activity-list"
+          >
+
+            <div class="activity-item">
+
+              <div class="activity-icon">
+                …
+              </div>
+
+              <div class="activity-text">
+
+                <strong>
+                  Loading activity
+                </strong>
+
+                <span>
+                  Checking your latest document events.
+                </span>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- =================================================
+             SECURITY
+        ================================================== -->
+
+        <div class="security-box">
+
+          <strong>
+            ✓ Secure document handling
+          </strong>
+
+          <p>
+            Documents are sent through the authenticated GHAR
+            API. Never upload passwords, payment card details
+            or unrelated sensitive information.
+          </p>
+
+        </div>
+
+      </aside>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================================================
+     CTA
+========================================================= -->
+
+<section class="section">
+
+  <div class="container">
+
+    <div
+      class="panel"
+      style="
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:20px;
+        flex-wrap:wrap;
+        border-color:rgba(229,199,125,.20);
+      "
+    >
+
+      <div>
+
+        <h2 style="font-size:22px">
+          Ready to complete your property verification?
+        </h2>
+
+        <p
+          style="
+            margin-top:7px;
+            color:var(--muted);
+            font-size:9px;
+          "
+        >
+          Continue to property approval after your documents
+          are uploaded and ready for review.
+        </p>
+
+      </div>
+
+      <a
+        class="btn btn-primary"
+        href="/seller/property-approval.html"
+      >
+        Continue approval →
+      </a>
+
+    </div>
+
+  </div>
+
+</section>
+
+</main>
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer class="site-footer">
+
+  <div class="container">
+
+    <div class="footer-grid">
+
+
+      <div class="footer-brand">
+
+        <div class="brand">
+
+          <div class="brand-mark">
+            G
+          </div>
+
+          <div class="brand-text">
+
+            <strong>
+              GHAR
+            </strong>
+
+            <span>
+              Real Estate Platform
+            </span>
+
+          </div>
+
+        </div>
+
+        <p>
+          A connected real estate platform for listing,
+          verifying, managing and selling property securely.
+        </p>
+
+      </div>
+
+
+      <div class="footer-col">
+
+        <h4>
+          Seller
+        </h4>
+
+        <a href="/seller/index.html">
+          Seller Home
+        </a>
+
+        <a href="/seller/dashboard.html">
+          Dashboard
+        </a>
+
+        <a href="/seller/list-property.html">
+          List Property
+        </a>
+
+        <a href="/seller/visits.html">
+          Visits
+        </a>
+
+      </div>
+
+
+      <div class="footer-col">
+
+        <h4>
+          Management
+        </h4>
+
+        <a href="/seller/edit-property.html">
+          Edit Property
+        </a>
+
+        <a href="/seller/property-approval.html">
+          Property Approval
+        </a>
+
+        <a href="/seller/offers.html">
+          Offers
+        </a>
+
+        <a href="/seller/payments.html">
+          Payments
+        </a>
+
+      </div>
+
+
+      <div class="footer-col">
+
+        <h4>
+          Support
+        </h4>
+
+        <a href="/seller/documents.html">
+          Documents
+        </a>
+
+        <a href="/seller/applications.html">
+          Applications
+        </a>
+
+        <a href="/seller/support.html">
+          Support
+        </a>
+
+        <a href="/contact.html">
+          Contact
+        </a>
+
+      </div>
+
+    </div>
+
+
+    <div class="footer-bottom">
+
+      <span>
+        © <span id="footerYear"></span> GHAR.
+        All rights reserved.
+      </span>
+
+      <span>
+        Seller Portal · Secure Session
+      </span>
+
+    </div>
+
+  </div>
+
+</footer>
+
+
+<div
+  id="toast"
+  class="toast"
+  role="status"
+  aria-live="polite"
+></div>
+
+
+<script>
+"use strict";
+
+
+/* =========================================================
+   CONFIG
+========================================================= */
+
+const API_BASE =
+  window.GHAR_API_BASE ||
+  window.API_BASE ||
+  "/api";
+
+const DOCUMENT_API =
+  API_BASE + "/documents";
+
+const PROFILE_API =
+  API_BASE + "/users/me";
+
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function $(selector){
+  return document.querySelector(selector);
+}
+
+function escapeHTML(value){
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+}
+
+function normalizeCollection(response){
+
+  if(Array.isArray(response)){
+    return response;
+  }
+
+  if(Array.isArray(response?.data)){
+    return response.data;
+  }
+
+  if(Array.isArray(response?.documents)){
+    return response.documents;
+  }
+
+  if(Array.isArray(response?.items)){
+    return response.items;
+  }
+
+  if(Array.isArray(response?.results)){
+    return response.results;
+  }
+
+  return [];
+}
+
+async function apiRequest(
+  url,
+  options={}
+){
+
+  const response =
+    await fetch(
+      url,
+      {
+        credentials:"include",
+
+        ...options,
+
+        headers:{
+          Accept:"application/json",
+
+          ...(options.body
+            ? {"Content-Type":"application/json"}
+            : {}),
+
+          ...(options.headers || {})
+        }
+      }
+    );
+
+  let data=null;
+
+  try{
+    data=await response.json();
+  }catch{
+    data=null;
+  }
+
+  if(!response.ok){
+
+    const error =
+      new Error(
+        data?.error?.message ||
+        data?.message ||
+        `Request failed (${response.status})`
+      );
+
+    error.status=response.status;
+    error.data=data;
+
+    throw error;
+  }
+
+  return data;
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+let toastTimer=null;
+
+function showToast(message){
+
+  const toast=$("#toast");
+
+  if(!toast){
+    return;
+  }
+
+  toast.textContent=message;
+  toast.classList.add("show");
+
+  clearTimeout(toastTimer);
+
+  toastTimer=setTimeout(
+    ()=>{
+      toast.classList.remove("show");
+    },
+    3000
+  );
+}
+
+
+/* =========================================================
+   PROFILE
+========================================================= */
+
+async function loadProfile(){
+
+  try{
+
+    const response =
+      await apiRequest(
+        PROFILE_API
+      );
+
+    const user =
+      response?.user ||
+      response?.data ||
+      response;
+
+    if(!user){
+      return;
+    }
+
+    const name =
+      user.name ||
+      user.fullName ||
+      user.firstName ||
+      user.email ||
+      "U";
+
+    $("#profileButton").textContent =
+      name
+        .trim()
+        .charAt(0)
+        .toUpperCase();
+
+  }catch(error){
+
+    console.warn(
+      "GHAR seller profile:",
+      error
+    );
+
+  }
+}
+
+
+/* =========================================================
+   DOCUMENT DATA
+========================================================= */
+
+let documents=[];
+
+async function loadDocuments(){
+
+  try{
+
+    const response =
+      await apiRequest(
+        DOCUMENT_API
+      );
+
+    documents =
+      normalizeCollection(
+        response
+      );
+
+    renderDocuments();
+    updateSummary();
+    updateChecklist();
+    updateActivity();
+
+  }catch(error){
+
+    console.warn(
+      "GHAR documents:",
+      error
+    );
+
+    documents=[];
+
+    renderDocuments();
+    updateSummary();
+    updateChecklist();
+
+    $("#activityList").innerHTML=`
+
+      <div class="activity-item">
+
+        <div class="activity-icon">
+          !
+        </div>
+
+        <div class="activity-text">
+
+          <strong>
+            Document service unavailable
+          </strong>
+
+          <span>
+            The page is ready, but the GHAR document API
+            did not return document data.
+          </span>
+
+        </div>
+
+      </div>
+
+    `;
+
+  }
+}
+
+
+/* =========================================================
+   DOCUMENT STATUS
+========================================================= */
+
+function documentStatus(document){
+
+  const value =
+    String(
+      document.status ||
+      document.verificationStatus ||
+      "pending"
+    ).toLowerCase();
+
+  if(
+    value.includes("reject") ||
+    value.includes("fail")
+  ){
+    return "rejected";
+  }
+
+  if(
+    value.includes("verify") ||
+    value.includes("approved") ||
+    value.includes("accept")
+  ){
+    return "verified";
+  }
+
+  if(
+    value.includes("missing") ||
+    value.includes("required")
+  ){
+    return "missing";
+  }
+
+  return "pending";
+}
+
+
+/* =========================================================
+   DOCUMENT ICON
+========================================================= */
+
+function documentIcon(document){
+
+  const type =
+    String(
+      document.mimeType ||
+      document.type ||
+      document.fileType ||
+      ""
+    ).toLowerCase();
+
+  if(type.includes("pdf")){
+    return "PDF";
+  }
+
+  if(
+    type.includes("image") ||
+    type.includes("jpg") ||
+    type.includes("png")
+  ){
+    return "IMG";
+  }
+
+  return "DOC";
+}
+
+
+/* =========================================================
+   DOCUMENT DATE
+========================================================= */
+
+function formatDate(value){
+
+  if(!value){
+    return "Date unavailable";
+  }
+
+  const date=new Date(value);
+
+  if(Number.isNaN(date.getTime())){
+    return String(value);
+  }
+
+  return date.toLocaleDateString(
+    "en-IN",
+    {
+      day:"2-digit",
+      month:"short",
+      year:"numeric"
+    }
+  );
+}
+
+
+/* =========================================================
+   RENDER DOCUMENTS
+========================================================= */
+
+function renderDocuments(){
+
+  const list=$("#documentList");
+
+  if(!list){
+    return;
+  }
+
+  if(!documents.length){
+
+    list.innerHTML=`
+
+      <div class="document-item">
+
+        <div class="document-icon">
+          +
+        </div>
+
+        <div class="document-info">
+
+          <strong>
+            No documents uploaded yet
+          </strong>
+
+          <span>
+            Upload your first document using the secure
+            upload area above.
+          </span>
+
+        </div>
+
+        <button
+          class="small-btn"
+          type="button"
+          data-scroll-upload
+        >
+          Upload
+        </button>
+
+      </div>
+
+    `;
+
+    return;
+  }
+
+
+  list.innerHTML =
+    documents.map(
+      document=>{
+
+        const id =
+          document.id ||
+          document.documentId ||
+          document._id ||
+          "";
+
+        const name =
+          document.originalName ||
+          document.fileName ||
+          document.name ||
+          "Seller document";
+
+        const status =
+          documentStatus(
+            document
+          );
+
+        const size =
+          document.size
+            ? formatFileSize(
+                document.size
+              )
+            : "File";
+
+        const date =
+          formatDate(
+            document.createdAt ||
+            document.uploadedAt ||
+            document.updatedAt
+          );
+
+        const url =
+          document.url ||
+          document.fileUrl ||
+          document.downloadUrl ||
+          "";
+
+
+        return `
+
+          <article
+            class="document-item"
+            data-document-id="${escapeHTML(id)}"
+          >
+
+            <div class="document-icon">
+              ${escapeHTML(
+                documentIcon(document)
+              )}
+            </div>
+
+            <div class="document-info">
+
+              <strong>
+                ${escapeHTML(name)}
+              </strong>
+
+              <span>
+                ${escapeHTML(size)}
+                · Uploaded ${escapeHTML(date)}
+              </span>
+
+              <span>
+                Status:
+                ${escapeHTML(status)}
+              </span>
+
+            </div>
+
+            <div class="document-actions">
+
+              <span
+                class="status ${status}"
+              >
+                ${escapeHTML(status)}
+              </span>
+
+              ${
+                url
+                ? `
+                  <a
+                    class="small-btn"
+                    href="${escapeHTML(url)}"
+                    target="_blank"
+                    rel="noopener"
+                  >
+                    View
+                  </a>
+                `
+                : ""
+              }
+
+              <button
+                class="small-btn"
+                type="button"
+                data-delete-document="${escapeHTML(id)}"
+              >
+                Remove
+              </button>
+
+            </div>
+
+          </article>
+
+        `;
+
+      }
+    ).join("");
+}
+
+
+/* =========================================================
+   FILE SIZE
+========================================================= */
+
+function formatFileSize(bytes){
+
+  const value=Number(bytes);
+
+  if(!Number.isFinite(value)){
+    return "File";
+  }
+
+  if(value < 1024){
+    return `${value} B`;
+  }
+
+  if(value < 1024*1024){
+    return `${(value/1024).toFixed(1)} KB`;
+  }
+
+  return `${(value/(1024*1024)).toFixed(1)} MB`;
+}
+
+
+/* =========================================================
+   SUMMARY
+========================================================= */
+
+function updateSummary(){
+
+  const total=documents.length;
+
+  const verified=
+    documents.filter(
+      d=>documentStatus(d)==="verified"
+    ).length;
+
+  const pending=
+    documents.filter(
+      d=>documentStatus(d)==="pending"
+    ).length;
+
+  const action=
+    documents.filter(
+      d=>{
+        const status=documentStatus(d);
+
+        return (
+          status==="rejected" ||
+          status==="missing"
+        );
+      }
+    ).length;
+
+
+  $("#totalDocuments").textContent=total;
+  $("#verifiedDocuments").textContent=verified;
+  $("#pendingDocuments").textContent=pending;
+  $("#actionDocuments").textContent=action;
+
+
+  const percent=
+    total
+      ? Math.round(
+          (verified/total)*100
+        )
+      : 0;
+
+
+  $("#verificationPercent").textContent=
+    `${percent}%`;
+
+  $("#verificationBar").style.width=
+    `${percent}%`;
+
+
+  $("#verificationNote").textContent=
+    total
+      ? `${verified} of ${total} uploaded documents are verified.`
+      : "Upload required documents to improve readiness.";
+}
+
+
+/* =========================================================
+   CHECKLIST
+========================================================= */
+
+function getDocumentText(document){
+
+  return (
+    `${document.name || ""} ` +
+    `${document.fileName || ""} ` +
+    `${document.originalName || ""} ` +
+    `${document.documentType || ""} ` +
+    `${document.category || ""} ` +
+    `${document.type || ""}`
+  ).toLowerCase();
+}
+
+function hasDocumentKeyword(
+  keywords
+){
+
+  return documents.some(
+    document=>{
+
+      const text=
+        getDocumentText(
+          document
+        );
+
+      return keywords.some(
+        keyword=>
+          text.includes(
+            keyword
+          )
+      );
+
+    }
+  );
+}
+
+function updateChecklist(){
+
+  const checks={
+    identity:hasDocumentKeyword([
+      "identity",
+      "aadhaar",
+      "aadhar",
+      "pan",
+      "passport",
+      "voter"
+    ]),
+
+    address:hasDocumentKeyword([
+      "address",
+      "residence",
+      "utility"
+    ]),
+
+    ownership:hasDocumentKeyword([
+      "ownership",
+      "title",
+      "sale deed",
+      "registry",
+      "deed"
+    ]),
+
+    tax:hasDocumentKeyword([
+      "tax",
+      "property tax"
+    ]),
+
+    noc:hasDocumentKeyword([
+      "noc",
+      "clearance",
+      "no objection"
+    ])
+  };
+
+
+  Object.entries(checks)
+    .forEach(
+      ([key,exists])=>{
+
+        const element=
+          document.querySelector(
+            `[data-check="${key}"]`
+          );
+
+        if(!element){
+          return;
+        }
+
+        element.textContent=
+          exists
+            ? "Ready"
+            : "Needed";
+
+        element.style.color=
+          exists
+            ? "var(--success)"
+            : "var(--gold-300)";
+
+      }
+    );
+}
+
+
+/* =========================================================
+   ACTIVITY
+========================================================= */
+
+function updateActivity(){
+
+  const list=$("#activityList");
+
+  if(!list){
+    return;
+  }
+
+  const recent=
+    [...documents]
+      .sort(
+        (a,b)=>
+          new Date(
+            b.updatedAt ||
+            b.createdAt ||
+            0
+          ) -
+          new Date(
+            a.updatedAt ||
+            a.createdAt ||
+            0
+          )
+      )
+      .slice(0,4);
+
+
+  if(!recent.length){
+
+    list.innerHTML=`
+
+      <div class="activity-item">
+
+        <div class="activity-icon">
+          ↑
+        </div>
+
+        <div class="activity-text">
+
+          <strong>
+            No document activity yet
+          </strong>
+
+          <span>
+            Upload a document to begin your verification journey.
+          </span>
+
+        </div>
+
+      </div>
+
+    `;
+
+    return;
+  }
+
+
+  list.innerHTML=
+    recent.map(
+      document=>{
+
+        const status=
+          documentStatus(
+            document
+          );
+
+        const name=
+          document.originalName ||
+          document.fileName ||
+          document.name ||
+          "Document";
+
+        return `
+
+          <div class="activity-item">
+
+            <div class="activity-icon">
+              ${
+                status==="verified"
+                  ? "✓"
+                  : status==="rejected"
+                    ? "!"
+                    : "◷"
+              }
+            </div>
+
+            <div class="activity-text">
+
+              <strong>
+                ${escapeHTML(name)}
+              </strong>
+
+              <span>
+                Document status:
+                ${escapeHTML(status)}
+              </span>
+
+            </div>
+
+            <span class="activity-time">
+              ${escapeHTML(
+                formatDate(
+                  document.updatedAt ||
+                  document.createdAt
+                )
+              )}
+            </span>
+
+          </div>
+
+        `;
+
+      }
+    ).join("");
+}
+
+
+/* =========================================================
+   UPLOAD
+========================================================= */
+
+async function uploadFiles(
+  files
+){
+
+  if(!files?.length){
+    return;
+  }
+
+  const uploadStatus=
+    $("#uploadStatus");
+
+  uploadStatus.textContent=
+    "Uploading...";
+
+
+  let successful=0;
+
+  for(
+    const file of files
+  ){
+
+    try{
+
+      /*
+       * FormData is used because the endpoint accepts
+       * multipart document uploads.
+       */
+
+      const formData=
+        new FormData();
+
+      formData.append(
+        "document",
+        file
+      );
+
+      const response=
+        await fetch(
+          DOCUMENT_API,
+          {
+            method:"POST",
+            credentials:"include",
+            body:formData
+          }
+        );
+
+
+      let data=null;
+
+      try{
+        data=await response.json();
+      }catch{
+        data=null;
+      }
+
+
+      if(!response.ok){
+
+        throw new Error(
+          data?.message ||
+          data?.error?.message ||
+          `Upload failed (${response.status})`
+        );
+
+      }
+
+      successful++;
+
+    }catch(error){
+
+      console.error(
+        "GHAR document upload:",
+        error
+      );
+
+      showToast(
+        `${file.name}: upload failed.`
+      );
+
+    }
+
+  }
+
+
+  if(successful){
+
+    showToast(
+      `${successful} document${successful===1?"":"s"} uploaded successfully.`
+    );
+
+  }
+
+  uploadStatus.textContent=
+    "Secure upload";
+
+  await loadDocuments();
+}
+
+
+/* =========================================================
+   FILE PICKER
+========================================================= */
+
+$("#chooseFiles")
+  ?.addEventListener(
+    "click",
+    ()=>{
+      $("#documentInput")?.click();
+    }
+  );
+
+
+$("#documentInput")
+  ?.addEventListener(
+    "change",
+    event=>{
+
+      uploadFiles(
+        event.target.files
+      );
+
+      event.target.value="";
+
+    }
+  );
+
+
+/* =========================================================
+   DRAG & DROP
+========================================================= */
+
+const uploadArea=
+  $("#uploadArea");
+
+uploadArea?.addEventListener(
+  "dragover",
+  event=>{
+
+    event.preventDefault();
+
+    uploadArea.classList.add(
+      "dragover"
+    );
+
+  }
+);
+
+uploadArea?.addEventListener(
+  "dragleave",
+  ()=>{
+    uploadArea.classList.remove(
+      "dragover"
+    );
+  }
+);
+
+uploadArea?.addEventListener(
+  "drop",
+  event=>{
+
+    event.preventDefault();
+
+    uploadArea.classList.remove(
+      "dragover"
+    );
+
+    uploadFiles(
+      event.dataTransfer.files
+    );
+
+  }
+);
+
+
+/* =========================================================
+   REFRESH
+========================================================= */
+
+$("#refreshDocuments")
+  ?.addEventListener(
+    "click",
+    async ()=>{
+
+      await loadDocuments();
+
+      showToast(
+        "Document list refreshed."
+      );
+
+    }
+  );
+
+
+/* =========================================================
+   DOCUMENT ACTIONS
+========================================================= */
+
+document.addEventListener(
+  "click",
+  async event=>{
+
+    const uploadButton=
+      event.target.closest(
+        "[data-scroll-upload]"
+      );
+
+    if(uploadButton){
+
+      uploadArea?.scrollIntoView({
+        behavior:"smooth",
+        block:"center"
+      });
+
+      return;
+    }
+
+
+    const deleteButton=
+      event.target.closest(
+        "[data-delete-document]"
+      );
+
+    if(!deleteButton){
+      return;
+    }
+
+
+    const id=
+      deleteButton.dataset.deleteDocument;
+
+    if(!id){
+      return;
+    }
+
+
+    const confirmed=
+      window.confirm(
+        "Remove this document from your GHAR seller documents?"
+      );
+
+    if(!confirmed){
+      return;
+    }
+
+
+    try{
+
+      deleteButton.disabled=true;
+
+      await apiRequest(
+        `${DOCUMENT_API}/${encodeURIComponent(id)}`,
+        {
+          method:"DELETE"
+        }
+      );
+
+      showToast(
+        "Document removed."
+      );
+
+      await loadDocuments();
+
+    }catch(error){
+
+      console.error(
+        "GHAR document delete:",
+        error
+      );
+
+      showToast(
+        "Unable to remove the document."
+      );
+
+      deleteButton.disabled=false;
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   MOBILE MENU
+========================================================= */
+
+$("#menuButton")
+  ?.addEventListener(
+    "click",
+    ()=>{
+
+      const nav=
+        document.querySelector(
+          ".desktop-nav"
+        );
+
+      if(!nav){
+        return;
+      }
+
+
+      const visible=
+        nav.dataset.mobileOpen==="true";
+
+
+      if(visible){
+
+        nav.style.display="";
+        nav.dataset.mobileOpen="false";
+
+        return;
+
+      }
+
+
+      nav.dataset.mobileOpen="true";
+
+      nav.style.display="flex";
+      nav.style.position="absolute";
+      nav.style.left="14px";
+      nav.style.right="14px";
+      nav.style.top="66px";
+      nav.style.padding="10px";
+      nav.style.flexDirection="column";
+      nav.style.alignItems="stretch";
+      nav.style.border=
+        "1px solid rgba(229,199,125,.14)";
+      nav.style.borderRadius="16px";
+      nav.style.background="#0b1c14";
+      nav.style.boxShadow=
+        "0 25px 60px rgba(0,0,0,.35)";
+
+    }
+  );
+
+
+/* =========================================================
+   NOTIFICATIONS
+========================================================= */
+
+$("#notificationButton")
+  ?.addEventListener(
+    "click",
+    ()=>{
+      window.location.href=
+        "/seller/notifications.html";
+    }
+  );
+
+
+/* =========================================================
+   INITIALIZATION
+========================================================= */
+
+async function initialize(){
+
+  $("#footerYear").textContent=
+    new Date().getFullYear();
+
+  await Promise.allSettled([
+    loadProfile(),
+    loadDocuments()
+  ]);
+
+}
+
+
+if(
+  document.readyState==="loading"
+){
+
+  document.addEventListener(
+    "DOMContentLoaded",
+    initialize
+  );
+
+}else{
+
+  initialize();
+
+}
+</script>
+
+</body>
+</html>

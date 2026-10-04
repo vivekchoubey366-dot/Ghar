@@ -1,0 +1,1884 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+  <meta name="theme-color" content="#f4ead9">
+  <meta name="description" content="GHAR Help -- get assistance with properties, accounts, listings, payments, documents and your property journey.">
+
+  <title>Help -- GHAR</title>
+
+  <link rel="icon" type="image/png" href="assets/images/logo/ghar-logo.jpg">
+
+  <!-- GLOBAL CSS -->
+  <link rel="stylesheet" href="assets/css/variables.css">
+  <link rel="stylesheet" href="assets/css/reset.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/layout.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <link rel="stylesheet" href="assets/css/navigation.css">
+  <link rel="stylesheet" href="assets/css/cards.css">
+  <link rel="stylesheet" href="assets/css/forms.css">
+  <link rel="stylesheet" href="assets/css/animations.css">
+  <link rel="stylesheet" href="assets/css/responsive.css">
+  <link rel="stylesheet" href="assets/css/utilities.css">
+
+  <style>
+
+    :root{
+      --ivory:#f8f1e5;
+      --pearl:#fffaf2;
+      --sand:#eadbc4;
+      --champagne:#d9bd83;
+      --gold:#b18a48;
+      --gold2:#e7d09b;
+      --emerald:#163a2e;
+      --emerald2:#245442;
+      --ink:#17251f;
+      --muted:#737d76;
+      --line:rgba(23,58,46,.12);
+      --shadow:0 30px 80px rgba(30,49,40,.12);
+      --radius:28px;
+    }
+
+    *{
+      box-sizing:border-box;
+    }
+
+    html{
+      scroll-behavior:smooth;
+    }
+
+    body{
+      margin:0;
+      background:var(--ivory);
+      color:var(--ink);
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+      line-height:1.55;
+      overflow-x:hidden;
+    }
+
+    a{
+      text-decoration:none;
+      color:inherit;
+    }
+
+    img{
+      display:block;
+      max-width:100%;
+    }
+
+    button,
+    input,
+    textarea{
+      font:inherit;
+    }
+
+    /* =========================
+       TOP BAR
+    ========================= */
+
+    .topbar{
+      background:var(--emerald);
+      color:#f8f1e5;
+      text-align:center;
+      font-size:11px;
+      letter-spacing:.1em;
+      padding:8px 16px;
+    }
+
+    .topbar b{
+      color:var(--gold2);
+    }
+
+    /* =========================
+       HEADER
+    ========================= */
+
+    .header{
+      position:sticky;
+      top:0;
+      z-index:1000;
+      padding:12px 3.5vw;
+      background:rgba(248,241,229,.93);
+      backdrop-filter:blur(18px);
+      border-bottom:1px solid var(--line);
+    }
+
+    .nav{
+      max-width:1380px;
+      margin:auto;
+      display:flex;
+      align-items:center;
+      gap:26px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:11px;
+      font-weight:900;
+      letter-spacing:.2em;
+      color:var(--emerald);
+    }
+
+    .brand img{
+      width:42px;
+      height:42px;
+      object-fit:contain;
+    }
+
+    .links{
+      display:flex;
+      gap:5px;
+      margin-left:auto;
+    }
+
+    .links a{
+      font-size:13px;
+      font-weight:700;
+      padding:10px 13px;
+      border-radius:999px;
+    }
+
+    .links a:hover{
+      background:#eee3d2;
+    }
+
+    .nav-actions{
+      display:flex;
+      gap:8px;
+      align-items:center;
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-height:44px;
+      padding:0 17px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      font-size:12px;
+      font-weight:800;
+    }
+
+    .pill.gold{
+      background:var(--emerald);
+      border-color:var(--emerald);
+      color:#fff;
+    }
+
+    .menu{
+      display:none;
+      border:0;
+      background:none;
+      font-size:24px;
+      color:var(--emerald);
+      cursor:pointer;
+    }
+
+    /* =========================
+       HERO
+    ========================= */
+
+    .hero{
+      position:relative;
+      min-height:610px;
+      display:flex;
+      align-items:center;
+      overflow:hidden;
+
+      background:
+        linear-gradient(
+          105deg,
+          rgba(17,48,38,.92),
+          rgba(17,48,38,.66) 55%,
+          rgba(17,48,38,.25)
+        ),
+        url("assets/images/banners/ghar-hero-evening.webp")
+        center/cover no-repeat;
+    }
+
+    .hero:after{
+      content:"";
+      position:absolute;
+      inset:auto 0 0;
+      height:120px;
+      background:linear-gradient(
+        transparent,
+        var(--ivory)
+      );
+      pointer-events:none;
+    }
+
+    .hero-inner{
+      position:relative;
+      z-index:2;
+      width:min(1250px,90vw);
+      margin:auto;
+      padding:90px 0 120px;
+    }
+
+    .eyebrow{
+      display:inline-flex;
+      align-items:center;
+      gap:9px;
+      color:var(--gold2);
+      font-size:10px;
+      font-weight:900;
+      letter-spacing:.22em;
+      text-transform:uppercase;
+    }
+
+    .eyebrow:before{
+      content:"";
+      width:30px;
+      height:1px;
+      background:var(--gold2);
+    }
+
+    h1{
+      font:500 clamp(55px,7vw,96px)/.92 Georgia,serif;
+      letter-spacing:-.06em;
+      color:#fff;
+      margin:20px 0 25px;
+      max-width:900px;
+    }
+
+    h1 em{
+      font-style:normal;
+      color:#e8d19c;
+    }
+
+    .hero-copy{
+      max-width:680px;
+      color:rgba(255,255,255,.74);
+      font-size:16px;
+      line-height:1.85;
+      margin:0;
+    }
+
+    .actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:28px;
+    }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-height:52px;
+      padding:0 22px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      font-size:12px;
+      font-weight:850;
+      transition:.25s;
+    }
+
+    .btn:hover{
+      transform:translateY(-2px);
+    }
+
+    .btn.gold{
+      background:var(--champagne);
+      color:#14251e;
+      border-color:var(--champagne);
+    }
+
+    .btn.light{
+      color:#fff;
+      background:rgba(255,255,255,.08);
+      border-color:rgba(255,255,255,.25);
+      backdrop-filter:blur(12px);
+    }
+
+    /* =========================
+       SEARCH HELP
+    ========================= */
+
+    .search-wrap{
+      position:relative;
+      z-index:5;
+      margin:-48px auto 0;
+      width:min(1050px,88vw);
+    }
+
+    .search-box{
+      background:var(--pearl);
+      border:1px solid rgba(177,138,72,.24);
+      border-radius:25px;
+      box-shadow:var(--shadow);
+      padding:10px;
+      display:flex;
+      gap:8px;
+    }
+
+    .search-box input{
+      flex:1;
+      min-width:0;
+      border:0;
+      outline:0;
+      background:#f2e8d8;
+      border-radius:17px;
+      padding:0 19px;
+      min-height:60px;
+      color:var(--ink);
+      font-size:13px;
+      font-weight:700;
+    }
+
+    .search-box button{
+      border:0;
+      border-radius:17px;
+      background:var(--emerald);
+      color:#fff;
+      padding:0 24px;
+      font-size:12px;
+      font-weight:900;
+      cursor:pointer;
+    }
+
+    /* =========================
+       SECTIONS
+    ========================= */
+
+    .section{
+      padding:105px 4.5vw;
+    }
+
+    .container{
+      max-width:1280px;
+      margin:auto;
+    }
+
+    .head{
+      margin-bottom:42px;
+    }
+
+    .kicker{
+      font-size:10px;
+      font-weight:900;
+      text-transform:uppercase;
+      letter-spacing:.2em;
+      color:var(--gold);
+    }
+
+    .section h2{
+      font:500 clamp(40px,5vw,68px)/.98 Georgia,serif;
+      letter-spacing:-.045em;
+      color:var(--emerald);
+      margin:12px 0 0;
+    }
+
+    .section-intro{
+      max-width:600px;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.85;
+      margin-top:16px;
+    }
+
+    /* =========================
+       HELP CARDS
+    ========================= */
+
+    .help-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:15px;
+    }
+
+    .help-card{
+      position:relative;
+      padding:30px;
+      min-height:240px;
+      border-radius:27px;
+
+      background:
+        linear-gradient(
+          145deg,
+          #fffaf2,
+          #f0e4d1
+        );
+
+      border:1px solid var(--line);
+      transition:.3s;
+      overflow:hidden;
+    }
+
+    .help-card:after{
+      content:"";
+      position:absolute;
+      width:130px;
+      height:130px;
+      border-radius:50%;
+      right:-55px;
+      bottom:-55px;
+      background:rgba(177,138,72,.12);
+    }
+
+    .help-card:hover{
+      transform:translateY(-5px);
+      box-shadow:var(--shadow);
+    }
+
+    .icon{
+      width:49px;
+      height:49px;
+      border-radius:15px;
+      display:grid;
+      place-items:center;
+      background:var(--emerald);
+      color:var(--gold2);
+      font-size:21px;
+    }
+
+    .help-card h3{
+      font:500 25px Georgia,serif;
+      color:var(--emerald);
+      margin:30px 0 7px;
+    }
+
+    .help-card p{
+      margin:0;
+      color:var(--muted);
+      font-size:11px;
+      line-height:1.8;
+      max-width:310px;
+    }
+
+    .card-link{
+      display:inline-block;
+      margin-top:18px;
+      color:var(--emerald);
+      font-size:11px;
+      font-weight:900;
+    }
+
+    .card-link span{
+      color:var(--gold);
+    }
+
+    /* =========================
+       QUICK ACTIONS
+    ========================= */
+
+    .quick-band{
+      background:
+        linear-gradient(
+          135deg,
+          #eee1ce,
+          #f8f0e2
+        );
+    }
+
+    .quick-grid{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:14px;
+    }
+
+    .quick{
+      padding:26px;
+      border-radius:23px;
+      background:rgba(255,250,242,.75);
+      border:1px solid var(--line);
+      transition:.25s;
+    }
+
+    .quick:hover{
+      transform:translateY(-4px);
+      background:#fffaf2;
+    }
+
+    .quick strong{
+      display:block;
+      color:var(--gold);
+      font-size:25px;
+      margin-bottom:20px;
+    }
+
+    .quick h3{
+      color:var(--emerald);
+      font-size:14px;
+      margin:0 0 6px;
+    }
+
+    .quick p{
+      color:var(--muted);
+      font-size:10px;
+      line-height:1.7;
+      margin:0;
+    }
+
+    /* =========================
+       SUPPORT BAND
+    ========================= */
+
+    .support{
+      background:var(--emerald);
+      color:#fff;
+      padding:100px 4.5vw;
+    }
+
+    .support-grid{
+      max-width:1180px;
+      margin:auto;
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:60px;
+      align-items:center;
+    }
+
+    .support h2{
+      font:500 clamp(42px,5vw,65px)/1 Georgia,serif;
+      letter-spacing:-.04em;
+      margin:12px 0;
+    }
+
+    .support .kicker{
+      color:var(--gold2);
+    }
+
+    .support-copy{
+      color:rgba(255,255,255,.62);
+      max-width:530px;
+      font-size:13px;
+      line-height:1.9;
+    }
+
+    .support-card{
+      background:rgba(255,255,255,.07);
+      border:1px solid rgba(255,255,255,.13);
+      border-radius:28px;
+      padding:30px;
+      backdrop-filter:blur(14px);
+    }
+
+    .support-row{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:20px;
+      padding:17px 0;
+      border-bottom:1px solid rgba(255,255,255,.1);
+    }
+
+    .support-row:last-child{
+      border-bottom:0;
+    }
+
+    .support-row span:first-child{
+      color:rgba(255,255,255,.58);
+      font-size:11px;
+    }
+
+    .support-row strong{
+      color:var(--gold2);
+      font-size:12px;
+    }
+
+    /* =========================
+       CTA
+    ========================= */
+
+    .cta{
+      padding:110px 4.5vw;
+      text-align:center;
+      background:var(--ivory);
+    }
+
+    .cta h2{
+      max-width:850px;
+      margin:12px auto;
+      font:500 clamp(46px,6vw,78px)/.96 Georgia,serif;
+      color:var(--emerald);
+    }
+
+    .cta p{
+      max-width:590px;
+      margin:auto;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.8;
+    }
+
+    .cta .actions{
+      justify-content:center;
+    }
+
+    /* =========================
+       FOOTER
+    ========================= */
+
+    footer{
+      background:#10291f;
+      color:#fff;
+    }
+
+    .footer{
+      max-width:1280px;
+      margin:auto;
+      padding:70px 4.5vw;
+      display:grid;
+      grid-template-columns:2fr 1fr 1fr 1fr;
+      gap:45px;
+    }
+
+    .footer-brand{
+      font-size:25px;
+      font-weight:900;
+      letter-spacing:.2em;
+      color:var(--gold2);
+    }
+
+    .footer p{
+      color:rgba(255,255,255,.5);
+      max-width:380px;
+      font-size:12px;
+      line-height:1.8;
+    }
+
+    .footer h4{
+      color:var(--gold2);
+      margin:0 0 15px;
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.15em;
+    }
+
+    .footer a{
+      display:block;
+      color:rgba(255,255,255,.6);
+      font-size:11px;
+      margin:9px 0;
+    }
+
+    .footer a:hover{
+      color:#fff;
+    }
+
+    .bottom{
+      max-width:1280px;
+      margin:auto;
+      padding:18px 4.5vw 25px;
+      border-top:1px solid rgba(255,255,255,.1);
+      display:flex;
+      justify-content:space-between;
+      gap:20px;
+      color:rgba(255,255,255,.4);
+      font-size:10px;
+    }
+
+    .bottom a{
+      display:inline;
+      margin:0;
+    }
+
+    /* =========================
+       MOBILE DOCK
+    ========================= */
+
+    .mobile-dock{
+      display:none;
+    }
+
+    /* =========================
+       RESPONSIVE
+    ========================= */
+
+    @media(max-width:1050px){
+
+      .links{
+        display:none;
+      }
+
+      .menu{
+        display:block;
+      }
+
+      .help-grid{
+        grid-template-columns:1fr 1fr;
+      }
+
+      .quick-grid{
+        grid-template-columns:1fr 1fr;
+      }
+
+      .support-grid{
+        grid-template-columns:1fr;
+      }
+
+      .footer{
+        grid-template-columns:1fr 1fr;
+      }
+
+    }
+
+    @media(max-width:700px){
+
+      .topbar{
+        font-size:9px;
+      }
+
+      .header{
+        padding:9px 5vw;
+      }
+
+      .nav-actions .pill:first-child{
+        display:none;
+      }
+
+      .hero{
+        min-height:650px;
+      }
+
+      .hero-inner{
+        width:90vw;
+        padding:70px 0 110px;
+      }
+
+      h1{
+        font-size:56px;
+      }
+
+      .hero-copy{
+        font-size:14px;
+      }
+
+      .search-wrap{
+        width:90vw;
+        margin-top:-38px;
+      }
+
+      .search-box{
+        flex-direction:column;
+      }
+
+      .search-box input{
+        min-height:58px;
+      }
+
+      .search-box button{
+        min-height:58px;
+      }
+
+      .help-grid,
+      .quick-grid{
+        grid-template-columns:1fr;
+      }
+
+      .support-grid{
+        gap:35px;
+      }
+
+      .footer{
+        grid-template-columns:1fr;
+      }
+
+      .bottom{
+        flex-direction:column;
+      }
+
+      .mobile-dock{
+        position:fixed;
+        z-index:9999;
+        left:10px;
+        right:10px;
+        bottom:10px;
+
+        display:grid;
+        grid-template-columns:repeat(5,1fr);
+
+        background:rgba(16,41,31,.95);
+        backdrop-filter:blur(18px);
+
+        border:1px solid rgba(255,255,255,.12);
+        border-radius:20px;
+        padding:8px;
+
+        box-shadow:0 20px 50px rgba(0,0,0,.2);
+      }
+
+      .mobile-dock a{
+        text-align:center;
+        color:rgba(255,255,255,.65);
+        font-size:8px;
+        font-weight:800;
+      }
+
+      .mobile-dock span{
+        display:block;
+        color:var(--gold2);
+        font-size:18px;
+        line-height:1;
+        margin-bottom:3px;
+      }
+
+      body{
+        padding-bottom:80px;
+      }
+
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- =========================
+       TOP BAR
+  ========================= -->
+
+  <div class="topbar">
+    <b>GHAR</b>
+    &nbsp; | &nbsp;
+    Help when you need it throughout your property journey
+  </div>
+
+
+  <!-- =========================
+       HEADER
+  ========================= -->
+
+  <header class="header">
+
+    <nav class="nav">
+
+      <a href="index.html" class="brand">
+
+        <img
+          src="assets/images/logo/ghar-logo.png"
+          alt="GHAR"
+        >
+
+        <span>GHAR</span>
+
+      </a>
+
+
+      <div class="links">
+
+        <a href="properties.html">
+          Properties
+        </a>
+
+        <a href="about.html">
+          About
+        </a>
+
+        <a href="property-search.html">
+          Search
+        </a>
+
+        <a href="compare-properties.html">
+          Compare
+        </a>
+
+        <a href="contact.html">
+          Contact
+        </a>
+
+      </div>
+
+
+      <div class="nav-actions">
+
+        <a
+          href="login.html"
+          class="pill"
+        >
+          Login
+        </a>
+
+        <a
+          href="role-selection.html"
+          class="pill gold"
+        >
+          Get Started
+        </a>
+
+        <button
+          class="menu"
+          type="button"
+          aria-label="Open navigation"
+        >
+          ☰
+        </button>
+
+      </div>
+
+    </nav>
+
+  </header>
+
+
+  <main>
+
+
+    <!-- =========================
+         HERO
+    ========================= -->
+
+    <section class="hero">
+
+      <div class="hero-inner">
+
+        <div class="eyebrow">
+          GHAR support
+        </div>
+
+        <h1>
+          Help for every
+          <em>property journey.</em>
+        </h1>
+
+        <p class="hero-copy">
+          Find answers, understand GHAR services, manage
+          your account and get assistance with properties,
+          listings, enquiries, visits, documents and payments.
+        </p>
+
+        <div class="actions">
+
+          <a
+            href="help-centre.html"
+            class="btn gold"
+          >
+            Visit Help Centre
+          </a>
+
+          <a
+            href="contact.html"
+            class="btn light"
+          >
+            Contact GHAR
+          </a>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         SEARCH
+    ========================= -->
+
+    <div class="search-wrap">
+
+      <form
+        class="search-box"
+        id="helpSearch"
+      >
+
+        <input
+          id="helpQuery"
+          type="search"
+          autocomplete="off"
+          placeholder="Search help -- e.g. listing a property, payments, documents..."
+          aria-label="Search GHAR help"
+        >
+
+        <button type="submit">
+          Search Help
+        </button>
+
+      </form>
+
+    </div>
+
+
+    <!-- =========================
+         HELP CATEGORIES
+    ========================= -->
+
+    <section class="section">
+
+      <div class="container">
+
+        <div class="head">
+
+          <div class="kicker">
+            How can we help?
+          </div>
+
+          <h2>
+            Find the right
+            <br>
+            place for your question.
+          </h2>
+
+          <p class="section-intro">
+            Choose a support area to quickly find information
+            about your GHAR account, property journey and
+            platform services.
+          </p>
+
+        </div>
+
+
+        <div class="help-grid">
+
+
+          <!-- ACCOUNT -->
+
+          <a
+            class="help-card"
+            href="help-centre.html?topic=account"
+          >
+
+            <div class="icon">
+              ◉
+            </div>
+
+            <h3>
+              Account & Login
+            </h3>
+
+            <p>
+              Get help with registration, login, OTP,
+              password recovery, email verification and
+              account settings.
+            </p>
+
+            <span class="card-link">
+              Account help <span>→</span>
+            </span>
+
+          </a>
+
+
+          <!-- BUYER -->
+
+          <a
+            class="help-card"
+            href="help-centre.html?topic=buyer"
+          >
+
+            <div class="icon">
+              ⌂
+            </div>
+
+            <h3>
+              Buying Property
+            </h3>
+
+            <p>
+              Learn how to search properties, save listings,
+              enquire, schedule visits and manage offers.
+            </p>
+
+            <span class="card-link">
+              Buyer help <span>→</span>
+            </span>
+
+          </a>
+
+
+          <!-- SELLER -->
+
+          <a
+            class="help-card"
+            href="help-centre.html?topic=seller"
+          >
+
+            <div class="icon">
+              ◇
+            </div>
+
+            <h3>
+              Selling Property
+            </h3>
+
+            <p>
+              Understand property listing, verification,
+              enquiries, visits, offers and seller tools.
+            </p>
+
+            <span class="card-link">
+              Seller help <span>→</span>
+            </span>
+
+          </a>
+
+
+          <!-- RENT -->
+
+          <a
+            class="help-card"
+            href="help-centre.html?topic=rent"
+          >
+
+            <div class="icon">
+              ↗
+            </div>
+
+            <h3>
+              Rent & Lease
+            </h3>
+
+            <p>
+              Find information about rental properties,
+              lease opportunities, enquiries and related
+              property journeys.
+            </p>
+
+            <span class="card-link">
+              Rental help <span>→</span>
+            </span>
+
+          </a>
+
+
+          <!-- DOCUMENTS -->
+
+          <a
+            class="help-card"
+            href="help-centre.html?topic=documents"
+          >
+
+            <div class="icon">
+              ▣
+            </div>
+
+            <h3>
+              Documents
+            </h3>
+
+            <p>
+              Understand document uploads, verification,
+              application files, access requests and
+              document management.
+            </p>
+
+            <span class="card-link">
+              Document help <span>→</span>
+            </span>
+
+          </a>
+
+
+          <!-- PAYMENTS -->
+
+          <a
+            class="help-card"
+            href="help-centre.html?topic=payments"
+          >
+
+            <div class="icon">
+              ₹
+            </div>
+
+            <h3>
+              Payments
+            </h3>
+
+            <p>
+              Get information about subscriptions,
+              transaction status, receipts, refunds and
+              payment-related questions.
+            </p>
+
+            <span class="card-link">
+              Payment help <span>→</span>
+            </span>
+
+          </a>
+
+
+          <!-- VISITS -->
+
+          <a
+            class="help-card"
+            href="help-centre.html?topic=visits"
+          >
+
+            <div class="icon">
+              ◷
+            </div>
+
+            <h3>
+              Property Visits
+            </h3>
+
+            <p>
+              Understand visit requests, schedules,
+              confirmations, changes and visit-related
+              communication.
+            </p>
+
+            <span class="card-link">
+              Visit help <span>→</span>
+            </span>
+
+          </a>
+
+
+          <!-- AI -->
+
+          <a
+            class="help-card"
+            href="help-centre.html?topic=ai"
+          >
+
+            <div class="icon">
+              ✦
+            </div>
+
+            <h3>
+              GHAR AI
+            </h3>
+
+            <p>
+              Learn about AI property matching, search
+              assistance, property information and other
+              intelligent platform features.
+            </p>
+
+            <span class="card-link">
+              AI help <span>→</span>
+            </span>
+
+          </a>
+
+
+          <!-- SECURITY -->
+
+          <a
+            class="help-card"
+            href="help-centre.html?topic=security"
+          >
+
+            <div class="icon">
+              ⛨
+            </div>
+
+            <h3>
+              Safety & Security
+            </h3>
+
+            <p>
+              Protect your account, understand security
+              practices and learn how to report suspicious
+              activity.
+            </p>
+
+            <span class="card-link">
+              Security help <span>→</span>
+            </span>
+
+          </a>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         QUICK ACTIONS
+    ========================= -->
+
+    <section class="section quick-band">
+
+      <div class="container">
+
+        <div class="head">
+
+          <div class="kicker">
+            Quick actions
+          </div>
+
+          <h2>
+            Need something
+            <br>
+            specific?
+          </h2>
+
+        </div>
+
+
+        <div class="quick-grid">
+
+
+          <a
+            href="login.html"
+            class="quick"
+          >
+
+            <strong>
+              ◉
+            </strong>
+
+            <h3>
+              Login to GHAR
+            </h3>
+
+            <p>
+              Access your account, dashboard,
+              saved properties and activity.
+            </p>
+
+          </a>
+
+
+          <a
+            href="seller/list-property.html"
+            class="quick"
+          >
+
+            <strong>
+              +
+            </strong>
+
+            <h3>
+              List a Property
+            </h3>
+
+            <p>
+              Start creating a property listing
+              through the GHAR seller journey.
+            </p>
+
+          </a>
+
+
+          <a
+            href="contact.html"
+            class="quick"
+          >
+
+            <strong>
+              ✉
+            </strong>
+
+            <h3>
+              Contact Support
+            </h3>
+
+            <p>
+              Send GHAR a support request or
+              property-related enquiry.
+            </p>
+
+          </a>
+
+
+          <a
+            href="security.html"
+            class="quick"
+          >
+
+            <strong>
+              ⛨
+            </strong>
+
+            <h3>
+              Security Centre
+            </h3>
+
+            <p>
+              Review account protection and
+              security guidance.
+            </p>
+
+          </a>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         SUPPORT
+    ========================= -->
+
+    <section class="support">
+
+      <div class="support-grid">
+
+
+        <div>
+
+          <div class="kicker">
+            Still need assistance?
+          </div>
+
+          <h2>
+            We're here to help you move forward.
+          </h2>
+
+          <p class="support-copy">
+            If you cannot find the information you need,
+            contact GHAR with the relevant details.
+            Providing your account or property reference,
+            where appropriate, can help support teams
+            understand your request.
+          </p>
+
+          <div class="actions">
+
+            <a
+              href="contact.html"
+              class="btn gold"
+            >
+              Contact Support
+            </a>
+
+            <a
+              href="help-centre.html"
+              class="btn light"
+            >
+              Browse Help Centre
+            </a>
+
+          </div>
+
+        </div>
+
+
+        <div class="support-card">
+
+          <div class="support-row">
+
+            <span>
+              General assistance
+            </span>
+
+            <strong>
+              Help Centre
+            </strong>
+
+          </div>
+
+
+          <div class="support-row">
+
+            <span>
+              Property questions
+            </span>
+
+            <strong>
+              Property Support
+            </strong>
+
+          </div>
+
+
+          <div class="support-row">
+
+            <span>
+              Account access
+            </span>
+
+            <strong>
+              Account Help
+            </strong>
+
+          </div>
+
+
+          <div class="support-row">
+
+            <span>
+              Safety concerns
+            </span>
+
+            <strong>
+              Security Centre
+            </strong>
+
+          </div>
+
+
+          <div class="support-row">
+
+            <span>
+              Other enquiries
+            </span>
+
+            <strong>
+              Contact GHAR
+            </strong>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         CTA
+    ========================= -->
+
+    <section class="cta">
+
+      <div class="container">
+
+        <div class="kicker">
+          GHAR support ecosystem
+        </div>
+
+        <h2>
+          Search, understand and continue your journey.
+        </h2>
+
+        <p>
+          Explore the Help Centre for detailed guidance,
+          or contact GHAR when you need direct assistance.
+        </p>
+
+        <div class="actions">
+
+          <a
+            href="help-centre.html"
+            class="btn"
+            style="
+              background:var(--emerald);
+              color:#fff;
+              border-color:var(--emerald)
+            "
+          >
+            Open Help Centre →
+          </a>
+
+          <a
+            href="contact.html"
+            class="btn"
+          >
+            Contact Us
+          </a>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- =========================
+       FOOTER
+  ========================= -->
+
+  <footer>
+
+    <div class="footer">
+
+
+      <div>
+
+        <div class="footer-brand">
+          GHAR
+        </div>
+
+        <p>
+          A structured real-estate ecosystem connecting
+          buyers, sellers, renters and property transactions
+          through one premium digital experience.
+        </p>
+
+      </div>
+
+
+      <div>
+
+        <h4>
+          Properties
+        </h4>
+
+        <a href="properties.html">
+          Buy
+        </a>
+
+        <a href="properties.html?listing=rent">
+          Rent
+        </a>
+
+        <a href="properties.html?listing=lease">
+          Lease
+        </a>
+
+        <a href="properties.html?type=commercial">
+          Commercial
+        </a>
+
+        <a href="properties.html?type=land">
+          Land
+        </a>
+
+      </div>
+
+
+      <div>
+
+        <h4>
+          Support
+        </h4>
+
+        <a href="help.html">
+          Help
+        </a>
+
+        <a href="help-centre.html">
+          Help Centre
+        </a>
+
+        <a href="contact.html">
+          Contact
+        </a>
+
+        <a href="security.html">
+          Security
+        </a>
+
+        <a href="accessibility.html">
+          Accessibility
+        </a>
+
+      </div>
+
+
+      <div>
+
+        <h4>
+          GHAR
+        </h4>
+
+        <a href="about.html">
+          About
+        </a>
+
+        <a href="education.html">
+          Education
+        </a>
+
+        <a href="careers.html">
+          Careers
+        </a>
+
+        <a href="terms.html">
+          Terms
+        </a>
+
+        <a href="privacy.html">
+          Privacy
+        </a>
+
+      </div>
+
+    </div>
+
+
+    <div class="bottom">
+
+      <span>
+        © 2026 GHAR. All rights reserved.
+      </span>
+
+      <span>
+
+        <a href="terms.html">
+          Terms
+        </a>
+
+        &nbsp;·&nbsp;
+
+        <a href="privacy.html">
+          Privacy
+        </a>
+
+        &nbsp;·&nbsp;
+
+        <a href="cookie-policy.html">
+          Cookies
+        </a>
+
+        &nbsp;·&nbsp;
+
+        <a href="refund-policy.html">
+          Refunds
+        </a>
+
+      </span>
+
+    </div>
+
+  </footer>
+
+
+  <!-- =========================
+       MOBILE NAVIGATION
+  ========================= -->
+
+  <nav
+    class="mobile-dock"
+    aria-label="Mobile navigation"
+  >
+
+    <a href="index.html">
+      <span>⌂</span>
+      Home
+    </a>
+
+    <a href="properties.html">
+      <span>⌕</span>
+      Search
+    </a>
+
+    <a href="help.html">
+      <span>?</span>
+      Help
+    </a>
+
+    <a href="profile.html">
+      <span>◉</span>
+      Account
+    </a>
+
+    <a href="ai/ai-assistant.html">
+      <span>✦</span>
+      AI
+    </a>
+
+  </nav>
+
+
+  <!-- =========================
+       CORE JAVASCRIPT
+  ========================= -->
+
+  <script
+    src="assets/js/constants.js"
+    defer
+  ></script>
+
+  <script
+    src="assets/js/config.js"
+    defer
+  ></script>
+
+  <script
+    src="assets/js/storage.js"
+    defer
+  ></script>
+
+  <script
+    src="assets/js/api.js"
+    defer
+  ></script>
+
+  <script
+    src="assets/js/auth.js"
+    defer
+  ></script>
+
+  <script
+    src="assets/js/core.js"
+    defer
+  ></script>
+
+  <script
+    src="assets/js/components.js"
+    defer
+  ></script>
+
+  <script
+    src="assets/js/navigation.js"
+    defer
+  ></script>
+
+
+  <!-- =========================
+       PAGE JAVASCRIPT
+  ========================= -->
+
+  <script>
+
+    document.addEventListener(
+      "DOMContentLoaded",
+      () => {
+
+        /* =========================
+           HELP SEARCH
+        ========================= */
+
+        const form =
+          document.getElementById(
+            "helpSearch"
+          );
+
+        form?.addEventListener(
+          "submit",
+          event => {
+
+            event.preventDefault();
+
+            const query =
+              document
+                .getElementById("helpQuery")
+                .value
+                .trim();
+
+            if(!query){
+
+              location.href =
+                "help-centre.html";
+
+              return;
+
+            }
+
+            location.href =
+              "help-centre.html?q="
+              +
+              encodeURIComponent(query);
+
+          }
+        );
+
+
+        /* =========================
+           ENTER KEY
+        ========================= */
+
+        document
+          .getElementById("helpQuery")
+          ?.addEventListener(
+            "keydown",
+            event => {
+
+              if(
+                event.key === "Enter"
+              ){
+
+                event.preventDefault();
+
+                form?.requestSubmit();
+
+              }
+
+            }
+          );
+
+      }
+    );
+
+  </script>
+
+</body>
+</html>

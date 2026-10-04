@@ -1,0 +1,2536 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<meta name="description"
+      content="GHAR Seller Support -- Get help with listings, approvals, leads, visits, offers and payments.">
+
+<meta name="theme-color" content="#162d25">
+
+<title>GHAR · Seller Support</title>
+
+<link rel="icon" href="../assets/images/favicon.svg">
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+:root{
+  --green-950:#07130e;
+  --green-925:#0a1912;
+  --green-900:#0b1c14;
+  --green-850:#10261c;
+  --green-800:#162d25;
+  --green-750:#1a382c;
+  --green-700:#214438;
+
+  --gold-100:#fff7df;
+  --gold-200:#f4dfaa;
+  --gold-300:#e5c77d;
+  --gold-400:#c9a95c;
+  --gold-500:#a98238;
+
+  --cream:#fffaf0;
+  --text:#f9f5ea;
+  --text-dark:#17231c;
+
+  --muted:rgba(255,255,255,.68);
+  --muted-2:rgba(255,255,255,.45);
+
+  --border:rgba(229,199,125,.18);
+  --border-light:rgba(255,255,255,.09);
+
+  --success:#82c995;
+  --danger:#e98c8c;
+  --blue:#91b9e8;
+
+  --shadow:0 25px 80px rgba(0,0,0,.25);
+
+  --radius-xl:28px;
+  --radius-lg:21px;
+  --radius-md:15px;
+
+  --container:1440px;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  min-height:100vh;
+  color:var(--text);
+  font-family:
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  background:
+    radial-gradient(
+      circle at 5% 0%,
+      rgba(229,199,125,.12),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 100% 10%,
+      rgba(44,91,69,.22),
+      transparent 30%
+    ),
+    linear-gradient(
+      135deg,
+      #07130e,
+      #0b1c14 48%,
+      #10261c
+    );
+
+  overflow-x:hidden;
+}
+
+a{
+  color:inherit;
+  text-decoration:none;
+}
+
+button,
+input,
+textarea,
+select{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+img{
+  display:block;
+  max-width:100%;
+}
+
+.container{
+  width:min(
+    calc(100% - 40px),
+    var(--container)
+  );
+  margin:auto;
+}
+
+/* =========================================================
+   BACKGROUND
+========================================================= */
+
+.page-glow{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:-1;
+  overflow:hidden;
+}
+
+.page-glow::before{
+  content:"";
+  position:absolute;
+  width:550px;
+  height:550px;
+  top:-300px;
+  right:-220px;
+  border-radius:50%;
+  border:1px solid rgba(229,199,125,.12);
+  box-shadow:
+    0 0 0 60px rgba(229,199,125,.025),
+    0 0 0 120px rgba(229,199,125,.015);
+}
+
+.page-glow::after{
+  content:"";
+  position:absolute;
+  width:500px;
+  height:500px;
+  bottom:-300px;
+  left:-250px;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,.06);
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.site-header{
+  position:sticky;
+  top:0;
+  z-index:100;
+  border-bottom:1px solid rgba(229,199,125,.10);
+  background:rgba(7,19,14,.90);
+  backdrop-filter:blur(22px);
+}
+
+.header-inner{
+  min-height:76px;
+  display:flex;
+  align-items:center;
+  gap:24px;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex-shrink:0;
+}
+
+.brand-mark{
+  width:45px;
+  height:45px;
+  display:grid;
+  place-items:center;
+  border-radius:14px;
+  color:#152116;
+  font-size:19px;
+  font-weight:1000;
+
+  background:
+    linear-gradient(
+      135deg,
+      #f1dda5,
+      #b98b3d
+    );
+
+  box-shadow:
+    0 10px 25px rgba(0,0,0,.25),
+    inset 0 1px 0 rgba(255,255,255,.5);
+}
+
+.brand-text strong{
+  display:block;
+  font-size:17px;
+  letter-spacing:.17em;
+}
+
+.brand-text span{
+  display:block;
+  margin-top:2px;
+  color:var(--muted-2);
+  font-size:8px;
+  font-weight:800;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+}
+
+.desktop-nav{
+  display:flex;
+  align-items:center;
+  gap:5px;
+  margin-left:auto;
+}
+
+.desktop-nav a{
+  padding:10px 12px;
+  border-radius:10px;
+  color:var(--muted);
+  font-size:11px;
+  font-weight:700;
+  transition:.2s ease;
+}
+
+.desktop-nav a:hover,
+.desktop-nav a.active{
+  color:var(--gold-200);
+  background:rgba(229,199,125,.07);
+}
+
+.header-actions{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.icon-btn{
+  width:41px;
+  height:41px;
+  display:grid;
+  place-items:center;
+  border:1px solid var(--border-light);
+  border-radius:12px;
+  color:var(--muted);
+  background:rgba(255,255,255,.035);
+  transition:.2s ease;
+}
+
+.icon-btn:hover{
+  color:var(--gold-200);
+  border-color:rgba(229,199,125,.25);
+}
+
+.avatar{
+  width:40px;
+  height:40px;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  color:#172016;
+  font-size:12px;
+  font-weight:1000;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--gold-200),
+      var(--gold-500)
+    );
+}
+
+.mobile-menu{
+  display:none;
+}
+
+/* =========================================================
+   PAGE HERO
+========================================================= */
+
+.hero{
+  padding:48px 0 28px;
+}
+
+.hero-card{
+  position:relative;
+  overflow:hidden;
+  padding:43px;
+
+  border:1px solid var(--border);
+  border-radius:var(--radius-xl);
+
+  background:
+    radial-gradient(
+      circle at 90% 0%,
+      rgba(229,199,125,.14),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 0% 100%,
+      rgba(44,91,69,.30),
+      transparent 38%
+    ),
+    linear-gradient(
+      145deg,
+      #0a1a12,
+      #10251b 55%,
+      #142d22
+    );
+
+  box-shadow:var(--shadow);
+}
+
+.hero-card::after{
+  content:"";
+  position:absolute;
+  width:320px;
+  height:320px;
+  right:-180px;
+  bottom:-190px;
+  border:1px solid rgba(229,199,125,.12);
+  border-radius:50%;
+  box-shadow:
+    0 0 0 40px rgba(229,199,125,.02),
+    0 0 0 80px rgba(229,199,125,.015);
+}
+
+.eyebrow{
+  color:var(--gold-300);
+  font-size:10px;
+  font-weight:950;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+}
+
+.hero h1{
+  max-width:850px;
+  margin-top:12px;
+  color:var(--cream);
+  font-size:clamp(38px,5vw,61px);
+  line-height:1;
+  letter-spacing:-.055em;
+}
+
+.hero h1 span{
+  color:var(--gold-300);
+}
+
+.hero-description{
+  max-width:730px;
+  margin-top:17px;
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.75;
+}
+
+.hero-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:24px;
+}
+
+.btn{
+  min-height:45px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  padding:0 17px;
+  border:1px solid transparent;
+  border-radius:12px;
+  font-size:11px;
+  font-weight:900;
+  transition:.2s ease;
+}
+
+.btn-primary{
+  color:#17170f;
+  background:linear-gradient(135deg,#f1dca1,#cda85d);
+  box-shadow:0 10px 25px rgba(0,0,0,.18);
+}
+
+.btn-primary:hover{
+  transform:translateY(-2px);
+}
+
+.btn-secondary{
+  color:var(--cream);
+  border-color:var(--border-light);
+  background:rgba(255,255,255,.045);
+}
+
+.btn-secondary:hover{
+  color:var(--gold-200);
+  border-color:rgba(229,199,125,.25);
+}
+
+/* =========================================================
+   SUPPORT STATS
+========================================================= */
+
+.section{
+  padding:25px 0;
+}
+
+.section-heading{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:15px;
+  margin-bottom:17px;
+}
+
+.section-heading h2{
+  font-size:23px;
+  letter-spacing:-.035em;
+}
+
+.section-heading p{
+  margin-top:5px;
+  color:var(--muted-2);
+  font-size:10px;
+}
+
+.stats-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:13px;
+}
+
+.stat-card{
+  padding:20px;
+  border:1px solid var(--border-light);
+  border-radius:var(--radius-lg);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(20,45,34,.92),
+      rgba(11,28,20,.92)
+    );
+}
+
+.stat-icon{
+  width:38px;
+  height:38px;
+  display:grid;
+  place-items:center;
+  border-radius:11px;
+  color:var(--gold-300);
+  background:rgba(229,199,125,.08);
+}
+
+.stat-value{
+  margin-top:13px;
+  font-size:25px;
+  font-weight:950;
+}
+
+.stat-label{
+  margin-top:4px;
+  color:var(--muted-2);
+  font-size:9px;
+}
+
+/* =========================================================
+   SUPPORT GRID
+========================================================= */
+
+.support-grid{
+  display:grid;
+  grid-template-columns:1.2fr .8fr;
+  gap:16px;
+}
+
+.panel{
+  padding:22px;
+  border:1px solid var(--border-light);
+  border-radius:var(--radius-lg);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(20,45,34,.95),
+      rgba(11,28,20,.95)
+    );
+}
+
+.panel-title{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:18px;
+}
+
+.panel-title h3{
+  font-size:16px;
+}
+
+.panel-title span{
+  color:var(--muted-2);
+  font-size:9px;
+}
+
+/* =========================================================
+   TICKET FORM
+========================================================= */
+
+.form-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:13px;
+}
+
+.form-group{
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+}
+
+.form-group.full{
+  grid-column:1/-1;
+}
+
+.form-group label{
+  color:var(--muted);
+  font-size:9px;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:.07em;
+}
+
+.form-control{
+  width:100%;
+  min-height:45px;
+  padding:0 13px;
+
+  border:1px solid rgba(255,255,255,.09);
+  border-radius:11px;
+
+  outline:none;
+  color:var(--cream);
+  background:rgba(255,255,255,.045);
+}
+
+textarea.form-control{
+  min-height:125px;
+  padding:13px;
+  resize:vertical;
+}
+
+.form-control:focus{
+  border-color:rgba(229,199,125,.48);
+  box-shadow:0 0 0 3px rgba(229,199,125,.05);
+}
+
+.form-control option{
+  color:#172016;
+  background:#fffaf0;
+}
+
+.form-actions{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:9px;
+  margin-top:15px;
+}
+
+.form-message{
+  display:none;
+  margin-top:12px;
+  padding:10px 12px;
+  border-radius:10px;
+  font-size:9px;
+}
+
+.form-message.success{
+  display:block;
+  color:var(--success);
+  background:rgba(130,201,149,.08);
+  border:1px solid rgba(130,201,149,.15);
+}
+
+.form-message.error{
+  display:block;
+  color:var(--danger);
+  background:rgba(233,140,140,.08);
+  border:1px solid rgba(233,140,140,.15);
+}
+
+/* =========================================================
+   CONTACT OPTIONS
+========================================================= */
+
+.contact-grid{
+  display:grid;
+  gap:9px;
+}
+
+.contact-card{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:13px;
+
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:13px;
+
+  background:rgba(255,255,255,.025);
+
+  transition:.2s ease;
+}
+
+.contact-card:hover{
+  transform:translateY(-2px);
+  border-color:rgba(229,199,125,.20);
+}
+
+.contact-icon{
+  width:38px;
+  height:38px;
+  flex:0 0 38px;
+  display:grid;
+  place-items:center;
+  border-radius:11px;
+  color:var(--gold-300);
+  background:rgba(229,199,125,.08);
+}
+
+.contact-text{
+  min-width:0;
+  flex:1;
+}
+
+.contact-text strong{
+  display:block;
+  font-size:10px;
+}
+
+.contact-text span{
+  display:block;
+  margin-top:3px;
+  color:var(--muted-2);
+  font-size:8px;
+}
+
+.contact-arrow{
+  color:var(--gold-300);
+  font-size:13px;
+}
+
+/* =========================================================
+   FAQ
+========================================================= */
+
+.faq-list{
+  display:grid;
+  gap:8px;
+}
+
+.faq-item{
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:12px;
+  background:rgba(255,255,255,.025);
+}
+
+.faq-question{
+  width:100%;
+  min-height:49px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+
+  padding:0 14px;
+
+  border:0;
+  color:var(--cream);
+  text-align:left;
+  background:transparent;
+
+  font-size:10px;
+  font-weight:800;
+}
+
+.faq-question span{
+  color:var(--gold-300);
+  font-size:14px;
+}
+
+.faq-answer{
+  display:none;
+  padding:0 14px 14px;
+  color:var(--muted-2);
+  font-size:9px;
+  line-height:1.7;
+}
+
+.faq-item.open .faq-answer{
+  display:block;
+}
+
+.faq-item.open .faq-question span{
+  transform:rotate(45deg);
+}
+
+/* =========================================================
+   TICKETS
+========================================================= */
+
+.ticket-list{
+  display:grid;
+  gap:9px;
+}
+
+.ticket{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:13px;
+
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:12px;
+  background:rgba(255,255,255,.025);
+}
+
+.ticket-icon{
+  width:36px;
+  height:36px;
+  flex:0 0 36px;
+  display:grid;
+  place-items:center;
+  border-radius:10px;
+  color:var(--gold-300);
+  background:rgba(229,199,125,.08);
+}
+
+.ticket-main{
+  min-width:0;
+  flex:1;
+}
+
+.ticket-main strong{
+  display:block;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  font-size:10px;
+}
+
+.ticket-main span{
+  display:block;
+  margin-top:3px;
+  color:var(--muted-2);
+  font-size:8px;
+}
+
+.ticket-status{
+  padding:5px 8px;
+  border-radius:7px;
+  font-size:7px;
+  font-weight:900;
+  text-transform:uppercase;
+}
+
+.ticket-status.open{
+  color:var(--blue);
+  background:rgba(145,185,232,.09);
+}
+
+.ticket-status.resolved{
+  color:var(--success);
+  background:rgba(130,201,149,.09);
+}
+
+.empty{
+  padding:22px;
+  color:var(--muted-2);
+  text-align:center;
+  font-size:9px;
+  border:1px dashed rgba(255,255,255,.08);
+  border-radius:12px;
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.site-footer{
+  margin-top:45px;
+  padding:35px 0 25px;
+  border-top:1px solid rgba(255,255,255,.07);
+  background:rgba(3,12,8,.35);
+}
+
+.footer-grid{
+  display:grid;
+  grid-template-columns:1.4fr repeat(3,1fr);
+  gap:25px;
+}
+
+.footer-brand{
+  max-width:300px;
+}
+
+.footer-brand p{
+  margin-top:10px;
+  color:var(--muted-2);
+  font-size:9px;
+  line-height:1.7;
+}
+
+.footer-col h4{
+  color:var(--gold-200);
+  font-size:9px;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+}
+
+.footer-col a{
+  display:block;
+  margin-top:9px;
+  color:var(--muted-2);
+  font-size:9px;
+}
+
+.footer-col a:hover{
+  color:var(--gold-300);
+}
+
+.footer-bottom{
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+  margin-top:28px;
+  padding-top:17px;
+  border-top:1px solid rgba(255,255,255,.06);
+  color:var(--muted-2);
+  font-size:8px;
+}
+
+/* =========================================================
+   AI BUTTON
+========================================================= */
+
+.ai-floating{
+  position:fixed;
+  right:22px;
+  bottom:22px;
+  z-index:90;
+
+  min-height:48px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:0 16px;
+
+  border:1px solid rgba(229,199,125,.25);
+  border-radius:30px;
+
+  color:#17170f;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--gold-200),
+      var(--gold-400)
+    );
+
+  box-shadow:0 15px 35px rgba(0,0,0,.3);
+
+  font-size:10px;
+  font-weight:1000;
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:1100px){
+
+  .desktop-nav{
+    display:none;
+  }
+
+  .mobile-menu{
+    display:grid;
+  }
+
+  .stats-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .support-grid{
+    grid-template-columns:1fr;
+  }
+}
+
+@media(max-width:800px){
+
+  .container{
+    width:min(
+      calc(100% - 28px),
+      var(--container)
+    );
+  }
+
+  .hero-card{
+    padding:30px;
+  }
+
+  .hero h1{
+    font-size:43px;
+  }
+
+  .footer-grid{
+    grid-template-columns:1fr 1fr;
+  }
+}
+
+@media(max-width:560px){
+
+  .header-inner{
+    min-height:68px;
+  }
+
+  .brand-text span{
+    display:none;
+  }
+
+  .header-actions .icon-btn{
+    display:none;
+  }
+
+  .hero{
+    padding-top:25px;
+  }
+
+  .hero-card{
+    padding:24px;
+    border-radius:22px;
+  }
+
+  .hero h1{
+    font-size:37px;
+  }
+
+  .hero-description{
+    font-size:12px;
+  }
+
+  .stats-grid{
+    grid-template-columns:1fr 1fr;
+    gap:9px;
+  }
+
+  .stat-card{
+    padding:15px;
+  }
+
+  .stat-value{
+    font-size:21px;
+  }
+
+  .form-grid{
+    grid-template-columns:1fr;
+  }
+
+  .form-group.full{
+    grid-column:auto;
+  }
+
+  .form-actions{
+    justify-content:stretch;
+  }
+
+  .form-actions .btn{
+    flex:1;
+  }
+
+  .footer-grid{
+    grid-template-columns:1fr;
+  }
+
+  .footer-bottom{
+    flex-direction:column;
+  }
+
+  .ai-floating{
+    right:14px;
+    bottom:14px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="page-glow"></div>
+
+<!-- =========================================================
+     HEADER
+========================================================= -->
+
+<header class="site-header">
+
+  <div class="container header-inner">
+
+    <a
+      class="brand"
+      href="/seller/index.html"
+      aria-label="GHAR Seller Home"
+    >
+
+      <div class="brand-mark">G</div>
+
+      <div class="brand-text">
+
+        <strong>GHAR</strong>
+
+        <span>
+          Seller Experience
+        </span>
+
+      </div>
+
+    </a>
+
+    <nav
+      class="desktop-nav"
+      aria-label="Seller navigation"
+    >
+
+      <a href="/seller/index.html">
+        Home
+      </a>
+
+      <a href="/seller/dashboard.html">
+        Dashboard
+      </a>
+
+      <a href="/seller/list-property.html">
+        List Property
+      </a>
+
+      <a href="/seller/Visits.html">
+        Visits
+      </a>
+
+      <a href="/seller/leads.html">
+        Leads
+      </a>
+
+      <a href="/seller/offers.html">
+        Offers
+      </a>
+
+      <a href="/seller/payments.html">
+        Payments
+      </a>
+
+    </nav>
+
+    <div class="header-actions">
+
+      <button
+        class="icon-btn"
+        id="notificationButton"
+        type="button"
+        aria-label="Notifications"
+      >
+        ♢
+      </button>
+
+      <a
+        class="avatar"
+        id="profileButton"
+        href="/seller/profile.html"
+        aria-label="Seller profile"
+      >
+        U
+      </a>
+
+      <button
+        class="icon-btn mobile-menu"
+        id="menuButton"
+        type="button"
+        aria-label="Open menu"
+      >
+        ☰
+      </button>
+
+    </div>
+
+  </div>
+
+</header>
+
+<main>
+
+<!-- =========================================================
+     HERO
+========================================================= -->
+
+<section class="hero">
+
+  <div class="container">
+
+    <div class="hero-card">
+
+      <div class="eyebrow">
+        GHAR SELLER SUPPORT
+      </div>
+
+      <h1>
+        We're here to help you
+        <span>sell smarter.</span>
+      </h1>
+
+      <p class="hero-description">
+        Get assistance with property listings, approvals,
+        buyer leads, visits, offers, payments, documents,
+        account access and every other part of your GHAR
+        seller journey.
+      </p>
+
+      <div class="hero-actions">
+
+        <a
+          class="btn btn-primary"
+          href="#createTicket"
+        >
+          Create support ticket
+        </a>
+
+        <a
+          class="btn btn-secondary"
+          href="#faq"
+        >
+          Browse FAQs
+        </a>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- =========================================================
+     SUPPORT STATS
+========================================================= -->
+
+<section class="section">
+
+  <div class="container">
+
+    <div class="section-heading">
+
+      <div>
+        <h2>Seller support centre</h2>
+
+        <p>
+          Track assistance and get help without leaving GHAR.
+        </p>
+      </div>
+
+      <a
+        class="btn btn-secondary"
+        href="/seller/dashboard.html"
+      >
+        Back to dashboard
+      </a>
+
+    </div>
+
+    <div class="stats-grid">
+
+      <article class="stat-card">
+
+        <div class="stat-icon">?</div>
+
+        <div
+          class="stat-value"
+          id="openTicketCount"
+        >
+          0
+        </div>
+
+        <div class="stat-label">
+          Open tickets
+        </div>
+
+      </article>
+
+      <article class="stat-card">
+
+        <div class="stat-icon">✓</div>
+
+        <div
+          class="stat-value"
+          id="resolvedTicketCount"
+        >
+          0
+        </div>
+
+        <div class="stat-label">
+          Resolved tickets
+        </div>
+
+      </article>
+
+      <article class="stat-card">
+
+        <div class="stat-icon">◷</div>
+
+        <div class="stat-value">
+          24/7
+        </div>
+
+        <div class="stat-label">
+          Help centre access
+        </div>
+
+      </article>
+
+      <article class="stat-card">
+
+        <div class="stat-icon">✦</div>
+
+        <div class="stat-value">
+          AI
+        </div>
+
+        <div class="stat-label">
+          Seller assistance
+        </div>
+
+      </article>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- =========================================================
+     SUPPORT MAIN
+========================================================= -->
+
+<section class="section">
+
+  <div class="container">
+
+    <div class="support-grid">
+
+      <!-- ===================================================
+           CREATE TICKET
+      ==================================================== -->
+
+      <section
+        class="panel"
+        id="createTicket"
+      >
+
+        <div class="panel-title">
+
+          <div>
+            <h3>Create a support ticket</h3>
+
+            <span>
+              Tell us what you need help with.
+            </span>
+          </div>
+
+        </div>
+
+        <form id="supportForm">
+
+          <div class="form-grid">
+
+            <div class="form-group">
+
+              <label for="category">
+                Category
+              </label>
+
+              <select
+                id="category"
+                name="category"
+                class="form-control"
+                required
+              >
+
+                <option value="">
+                  Select category
+                </option>
+
+                <option value="listing">
+                  Property listing
+                </option>
+
+                <option value="approval">
+                  Property approval
+                </option>
+
+                <option value="documents">
+                  Documents / verification
+                </option>
+
+                <option value="leads">
+                  Buyer leads
+                </option>
+
+                <option value="visits">
+                  Property visits
+                </option>
+
+                <option value="offers">
+                  Offers / negotiation
+                </option>
+
+                <option value="payments">
+                  Payments / settlement
+                </option>
+
+                <option value="account">
+                  Account / profile
+                </option>
+
+                <option value="technical">
+                  Technical issue
+                </option>
+
+                <option value="other">
+                  Other
+                </option>
+
+              </select>
+
+            </div>
+
+            <div class="form-group">
+
+              <label for="priority">
+                Priority
+              </label>
+
+              <select
+                id="priority"
+                name="priority"
+                class="form-control"
+                required
+              >
+
+                <option value="normal">
+                  Normal
+                </option>
+
+                <option value="high">
+                  High
+                </option>
+
+                <option value="urgent">
+                  Urgent
+                </option>
+
+              </select>
+
+            </div>
+
+            <div class="form-group full">
+
+              <label for="subject">
+                Subject
+              </label>
+
+              <input
+                id="subject"
+                name="subject"
+                class="form-control"
+                type="text"
+                maxlength="180"
+                placeholder="Briefly describe your issue"
+                required
+              >
+
+            </div>
+
+            <div class="form-group full">
+
+              <label for="message">
+                Message
+              </label>
+
+              <textarea
+                id="message"
+                name="message"
+                class="form-control"
+                maxlength="5000"
+                placeholder="Explain the issue and include relevant property or transaction details..."
+                required
+              ></textarea>
+
+            </div>
+
+          </div>
+
+          <div class="form-actions">
+
+            <button
+              class="btn btn-secondary"
+              id="clearForm"
+              type="button"
+            >
+              Clear
+            </button>
+
+            <button
+              class="btn btn-primary"
+              id="submitTicket"
+              type="submit"
+            >
+              Submit ticket
+            </button>
+
+          </div>
+
+          <div
+            id="formMessage"
+            class="form-message"
+          ></div>
+
+        </form>
+
+      </section>
+
+      <!-- ===================================================
+           CONTACT
+      ==================================================== -->
+
+      <aside class="panel">
+
+        <div class="panel-title">
+
+          <div>
+            <h3>Get help</h3>
+
+            <span>
+              Choose the quickest support route.
+            </span>
+          </div>
+
+        </div>
+
+        <div class="contact-grid">
+
+          <a
+            class="contact-card"
+            href="/help-centre.html"
+          >
+
+            <div class="contact-icon">
+              ?
+            </div>
+
+            <div class="contact-text">
+
+              <strong>
+                Help Centre
+              </strong>
+
+              <span>
+                Guides, answers and seller resources
+              </span>
+
+            </div>
+
+            <div class="contact-arrow">
+              →
+            </div>
+
+          </a>
+
+          <a
+            class="contact-card"
+            href="/seller/messages.html"
+          >
+
+            <div class="contact-icon">
+              ✉
+            </div>
+
+            <div class="contact-text">
+
+              <strong>
+                Messages
+              </strong>
+
+              <span>
+                Continue an existing conversation
+              </span>
+
+            </div>
+
+            <div class="contact-arrow">
+              →
+            </div>
+
+          </a>
+
+          <a
+            class="contact-card"
+            href="/contact.html"
+          >
+
+            <div class="contact-icon">
+              ☎
+            </div>
+
+            <div class="contact-text">
+
+              <strong>
+                Contact GHAR
+              </strong>
+
+              <span>
+                General assistance and enquiries
+              </span>
+
+            </div>
+
+            <div class="contact-arrow">
+              →
+            </div>
+
+          </a>
+
+          <button
+            class="contact-card"
+            id="openSellerAI"
+            type="button"
+          >
+
+            <div class="contact-icon">
+              ✦
+            </div>
+
+            <div class="contact-text">
+
+              <strong>
+                GHAR AI Assistant
+              </strong>
+
+              <span>
+                Get instant guidance for common issues
+              </span>
+
+            </div>
+
+            <div class="contact-arrow">
+              →
+            </div>
+
+          </button>
+
+        </div>
+
+      </aside>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- =========================================================
+     FAQ
+========================================================= -->
+
+<section
+  class="section"
+  id="faq"
+>
+
+  <div class="container">
+
+    <div class="section-heading">
+
+      <div>
+        <h2>Frequently asked questions</h2>
+
+        <p>
+          Common seller questions and quick answers.
+        </p>
+      </div>
+
+    </div>
+
+    <div class="panel">
+
+      <div
+        class="faq-list"
+        id="faqList"
+      >
+
+        <div class="faq-item">
+
+          <button
+            class="faq-question"
+            type="button"
+          >
+            How do I list a property?
+            <span>+</span>
+          </button>
+
+          <div class="faq-answer">
+            Open the seller listing flow, enter the property
+            information, upload the required documents and
+            submit the listing for approval.
+          </div>
+
+        </div>
+
+        <div class="faq-item">
+
+          <button
+            class="faq-question"
+            type="button"
+          >
+            Why is my property still pending approval?
+            <span>+</span>
+          </button>
+
+          <div class="faq-answer">
+            A property can remain pending while GHAR reviews
+            listing information, documents, verification data
+            or other required details. Check the property
+            approval page for the latest status.
+          </div>
+
+        </div>
+
+        <div class="faq-item">
+
+          <button
+            class="faq-question"
+            type="button"
+          >
+            Where can I see buyer leads?
+            <span>+</span>
+          </button>
+
+          <div class="faq-answer">
+            Buyer enquiries and lead activity are available
+            from your seller leads section. You can review
+            lead details and continue eligible conversations
+            through the connected seller workflow.
+          </div>
+
+        </div>
+
+        <div class="faq-item">
+
+          <button
+            class="faq-question"
+            type="button"
+          >
+            How can I manage property visits?
+            <span>+</span>
+          </button>
+
+          <div class="faq-answer">
+            Use the seller Visits page to review scheduled
+            visits, upcoming appointments and relevant
+            property information.
+          </div>
+
+        </div>
+
+        <div class="faq-item">
+
+          <button
+            class="faq-question"
+            type="button"
+          >
+            Where can I check offers?
+            <span>+</span>
+          </button>
+
+          <div class="faq-answer">
+            Open Seller Offers to review buyer offers and
+            manage the next step in your negotiation workflow.
+          </div>
+
+        </div>
+
+        <div class="faq-item">
+
+          <button
+            class="faq-question"
+            type="button"
+          >
+            Where can I see payments?
+            <span>+</span>
+          </button>
+
+          <div class="faq-answer">
+            Seller payment information is available through
+            the Payments section, subject to the transaction
+            and payment records available in your GHAR account.
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- =========================================================
+     MY TICKETS
+========================================================= -->
+
+<section class="section">
+
+  <div class="container">
+
+    <div class="section-heading">
+
+      <div>
+        <h2>My support tickets</h2>
+
+        <p>
+          Your recent support requests.
+        </p>
+      </div>
+
+    </div>
+
+    <div class="panel">
+
+      <div
+        class="ticket-list"
+        id="ticketList"
+      >
+
+        <div class="empty">
+          Loading support tickets...
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+</main>
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer class="site-footer">
+
+  <div class="container">
+
+    <div class="footer-grid">
+
+      <div class="footer-brand">
+
+        <div class="brand">
+
+          <div class="brand-mark">
+            G
+          </div>
+
+          <div class="brand-text">
+
+            <strong>
+              GHAR
+            </strong>
+
+            <span>
+              Real Estate Platform
+            </span>
+
+          </div>
+
+        </div>
+
+        <p>
+          A connected real estate platform for listing,
+          managing, marketing and selling properties.
+        </p>
+
+      </div>
+
+      <div class="footer-col">
+
+        <h4>Seller</h4>
+
+        <a href="/seller/dashboard.html">
+          Dashboard
+        </a>
+
+        <a href="/seller/list-property.html">
+          List Property
+        </a>
+
+        <a href="/seller/leads.html">
+          Leads
+        </a>
+
+        <a href="/seller/Visits.html">
+          Visits
+        </a>
+
+      </div>
+
+      <div class="footer-col">
+
+        <h4>Manage</h4>
+
+        <a href="/seller/offers.html">
+          Offers
+        </a>
+
+        <a href="/seller/payments.html">
+          Payments
+        </a>
+
+        <a href="/seller/profile.html">
+          Profile
+        </a>
+
+        <a href="/seller/property-approval.html">
+          Property Approval
+        </a>
+
+      </div>
+
+      <div class="footer-col">
+
+        <h4>Support</h4>
+
+        <a href="/help-centre.html">
+          Help Centre
+        </a>
+
+        <a href="/seller/support.html">
+          Seller Support
+        </a>
+
+        <a href="/contact.html">
+          Contact
+        </a>
+
+        <a href="/privacy.html">
+          Privacy
+        </a>
+
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+
+      <span>
+        © <span id="footerYear"></span> GHAR.
+        All rights reserved.
+      </span>
+
+      <span>
+        Seller Portal · Secure Session
+      </span>
+
+    </div>
+
+  </div>
+
+</footer>
+
+<!-- =========================================================
+     AI FLOATING BUTTON
+========================================================= -->
+
+<button
+  id="openAI"
+  class="ai-floating"
+  type="button"
+>
+  ✦ Ask GHAR AI
+</button>
+
+<script>
+"use strict";
+
+/* =========================================================
+   CONFIG
+========================================================= */
+
+const API_BASE =
+  window.GHAR_API_BASE ||
+  window.API_BASE ||
+  "/api";
+
+const SUPPORT_API =
+  API_BASE + "/support";
+
+const AI_API =
+  API_BASE + "/ai";
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function $(selector){
+  return document.querySelector(selector);
+}
+
+function escapeHTML(value){
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+}
+
+async function apiRequest(
+  url,
+  options={}
+){
+
+  const response =
+    await fetch(
+      url,
+      {
+        credentials:"include",
+
+        headers:{
+          "Accept":"application/json",
+          "Content-Type":"application/json",
+          ...(options.headers || {})
+        },
+
+        ...options
+      }
+    );
+
+  let data=null;
+
+  try{
+    data=await response.json();
+  }catch{
+    data=null;
+  }
+
+  if(!response.ok){
+
+    const error =
+      new Error(
+        data?.error?.message ||
+        data?.message ||
+        "Request failed."
+      );
+
+    error.status=response.status;
+    error.data=data;
+
+    throw error;
+  }
+
+  return data;
+}
+
+function normalizeCollection(data){
+
+  if(Array.isArray(data)){
+    return data;
+  }
+
+  if(Array.isArray(data?.data)){
+    return data.data;
+  }
+
+  if(Array.isArray(data?.items)){
+    return data.items;
+  }
+
+  if(Array.isArray(data?.tickets)){
+    return data.tickets;
+  }
+
+  if(Array.isArray(data?.results)){
+    return data.results;
+  }
+
+  return [];
+}
+
+/* =========================================================
+   LOAD PROFILE
+========================================================= */
+
+async function loadProfile(){
+
+  try{
+
+    const data =
+      await apiRequest(
+        API_BASE + "/users/me"
+      );
+
+    const user =
+      data?.user ||
+      data;
+
+    if(user){
+
+      const name =
+        user.name ||
+        user.fullName ||
+        user.email ||
+        "U";
+
+      $("#profileButton").textContent =
+        name.trim().charAt(0).toUpperCase();
+
+    }
+
+  }catch(error){
+
+    console.warn(
+      "GHAR profile:",
+      error
+    );
+
+  }
+}
+
+/* =========================================================
+   LOAD TICKETS
+========================================================= */
+
+async function loadTickets(){
+
+  const list =
+    $("#ticketList");
+
+  if(!list){
+    return;
+  }
+
+  try{
+
+    const response =
+      await apiRequest(
+        SUPPORT_API +
+        "/tickets"
+      );
+
+    const tickets =
+      normalizeCollection(
+        response
+      );
+
+    renderTickets(
+      tickets
+    );
+
+  }catch(error){
+
+    console.warn(
+      "GHAR support tickets:",
+      error
+    );
+
+    list.innerHTML = `
+      <div class="empty">
+        No support ticket history is currently available.
+        You can create a new ticket above.
+      </div>
+    `;
+
+    updateTicketStats([]);
+  }
+}
+
+function renderTickets(
+  tickets
+){
+
+  const list =
+    $("#ticketList");
+
+  if(!tickets.length){
+
+    list.innerHTML = `
+      <div class="empty">
+        You have not created any support tickets yet.
+      </div>
+    `;
+
+    updateTicketStats([]);
+    return;
+  }
+
+  list.innerHTML =
+    tickets
+      .slice(0,10)
+      .map(ticket => {
+
+        const status =
+          String(
+            ticket.status ||
+            "open"
+          ).toLowerCase();
+
+        const statusClass =
+          status.includes("resolve") ||
+          status.includes("closed")
+            ? "resolved"
+            : "open";
+
+        return `
+
+          <article class="ticket">
+
+            <div class="ticket-icon">
+              ?
+            </div>
+
+            <div class="ticket-main">
+
+              <strong>
+                ${escapeHTML(
+                  ticket.subject ||
+                  ticket.title ||
+                  "Support request"
+                )}
+              </strong>
+
+              <span>
+                ${escapeHTML(
+                  ticket.ticketNumber ||
+                  ticket.ticketId ||
+                  ticket.id ||
+                  "Ticket"
+                )}
+                ·
+                ${escapeHTML(
+                  ticket.category ||
+                  "General"
+                )}
+              </span>
+
+            </div>
+
+            <span
+              class="ticket-status ${statusClass}"
+            >
+              ${escapeHTML(status)}
+            </span>
+
+          </article>
+
+        `;
+
+      })
+      .join("");
+
+  updateTicketStats(
+    tickets
+  );
+}
+
+function updateTicketStats(
+  tickets
+){
+
+  const open =
+    tickets.filter(ticket => {
+
+      const status =
+        String(
+          ticket.status ||
+          "open"
+        ).toLowerCase();
+
+      return !(
+        status.includes("resolve") ||
+        status.includes("closed")
+      );
+
+    }).length;
+
+  const resolved =
+    tickets.length - open;
+
+  $("#openTicketCount").textContent =
+    open;
+
+  $("#resolvedTicketCount").textContent =
+    resolved;
+}
+
+/* =========================================================
+   CREATE TICKET
+========================================================= */
+
+$("#supportForm")
+  ?.addEventListener(
+    "submit",
+    async event => {
+
+      event.preventDefault();
+
+      const form =
+        event.currentTarget;
+
+      const submitButton =
+        $("#submitTicket");
+
+      const message =
+        $("#formMessage");
+
+      const formData =
+        new FormData(form);
+
+      const payload = {
+
+        category:
+          formData.get("category"),
+
+        priority:
+          formData.get("priority"),
+
+        subject:
+          formData.get("subject"),
+
+        message:
+          formData.get("message")
+
+      };
+
+      message.className =
+        "form-message";
+
+      message.textContent =
+        "";
+
+      submitButton.disabled =
+        true;
+
+      submitButton.textContent =
+        "Submitting...";
+
+      try{
+
+        const response =
+          await apiRequest(
+            SUPPORT_API +
+            "/tickets",
+            {
+              method:"POST",
+
+              body:
+                JSON.stringify(
+                  payload
+                )
+            }
+          );
+
+        message.className =
+          "form-message success";
+
+        message.textContent =
+          response?.message ||
+          "Your support ticket has been submitted successfully.";
+
+        form.reset();
+
+        await loadTickets();
+
+      }catch(error){
+
+        console.error(
+          "GHAR ticket:",
+          error
+        );
+
+        message.className =
+          "form-message error";
+
+        message.textContent =
+          error.message ||
+          "Unable to submit the support ticket.";
+
+      }finally{
+
+        submitButton.disabled =
+          false;
+
+        submitButton.textContent =
+          "Submit ticket";
+
+      }
+
+    }
+  );
+
+/* =========================================================
+   CLEAR FORM
+========================================================= */
+
+$("#clearForm")
+  ?.addEventListener(
+    "click",
+    () => {
+
+      $("#supportForm")?.reset();
+
+      const message =
+        $("#formMessage");
+
+      message.className =
+        "form-message";
+
+      message.textContent =
+        "";
+
+    }
+  );
+
+/* =========================================================
+   FAQ
+========================================================= */
+
+document
+  .querySelectorAll(
+    ".faq-question"
+  )
+  .forEach(
+    button => {
+
+      button.addEventListener(
+        "click",
+        () => {
+
+          const item =
+            button.closest(
+              ".faq-item"
+            );
+
+          document
+            .querySelectorAll(
+              ".faq-item.open"
+            )
+            .forEach(
+              openItem => {
+
+                if(
+                  openItem !== item
+                ){
+
+                  openItem.classList.remove(
+                    "open"
+                  );
+
+                }
+
+              }
+            );
+
+          item.classList.toggle(
+            "open"
+          );
+
+        }
+      );
+
+    }
+  );
+
+/* =========================================================
+   AI
+========================================================= */
+
+function openSellerAI(){
+
+  window.location.href =
+    "/seller/ai.html";
+
+}
+
+$("#openAI")
+  ?.addEventListener(
+    "click",
+    openSellerAI
+  );
+
+$("#openSellerAI")
+  ?.addEventListener(
+    "click",
+    openSellerAI
+  );
+
+/* =========================================================
+   NOTIFICATIONS
+========================================================= */
+
+$("#notificationButton")
+  ?.addEventListener(
+    "click",
+    () => {
+
+      window.location.href =
+        "/seller/notifications.html";
+
+    }
+  );
+
+/* =========================================================
+   MOBILE MENU
+========================================================= */
+
+$("#menuButton")
+  ?.addEventListener(
+    "click",
+    () => {
+
+      const nav =
+        document.querySelector(
+          ".desktop-nav"
+        );
+
+      if(!nav){
+        return;
+      }
+
+      const visible =
+        nav.dataset.mobileOpen ===
+        "true";
+
+      if(visible){
+
+        nav.style.display="";
+        nav.dataset.mobileOpen="false";
+        return;
+
+      }
+
+      nav.dataset.mobileOpen="true";
+
+      nav.style.display="flex";
+      nav.style.position="absolute";
+      nav.style.left="14px";
+      nav.style.right="14px";
+      nav.style.top="66px";
+      nav.style.padding="10px";
+      nav.style.flexDirection="column";
+      nav.style.alignItems="stretch";
+      nav.style.border="1px solid rgba(229,199,125,.14)";
+      nav.style.borderRadius="16px";
+      nav.style.background="#0b1c14";
+      nav.style.boxShadow="0 25px 60px rgba(0,0,0,.35)";
+
+    }
+  );
+
+/* =========================================================
+   INITIALIZATION
+========================================================= */
+
+async function initialize(){
+
+  $("#footerYear").textContent =
+    new Date().getFullYear();
+
+  await Promise.all([
+    loadProfile(),
+    loadTickets()
+  ]);
+
+}
+
+if(
+  document.readyState ===
+  "loading"
+){
+
+  document.addEventListener(
+    "DOMContentLoaded",
+    initialize
+  );
+
+}else{
+
+  initialize();
+
+}
+</script>
+
+</body>
+</html>

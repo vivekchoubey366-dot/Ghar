@@ -1,0 +1,3369 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<meta name="description"
+      content="GHAR Seller Settings -- Manage your seller account, property preferences, notifications, security and platform preferences.">
+
+<meta name="theme-color" content="#162d25">
+
+<title>GHAR · Seller Settings</title>
+
+<link rel="icon" href="../assets/images/favicon.svg">
+
+<style>
+/* =========================================================
+   GHAR SELLER SETTINGS
+   Premium Seller Experience
+========================================================= */
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+:root{
+  --green-950:#07130e;
+  --green-925:#0a1912;
+  --green-900:#0b1c14;
+  --green-850:#10261c;
+  --green-800:#162d25;
+  --green-750:#1a382c;
+  --green-700:#214438;
+
+  --gold-100:#fff7df;
+  --gold-200:#f4dfaa;
+  --gold-300:#e5c77d;
+  --gold-400:#c9a95c;
+  --gold-500:#a98238;
+
+  --cream:#fffaf0;
+  --text:#f9f5ea;
+  --text-dark:#17231c;
+
+  --muted:rgba(255,255,255,.68);
+  --muted-2:rgba(255,255,255,.45);
+
+  --border:rgba(229,199,125,.18);
+  --border-light:rgba(255,255,255,.09);
+
+  --success:#82c995;
+  --danger:#e98c8c;
+  --blue:#91b9e8;
+
+  --shadow:0 25px 80px rgba(0,0,0,.25);
+
+  --radius-xl:28px;
+  --radius-lg:21px;
+  --radius-md:15px;
+
+  --container:1440px;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  min-height:100vh;
+  color:var(--text);
+  font-family:
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  background:
+    radial-gradient(
+      circle at 5% 0%,
+      rgba(229,199,125,.12),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 100% 10%,
+      rgba(44,91,69,.22),
+      transparent 30%
+    ),
+    linear-gradient(
+      135deg,
+      #07130e,
+      #0b1c14 48%,
+      #10261c
+    );
+
+  overflow-x:hidden;
+}
+
+a{
+  color:inherit;
+  text-decoration:none;
+}
+
+button,
+input,
+select,
+textarea{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+img{
+  display:block;
+  max-width:100%;
+}
+
+.container{
+  width:min(
+    calc(100% - 40px),
+    var(--container)
+  );
+  margin:auto;
+}
+
+/* =========================================================
+   BACKGROUND
+========================================================= */
+
+.page-glow{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:-1;
+  overflow:hidden;
+}
+
+.page-glow::before{
+  content:"";
+  position:absolute;
+  width:550px;
+  height:550px;
+  top:-300px;
+  right:-220px;
+  border-radius:50%;
+  border:1px solid rgba(229,199,125,.12);
+  box-shadow:
+    0 0 0 60px rgba(229,199,125,.025),
+    0 0 0 120px rgba(229,199,125,.015);
+}
+
+.page-glow::after{
+  content:"";
+  position:absolute;
+  width:500px;
+  height:500px;
+  bottom:-300px;
+  left:-250px;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,.06);
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.site-header{
+  position:sticky;
+  top:0;
+  z-index:100;
+  border-bottom:1px solid rgba(229,199,125,.10);
+  background:rgba(7,19,14,.90);
+  backdrop-filter:blur(22px);
+}
+
+.header-inner{
+  min-height:76px;
+  display:flex;
+  align-items:center;
+  gap:24px;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex-shrink:0;
+}
+
+.brand-mark{
+  width:45px;
+  height:45px;
+  display:grid;
+  place-items:center;
+  border-radius:14px;
+  color:#152116;
+  font-size:19px;
+  font-weight:1000;
+  background:linear-gradient(135deg,#f1dda5,#b98b3d);
+  box-shadow:
+    0 10px 25px rgba(0,0,0,.25),
+    inset 0 1px 0 rgba(255,255,255,.5);
+}
+
+.brand-text strong{
+  display:block;
+  font-size:17px;
+  letter-spacing:.17em;
+}
+
+.brand-text span{
+  display:block;
+  margin-top:2px;
+  color:var(--muted-2);
+  font-size:8px;
+  font-weight:800;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+}
+
+.desktop-nav{
+  display:flex;
+  align-items:center;
+  gap:5px;
+  margin-left:auto;
+}
+
+.desktop-nav a{
+  padding:10px 12px;
+  border-radius:10px;
+  color:var(--muted);
+  font-size:11px;
+  font-weight:700;
+  transition:.2s ease;
+}
+
+.desktop-nav a:hover,
+.desktop-nav a.active{
+  color:var(--gold-200);
+  background:rgba(229,199,125,.07);
+}
+
+.header-actions{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.icon-btn{
+  width:41px;
+  height:41px;
+  display:grid;
+  place-items:center;
+  border:1px solid var(--border-light);
+  border-radius:12px;
+  color:var(--muted);
+  background:rgba(255,255,255,.035);
+  transition:.2s ease;
+}
+
+.icon-btn:hover{
+  color:var(--gold-200);
+  border-color:rgba(229,199,125,.25);
+}
+
+.avatar{
+  width:40px;
+  height:40px;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  color:#172016;
+  font-size:12px;
+  font-weight:1000;
+  background:linear-gradient(135deg,var(--gold-200),var(--gold-500));
+}
+
+.mobile-menu{
+  display:none;
+}
+
+/* =========================================================
+   PAGE HERO
+========================================================= */
+
+.page-hero{
+  padding:44px 0 25px;
+}
+
+.hero-card{
+  position:relative;
+  overflow:hidden;
+  padding:34px 38px;
+  border:1px solid var(--border);
+  border-radius:var(--radius-xl);
+
+  background:
+    radial-gradient(
+      circle at 90% 0%,
+      rgba(229,199,125,.14),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 0% 100%,
+      rgba(44,91,69,.28),
+      transparent 38%
+    ),
+    linear-gradient(
+      145deg,
+      #0a1a12,
+      #10251b 55%,
+      #142d22
+    );
+
+  box-shadow:var(--shadow);
+}
+
+.hero-card::after{
+  content:"";
+  position:absolute;
+  width:300px;
+  height:300px;
+  right:-180px;
+  bottom:-180px;
+  border:1px solid rgba(229,199,125,.10);
+  border-radius:50%;
+}
+
+.eyebrow{
+  color:var(--gold-300);
+  font-size:10px;
+  font-weight:950;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+}
+
+.hero-card h1{
+  position:relative;
+  z-index:2;
+  margin-top:10px;
+  font-size:clamp(30px,4vw,48px);
+  line-height:1;
+  letter-spacing:-.05em;
+}
+
+.hero-card h1 span{
+  color:var(--gold-300);
+}
+
+.hero-card p{
+  position:relative;
+  z-index:2;
+  max-width:780px;
+  margin-top:13px;
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.7;
+}
+
+/* =========================================================
+   SETTINGS LAYOUT
+========================================================= */
+
+.settings-layout{
+  display:grid;
+  grid-template-columns:250px 1fr;
+  gap:18px;
+  padding:20px 0 45px;
+}
+
+.settings-sidebar{
+  align-self:start;
+  position:sticky;
+  top:96px;
+  padding:13px;
+  border:1px solid var(--border-light);
+  border-radius:var(--radius-lg);
+  background:
+    linear-gradient(
+      145deg,
+      rgba(20,45,34,.95),
+      rgba(11,28,20,.95)
+    );
+}
+
+.settings-sidebar-title{
+  padding:8px 10px 12px;
+  color:var(--muted-2);
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:.13em;
+  text-transform:uppercase;
+}
+
+.settings-tab{
+  width:100%;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:12px;
+  margin-bottom:5px;
+  border:1px solid transparent;
+  border-radius:11px;
+  color:var(--muted);
+  background:transparent;
+  text-align:left;
+  font-size:10px;
+  font-weight:750;
+  transition:.2s ease;
+}
+
+.settings-tab:hover{
+  color:var(--gold-200);
+  background:rgba(229,199,125,.06);
+}
+
+.settings-tab.active{
+  color:var(--gold-200);
+  border-color:rgba(229,199,125,.15);
+  background:rgba(229,199,125,.08);
+}
+
+.settings-tab-icon{
+  width:27px;
+  height:27px;
+  display:grid;
+  place-items:center;
+  border-radius:8px;
+  background:rgba(255,255,255,.045);
+  font-size:12px;
+}
+
+.settings-content{
+  min-width:0;
+}
+
+.settings-section{
+  display:none;
+  padding:23px;
+  margin-bottom:16px;
+  border:1px solid var(--border-light);
+  border-radius:var(--radius-lg);
+  background:
+    linear-gradient(
+      145deg,
+      rgba(20,45,34,.96),
+      rgba(11,28,20,.96)
+    );
+}
+
+.settings-section.active{
+  display:block;
+}
+
+.section-title{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:15px;
+  padding-bottom:17px;
+  margin-bottom:18px;
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+
+.section-title h2{
+  font-size:18px;
+  letter-spacing:-.03em;
+}
+
+.section-title p{
+  margin-top:5px;
+  color:var(--muted-2);
+  font-size:9px;
+  line-height:1.5;
+}
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.form-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:14px;
+}
+
+.field{
+  display:grid;
+  gap:7px;
+}
+
+.field.full{
+  grid-column:1/-1;
+}
+
+.field label{
+  color:var(--muted);
+  font-size:9px;
+  font-weight:800;
+}
+
+.field input,
+.field select,
+.field textarea{
+  width:100%;
+  min-height:44px;
+  padding:0 12px;
+  border:1px solid rgba(255,255,255,.09);
+  border-radius:11px;
+  outline:none;
+  color:var(--cream);
+  background:rgba(255,255,255,.045);
+}
+
+.field textarea{
+  min-height:95px;
+  padding-top:12px;
+  resize:vertical;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus{
+  border-color:rgba(229,199,125,.45);
+  box-shadow:0 0 0 3px rgba(229,199,125,.05);
+}
+
+.field select option{
+  color:#17231c;
+  background:#fffaf0;
+}
+
+.field-hint{
+  color:var(--muted-2);
+  font-size:8px;
+}
+
+.save-row{
+  display:flex;
+  justify-content:flex-end;
+  gap:8px;
+  margin-top:18px;
+  padding-top:16px;
+  border-top:1px solid rgba(255,255,255,.06);
+}
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.btn{
+  min-height:43px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  padding:0 16px;
+  border:1px solid transparent;
+  border-radius:11px;
+  font-size:10px;
+  font-weight:900;
+  transition:.2s ease;
+}
+
+.btn-primary{
+  color:#17170f;
+  background:linear-gradient(135deg,#f1dca1,#cda85d);
+}
+
+.btn-primary:hover{
+  transform:translateY(-1px);
+}
+
+.btn-secondary{
+  color:var(--cream);
+  border-color:var(--border-light);
+  background:rgba(255,255,255,.04);
+}
+
+.btn-danger{
+  color:#ffd7d7;
+  border-color:rgba(233,140,140,.20);
+  background:rgba(233,140,140,.07);
+}
+
+.btn-danger:hover{
+  background:rgba(233,140,140,.12);
+}
+
+/* =========================================================
+   PROFILE
+========================================================= */
+
+.profile-head{
+  display:flex;
+  align-items:center;
+  gap:15px;
+  margin-bottom:21px;
+  padding:15px;
+  border:1px solid rgba(255,255,255,.06);
+  border-radius:15px;
+  background:rgba(255,255,255,.025);
+}
+
+.profile-avatar{
+  width:58px;
+  height:58px;
+  display:grid;
+  place-items:center;
+  flex:0 0 58px;
+  border-radius:17px;
+  color:#172016;
+  font-size:18px;
+  font-weight:1000;
+  background:linear-gradient(135deg,var(--gold-200),var(--gold-500));
+}
+
+.profile-head strong{
+  display:block;
+  font-size:14px;
+}
+
+.profile-head span{
+  display:block;
+  margin-top:4px;
+  color:var(--muted-2);
+  font-size:9px;
+}
+
+/* =========================================================
+   TOGGLES
+========================================================= */
+
+.preference-list{
+  display:grid;
+  gap:9px;
+}
+
+.preference{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+  padding:14px;
+  border:1px solid rgba(255,255,255,.06);
+  border-radius:13px;
+  background:rgba(255,255,255,.025);
+}
+
+.preference-info{
+  min-width:0;
+}
+
+.preference-info strong{
+  display:block;
+  font-size:10px;
+}
+
+.preference-info span{
+  display:block;
+  margin-top:4px;
+  color:var(--muted-2);
+  font-size:8px;
+  line-height:1.5;
+}
+
+.switch{
+  position:relative;
+  width:43px;
+  height:24px;
+  flex:0 0 43px;
+}
+
+.switch input{
+  opacity:0;
+  width:0;
+  height:0;
+}
+
+.slider{
+  position:absolute;
+  inset:0;
+  cursor:pointer;
+  border-radius:30px;
+  background:#25362d;
+  transition:.2s ease;
+}
+
+.slider::before{
+  content:"";
+  position:absolute;
+  width:18px;
+  height:18px;
+  left:3px;
+  top:3px;
+  border-radius:50%;
+  background:#b9c0b9;
+  transition:.2s ease;
+}
+
+.switch input:checked + .slider{
+  background:var(--gold-400);
+}
+
+.switch input:checked + .slider::before{
+  transform:translateX(19px);
+  background:#fff8e6;
+}
+
+/* =========================================================
+   SECURITY CARDS
+========================================================= */
+
+.security-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:11px;
+}
+
+.security-card{
+  padding:16px;
+  border:1px solid rgba(255,255,255,.06);
+  border-radius:14px;
+  background:rgba(255,255,255,.025);
+}
+
+.security-card-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.security-card h3{
+  font-size:11px;
+}
+
+.security-icon{
+  width:32px;
+  height:32px;
+  display:grid;
+  place-items:center;
+  border-radius:9px;
+  color:var(--gold-300);
+  background:rgba(229,199,125,.08);
+}
+
+.security-card p{
+  margin-top:9px;
+  color:var(--muted-2);
+  font-size:8px;
+  line-height:1.6;
+}
+
+.security-status{
+  display:inline-flex;
+  margin-top:10px;
+  padding:5px 7px;
+  border-radius:6px;
+  color:var(--success);
+  background:rgba(130,201,149,.07);
+  font-size:7px;
+  font-weight:900;
+  text-transform:uppercase;
+}
+
+/* =========================================================
+   DANGER ZONE
+========================================================= */
+
+.danger-zone{
+  border-color:rgba(233,140,140,.16);
+  background:
+    linear-gradient(
+      145deg,
+      rgba(55,26,26,.45),
+      rgba(20,45,34,.9)
+    );
+}
+
+.danger-note{
+  color:var(--muted-2);
+  font-size:9px;
+  line-height:1.7;
+}
+
+.danger-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:15px;
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.site-footer{
+  margin-top:15px;
+  padding:35px 0 25px;
+  border-top:1px solid rgba(255,255,255,.07);
+  background:rgba(3,12,8,.35);
+}
+
+.footer-grid{
+  display:grid;
+  grid-template-columns:1.4fr repeat(3,1fr);
+  gap:25px;
+}
+
+.footer-brand{
+  max-width:300px;
+}
+
+.footer-brand p{
+  margin-top:10px;
+  color:var(--muted-2);
+  font-size:9px;
+  line-height:1.7;
+}
+
+.footer-col h4{
+  color:var(--gold-200);
+  font-size:9px;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+}
+
+.footer-col a{
+  display:block;
+  margin-top:9px;
+  color:var(--muted-2);
+  font-size:9px;
+}
+
+.footer-col a:hover{
+  color:var(--gold-300);
+}
+
+.footer-bottom{
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+  margin-top:28px;
+  padding-top:17px;
+  border-top:1px solid rgba(255,255,255,.06);
+  color:var(--muted-2);
+  font-size:8px;
+}
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+.toast{
+  position:fixed;
+  right:22px;
+  bottom:22px;
+  z-index:300;
+  min-width:230px;
+  max-width:360px;
+  padding:13px 15px;
+  border:1px solid rgba(229,199,125,.20);
+  border-radius:13px;
+  color:var(--cream);
+  background:#10251b;
+  box-shadow:0 20px 50px rgba(0,0,0,.35);
+  font-size:9px;
+  opacity:0;
+  transform:translateY(12px);
+  pointer-events:none;
+  transition:.25s ease;
+}
+
+.toast.show{
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:1100px){
+
+  .desktop-nav{
+    display:none;
+  }
+
+  .mobile-menu{
+    display:grid;
+  }
+
+  .settings-layout{
+    grid-template-columns:1fr;
+  }
+
+  .settings-sidebar{
+    position:static;
+  }
+
+  .settings-tab{
+    width:auto;
+    display:inline-flex;
+    margin:0 4px 4px 0;
+  }
+
+}
+
+@media(max-width:800px){
+
+  .container{
+    width:min(
+      calc(100% - 28px),
+      var(--container)
+    );
+  }
+
+  .hero-card{
+    padding:28px;
+  }
+
+  .form-grid,
+  .security-grid{
+    grid-template-columns:1fr;
+  }
+
+  .field.full{
+    grid-column:auto;
+  }
+
+  .footer-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+}
+
+@media(max-width:560px){
+
+  .header-inner{
+    min-height:68px;
+  }
+
+  .brand-text span{
+    display:none;
+  }
+
+  .header-actions .icon-btn:not(.mobile-menu){
+    display:none;
+  }
+
+  .page-hero{
+    padding-top:25px;
+  }
+
+  .hero-card{
+    padding:23px;
+    border-radius:22px;
+  }
+
+  .hero-card h1{
+    font-size:34px;
+  }
+
+  .settings-section{
+    padding:17px;
+  }
+
+  .settings-sidebar{
+    padding:9px;
+  }
+
+  .settings-tab{
+    font-size:9px;
+    padding:9px;
+  }
+
+  .save-row{
+    flex-direction:column;
+  }
+
+  .save-row .btn{
+    width:100%;
+  }
+
+  .profile-head{
+    align-items:flex-start;
+  }
+
+  .footer-grid{
+    grid-template-columns:1fr;
+  }
+
+  .footer-bottom{
+    flex-direction:column;
+  }
+
+  .toast{
+    left:14px;
+    right:14px;
+    bottom:14px;
+    min-width:0;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="page-glow"></div>
+
+<!-- =========================================================
+     HEADER
+========================================================= -->
+
+<header class="site-header">
+
+  <div class="container header-inner">
+
+    <a
+      class="brand"
+      href="/seller/index.html"
+      aria-label="GHAR Seller Home"
+    >
+      <div class="brand-mark">G</div>
+
+      <div class="brand-text">
+        <strong>GHAR</strong>
+        <span>Seller Experience</span>
+      </div>
+    </a>
+
+    <nav
+      class="desktop-nav"
+      id="desktopNav"
+      aria-label="Seller navigation"
+    >
+
+      <a href="/seller/index.html">Home</a>
+      <a href="/seller/dashboard.html">Dashboard</a>
+      <a href="/seller/list-property.html">List Property</a>
+      <a href="/seller/properties.html">Properties</a>
+      <a href="/seller/leads.html">Leads</a>
+      <a href="/seller/offers.html">Offers</a>
+      <a href="/seller/payments.html">Payments</a>
+      <a class="active" href="/seller/settings.html">Settings</a>
+
+    </nav>
+
+    <div class="header-actions">
+
+      <button
+        class="icon-btn"
+        id="notificationButton"
+        type="button"
+        aria-label="Notifications"
+      >
+        ♢
+      </button>
+
+      <a
+        class="avatar"
+        id="profileButton"
+        href="/seller/profile.html"
+        aria-label="Seller profile"
+      >
+        U
+      </a>
+
+      <button
+        class="icon-btn mobile-menu"
+        id="menuButton"
+        type="button"
+        aria-label="Open seller menu"
+      >
+        ☰
+      </button>
+
+    </div>
+
+  </div>
+
+</header>
+
+
+<main>
+
+<!-- =========================================================
+     HERO
+========================================================= -->
+
+<section class="page-hero">
+
+  <div class="container">
+
+    <div class="hero-card">
+
+      <div class="eyebrow">
+        SELLER CONTROL CENTER
+      </div>
+
+      <h1>
+        Manage your
+        <span>GHAR account.</span>
+      </h1>
+
+      <p>
+        Control your seller profile, listing preferences,
+        notifications, security, communication preferences
+        and account settings from one secure workspace.
+      </p>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================================================
+     SETTINGS
+========================================================= -->
+
+<section>
+
+  <div class="container">
+
+    <div class="settings-layout">
+
+      <!-- ===================================================
+           SIDEBAR
+      ==================================================== -->
+
+      <aside class="settings-sidebar">
+
+        <div class="settings-sidebar-title">
+          Settings
+        </div>
+
+        <button
+          class="settings-tab active"
+          type="button"
+          data-tab="account"
+        >
+          <span class="settings-tab-icon">◉</span>
+          Account
+        </button>
+
+        <button
+          class="settings-tab"
+          type="button"
+          data-tab="profile"
+        >
+          <span class="settings-tab-icon">♙</span>
+          Seller Profile
+        </button>
+
+        <button
+          class="settings-tab"
+          type="button"
+          data-tab="listing"
+        >
+          <span class="settings-tab-icon">⌂</span>
+          Listing Preferences
+        </button>
+
+        <button
+          class="settings-tab"
+          type="button"
+          data-tab="notifications"
+        >
+          <span class="settings-tab-icon">♢</span>
+          Notifications
+        </button>
+
+        <button
+          class="settings-tab"
+          type="button"
+          data-tab="security"
+        >
+          <span class="settings-tab-icon">◇</span>
+          Security
+        </button>
+
+        <button
+          class="settings-tab"
+          type="button"
+          data-tab="privacy"
+        >
+          <span class="settings-tab-icon">◌</span>
+          Privacy
+        </button>
+
+        <button
+          class="settings-tab"
+          type="button"
+          data-tab="account-danger"
+        >
+          <span class="settings-tab-icon">!</span>
+          Account actions
+        </button>
+
+      </aside>
+
+
+      <!-- ===================================================
+           CONTENT
+      ==================================================== -->
+
+      <div class="settings-content">
+
+
+        <!-- =================================================
+             ACCOUNT
+        ================================================== -->
+
+        <section
+          class="settings-section active"
+          id="tab-account"
+        >
+
+          <div class="section-title">
+
+            <div>
+              <h2>Account settings</h2>
+
+              <p>
+                Manage your basic seller account information.
+              </p>
+            </div>
+
+          </div>
+
+          <div class="profile-head">
+
+            <div
+              class="profile-avatar"
+              id="largeAvatar"
+            >
+              U
+            </div>
+
+            <div>
+
+              <strong id="accountName">
+                GHAR Seller
+              </strong>
+
+              <span id="accountEmail">
+                Seller account
+              </span>
+
+            </div>
+
+          </div>
+
+          <form id="accountForm">
+
+            <div class="form-grid">
+
+              <div class="field">
+
+                <label for="firstName">
+                  First name
+                </label>
+
+                <input
+                  id="firstName"
+                  name="firstName"
+                  type="text"
+                  autocomplete="given-name"
+                  placeholder="First name"
+                >
+
+              </div>
+
+              <div class="field">
+
+                <label for="lastName">
+                  Last name
+                </label>
+
+                <input
+                  id="lastName"
+                  name="lastName"
+                  type="text"
+                  autocomplete="family-name"
+                  placeholder="Last name"
+                >
+
+              </div>
+
+              <div class="field">
+
+                <label for="email">
+                  Email address
+                </label>
+
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  autocomplete="email"
+                  placeholder="seller@example.com"
+                >
+
+              </div>
+
+              <div class="field">
+
+                <label for="phone">
+                  Phone number
+                </label>
+
+                <input
+                  id="phone"
+                  name="phone"
+                  type="tel"
+                  autocomplete="tel"
+                  placeholder="+91"
+                >
+
+              </div>
+
+            </div>
+
+            <div class="save-row">
+
+              <button
+                class="btn btn-secondary"
+                type="button"
+                id="resetAccount"
+              >
+                Reset
+              </button>
+
+              <button
+                class="btn btn-primary"
+                type="submit"
+              >
+                Save account
+              </button>
+
+            </div>
+
+          </form>
+
+        </section>
+
+
+        <!-- =================================================
+             SELLER PROFILE
+        ================================================== -->
+
+        <section
+          class="settings-section"
+          id="tab-profile"
+        >
+
+          <div class="section-title">
+
+            <div>
+              <h2>Seller profile</h2>
+
+              <p>
+                Tell buyers and GHAR more about your selling profile.
+              </p>
+            </div>
+
+            <a
+              class="btn btn-secondary"
+              href="/seller/profile.html"
+            >
+              Open profile
+            </a>
+
+          </div>
+
+          <form id="profileForm">
+
+            <div class="form-grid">
+
+              <div class="field">
+
+                <label for="sellerType">
+                  Seller type
+                </label>
+
+                <select id="sellerType">
+
+                  <option value="individual">
+                    Individual
+                  </option>
+
+                  <option value="owner">
+                    Property Owner
+                  </option>
+
+                  <option value="agent">
+                    Real Estate Agent
+                  </option>
+
+                  <option value="builder">
+                    Builder / Developer
+                  </option>
+
+                  <option value="company">
+                    Company
+                  </option>
+
+                </select>
+
+              </div>
+
+              <div class="field">
+
+                <label for="experience">
+                  Experience
+                </label>
+
+                <select id="experience">
+
+                  <option value="new">
+                    New seller
+                  </option>
+
+                  <option value="1-3">
+                    1–3 years
+                  </option>
+
+                  <option value="3-5">
+                    3–5 years
+                  </option>
+
+                  <option value="5+">
+                    5+ years
+                  </option>
+
+                </select>
+
+              </div>
+
+              <div class="field full">
+
+                <label for="sellerBio">
+                  Seller description
+                </label>
+
+                <textarea
+                  id="sellerBio"
+                  placeholder="Tell buyers about your experience, properties or business."
+                ></textarea>
+
+              </div>
+
+            </div>
+
+            <div class="save-row">
+
+              <button
+                class="btn btn-primary"
+                type="submit"
+              >
+                Save profile
+              </button>
+
+            </div>
+
+          </form>
+
+        </section>
+
+
+        <!-- =================================================
+             LISTING PREFERENCES
+        ================================================== -->
+
+        <section
+          class="settings-section"
+          id="tab-listing"
+        >
+
+          <div class="section-title">
+
+            <div>
+              <h2>Listing preferences</h2>
+
+              <p>
+                Configure defaults for your property listings.
+              </p>
+            </div>
+
+          </div>
+
+          <form id="listingForm">
+
+            <div class="form-grid">
+
+              <div class="field">
+
+                <label for="defaultListingType">
+                  Default listing type
+                </label>
+
+                <select id="defaultListingType">
+
+                  <option value="sale">
+                    For Sale
+                  </option>
+
+                  <option value="rent">
+                    For Rent
+                  </option>
+
+                  <option value="lease">
+                    Lease
+                  </option>
+
+                </select>
+
+              </div>
+
+              <div class="field">
+
+                <label for="defaultPropertyType">
+                  Default property type
+                </label>
+
+                <select id="defaultPropertyType">
+
+                  <option value="apartment">
+                    Apartment
+                  </option>
+
+                  <option value="villa">
+                    Villa
+                  </option>
+
+                  <option value="house">
+                    Independent House
+                  </option>
+
+                  <option value="plot">
+                    Plot
+                  </option>
+
+                  <option value="commercial">
+                    Commercial
+                  </option>
+
+                  <option value="office">
+                    Office
+                  </option>
+
+                </select>
+
+              </div>
+
+              <div class="field">
+
+                <label for="defaultCity">
+                  Default city
+                </label>
+
+                <input
+                  id="defaultCity"
+                  type="text"
+                  placeholder="Noida"
+                >
+
+              </div>
+
+              <div class="field">
+
+                <label for="defaultArea">
+                  Preferred locality
+                </label>
+
+                <input
+                  id="defaultArea"
+                  type="text"
+                  placeholder="Sector / locality"
+                >
+
+              </div>
+
+            </div>
+
+            <div class="save-row">
+
+              <button
+                class="btn btn-primary"
+                type="submit"
+              >
+                Save listing preferences
+              </button>
+
+            </div>
+
+          </form>
+
+        </section>
+
+
+        <!-- =================================================
+             NOTIFICATIONS
+        ================================================== -->
+
+        <section
+          class="settings-section"
+          id="tab-notifications"
+        >
+
+          <div class="section-title">
+
+            <div>
+              <h2>Notifications</h2>
+
+              <p>
+                Choose which seller events GHAR should notify you about.
+              </p>
+            </div>
+
+            <a
+              class="btn btn-secondary"
+              href="/seller/notifications.html"
+            >
+              View notifications
+            </a>
+
+          </div>
+
+          <div class="preference-list">
+
+            <div class="preference">
+
+              <div class="preference-info">
+
+                <strong>New buyer leads</strong>
+
+                <span>
+                  Receive alerts when buyers show interest in your properties.
+                </span>
+
+              </div>
+
+              <label class="switch">
+
+                <input
+                  id="notifyLeads"
+                  type="checkbox"
+                  checked
+                >
+
+                <span class="slider"></span>
+
+              </label>
+
+            </div>
+
+
+            <div class="preference">
+
+              <div class="preference-info">
+
+                <strong>Visit requests</strong>
+
+                <span>
+                  Get notified when a buyer requests or changes a visit.
+                </span>
+
+              </div>
+
+              <label class="switch">
+
+                <input
+                  id="notifyVisits"
+                  type="checkbox"
+                  checked
+                >
+
+                <span class="slider"></span>
+
+              </label>
+
+            </div>
+
+
+            <div class="preference">
+
+              <div class="preference-info">
+
+                <strong>Offers</strong>
+
+                <span>
+                  Receive alerts for new, updated and withdrawn offers.
+                </span>
+
+              </div>
+
+              <label class="switch">
+
+                <input
+                  id="notifyOffers"
+                  type="checkbox"
+                  checked
+                >
+
+                <span class="slider"></span>
+
+              </label>
+
+            </div>
+
+
+            <div class="preference">
+
+              <div class="preference-info">
+
+                <strong>Payments</strong>
+
+                <span>
+                  Receive important payment and transaction updates.
+                </span>
+
+              </div>
+
+              <label class="switch">
+
+                <input
+                  id="notifyPayments"
+                  type="checkbox"
+                  checked
+                >
+
+                <span class="slider"></span>
+
+              </label>
+
+            </div>
+
+
+            <div class="preference">
+
+              <div class="preference-info">
+
+                <strong>Property approval</strong>
+
+                <span>
+                  Get updates about listing verification and approval.
+                </span>
+
+              </div>
+
+              <label class="switch">
+
+                <input
+                  id="notifyApproval"
+                  type="checkbox"
+                  checked
+                >
+
+                <span class="slider"></span>
+
+              </label>
+
+            </div>
+
+
+            <div class="preference">
+
+              <div class="preference-info">
+
+                <strong>Marketing recommendations</strong>
+
+                <span>
+                  Receive optional GHAR recommendations and promotional updates.
+                </span>
+
+              </div>
+
+              <label class="switch">
+
+                <input
+                  id="notifyMarketing"
+                  type="checkbox"
+                >
+
+                <span class="slider"></span>
+
+              </label>
+
+            </div>
+
+          </div>
+
+          <div class="save-row">
+
+            <button
+              class="btn btn-primary"
+              id="saveNotifications"
+              type="button"
+            >
+              Save notification settings
+            </button>
+
+          </div>
+
+        </section>
+
+
+        <!-- =================================================
+             SECURITY
+        ================================================== -->
+
+        <section
+          class="settings-section"
+          id="tab-security"
+        >
+
+          <div class="section-title">
+
+            <div>
+              <h2>Security</h2>
+
+              <p>
+                Protect your seller account and login sessions.
+              </p>
+            </div>
+
+          </div>
+
+          <div class="security-grid">
+
+            <article class="security-card">
+
+              <div class="security-card-top">
+
+                <h3>
+                  Password
+                </h3>
+
+                <div class="security-icon">
+                  ◇
+                </div>
+
+              </div>
+
+              <p>
+                Change your account password regularly and use
+                a unique password for GHAR.
+              </p>
+
+              <span class="security-status">
+                Protected
+              </span>
+
+              <div style="margin-top:13px">
+
+                <button
+                  class="btn btn-secondary"
+                  id="changePassword"
+                  type="button"
+                >
+                  Change password
+                </button>
+
+              </div>
+
+            </article>
+
+
+            <article class="security-card">
+
+              <div class="security-card-top">
+
+                <h3>
+                  Two-factor authentication
+                </h3>
+
+                <div class="security-icon">
+                  2FA
+                </div>
+
+              </div>
+
+              <p>
+                Add an additional verification step to help protect
+                your seller account.
+              </p>
+
+              <span
+                class="security-status"
+                id="twoFactorStatus"
+              >
+                Checking
+              </span>
+
+              <div style="margin-top:13px">
+
+                <button
+                  class="btn btn-secondary"
+                  id="twoFactorButton"
+                  type="button"
+                >
+                  Configure 2FA
+                </button>
+
+              </div>
+
+            </article>
+
+
+            <article class="security-card">
+
+              <div class="security-card-top">
+
+                <h3>
+                  Active sessions
+                </h3>
+
+                <div class="security-icon">
+                  ◉
+                </div>
+
+              </div>
+
+              <p>
+                Review active sessions and sign out of sessions
+                you no longer recognize.
+              </p>
+
+              <span class="security-status">
+                Secure session
+              </span>
+
+              <div style="margin-top:13px">
+
+                <button
+                  class="btn btn-secondary"
+                  id="sessionsButton"
+                  type="button"
+                >
+                  Manage sessions
+                </button>
+
+              </div>
+
+            </article>
+
+
+            <article class="security-card">
+
+              <div class="security-card-top">
+
+                <h3>
+                  Verification
+                </h3>
+
+                <div class="security-icon">
+                  ✓
+                </div>
+
+              </div>
+
+              <p>
+                Keep your contact and seller verification information
+                up to date.
+              </p>
+
+              <span
+                class="security-status"
+                id="verificationStatus"
+              >
+                Account verified
+              </span>
+
+              <div style="margin-top:13px">
+
+                <a
+                  class="btn btn-secondary"
+                  href="/seller/profile.html"
+                >
+                  Review profile
+                </a>
+
+              </div>
+
+            </article>
+
+          </div>
+
+        </section>
+
+
+        <!-- =================================================
+             PRIVACY
+        ================================================== -->
+
+        <section
+          class="settings-section"
+          id="tab-privacy"
+        >
+
+          <div class="section-title">
+
+            <div>
+              <h2>Privacy preferences</h2>
+
+              <p>
+                Control how your information is used across GHAR.
+              </p>
+            </div>
+
+          </div>
+
+          <div class="preference-list">
+
+            <div class="preference">
+
+              <div class="preference-info">
+
+                <strong>Show seller profile to interested buyers</strong>
+
+                <span>
+                  Allow relevant buyers to view your public seller profile.
+                </span>
+
+              </div>
+
+              <label class="switch">
+
+                <input
+                  id="privacyProfile"
+                  type="checkbox"
+                  checked
+                >
+
+                <span class="slider"></span>
+
+              </label>
+
+            </div>
+
+
+            <div class="preference">
+
+              <div class="preference-info">
+
+                <strong>Use activity for recommendations</strong>
+
+                <span>
+                  Allow GHAR to use your platform activity to improve
+                  seller recommendations.
+                </span>
+
+              </div>
+
+              <label class="switch">
+
+                <input
+                  id="privacyRecommendations"
+                  type="checkbox"
+                  checked
+                >
+
+                <span class="slider"></span>
+
+              </label>
+
+            </div>
+
+
+            <div class="preference">
+
+              <div class="preference-info">
+
+                <strong>Personalized communication</strong>
+
+                <span>
+                  Allow personalized GHAR communications based on
+                  your seller activity.
+                </span>
+
+              </div>
+
+              <label class="switch">
+
+                <input
+                  id="privacyPersonalized"
+                  type="checkbox"
+                >
+
+                <span class="slider"></span>
+
+              </label>
+
+            </div>
+
+          </div>
+
+          <div class="save-row">
+
+            <button
+              class="btn btn-primary"
+              id="savePrivacy"
+              type="button"
+            >
+              Save privacy settings
+            </button>
+
+          </div>
+
+        </section>
+
+
+        <!-- =================================================
+             ACCOUNT ACTIONS
+        ================================================== -->
+
+        <section
+          class="settings-section danger-zone"
+          id="tab-account-danger"
+        >
+
+          <div class="section-title">
+
+            <div>
+              <h2>Account actions</h2>
+
+              <p>
+                Important actions affecting your GHAR seller account.
+              </p>
+            </div>
+
+          </div>
+
+          <p class="danger-note">
+            Deactivating or deleting an account can affect your
+            properties, leads, offers, visits, applications,
+            documents and transaction history. Review the consequences
+            carefully before continuing.
+          </p>
+
+          <div class="danger-actions">
+
+            <button
+              class="btn btn-secondary"
+              id="logoutButton"
+              type="button"
+            >
+              Sign out
+            </button>
+
+            <button
+              class="btn btn-danger"
+              id="deactivateButton"
+              type="button"
+            >
+              Deactivate account
+            </button>
+
+            <button
+              class="btn btn-danger"
+              id="deleteButton"
+              type="button"
+            >
+              Request account deletion
+            </button>
+
+          </div>
+
+        </section>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+</main>
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer class="site-footer">
+
+  <div class="container">
+
+    <div class="footer-grid">
+
+      <div class="footer-brand">
+
+        <div class="brand">
+
+          <div class="brand-mark">G</div>
+
+          <div class="brand-text">
+
+            <strong>GHAR</strong>
+
+            <span>Real Estate Platform</span>
+
+          </div>
+
+        </div>
+
+        <p>
+          A connected real estate platform for listing,
+          selling, communicating with buyers and managing
+          property transactions.
+        </p>
+
+      </div>
+
+
+      <div class="footer-col">
+
+        <h4>Seller</h4>
+
+        <a href="/seller/index.html">
+          Seller Home
+        </a>
+
+        <a href="/seller/dashboard.html">
+          Dashboard
+        </a>
+
+        <a href="/seller/list-property.html">
+          List Property
+        </a>
+
+        <a href="/seller/properties.html">
+          Properties
+        </a>
+
+      </div>
+
+
+      <div class="footer-col">
+
+        <h4>Manage</h4>
+
+        <a href="/seller/leads.html">
+          Leads
+        </a>
+
+        <a href="/seller/offers.html">
+          Offers
+        </a>
+
+        <a href="/seller/payments.html">
+          Payments
+        </a>
+
+        <a href="/seller/documents.html">
+          Documents
+        </a>
+
+      </div>
+
+
+      <div class="footer-col">
+
+        <h4>Support</h4>
+
+        <a href="/seller/messages.html">
+          Messages
+        </a>
+
+        <a href="/seller/notifications.html">
+          Notifications
+        </a>
+
+        <a href="/seller/support.html">
+          Support
+        </a>
+
+        <a href="/help-centre.html">
+          Help Centre
+        </a>
+
+      </div>
+
+    </div>
+
+
+    <div class="footer-bottom">
+
+      <span>
+        © <span id="footerYear"></span> GHAR.
+        All rights reserved.
+      </span>
+
+      <span>
+        Seller Portal · Secure Session
+      </span>
+
+    </div>
+
+  </div>
+
+</footer>
+
+
+<div
+  class="toast"
+  id="toast"
+  role="status"
+  aria-live="polite"
+></div>
+
+
+<script>
+"use strict";
+
+/* =========================================================
+   GHAR SELLER SETTINGS
+========================================================= */
+
+const API_BASE =
+  window.GHAR_API_BASE ||
+  window.API_BASE ||
+  "/api";
+
+
+const $ = selector =>
+  document.querySelector(selector);
+
+
+const $$ = selector =>
+  [...document.querySelectorAll(selector)];
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+let toastTimer = null;
+
+function showToast(message){
+
+  const toast =
+    $("#toast");
+
+  if(!toast){
+    return;
+  }
+
+  toast.textContent =
+    message;
+
+  toast.classList.add("show");
+
+  clearTimeout(
+    toastTimer
+  );
+
+  toastTimer =
+    setTimeout(
+      () => {
+        toast.classList.remove("show");
+      },
+      2800
+    );
+}
+
+
+/* =========================================================
+   API
+========================================================= */
+
+async function apiRequest(
+  url,
+  options = {}
+){
+
+  const response =
+    await fetch(
+      url,
+      {
+        credentials:"include",
+
+        headers:{
+          "Accept":"application/json",
+          "Content-Type":"application/json",
+          ...(options.headers || {})
+        },
+
+        ...options
+      }
+    );
+
+  let data = null;
+
+  try{
+    data = await response.json();
+  }catch{
+    data = null;
+  }
+
+  if(!response.ok){
+
+    const error =
+      new Error(
+        data?.message ||
+        data?.error?.message ||
+        "Request failed."
+      );
+
+    error.status =
+      response.status;
+
+    error.data =
+      data;
+
+    throw error;
+  }
+
+  return data;
+}
+
+
+/* =========================================================
+   SETTINGS TABS
+========================================================= */
+
+$$(".settings-tab")
+  .forEach(
+    button => {
+
+      button.addEventListener(
+        "click",
+        () => {
+
+          const tab =
+            button.dataset.tab;
+
+          $$(".settings-tab")
+            .forEach(
+              item =>
+                item.classList.toggle(
+                  "active",
+                  item === button
+                )
+            );
+
+          $$(".settings-section")
+            .forEach(
+              section =>
+                section.classList.toggle(
+                  "active",
+                  section.id ===
+                  `tab-${tab}`
+                )
+            );
+
+          history.replaceState(
+            null,
+            "",
+            `#${tab}`
+          );
+
+        }
+      );
+
+    }
+  );
+
+
+function openHashTab(){
+
+  const hash =
+    location.hash.replace(
+      "#",
+      ""
+    );
+
+  if(!hash){
+    return;
+  }
+
+  const button =
+    document.querySelector(
+      `[data-tab="${CSS.escape(hash)}"]`
+    );
+
+  if(button){
+    button.click();
+  }
+
+}
+
+
+/* =========================================================
+   ACCOUNT DATA
+========================================================= */
+
+async function loadSeller(){
+
+  try{
+
+    const data =
+      await apiRequest(
+        API_BASE +
+        "/users/me"
+      );
+
+    const user =
+      data?.user ||
+      data;
+
+    if(!user){
+      return;
+    }
+
+    const fullName =
+      user.fullName ||
+      user.name ||
+      "GHAR Seller";
+
+    const email =
+      user.email ||
+      "Seller account";
+
+    const phone =
+      user.phone ||
+      user.mobile ||
+      "";
+
+    $("#accountName").textContent =
+      fullName;
+
+    $("#accountEmail").textContent =
+      email;
+
+    $("#email").value =
+      email;
+
+    $("#phone").value =
+      phone;
+
+    const parts =
+      fullName
+        .trim()
+        .split(/\s+/);
+
+    $("#firstName").value =
+      user.firstName ||
+      parts[0] ||
+      "";
+
+    $("#lastName").value =
+      user.lastName ||
+      parts.slice(1).join(" ") ||
+      "";
+
+    const initial =
+      fullName
+        .trim()
+        .charAt(0)
+        .toUpperCase() ||
+      "U";
+
+    $("#profileButton").textContent =
+      initial;
+
+    $("#largeAvatar").textContent =
+      initial;
+
+    return user;
+
+  }catch(error){
+
+    console.warn(
+      "GHAR seller profile:",
+      error
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   ACCOUNT FORM
+========================================================= */
+
+$("#accountForm")
+  ?.addEventListener(
+    "submit",
+    async event => {
+
+      event.preventDefault();
+
+      const payload = {
+
+        firstName:
+          $("#firstName").value.trim(),
+
+        lastName:
+          $("#lastName").value.trim(),
+
+        email:
+          $("#email").value.trim(),
+
+        phone:
+          $("#phone").value.trim()
+
+      };
+
+      try{
+
+        await apiRequest(
+          API_BASE +
+          "/users/me",
+          {
+            method:"PATCH",
+            body:
+              JSON.stringify(
+                payload
+              )
+          }
+        );
+
+        showToast(
+          "Account settings saved."
+        );
+
+        await loadSeller();
+
+      }catch(error){
+
+        console.warn(
+          "Account update:",
+          error
+        );
+
+        showToast(
+          error.message ||
+          "Unable to save account settings."
+        );
+
+      }
+
+    }
+  );
+
+
+$("#resetAccount")
+  ?.addEventListener(
+    "click",
+    () => {
+      loadSeller();
+      showToast(
+        "Account fields restored."
+      );
+    }
+  );
+
+
+/* =========================================================
+   PROFILE FORM
+========================================================= */
+
+$("#profileForm")
+  ?.addEventListener(
+    "submit",
+    async event => {
+
+      event.preventDefault();
+
+      const payload = {
+
+        sellerType:
+          $("#sellerType").value,
+
+        experience:
+          $("#experience").value,
+
+        bio:
+          $("#sellerBio").value.trim()
+
+      };
+
+      try{
+
+        await apiRequest(
+          API_BASE +
+          "/seller/profile",
+          {
+            method:"PATCH",
+            body:
+              JSON.stringify(
+                payload
+              )
+          }
+        );
+
+        showToast(
+          "Seller profile saved."
+        );
+
+      }catch(error){
+
+        showToast(
+          error.message ||
+          "Unable to save seller profile."
+        );
+
+      }
+
+    }
+  );
+
+
+/* =========================================================
+   LISTING FORM
+========================================================= */
+
+$("#listingForm")
+  ?.addEventListener(
+    "submit",
+    async event => {
+
+      event.preventDefault();
+
+      const payload = {
+
+        listingType:
+          $("#defaultListingType").value,
+
+        propertyType:
+          $("#defaultPropertyType").value,
+
+        city:
+          $("#defaultCity").value.trim(),
+
+        locality:
+          $("#defaultArea").value.trim()
+
+      };
+
+      try{
+
+        await apiRequest(
+          API_BASE +
+          "/seller/preferences/listing",
+          {
+            method:"PATCH",
+            body:
+              JSON.stringify(
+                payload
+              )
+          }
+        );
+
+        showToast(
+          "Listing preferences saved."
+        );
+
+      }catch(error){
+
+        showToast(
+          error.message ||
+          "Unable to save listing preferences."
+        );
+
+      }
+
+    }
+  );
+
+
+/* =========================================================
+   NOTIFICATIONS
+========================================================= */
+
+function notificationPayload(){
+
+  return {
+
+    leads:
+      $("#notifyLeads").checked,
+
+    visits:
+      $("#notifyVisits").checked,
+
+    offers:
+      $("#notifyOffers").checked,
+
+    payments:
+      $("#notifyPayments").checked,
+
+    approval:
+      $("#notifyApproval").checked,
+
+    marketing:
+      $("#notifyMarketing").checked
+
+  };
+
+}
+
+
+$("#saveNotifications")
+  ?.addEventListener(
+    "click",
+    async () => {
+
+      try{
+
+        await apiRequest(
+          API_BASE +
+          "/seller/preferences/notifications",
+          {
+            method:"PATCH",
+            body:
+              JSON.stringify(
+                notificationPayload()
+              )
+          }
+        );
+
+        showToast(
+          "Notification preferences saved."
+        );
+
+      }catch(error){
+
+        showToast(
+          error.message ||
+          "Unable to save notification preferences."
+        );
+
+      }
+
+    }
+  );
+
+
+/* =========================================================
+   PRIVACY
+========================================================= */
+
+$("#savePrivacy")
+  ?.addEventListener(
+    "click",
+    async () => {
+
+      const payload = {
+
+        publicProfile:
+          $("#privacyProfile").checked,
+
+        recommendations:
+          $("#privacyRecommendations").checked,
+
+        personalized:
+          $("#privacyPersonalized").checked
+
+      };
+
+      try{
+
+        await apiRequest(
+          API_BASE +
+          "/seller/preferences/privacy",
+          {
+            method:"PATCH",
+            body:
+              JSON.stringify(
+                payload
+              )
+          }
+        );
+
+        showToast(
+          "Privacy settings saved."
+        );
+
+      }catch(error){
+
+        showToast(
+          error.message ||
+          "Unable to save privacy settings."
+        );
+
+      }
+
+    }
+  );
+
+
+/* =========================================================
+   SECURITY ACTIONS
+========================================================= */
+
+$("#changePassword")
+  ?.addEventListener(
+    "click",
+    () => {
+
+      window.location.href =
+        "/change-password.html";
+
+    }
+  );
+
+
+$("#twoFactorButton")
+  ?.addEventListener(
+    "click",
+    async () => {
+
+      try{
+
+        const data =
+          await apiRequest(
+            API_BASE +
+            "/auth/2fa/setup",
+            {
+              method:"POST"
+            }
+          );
+
+        $("#twoFactorStatus").textContent =
+          data?.enabled
+            ? "Enabled"
+            : "Setup available";
+
+        showToast(
+          data?.message ||
+          "Two-factor authentication setup opened."
+        );
+
+      }catch(error){
+
+        showToast(
+          error.message ||
+          "Two-factor authentication is not available yet."
+        );
+
+      }
+
+    }
+  );
+
+
+$("#sessionsButton")
+  ?.addEventListener(
+    "click",
+    () => {
+
+      window.location.href =
+        "/security/sessions.html";
+
+    }
+  );
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+$("#logoutButton")
+  ?.addEventListener(
+    "click",
+    async () => {
+
+      try{
+
+        await apiRequest(
+          API_BASE +
+          "/auth/logout",
+          {
+            method:"POST"
+          }
+        );
+
+      }catch(error){
+
+        console.warn(
+          "Logout:",
+          error
+        );
+
+      }finally{
+
+        window.location.href =
+          "/login.html";
+
+      }
+
+    }
+  );
+
+
+/* =========================================================
+   DEACTIVATE
+========================================================= */
+
+$("#deactivateButton")
+  ?.addEventListener(
+    "click",
+    async () => {
+
+      const confirmed =
+        window.confirm(
+          "Are you sure you want to deactivate your GHAR seller account?"
+        );
+
+      if(!confirmed){
+        return;
+      }
+
+      try{
+
+        await apiRequest(
+          API_BASE +
+          "/users/me/deactivate",
+          {
+            method:"POST"
+          }
+        );
+
+        showToast(
+          "Account deactivation request submitted."
+        );
+
+      }catch(error){
+
+        showToast(
+          error.message ||
+          "Unable to deactivate the account."
+        );
+
+      }
+
+    }
+  );
+
+
+/* =========================================================
+   DELETE REQUEST
+========================================================= */
+
+$("#deleteButton")
+  ?.addEventListener(
+    "click",
+    async () => {
+
+      const confirmed =
+        window.confirm(
+          "This will submit an account deletion request. Continue?"
+        );
+
+      if(!confirmed){
+        return;
+      }
+
+      try{
+
+        await apiRequest(
+          API_BASE +
+          "/users/me/delete-request",
+          {
+            method:"POST"
+          }
+        );
+
+        showToast(
+          "Account deletion request submitted."
+        );
+
+      }catch(error){
+
+        showToast(
+          error.message ||
+          "Unable to submit deletion request."
+        );
+
+      }
+
+    }
+  );
+
+
+/* =========================================================
+   NOTIFICATIONS
+========================================================= */
+
+$("#notificationButton")
+  ?.addEventListener(
+    "click",
+    () => {
+
+      window.location.href =
+        "/seller/notifications.html";
+
+    }
+  );
+
+
+/* =========================================================
+   MOBILE MENU
+========================================================= */
+
+$("#menuButton")
+  ?.addEventListener(
+    "click",
+    () => {
+
+      const nav =
+        $("#desktopNav");
+
+      const open =
+        nav.dataset.mobileOpen ===
+        "true";
+
+      if(open){
+
+        nav.removeAttribute(
+          "style"
+        );
+
+        nav.dataset.mobileOpen =
+          "false";
+
+        return;
+
+      }
+
+      nav.dataset.mobileOpen =
+        "true";
+
+      nav.style.display =
+        "flex";
+
+      nav.style.position =
+        "absolute";
+
+      nav.style.left =
+        "14px";
+
+      nav.style.right =
+        "14px";
+
+      nav.style.top =
+        "66px";
+
+      nav.style.padding =
+        "10px";
+
+      nav.style.flexDirection =
+        "column";
+
+      nav.style.alignItems =
+        "stretch";
+
+      nav.style.border =
+        "1px solid rgba(229,199,125,.14)";
+
+      nav.style.borderRadius =
+        "16px";
+
+      nav.style.background =
+        "#0b1c14";
+
+      nav.style.boxShadow =
+        "0 25px 60px rgba(0,0,0,.35)";
+
+    }
+  );
+
+
+/* =========================================================
+   YEAR
+========================================================= */
+
+$("#footerYear").textContent =
+  new Date().getFullYear();
+
+
+/* =========================================================
+   INITIALIZE
+========================================================= */
+
+async function initialize(){
+
+  openHashTab();
+
+  await loadSeller();
+
+  try{
+
+    const settings =
+      await apiRequest(
+        API_BASE +
+        "/seller/settings"
+      );
+
+    const data =
+      settings?.data ||
+      settings;
+
+    if(data){
+
+      if(
+        data.notifications
+      ){
+
+        const n =
+          data.notifications;
+
+        if(
+          typeof n.leads === "boolean"
+        )
+          $("#notifyLeads").checked =
+            n.leads;
+
+        if(
+          typeof n.visits === "boolean"
+        )
+          $("#notifyVisits").checked =
+            n.visits;
+
+        if(
+          typeof n.offers === "boolean"
+        )
+          $("#notifyOffers").checked =
+            n.offers;
+
+        if(
+          typeof n.payments === "boolean"
+        )
+          $("#notifyPayments").checked =
+            n.payments;
+
+        if(
+          typeof n.approval === "boolean"
+        )
+          $("#notifyApproval").checked =
+            n.approval;
+
+        if(
+          typeof n.marketing === "boolean"
+        )
+          $("#notifyMarketing").checked =
+            n.marketing;
+
+      }
+
+      if(
+        data.privacy
+      ){
+
+        const p =
+          data.privacy;
+
+        if(
+          typeof p.publicProfile === "boolean"
+        )
+          $("#privacyProfile").checked =
+            p.publicProfile;
+
+        if(
+          typeof p.recommendations === "boolean"
+        )
+          $("#privacyRecommendations").checked =
+            p.recommendations;
+
+        if(
+          typeof p.personalized === "boolean"
+        )
+          $("#privacyPersonalized").checked =
+            p.personalized;
+
+      }
+
+      if(
+        data.listing
+      ){
+
+        const l =
+          data.listing;
+
+        if(l.listingType)
+          $("#defaultListingType").value =
+            l.listingType;
+
+        if(l.propertyType)
+          $("#defaultPropertyType").value =
+            l.propertyType;
+
+        if(l.city)
+          $("#defaultCity").value =
+            l.city;
+
+        if(l.locality)
+          $("#defaultArea").value =
+            l.locality;
+
+      }
+
+      if(
+        data.profile
+      ){
+
+        const p =
+          data.profile;
+
+        if(p.sellerType)
+          $("#sellerType").value =
+            p.sellerType;
+
+        if(p.experience)
+          $("#experience").value =
+            p.experience;
+
+        if(p.bio)
+          $("#sellerBio").value =
+            p.bio;
+
+      }
+
+    }
+
+  }catch(error){
+
+    console.warn(
+      "GHAR settings load:",
+      error
+    );
+
+  }
+
+}
+
+
+if(
+  document.readyState ===
+  "loading"
+){
+
+  document.addEventListener(
+    "DOMContentLoaded",
+    initialize
+  );
+
+}else{
+
+  initialize();
+
+}
+</script>
+
+</body>
+</html>

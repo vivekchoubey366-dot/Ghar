@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta name="description" content="GHAR role selection -- choose whether you are buying, selling, renting, or managing property.">
+  <meta name="theme-color" content="#162d25">
+
+  <title>Choose Your Role | GHAR</title>
+
+  <link rel="stylesheet" href="assets/css/variables.css">
+  <link rel="stylesheet" href="assets/css/reset.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/layout.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <link rel="stylesheet" href="assets/css/forms.css">
+  <link rel="stylesheet" href="assets/css/responsive.css">
+  <link rel="stylesheet" href="assets/css/animations.css">
+
+  <style>
+    :root {
+      --ghar-green-900: #162d25;
+      --ghar-green-800: #203c31;
+      --ghar-green-700: #2d5142;
+      --ghar-cream: #f5efe3;
+      --ghar-sand: #e9dcc6;
+      --ghar-gold: #c7a45a;
+      --ghar-gold-light: #dfc486;
+      --ghar-text: #17231e;
+      --ghar-muted: #69756f;
+      --ghar-border: rgba(22,45,37,.12);
+      --ghar-shadow: 0 24px 70px rgba(22,45,37,.14);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ghar-text);
+      font-family:
+        Inter,
+        ui-sans-serif,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+      background:
+        radial-gradient(circle at 8% 12%, rgba(199,164,90,.18), transparent 30%),
+        radial-gradient(circle at 92% 85%, rgba(45,81,66,.16), transparent 32%),
+        linear-gradient(135deg, #f8f3e9 0%, #eee5d5 48%, #e6eee8 100%);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    .role-page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .role-page::before,
+    .role-page::after {
+      content: "";
+      position: absolute;
+      width: 420px;
+      height: 420px;
+      border-radius: 50%;
+      pointer-events: none;
+      filter: blur(2px);
+    }
+
+    .role-page::before {
+      top: -180px;
+      right: -120px;
+      background: rgba(199,164,90,.10);
+    }
+
+    .role-page::after {
+      bottom: -220px;
+      left: -160px;
+      background: rgba(32,60,49,.10);
+    }
+
+    /* HEADER */
+
+    .site-header {
+      position: relative;
+      z-index: 5;
+      width: 100%;
+      padding: 22px clamp(18px, 5vw, 72px);
+    }
+
+    .header-inner {
+      max-width: 1280px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 900;
+      letter-spacing: .08em;
+      color: var(--ghar-green-900);
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      background:
+        linear-gradient(145deg, var(--ghar-green-900), var(--ghar-green-700));
+      box-shadow: 0 10px 25px rgba(22,45,37,.20);
+      font-size: 17px;
+    }
+
+    .brand-name {
+      font-size: 22px;
+    }
+
+    .header-login {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 11px 17px;
+      border: 1px solid var(--ghar-border);
+      border-radius: 999px;
+      background: rgba(255,255,255,.45);
+      backdrop-filter: blur(14px);
+      color: var(--ghar-green-900);
+      font-weight: 750;
+      transition: .25s ease;
+    }
+
+    .header-login:hover {
+      background: rgba(255,255,255,.75);
+      transform: translateY(-1px);
+    }
+
+    /* MAIN */
+
+    .role-main {
+      flex: 1;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 35px 20px 65px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .role-container {
+      width: min(1080px, 100%);
+      text-align: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 13px;
+      border: 1px solid rgba(199,164,90,.32);
+      border-radius: 999px;
+      background: rgba(255,255,255,.42);
+      color: var(--ghar-green-800);
+      font-size: 12px;
+      font-weight: 850;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      backdrop-filter: blur(10px);
+    }
+
+    .eyebrow-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--ghar-gold);
+      box-shadow: 0 0 0 5px rgba(199,164,90,.12);
+    }
+
+    .hero-title {
+      margin: 22px auto 12px;
+      max-width: 760px;
+      font-size: clamp(34px, 5vw, 62px);
+      line-height: 1.04;
+      letter-spacing: -.045em;
+      color: var(--ghar-green-900);
+    }
+
+    .hero-title span {
+      color: var(--ghar-gold);
+    }
+
+    .hero-description {
+      max-width: 650px;
+      margin: 0 auto 34px;
+      color: var(--ghar-muted);
+      font-size: clamp(15px, 2vw, 18px);
+      line-height: 1.7;
+    }
+
+    .role-card {
+      background: rgba(255,255,255,.54);
+      border: 1px solid rgba(255,255,255,.72);
+      border-radius: 30px;
+      padding: clamp(20px, 4vw, 34px);
+      box-shadow: var(--ghar-shadow);
+      backdrop-filter: blur(24px);
+    }
+
+    .role-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 17px;
+      text-align: left;
+    }
+
+    .role-option {
+      position: relative;
+      display: block;
+      cursor: pointer;
+    }
+
+    .role-option input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .role-content {
+      min-height: 190px;
+      padding: 24px;
+      border: 1.5px solid rgba(22,45,37,.11);
+      border-radius: 23px;
+      background: rgba(255,255,255,.56);
+      transition:
+        transform .25s ease,
+        border-color .25s ease,
+        box-shadow .25s ease,
+        background .25s ease;
+    }
+
+    .role-option:hover .role-content {
+      transform: translateY(-4px);
+      border-color: rgba(199,164,90,.48);
+      box-shadow: 0 15px 35px rgba(22,45,37,.10);
+      background: rgba(255,255,255,.78);
+    }
+
+    .role-option input:checked + .role-content {
+      border-color: var(--ghar-gold);
+      background:
+        linear-gradient(145deg, rgba(255,255,255,.92), rgba(244,235,215,.82));
+      box-shadow:
+        0 0 0 4px rgba(199,164,90,.13),
+        0 18px 40px rgba(22,45,37,.12);
+    }
+
+    .role-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 15px;
+    }
+
+    .role-icon {
+      width: 53px;
+      height: 53px;
+      flex: 0 0 53px;
+      display: grid;
+      place-items: center;
+      border-radius: 17px;
+      color: #fff;
+      background: linear-gradient(145deg, var(--ghar-green-900), var(--ghar-green-700));
+      box-shadow: 0 9px 22px rgba(22,45,37,.17);
+      font-size: 23px;
+    }
+
+    .role-check {
+      width: 23px;
+      height: 23px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(22,45,37,.22);
+      display: grid;
+      place-items: center;
+      color: transparent;
+      font-size: 13px;
+      font-weight: 900;
+      transition: .2s ease;
+    }
+
+    .role-option input:checked + .role-content .role-check {
+      border-color: var(--ghar-gold);
+      background: var(--ghar-gold);
+      color: #fff;
+    }
+
+    .role-title {
+      margin: 19px 0 6px;
+      color: var(--ghar-green-900);
+      font-size: 21px;
+      font-weight: 850;
+      letter-spacing: -.02em;
+    }
+
+    .role-description {
+      margin: 0;
+      color: var(--ghar-muted);
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    .role-features {
+      margin: 13px 0 0;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      list-style: none;
+    }
+
+    .role-features li {
+      padding: 5px 9px;
+      border-radius: 999px;
+      background: rgba(22,45,37,.055);
+      color: var(--ghar-green-800);
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .continue-area {
+      margin-top: 25px;
+    }
+
+    .continue-button {
+      width: min(100%, 430px);
+      min-height: 55px;
+      border: 0;
+      border-radius: 16px;
+      background: linear-gradient(135deg, var(--ghar-green-900), var(--ghar-green-700));
+      color: #fff;
+      font-weight: 850;
+      letter-spacing: .01em;
+      cursor: pointer;
+      box-shadow: 0 14px 30px rgba(22,45,37,.20);
+      transition: .25s ease;
+    }
+
+    .continue-button:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 18px 36px rgba(22,45,37,.25);
+    }
+
+    .continue-button:disabled {
+      cursor: not-allowed;
+      opacity: .48;
+      box-shadow: none;
+    }
+
+    .selection-message {
+      min-height: 22px;
+      margin-top: 12px;
+      color: #8a5d20;
+      font-size: 13px;
+      font-weight: 650;
+    }
+
+    .security-note {
+      margin: 22px auto 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      color: #66736d;
+      font-size: 12px;
+    }
+
+    /* FOOTER */
+
+    .site-footer {
+      position: relative;
+      z-index: 3;
+      padding: 18px 20px 25px;
+      text-align: center;
+      color: #718078;
+      font-size: 12px;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 10px;
+    }
+
+    .footer-links a:hover {
+      color: var(--ghar-green-900);
+      text-decoration: underline;
+    }
+
+    /* RESPONSIVE */
+
+    @media (max-width: 700px) {
+      .site-header {
+        padding: 17px 16px;
+      }
+
+      .brand-mark {
+        width: 38px;
+        height: 38px;
+        border-radius: 12px;
+      }
+
+      .brand-name {
+        font-size: 19px;
+      }
+
+      .header-login {
+        padding: 9px 13px;
+        font-size: 13px;
+      }
+
+      .role-main {
+        padding: 24px 14px 45px;
+      }
+
+      .hero-title {
+        font-size: 38px;
+      }
+
+      .hero-description {
+        font-size: 14px;
+        line-height: 1.6;
+        margin-bottom: 24px;
+      }
+
+      .role-card {
+        padding: 14px;
+        border-radius: 23px;
+      }
+
+      .role-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .role-content {
+        min-height: auto;
+        padding: 19px;
+      }
+
+      .role-title {
+        font-size: 19px;
+      }
+
+      .role-description {
+        font-size: 13px;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .header-login {
+        padding: 8px 10px;
+      }
+
+      .hero-title {
+        font-size: 33px;
+      }
+
+      .role-features {
+        display: none;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        transition: none !important;
+        animation: none !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="role-page">
+
+  <!-- =====================================================
+       HEADER
+  ====================================================== -->
+  <header class="site-header">
+    <div class="header-inner">
+
+      <a href="index.html" class="brand" aria-label="GHAR home">
+        <span class="brand-mark">G</span>
+        <span class="brand-name">GHAR</span>
+      </a>
+
+      <a href="login.html" class="header-login">
+        Already have an account?
+        <strong>Login</strong>
+      </a>
+
+    </div>
+  </header>
+
+
+  <!-- =====================================================
+       MAIN
+  ====================================================== -->
+  <main class="role-main">
+
+    <section class="role-container">
+
+      <div class="eyebrow">
+        <span class="eyebrow-dot"></span>
+        Personalised GHAR experience
+      </div>
+
+      <h1 class="hero-title">
+        How will you use <span>GHAR?</span>
+      </h1>
+
+      <p class="hero-description">
+        Choose the role that best describes you. GHAR will personalise
+        your dashboard, property recommendations, tools, documents,
+        payments and AI assistance around your needs.
+      </p>
+
+
+      <form id="roleForm" class="role-card">
+
+        <div class="role-grid">
+
+          <!-- BUYER -->
+          <label class="role-option">
+            <input
+              type="radio"
+              name="role"
+              value="buyer"
+              autocomplete="off"
+            >
+
+            <div class="role-content">
+
+              <div class="role-top">
+                <div class="role-icon">🏠</div>
+                <span class="role-check">✓</span>
+              </div>
+
+              <h2 class="role-title">Buyer</h2>
+
+              <p class="role-description">
+                Find, compare and purchase your next home or investment
+                property.
+              </p>
+
+              <ul class="role-features">
+                <li>Property Search</li>
+                <li>AI Recommendations</li>
+                <li>Loans</li>
+                <li>Offers</li>
+              </ul>
+
+            </div>
+          </label>
+
+
+          <!-- SELLER -->
+          <label class="role-option">
+            <input
+              type="radio"
+              name="role"
+              value="seller"
+              autocomplete="off"
+            >
+
+            <div class="role-content">
+
+              <div class="role-top">
+                <div class="role-icon">🏡</div>
+                <span class="role-check">✓</span>
+              </div>
+
+              <h2 class="role-title">Seller</h2>
+
+              <p class="role-description">
+                List and manage properties, receive leads and negotiate
+                with potential buyers.
+              </p>
+
+              <ul class="role-features">
+                <li>List Property</li>
+                <li>Leads</li>
+                <li>Offers</li>
+                <li>Seller AI</li>
+              </ul>
+
+            </div>
+          </label>
+
+
+          <!-- TENANT -->
+          <label class="role-option">
+            <input
+              type="radio"
+              name="role"
+              value="tenant"
+              autocomplete="off"
+            >
+
+            <div class="role-content">
+
+              <div class="role-top">
+                <div class="role-icon">🔑</div>
+                <span class="role-check">✓</span>
+              </div>
+
+              <h2 class="role-title">Tenant</h2>
+
+              <p class="role-description">
+                Discover rental homes, manage applications and handle
+                your rental journey in one place.
+              </p>
+
+              <ul class="role-features">
+                <li>Rental Search</li>
+                <li>Applications</li>
+                <li>Agreements</li>
+                <li>Maintenance</li>
+              </ul>
+
+            </div>
+          </label>
+
+
+          <!-- AGENT / PROFESSIONAL -->
+          <label class="role-option">
+            <input
+              type="radio"
+              name="role"
+              value="agent"
+              autocomplete="off"
+            >
+
+            <div class="role-content">
+
+              <div class="role-top">
+                <div class="role-icon">💼</div>
+                <span class="role-check">✓</span>
+              </div>
+
+              <h2 class="role-title">Agent / Professional</h2>
+
+              <p class="role-description">
+                Manage property listings, clients, leads and transactions
+                professionally.
+              </p>
+
+              <ul class="role-features">
+                <li>Agent Tools</li>
+                <li>Lead Management</li>
+                <li>Analytics</li>
+                <li>Business Tools</li>
+              </ul>
+
+            </div>
+          </label>
+
+        </div>
+
+
+        <div class="continue-area">
+
+          <button
+            type="submit"
+            id="continueButton"
+            class="continue-button"
+            disabled
+          >
+            Continue
+          </button>
+
+          <div
+            id="selectionMessage"
+            class="selection-message"
+            aria-live="polite"
+          ></div>
+
+        </div>
+
+        <div class="security-note">
+          🔒 Your role preference is securely associated with your GHAR account.
+        </div>
+
+      </form>
+
+    </section>
+
+  </main>
+
+
+  <!-- =====================================================
+       FOOTER
+  ====================================================== -->
+  <footer class="site-footer">
+
+    <nav class="footer-links" aria-label="Footer navigation">
+      <a href="privacy.html">Privacy</a>
+      <a href="terms.html">Terms</a>
+      <a href="security.html">Security</a>
+      <a href="help.html">Help</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+
+    <div>
+      © <span id="currentYear"></span> GHAR. All rights reserved.
+    </div>
+
+  </footer>
+
+</div>
+
+
+<script>
+(function () {
+
+  "use strict";
+
+  const form = document.getElementById("roleForm");
+  const button = document.getElementById("continueButton");
+  const message = document.getElementById("selectionMessage");
+  const year = document.getElementById("currentYear");
+
+  year.textContent = new Date().getFullYear();
+
+  const roleInputs = form.querySelectorAll('input[name="role"]');
+
+  roleInputs.forEach(function (input) {
+
+    input.addEventListener("change", function () {
+
+      if (input.checked) {
+        button.disabled = false;
+        message.textContent = "";
+      }
+
+    });
+
+  });
+
+
+  form.addEventListener("submit", function (event) {
+
+    event.preventDefault();
+
+    const selected = form.querySelector(
+      'input[name="role"]:checked'
+    );
+
+    if (!selected) {
+      button.disabled = true;
+      message.textContent = "Please select a role to continue.";
+      return;
+    }
+
+    const role = selected.value;
+
+    /*
+      Store temporarily for the registration flow.
+
+      The backend should ultimately validate and persist the role
+      against the authenticated/registration session.
+    */
+    try {
+      sessionStorage.setItem("ghar_selected_role", role);
+    } catch (error) {
+      console.warn("GHAR role storage unavailable.", error);
+    }
+
+    /*
+      Continue to registration.
+
+      The selected role can be read by registration.html using:
+      sessionStorage.getItem("ghar_selected_role")
+    */
+    window.location.href =
+      "registration.html?role=" +
+      encodeURIComponent(role);
+
+  });
+
+})();
+</script>
+
+</body>
+</html>

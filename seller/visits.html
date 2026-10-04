@@ -1,0 +1,3509 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<meta name="description"
+      content="GHAR Seller -- Manage property visits, buyer appointments and viewing schedules.">
+
+<meta name="theme-color" content="#162d25">
+
+<title>GHAR · Seller · Visits</title>
+
+<link rel="icon" href="../assets/images/favicon.svg">
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+:root{
+  --green-950:#07130e;
+  --green-925:#0a1912;
+  --green-900:#0b1c14;
+  --green-850:#10261c;
+  --green-800:#162d25;
+  --green-750:#1a382c;
+  --green-700:#214438;
+  --green-600:#2b5847;
+
+  --gold-100:#fff7df;
+  --gold-200:#f4dfaa;
+  --gold-300:#e5c77d;
+  --gold-400:#c9a95c;
+  --gold-500:#a98238;
+
+  --cream:#fffaf0;
+  --text:#f9f5ea;
+  --muted:rgba(255,255,255,.68);
+  --muted-2:rgba(255,255,255,.45);
+
+  --border:rgba(229,199,125,.18);
+  --border-light:rgba(255,255,255,.09);
+
+  --success:#82c995;
+  --warning:#e5c77d;
+  --danger:#e98c8c;
+  --blue:#91b9e8;
+
+  --shadow:0 25px 80px rgba(0,0,0,.25);
+
+  --radius-xl:28px;
+  --radius-lg:21px;
+  --radius-md:15px;
+
+  --container:1440px;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  min-height:100vh;
+  color:var(--text);
+  font-family:
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  background:
+    radial-gradient(
+      circle at 5% 0%,
+      rgba(229,199,125,.12),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 100% 10%,
+      rgba(44,91,69,.22),
+      transparent 30%
+    ),
+    linear-gradient(
+      135deg,
+      #07130e,
+      #0b1c14 48%,
+      #10261c
+    );
+
+  overflow-x:hidden;
+}
+
+a{
+  color:inherit;
+  text-decoration:none;
+}
+
+button,
+input,
+select{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+img{
+  display:block;
+  max-width:100%;
+}
+
+.container{
+  width:min(
+    calc(100% - 40px),
+    var(--container)
+  );
+  margin:auto;
+}
+
+
+/* =========================================================
+   BACKGROUND
+========================================================= */
+
+.page-glow{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:-1;
+  overflow:hidden;
+}
+
+.page-glow::before{
+  content:"";
+  position:absolute;
+  width:550px;
+  height:550px;
+  top:-300px;
+  right:-220px;
+  border-radius:50%;
+  border:1px solid rgba(229,199,125,.12);
+
+  box-shadow:
+    0 0 0 60px rgba(229,199,125,.025),
+    0 0 0 120px rgba(229,199,125,.015);
+}
+
+.page-glow::after{
+  content:"";
+  position:absolute;
+  width:500px;
+  height:500px;
+  bottom:-300px;
+  left:-250px;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,.06);
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.site-header{
+  position:sticky;
+  top:0;
+  z-index:100;
+
+  border-bottom:
+    1px solid
+    rgba(229,199,125,.10);
+
+  background:
+    rgba(7,19,14,.90);
+
+  backdrop-filter:
+    blur(22px);
+}
+
+.header-inner{
+  min-height:76px;
+
+  display:flex;
+  align-items:center;
+  gap:24px;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex-shrink:0;
+}
+
+.brand-mark{
+  width:45px;
+  height:45px;
+
+  display:grid;
+  place-items:center;
+
+  border-radius:14px;
+
+  color:#152116;
+  font-size:19px;
+  font-weight:1000;
+
+  background:
+    linear-gradient(
+      135deg,
+      #f1dda5,
+      #b98b3d
+    );
+
+  box-shadow:
+    0 10px 25px rgba(0,0,0,.25),
+    inset 0 1px 0 rgba(255,255,255,.5);
+}
+
+.brand-text strong{
+  display:block;
+  font-size:17px;
+  letter-spacing:.17em;
+}
+
+.brand-text span{
+  display:block;
+  margin-top:2px;
+  color:var(--muted-2);
+  font-size:8px;
+  font-weight:800;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+}
+
+.desktop-nav{
+  display:flex;
+  align-items:center;
+  gap:5px;
+  margin-left:auto;
+}
+
+.desktop-nav a{
+  padding:10px 12px;
+  border-radius:10px;
+  color:var(--muted);
+  font-size:11px;
+  font-weight:700;
+  transition:.2s ease;
+}
+
+.desktop-nav a:hover,
+.desktop-nav a.active{
+  color:var(--gold-200);
+  background:rgba(229,199,125,.07);
+}
+
+.header-actions{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.icon-btn{
+  width:41px;
+  height:41px;
+
+  display:grid;
+  place-items:center;
+
+  border:
+    1px solid
+    var(--border-light);
+
+  border-radius:12px;
+
+  color:var(--muted);
+
+  background:
+    rgba(255,255,255,.035);
+
+  transition:.2s ease;
+}
+
+.icon-btn:hover{
+  color:var(--gold-200);
+  border-color:rgba(229,199,125,.25);
+}
+
+.avatar{
+  width:40px;
+  height:40px;
+
+  display:grid;
+  place-items:center;
+
+  border-radius:50%;
+
+  color:#172016;
+  font-size:12px;
+  font-weight:1000;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--gold-200),
+      var(--gold-500)
+    );
+}
+
+.mobile-menu{
+  display:none;
+}
+
+
+/* =========================================================
+   PAGE HERO
+========================================================= */
+
+.page-hero{
+  padding:45px 0 28px;
+}
+
+.hero-panel{
+  position:relative;
+  overflow:hidden;
+
+  padding:38px;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:
+    var(--radius-xl);
+
+  background:
+
+    radial-gradient(
+      circle at 95% 0%,
+      rgba(229,199,125,.13),
+      transparent 30%
+    ),
+
+    radial-gradient(
+      circle at 0% 100%,
+      rgba(44,91,69,.30),
+      transparent 38%
+    ),
+
+    linear-gradient(
+      145deg,
+      #0a1a12,
+      #10251b 55%,
+      #142d22
+    );
+
+  box-shadow:var(--shadow);
+}
+
+.hero-panel::after{
+  content:"";
+
+  position:absolute;
+
+  width:330px;
+  height:330px;
+
+  right:-190px;
+  bottom:-200px;
+
+  border-radius:50%;
+
+  border:
+    1px solid
+    rgba(229,199,125,.12);
+
+  box-shadow:
+    0 0 0 40px rgba(229,199,125,.02),
+    0 0 0 80px rgba(229,199,125,.015);
+}
+
+.eyebrow{
+  color:var(--gold-300);
+  font-size:10px;
+  font-weight:950;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+}
+
+.hero-panel h1{
+  position:relative;
+  z-index:2;
+
+  margin-top:11px;
+
+  font-size:
+    clamp(
+      35px,
+      5vw,
+      57px
+    );
+
+  line-height:1;
+  letter-spacing:-.055em;
+}
+
+.hero-panel h1 span{
+  color:var(--gold-300);
+}
+
+.hero-description{
+  position:relative;
+  z-index:2;
+
+  max-width:730px;
+
+  margin-top:14px;
+
+  color:var(--muted);
+
+  font-size:13px;
+  line-height:1.7;
+}
+
+.hero-actions{
+  position:relative;
+  z-index:3;
+
+  display:flex;
+  flex-wrap:wrap;
+  gap:9px;
+
+  margin-top:22px;
+}
+
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.btn{
+  min-height:44px;
+
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+
+  padding:0 16px;
+
+  border-radius:12px;
+  border:1px solid transparent;
+
+  font-size:10px;
+  font-weight:900;
+
+  transition:.2s ease;
+}
+
+.btn-primary{
+  color:#17170f;
+
+  background:
+    linear-gradient(
+      135deg,
+      #f1dca1,
+      #cda85d
+    );
+
+  box-shadow:
+    0 10px 25px rgba(0,0,0,.18);
+}
+
+.btn-primary:hover{
+  transform:translateY(-2px);
+}
+
+.btn-secondary{
+  color:var(--cream);
+
+  border-color:
+    var(--border-light);
+
+  background:
+    rgba(255,255,255,.045);
+}
+
+.btn-secondary:hover{
+  color:var(--gold-200);
+
+  border-color:
+    rgba(229,199,125,.28);
+}
+
+
+/* =========================================================
+   SUMMARY STATS
+========================================================= */
+
+.section{
+  padding:23px 0;
+}
+
+.stats-grid{
+  display:grid;
+  grid-template-columns:
+    repeat(4,1fr);
+  gap:13px;
+}
+
+.stat-card{
+  padding:19px;
+
+  border:
+    1px solid
+    var(--border-light);
+
+  border-radius:
+    var(--radius-lg);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(20,45,34,.95),
+      rgba(11,28,20,.95)
+    );
+}
+
+.stat-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.stat-label{
+  color:var(--muted-2);
+
+  font-size:9px;
+  font-weight:850;
+
+  letter-spacing:.09em;
+  text-transform:uppercase;
+}
+
+.stat-icon{
+  width:36px;
+  height:36px;
+
+  display:grid;
+  place-items:center;
+
+  border-radius:11px;
+
+  color:var(--gold-300);
+
+  background:
+    rgba(229,199,125,.08);
+}
+
+.stat-value{
+  margin-top:14px;
+
+  font-size:27px;
+  font-weight:950;
+  letter-spacing:-.04em;
+}
+
+.stat-note{
+  margin-top:4px;
+
+  color:var(--muted-2);
+  font-size:9px;
+}
+
+
+/* =========================================================
+   TOOLBAR
+========================================================= */
+
+.toolbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+
+  margin-bottom:15px;
+}
+
+.toolbar-left h2{
+  font-size:22px;
+  letter-spacing:-.035em;
+}
+
+.toolbar-left p{
+  margin-top:5px;
+
+  color:var(--muted-2);
+  font-size:10px;
+}
+
+.toolbar-right{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.select{
+  height:42px;
+
+  padding:0 13px;
+
+  color:var(--cream);
+
+  border:
+    1px solid
+    var(--border-light);
+
+  border-radius:11px;
+
+  outline:none;
+
+  background:
+    #10251b;
+
+  font-size:10px;
+  font-weight:700;
+}
+
+.select:focus{
+  border-color:
+    rgba(229,199,125,.35);
+}
+
+
+/* =========================================================
+   VISIT LAYOUT
+========================================================= */
+
+.visits-layout{
+  display:grid;
+
+  grid-template-columns:
+    1.35fr .65fr;
+
+  gap:16px;
+}
+
+.panel{
+  padding:20px;
+
+  border:
+    1px solid
+    var(--border-light);
+
+  border-radius:
+    var(--radius-lg);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(20,45,34,.95),
+      rgba(11,28,20,.95)
+    );
+}
+
+.panel-heading{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+
+  margin-bottom:15px;
+}
+
+.panel-heading h3{
+  font-size:15px;
+}
+
+.panel-heading span{
+  color:var(--muted-2);
+  font-size:9px;
+}
+
+
+/* =========================================================
+   VISIT CARD
+========================================================= */
+
+.visit-list{
+  display:grid;
+  gap:10px;
+}
+
+.visit-card{
+  display:grid;
+
+  grid-template-columns:
+    74px 1fr auto;
+
+  gap:14px;
+  align-items:center;
+
+  padding:13px;
+
+  border:
+    1px solid
+    rgba(255,255,255,.065);
+
+  border-radius:14px;
+
+  background:
+    rgba(255,255,255,.025);
+
+  transition:.2s ease;
+}
+
+.visit-card:hover{
+  border-color:
+    rgba(229,199,125,.20);
+
+  background:
+    rgba(229,199,125,.035);
+}
+
+.visit-date{
+  min-height:72px;
+
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+
+  border-radius:12px;
+
+  color:var(--cream);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(229,199,125,.13),
+      rgba(229,199,125,.045)
+    );
+
+  border:
+    1px solid
+    rgba(229,199,125,.12);
+}
+
+.visit-date .day{
+  font-size:24px;
+  font-weight:950;
+  line-height:1;
+}
+
+.visit-date .month{
+  margin-top:5px;
+
+  color:var(--gold-300);
+
+  font-size:8px;
+  font-weight:900;
+
+  letter-spacing:.10em;
+  text-transform:uppercase;
+}
+
+.visit-info{
+  min-width:0;
+}
+
+.visit-property{
+  color:var(--gold-300);
+
+  font-size:8px;
+  font-weight:900;
+
+  letter-spacing:.11em;
+  text-transform:uppercase;
+}
+
+.visit-info h4{
+  margin-top:5px;
+
+  font-size:13px;
+  line-height:1.3;
+}
+
+.visit-location{
+  margin-top:5px;
+
+  color:var(--muted-2);
+
+  font-size:9px;
+
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.visit-meta{
+  display:flex;
+  flex-wrap:wrap;
+  gap:9px;
+
+  margin-top:8px;
+
+  color:var(--muted);
+
+  font-size:8px;
+}
+
+.visit-actions{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-end;
+  gap:7px;
+}
+
+.status{
+  display:inline-flex;
+  align-items:center;
+
+  padding:6px 8px;
+
+  border-radius:7px;
+
+  font-size:8px;
+  font-weight:900;
+  text-transform:uppercase;
+}
+
+.status.confirmed{
+  color:var(--success);
+  background:rgba(130,201,149,.09);
+}
+
+.status.pending{
+  color:var(--warning);
+  background:rgba(229,199,125,.09);
+}
+
+.status.completed{
+  color:var(--blue);
+  background:rgba(145,185,232,.09);
+}
+
+.status.cancelled{
+  color:var(--danger);
+  background:rgba(233,140,140,.09);
+}
+
+.small-btn{
+  min-height:31px;
+
+  padding:0 10px;
+
+  border:
+    1px solid
+    var(--border-light);
+
+  border-radius:8px;
+
+  color:var(--muted);
+
+  background:
+    rgba(255,255,255,.035);
+
+  font-size:8px;
+  font-weight:800;
+}
+
+.small-btn:hover{
+  color:var(--gold-200);
+  border-color:
+    rgba(229,199,125,.25);
+}
+
+
+/* =========================================================
+   CALENDAR
+========================================================= */
+
+.calendar{
+  border-radius:15px;
+
+  border:
+    1px solid
+    rgba(255,255,255,.06);
+
+  background:
+    rgba(255,255,255,.02);
+
+  overflow:hidden;
+}
+
+.calendar-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  padding:14px;
+
+  border-bottom:
+    1px solid
+    rgba(255,255,255,.06);
+}
+
+.calendar-header strong{
+  font-size:12px;
+}
+
+.calendar-nav{
+  display:flex;
+  gap:5px;
+}
+
+.calendar-nav button{
+  width:28px;
+  height:28px;
+
+  border:
+    1px solid
+    var(--border-light);
+
+  border-radius:8px;
+
+  color:var(--muted);
+
+  background:
+    rgba(255,255,255,.035);
+}
+
+.calendar-grid{
+  display:grid;
+
+  grid-template-columns:
+    repeat(7,1fr);
+
+  padding:10px;
+
+  gap:4px;
+}
+
+.calendar-weekday{
+  padding:5px 0;
+
+  color:var(--muted-2);
+
+  text-align:center;
+
+  font-size:7px;
+  font-weight:900;
+  text-transform:uppercase;
+}
+
+.calendar-day{
+  min-height:34px;
+
+  display:grid;
+  place-items:center;
+
+  border-radius:8px;
+
+  color:var(--muted);
+
+  font-size:8px;
+
+  position:relative;
+}
+
+.calendar-day.has-visit::after{
+  content:"";
+
+  position:absolute;
+
+  width:4px;
+  height:4px;
+
+  bottom:4px;
+
+  border-radius:50%;
+
+  background:
+    var(--gold-300);
+}
+
+.calendar-day.today{
+  color:#17170f;
+
+  font-weight:1000;
+
+  background:
+    var(--gold-300);
+}
+
+.calendar-day.muted{
+  color:rgba(255,255,255,.18);
+}
+
+
+/* =========================================================
+   BUYER DETAILS
+========================================================= */
+
+.buyer-card{
+  padding:15px;
+
+  border-radius:14px;
+
+  background:
+    rgba(255,255,255,.025);
+
+  border:
+    1px solid
+    rgba(255,255,255,.065);
+}
+
+.buyer-top{
+  display:flex;
+  align-items:center;
+  gap:11px;
+}
+
+.buyer-avatar{
+  width:38px;
+  height:38px;
+
+  display:grid;
+  place-items:center;
+
+  border-radius:50%;
+
+  color:#17170f;
+
+  font-size:11px;
+  font-weight:1000;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--gold-200),
+      var(--gold-500)
+    );
+}
+
+.buyer-top strong{
+  display:block;
+  font-size:11px;
+}
+
+.buyer-top span{
+  display:block;
+
+  margin-top:3px;
+
+  color:var(--muted-2);
+
+  font-size:8px;
+}
+
+.buyer-details{
+  display:grid;
+  gap:8px;
+
+  margin-top:14px;
+}
+
+.detail-row{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+
+  padding-top:8px;
+
+  border-top:
+    1px solid
+    rgba(255,255,255,.055);
+
+  font-size:8px;
+}
+
+.detail-row span:first-child{
+  color:var(--muted-2);
+}
+
+.detail-row span:last-child{
+  color:var(--muted);
+  text-align:right;
+}
+
+
+/* =========================================================
+   QUICK ACTIONS
+========================================================= */
+
+.quick-actions{
+  display:grid;
+  gap:8px;
+}
+
+.quick-action{
+  display:flex;
+  align-items:center;
+  gap:10px;
+
+  padding:12px;
+
+  border:
+    1px solid
+    rgba(255,255,255,.06);
+
+  border-radius:11px;
+
+  color:var(--muted);
+
+  background:
+    rgba(255,255,255,.025);
+
+  font-size:9px;
+  font-weight:800;
+
+  transition:.2s ease;
+}
+
+.quick-action:hover{
+  color:var(--gold-200);
+
+  border-color:
+    rgba(229,199,125,.22);
+
+  transform:translateX(2px);
+}
+
+.quick-icon{
+  width:31px;
+  height:31px;
+
+  display:grid;
+  place-items:center;
+
+  flex:0 0 31px;
+
+  border-radius:9px;
+
+  color:var(--gold-300);
+
+  background:
+    rgba(229,199,125,.08);
+}
+
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+.empty-state{
+  display:none;
+
+  padding:35px 20px;
+
+  text-align:center;
+
+  border:
+    1px dashed
+    rgba(255,255,255,.10);
+
+  border-radius:14px;
+
+  color:var(--muted-2);
+}
+
+.empty-state .empty-icon{
+  font-size:28px;
+}
+
+.empty-state h3{
+  margin-top:10px;
+
+  color:var(--cream);
+
+  font-size:14px;
+}
+
+.empty-state p{
+  max-width:380px;
+
+  margin:6px auto 0;
+
+  font-size:9px;
+  line-height:1.6;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.site-footer{
+  margin-top:45px;
+
+  padding:
+    35px 0 25px;
+
+  border-top:
+    1px solid
+    rgba(255,255,255,.07);
+
+  background:
+    rgba(3,12,8,.35);
+}
+
+.footer-grid{
+  display:grid;
+
+  grid-template-columns:
+    1.4fr repeat(3,1fr);
+
+  gap:25px;
+}
+
+.footer-brand{
+  max-width:300px;
+}
+
+.footer-brand p{
+  margin-top:10px;
+
+  color:var(--muted-2);
+
+  font-size:9px;
+  line-height:1.7;
+}
+
+.footer-col h4{
+  color:var(--gold-200);
+
+  font-size:9px;
+
+  letter-spacing:.1em;
+  text-transform:uppercase;
+}
+
+.footer-col a{
+  display:block;
+
+  margin-top:9px;
+
+  color:var(--muted-2);
+
+  font-size:9px;
+}
+
+.footer-col a:hover{
+  color:var(--gold-300);
+}
+
+.footer-bottom{
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+
+  margin-top:28px;
+  padding-top:17px;
+
+  border-top:
+    1px solid
+    rgba(255,255,255,.06);
+
+  color:var(--muted-2);
+
+  font-size:8px;
+}
+
+
+/* =========================================================
+   AI BUTTON
+========================================================= */
+
+.ai-floating{
+  position:fixed;
+
+  right:22px;
+  bottom:22px;
+
+  z-index:90;
+
+  min-height:48px;
+
+  display:flex;
+  align-items:center;
+  gap:8px;
+
+  padding:0 16px;
+
+  border:
+    1px solid
+    rgba(229,199,125,.25);
+
+  border-radius:30px;
+
+  color:#17170f;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--gold-200),
+      var(--gold-400)
+    );
+
+  box-shadow:
+    0 15px 35px rgba(0,0,0,.3);
+
+  font-size:10px;
+  font-weight:1000;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:1100px){
+
+  .desktop-nav{
+    display:none;
+  }
+
+  .mobile-menu{
+    display:grid;
+  }
+
+  .stats-grid{
+    grid-template-columns:
+      repeat(2,1fr);
+  }
+
+  .visits-layout{
+    grid-template-columns:1fr;
+  }
+}
+
+@media(max-width:800px){
+
+  .container{
+    width:
+      min(
+        calc(100% - 28px),
+        var(--container)
+      );
+  }
+
+  .hero-panel{
+    padding:29px;
+  }
+
+  .toolbar{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+
+  .toolbar-right{
+    width:100%;
+  }
+
+  .select{
+    flex:1;
+  }
+
+  .footer-grid{
+    grid-template-columns:
+      1fr 1fr;
+  }
+}
+
+@media(max-width:560px){
+
+  .header-inner{
+    min-height:68px;
+  }
+
+  .brand-text span{
+    display:none;
+  }
+
+  .header-actions .icon-btn{
+    display:none;
+  }
+
+  .hero-panel{
+    padding:24px;
+    border-radius:22px;
+  }
+
+  .hero-panel h1{
+    font-size:38px;
+  }
+
+  .stats-grid{
+    grid-template-columns:
+      1fr 1fr;
+    gap:9px;
+  }
+
+  .stat-card{
+    padding:15px;
+  }
+
+  .stat-value{
+    font-size:22px;
+  }
+
+  .visit-card{
+    grid-template-columns:60px 1fr;
+  }
+
+  .visit-date{
+    min-height:64px;
+  }
+
+  .visit-actions{
+    grid-column:2;
+    align-items:flex-start;
+    flex-direction:row;
+    flex-wrap:wrap;
+  }
+
+  .footer-grid{
+    grid-template-columns:1fr;
+  }
+
+  .footer-bottom{
+    flex-direction:column;
+  }
+
+  .ai-floating{
+    right:14px;
+    bottom:14px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="page-glow"></div>
+
+
+<!-- =========================================================
+     HEADER
+========================================================= -->
+
+<header class="site-header">
+
+  <div class="container header-inner">
+
+    <a
+      class="brand"
+      href="/seller/index.html"
+      aria-label="GHAR Seller Home"
+    >
+
+      <div class="brand-mark">G</div>
+
+      <div class="brand-text">
+        <strong>GHAR</strong>
+        <span>Seller Experience</span>
+      </div>
+
+    </a>
+
+
+    <nav
+      class="desktop-nav"
+      aria-label="Seller navigation"
+    >
+
+      <a href="/seller/index.html">
+        Home
+      </a>
+
+      <a href="/seller/dashboard.html">
+        Dashboard
+      </a>
+
+      <a href="/seller/list-property.html">
+        List Property
+      </a>
+
+      <a href="/seller/edit-property.html">
+        Properties
+      </a>
+
+      <a
+        class="active"
+        href="/seller/visits.html"
+      >
+        Visits
+      </a>
+
+      <a href="/seller/offers.html">
+        Offers
+      </a>
+
+      <a href="/seller/messages.html">
+        Messages
+      </a>
+
+    </nav>
+
+
+    <div class="header-actions">
+
+      <button
+        class="icon-btn"
+        id="notificationButton"
+        type="button"
+        aria-label="Notifications"
+      >
+        ♢
+      </button>
+
+      <a
+        class="avatar"
+        id="profileButton"
+        href="/seller/profile.html"
+        aria-label="Seller profile"
+      >
+        S
+      </a>
+
+      <button
+        class="icon-btn mobile-menu"
+        id="menuButton"
+        type="button"
+        aria-label="Open menu"
+      >
+        ☰
+      </button>
+
+    </div>
+
+  </div>
+
+</header>
+
+
+<main>
+
+
+<!-- =========================================================
+     HERO
+========================================================= -->
+
+<section class="page-hero">
+
+  <div class="container">
+
+    <div class="hero-panel">
+
+      <div class="eyebrow">
+        SELLER VISIT MANAGEMENT
+      </div>
+
+      <h1>
+        Manage every
+        <span>property visit.</span>
+      </h1>
+
+      <p class="hero-description">
+        Track buyer appointments, confirm viewing requests,
+        review upcoming visits and keep your property
+        viewing schedule organised from one GHAR workspace.
+      </p>
+
+      <div class="hero-actions">
+
+        <a
+          class="btn btn-primary"
+          href="/seller/list-property.html"
+        >
+          Manage properties
+        </a>
+
+        <a
+          class="btn btn-secondary"
+          href="/seller/dashboard.html"
+        >
+          Back to dashboard
+        </a>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================================================
+     STATS
+========================================================= -->
+
+<section class="section">
+
+  <div class="container">
+
+    <div class="stats-grid">
+
+      <article class="stat-card">
+
+        <div class="stat-top">
+
+          <span class="stat-label">
+            Upcoming
+          </span>
+
+          <div class="stat-icon">
+            ◷
+          </div>
+
+        </div>
+
+        <div
+          class="stat-value"
+          id="upcomingCount"
+        >
+          0
+        </div>
+
+        <div class="stat-note">
+          Scheduled visits
+        </div>
+
+      </article>
+
+
+      <article class="stat-card">
+
+        <div class="stat-top">
+
+          <span class="stat-label">
+            Pending
+          </span>
+
+          <div class="stat-icon">
+            !
+          </div>
+
+        </div>
+
+        <div
+          class="stat-value"
+          id="pendingCount"
+        >
+          0
+        </div>
+
+        <div class="stat-note">
+          Awaiting confirmation
+        </div>
+
+      </article>
+
+
+      <article class="stat-card">
+
+        <div class="stat-top">
+
+          <span class="stat-label">
+            Completed
+          </span>
+
+          <div class="stat-icon">
+            ✓
+          </div>
+
+        </div>
+
+        <div
+          class="stat-value"
+          id="completedCount"
+        >
+          0
+        </div>
+
+        <div class="stat-note">
+          Completed viewings
+        </div>
+
+      </article>
+
+
+      <article class="stat-card">
+
+        <div class="stat-top">
+
+          <span class="stat-label">
+            Conversion
+          </span>
+
+          <div class="stat-icon">
+            %
+          </div>
+
+        </div>
+
+        <div
+          class="stat-value"
+          id="conversionRate"
+        >
+          0%
+        </div>
+
+        <div class="stat-note">
+          Visit to offer rate
+        </div>
+
+      </article>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================================================
+     VISITS
+========================================================= -->
+
+<section class="section">
+
+  <div class="container">
+
+    <div class="toolbar">
+
+      <div class="toolbar-left">
+
+        <h2>
+          Buyer visits
+        </h2>
+
+        <p>
+          Review and manage your property viewing appointments.
+        </p>
+
+      </div>
+
+
+      <div class="toolbar-right">
+
+        <select
+          class="select"
+          id="statusFilter"
+          aria-label="Filter visits"
+        >
+
+          <option value="all">
+            All visits
+          </option>
+
+          <option value="upcoming">
+            Upcoming
+          </option>
+
+          <option value="pending">
+            Pending
+          </option>
+
+          <option value="completed">
+            Completed
+          </option>
+
+          <option value="cancelled">
+            Cancelled
+          </option>
+
+        </select>
+
+
+        <select
+          class="select"
+          id="propertyFilter"
+          aria-label="Filter property"
+        >
+
+          <option value="all">
+            All properties
+          </option>
+
+        </select>
+
+      </div>
+
+    </div>
+
+
+    <div class="visits-layout">
+
+
+      <!-- ===============================================
+           VISIT LIST
+      ================================================ -->
+
+      <div class="panel">
+
+        <div class="panel-heading">
+
+          <h3>
+            Visit schedule
+          </h3>
+
+          <span id="visitCountLabel">
+            0 visits
+          </span>
+
+        </div>
+
+
+        <div
+          id="visitList"
+          class="visit-list"
+        ></div>
+
+
+        <div
+          id="emptyState"
+          class="empty-state"
+        >
+
+          <div class="empty-icon">
+            ◷
+          </div>
+
+          <h3>
+            No visits found
+          </h3>
+
+          <p>
+            There are no visits matching the selected
+            filters. New buyer viewing requests will appear here.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <!-- ===============================================
+           RIGHT PANEL
+      ================================================ -->
+
+      <aside>
+
+        <div class="panel">
+
+          <div class="panel-heading">
+
+            <h3>
+              Viewing calendar
+            </h3>
+
+            <span>
+              Schedule
+            </span>
+
+          </div>
+
+
+          <div class="calendar">
+
+            <div class="calendar-header">
+
+              <strong id="calendarMonth">
+                --
+              </strong>
+
+              <div class="calendar-nav">
+
+                <button
+                  id="previousMonth"
+                  type="button"
+                  aria-label="Previous month"
+                >
+                  ‹
+                </button>
+
+                <button
+                  id="nextMonth"
+                  type="button"
+                  aria-label="Next month"
+                >
+                  ›
+                </button>
+
+              </div>
+
+            </div>
+
+
+            <div
+              id="calendarGrid"
+              class="calendar-grid"
+            ></div>
+
+          </div>
+
+        </div>
+
+
+        <div
+          class="panel"
+          style="margin-top:16px"
+        >
+
+          <div class="panel-heading">
+
+            <h3>
+              Selected visit
+            </h3>
+
+            <span>
+              Buyer
+            </span>
+
+          </div>
+
+
+          <div id="selectedBuyer">
+
+            <div class="buyer-card">
+
+              <div class="buyer-top">
+
+                <div class="buyer-avatar">
+                  --
+                </div>
+
+                <div>
+
+                  <strong>
+                    Select a visit
+                  </strong>
+
+                  <span>
+                    Buyer details will appear here.
+                  </span>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div
+          class="panel"
+          style="margin-top:16px"
+        >
+
+          <div class="panel-heading">
+
+            <h3>
+              Quick actions
+            </h3>
+
+          </div>
+
+
+          <div class="quick-actions">
+
+            <a
+              class="quick-action"
+              href="/seller/list-property.html"
+            >
+
+              <span class="quick-icon">
+                +
+              </span>
+
+              Add or manage property
+
+            </a>
+
+
+            <a
+              class="quick-action"
+              href="/seller/offers.html"
+            >
+
+              <span class="quick-icon">
+                ₹
+              </span>
+
+              Review buyer offers
+
+            </a>
+
+
+            <a
+              class="quick-action"
+              href="/seller/messages.html"
+            >
+
+              <span class="quick-icon">
+                ◇
+              </span>
+
+              Message buyers
+
+            </a>
+
+
+            <a
+              class="quick-action"
+              href="/seller/dashboard.html"
+            >
+
+              <span class="quick-icon">
+                ⌂
+              </span>
+
+              Open seller dashboard
+
+            </a>
+
+          </div>
+
+        </div>
+
+      </aside>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+</main>
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer class="site-footer">
+
+  <div class="container">
+
+    <div class="footer-grid">
+
+
+      <div class="footer-brand">
+
+        <div class="brand">
+
+          <div class="brand-mark">
+            G
+          </div>
+
+          <div class="brand-text">
+
+            <strong>
+              GHAR
+            </strong>
+
+            <span>
+              Real Estate Platform
+            </span>
+
+          </div>
+
+        </div>
+
+        <p>
+          A connected real estate platform for listing,
+          managing, selling and completing property transactions.
+        </p>
+
+      </div>
+
+
+      <div class="footer-col">
+
+        <h4>
+          Seller
+        </h4>
+
+        <a href="/seller/dashboard.html">
+          Dashboard
+        </a>
+
+        <a href="/seller/list-property.html">
+          List Property
+        </a>
+
+        <a href="/seller/edit-property.html">
+          My Properties
+        </a>
+
+        <a href="/seller/property-approval.html">
+          Approvals
+        </a>
+
+      </div>
+
+
+      <div class="footer-col">
+
+        <h4>
+          Manage
+        </h4>
+
+        <a href="/seller/visits.html">
+          Visits
+        </a>
+
+        <a href="/seller/offers.html">
+          Offers
+        </a>
+
+        <a href="/seller/messages.html">
+          Messages
+        </a>
+
+        <a href="/seller/documents.html">
+          Documents
+        </a>
+
+      </div>
+
+
+      <div class="footer-col">
+
+        <h4>
+          Support
+        </h4>
+
+        <a href="/help-centre.html">
+          Help Centre
+        </a>
+
+        <a href="/contact.html">
+          Contact
+        </a>
+
+        <a href="/seller/support.html">
+          Seller Support
+        </a>
+
+        <a href="/privacy.html">
+          Privacy
+        </a>
+
+      </div>
+
+    </div>
+
+
+    <div class="footer-bottom">
+
+      <span>
+        © <span id="footerYear"></span> GHAR.
+        All rights reserved.
+      </span>
+
+      <span>
+        Seller Portal · Secure Session
+      </span>
+
+    </div>
+
+  </div>
+
+</footer>
+
+
+<!-- =========================================================
+     AI
+========================================================= -->
+
+<button
+  id="openAI"
+  class="ai-floating"
+  type="button"
+>
+  ✦ Ask GHAR AI
+</button>
+
+
+<script>
+
+"use strict";
+
+
+/* =========================================================
+   CONFIG
+========================================================= */
+
+const API_BASE =
+  window.GHAR_API_BASE ||
+  window.API_BASE ||
+  "/api";
+
+const VISITS_API =
+  API_BASE +
+  "/seller/visits";
+
+const AI_API =
+  API_BASE +
+  "/ai";
+
+
+/* =========================================================
+   STATE
+========================================================= */
+
+let allVisits = [];
+
+let selectedVisit = null;
+
+let calendarDate =
+  new Date();
+
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function $(selector){
+  return document.querySelector(selector);
+}
+
+
+function escapeHTML(value){
+
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+}
+
+
+async function apiRequest(
+  url,
+  options = {}
+){
+
+  const response =
+    await fetch(
+      url,
+      {
+        credentials:"include",
+
+        headers:{
+          "Accept":"application/json",
+          "Content-Type":"application/json",
+          ...(options.headers || {})
+        },
+
+        ...options
+      }
+    );
+
+
+  let data = null;
+
+  try{
+    data = await response.json();
+  }catch(error){
+    data = null;
+  }
+
+
+  if(!response.ok){
+
+    const error =
+      new Error(
+        data?.error?.message ||
+        data?.message ||
+        "Request failed."
+      );
+
+    error.status =
+      response.status;
+
+    error.data =
+      data;
+
+    throw error;
+  }
+
+
+  return data;
+}
+
+
+function normalizeCollection(data){
+
+  if(Array.isArray(data)){
+    return data;
+  }
+
+  if(Array.isArray(data?.data)){
+    return data.data;
+  }
+
+  if(Array.isArray(data?.items)){
+    return data.items;
+  }
+
+  if(Array.isArray(data?.visits)){
+    return data.visits;
+  }
+
+  if(Array.isArray(data?.results)){
+    return data.results;
+  }
+
+  return [];
+}
+
+
+function getVisitStatus(visit){
+
+  return String(
+    visit.status ||
+    visit.visitStatus ||
+    "pending"
+  ).toLowerCase();
+}
+
+
+function getVisitDate(visit){
+
+  return new Date(
+    visit.date ||
+    visit.visitDate ||
+    visit.scheduledAt ||
+    visit.appointmentDate ||
+    visit.createdAt
+  );
+}
+
+
+function formatTime(visit){
+
+  if(visit.time){
+    return visit.time;
+  }
+
+  const date =
+    getVisitDate(visit);
+
+  if(
+    Number.isNaN(
+      date.getTime()
+    )
+  ){
+    return "Time not specified";
+  }
+
+  return date.toLocaleTimeString(
+    "en-IN",
+    {
+      hour:"2-digit",
+      minute:"2-digit"
+    }
+  );
+}
+
+
+function initials(name){
+
+  const value =
+    String(name || "B")
+      .trim();
+
+  return value
+    .split(/\s+/)
+    .slice(0,2)
+    .map(
+      word => word.charAt(0)
+    )
+    .join("")
+    .toUpperCase();
+}
+
+
+/* =========================================================
+   LOAD VISITS
+========================================================= */
+
+async function loadVisits(){
+
+  try{
+
+    const response =
+      await apiRequest(
+        VISITS_API
+      );
+
+    allVisits =
+      normalizeCollection(
+        response
+      );
+
+  }catch(error){
+
+    console.warn(
+      "GHAR seller visits API:",
+      error
+    );
+
+    /*
+     * Empty state is intentional.
+     * No fake buyer or appointment data is inserted.
+     */
+
+    allVisits = [];
+  }
+
+
+  renderEverything();
+}
+
+
+/* =========================================================
+   STATS
+========================================================= */
+
+function renderStats(){
+
+  const upcoming =
+    allVisits.filter(
+      visit => {
+
+        const status =
+          getVisitStatus(
+            visit
+          );
+
+        return [
+          "upcoming",
+          "confirmed"
+        ].includes(status);
+
+      }
+    );
+
+
+  const pending =
+    allVisits.filter(
+      visit =>
+        getVisitStatus(
+          visit
+        ) === "pending"
+    );
+
+
+  const completed =
+    allVisits.filter(
+      visit =>
+        getVisitStatus(
+          visit
+        ) === "completed"
+    );
+
+
+  const offers =
+    allVisits.filter(
+      visit =>
+        visit.offerCreated === true ||
+        visit.hasOffer === true
+    );
+
+
+  const conversion =
+    completed.length
+      ? Math.round(
+          (
+            offers.length /
+            completed.length
+          ) * 100
+        )
+      : 0;
+
+
+  $("#upcomingCount").textContent =
+    upcoming.length;
+
+  $("#pendingCount").textContent =
+    pending.length;
+
+  $("#completedCount").textContent =
+    completed.length;
+
+  $("#conversionRate").textContent =
+    conversion + "%";
+}
+
+
+/* =========================================================
+   PROPERTY FILTER
+========================================================= */
+
+function populatePropertyFilter(){
+
+  const select =
+    $("#propertyFilter");
+
+  const properties =
+    new Map();
+
+
+  allVisits.forEach(
+    visit => {
+
+      const id =
+        visit.propertyId ||
+        visit.property?.id ||
+        visit.property?._id;
+
+      const name =
+        visit.propertyTitle ||
+        visit.property?.title ||
+        visit.property?.name ||
+        visit.propertyName;
+
+      if(
+        id &&
+        name
+      ){
+        properties.set(
+          id,
+          name
+        );
+      }
+
+    }
+  );
+
+
+  select.innerHTML =
+    `<option value="all">
+      All properties
+    </option>`;
+
+
+  properties.forEach(
+    (name,id) => {
+
+      select.insertAdjacentHTML(
+        "beforeend",
+        `
+          <option value="${escapeHTML(id)}">
+            ${escapeHTML(name)}
+          </option>
+        `
+      );
+
+    }
+  );
+}
+
+
+/* =========================================================
+   FILTER VISITS
+========================================================= */
+
+function filteredVisits(){
+
+  const status =
+    $("#statusFilter").value;
+
+  const property =
+    $("#propertyFilter").value;
+
+
+  return allVisits.filter(
+    visit => {
+
+      const visitStatus =
+        getVisitStatus(
+          visit
+        );
+
+
+      const propertyId =
+        String(
+          visit.propertyId ||
+          visit.property?.id ||
+          visit.property?._id ||
+          ""
+        );
+
+
+      const statusMatch =
+        status === "all" ||
+        visitStatus === status ||
+        (
+          status === "upcoming" &&
+          visitStatus === "confirmed"
+        );
+
+
+      const propertyMatch =
+        property === "all" ||
+        propertyId === property;
+
+
+      return (
+        statusMatch &&
+        propertyMatch
+      );
+
+    }
+  );
+}
+
+
+/* =========================================================
+   RENDER VISITS
+========================================================= */
+
+function renderVisits(){
+
+  const list =
+    $("#visitList");
+
+  const empty =
+    $("#emptyState");
+
+
+  const visits =
+    filteredVisits();
+
+
+  $("#visitCountLabel").textContent =
+    `${visits.length} ${
+      visits.length === 1
+        ? "visit"
+        : "visits"
+    }`;
+
+
+  if(!visits.length){
+
+    list.innerHTML = "";
+
+    empty.style.display =
+      "block";
+
+    return;
+  }
+
+
+  empty.style.display =
+    "none";
+
+
+  list.innerHTML =
+    visits
+      .sort(
+        (a,b) =>
+          getVisitDate(a) -
+          getVisitDate(b)
+      )
+      .map(
+        createVisitCard
+      )
+      .join("");
+}
+
+
+/* =========================================================
+   VISIT CARD
+========================================================= */
+
+function createVisitCard(
+  visit
+){
+
+  const date =
+    getVisitDate(
+      visit
+    );
+
+  const validDate =
+    !Number.isNaN(
+      date.getTime()
+    );
+
+
+  const day =
+    validDate
+      ? date.getDate()
+      : "--";
+
+  const month =
+    validDate
+      ? date.toLocaleDateString(
+          "en-IN",
+          {month:"short"}
+        )
+      : "--";
+
+
+  const status =
+    getVisitStatus(
+      visit
+    );
+
+
+  const property =
+    visit.propertyTitle ||
+    visit.property?.title ||
+    visit.property?.name ||
+    visit.propertyName ||
+    "Property viewing";
+
+
+  const location =
+    visit.location ||
+    visit.property?.location ||
+    visit.property?.city ||
+    "Location available";
+
+
+  const buyer =
+    visit.buyerName ||
+    visit.buyer?.name ||
+    visit.user?.name ||
+    "Buyer";
+
+
+  const buyerEmail =
+    visit.buyerEmail ||
+    visit.buyer?.email ||
+    visit.user?.email ||
+    "Not provided";
+
+
+  const visitId =
+    visit.id ||
+    visit.visitId ||
+    visit._id ||
+    "";
+
+
+  const statusClass =
+    [
+      "confirmed",
+      "pending",
+      "completed",
+      "cancelled"
+    ].includes(status)
+      ? status
+      : "pending";
+
+
+  return `
+
+    <article
+      class="visit-card"
+      data-visit-id="${escapeHTML(visitId)}"
+    >
+
+      <div class="visit-date">
+
+        <span class="day">
+          ${escapeHTML(day)}
+        </span>
+
+        <span class="month">
+          ${escapeHTML(month)}
+        </span>
+
+      </div>
+
+
+      <div class="visit-info">
+
+        <div class="visit-property">
+          ${escapeHTML(property)}
+        </div>
+
+        <h4>
+          ${escapeHTML(buyer)}
+        </h4>
+
+        <div class="visit-location">
+          ${escapeHTML(location)}
+        </div>
+
+        <div class="visit-meta">
+
+          <span>
+            ◷ ${escapeHTML(
+              formatTime(visit)
+            )}
+          </span>
+
+          <span>
+            ◇ ${escapeHTML(
+              buyerEmail
+            )}
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <div class="visit-actions">
+
+        <span class="status ${statusClass}">
+          ${escapeHTML(status)}
+        </span>
+
+        <button
+          type="button"
+          class="small-btn"
+          data-view-visit="${escapeHTML(visitId)}"
+        >
+          View
+        </button>
+
+        ${
+          status === "pending"
+            ? `
+              <button
+                type="button"
+                class="small-btn"
+                data-confirm-visit="${escapeHTML(visitId)}"
+              >
+                Confirm
+              </button>
+            `
+            : ""
+        }
+
+      </div>
+
+    </article>
+
+  `;
+}
+
+
+/* =========================================================
+   SELECT VISIT
+========================================================= */
+
+function selectVisit(
+  visit
+){
+
+  selectedVisit =
+    visit;
+
+
+  const buyer =
+    visit.buyerName ||
+    visit.buyer?.name ||
+    visit.user?.name ||
+    "Buyer";
+
+
+  const email =
+    visit.buyerEmail ||
+    visit.buyer?.email ||
+    visit.user?.email ||
+    "Not provided";
+
+
+  const phone =
+    visit.buyerPhone ||
+    visit.buyer?.phone ||
+    visit.user?.phone ||
+    "Not provided";
+
+
+  const property =
+    visit.propertyTitle ||
+    visit.property?.title ||
+    visit.property?.name ||
+    visit.propertyName ||
+    "Property";
+
+
+  const date =
+    getVisitDate(
+      visit
+    );
+
+
+  const formattedDate =
+    Number.isNaN(
+      date.getTime()
+    )
+      ? "Date not specified"
+      : date.toLocaleDateString(
+          "en-IN",
+          {
+            day:"numeric",
+            month:"long",
+            year:"numeric"
+          }
+        );
+
+
+  $("#selectedBuyer").innerHTML = `
+
+    <div class="buyer-card">
+
+      <div class="buyer-top">
+
+        <div class="buyer-avatar">
+          ${escapeHTML(
+            initials(buyer)
+          )}
+        </div>
+
+        <div>
+
+          <strong>
+            ${escapeHTML(buyer)}
+          </strong>
+
+          <span>
+            Buyer · ${escapeHTML(
+              getVisitStatus(visit)
+            )}
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <div class="buyer-details">
+
+        <div class="detail-row">
+          <span>Property</span>
+          <span>${escapeHTML(property)}</span>
+        </div>
+
+        <div class="detail-row">
+          <span>Date</span>
+          <span>${escapeHTML(formattedDate)}</span>
+        </div>
+
+        <div class="detail-row">
+          <span>Time</span>
+          <span>${escapeHTML(formatTime(visit))}</span>
+        </div>
+
+        <div class="detail-row">
+          <span>Email</span>
+          <span>${escapeHTML(email)}</span>
+        </div>
+
+        <div class="detail-row">
+          <span>Phone</span>
+          <span>${escapeHTML(phone)}</span>
+        </div>
+
+      </div>
+
+    </div>
+
+  `;
+}
+
+
+/* =========================================================
+   CALENDAR
+========================================================= */
+
+function renderCalendar(){
+
+  const grid =
+    $("#calendarGrid");
+
+  const year =
+    calendarDate.getFullYear();
+
+  const month =
+    calendarDate.getMonth();
+
+
+  $("#calendarMonth").textContent =
+    calendarDate.toLocaleDateString(
+      "en-IN",
+      {
+        month:"long",
+        year:"numeric"
+      }
+    );
+
+
+  const firstDay =
+    new Date(
+      year,
+      month,
+      1
+    ).getDay();
+
+
+  const daysInMonth =
+    new Date(
+      year,
+      month + 1,
+      0
+    ).getDate();
+
+
+  const previousDays =
+    new Date(
+      year,
+      month,
+      0
+    ).getDate();
+
+
+  const visitDays =
+    new Set();
+
+
+  allVisits.forEach(
+    visit => {
+
+      const date =
+        getVisitDate(
+          visit
+        );
+
+      if(
+        Number.isNaN(
+          date.getTime()
+        )
+      ){
+        return;
+      }
+
+
+      if(
+        date.getFullYear() === year &&
+        date.getMonth() === month
+      ){
+
+        visitDays.add(
+          date.getDate()
+        );
+
+      }
+
+    }
+  );
+
+
+  let html = "";
+
+
+  [
+    "Sun",
+    "Mon",
+    "Tue",
+    "Wed",
+    "Thu",
+    "Fri",
+    "Sat"
+  ].forEach(
+    day => {
+
+      html += `
+        <div class="calendar-weekday">
+          ${day}
+        </div>
+      `;
+
+    }
+  );
+
+
+  for(
+    let i = firstDay - 1;
+    i >= 0;
+    i--
+  ){
+
+    html += `
+      <div class="calendar-day muted">
+        ${previousDays - i}
+      </div>
+    `;
+
+  }
+
+
+  const today =
+    new Date();
+
+
+  for(
+    let day = 1;
+    day <= daysInMonth;
+    day++
+  ){
+
+    const isToday =
+      day === today.getDate() &&
+      month === today.getMonth() &&
+      year === today.getFullYear();
+
+
+    const hasVisit =
+      visitDays.has(day);
+
+
+    html += `
+
+      <div
+        class="calendar-day
+          ${isToday ? "today" : ""}
+          ${hasVisit ? "has-visit" : ""}
+        "
+        title="${
+          hasVisit
+            ? "Buyer visit scheduled"
+            : ""
+        }"
+      >
+        ${day}
+      </div>
+
+    `;
+
+  }
+
+
+  const totalCells =
+    7 *
+    Math.ceil(
+      (
+        firstDay +
+        daysInMonth
+      ) / 7
+    );
+
+
+  const used =
+    firstDay +
+    daysInMonth;
+
+
+  for(
+    let i = used;
+    i < totalCells;
+    i++
+  ){
+
+    html += `
+      <div class="calendar-day muted">
+        ${i - used + 1}
+      </div>
+    `;
+
+  }
+
+
+  grid.innerHTML =
+    html;
+}
+
+
+/* =========================================================
+   CONFIRM VISIT
+========================================================= */
+
+async function confirmVisit(
+  visitId
+){
+
+  if(!visitId){
+    return;
+  }
+
+
+  try{
+
+    await apiRequest(
+      `${VISITS_API}/${encodeURIComponent(visitId)}/confirm`,
+      {
+        method:"POST"
+      }
+    );
+
+
+    await loadVisits();
+
+  }catch(error){
+
+    /*
+     * Fallback for APIs that use PATCH.
+     */
+
+    try{
+
+      await apiRequest(
+        `${VISITS_API}/${encodeURIComponent(visitId)}`,
+        {
+          method:"PATCH",
+
+          body:
+            JSON.stringify({
+              status:"confirmed"
+            })
+        }
+      );
+
+
+      await loadVisits();
+
+    }catch(secondError){
+
+      console.error(
+        "Unable to confirm visit:",
+        secondError
+      );
+
+      alert(
+        "The visit could not be confirmed. Please try again."
+      );
+
+    }
+
+  }
+}
+
+
+/* =========================================================
+   EVENT HANDLERS
+========================================================= */
+
+$("#statusFilter")
+  .addEventListener(
+    "change",
+    renderVisits
+  );
+
+
+$("#propertyFilter")
+  .addEventListener(
+    "change",
+    renderVisits
+  );
+
+
+document.addEventListener(
+  "click",
+  event => {
+
+    const viewButton =
+      event.target.closest(
+        "[data-view-visit]"
+      );
+
+
+    if(viewButton){
+
+      const id =
+        viewButton.dataset.viewVisit;
+
+
+      const visit =
+        allVisits.find(
+          item =>
+            String(
+              item.id ||
+              item.visitId ||
+              item._id ||
+              ""
+            ) === String(id)
+        );
+
+
+      if(visit){
+
+        selectVisit(
+          visit
+        );
+
+      }
+
+      return;
+    }
+
+
+    const confirmButton =
+      event.target.closest(
+        "[data-confirm-visit]"
+      );
+
+
+    if(confirmButton){
+
+      confirmVisit(
+        confirmButton.dataset.confirmVisit
+      );
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   CALENDAR NAVIGATION
+========================================================= */
+
+$("#previousMonth")
+  .addEventListener(
+    "click",
+    () => {
+
+      calendarDate.setMonth(
+        calendarDate.getMonth() - 1
+      );
+
+      renderCalendar();
+
+    }
+  );
+
+
+$("#nextMonth")
+  .addEventListener(
+    "click",
+    () => {
+
+      calendarDate.setMonth(
+        calendarDate.getMonth() + 1
+      );
+
+      renderCalendar();
+
+    }
+  );
+
+
+/* =========================================================
+   MOBILE MENU
+========================================================= */
+
+$("#menuButton")
+  .addEventListener(
+    "click",
+    () => {
+
+      const nav =
+        document.querySelector(
+          ".desktop-nav"
+        );
+
+
+      const open =
+        nav.dataset.mobileOpen ===
+        "true";
+
+
+      if(open){
+
+        nav.style.display =
+          "";
+
+        nav.dataset.mobileOpen =
+          "false";
+
+        return;
+      }
+
+
+      nav.dataset.mobileOpen =
+        "true";
+
+      nav.style.display =
+        "flex";
+
+      nav.style.position =
+        "absolute";
+
+      nav.style.left =
+        "14px";
+
+      nav.style.right =
+        "14px";
+
+      nav.style.top =
+        "66px";
+
+      nav.style.padding =
+        "10px";
+
+      nav.style.flexDirection =
+        "column";
+
+      nav.style.alignItems =
+        "stretch";
+
+      nav.style.border =
+        "1px solid rgba(229,199,125,.14)";
+
+      nav.style.borderRadius =
+        "16px";
+
+      nav.style.background =
+        "#0b1c14";
+
+      nav.style.boxShadow =
+        "0 25px 60px rgba(0,0,0,.35)";
+    }
+  );
+
+
+/* =========================================================
+   NOTIFICATIONS
+========================================================= */
+
+$("#notificationButton")
+  .addEventListener(
+    "click",
+    () => {
+
+      window.location.href =
+        "/seller/notifications.html";
+
+    }
+  );
+
+
+/* =========================================================
+   AI
+========================================================= */
+
+$("#openAI")
+  .addEventListener(
+    "click",
+    () => {
+
+      window.location.href =
+        "/seller/ai.html";
+
+    }
+  );
+
+
+/* =========================================================
+   INITIALIZE
+========================================================= */
+
+async function initialize(){
+
+  $("#footerYear").textContent =
+    new Date().getFullYear();
+
+
+  renderCalendar();
+
+  await loadVisits();
+}
+
+
+if(
+  document.readyState ===
+  "loading"
+){
+
+  document.addEventListener(
+    "DOMContentLoaded",
+    initialize
+  );
+
+}else{
+
+  initialize();
+
+}
+
+</script>
+
+</body>
+</html>

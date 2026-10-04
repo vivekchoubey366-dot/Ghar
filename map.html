@@ -1,0 +1,3932 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Map | GHAR -- Explore Properties by Location</title>
+
+    <meta
+        name="description"
+        content="Explore GHAR properties on an elegant location-based property map. Discover homes, apartments, villas and commercial spaces around you."
+    >
+
+    <meta
+        name="theme-color"
+        content="#f4eee3"
+    >
+
+    <!-- =========================================================
+         FAVICON
+    ========================================================== -->
+
+    <link
+        rel="icon"
+        type="image/svg+xml"
+        href="/assets/images/logo/favicon.svg"
+    >
+
+    <!-- =========================================================
+         GOOGLE FONTS
+    ========================================================== -->
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- =========================================================
+         GHAR GLOBAL CSS
+    ========================================================== -->
+
+    <link
+        rel="stylesheet"
+        href="/assets/css/variables.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="/assets/css/reset.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="/assets/css/style.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="/assets/css/layout.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="/assets/css/components.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="/assets/css/navigation.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="/assets/css/cards.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="/assets/css/forms.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="/assets/css/property.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="/assets/css/animations.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="/assets/css/responsive.css"
+    >
+
+
+    <!-- =========================================================
+         MAP PAGE STYLE
+    ========================================================== -->
+
+    <style>
+
+        :root {
+
+            --map-ivory: #f7f2e8;
+            --map-pearl: #eee7da;
+            --map-champagne: #dfcfb2;
+            --map-sand: #cdb894;
+
+            --map-forest: #29463d;
+            --map-forest-deep: #19352d;
+
+            --map-sage: #829488;
+            --map-sage-light: #dfe7df;
+
+            --map-gold: #b2935e;
+            --map-gold-light: #dbc79f;
+
+            --map-text: #263832;
+            --map-muted: #777d77;
+
+            --map-white: #ffffff;
+
+            --map-border:
+                rgba(41, 70, 61, 0.12);
+
+            --map-shadow:
+                0 25px 70px rgba(45, 55, 48, 0.13);
+
+            --map-radius: 26px;
+        }
+
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+
+        body {
+
+            margin: 0;
+
+            color: var(--map-text);
+
+            font-family:
+                "DM Sans",
+                sans-serif;
+
+            background:
+
+                radial-gradient(
+                    circle at 8% 8%,
+                    rgba(
+                        219,
+                        199,
+                        159,
+                        0.22
+                    ),
+                    transparent 27%
+                ),
+
+                radial-gradient(
+                    circle at 92% 20%,
+                    rgba(
+                        130,
+                        148,
+                        136,
+                        0.14
+                    ),
+                    transparent 28%
+                ),
+
+                var(--map-ivory);
+
+            min-height: 100vh;
+        }
+
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+
+        button,
+        input,
+        select {
+            font: inherit;
+        }
+
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+
+        /* =====================================================
+           HEADER
+        ====================================================== */
+
+        .map-header {
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 1000;
+
+            background:
+                rgba(
+                    247,
+                    242,
+                    232,
+                    0.92
+                );
+
+            backdrop-filter:
+                blur(22px);
+
+            -webkit-backdrop-filter:
+                blur(22px);
+
+            border-bottom:
+                1px solid
+                rgba(
+                    41,
+                    70,
+                    61,
+                    0.10
+                );
+        }
+
+
+        .map-nav {
+
+            max-width: 1440px;
+
+            min-height: 82px;
+
+            margin: auto;
+
+            padding:
+                0 34px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content:
+                space-between;
+
+            gap: 30px;
+        }
+
+
+        .ghar-brand {
+
+            display: flex;
+
+            align-items: center;
+
+            flex-shrink: 0;
+        }
+
+
+        .ghar-brand img {
+
+            width: 132px;
+
+            height: auto;
+
+            object-fit: contain;
+        }
+
+
+        .main-nav {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 29px;
+        }
+
+
+        .main-nav a {
+
+            position: relative;
+
+            padding:
+                9px 0;
+
+            color: #59665f;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            transition:
+                color .25s ease;
+        }
+
+
+        .main-nav a:hover,
+        .main-nav a.active {
+
+            color:
+                var(--map-forest);
+        }
+
+
+        .main-nav a.active::after {
+
+            content: "";
+
+            position: absolute;
+
+            left: 0;
+            right: 0;
+
+            bottom: 0;
+
+            height: 2px;
+
+            border-radius: 99px;
+
+            background:
+                var(--map-gold);
+        }
+
+
+        .nav-actions {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+        }
+
+
+        .nav-icon-btn {
+
+            width: 42px;
+
+            height: 42px;
+
+            display: grid;
+
+            place-items: center;
+
+            border-radius: 50%;
+
+            border:
+                1px solid
+                var(--map-border);
+
+            background:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.65
+                );
+
+            cursor: pointer;
+
+            transition:
+                .25s ease;
+        }
+
+
+        .nav-icon-btn:hover {
+
+            transform:
+                translateY(-2px);
+
+            background: white;
+
+            border-color:
+                rgba(
+                    178,
+                    147,
+                    94,
+                    .45
+                );
+        }
+
+
+        .nav-sell-btn {
+
+            padding:
+                12px 19px;
+
+            color: white;
+
+            background:
+                var(--map-forest);
+
+            border-radius: 999px;
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            box-shadow:
+                0 9px 25px
+                rgba(
+                    41,
+                    70,
+                    61,
+                    .17
+                );
+
+            transition:
+                .25s ease;
+        }
+
+
+        .nav-sell-btn:hover {
+
+            background:
+                var(--map-forest-deep);
+
+            transform:
+                translateY(-2px);
+        }
+
+
+        /* =====================================================
+           PAGE HERO
+        ====================================================== */
+
+        .map-hero {
+
+            max-width: 1440px;
+
+            margin: auto;
+
+            padding:
+                62px 34px 35px;
+
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            align-items: flex-end;
+
+            gap: 40px;
+        }
+
+
+        .map-hero-content {
+
+            max-width: 760px;
+        }
+
+
+        .eyebrow {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            margin-bottom: 16px;
+
+            color:
+                var(--map-gold);
+
+            font-size: 11px;
+
+            font-weight: 800;
+
+            text-transform:
+                uppercase;
+
+            letter-spacing:
+                .18em;
+        }
+
+
+        .eyebrow::before {
+
+            content: "";
+
+            width: 25px;
+
+            height: 1px;
+
+            background:
+                var(--map-gold);
+        }
+
+
+        .hero-title {
+
+            margin: 0;
+
+            font-family:
+                "Playfair Display",
+                serif;
+
+            font-size:
+                clamp(
+                    42px,
+                    5vw,
+                    70px
+                );
+
+            line-height:
+                .99;
+
+            letter-spacing:
+                -.045em;
+
+            color:
+                var(--map-forest-deep);
+        }
+
+
+        .hero-title span {
+
+            color:
+                var(--map-gold);
+        }
+
+
+        .hero-description {
+
+            max-width: 670px;
+
+            margin:
+                20px 0 0;
+
+            color:
+                var(--map-muted);
+
+            font-size: 15px;
+
+            line-height: 1.8;
+        }
+
+
+        .hero-actions {
+
+            display: flex;
+
+            gap: 10px;
+
+            flex-shrink: 0;
+        }
+
+
+        .hero-action {
+
+            padding:
+                13px 17px;
+
+            border-radius:
+                999px;
+
+            border:
+                1px solid
+                var(--map-border);
+
+            background:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    .72
+                );
+
+            color:
+                var(--map-forest);
+
+            font-size: 12px;
+
+            font-weight: 800;
+
+            cursor: pointer;
+
+            transition:
+                .25s ease;
+        }
+
+
+        .hero-action.primary {
+
+            color: white;
+
+            background:
+                var(--map-forest);
+
+            border-color:
+                var(--map-forest);
+        }
+
+
+        .hero-action:hover {
+
+            transform:
+                translateY(-2px);
+
+            box-shadow:
+                0 10px 25px
+                rgba(
+                    45,
+                    55,
+                    48,
+                    .10
+                );
+        }
+
+
+        /* =====================================================
+           SEARCH
+        ====================================================== */
+
+        .map-search-wrap {
+
+            max-width: 1440px;
+
+            margin: auto;
+
+            padding:
+                0 34px 25px;
+        }
+
+
+        .map-search {
+
+            display: grid;
+
+            grid-template-columns:
+                1fr
+                auto
+                auto;
+
+            gap: 10px;
+
+            padding: 12px;
+
+            background:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    .78
+                );
+
+            border:
+                1px solid
+                var(--map-border);
+
+            border-radius:
+                22px;
+
+            box-shadow:
+                0 18px 55px
+                rgba(
+                    45,
+                    55,
+                    48,
+                    .09
+                );
+
+            backdrop-filter:
+                blur(16px);
+        }
+
+
+        .search-field {
+
+            min-height: 54px;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            padding:
+                0 17px;
+
+            background:
+                rgba(
+                    248,
+                    245,
+                    238,
+                    .78
+                );
+
+            border:
+                1px solid
+                rgba(
+                    41,
+                    70,
+                    61,
+                    .08
+                );
+
+            border-radius:
+                15px;
+        }
+
+
+        .search-field span {
+
+            color:
+                var(--map-gold);
+
+            font-size: 19px;
+        }
+
+
+        .search-field input {
+
+            width: 100%;
+
+            border: 0;
+
+            outline: 0;
+
+            background:
+                transparent;
+
+            color:
+                var(--map-text);
+
+            font-size: 14px;
+        }
+
+
+        .search-field input::placeholder {
+
+            color:
+                #979c97;
+        }
+
+
+        .location-button,
+        .search-button {
+
+            min-height: 54px;
+
+            padding:
+                0 19px;
+
+            border-radius:
+                15px;
+
+            border: 0;
+
+            cursor: pointer;
+
+            font-size: 12px;
+
+            font-weight: 800;
+
+            transition:
+                .25s ease;
+        }
+
+
+        .location-button {
+
+            background:
+                var(--map-sage-light);
+
+            color:
+                var(--map-forest);
+        }
+
+
+        .search-button {
+
+            background:
+                var(--map-forest);
+
+            color: white;
+
+            min-width: 130px;
+        }
+
+
+        .location-button:hover,
+        .search-button:hover {
+
+            transform:
+                translateY(-2px);
+        }
+
+
+        /* =====================================================
+           FILTER BAR
+        ====================================================== */
+
+        .filter-bar {
+
+            max-width: 1440px;
+
+            margin: auto;
+
+            padding:
+                0 34px 22px;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 9px;
+
+            overflow-x: auto;
+
+            scrollbar-width: none;
+        }
+
+
+        .filter-bar::-webkit-scrollbar {
+
+            display: none;
+        }
+
+
+        .filter-pill {
+
+            flex-shrink: 0;
+
+            padding:
+                10px 16px;
+
+            border-radius:
+                999px;
+
+            border:
+                1px solid
+                var(--map-border);
+
+            background:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    .66
+                );
+
+            color:
+                #68736d;
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            transition:
+                .25s ease;
+        }
+
+
+        .filter-pill:hover,
+        .filter-pill.active {
+
+            color: white;
+
+            background:
+                var(--map-forest);
+
+            border-color:
+                var(--map-forest);
+
+            box-shadow:
+                0 8px 20px
+                rgba(
+                    41,
+                    70,
+                    61,
+                    .12
+                );
+        }
+
+
+        /* =====================================================
+           MAP EXPERIENCE
+        ====================================================== */
+
+        .map-section {
+
+            max-width: 1440px;
+
+            margin: auto;
+
+            padding:
+                0 34px 80px;
+        }
+
+
+        .map-shell {
+
+            position: relative;
+
+            min-height: 680px;
+
+            overflow: hidden;
+
+            border-radius:
+                32px;
+
+            border:
+                1px solid
+                rgba(
+                    41,
+                    70,
+                    61,
+                    .13
+                );
+
+            box-shadow:
+                var(--map-shadow);
+
+            background:
+                #dfe5dd;
+        }
+
+
+        /* =====================================================
+           STYLED MAP
+        ====================================================== */
+
+        .luxury-map {
+
+            position: absolute;
+
+            inset: 0;
+
+            overflow: hidden;
+
+            background:
+
+                linear-gradient(
+                    90deg,
+                    rgba(
+                        255,
+                        255,
+                        255,
+                        .35
+                    ) 1px,
+                    transparent 1px
+                ),
+
+                linear-gradient(
+                    rgba(
+                        255,
+                        255,
+                        255,
+                        .35
+                    ) 1px,
+                    transparent 1px
+                ),
+
+                #d9e0d6;
+
+            background-size:
+                95px 95px;
+        }
+
+
+        /* map land areas */
+
+        .map-land {
+
+            position: absolute;
+
+            border-radius:
+                40% 60% 50% 45%;
+
+            background:
+                #e8e6da;
+
+            opacity: .95;
+        }
+
+
+        .land-one {
+
+            width: 63%;
+
+            height: 75%;
+
+            left: -10%;
+
+            top: -15%;
+
+            transform:
+                rotate(
+                    -12deg
+                );
+        }
+
+
+        .land-two {
+
+            width: 55%;
+
+            height: 65%;
+
+            right: -13%;
+
+            bottom: -12%;
+
+            transform:
+                rotate(
+                    18deg
+                );
+
+            background:
+                #e4e0d3;
+        }
+
+
+        .land-three {
+
+            width: 35%;
+
+            height: 45%;
+
+            left: 32%;
+
+            bottom: -18%;
+
+            background:
+                #ece8dc;
+        }
+
+
+        /* roads */
+
+        .road {
+
+            position: absolute;
+
+            height: 5px;
+
+            background:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    .86
+                );
+
+            border-radius:
+                99px;
+
+            transform-origin:
+                left center;
+
+            box-shadow:
+                0 1px 0
+                rgba(
+                    120,
+                    130,
+                    120,
+                    .18
+                );
+        }
+
+
+        .road-one {
+
+            width: 115%;
+
+            left: -5%;
+
+            top: 27%;
+
+            transform:
+                rotate(
+                    11deg
+                );
+        }
+
+
+        .road-two {
+
+            width: 105%;
+
+            left: -8%;
+
+            top: 55%;
+
+            transform:
+                rotate(
+                    -17deg
+                );
+        }
+
+
+        .road-three {
+
+            width: 90%;
+
+            left: 10%;
+
+            top: 72%;
+
+            transform:
+                rotate(
+                    8deg
+                );
+        }
+
+
+        .road-four {
+
+            width: 80%;
+
+            left: 25%;
+
+            top: 10%;
+
+            transform:
+                rotate(
+                    78deg
+                );
+        }
+
+
+        .road-five {
+
+            width: 70%;
+
+            left: 55%;
+
+            top: 8%;
+
+            transform:
+                rotate(
+                    102deg
+                );
+        }
+
+
+        .water {
+
+            position: absolute;
+
+            width: 42%;
+
+            height: 100%;
+
+            right: -15%;
+
+            top: -15%;
+
+            background:
+                #cbdcdb;
+
+            border-radius:
+                48% 0 0 52%;
+
+            transform:
+                rotate(
+                    10deg
+                );
+        }
+
+
+        /* =====================================================
+           MAP LABELS
+        ====================================================== */
+
+        .map-label {
+
+            position: absolute;
+
+            padding:
+                6px 9px;
+
+            border-radius:
+                8px;
+
+            color:
+                #65716a;
+
+            background:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    .58
+                );
+
+            font-size: 10px;
+
+            font-weight: 700;
+
+            box-shadow:
+                0 4px 15px
+                rgba(
+                    40,
+                    50,
+                    45,
+                    .05
+                );
+        }
+
+
+        .label-one {
+            left: 18%;
+            top: 19%;
+        }
+
+
+        .label-two {
+            left: 41%;
+            top: 34%;
+        }
+
+
+        .label-three {
+            left: 66%;
+            top: 24%;
+        }
+
+
+        .label-four {
+            left: 24%;
+            top: 62%;
+        }
+
+
+        .label-five {
+            left: 57%;
+            top: 67%;
+        }
+
+
+        .label-six {
+            left: 78%;
+            top: 53%;
+        }
+
+
+        /* =====================================================
+           PROPERTY MARKERS
+        ====================================================== */
+
+        .property-marker {
+
+            position: absolute;
+
+            z-index: 20;
+
+            transform:
+                translate(
+                    -50%,
+                    -50%
+                );
+
+            cursor: pointer;
+        }
+
+
+        .marker-price {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            min-width: 86px;
+
+            height: 38px;
+
+            padding:
+                0 12px;
+
+            color: white;
+
+            background:
+                var(--map-forest);
+
+            border:
+                2px solid
+                rgba(
+                    255,
+                    255,
+                    255,
+                    .9
+                );
+
+            border-radius:
+                999px;
+
+            box-shadow:
+                0 9px 24px
+                rgba(
+                    28,
+                    55,
+                    46,
+                    .24
+                );
+
+            font-size: 11px;
+
+            font-weight: 800;
+
+            transition:
+                .25s ease;
+        }
+
+
+        .property-marker:hover .marker-price,
+        .property-marker.selected .marker-price {
+
+            color:
+                var(--map-forest);
+
+            background:
+                white;
+
+            transform:
+                scale(
+                    1.08
+                );
+        }
+
+
+        .marker-dot {
+
+            width: 9px;
+
+            height: 9px;
+
+            margin:
+                4px auto 0;
+
+            border-radius: 50%;
+
+            background:
+                var(--map-gold);
+
+            border:
+                2px solid white;
+        }
+
+
+        /* =====================================================
+           MAP CONTROLS
+        ====================================================== */
+
+        .map-controls {
+
+            position: absolute;
+
+            top: 18px;
+
+            right: 18px;
+
+            z-index: 50;
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 7px;
+        }
+
+
+        .map-control {
+
+            width: 42px;
+
+            height: 42px;
+
+            display: grid;
+
+            place-items: center;
+
+            border: 0;
+
+            border-radius:
+                13px;
+
+            background:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    .91
+                );
+
+            color:
+                var(--map-forest);
+
+            box-shadow:
+                0 9px 25px
+                rgba(
+                    35,
+                    50,
+                    42,
+                    .13
+                );
+
+            cursor: pointer;
+
+            font-size: 17px;
+
+            font-weight: 800;
+        }
+
+
+        .map-control:hover {
+
+            background:
+                var(--map-forest);
+
+            color: white;
+        }
+
+
+        /* =====================================================
+           MAP INFO PANEL
+        ====================================================== */
+
+        .map-info {
+
+            position: absolute;
+
+            left: 18px;
+
+            bottom: 18px;
+
+            z-index: 50;
+
+            width:
+                min(
+                    370px,
+                    calc(
+                        100% - 36px
+                    )
+                );
+
+            padding:
+                18px;
+
+            background:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    .93
+                );
+
+            border:
+                1px solid
+                rgba(
+                    41,
+                    70,
+                    61,
+                    .11
+                );
+
+            border-radius:
+                22px;
+
+            box-shadow:
+                0 18px 50px
+                rgba(
+                    40,
+                    50,
+                    44,
+                    .16
+                );
+
+            backdrop-filter:
+                blur(18px);
+        }
+
+
+        .map-info-top {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content:
+                space-between;
+
+            gap: 10px;
+
+            margin-bottom:
+                10px;
+        }
+
+
+        .map-info-tag {
+
+            color:
+                var(--map-gold);
+
+            font-size: 10px;
+
+            font-weight: 800;
+
+            text-transform:
+                uppercase;
+
+            letter-spacing:
+                .12em;
+        }
+
+
+        .map-info-count {
+
+            padding:
+                6px 9px;
+
+            border-radius:
+                999px;
+
+            background:
+                var(--map-sage-light);
+
+            color:
+                var(--map-forest);
+
+            font-size: 10px;
+
+            font-weight: 800;
+        }
+
+
+        .map-info h3 {
+
+            margin: 0;
+
+            font-family:
+                "Playfair Display",
+                serif;
+
+            font-size: 25px;
+
+            color:
+                var(--map-forest-deep);
+        }
+
+
+        .map-info p {
+
+            margin:
+                6px 0 0;
+
+            color:
+                var(--map-muted);
+
+            font-size: 12px;
+
+            line-height: 1.6;
+        }
+
+
+        .map-info-actions {
+
+            display: flex;
+
+            gap: 8px;
+
+            margin-top:
+                14px;
+        }
+
+
+        .map-info-button {
+
+            padding:
+                9px 12px;
+
+            border-radius:
+                10px;
+
+            border:
+                1px solid
+                var(--map-border);
+
+            background:
+                #faf9f5;
+
+            color:
+                var(--map-forest);
+
+            font-size: 10px;
+
+            font-weight: 800;
+        }
+
+
+        .map-info-button.primary {
+
+            background:
+                var(--map-forest);
+
+            color: white;
+
+            border-color:
+                var(--map-forest);
+        }
+
+
+        /* =====================================================
+           PROPERTY LIST BELOW MAP
+        ====================================================== */
+
+        .map-results {
+
+            max-width: 1440px;
+
+            margin: auto;
+
+            padding:
+                0 34px 100px;
+        }
+
+
+        .results-heading {
+
+            display: flex;
+
+            align-items:
+                flex-end;
+
+            justify-content:
+                space-between;
+
+            gap: 20px;
+
+            margin-bottom:
+                24px;
+        }
+
+
+        .results-heading h2 {
+
+            margin: 0;
+
+            font-family:
+                "Playfair Display",
+                serif;
+
+            font-size: 32px;
+
+            color:
+                var(--map-forest-deep);
+        }
+
+
+        .results-heading p {
+
+            margin:
+                6px 0 0;
+
+            color:
+                var(--map-muted);
+
+            font-size: 13px;
+        }
+
+
+        .view-all {
+
+            padding:
+                11px 16px;
+
+            border-radius:
+                999px;
+
+            background:
+                var(--map-sage-light);
+
+            color:
+                var(--map-forest);
+
+            font-size: 11px;
+
+            font-weight: 800;
+        }
+
+
+        .result-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    4,
+                    minmax(
+                        0,
+                        1fr
+                    )
+                );
+
+            gap: 20px;
+        }
+
+
+        .result-card {
+
+            overflow: hidden;
+
+            background:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    .78
+                );
+
+            border:
+                1px solid
+                var(--map-border);
+
+            border-radius:
+                22px;
+
+            box-shadow:
+                0 12px 38px
+                rgba(
+                    45,
+                    55,
+                    48,
+                    .07
+                );
+
+            transition:
+                .3s ease;
+        }
+
+
+        .result-card:hover {
+
+            transform:
+                translateY(-6px);
+
+            box-shadow:
+                0 24px 55px
+                rgba(
+                    45,
+                    55,
+                    48,
+                    .13
+                );
+        }
+
+
+        .result-image {
+
+            height: 210px;
+
+            overflow: hidden;
+
+            background:
+                var(--map-pearl);
+        }
+
+
+        .result-image img {
+
+            width: 100%;
+
+            height: 100%;
+
+            object-fit: cover;
+
+            transition:
+                transform .6s ease;
+        }
+
+
+        .result-card:hover
+        .result-image img {
+
+            transform:
+                scale(
+                    1.045
+                );
+        }
+
+
+        .result-content {
+
+            padding:
+                17px;
+        }
+
+
+        .result-type {
+
+            color:
+                var(--map-gold);
+
+            font-size: 9px;
+
+            font-weight: 800;
+
+            text-transform:
+                uppercase;
+
+            letter-spacing:
+                .14em;
+        }
+
+
+        .result-title {
+
+            margin:
+                7px 0 5px;
+
+            color:
+                var(--map-forest-deep);
+
+            font-family:
+                "Playfair Display",
+                serif;
+
+            font-size: 19px;
+
+            line-height:
+                1.2;
+        }
+
+
+        .result-location {
+
+            color:
+                var(--map-muted);
+
+            font-size: 11px;
+        }
+
+
+        .result-bottom {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content:
+                space-between;
+
+            gap: 10px;
+
+            margin-top:
+                16px;
+
+            padding-top:
+                13px;
+
+            border-top:
+                1px solid
+                rgba(
+                    41,
+                    70,
+                    61,
+                    .08
+                );
+        }
+
+
+        .result-price {
+
+            color:
+                var(--map-forest-deep);
+
+            font-size: 17px;
+
+            font-weight: 800;
+        }
+
+
+        .result-link {
+
+            color:
+                var(--map-forest);
+
+            font-size: 10px;
+
+            font-weight: 800;
+        }
+
+
+        /* =====================================================
+           FOOTER
+        ====================================================== */
+
+        .ghar-footer {
+
+            background:
+                #e6dfd2;
+
+            border-top:
+                1px solid
+                rgba(
+                    41,
+                    70,
+                    61,
+                    .09
+                );
+        }
+
+
+        .footer-inner {
+
+            max-width:
+                1440px;
+
+            margin: auto;
+
+            padding:
+                60px 34px 35px;
+
+            display: grid;
+
+            grid-template-columns:
+                1.5fr
+                repeat(
+                    3,
+                    1fr
+                );
+
+            gap: 40px;
+        }
+
+
+        .footer-brand img {
+
+            width:
+                125px;
+
+            margin-bottom:
+                17px;
+        }
+
+
+        .footer-brand p {
+
+            max-width:
+                330px;
+
+            color:
+                #68716c;
+
+            font-size: 13px;
+
+            line-height: 1.7;
+        }
+
+
+        .footer-column h4 {
+
+            margin:
+                0 0 16px;
+
+            color:
+                var(--map-forest);
+
+            font-size: 13px;
+        }
+
+
+        .footer-column a {
+
+            display: block;
+
+            margin-bottom:
+                11px;
+
+            color:
+                #717873;
+
+            font-size: 12px;
+
+            transition:
+                .2s ease;
+        }
+
+
+        .footer-column a:hover {
+
+            color:
+                var(--map-forest);
+        }
+
+
+        .footer-bottom {
+
+            max-width:
+                1440px;
+
+            margin: auto;
+
+            padding:
+                18px 34px 25px;
+
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            gap: 20px;
+
+            border-top:
+                1px solid
+                rgba(
+                    41,
+                    70,
+                    61,
+                    .09
+                );
+
+            color:
+                #7d837f;
+
+            font-size: 11px;
+        }
+
+
+        /* =====================================================
+           MOBILE DOCK
+        ====================================================== */
+
+        .mobile-dock {
+
+            display: none;
+
+            position: fixed;
+
+            left: 12px;
+
+            right: 12px;
+
+            bottom: 12px;
+
+            z-index: 999;
+
+            padding: 9px;
+
+            background:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    .94
+                );
+
+            border:
+                1px solid
+                rgba(
+                    41,
+                    70,
+                    61,
+                    .10
+                );
+
+            border-radius:
+                22px;
+
+            box-shadow:
+                0 18px 55px
+                rgba(
+                    39,
+                    72,
+                    61,
+                    .18
+                );
+
+            backdrop-filter:
+                blur(18px);
+        }
+
+
+        .mobile-dock-inner {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    4,
+                    1fr
+                );
+        }
+
+
+        .mobile-dock a {
+
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: center;
+
+            gap: 4px;
+
+            padding: 8px;
+
+            color:
+                #77807b;
+
+            font-size: 10px;
+
+            font-weight: 700;
+        }
+
+
+        .mobile-dock a.active {
+
+            color:
+                var(--map-forest);
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ====================================================== */
+
+        @media (max-width: 1150px) {
+
+            .main-nav {
+
+                gap: 18px;
+            }
+
+
+            .result-grid {
+
+                grid-template-columns:
+                    repeat(
+                        2,
+                        minmax(
+                            0,
+                            1fr
+                        )
+                    );
+            }
+        }
+
+
+        @media (max-width: 850px) {
+
+            .map-nav {
+
+                min-height: 72px;
+
+                padding:
+                    0 20px;
+            }
+
+
+            .main-nav {
+
+                display: none;
+            }
+
+
+            .nav-sell-btn {
+
+                display: none;
+            }
+
+
+            .map-hero {
+
+                padding:
+                    48px 20px 28px;
+
+                align-items:
+                    flex-start;
+
+                flex-direction:
+                    column;
+            }
+
+
+            .map-search-wrap,
+            .filter-bar,
+            .map-section,
+            .map-results {
+
+                padding-left: 20px;
+
+                padding-right: 20px;
+            }
+
+
+            .map-search {
+
+                grid-template-columns:
+                    1fr;
+            }
+
+
+            .map-shell {
+
+                min-height:
+                    620px;
+            }
+
+
+            .mobile-dock {
+
+                display: block;
+            }
+
+
+            .ghar-footer {
+
+                padding-bottom:
+                    90px;
+            }
+
+
+            .footer-inner {
+
+                grid-template-columns:
+                    repeat(
+                        2,
+                        1fr
+                    );
+            }
+        }
+
+
+        @media (max-width: 620px) {
+
+            .ghar-brand img {
+
+                width:
+                    108px;
+            }
+
+
+            .hero-title {
+
+                font-size:
+                    45px;
+            }
+
+
+            .hero-actions {
+
+                width:
+                    100%;
+            }
+
+
+            .hero-action {
+
+                flex:
+                    1;
+
+                text-align:
+                    center;
+            }
+
+
+            .map-shell {
+
+                min-height:
+                    610px;
+
+                border-radius:
+                    25px;
+            }
+
+
+            .map-info {
+
+                width:
+                    calc(
+                        100% - 36px
+                    );
+            }
+
+
+            .result-grid {
+
+                grid-template-columns:
+                    1fr;
+            }
+
+
+            .results-heading {
+
+                align-items:
+                    flex-start;
+
+                flex-direction:
+                    column;
+            }
+
+
+            .footer-inner {
+
+                grid-template-columns:
+                    1fr;
+
+                padding:
+                    45px 20px 25px;
+            }
+
+
+            .footer-bottom {
+
+                padding-left:
+                    20px;
+
+                padding-right:
+                    20px;
+
+                flex-direction:
+                    column;
+            }
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+
+<!-- ============================================================
+     HEADER
+============================================================= -->
+
+<header class="map-header">
+
+    <nav class="map-nav">
+
+        <a
+            href="/index.html"
+            class="ghar-brand"
+            aria-label="GHAR Home"
+        >
+
+            <img
+                src="/assets/images/logo/ghar-logo.png"
+                alt="GHAR"
+            >
+
+        </a>
+
+
+        <div class="main-nav">
+
+            <a href="/index.html">
+                Home
+            </a>
+
+            <a href="/properties.html">
+                Properties
+            </a>
+
+            <a href="/marketplace.html">
+                Marketplace
+            </a>
+
+            <a
+                href="/map.html"
+                class="active"
+            >
+                Map
+            </a>
+
+            <a href="/compare.html">
+                Compare
+            </a>
+
+            <a href="/about.html">
+                About
+            </a>
+
+        </div>
+
+
+        <div class="nav-actions">
+
+            <button
+                class="nav-icon-btn"
+                type="button"
+                onclick="focusMapSearch()"
+                aria-label="Search"
+            >
+                ⌕
+            </button>
+
+
+            <a
+                href="/saved-properties.html"
+                class="nav-icon-btn"
+                aria-label="Saved"
+            >
+                ♡
+            </a>
+
+
+            <a
+                href="/login.html"
+                class="nav-sell-btn"
+            >
+                List Property
+            </a>
+
+        </div>
+
+    </nav>
+
+</header>
+
+
+<!-- ============================================================
+     HERO
+============================================================= -->
+
+<section class="map-hero">
+
+    <div class="map-hero-content">
+
+        <div class="eyebrow">
+            GHAR Location Intelligence
+        </div>
+
+
+        <h1 class="hero-title">
+
+            Discover property
+            <span>where life happens.</span>
+
+        </h1>
+
+
+        <p class="hero-description">
+
+            Explore homes, apartments, villas, plots and
+            commercial spaces by location. Find the neighbourhood
+            that fits your lifestyle before choosing the property.
+
+        </p>
+
+    </div>
+
+
+    <div class="hero-actions">
+
+        <button
+            class="hero-action primary"
+            type="button"
+            onclick="useMyLocation()"
+        >
+            ◎ Use My Location
+        </button>
+
+
+        <a
+            href="/properties.html"
+            class="hero-action"
+        >
+            View Properties
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- ============================================================
+     SEARCH
+============================================================= -->
+
+<section class="map-search-wrap">
+
+    <div class="map-search">
+
+        <div class="search-field">
+
+            <span>
+                ⌕
+            </span>
+
+            <input
+                id="mapSearch"
+                type="search"
+                placeholder="Search city, locality, sector, landmark..."
+                autocomplete="off"
+            >
+
+        </div>
+
+
+        <button
+            class="location-button"
+            type="button"
+            onclick="useMyLocation()"
+        >
+            ◎ Near Me
+        </button>
+
+
+        <button
+            class="search-button"
+            type="button"
+            onclick="searchMap()"
+        >
+            Search Map
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- ============================================================
+     FILTERS
+============================================================= -->
+
+<div class="filter-bar">
+
+    <button
+        class="filter-pill active"
+        data-filter="all"
+        type="button"
+    >
+        All
+    </button>
+
+
+    <button
+        class="filter-pill"
+        data-filter="apartment"
+        type="button"
+    >
+        Apartments
+    </button>
+
+
+    <button
+        class="filter-pill"
+        data-filter="house"
+        type="button"
+    >
+        Houses
+    </button>
+
+
+    <button
+        class="filter-pill"
+        data-filter="villa"
+        type="button"
+    >
+        Villas
+    </button>
+
+
+    <button
+        class="filter-pill"
+        data-filter="commercial"
+        type="button"
+    >
+        Commercial
+    </button>
+
+
+    <button
+        class="filter-pill"
+        data-filter="plot"
+        type="button"
+    >
+        Plots
+    </button>
+
+
+    <button
+        class="filter-pill"
+        data-filter="rent"
+        type="button"
+    >
+        For Rent
+    </button>
+
+
+    <button
+        class="filter-pill"
+        data-filter="sale"
+        type="button"
+    >
+        For Sale
+    </button>
+
+</div>
+
+
+<!-- ============================================================
+     MAP
+============================================================= -->
+
+<section class="map-section">
+
+    <div class="map-shell">
+
+        <div
+            class="luxury-map"
+            id="luxuryMap"
+        >
+
+            <div class="map-land land-one"></div>
+
+            <div class="map-land land-two"></div>
+
+            <div class="map-land land-three"></div>
+
+            <div class="water"></div>
+
+
+            <div class="road road-one"></div>
+
+            <div class="road road-two"></div>
+
+            <div class="road road-three"></div>
+
+            <div class="road road-four"></div>
+
+            <div class="road road-five"></div>
+
+
+            <span class="map-label label-one">
+                Central District
+            </span>
+
+            <span class="map-label label-two">
+                Sector 18
+            </span>
+
+            <span class="map-label label-three">
+                Business District
+            </span>
+
+            <span class="map-label label-four">
+                Green Valley
+            </span>
+
+            <span class="map-label label-five">
+                Residential Zone
+            </span>
+
+            <span class="map-label label-six">
+                Expressway
+            </span>
+
+
+            <!-- PROPERTY MARKERS -->
+
+            <button
+                class="property-marker"
+                style="left:27%;top:31%;"
+                data-type="villa"
+                data-id="GHAR-P001"
+                onclick="selectProperty(this)"
+            >
+
+                <span class="marker-price">
+                    ₹2.85 Cr
+                </span>
+
+                <span class="marker-dot"></span>
+
+            </button>
+
+
+            <button
+                class="property-marker"
+                style="left:47%;top:42%;"
+                data-type="apartment"
+                data-id="GHAR-P002"
+                onclick="selectProperty(this)"
+            >
+
+                <span class="marker-price">
+                    ₹1.42 Cr
+                </span>
+
+                <span class="marker-dot"></span>
+
+            </button>
+
+
+            <button
+                class="property-marker"
+                style="left:62%;top:30%;"
+                data-type="house"
+                data-id="GHAR-P003"
+                onclick="selectProperty(this)"
+            >
+
+                <span class="marker-price">
+                    ₹1.95 Cr
+                </span>
+
+                <span class="marker-dot"></span>
+
+            </button>
+
+
+            <button
+                class="property-marker"
+                style="left:71%;top:58%;"
+                data-type="commercial"
+                data-id="GHAR-P004"
+                onclick="selectProperty(this)"
+            >
+
+                <span class="marker-price">
+                    ₹3.20 Cr
+                </span>
+
+                <span class="marker-dot"></span>
+
+            </button>
+
+
+            <button
+                class="property-marker"
+                style="left:38%;top:67%;"
+                data-type="apartment"
+                data-id="GHAR-P005"
+                onclick="selectProperty(this)"
+            >
+
+                <span class="marker-price">
+                    ₹88 L
+                </span>
+
+                <span class="marker-dot"></span>
+
+            </button>
+
+
+            <button
+                class="property-marker"
+                style="left:82%;top:38%;"
+                data-type="villa"
+                data-id="GHAR-P006"
+                onclick="selectProperty(this)"
+            >
+
+                <span class="marker-price">
+                    ₹4.60 Cr
+                </span>
+
+                <span class="marker-dot"></span>
+
+            </button>
+
+        </div>
+
+
+        <!-- MAP CONTROLS -->
+
+        <div class="map-controls">
+
+            <button
+                class="map-control"
+                type="button"
+                onclick="zoomMap(1)"
+                aria-label="Zoom in"
+            >
+                +
+            </button>
+
+
+            <button
+                class="map-control"
+                type="button"
+                onclick="zoomMap(-1)"
+                aria-label="Zoom out"
+            >
+                −
+            </button>
+
+
+            <button
+                class="map-control"
+                type="button"
+                onclick="resetMap()"
+                aria-label="Reset map"
+            >
+                ⟳
+            </button>
+
+        </div>
+
+
+        <!-- MAP INFORMATION -->
+
+        <aside class="map-info">
+
+            <div class="map-info-top">
+
+                <span class="map-info-tag">
+                    Explore Area
+                </span>
+
+                <span
+                    class="map-info-count"
+                    id="mapCount"
+                >
+                    6 properties
+                </span>
+
+            </div>
+
+
+            <h3 id="mapInfoTitle">
+                Noida & Greater Noida
+            </h3>
+
+
+            <p id="mapInfoText">
+
+                Explore premium residences, apartments,
+                independent homes and commercial spaces
+                across the region.
+
+            </p>
+
+
+            <div class="map-info-actions">
+
+                <a
+                    href="/properties.html"
+                    class="map-info-button primary"
+                >
+                    View Properties
+                </a>
+
+
+                <button
+                    type="button"
+                    class="map-info-button"
+                    onclick="resetMap()"
+                >
+                    Reset View
+                </button>
+
+            </div>
+
+        </aside>
+
+    </div>
+
+</section>
+
+
+<!-- ============================================================
+     MAP RESULTS
+============================================================= -->
+
+<section class="map-results">
+
+    <div class="results-heading">
+
+        <div>
+
+            <h2>
+                Properties Around You
+            </h2>
+
+            <p>
+                Selected listings connected to this map area.
+            </p>
+
+        </div>
+
+
+        <a
+            href="/properties.html"
+            class="view-all"
+        >
+            View All Properties →
+        </a>
+
+    </div>
+
+
+    <div class="result-grid">
+
+
+        <!-- CARD 1 -->
+
+        <article
+            class="result-card"
+            data-result-type="apartment"
+        >
+
+            <div class="result-image">
+
+                <img
+                    src="/assets/images/properties/residentials/apartment/appartment-01.jpg"
+                    alt="Premium apartment"
+                    loading="lazy"
+                >
+
+            </div>
+
+
+            <div class="result-content">
+
+                <div class="result-type">
+                    Apartment
+                </div>
+
+
+                <h3 class="result-title">
+                    The Pearl Residence
+                </h3>
+
+
+                <div class="result-location">
+                    Noida Extension, Uttar Pradesh
+                </div>
+
+
+                <div class="result-bottom">
+
+                    <span class="result-price">
+                        ₹1.42 Cr
+                    </span>
+
+
+                    <a
+                        href="/property-details.html?id=GHAR-P002"
+                        class="result-link"
+                    >
+                        View →
+                    </a>
+
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- CARD 2 -->
+
+        <article
+            class="result-card"
+            data-result-type="house"
+        >
+
+            <div class="result-image">
+
+                <img
+                    src="/assets/images/properties/residentials/house/house-01.jpg"
+                    alt="Premium house"
+                    loading="lazy"
+                >
+
+            </div>
+
+
+            <div class="result-content">
+
+                <div class="result-type">
+                    Independent House
+                </div>
+
+
+                <h3 class="result-title">
+                    The Sandstone House
+                </h3>
+
+
+                <div class="result-location">
+                    Greater Noida, Uttar Pradesh
+                </div>
+
+
+                <div class="result-bottom">
+
+                    <span class="result-price">
+                        ₹1.95 Cr
+                    </span>
+
+
+                    <a
+                        href="/property-details.html?id=GHAR-P003"
+                        class="result-link"
+                    >
+                        View →
+                    </a>
+
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- CARD 3 -->
+
+        <article
+            class="result-card"
+            data-result-type="villa"
+        >
+
+            <div class="result-image">
+
+                <img
+                    src="/assets/images/properties/residentials/villa/villa-01.jpg"
+                    alt="Luxury villa"
+                    loading="lazy"
+                >
+
+            </div>
+
+
+            <div class="result-content">
+
+                <div class="result-type">
+                    Luxury Villa
+                </div>
+
+
+                <h3 class="result-title">
+                    The Emerald Villa
+                </h3>
+
+
+                <div class="result-location">
+                    Noida, Uttar Pradesh
+                </div>
+
+
+                <div class="result-bottom">
+
+                    <span class="result-price">
+                        ₹2.85 Cr
+                    </span>
+
+
+                    <a
+                        href="/property-details.html?id=GHAR-P001"
+                        class="result-link"
+                    >
+                        View →
+                    </a>
+
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- CARD 4 -->
+
+        <article
+            class="result-card"
+            data-result-type="commercial"
+        >
+
+            <div class="result-image">
+
+                <img
+                    src="/assets/images/properties/commercial/office/office-placeholder.jpg"
+                    alt="Premium commercial office"
+                    loading="lazy"
+                >
+
+            </div>
+
+
+            <div class="result-content">
+
+                <div class="result-type">
+                    Commercial Office
+                </div>
+
+
+                <h3 class="result-title">
+                    GHAR Business Centre
+                </h3>
+
+
+                <div class="result-location">
+                    Noida Sector 18, Uttar Pradesh
+                </div>
+
+
+                <div class="result-bottom">
+
+                    <span class="result-price">
+                        ₹3.20 Cr
+                    </span>
+
+
+                    <a
+                        href="/property-details.html?id=GHAR-P004"
+                        class="result-link"
+                    >
+                        View →
+                    </a>
+
+                </div>
+
+            </div>
+
+        </article>
+
+    </div>
+
+</section>
+
+
+<!-- ============================================================
+     FOOTER
+============================================================= -->
+
+<footer class="ghar-footer">
+
+    <div class="footer-inner">
+
+
+        <div class="footer-brand">
+
+            <img
+                src="/assets/images/logo/ghar-logo.png"
+                alt="GHAR"
+            >
+
+
+            <p>
+
+                A premium real-estate experience designed
+                to make discovering, buying, renting and
+                managing property simpler.
+
+            </p>
+
+        </div>
+
+
+        <div class="footer-column">
+
+            <h4>
+                Explore
+            </h4>
+
+
+            <a href="/properties.html">
+                Properties
+            </a>
+
+
+            <a href="/property-search.html">
+                Smart Search
+            </a>
+
+
+            <a href="/marketplace.html">
+                Marketplace
+            </a>
+
+
+            <a href="/map.html">
+                Property Map
+            </a>
+
+
+            <a href="/compare.html">
+                Compare
+            </a>
+
+        </div>
+
+
+        <div class="footer-column">
+
+            <h4>
+                GHAR
+            </h4>
+
+
+            <a href="/about.html">
+                About GHAR
+            </a>
+
+
+            <a href="/services.html">
+                Services
+            </a>
+
+
+            <a href="/ai-assistant.html">
+                GHAR AI
+            </a>
+
+
+            <a href="/contact.html">
+                Contact
+            </a>
+
+
+            <a href="/help-centre.html">
+                Help Centre
+            </a>
+
+        </div>
+
+
+        <div class="footer-column">
+
+            <h4>
+                Property
+            </h4>
+
+
+            <a href="/login.html">
+                List Property
+            </a>
+
+
+            <a href="/login.html">
+                Seller Login
+            </a>
+
+
+            <a href="/login.html">
+                Buyer Login
+            </a>
+
+
+            <a href="/loan.html">
+                Home Loans
+            </a>
+
+
+            <a href="/documents.html">
+                Documents
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <div class="footer-bottom">
+
+        <span>
+            © 2026 GHAR. All rights reserved.
+        </span>
+
+
+        <span>
+            Privacy · Terms · Legal
+        </span>
+
+    </div>
+
+</footer>
+
+
+<!-- ============================================================
+     MOBILE NAVIGATION
+============================================================= -->
+
+<nav class="mobile-dock">
+
+    <div class="mobile-dock-inner">
+
+
+        <a href="/index.html">
+
+            <span>
+                ⌂
+            </span>
+
+            Home
+
+        </a>
+
+
+        <a href="/properties.html">
+
+            <span>
+                ▦
+            </span>
+
+            Properties
+
+        </a>
+
+
+        <a
+            href="/map.html"
+            class="active"
+        >
+
+            <span>
+                ⌖
+            </span>
+
+            Map
+
+        </a>
+
+
+        <a href="/login.html">
+
+            <span>
+                ●
+            </span>
+
+            Account
+
+        </a>
+
+    </div>
+
+</nav>
+
+
+<!-- ============================================================
+     GLOBAL JS
+============================================================= -->
+
+<script src="/assets/js/constants.js"></script>
+
+<script src="/assets/js/config.js"></script>
+
+<script src="/assets/js/storage.js"></script>
+
+<script src="/assets/js/api.js"></script>
+
+<script src="/assets/js/auth.js"></script>
+
+<script src="/assets/js/core.js"></script>
+
+<script src="/assets/js/components.js"></script>
+
+<script src="/assets/js/components/global.js"></script>
+
+<script src="/assets/js/navigation.js"></script>
+
+
+<!-- ============================================================
+     MAP PAGE JS
+============================================================= -->
+
+<script>
+
+    /*
+     * ============================================================
+     * GHAR MAP EXPERIENCE
+     * ============================================================
+     */
+
+
+    let currentZoom = 1;
+
+    let activeMapFilter = "all";
+
+
+    /*
+     * ------------------------------------------------------------
+     * SEARCH FOCUS
+     * ------------------------------------------------------------
+     */
+
+    function focusMapSearch() {
+
+        const input =
+            document.getElementById(
+                "mapSearch"
+            );
+
+        input.focus();
+
+        input.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+        });
+
+    }
+
+
+    /*
+     * ------------------------------------------------------------
+     * MAP SEARCH
+     * ------------------------------------------------------------
+     */
+
+    function searchMap() {
+
+        const input =
+            document.getElementById(
+                "mapSearch"
+            );
+
+        const query =
+            input.value
+                .trim()
+                .toLowerCase();
+
+
+        if (!query) {
+
+            resetMap();
+
+            return;
+        }
+
+
+        const title =
+            document.getElementById(
+                "mapInfoTitle"
+            );
+
+
+        const text =
+            document.getElementById(
+                "mapInfoText"
+            );
+
+
+        title.textContent =
+            input.value.trim();
+
+
+        text.textContent =
+            "GHAR is showing properties and neighbourhoods matching your location search.";
+
+
+        document
+            .querySelectorAll(
+                ".property-marker"
+            )
+            .forEach(
+                marker => {
+
+                    marker.classList.remove(
+                        "selected"
+                    );
+
+                }
+            );
+
+    }
+
+
+    /*
+     * ------------------------------------------------------------
+     * LOCATION
+     * ------------------------------------------------------------
+     */
+
+    function useMyLocation() {
+
+        const title =
+            document.getElementById(
+                "mapInfoTitle"
+            );
+
+
+        const text =
+            document.getElementById(
+                "mapInfoText"
+            );
+
+
+        if (!navigator.geolocation) {
+
+            title.textContent =
+                "Location unavailable";
+
+            text.textContent =
+                "Your browser does not provide location access. Search for a city or locality instead.";
+
+            return;
+        }
+
+
+        title.textContent =
+            "Finding your location…";
+
+
+        text.textContent =
+            "Please allow location access to centre the property experience around you.";
+
+
+        navigator.geolocation.getCurrentPosition(
+
+            position => {
+
+                title.textContent =
+                    "Properties near you";
+
+
+                text.textContent =
+                    "Your location has been detected. GHAR can now centre property discovery around your current area.";
+
+                resetMap();
+
+            },
+
+            () => {
+
+                title.textContent =
+                    "Location permission required";
+
+
+                text.textContent =
+                    "Location access was not granted. You can continue by searching for a city, sector or neighbourhood.";
+
+            }
+
+        );
+
+    }
+
+
+    /*
+     * ------------------------------------------------------------
+     * PROPERTY MARKER
+     * ------------------------------------------------------------
+     */
+
+    function selectProperty(marker) {
+
+        document
+            .querySelectorAll(
+                ".property-marker"
+            )
+            .forEach(
+                item =>
+                    item.classList.remove(
+                        "selected"
+                    )
+            );
+
+
+        marker.classList.add(
+            "selected"
+        );
+
+
+        const id =
+            marker.dataset.id;
+
+
+        const title =
+            document.getElementById(
+                "mapInfoTitle"
+            );
+
+
+        const text =
+            document.getElementById(
+                "mapInfoText"
+            );
+
+
+        const propertyData = {
+
+            "GHAR-P001": {
+                title:
+                    "The Emerald Villa",
+                text:
+                    "Luxury 4-bedroom villa in Noida with premium residential positioning.",
+                count:
+                    "₹2.85 Cr"
+            },
+
+
+            "GHAR-P002": {
+                title:
+                    "The Pearl Residence",
+                text:
+                    "Premium apartment residence in Noida Extension.",
+                count:
+                    "₹1.42 Cr"
+            },
+
+
+            "GHAR-P003": {
+                title:
+                    "The Sandstone House",
+                text:
+                    "Independent family residence in Greater Noida.",
+                count:
+                    "₹1.95 Cr"
+            },
+
+
+            "GHAR-P004": {
+                title:
+                    "GHAR Business Centre",
+                text:
+                    "Premium commercial office opportunity in Sector 18.",
+                count:
+                    "₹3.20 Cr"
+            },
+
+
+            "GHAR-P005": {
+                title:
+                    "The Garden Residence",
+                text:
+                    "Contemporary apartment positioned within a growing residential zone.",
+                count:
+                    "₹88 L"
+            },
+
+
+            "GHAR-P006": {
+                title:
+                    "The Grand Estate",
+                text:
+                    "High-end villa opportunity in an exclusive residential district.",
+                count:
+                    "₹4.60 Cr"
+            }
+
+        };
+
+
+        const property =
+            propertyData[id];
+
+
+        if (!property) {
+
+            return;
+        }
+
+
+        title.textContent =
+            property.title;
+
+
+        text.textContent =
+            property.text;
+
+
+        document.getElementById(
+            "mapCount"
+        ).textContent =
+            property.count;
+
+    }
+
+
+    /*
+     * ------------------------------------------------------------
+     * MAP ZOOM
+     * ------------------------------------------------------------
+     */
+
+    function zoomMap(direction) {
+
+        currentZoom +=
+            direction * 0.12;
+
+
+        currentZoom =
+            Math.max(
+                0.85,
+                Math.min(
+                    currentZoom,
+                    1.45
+                )
+            );
+
+
+        const map =
+            document.getElementById(
+                "luxuryMap"
+            );
+
+
+        map.style.transform =
+            `scale(${currentZoom})`;
+
+        map.style.transformOrigin =
+            "center center";
+
+    }
+
+
+    /*
+     * ------------------------------------------------------------
+     * RESET MAP
+     * ------------------------------------------------------------
+     */
+
+    function resetMap() {
+
+        currentZoom = 1;
+
+
+        const map =
+            document.getElementById(
+                "luxuryMap"
+            );
+
+
+        map.style.transform =
+            "scale(1)";
+
+
+        document
+            .querySelectorAll(
+                ".property-marker"
+            )
+            .forEach(
+                marker =>
+                    marker.classList.remove(
+                        "selected"
+                    )
+            );
+
+
+        document.getElementById(
+            "mapInfoTitle"
+        ).textContent =
+            "Noida & Greater Noida";
+
+
+        document.getElementById(
+            "mapInfoText"
+        ).textContent =
+            "Explore premium residences, apartments, independent homes and commercial spaces across the region.";
+
+
+        document.getElementById(
+            "mapCount"
+        ).textContent =
+            "6 properties";
+
+    }
+
+
+    /*
+     * ------------------------------------------------------------
+     * FILTERS
+     * ------------------------------------------------------------
+     */
+
+    document
+        .querySelectorAll(
+            ".filter-pill"
+        )
+        .forEach(
+            button => {
+
+                button.addEventListener(
+                    "click",
+                    () => {
+
+                        document
+                            .querySelectorAll(
+                                ".filter-pill"
+                            )
+                            .forEach(
+                                item =>
+                                    item.classList.remove(
+                                        "active"
+                                    )
+                            );
+
+
+                        button.classList.add(
+                            "active"
+                        );
+
+
+                        activeMapFilter =
+                            button.dataset.filter ||
+                            "all";
+
+
+                        filterMapProperties();
+
+                    }
+                );
+
+            }
+        );
+
+
+    /*
+     * ------------------------------------------------------------
+     * FILTER MAP
+     * ------------------------------------------------------------
+     */
+
+    function filterMapProperties() {
+
+        const markers =
+            document.querySelectorAll(
+                ".property-marker"
+            );
+
+
+        let visible = 0;
+
+
+        markers.forEach(
+            marker => {
+
+                const type =
+                    marker.dataset.type;
+
+
+                const shouldShow =
+                    activeMapFilter ===
+                        "all" ||
+                    activeMapFilter ===
+                        type;
+
+
+                marker.style.display =
+                    shouldShow
+                        ? "block"
+                        : "none";
+
+
+                if (shouldShow) {
+                    visible++;
+                }
+
+            }
+        );
+
+
+        document.getElementById(
+            "mapCount"
+        ).textContent =
+            `${visible} ${
+                visible === 1
+                    ? "property"
+                    : "properties"
+            }`;
+
+    }
+
+
+    /*
+     * ------------------------------------------------------------
+     * SEARCH ENTER
+     * ------------------------------------------------------------
+     */
+
+    document
+        .getElementById(
+            "mapSearch"
+        )
+        .addEventListener(
+            "keydown",
+            event => {
+
+                if (
+                    event.key ===
+                    "Enter"
+                ) {
+
+                    searchMap();
+
+                }
+
+            }
+        );
+
+
+    /*
+     * ------------------------------------------------------------
+     * INITIALISE
+     * ------------------------------------------------------------
+     */
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        () => {
+
+            resetMap();
+
+        }
+    );
+
+</script>
+
+
+</body>
+</html>
