@@ -1447,7 +1447,12 @@ const ROUTES = [
 
 /**
  * ============================================================
- * MOUNT ALL ROUTES
+ * MOUNT ALL GHAR ROUTES
+ * ============================================================
+ *
+ * A broken individual route MUST NOT prevent GHAR from
+ * starting. The affected API receives HTTP 503 while all
+ * other routes continue operating.
  * ============================================================
  */
 
@@ -1456,11 +1461,10 @@ for (const route of ROUTES) {
     route.file,
     `${NORMALIZED_API_PREFIX}${route.path}`,
     {
-      required: true
+      required: false
     }
   );
-}
-
+)
 /**
  * ============================================================
  * STATIC ASSETS
