@@ -2,1883 +2,4913 @@
 <!doctype html>
 <html lang="en">
 <head>
+
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
 <meta name="description"
-      content="GHAR Buyer Support -- Get help with properties, visits, offers, applications, loans and your GHAR account.">
+content="GHAR Buyer Support -- Get help with properties, visits, offers, applications, documents, payments and your buyer account.">
 
 <meta name="theme-color" content="#162d25">
 
 <title>GHAR · Buyer Support</title>
 
-<link rel="icon" href="../assets/images/favicon.svg">
+<link rel="icon" href="../assets/images/logo/favicon.svg">
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
+
+/* =========================================================
+   RESET
+========================================================= */
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
 
 :root{
-  --green-950:#07130e;
-  --green-925:#0a1912;
-  --green-900:#0b1c14;
-  --green-850:#10261c;
-  --green-800:#162d25;
-  --green-750:#1a382c;
-  --green-700:#214438;
-  --green-600:#2b5847;
 
-  --gold-100:#fff7df;
-  --gold-200:#f4dfaa;
-  --gold-300:#e5c77d;
-  --gold-400:#c9a95c;
-  --gold-500:#a98238;
+    --green-950:#07130e;
+    --green-925:#091710;
+    --green-900:#0b1c14;
+    --green-875:#0e2118;
+    --green-850:#10261c;
+    --green-825:#132a20;
+    --green-800:#162d25;
+    --green-750:#1a382c;
+    --green-700:#214438;
+    --green-600:#2b5847;
 
-  --cream:#fffaf0;
-  --text:#f9f5ea;
-  --muted:rgba(255,255,255,.68);
-  --muted-2:rgba(255,255,255,.45);
+    --gold-100:#fffdf5;
+    --gold-200:#f4dfaa;
+    --gold-300:#e5c77d;
+    --gold-400:#c9a95c;
+    --gold-500:#a98238;
 
-  --border:rgba(229,199,125,.18);
-  --border-light:rgba(255,255,255,.09);
+    --cream:#fffaf0;
+    --cream-2:#f7eedc;
 
-  --success:#82c995;
-  --danger:#e98c8c;
-  --blue:#91b9e8;
+    --text:#f9f5ea;
+    --muted:rgba(255,255,255,.72);
+    --muted-2:rgba(255,255,255,.46);
 
-  --shadow:0 25px 80px rgba(0,0,0,.25);
-  --radius-xl:28px;
-  --radius-lg:21px;
-  --radius-md:15px;
-  --container:1440px;
+    --border:rgba(229,199,125,.17);
+    --border-strong:rgba(229,199,125,.27);
+    --border-light:rgba(255,255,255,.09);
+
+    --success:#82c995;
+    --warning:#e6c477;
+    --danger:#e98c8c;
+    --blue:#91b9e8;
+
+    --shadow:0 25px 80px rgba(0,0,0,.28);
+
+    --radius-xl:28px;
+    --radius-lg:21px;
+    --radius-md:14px;
+
+    --container:1440px;
 }
 
-html{scroll-behavior:smooth}
+html{
+    scroll-behavior:smooth;
+}
 
 body{
-  min-height:100vh;
-  color:var(--text);
-  font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  background:
-    radial-gradient(circle at 5% 0%,rgba(229,199,125,.12),transparent 28%),
-    radial-gradient(circle at 100% 10%,rgba(44,91,69,.22),transparent 30%),
-    linear-gradient(135deg,#07130e,#0b1c14 48%,#10261c);
-  overflow-x:hidden;
+
+    min-height:100vh;
+
+    color:var(--text);
+
+    font-family:
+        Inter,
+        ui-sans-serif,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    background:
+
+        radial-gradient(
+            circle at 5% 0%,
+            rgba(229,199,125,.12),
+            transparent 27%
+        ),
+
+        radial-gradient(
+            circle at 100% 8%,
+            rgba(44,91,69,.23),
+            transparent 31%
+        ),
+
+        radial-gradient(
+            circle at 50% 100%,
+            rgba(33,68,56,.18),
+            transparent 32%
+        ),
+
+        linear-gradient(
+            135deg,
+            #07130e,
+            #0b1c14 48%,
+            #10261c
+        );
+
+    overflow-x:hidden;
 }
 
-a{color:inherit;text-decoration:none}
-button,input,select,textarea{font:inherit}
-button{cursor:pointer}
-img{display:block;max-width:100%}
+a{
+    color:inherit;
+    text-decoration:none;
+}
+
+button,
+input,
+select,
+textarea{
+    font:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+img{
+    display:block;
+    max-width:100%;
+}
 
 .container{
-  width:min(calc(100% - 40px),var(--container));
-  margin:auto;
+    width:min(
+        calc(100% - 40px),
+        var(--container)
+    );
+
+    margin:auto;
 }
 
+/* =========================================================
+   BACKGROUND
+========================================================= */
+
 .page-glow{
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  z-index:-1;
-  overflow:hidden;
+
+    position:fixed;
+    inset:0;
+
+    pointer-events:none;
+
+    z-index:-1;
+
+    overflow:hidden;
 }
 
 .page-glow:before{
-  content:"";
-  position:absolute;
-  width:550px;height:550px;
-  top:-300px;right:-220px;
-  border-radius:50%;
-  border:1px solid rgba(229,199,125,.12);
-  box-shadow:
-    0 0 0 60px rgba(229,199,125,.025),
-    0 0 0 120px rgba(229,199,125,.015);
+
+    content:"";
+
+    position:absolute;
+
+    width:560px;
+    height:560px;
+
+    top:-310px;
+    right:-230px;
+
+    border-radius:50%;
+
+    border:1px solid
+        rgba(229,199,125,.13);
+
+    box-shadow:
+        0 0 0 60px
+            rgba(229,199,125,.025),
+        0 0 0 120px
+            rgba(229,199,125,.015),
+        0 0 0 180px
+            rgba(229,199,125,.008);
 }
 
 .page-glow:after{
-  content:"";
-  position:absolute;
-  width:500px;height:500px;
-  bottom:-300px;left:-250px;
-  border-radius:50%;
-  border:1px solid rgba(255,255,255,.06);
+
+    content:"";
+
+    position:absolute;
+
+    width:520px;
+    height:520px;
+
+    bottom:-320px;
+    left:-260px;
+
+    border-radius:50%;
+
+    border:1px solid
+        rgba(255,255,255,.06);
+
+    box-shadow:
+        0 0 0 70px
+            rgba(255,255,255,.012);
 }
 
-/* HEADER */
+/* =========================================================
+   HEADER
+========================================================= */
 
 .site-header{
-  position:sticky;
-  top:0;
-  z-index:100;
-  border-bottom:1px solid rgba(229,199,125,.10);
-  background:rgba(7,19,14,.90);
-  backdrop-filter:blur(22px);
+
+    position:sticky;
+    top:0;
+
+    z-index:1000;
+
+    border-bottom:
+        1px solid
+        rgba(229,199,125,.13);
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(7,19,14,.96),
+            rgba(7,19,14,.87)
+        );
+
+    backdrop-filter:blur(24px);
+    -webkit-backdrop-filter:blur(24px);
 }
 
 .header-inner{
-  min-height:76px;
-  display:flex;
-  align-items:center;
-  gap:24px;
+
+    min-height:82px;
+
+    display:flex;
+    align-items:center;
+
+    gap:20px;
 }
+
+/* =========================================================
+   BRAND
+========================================================= */
 
 .brand{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  flex-shrink:0;
+
+    display:flex;
+    align-items:center;
+
+    gap:12px;
+
+    flex-shrink:0;
 }
 
-.brand-mark{
-  width:45px;height:45px;
-  display:grid;
-  place-items:center;
-  border-radius:14px;
-  color:#152116;
-  font-size:19px;
-  font-weight:1000;
-  background:linear-gradient(135deg,#f1dda5,#b98b3d);
-  box-shadow:0 10px 25px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.5);
+.brand-logo{
+
+    width:47px;
+    height:47px;
+
+    display:grid;
+    place-items:center;
+
+    overflow:hidden;
+
+    border-radius:14px;
+
+    border:
+        1px solid
+        rgba(229,199,125,.28);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(229,199,125,.15),
+            rgba(255,255,255,.04)
+        );
+
+    box-shadow:
+        0 10px 28px rgba(0,0,0,.25),
+        inset 0 1px 0
+            rgba(255,255,255,.08);
+}
+
+.brand-logo img{
+
+    width:100%;
+    height:100%;
+
+    object-fit:contain;
+
+    padding:5px;
+}
+
+.brand-logo-fallback{
+
+    width:100%;
+    height:100%;
+
+    display:grid;
+    place-items:center;
+
+    color:#172016;
+
+    font-size:20px;
+    font-weight:1000;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f1dda5,
+            #b98b3d
+        );
 }
 
 .brand-text strong{
-  display:block;
-  font-size:17px;
-  letter-spacing:.17em;
+
+    display:block;
+
+    color:var(--cream);
+
+    font-size:17px;
+    font-weight:950;
+
+    letter-spacing:.17em;
 }
 
 .brand-text span{
-  display:block;
-  margin-top:2px;
-  color:var(--muted-2);
-  font-size:8px;
-  font-weight:800;
-  letter-spacing:.16em;
-  text-transform:uppercase;
+
+    display:block;
+
+    margin-top:3px;
+
+    color:var(--muted-2);
+
+    font-size:8px;
+    font-weight:800;
+
+    letter-spacing:.15em;
+
+    text-transform:uppercase;
 }
 
+/* =========================================================
+   NAV
+========================================================= */
+
 .desktop-nav{
-  display:flex;
-  align-items:center;
-  gap:5px;
-  margin-left:auto;
+
+    display:flex;
+    align-items:center;
+
+    gap:2px;
+
+    margin-left:auto;
 }
 
 .desktop-nav a{
-  padding:10px 12px;
-  border-radius:10px;
-  color:var(--muted);
-  font-size:11px;
-  font-weight:700;
-  transition:.2s ease;
+
+    position:relative;
+
+    padding:11px 10px;
+
+    border-radius:10px;
+
+    color:var(--muted);
+
+    font-size:10px;
+    font-weight:750;
+
+    transition:.2s ease;
 }
 
-.desktop-nav a:hover,
-.desktop-nav a.active{
-  color:var(--gold-200);
-  background:rgba(229,199,125,.07);
+.desktop-nav a:hover{
+
+    color:var(--gold-200);
+
+    background:
+        rgba(229,199,125,.07);
 }
+
+.desktop-nav a.active{
+
+    color:var(--gold-200);
+
+    background:
+        rgba(229,199,125,.09);
+}
+
+.desktop-nav a.active:after{
+
+    content:"";
+
+    position:absolute;
+
+    left:12px;
+    right:12px;
+
+    bottom:3px;
+
+    height:2px;
+
+    border-radius:10px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            var(--gold-300),
+            transparent
+        );
+}
+
+/* =========================================================
+   HEADER ACTIONS
+========================================================= */
 
 .header-actions{
-  display:flex;
-  align-items:center;
-  gap:8px;
+
+    display:flex;
+    align-items:center;
+
+    gap:8px;
+
+    margin-left:4px;
 }
 
 .icon-btn{
-  width:41px;height:41px;
-  display:grid;
-  place-items:center;
-  border:1px solid var(--border-light);
-  border-radius:12px;
-  color:var(--muted);
-  background:rgba(255,255,255,.035);
-  transition:.2s ease;
+
+    width:41px;
+    height:41px;
+
+    display:grid;
+    place-items:center;
+
+    border:
+        1px solid
+        var(--border-light);
+
+    border-radius:12px;
+
+    color:var(--muted);
+
+    background:
+        rgba(255,255,255,.035);
+
+    transition:.2s ease;
 }
 
 .icon-btn:hover{
-  color:var(--gold-200);
-  border-color:rgba(229,199,125,.25);
+
+    color:var(--gold-200);
+
+    border-color:
+        rgba(229,199,125,.30);
+
+    background:
+        rgba(229,199,125,.06);
+
+    transform:translateY(-1px);
 }
 
-.avatar{
-  width:40px;height:40px;
-  display:grid;
-  place-items:center;
-  border-radius:50%;
-  color:#172016;
-  font-size:12px;
-  font-weight:1000;
-  background:linear-gradient(135deg,var(--gold-200),var(--gold-500));
+.notification-wrap{
+    position:relative;
 }
 
-.mobile-menu{display:none}
+.notification-dot{
 
-/* HERO */
+    position:absolute;
 
-.hero{
-  padding:48px 0 28px;
+    width:7px;
+    height:7px;
+
+    top:7px;
+    right:7px;
+
+    border-radius:50%;
+
+    background:var(--gold-300);
+
+    box-shadow:
+        0 0 0 3px var(--green-900);
 }
 
-.hero-panel{
-  position:relative;
-  overflow:hidden;
-  padding:45px;
-  border:1px solid var(--border);
-  border-radius:var(--radius-xl);
-  background:
-    radial-gradient(circle at 90% 0%,rgba(229,199,125,.14),transparent 30%),
-    radial-gradient(circle at 0% 100%,rgba(44,91,69,.30),transparent 38%),
-    linear-gradient(145deg,#0a1a12,#10251b 55%,#142d22);
-  box-shadow:var(--shadow);
+/* =========================================================
+   PROFILE
+========================================================= */
+
+.profile-menu{
+
+    min-height:43px;
+
+    display:flex;
+    align-items:center;
+
+    gap:9px;
+
+    padding:3px 8px 3px 4px;
+
+    border:
+        1px solid
+        var(--border-light);
+
+    border-radius:25px;
+
+    background:
+        rgba(255,255,255,.035);
+
+    transition:.2s ease;
 }
 
-.hero-panel:after{
-  content:"";
-  position:absolute;
-  width:360px;height:360px;
-  right:-220px;bottom:-220px;
-  border:1px solid rgba(229,199,125,.12);
-  border-radius:50%;
-  box-shadow:
-    0 0 0 45px rgba(229,199,125,.02),
-    0 0 0 90px rgba(229,199,125,.015);
+.profile-menu:hover{
+
+    border-color:
+        rgba(229,199,125,.28);
+
+    background:
+        rgba(229,199,125,.055);
+}
+
+.profile-menu img{
+
+    width:35px;
+    height:35px;
+
+    object-fit:cover;
+
+    border-radius:50%;
+
+    border:
+        1px solid
+        rgba(229,199,125,.32);
+}
+
+.profile-info{
+    min-width:65px;
+}
+
+.profile-info strong{
+
+    display:block;
+
+    max-width:100px;
+
+    overflow:hidden;
+
+    color:var(--cream);
+
+    font-size:9px;
+    font-weight:900;
+
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
+
+.profile-info small{
+
+    display:block;
+
+    margin-top:2px;
+
+    color:var(--muted-2);
+
+    font-size:7px;
+}
+
+.profile-arrow{
+    color:var(--muted-2);
+    font-size:12px;
+}
+
+.mobile-menu{
+    display:none;
+}
+
+/* =========================================================
+   PAGE
+========================================================= */
+
+.page{
+    padding:43px 0 25px;
+}
+
+.page-heading{
+
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+
+    gap:25px;
+
+    margin-bottom:25px;
 }
 
 .eyebrow{
-  color:var(--gold-300);
-  font-size:10px;
-  font-weight:950;
-  letter-spacing:.18em;
-  text-transform:uppercase;
+
+    color:var(--gold-300);
+
+    font-size:10px;
+    font-weight:950;
+
+    letter-spacing:.18em;
+
+    text-transform:uppercase;
 }
 
-.hero h1{
-  max-width:850px;
-  margin-top:12px;
-  color:var(--cream);
-  font-size:clamp(38px,5vw,62px);
-  line-height:1;
-  letter-spacing:-.055em;
+.page-heading h1{
+
+    margin-top:9px;
+
+    font-size:
+        clamp(35px,5vw,58px);
+
+    line-height:1;
+
+    letter-spacing:-.055em;
 }
 
-.hero h1 span{color:var(--gold-300)}
+.page-heading p{
 
-.hero-description{
-  max-width:760px;
-  margin-top:18px;
-  color:var(--muted);
-  font-size:14px;
-  line-height:1.75;
+    max-width:760px;
+
+    margin-top:13px;
+
+    color:var(--muted);
+
+    font-size:12px;
+
+    line-height:1.75;
 }
 
-.hero-search{
-  position:relative;
-  z-index:2;
-  display:flex;
-  gap:9px;
-  max-width:700px;
-  margin-top:25px;
+.heading-actions{
+
+    display:flex;
+
+    gap:8px;
+
+    flex-wrap:wrap;
 }
 
-.hero-search input{
-  flex:1;
-  min-width:0;
-  height:50px;
-  padding:0 16px;
-  border:1px solid rgba(255,255,255,.10);
-  border-radius:12px;
-  outline:none;
-  color:var(--cream);
-  background:rgba(255,255,255,.045);
-}
-
-.hero-search input:focus{
-  border-color:rgba(229,199,125,.45);
-}
+/* =========================================================
+   BUTTONS
+========================================================= */
 
 .btn{
-  min-height:45px;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap:8px;
-  padding:0 17px;
-  border-radius:12px;
-  border:1px solid transparent;
-  font-size:11px;
-  font-weight:900;
-  transition:.2s ease;
+
+    min-height:43px;
+
+    display:inline-flex;
+
+    align-items:center;
+    justify-content:center;
+
+    gap:8px;
+
+    padding:0 16px;
+
+    border:
+        1px solid
+        transparent;
+
+    border-radius:11px;
+
+    font-size:10px;
+    font-weight:900;
+
+    transition:.2s ease;
 }
 
 .btn-primary{
-  color:#17170f;
-  background:linear-gradient(135deg,#f1dca1,#cda85d);
-  box-shadow:0 10px 25px rgba(0,0,0,.18);
+
+    color:#17170f;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f1dca1,
+            #cda85d
+        );
+
+    box-shadow:
+        0 8px 22px rgba(0,0,0,.12);
 }
 
-.btn-primary:hover{transform:translateY(-2px)}
+.btn-primary:hover{
+    transform:translateY(-2px);
+}
 
 .btn-secondary{
-  color:var(--cream);
-  border-color:var(--border-light);
-  background:rgba(255,255,255,.045);
+
+    color:var(--cream);
+
+    border-color:
+        var(--border-light);
+
+    background:
+        rgba(255,255,255,.045);
 }
 
 .btn-secondary:hover{
-  color:var(--gold-200);
-  border-color:rgba(229,199,125,.25);
+
+    color:var(--gold-200);
+
+    border-color:
+        rgba(229,199,125,.30);
 }
 
-/* MAIN GRID */
+/* =========================================================
+   SUPPORT HERO
+========================================================= */
 
-.section{padding:24px 0}
+.support-hero{
 
-.section-heading{
-  display:flex;
-  align-items:flex-end;
-  justify-content:space-between;
-  gap:15px;
-  margin-bottom:16px;
+    position:relative;
+
+    overflow:hidden;
+
+    padding:27px;
+
+    margin-bottom:20px;
+
+    border:
+        1px solid
+        rgba(229,199,125,.18);
+
+    border-radius:var(--radius-xl);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(30,65,49,.96),
+            rgba(11,28,20,.97)
+        );
+
+    box-shadow:
+        0 18px 55px rgba(0,0,0,.16);
 }
 
-.section-heading h2{
-  font-size:23px;
-  letter-spacing:-.035em;
+.support-hero:before{
+
+    content:"";
+
+    position:absolute;
+
+    width:390px;
+    height:390px;
+
+    right:-180px;
+    top:-250px;
+
+    border-radius:50%;
+
+    border:
+        1px solid
+        rgba(229,199,125,.16);
+
+    box-shadow:
+        0 0 0 65px
+            rgba(229,199,125,.025),
+        0 0 0 130px
+            rgba(229,199,125,.012);
 }
 
-.section-heading p{
-  margin-top:5px;
-  color:var(--muted-2);
-  font-size:10px;
+.support-hero-content{
+
+    position:relative;
+
+    z-index:1;
 }
 
-.support-layout{
-  display:grid;
-  grid-template-columns:1.2fr .8fr;
-  gap:16px;
+.hero-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        minmax(0,1fr)
+        340px;
+
+    gap:22px;
+
+    align-items:center;
 }
 
-/* CARDS */
+.support-badge{
 
-.panel{
-  padding:22px;
-  border:1px solid var(--border-light);
-  border-radius:var(--radius-lg);
-  background:linear-gradient(145deg,rgba(20,45,34,.95),rgba(11,28,20,.95));
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:7px;
+
+    padding:7px 10px;
+
+    border:
+        1px solid
+        rgba(229,199,125,.20);
+
+    border-radius:999px;
+
+    color:var(--gold-200);
+
+    background:
+        rgba(229,199,125,.055);
+
+    font-size:7px;
+    font-weight:950;
+
+    letter-spacing:.11em;
+
+    text-transform:uppercase;
 }
 
-.panel-title{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-  margin-bottom:17px;
+.support-badge-dot{
+
+    width:6px;
+    height:6px;
+
+    border-radius:50%;
+
+    background:var(--success);
+
+    box-shadow:
+        0 0 0 4px
+        rgba(130,201,149,.08);
 }
 
-.panel-title h3{font-size:16px}
+.support-hero h2{
 
-.panel-title span{
-  color:var(--muted-2);
-  font-size:9px;
+    margin-top:13px;
+
+    max-width:700px;
+
+    font-size:
+        clamp(24px,3.4vw,40px);
+
+    line-height:1.05;
+
+    letter-spacing:-.04em;
 }
 
-/* SUPPORT CATEGORIES */
+.support-hero p{
 
-.category-grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:10px;
+    max-width:680px;
+
+    margin-top:12px;
+
+    color:var(--muted);
+
+    font-size:10px;
+
+    line-height:1.8;
 }
 
-.category-card{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  padding:15px;
-  border:1px solid rgba(255,255,255,.07);
-  border-radius:14px;
-  color:var(--text);
-  background:rgba(255,255,255,.025);
-  transition:.2s ease;
+.support-actions{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:8px;
+
+    margin-top:18px;
 }
 
-.category-card:hover{
-  transform:translateY(-2px);
-  border-color:rgba(229,199,125,.25);
-  background:rgba(229,199,125,.05);
+.support-contact-card{
+
+    position:relative;
+
+    padding:19px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.09);
+
+    border-radius:18px;
+
+    background:
+        rgba(7,19,14,.36);
+
+    backdrop-filter:blur(12px);
 }
 
-.category-icon{
-  width:40px;height:40px;
-  flex:0 0 40px;
-  display:grid;
-  place-items:center;
-  border-radius:12px;
-  color:var(--gold-300);
-  background:rgba(229,199,125,.08);
-  font-size:16px;
+.support-contact-card h3{
+
+    font-size:11px;
+    font-weight:950;
 }
 
-.category-text strong{
-  display:block;
-  font-size:10px;
+.support-contact-card p{
+
+    margin-top:6px;
+
+    color:var(--muted-2);
+
+    font-size:8px;
+
+    line-height:1.6;
 }
 
-.category-text span{
-  display:block;
-  margin-top:4px;
-  color:var(--muted-2);
-  font-size:8px;
-  line-height:1.4;
-}
+.contact-item{
 
-/* FAQ */
+    display:flex;
 
-.faq-list{
-  display:grid;
-  gap:8px;
-}
+    align-items:center;
 
-.faq-item{
-  overflow:hidden;
-  border:1px solid rgba(255,255,255,.07);
-  border-radius:12px;
-  background:rgba(255,255,255,.025);
-}
+    gap:10px;
 
-.faq-question{
-  width:100%;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:15px;
-  padding:14px;
-  border:0;
-  color:var(--cream);
-  text-align:left;
-  background:transparent;
-  font-size:10px;
-  font-weight:800;
-}
+    margin-top:13px;
 
-.faq-question span:last-child{
-  color:var(--gold-300);
-  font-size:15px;
-}
+    padding-top:12px;
 
-.faq-answer{
-  display:none;
-  padding:0 14px 15px;
-  color:var(--muted-2);
-  font-size:9px;
-  line-height:1.65;
-}
-
-.faq-item.open .faq-answer{display:block}
-
-.faq-item.open .faq-question{
-  color:var(--gold-200);
-}
-
-/* CONTACT PANEL */
-
-.contact-list{
-  display:grid;
-  gap:9px;
-}
-
-.contact-card{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  padding:13px;
-  border:1px solid rgba(255,255,255,.07);
-  border-radius:12px;
-  background:rgba(255,255,255,.025);
+    border-top:
+        1px solid
+        rgba(255,255,255,.06);
 }
 
 .contact-icon{
-  width:38px;height:38px;
-  display:grid;
-  place-items:center;
-  border-radius:11px;
-  color:var(--gold-300);
-  background:rgba(229,199,125,.08);
+
+    width:34px;
+    height:34px;
+
+    display:grid;
+    place-items:center;
+
+    flex-shrink:0;
+
+    border-radius:10px;
+
+    color:var(--gold-300);
+
+    background:
+        rgba(229,199,125,.08);
+
+    font-size:14px;
 }
 
-.contact-card strong{
-  display:block;
-  font-size:10px;
+.contact-item span{
+
+    display:block;
+
+    color:var(--muted-2);
+
+    font-size:7px;
 }
 
-.contact-card span{
-  display:block;
-  margin-top:3px;
-  color:var(--muted-2);
-  font-size:8px;
+.contact-item strong{
+
+    display:block;
+
+    margin-top:2px;
+
+    color:var(--cream);
+
+    font-size:8px;
 }
 
-/* TICKET */
+/* =========================================================
+   SECTION HEAD
+========================================================= */
 
-.ticket-panel{
-  position:relative;
-  overflow:hidden;
+.section-heading{
+
+    display:flex;
+
+    align-items:flex-end;
+    justify-content:space-between;
+
+    gap:15px;
+
+    margin:
+        25px 0 12px;
 }
 
-.ticket-panel:before{
-  content:"";
-  position:absolute;
-  width:180px;height:180px;
-  right:-100px;top:-100px;
-  border-radius:50%;
-  border:1px solid rgba(229,199,125,.10);
+.section-heading h2{
+
+    font-size:18px;
+    font-weight:950;
+
+    letter-spacing:-.025em;
 }
 
-.ticket-form{
-  display:grid;
-  gap:10px;
+.section-heading p{
+
+    margin-top:4px;
+
+    color:var(--muted-2);
+
+    font-size:8px;
+
+    line-height:1.5;
 }
 
-.field{
-  display:grid;
-  gap:6px;
+.section-link{
+
+    color:var(--gold-300);
+
+    font-size:8px;
+    font-weight:900;
 }
 
-.field label{
-  color:var(--muted);
-  font-size:9px;
-  font-weight:800;
+/* =========================================================
+   SUPPORT CATEGORIES
+========================================================= */
+
+.support-categories{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(4,minmax(0,1fr));
+
+    gap:12px;
 }
 
-.field input,
-.field select,
-.field textarea{
-  width:100%;
-  border:1px solid rgba(255,255,255,.08);
-  border-radius:11px;
-  outline:none;
-  color:var(--cream);
-  background:rgba(255,255,255,.045);
+.support-category{
+
+    min-height:154px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    padding:17px;
+
+    border:
+        1px solid
+        var(--border-light);
+
+    border-radius:var(--radius-lg);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(20,45,34,.94),
+            rgba(11,28,20,.94)
+        );
+
+    transition:.22s ease;
 }
 
-.field input,
-.field select{
-  height:43px;
-  padding:0 12px;
+.support-category:hover{
+
+    transform:translateY(-3px);
+
+    border-color:
+        rgba(229,199,125,.27);
+
+    box-shadow:
+        0 18px 45px rgba(0,0,0,.18);
 }
 
-.field textarea{
-  min-height:105px;
-  padding:12px;
-  resize:vertical;
+.category-icon{
+
+    width:42px;
+    height:42px;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:12px;
+
+    color:var(--gold-300);
+
+    background:
+        rgba(229,199,125,.08);
+
+    border:
+        1px solid
+        rgba(229,199,125,.10);
+
+    font-size:17px;
 }
 
-.field input:focus,
-.field select:focus,
-.field textarea:focus{
-  border-color:rgba(229,199,125,.45);
+.support-category h3{
+
+    margin-top:13px;
+
+    color:var(--cream);
+
+    font-size:11px;
+    font-weight:950;
 }
 
-.field select option{
-  color:#17231c;
+.support-category p{
+
+    margin-top:6px;
+
+    color:var(--muted-2);
+
+    font-size:8px;
+
+    line-height:1.6;
+}
+
+.category-link{
+
+    margin-top:auto;
+    padding-top:12px;
+
+    color:var(--gold-300);
+
+    font-size:8px;
+    font-weight:900;
+}
+
+/* =========================================================
+   MAIN SUPPORT GRID
+========================================================= */
+
+.support-main{
+
+    display:grid;
+
+    grid-template-columns:
+        minmax(0,1.5fr)
+        minmax(280px,.8fr);
+
+    gap:16px;
+
+    align-items:start;
+}
+
+/* =========================================================
+   PANEL
+========================================================= */
+
+.panel{
+
+    padding:19px;
+
+    border:
+        1px solid
+        var(--border-light);
+
+    border-radius:var(--radius-lg);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(20,45,34,.94),
+            rgba(11,28,20,.94)
+        );
+}
+
+.panel-title-row{
+
+    display:flex;
+
+    align-items:flex-start;
+    justify-content:space-between;
+
+    gap:15px;
+
+    padding-bottom:14px;
+
+    border-bottom:
+        1px solid
+        rgba(255,255,255,.06);
+}
+
+.panel-title{
+
+    color:var(--cream);
+
+    font-size:13px;
+    font-weight:950;
+}
+
+.panel-hint{
+
+    margin-top:4px;
+
+    color:var(--muted-2);
+
+    font-size:8px;
+
+    line-height:1.6;
+}
+
+/* =========================================================
+   TICKETS
+========================================================= */
+
+.ticket-list{
+
+    display:grid;
+
+    gap:9px;
+
+    margin-top:13px;
+}
+
+.ticket-card{
+
+    display:grid;
+
+    grid-template-columns:
+        1fr auto;
+
+    gap:15px;
+
+    padding:14px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.07);
+
+    border-radius:13px;
+
+    background:
+        rgba(255,255,255,.025);
+
+    transition:.2s ease;
+}
+
+.ticket-card:hover{
+
+    border-color:
+        rgba(229,199,125,.18);
+
+    background:
+        rgba(229,199,125,.035);
+}
+
+.ticket-number{
+
+    color:var(--gold-300);
+
+    font-size:7px;
+    font-weight:950;
+
+    letter-spacing:.1em;
+
+    text-transform:uppercase;
+}
+
+.ticket-title{
+
+    margin-top:5px;
+
+    color:var(--cream);
+
+    font-size:10px;
+    font-weight:900;
+}
+
+.ticket-meta{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:6px;
+
+    margin-top:7px;
+}
+
+.ticket-chip{
+
+    padding:5px 7px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.07);
+
+    border-radius:7px;
+
+    color:var(--muted-2);
+
+    background:
+        rgba(255,255,255,.025);
+
+    font-size:7px;
+}
+
+.ticket-status{
+
+    align-self:start;
+
+    padding:6px 8px;
+
+    border-radius:8px;
+
+    font-size:7px;
+    font-weight:900;
+}
+
+.ticket-status.open{
+
+    color:var(--warning);
+
+    background:
+        rgba(230,196,119,.09);
+
+    border:
+        1px solid
+        rgba(230,196,119,.16);
+}
+
+.ticket-status.progress{
+
+    color:var(--blue);
+
+    background:
+        rgba(145,185,232,.09);
+
+    border:
+        1px solid
+        rgba(145,185,232,.16);
+}
+
+.ticket-status.resolved{
+
+    color:var(--success);
+
+    background:
+        rgba(130,201,149,.09);
+
+    border:
+        1px solid
+        rgba(130,201,149,.16);
+}
+
+.ticket-status.closed{
+
+    color:var(--muted-2);
+
+    background:
+        rgba(255,255,255,.045);
+
+    border:
+        1px solid
+        rgba(255,255,255,.07);
+}
+
+.empty-tickets{
+
+    padding:35px 18px;
+
+    text-align:center;
+
+    color:var(--muted-2);
+
+    border:
+        1px dashed
+        rgba(229,199,125,.17);
+
+    border-radius:13px;
+
+    background:
+        rgba(255,255,255,.02);
+}
+
+.empty-tickets-icon{
+
+    width:44px;
+    height:44px;
+
+    margin:auto;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:13px;
+
+    color:var(--gold-300);
+
+    background:
+        rgba(229,199,125,.07);
+
+    font-size:17px;
+}
+
+.empty-tickets h3{
+
+    margin-top:10px;
+
+    color:var(--cream);
+
+    font-size:11px;
+}
+
+.empty-tickets p{
+
+    max-width:400px;
+
+    margin:6px auto 13px;
+
+    font-size:8px;
+
+    line-height:1.6;
+}
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.form-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(2,minmax(0,1fr));
+
+    gap:11px;
+
+    margin-top:15px;
+}
+
+.form-group.full{
+    grid-column:1/-1;
+}
+
+.form-label{
+
+    display:block;
+
+    margin-bottom:6px;
+
+    color:var(--muted-2);
+
+    font-size:7px;
+    font-weight:850;
+
+    letter-spacing:.08em;
+
+    text-transform:uppercase;
+}
+
+.input,
+.select,
+.textarea{
+
+    width:100%;
+
+    outline:none;
+
+    color:var(--cream);
+
+    border:
+        1px solid
+        rgba(255,255,255,.09);
+
+    border-radius:10px;
+
+    background:
+        rgba(255,255,255,.035);
+
+    transition:.2s ease;
+}
+
+.input,
+.select{
+
+    height:42px;
+
+    padding:0 11px;
+
+    font-size:9px;
+}
+
+.textarea{
+
+    min-height:115px;
+
+    padding:12px;
+
+    resize:vertical;
+
+    font-size:9px;
+
+    line-height:1.6;
+}
+
+.input::placeholder,
+.textarea::placeholder{
+
+    color:
+        rgba(255,255,255,.38);
+}
+
+.select option{
+    color:#172016;
+}
+
+.input:focus,
+.select:focus,
+.textarea:focus{
+
+    border-color:
+        rgba(229,199,125,.45);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(229,199,125,.04);
+}
+
+.form-help{
+
+    margin-top:5px;
+
+    color:var(--muted-2);
+
+    font-size:7px;
 }
 
 .form-actions{
-  display:flex;
-  gap:8px;
-  flex-wrap:wrap;
-  margin-top:3px;
+
+    display:flex;
+
+    justify-content:flex-end;
+
+    gap:8px;
+
+    margin-top:13px;
 }
 
-.form-message{
-  display:none;
-  padding:10px 12px;
-  border-radius:10px;
-  color:var(--success);
-  background:rgba(130,201,149,.07);
-  font-size:9px;
+/* =========================================================
+   SUPPORT STATUS
+========================================================= */
+
+.status-panel{
+
+    margin-top:16px;
 }
 
-/* STATUS */
+.status-list{
 
-.status-card{
-  margin-top:16px;
-  padding:20px;
-  border:1px solid rgba(229,199,125,.17);
-  border-radius:var(--radius-lg);
-  background:
-    radial-gradient(circle at 100% 0%,rgba(229,199,125,.11),transparent 40%),
-    linear-gradient(145deg,#18382b,#0c1f16);
+    display:grid;
+
+    gap:9px;
+
+    margin-top:13px;
 }
 
-.status-card h3{
-  font-size:16px;
+.status-item{
+
+    display:flex;
+
+    align-items:flex-start;
+
+    gap:10px;
+
+    padding:11px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.06);
+
+    border-radius:11px;
+
+    background:
+        rgba(255,255,255,.025);
 }
 
-.status-card p{
-  margin-top:7px;
-  color:var(--muted-2);
-  font-size:9px;
-  line-height:1.6;
+.status-icon{
+
+    width:29px;
+    height:29px;
+
+    display:grid;
+    place-items:center;
+
+    flex-shrink:0;
+
+    border-radius:9px;
+
+    color:var(--gold-300);
+
+    background:
+        rgba(229,199,125,.07);
+
+    font-size:11px;
 }
 
-.status-number{
-  margin-top:15px;
-  color:var(--gold-300);
-  font-size:22px;
-  font-weight:950;
+.status-item strong{
+
+    display:block;
+
+    color:var(--cream);
+
+    font-size:8px;
 }
 
-/* AI */
+.status-item span{
 
-.ai-card{
-  margin-top:16px;
-  padding:22px;
-  border:1px solid rgba(229,199,125,.20);
-  border-radius:var(--radius-lg);
-  background:
-    radial-gradient(circle at 100% 0%,rgba(229,199,125,.13),transparent 38%),
-    linear-gradient(145deg,#18382b,#0c1f16);
+    display:block;
+
+    margin-top:3px;
+
+    color:var(--muted-2);
+
+    font-size:7px;
+
+    line-height:1.5;
 }
 
-.ai-badge{
-  display:inline-flex;
-  align-items:center;
-  gap:6px;
-  padding:6px 8px;
-  border-radius:7px;
-  color:#182016;
-  background:var(--gold-300);
-  font-size:8px;
-  font-weight:1000;
+/* =========================================================
+   FAQ
+========================================================= */
+
+.faq-list{
+
+    display:grid;
+
+    gap:7px;
+
+    margin-top:13px;
 }
 
-.ai-card h3{
-  margin-top:13px;
-  font-size:20px;
-  line-height:1.15;
+.faq-item{
+
+    border:
+        1px solid
+        rgba(255,255,255,.07);
+
+    border-radius:11px;
+
+    background:
+        rgba(255,255,255,.025);
+
+    overflow:hidden;
 }
 
-.ai-card p{
-  margin-top:8px;
-  color:var(--muted);
-  font-size:9px;
-  line-height:1.6;
+.faq-question{
+
+    width:100%;
+
+    min-height:43px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:space-between;
+
+    gap:12px;
+
+    padding:0 12px;
+
+    border:0;
+
+    color:var(--cream);
+
+    background:transparent;
+
+    text-align:left;
+
+    font-size:8px;
+    font-weight:850;
 }
 
-.ai-actions{
-  display:grid;
-  gap:7px;
-  margin-top:15px;
+.faq-question span:last-child{
+
+    color:var(--gold-300);
+
+    font-size:13px;
 }
 
-.ai-action{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  width:100%;
-  padding:10px;
-  border:1px solid rgba(255,255,255,.07);
-  border-radius:10px;
-  color:var(--muted);
-  background:rgba(255,255,255,.03);
-  font-size:9px;
-  font-weight:700;
-  text-align:left;
+.faq-answer{
+
+    display:none;
+
+    padding:
+        0 12px
+        12px;
+
+    color:var(--muted-2);
+
+    font-size:8px;
+
+    line-height:1.7;
 }
 
-.ai-action:hover{
-  color:var(--gold-200);
-  border-color:rgba(229,199,125,.20);
+.faq-item.open .faq-answer{
+    display:block;
 }
 
-/* FOOTER */
+/* =========================================================
+   AI SUPPORT CARD
+========================================================= */
+
+.ai-support-card{
+
+    position:relative;
+
+    overflow:hidden;
+
+    padding:20px;
+
+    margin-top:16px;
+
+    border:
+        1px solid
+        rgba(229,199,125,.20);
+
+    border-radius:var(--radius-lg);
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(39,78,60,.92),
+            rgba(14,33,24,.96)
+        );
+}
+
+.ai-support-card:after{
+
+    content:"✦";
+
+    position:absolute;
+
+    right:18px;
+    top:10px;
+
+    color:
+        rgba(229,199,125,.12);
+
+    font-size:72px;
+
+    line-height:1;
+}
+
+.ai-support-card h3{
+
+    position:relative;
+    z-index:1;
+
+    font-size:13px;
+}
+
+.ai-support-card p{
+
+    position:relative;
+    z-index:1;
+
+    margin-top:6px;
+
+    max-width:430px;
+
+    color:var(--muted);
+
+    font-size:8px;
+
+    line-height:1.7;
+}
+
+.ai-support-card .btn{
+
+    position:relative;
+    z-index:1;
+
+    margin-top:13px;
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
 
 .site-footer{
-  margin-top:45px;
-  padding:35px 0 25px;
-  border-top:1px solid rgba(255,255,255,.07);
-  background:rgba(3,12,8,.35);
+
+    position:relative;
+
+    margin-top:55px;
+
+    padding:48px 0 25px;
+
+    border-top:
+        1px solid
+        rgba(229,199,125,.12);
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(3,12,8,.38),
+            rgba(3,12,8,.84)
+        );
+}
+
+.footer-top-line{
+
+    height:1px;
+
+    width:100%;
+
+    margin-bottom:35px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(229,199,125,.22),
+            transparent
+        );
 }
 
 .footer-grid{
-  display:grid;
-  grid-template-columns:1.4fr repeat(3,1fr);
-  gap:25px;
+
+    display:grid;
+
+    grid-template-columns:
+        1.6fr
+        repeat(4,1fr);
+
+    gap:30px;
 }
 
-.footer-brand{max-width:300px}
+.footer-brand{
+    max-width:350px;
+}
+
+.footer-brand .brand-logo{
+
+    width:43px;
+    height:43px;
+}
 
 .footer-brand p{
-  margin-top:10px;
-  color:var(--muted-2);
-  font-size:9px;
-  line-height:1.7;
+
+    margin-top:14px;
+
+    color:var(--muted-2);
+
+    font-size:9px;
+
+    line-height:1.85;
+}
+
+.footer-trust{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:6px;
+
+    margin-top:15px;
+}
+
+.trust-pill{
+
+    padding:6px 9px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.07);
+
+    border-radius:7px;
+
+    color:var(--muted-2);
+
+    background:
+        rgba(255,255,255,.025);
+
+    font-size:7px;
+    font-weight:800;
 }
 
 .footer-col h4{
-  color:var(--gold-200);
-  font-size:9px;
-  letter-spacing:.1em;
-  text-transform:uppercase;
+
+    color:var(--gold-200);
+
+    font-size:9px;
+
+    letter-spacing:.1em;
+
+    text-transform:uppercase;
 }
 
 .footer-col a{
-  display:block;
-  margin-top:9px;
-  color:var(--muted-2);
-  font-size:9px;
+
+    display:block;
+
+    margin-top:11px;
+
+    color:var(--muted-2);
+
+    font-size:9px;
+
+    transition:.2s ease;
 }
 
-.footer-col a:hover{color:var(--gold-300)}
+.footer-col a:hover{
+
+    color:var(--gold-300);
+
+    transform:translateX(2px);
+}
+
+.footer-contact{
+
+    display:flex;
+    align-items:center;
+
+    gap:8px;
+
+    margin-top:18px;
+    padding-top:14px;
+
+    border-top:
+        1px solid
+        rgba(255,255,255,.06);
+}
+
+.footer-contact-icon{
+
+    width:30px;
+    height:30px;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:9px;
+
+    color:var(--gold-300);
+
+    background:
+        rgba(229,199,125,.07);
+}
+
+.footer-contact-text span{
+
+    display:block;
+
+    color:var(--muted-2);
+
+    font-size:7px;
+}
+
+.footer-contact-text strong{
+
+    display:block;
+
+    margin-top:2px;
+
+    color:var(--cream);
+
+    font-size:8px;
+}
 
 .footer-bottom{
-  display:flex;
-  justify-content:space-between;
-  gap:15px;
-  margin-top:28px;
-  padding-top:17px;
-  border-top:1px solid rgba(255,255,255,.06);
-  color:var(--muted-2);
-  font-size:8px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    gap:15px;
+
+    margin-top:32px;
+    padding-top:19px;
+
+    border-top:
+        1px solid
+        rgba(255,255,255,.06);
+
+    color:var(--muted-2);
+
+    font-size:8px;
 }
 
-/* FLOATING AI */
+/* =========================================================
+   AI FLOATING
+========================================================= */
 
 .ai-floating{
-  position:fixed;
-  right:22px;
-  bottom:22px;
-  z-index:90;
-  min-height:48px;
-  display:flex;
-  align-items:center;
-  gap:8px;
-  padding:0 16px;
-  border:1px solid rgba(229,199,125,.25);
-  border-radius:30px;
-  color:#17170f;
-  background:linear-gradient(135deg,var(--gold-200),var(--gold-400));
-  box-shadow:0 15px 35px rgba(0,0,0,.3);
-  font-size:10px;
-  font-weight:1000;
+
+    position:fixed;
+
+    right:22px;
+    bottom:22px;
+
+    z-index:900;
+
+    min-height:50px;
+
+    display:flex;
+    align-items:center;
+
+    gap:9px;
+
+    padding:0 18px;
+
+    border:
+        1px solid
+        rgba(229,199,125,.28);
+
+    border-radius:30px;
+
+    color:#17170f;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--gold-200),
+            var(--gold-400)
+        );
+
+    box-shadow:
+        0 15px 35px rgba(0,0,0,.30);
+
+    font-size:10px;
+    font-weight:1000;
+
+    transition:.2s ease;
 }
 
-/* RESPONSIVE */
+.ai-floating:hover{
+    transform:translateY(-3px);
+}
 
-@media(max-width:1100px){
-  .desktop-nav{display:none}
-  .mobile-menu{display:grid}
-  .support-layout{grid-template-columns:1fr}
+.ai-icon{
+
+    width:27px;
+    height:27px;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:50%;
+
+    background:
+        rgba(0,0,0,.10);
+}
+
+/* =========================================================
+   MOBILE NAV
+========================================================= */
+
+.mobile-nav-panel{
+
+    display:none;
+
+    position:fixed;
+
+    left:14px;
+    right:14px;
+    top:78px;
+
+    z-index:999;
+
+    padding:10px;
+
+    border:
+        1px solid
+        rgba(229,199,125,.17);
+
+    border-radius:18px;
+
+    background:
+        rgba(11,28,20,.98);
+
+    box-shadow:
+        0 25px 70px rgba(0,0,0,.45);
+
+    backdrop-filter:blur(22px);
+}
+
+.mobile-nav-panel.open{
+    display:block;
+}
+
+.mobile-nav-panel a{
+
+    display:flex;
+
+    align-items:center;
+    justify-content:space-between;
+
+    padding:13px 12px;
+
+    border-radius:10px;
+
+    color:var(--muted);
+
+    font-size:10px;
+    font-weight:750;
+}
+
+.mobile-nav-panel a:hover,
+.mobile-nav-panel a.active{
+
+    color:var(--gold-200);
+
+    background:
+        rgba(229,199,125,.07);
+}
+
+.mobile-profile{
+
+    display:flex;
+    align-items:center;
+
+    gap:10px;
+
+    margin-bottom:8px;
+    padding:10px;
+
+    border-bottom:
+        1px solid
+        rgba(255,255,255,.06);
+}
+
+.mobile-profile img{
+
+    width:38px;
+    height:38px;
+
+    border-radius:50%;
+
+    object-fit:cover;
+
+    border:
+        1px solid
+        rgba(229,199,125,.25);
+}
+
+.mobile-profile strong{
+
+    display:block;
+
+    color:var(--cream);
+
+    font-size:10px;
+}
+
+.mobile-profile span{
+
+    display:block;
+
+    margin-top:3px;
+
+    color:var(--muted-2);
+
+    font-size:7px;
+}
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+.toast{
+
+    position:fixed;
+
+    left:50%;
+    bottom:28px;
+
+    z-index:2000;
+
+    min-width:270px;
+    max-width:calc(100% - 30px);
+
+    padding:12px 15px;
+
+    transform:
+        translate(-50%,20px);
+
+    opacity:0;
+
+    pointer-events:none;
+
+    border:
+        1px solid
+        rgba(229,199,125,.22);
+
+    border-radius:12px;
+
+    color:var(--cream);
+
+    background:
+        rgba(11,28,20,.96);
+
+    box-shadow:
+        0 18px 55px rgba(0,0,0,.38);
+
+    font-size:8px;
+
+    transition:.25s ease;
+}
+
+.toast.show{
+
+    opacity:1;
+
+    transform:
+        translate(-50%,0);
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:1240px){
+
+    .desktop-nav{
+        display:none;
+    }
+
+    .mobile-menu{
+        display:grid;
+    }
+
+    .hero-grid{
+        grid-template-columns:1fr;
+    }
+
+    .support-main{
+        grid-template-columns:1fr;
+    }
+
+    .support-categories{
+        grid-template-columns:
+            repeat(2,minmax(0,1fr));
+    }
+
+    .footer-grid{
+        grid-template-columns:
+            1.5fr
+            repeat(3,1fr);
+    }
+}
+
+@media(max-width:1050px){
+
+    .profile-info,
+    .profile-arrow{
+        display:none;
+    }
+
+    .profile-menu{
+        padding:3px;
+
+        border-radius:50%;
+
+        border-color:transparent;
+
+        background:transparent;
+    }
+
+    .support-categories{
+        grid-template-columns:
+            repeat(2,minmax(0,1fr));
+    }
 }
 
 @media(max-width:800px){
-  .container{width:min(calc(100% - 28px),var(--container))}
-  .hero-panel{padding:30px}
-  .category-grid{grid-template-columns:1fr 1fr}
-  .footer-grid{grid-template-columns:1fr 1fr}
+
+    .container{
+
+        width:min(
+            calc(100% - 28px),
+            var(--container)
+        );
+    }
+
+    .page-heading{
+
+        align-items:flex-start;
+
+        flex-direction:column;
+    }
+
+    .support-hero{
+        padding:20px;
+    }
+
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+
+    .form-group.full{
+        grid-column:auto;
+    }
+
+    .footer-grid{
+        grid-template-columns:1fr 1fr;
+    }
 }
 
 @media(max-width:560px){
-  .header-inner{min-height:68px}
-  .brand-text span{display:none}
-  .header-actions .icon-btn:not(.mobile-menu){display:none}
-  .hero{padding-top:25px}
-  .hero-panel{padding:24px;border-radius:22px}
-  .hero h1{font-size:38px}
-  .hero-description{font-size:12px}
-  .hero-search{flex-direction:column}
-  .hero-search .btn{width:100%}
-  .category-grid{grid-template-columns:1fr}
-  .footer-grid{grid-template-columns:1fr}
-  .footer-bottom{flex-direction:column}
-  .ai-floating{right:14px;bottom:14px}
+
+    .header-inner{
+        min-height:68px;
+    }
+
+    .brand-text span{
+        display:none;
+    }
+
+    .header-actions
+    .notification-wrap{
+        display:none;
+    }
+
+    .brand-logo{
+
+        width:42px;
+        height:42px;
+
+        border-radius:12px;
+    }
+
+    .page{
+        padding-top:28px;
+    }
+
+    .support-categories{
+        grid-template-columns:1fr;
+    }
+
+    .support-main{
+        grid-template-columns:1fr;
+    }
+
+    .ticket-card{
+        grid-template-columns:1fr;
+    }
+
+    .ticket-status{
+        justify-self:start;
+    }
+
+    .support-actions .btn{
+        flex:1;
+    }
+
+    .section-heading{
+        align-items:flex-start;
+        flex-direction:column;
+    }
+
+    .footer-grid{
+        grid-template-columns:1fr;
+    }
+
+    .footer-bottom{
+        flex-direction:column;
+    }
+
+    .ai-floating{
+
+        right:14px;
+        bottom:14px;
+    }
+
+    .ai-floating .ai-text{
+        display:none;
+    }
+
+    .toast{
+        bottom:82px;
+    }
 }
+
 </style>
+
 </head>
 
 <body>
 
 <div class="page-glow"></div>
 
+<!-- =======================================================
+     HEADER
+======================================================= -->
+
 <header class="site-header">
-  <div class="container header-inner">
 
-    <a class="brand" href="/buyer/index.html" aria-label="GHAR Buyer Home">
-      <div class="brand-mark">G</div>
-      <div class="brand-text">
-        <strong>GHAR</strong>
-        <span>Buyer Experience</span>
-      </div>
-    </a>
+<div class="container header-inner">
 
-    <nav class="desktop-nav" id="buyerNav" aria-label="Buyer navigation">
-      <a href="/buyer/index.html">Home</a>
-      <a href="/properties.html">Properties</a>
-      <a href="/buyer/saved-properties.html">Saved</a>
-      <a href="/buyer/visits.html">Visits</a>
-      <a href="/buyer/offers.html">Offers</a>
-      <a href="/buyer/loans.html">Loans</a>
-      <a class="active" href="/buyer/support.html">Support</a>
-    </nav>
+<a
+    class="brand"
+    href="/buyer/index.html"
+    aria-label="GHAR Buyer Home"
+>
 
-    <div class="header-actions">
+<div class="brand-logo">
 
-      <button
-        class="icon-btn"
-        id="notificationButton"
-        type="button"
-        aria-label="Notifications">
-        ♢
-      </button>
+<img
+    src="../assets/images/logo/ghar-logo-light.svg"
+    alt="GHAR"
+    onerror="
+        this.style.display='none';
+        this.nextElementSibling.style.display='grid';
+    "
+>
 
-      <a
-        class="avatar"
-        id="profileButton"
-        href="/buyer/profile.html"
-        aria-label="Profile">
-        U
-      </a>
+<div
+    class="brand-logo-fallback"
+    style="display:none"
+>
+    G
+</div>
 
-      <button
-        class="icon-btn mobile-menu"
-        id="menuButton"
-        type="button"
-        aria-label="Open menu">
-        ☰
-      </button>
+</div>
 
-    </div>
+<div class="brand-text">
 
-  </div>
+<strong>GHAR</strong>
+
+<span>Buyer Experience</span>
+
+</div>
+
+</a>
+
+<nav
+    class="desktop-nav"
+    aria-label="Buyer navigation"
+>
+
+<a href="/buyer/index.html">
+    Home
+</a>
+
+<a href="/buyer/properties.html">
+    Properties
+</a>
+
+<a href="/buyer/search.html">
+    Search
+</a>
+
+<a href="/buyer/saved-properties.html">
+    Saved
+</a>
+
+<a href="/buyer/favourites.html">
+    Favourites
+</a>
+
+<a href="/buyer/visits.html">
+    Visits
+</a>
+
+<a href="/buyer/offers.html">
+    Offers
+</a>
+
+<a href="/buyer/applications.html">
+    Applications
+</a>
+
+</nav>
+
+<div class="header-actions">
+
+<div class="notification-wrap">
+
+<button
+    class="icon-btn"
+    id="notificationButton"
+    type="button"
+    aria-label="Notifications"
+>
+    ♢
+</button>
+
+<span
+    class="notification-dot"
+    aria-hidden="true"
+></span>
+
+</div>
+
+<a
+    class="profile-menu"
+    href="/buyer/profile.html"
+>
+
+<img
+    id="profileImage"
+    src="../assets/images/profile/buyer-default.jpg"
+    alt="Buyer profile"
+    onerror="
+        this.src='../assets/images/profile/default-avatar.jpg'
+    "
+>
+
+<span class="profile-info">
+
+<strong id="profileName">
+    Buyer
+</strong>
+
+<small>
+    My account
+</small>
+
+</span>
+
+<span class="profile-arrow">
+    ⌄
+</span>
+
+</a>
+
+<button
+    class="icon-btn mobile-menu"
+    id="menuButton"
+    type="button"
+    aria-label="Open buyer menu"
+    aria-expanded="false"
+>
+    ☰
+</button>
+
+</div>
+
+</div>
+
 </header>
+
+<!-- =======================================================
+     MOBILE NAV
+======================================================= -->
+
+<div
+    class="mobile-nav-panel"
+    id="mobileNav"
+>
+
+<div class="mobile-profile">
+
+<img
+    id="mobileProfileImage"
+    src="../assets/images/profile/buyer-default.jpg"
+    alt="Buyer profile"
+    onerror="
+        this.src='../assets/images/profile/default-avatar.jpg'
+    "
+>
+
+<div>
+
+<strong id="mobileProfileName">
+    Buyer
+</strong>
+
+<span>
+    GHAR Buyer Account
+</span>
+
+</div>
+
+</div>
+
+<a href="/buyer/index.html">
+    Home <span>›</span>
+</a>
+
+<a href="/buyer/properties.html">
+    Properties <span>›</span>
+</a>
+
+<a href="/buyer/search.html">
+    Search <span>›</span>
+</a>
+
+<a href="/buyer/saved-properties.html">
+    Saved Properties <span>›</span>
+</a>
+
+<a href="/buyer/favourites.html">
+    Favourites <span>›</span>
+</a>
+
+<a href="/buyer/visits.html">
+    Visits <span>›</span>
+</a>
+
+<a href="/buyer/offers.html">
+    Offers <span>›</span>
+</a>
+
+<a href="/buyer/applications.html">
+    Applications <span>›</span>
+</a>
+
+<a href="/buyer/documents.html">
+    Documents <span>›</span>
+</a>
+
+<a
+    class="active"
+    href="/buyer/support.html"
+>
+    Support <span>›</span>
+</a>
+
+<a href="/buyer/profile.html">
+    Profile <span>›</span>
+</a>
+
+</div>
+
+<!-- =======================================================
+     MAIN
+======================================================= -->
 
 <main>
 
-<!-- HERO -->
+<section class="page">
 
-<section class="hero">
-  <div class="container">
+<div class="container">
 
-    <div class="hero-panel">
+<!-- =====================================================
+     PAGE HEADING
+====================================================== -->
 
-      <div class="eyebrow">
-        GHAR BUYER SUPPORT
-      </div>
+<div class="page-heading">
 
-      <h1>
-        We're here to help you
-        <span>move forward.</span>
-      </h1>
+<div>
 
-      <p class="hero-description">
-        Get assistance with properties, visits, saved homes,
-        offers, applications, financing, documents and your
-        GHAR account.
-      </p>
+<div class="eyebrow">
+    BUYER SUPPORT
+</div>
 
-      <div class="hero-search">
+<h1>
+    How can we help?
+</h1>
 
-        <input
-          id="supportSearch"
-          type="search"
-          placeholder="Search help articles, properties, loans..."
-          autocomplete="off">
+<p>
+    Get assistance with properties, visits, offers,
+    applications, documents, verification, payments,
+    financing and your GHAR buyer account.
+</p>
 
-        <button
-          class="btn btn-primary"
-          id="searchHelpButton"
-          type="button">
-          Search Help
-        </button>
+</div>
 
-      </div>
+<div class="heading-actions">
 
-    </div>
+<a
+    class="btn btn-secondary"
+    href="/help-centre.html"
+>
+    Help Centre
+</a>
 
-  </div>
+<button
+    class="btn btn-primary"
+    id="scrollTicket"
+    type="button"
+>
+    Raise a support ticket
+</button>
+
+</div>
+
+</div>
+
+<!-- =====================================================
+     SUPPORT HERO
+====================================================== -->
+
+<section class="support-hero">
+
+<div class="support-hero-content">
+
+<div class="hero-grid">
+
+<div>
+
+<div class="support-badge">
+
+<span class="support-badge-dot"></span>
+
+GHAR Buyer Assistance
+
+</div>
+
+<h2>
+    One support centre for your complete property journey.
+</h2>
+
+<p>
+    Tell GHAR what you need help with and our support
+    workflow will route your request to the appropriate
+    team. Keep your ticket number available for faster
+    follow-up.
+</p>
+
+<div class="support-actions">
+
+<button
+    class="btn btn-primary"
+    id="heroTicket"
+    type="button"
+>
+    Create support ticket
+</button>
+
+<a
+    class="btn btn-secondary"
+    href="/buyer/ai.html"
+>
+    Ask GHAR AI
+</a>
+
+</div>
+
+</div>
+
+<div class="support-contact-card">
+
+<h3>
+    Need direct assistance?
+</h3>
+
+<p>
+    Use your GHAR support ticket for account-specific
+    requests and keep sensitive documents inside the
+    secure buyer workflow.
+</p>
+
+<div class="contact-item">
+
+<div class="contact-icon">
+    ♧
+</div>
+
+<div>
+
+<span>
+    SUPPORT STATUS
+</span>
+
+<strong>
+    Online assistance available
+</strong>
+
+</div>
+
+</div>
+
+<div class="contact-item">
+
+<div class="contact-icon">
+    ◉
+</div>
+
+<div>
+
+<span>
+    TICKET RESPONSE
+</span>
+
+<strong>
+    Track from this page
+</strong>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
 </section>
 
+<!-- =====================================================
+     SUPPORT CATEGORIES
+====================================================== -->
 
-<!-- SUPPORT CONTENT -->
-
-<section class="section">
-
-  <div class="container">
-
-    <div class="support-layout">
-
-      <!-- LEFT -->
-
-      <div>
-
-        <div class="panel">
-
-          <div class="panel-title">
-            <h3>How can we help?</h3>
-            <span>Buyer support</span>
-          </div>
-
-          <div class="category-grid">
-
-            <a class="category-card"
-               href="/buyer/properties.html">
-              <div class="category-icon">⌂</div>
-              <div class="category-text">
-                <strong>Properties</strong>
-                <span>Search, compare and understand listings.</span>
-              </div>
-            </a>
-
-            <a class="category-card"
-               href="/buyer/visits.html">
-              <div class="category-icon">◷</div>
-              <div class="category-text">
-                <strong>Property visits</strong>
-                <span>Schedule and manage property visits.</span>
-              </div>
-            </a>
-
-            <a class="category-card"
-               href="/buyer/offers.html">
-              <div class="category-icon">₹</div>
-              <div class="category-text">
-                <strong>Offers</strong>
-                <span>Manage submitted and received offers.</span>
-              </div>
-            </a>
-
-            <a class="category-card"
-               href="/buyer/applications.html">
-              <div class="category-icon">✓</div>
-              <div class="category-text">
-                <strong>Applications</strong>
-                <span>Track purchase and application progress.</span>
-              </div>
-            </a>
-
-            <a class="category-card"
-               href="/buyer/loans.html">
-              <div class="category-icon">▣</div>
-              <div class="category-text">
-                <strong>Loans & finance</strong>
-                <span>Review affordability and financing tools.</span>
-              </div>
-            </a>
-
-            <a class="category-card"
-               href="/buyer/documents.html">
-              <div class="category-icon">▤</div>
-              <div class="category-text">
-                <strong>Documents</strong>
-                <span>Manage documents associated with your journey.</span>
-              </div>
-            </a>
-
-            <a class="category-card"
-               href="/buyer/profile.html">
-              <div class="category-icon">◎</div>
-              <div class="category-text">
-                <strong>Account & profile</strong>
-                <span>Update your buyer account information.</span>
-              </div>
-            </a>
-
-            <a class="category-card"
-               href="/buyer/settings.html">
-              <div class="category-icon">⚙</div>
-              <div class="category-text">
-                <strong>Settings</strong>
-                <span>Manage preferences and account controls.</span>
-              </div>
-            </a>
-
-          </div>
-
-        </div>
-
-
-        <!-- FAQ -->
-
-        <div class="panel" style="margin-top:16px">
-
-          <div class="panel-title">
-            <h3>Frequently asked questions</h3>
-            <span>Quick answers</span>
-          </div>
-
-          <div class="faq-list">
-
-            <div class="faq-item">
-              <button class="faq-question" type="button">
-                <span>How do I save a property?</span>
-                <span>+</span>
-              </button>
-              <div class="faq-answer">
-                Open a property and use the save/favourite control.
-                Saved properties can be accessed from your buyer
-                account.
-              </div>
-            </div>
-
-            <div class="faq-item">
-              <button class="faq-question" type="button">
-                <span>How can I schedule a property visit?</span>
-                <span>+</span>
-              </button>
-              <div class="faq-answer">
-                Open the property you are interested in and use the
-                visit scheduling option. Your scheduled visits can
-                then be managed from the Visits section.
-              </div>
-            </div>
-
-            <div class="faq-item">
-              <button class="faq-question" type="button">
-                <span>Where can I check my offers?</span>
-                <span>+</span>
-              </button>
-              <div class="faq-answer">
-                Go to Buyer → Offers to review active, pending,
-                accepted or other offer states supported by your
-                account.
-              </div>
-            </div>
-
-            <div class="faq-item">
-              <button class="faq-question" type="button">
-                <span>Where can I manage my documents?</span>
-                <span>+</span>
-              </button>
-              <div class="faq-answer">
-                Use the Buyer Documents section to access documents
-                associated with your property journey.
-              </div>
-            </div>
-
-            <div class="faq-item">
-              <button class="faq-question" type="button">
-                <span>How can I get help with a loan?</span>
-                <span>+</span>
-              </button>
-              <div class="faq-answer">
-                Open the Buyer Loans section for affordability and
-                financing tools. For account-specific assistance,
-                create a support request below.
-              </div>
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <!-- RIGHT -->
-
-      <aside>
-
-        <div class="panel ticket-panel">
-
-          <div class="panel-title">
-            <h3>Create a support request</h3>
-            <span>Buyer assistance</span>
-          </div>
-
-          <form
-            id="supportForm"
-            class="ticket-form">
-
-            <div class="field">
-              <label for="supportSubject">
-                Subject
-              </label>
-
-              <input
-                id="supportSubject"
-                name="subject"
-                type="text"
-                maxlength="120"
-                placeholder="What do you need help with?"
-                required>
-            </div>
-
-            <div class="field">
-              <label for="supportCategory">
-                Category
-              </label>
-
-              <select
-                id="supportCategory"
-                name="category"
-                required>
-
-                <option value="">
-                  Select category
-                </option>
-
-                <option value="property">
-                  Property
-                </option>
-
-                <option value="visit">
-                  Property Visit
-                </option>
-
-                <option value="offer">
-                  Offer
-                </option>
-
-                <option value="application">
-                  Application
-                </option>
-
-                <option value="loan">
-                  Loan / Finance
-                </option>
-
-                <option value="documents">
-                  Documents
-                </option>
-
-                <option value="account">
-                  Account
-                </option>
-
-                <option value="technical">
-                  Technical Issue
-                </option>
-
-                <option value="other">
-                  Other
-                </option>
-
-              </select>
-            </div>
-
-            <div class="field">
-              <label for="supportPriority">
-                Priority
-              </label>
-
-              <select
-                id="supportPriority"
-                name="priority">
-
-                <option value="normal">
-                  Normal
-                </option>
-
-                <option value="high">
-                  High
-                </option>
-
-                <option value="urgent">
-                  Urgent
-                </option>
-
-              </select>
-            </div>
-
-            <div class="field">
-              <label for="supportMessage">
-                Message
-              </label>
-
-              <textarea
-                id="supportMessage"
-                name="message"
-                maxlength="3000"
-                placeholder="Describe the issue or question..."
-                required></textarea>
-            </div>
-
-            <div
-              id="formMessage"
-              class="form-message">
-            </div>
-
-            <div class="form-actions">
-
-              <button
-                class="btn btn-primary"
-                type="submit">
-                Submit Request
-              </button>
-
-              <button
-                class="btn btn-secondary"
-                type="reset">
-                Clear
-              </button>
-
-            </div>
-
-          </form>
-
-        </div>
-
-
-        <div class="status-card">
-
-          <h3>
-            Already have a request?
-          </h3>
-
-          <p>
-            Check your existing support conversations and
-            request status from the buyer support area.
-          </p>
-
-          <div
-            id="ticketCount"
-            class="status-number">
-            0
-          </div>
-
-          <div
-            style="
-              color:rgba(255,255,255,.45);
-              font-size:8px;
-              margin-top:3px;
-            ">
-            Open support requests
-          </div>
-
-          <a
-            href="/buyer/messages.html"
-            class="btn btn-secondary"
-            style="margin-top:15px">
-            Open Messages
-          </a>
-
-        </div>
-
-
-        <div class="panel" style="margin-top:16px">
-
-          <div class="panel-title">
-            <h3>Contact GHAR</h3>
-          </div>
-
-          <div class="contact-list">
-
-            <div class="contact-card">
-              <div class="contact-icon">✉</div>
-              <div>
-                <strong>Email Support</strong>
-                <span>Send a detailed support request.</span>
-              </div>
-            </div>
-
-            <div class="contact-card">
-              <div class="contact-icon">◉</div>
-              <div>
-                <strong>Buyer Assistance</strong>
-                <span>Get help with your property journey.</span>
-              </div>
-            </div>
-
-            <div class="contact-card">
-              <div class="contact-icon">✦</div>
-              <div>
-                <strong>GHAR AI</strong>
-                <span>Ask questions about your property search.</span>
-              </div>
-            </div>
-
-          </div>
-
-        </div>
-
-
-        <div class="ai-card">
-
-          <div class="ai-badge">
-            ✦ GHAR AI
-          </div>
-
-          <h3>
-            Need an answer right now?
-          </h3>
-
-          <p>
-            Ask GHAR AI about properties, visits, offers,
-            financing or your buyer account.
-          </p>
-
-          <div class="ai-actions">
-
-            <button
-              class="ai-action"
-              type="button"
-              data-ai-prompt="Help me with my GHAR buyer account.">
-              ✦ Account help
-            </button>
-
-            <button
-              class="ai-action"
-              type="button"
-              data-ai-prompt="Help me understand my property purchase process.">
-              ⌂ Purchase guidance
-            </button>
-
-            <button
-              class="ai-action"
-              type="button"
-              data-ai-prompt="Help me understand property financing and loans.">
-              ₹ Financing help
-            </button>
-
-          </div>
-
-        </div>
-
-      </aside>
-
-    </div>
-
-  </div>
+<div class="section-heading">
+
+<div>
+
+<h2>
+    What do you need help with?
+</h2>
+
+<p>
+    Select a support category to pre-fill your ticket.
+</p>
+
+</div>
+
+</div>
+
+<section class="support-categories">
+
+<button
+    class="support-category"
+    type="button"
+    data-category="Property"
+>
+
+<div class="category-icon">
+    ⌂
+</div>
+
+<h3>
+    Property
+</h3>
+
+<p>
+    Property details, availability, listing information,
+    pricing or property-related questions.
+</p>
+
+<span class="category-link">
+    Get property help →
+</span>
+
+</button>
+
+<button
+    class="support-category"
+    type="button"
+    data-category="Property Visit"
+>
+
+<div class="category-icon">
+    ◷
+</div>
+
+<h3>
+    Property Visits
+</h3>
+
+<p>
+    Help with scheduled visits, rescheduling, cancellation,
+    location or visit coordination.
+</p>
+
+<span class="category-link">
+    Get visit help →
+</span>
+
+</button>
+
+<button
+    class="support-category"
+    type="button"
+    data-category="Offer"
+>
+
+<div class="category-icon">
+    ◇
+</div>
+
+<h3>
+    Offers
+</h3>
+
+<p>
+    Questions about submitted offers, negotiations,
+    offer status or transaction steps.
+</p>
+
+<span class="category-link">
+    Get offer help →
+</span>
+
+</button>
+
+<button
+    class="support-category"
+    type="button"
+    data-category="Application"
+>
+
+<div class="category-icon">
+    ▤
+</div>
+
+<h3>
+    Applications
+</h3>
+
+<p>
+    Assistance with applications, processing status,
+    approvals and required information.
+</p>
+
+<span class="category-link">
+    Get application help →
+</span>
+
+</button>
+
+<button
+    class="support-category"
+    type="button"
+    data-category="Documents"
+>
+
+<div class="category-icon">
+    ▧
+</div>
+
+<h3>
+    Documents
+</h3>
+
+<p>
+    Help with document submission, verification,
+    missing documents or document status.
+</p>
+
+<span class="category-link">
+    Get document help →
+</span>
+
+</button>
+
+<button
+    class="support-category"
+    type="button"
+    data-category="Payment"
+>
+
+<div class="category-icon">
+    ₹
+</div>
+
+<h3>
+    Payments
+</h3>
+
+<p>
+    Payment status, receipts, transaction issues,
+    refunds and buyer payment assistance.
+</p>
+
+<span class="category-link">
+    Get payment help →
+</span>
+
+</button>
+
+<button
+    class="support-category"
+    type="button"
+    data-category="Finance"
+>
+
+<div class="category-icon">
+    ◫
+</div>
+
+<h3>
+    Finance
+</h3>
+
+<p>
+    Assistance related to financing workflows,
+    loan guidance and financial application steps.
+</p>
+
+<span class="category-link">
+    Get finance help →
+</span>
+
+</button>
+
+<button
+    class="support-category"
+    type="button"
+    data-category="Account"
+>
+
+<div class="category-icon">
+    ◎
+</div>
+
+<h3>
+    Account
+</h3>
+
+<p>
+    Profile, login, security, preferences, notifications
+    and other GHAR buyer account issues.
+</p>
+
+<span class="category-link">
+    Get account help →
+</span>
+
+</button>
+
+</section>
+
+<!-- =====================================================
+     MAIN SUPPORT AREA
+====================================================== -->
+
+<div class="support-main">
+
+<!-- ===================================================
+     LEFT
+==================================================== -->
+
+<div>
+
+<section
+    class="panel"
+    id="ticketFormSection"
+>
+
+<div class="panel-title-row">
+
+<div>
+
+<div class="panel-title">
+    Raise a support ticket
+</div>
+
+<div class="panel-hint">
+    Provide enough information for the support team
+    to understand and route your request.
+</div>
+
+</div>
+
+<span
+    class="support-badge"
+>
+    Secure request
+</span>
+
+</div>
+
+<form
+    id="supportForm"
+>
+
+<div class="form-grid">
+
+<div>
+
+<label
+    class="form-label"
+    for="category"
+>
+    Category
+</label>
+
+<select
+    id="category"
+    class="select"
+    required
+>
+
+<option value="">
+    Select support category
+</option>
+
+<option value="Property">
+    Property
+</option>
+
+<option value="Property Visit">
+    Property Visit
+</option>
+
+<option value="Offer">
+    Offer
+</option>
+
+<option value="Application">
+    Application
+</option>
+
+<option value="Documents">
+    Documents
+</option>
+
+<option value="Payment">
+    Payment
+</option>
+
+<option value="Finance">
+    Finance
+</option>
+
+<option value="Account">
+    Account
+</option>
+
+<option value="Other">
+    Other
+</option>
+
+</select>
+
+</div>
+
+<div>
+
+<label
+    class="form-label"
+    for="priority"
+>
+    Priority
+</label>
+
+<select
+    id="priority"
+    class="select"
+    required
+>
+
+<option value="normal">
+    Normal
+</option>
+
+<option value="high">
+    High
+</option>
+
+<option value="urgent">
+    Urgent
+</option>
+
+</select>
+
+</div>
+
+<div>
+
+<label
+    class="form-label"
+    for="propertyId"
+>
+    Property ID
+</label>
+
+<input
+    id="propertyId"
+    class="input"
+    type="text"
+    placeholder="Optional property ID"
+/>
+
+</div>
+
+<div>
+
+<label
+    class="form-label"
+    for="referenceId"
+>
+    Reference / Application ID
+</label>
+
+<input
+    id="referenceId"
+    class="input"
+    type="text"
+    placeholder="Optional reference ID"
+/>
+
+</div>
+
+<div class="form-group full">
+
+<label
+    class="form-label"
+    for="subject"
+>
+    Subject
+</label>
+
+<input
+    id="subject"
+    class="input"
+    type="text"
+    maxlength="180"
+    required
+    placeholder="Briefly describe the issue"
+>
+
+</div>
+
+<div class="form-group full">
+
+<label
+    class="form-label"
+    for="message"
+>
+    Description
+</label>
+
+<textarea
+    id="message"
+    class="textarea"
+    maxlength="5000"
+    required
+    placeholder="Explain what happened, what you need help with and any relevant details..."
+></textarea>
+
+<div class="form-help">
+    Do not include passwords, OTPs, card PINs or other
+    sensitive authentication credentials.
+</div>
+
+</div>
+
+</div>
+
+<div class="form-actions">
+
+<button
+    class="btn btn-secondary"
+    id="resetSupport"
+    type="button"
+>
+    Reset
+</button>
+
+<button
+    class="btn btn-primary"
+    id="submitSupport"
+    type="submit"
+>
+    Submit ticket
+</button>
+
+</div>
+
+</form>
+
+</section>
+
+<!-- ===================================================
+     TICKET LIST
+==================================================== -->
+
+<section class="panel status-panel">
+
+<div class="panel-title-row">
+
+<div>
+
+<div class="panel-title">
+    My support tickets
+</div>
+
+<div class="panel-hint">
+    Track your open and previous buyer support requests.
+</div>
+
+</div>
+
+<button
+    class="btn btn-secondary"
+    id="refreshTickets"
+    type="button"
+>
+    Refresh
+</button>
+
+</div>
+
+<div
+    class="ticket-list"
+    id="ticketList"
+>
+
+<div class="empty-tickets">
+
+<div class="empty-tickets-icon">
+    ◌
+</div>
+
+<h3>
+    Loading your tickets
+</h3>
+
+<p>
+    GHAR is checking your support history.
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+</div>
+
+<!-- ===================================================
+     RIGHT
+==================================================== -->
+
+<aside>
+
+<section class="panel">
+
+<div class="panel-title">
+    Support workflow
+</div>
+
+<div class="panel-hint">
+    Your request moves through these stages.
+</div>
+
+<div class="status-list">
+
+<div class="status-item">
+
+<div class="status-icon">
+    1
+</div>
+
+<div>
+
+<strong>
+    Ticket created
+</strong>
+
+<span>
+    GHAR records your request and generates
+    a support reference.
+</span>
+
+</div>
+
+</div>
+
+<div class="status-item">
+
+<div class="status-icon">
+    2
+</div>
+
+<div>
+
+<strong>
+    Request reviewed
+</strong>
+
+<span>
+    The support workflow categorises the issue
+    and assigns the appropriate team.
+</span>
+
+</div>
+
+</div>
+
+<div class="status-item">
+
+<div class="status-icon">
+    3
+</div>
+
+<div>
+
+<strong>
+    Resolution in progress
+</strong>
+
+<span>
+    The assigned team investigates and responds
+    through the support workflow.
+</span>
+
+</div>
+
+</div>
+
+<div class="status-item">
+
+<div class="status-icon">
+    4
+</div>
+
+<div>
+
+<strong>
+    Resolved
+</strong>
+
+<span>
+    The ticket is closed after the issue has
+    been addressed.
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ===================================================
+     AI
+==================================================== -->
+
+<section class="ai-support-card">
+
+<h3>
+    Need an instant answer?
+</h3>
+
+<p>
+    Ask GHAR AI about property discovery, visits,
+    offers, applications, documents and general
+    platform workflows before creating a ticket.
+</p>
+
+<a
+    class="btn btn-primary"
+    href="/buyer/ai.html"
+>
+    Open GHAR AI
+</a>
+
+</section>
+
+<!-- ===================================================
+     FAQ
+==================================================== -->
+
+<section class="panel status-panel">
+
+<div class="panel-title">
+    Quick answers
+</div>
+
+<div class="panel-hint">
+    Common buyer support questions.
+</div>
+
+<div class="faq-list">
+
+<div class="faq-item">
+
+<button
+    class="faq-question"
+    type="button"
+>
+    How do I track a support request?
+    <span>+</span>
+</button>
+
+<div class="faq-answer">
+    Open Buyer Support and review the My Support Tickets
+    section. Your ticket reference and current status will
+    appear there when available from the API.
+</div>
+
+</div>
+
+<div class="faq-item">
+
+<button
+    class="faq-question"
+    type="button"
+>
+    Can I raise a ticket for a property?
+    <span>+</span>
+</button>
+
+<div class="faq-answer">
+    Yes. Select Property as the category and provide the
+    relevant Property ID so the support team can identify
+    the listing quickly.
+</div>
+
+</div>
+
+<div class="faq-item">
+
+<button
+    class="faq-question"
+    type="button"
+>
+    Can I get help with documents?
+    <span>+</span>
+</button>
+
+<div class="faq-answer">
+    Yes. Select Documents and include the relevant
+    application or reference ID. Do not submit passwords,
+    OTPs or payment credentials in the ticket description.
+</div>
+
+</div>
+
+<div class="faq-item">
+
+<button
+    class="faq-question"
+    type="button"
+>
+    Where can I find more help?
+    <span>+</span>
+</button>
+
+<div class="faq-answer">
+    Visit the GHAR Help Centre for general platform
+    information or use GHAR AI for guided assistance.
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+</aside>
+
+</div>
+
+</div>
+
 </section>
 
 </main>
 
-
-<!-- FOOTER -->
+<!-- =======================================================
+     FOOTER
+======================================================= -->
 
 <footer class="site-footer">
 
-  <div class="container">
+<div class="container">
 
-    <div class="footer-grid">
+<div class="footer-top-line"></div>
 
-      <div class="footer-brand">
+<div class="footer-grid">
 
-        <div class="brand">
+<div class="footer-brand">
 
-          <div class="brand-mark">G</div>
+<a
+    class="brand"
+    href="/buyer/index.html"
+>
 
-          <div class="brand-text">
-            <strong>GHAR</strong>
-            <span>Real Estate Platform</span>
-          </div>
+<div class="brand-logo">
 
-        </div>
+<img
+    src="../assets/images/logo/ghar-logo-light.svg"
+    alt="GHAR"
+    onerror="
+        this.style.display='none';
+        this.nextElementSibling.style.display='grid';
+    "
+>
 
-        <p>
-          A connected real estate platform for discovering,
-          evaluating, financing and managing property decisions.
-        </p>
+<div
+    class="brand-logo-fallback"
+    style="display:none"
+>
+    G
+</div>
 
-      </div>
+</div>
 
-      <div class="footer-col">
-        <h4>Discover</h4>
-        <a href="/properties.html">Properties</a>
-        <a href="/property-search.html">Property Search</a>
-        <a href="/buyer/saved-properties.html">Saved Properties</a>
-        <a href="/buyer/visits.html">Visits</a>
-      </div>
+<div class="brand-text">
 
-      <div class="footer-col">
-        <h4>Buyer</h4>
-        <a href="/buyer/profile.html">Profile</a>
-        <a href="/buyer/offers.html">Offers</a>
-        <a href="/buyer/loans.html">Loans</a>
-        <a href="/buyer/documents.html">Documents</a>
-      </div>
+<strong>GHAR</strong>
 
-      <div class="footer-col">
-        <h4>Support</h4>
-        <a href="/help-centre.html">Help Centre</a>
-        <a href="/contact.html">Contact</a>
-        <a href="/buyer/messages.html">Messages</a>
-        <a href="/privacy.html">Privacy</a>
-      </div>
+<span>Real Estate Platform</span>
 
-    </div>
+</div>
 
-    <div class="footer-bottom">
+</a>
 
-      <span>
-        © <span id="footerYear"></span> GHAR.
-        All rights reserved.
-      </span>
+<p>
+    A connected real estate platform for discovering,
+    evaluating, financing and managing property decisions
+    through one secure digital experience.
+</p>
 
-      <span>
-        Buyer Portal · Secure Session
-      </span>
+<div class="footer-trust">
 
-    </div>
+<span class="trust-pill">
+    Secure Buyer Portal
+</span>
 
-  </div>
+<span class="trust-pill">
+    Property Intelligence
+</span>
+
+<span class="trust-pill">
+    AI Assisted
+</span>
+
+<span class="trust-pill">
+    Verified Workflows
+</span>
+
+</div>
+
+<div class="footer-contact">
+
+<div class="footer-contact-icon">
+    ✦
+</div>
+
+<div class="footer-contact-text">
+
+<span>
+    GHAR ASSISTANCE
+</span>
+
+<strong>
+    Your property journey, connected.
+</strong>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="footer-col">
+
+<h4>Discover</h4>
+
+<a href="/buyer/properties.html">
+    Properties
+</a>
+
+<a href="/buyer/search.html">
+    Property Search
+</a>
+
+<a href="/buyer/saved-properties.html">
+    Saved Properties
+</a>
+
+<a href="/buyer/favourites.html">
+    Favourites
+</a>
+
+<a href="/map.html">
+    Property Map
+</a>
+
+</div>
+
+<div class="footer-col">
+
+<h4>Buyer</h4>
+
+<a href="/buyer/profile.html">
+    Profile
+</a>
+
+<a href="/buyer/visits.html">
+    Property Visits
+</a>
+
+<a href="/buyer/offers.html">
+    Offers
+</a>
+
+<a href="/buyer/applications.html">
+    Applications
+</a>
+
+<a href="/buyer/documents.html">
+    Documents
+</a>
+
+</div>
+
+<div class="footer-col">
+
+<h4>Services</h4>
+
+<a href="/ai.html">
+    GHAR AI
+</a>
+
+<a href="/ai-loan-advisor.html">
+    Loan Advisor
+</a>
+
+<a href="/ai-investment-advisor.html">
+    Investment Advisor
+</a>
+
+<a href="/buyer/finance.html">
+    Buyer Finance
+</a>
+
+<a href="/buyer/verification.html">
+    Verification
+</a>
+
+</div>
+
+<div class="footer-col">
+
+<h4>Support</h4>
+
+<a href="/help-centre.html">
+    Help Centre
+</a>
+
+<a href="/contact.html">
+    Contact
+</a>
+
+<a href="/buyer/support.html">
+    Buyer Support
+</a>
+
+<a href="/privacy-policy.html">
+    Privacy
+</a>
+
+<a href="/terms.html">
+    Terms
+</a>
+
+</div>
+
+</div>
+
+<div class="footer-bottom">
+
+<span>
+    ©
+    <span id="footerYear"></span>
+    GHAR. All rights reserved.
+</span>
+
+<span>
+    Buyer Portal · Secure Session
+</span>
+
+</div>
+
+</div>
 
 </footer>
 
+<!-- =======================================================
+     AI
+======================================================= -->
 
 <button
-  id="openAI"
-  class="ai-floating"
-  type="button">
-  ✦ Ask GHAR AI
+    id="openAI"
+    class="ai-floating"
+    type="button"
+    aria-label="Ask GHAR AI"
+>
+
+<span class="ai-icon">
+    ✦
+</span>
+
+<span class="ai-text">
+    Ask GHAR AI
+</span>
+
 </button>
 
+<!-- =======================================================
+     TOAST
+======================================================= -->
+
+<div
+    id="toast"
+    class="toast"
+    role="status"
+    aria-live="polite"
+></div>
 
 <script>
 "use strict";
 
+/* =========================================================
+   CONFIG
+========================================================= */
+
 const API_BASE =
-  window.GHAR_API_BASE ||
-  window.API_BASE ||
-  "/api";
+    window.GHAR_API_BASE ||
+    window.API_BASE ||
+    "/api";
 
-const $ = selector =>
-  document.querySelector(selector);
+/* =========================================================
+   HELPERS
+========================================================= */
 
-async function apiRequest(url,options={}){
-  const response = await fetch(url,{
-    credentials:"include",
-    headers:{
-      "Accept":"application/json",
-      "Content-Type":"application/json",
-      ...(options.headers || {})
-    },
-    ...options
-  });
+function $(selector){
+    return document.querySelector(selector);
+}
 
-  let data=null;
+function escapeHTML(value){
 
-  try{
-    data=await response.json();
-  }catch{
-    data=null;
-  }
-
-  if(!response.ok){
-    const error=new Error(
-      data?.error?.message ||
-      data?.message ||
-      "Request failed."
-    );
-
-    error.status=response.status;
-    error.data=data;
-
-    throw error;
-  }
-
-  return data;
+    return String(value ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
 }
 
 function normalizeCollection(response){
 
-  if(Array.isArray(response))
-    return response;
+    if(Array.isArray(response))
+        return response;
 
-  if(Array.isArray(response?.data))
-    return response.data;
+    if(Array.isArray(response?.data))
+        return response.data;
 
-  if(Array.isArray(response?.items))
-    return response.items;
+    if(Array.isArray(response?.tickets))
+        return response.tickets;
 
-  if(Array.isArray(response?.results))
-    return response.results;
+    if(Array.isArray(response?.items))
+        return response.items;
 
-  if(Array.isArray(response?.tickets))
-    return response.tickets;
+    if(Array.isArray(response?.results))
+        return response.results;
 
-  return [];
+    return [];
 }
 
+async function apiRequest(
+    url,
+    options={}
+){
 
-/* PROFILE */
+    const response =
+        await fetch(
+            url,
+            {
+                credentials:"include",
+
+                headers:{
+                    "Accept":
+                        "application/json",
+
+                    "Content-Type":
+                        "application/json",
+
+                    ...(options.headers || {})
+                },
+
+                ...options
+            }
+        );
+
+    let data=null;
+
+    try{
+        data=await response.json();
+    }catch{
+        data=null;
+    }
+
+    if(!response.ok){
+
+        const error =
+            new Error(
+                data?.error?.message ||
+                data?.message ||
+                "Request failed."
+            );
+
+        error.status=response.status;
+        error.data=data;
+
+        throw error;
+    }
+
+    return data;
+}
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+let toastTimer=null;
+
+function showToast(
+    message
+){
+
+    const toast=$("#toast");
+
+    if(!toast)
+        return;
+
+    toast.textContent=message;
+
+    toast.classList.add("show");
+
+    clearTimeout(toastTimer);
+
+    toastTimer=
+        setTimeout(
+            () => {
+
+                toast.classList.remove("show");
+
+            },
+            3200
+        );
+}
+
+/* =========================================================
+   PROFILE
+========================================================= */
 
 async function loadProfile(){
 
-  try{
+    try{
 
-    const data=
-      await apiRequest(
-        API_BASE+"/users/me"
-      );
+        const response =
+            await apiRequest(
+                API_BASE+
+                "/users/me"
+            );
 
-    const name=
-      data?.name ||
-      data?.fullName ||
-      data?.email ||
-      "U";
+        const user =
+            response?.data ||
+            response?.user ||
+            response;
 
-    $("#profileButton").textContent=
-      String(name)
-        .trim()
-        .charAt(0)
-        .toUpperCase();
+        const name =
+            user?.name ||
+            user?.fullName ||
+            user?.firstName ||
+            user?.email ||
+            "Buyer";
 
-  }catch(error){
+        const image =
+            user?.profileImage ||
+            user?.avatar ||
+            user?.photo ||
+            user?.profilePhoto ||
+            "../assets/images/profile/buyer-default.jpg";
 
-    console.warn(
-      "GHAR profile:",
-      error
-    );
+        const displayName =
+            String(name)
+                .trim()
+                .split(/\s+/)
+                .slice(0,2)
+                .join(" ");
 
-  }
+        $("#profileName")
+            .textContent=displayName;
+
+        $("#mobileProfileName")
+            .textContent=displayName;
+
+        $("#profileImage")
+            .src=image;
+
+        $("#mobileProfileImage")
+            .src=image;
+
+    }catch(error){
+
+        console.warn(
+            "GHAR profile:",
+            error
+        );
+
+    }
 }
 
+/* =========================================================
+   TICKET HELPERS
+========================================================= */
 
-/* SUPPORT REQUESTS */
+function ticketId(ticket){
+
+    return String(
+        ticket.id ||
+        ticket.ticketId ||
+        ticket._id ||
+        ""
+    );
+}
+
+function ticketNumber(ticket){
+
+    return (
+        ticket.ticketNumber ||
+        ticket.reference ||
+        ticket.referenceId ||
+        ticketId(ticket) ||
+        "GHAR-SUPPORT"
+    );
+}
+
+function ticketTitle(ticket){
+
+    return (
+        ticket.subject ||
+        ticket.title ||
+        "Buyer support request"
+    );
+}
+
+function ticketCategory(ticket){
+
+    return (
+        ticket.category ||
+        ticket.type ||
+        "General"
+    );
+}
+
+function ticketStatus(ticket){
+
+    return String(
+        ticket.status ||
+        "open"
+    ).toLowerCase();
+}
+
+function formatTicketStatus(
+    status
+){
+
+    const value =
+        String(status || "open")
+            .toLowerCase();
+
+    if(
+        value.includes("progress") ||
+        value.includes("assigned")
+    )
+        return "In progress";
+
+    if(
+        value.includes("resolve")
+    )
+        return "Resolved";
+
+    if(
+        value.includes("closed")
+    )
+        return "Closed";
+
+    return "Open";
+}
+
+function statusClass(status){
+
+    const value=
+        String(status || "")
+            .toLowerCase();
+
+    if(
+        value.includes("progress") ||
+        value.includes("assigned")
+    )
+        return "progress";
+
+    if(
+        value.includes("resolve")
+    )
+        return "resolved";
+
+    if(
+        value.includes("closed")
+    )
+        return "closed";
+
+    return "open";
+}
+
+function formatDate(value){
+
+    if(!value)
+        return "Date unavailable";
+
+    const date=
+        new Date(value);
+
+    if(Number.isNaN(date.getTime()))
+        return "Date unavailable";
+
+    return date.toLocaleDateString(
+        "en-IN",
+        {
+            day:"2-digit",
+            month:"short",
+            year:"numeric"
+        }
+    );
+}
+
+/* =========================================================
+   RENDER TICKETS
+========================================================= */
+
+function renderTickets(
+    tickets
+){
+
+    const list=
+        $("#ticketList");
+
+    if(!list)
+        return;
+
+    if(!tickets.length){
+
+        list.innerHTML=`
+
+<div class="empty-tickets">
+
+<div class="empty-tickets-icon">
+    ◌
+</div>
+
+<h3>
+    No support tickets yet
+</h3>
+
+<p>
+    If you need help, create a ticket and GHAR
+    will provide a support reference for tracking.
+</p>
+
+<button
+    class="btn btn-primary"
+    type="button"
+    id="emptyCreateTicket"
+>
+    Create first ticket
+</button>
+
+</div>
+
+`;
+
+        $("#emptyCreateTicket")
+            ?.addEventListener(
+                "click",
+                scrollToTicket
+            );
+
+        return;
+    }
+
+    list.innerHTML=
+        tickets
+            .map(
+                ticket => {
+
+                    const status=
+                        ticketStatus(ticket);
+
+                    return `
+
+<article class="ticket-card">
+
+<div>
+
+<div class="ticket-number">
+
+${escapeHTML(
+    ticketNumber(ticket)
+)}
+
+</div>
+
+<div class="ticket-title">
+
+${escapeHTML(
+    ticketTitle(ticket)
+)}
+
+</div>
+
+<div class="ticket-meta">
+
+<span class="ticket-chip">
+
+${escapeHTML(
+    ticketCategory(ticket)
+)}
+
+</span>
+
+<span class="ticket-chip">
+
+${escapeHTML(
+    formatDate(
+        ticket.createdAt ||
+        ticket.created_at ||
+        ticket.date
+    )
+)}
+
+</span>
+
+${
+    ticket.priority
+    ?
+    `
+    <span class="ticket-chip">
+        ${escapeHTML(ticket.priority)}
+    </span>
+    `
+    :
+    ""
+}
+
+</div>
+
+</div>
+
+<div class="
+    ticket-status
+    ${statusClass(status)}
+">
+
+${escapeHTML(
+    formatTicketStatus(status)
+)}
+
+</div>
+
+</article>
+
+`;
+
+                }
+            )
+            .join("");
+}
+
+/* =========================================================
+   LOAD TICKETS
+========================================================= */
 
 async function loadTickets(){
 
-  try{
+    const list=
+        $("#ticketList");
 
-    const data=
-      await apiRequest(
-        API_BASE+"/support?status=open"
-      );
+    if(list){
 
-    const tickets=
-      normalizeCollection(data);
+        list.innerHTML=`
 
-    $("#ticketCount").textContent=
-      tickets.length;
+<div class="empty-tickets">
 
-  }catch(error){
+<div class="empty-tickets-icon">
+    ◌
+</div>
 
-    /*
-     * The support UI remains usable while the API
-     * endpoint is being developed.
-     */
+<h3>
+    Loading your tickets
+</h3>
 
-    $("#ticketCount").textContent="0";
+<p>
+    GHAR is checking your support history.
+</p>
 
-    console.warn(
-      "GHAR support:",
-      error
-    );
+</div>
 
-  }
-}
+`;
 
+    }
 
-/* FAQ */
+    try{
 
-document
-  .querySelectorAll(".faq-question")
-  .forEach(button=>{
-
-    button.addEventListener(
-      "click",
-      ()=>{
-
-        const item=
-          button.closest(".faq-item");
-
-        const isOpen=
-          item.classList.contains("open");
-
-        document
-          .querySelectorAll(".faq-item.open")
-          .forEach(openItem=>{
-            openItem.classList.remove("open");
-
-            const symbol=
-              openItem.querySelector(
-                ".faq-question span:last-child"
-              );
-
-            if(symbol)
-              symbol.textContent="+";
-          });
-
-        if(!isOpen){
-
-          item.classList.add("open");
-
-          const symbol=
-            button.querySelector(
-              "span:last-child"
+        const response =
+            await apiRequest(
+                API_BASE+
+                "/support"
             );
 
-          if(symbol)
-            symbol.textContent="−";
+        const tickets =
+            normalizeCollection(
+                response
+            );
+
+        renderTickets(tickets);
+
+    }catch(error){
+
+        console.warn(
+            "GHAR support tickets:",
+            error
+        );
+
+        /*
+         * Keep the UI functional if the endpoint has
+         * not yet been mounted on the backend.
+         */
+
+        if(list){
+
+            list.innerHTML=`
+
+<div class="empty-tickets">
+
+<div class="empty-tickets-icon">
+    !
+</div>
+
+<h3>
+    Support history unavailable
+</h3>
+
+<p>
+    The support API could not be reached right now.
+    You can still create a ticket and try again.
+</p>
+
+<button
+    class="btn btn-secondary"
+    type="button"
+    id="retryTickets"
+>
+    Try again
+</button>
+
+</div>
+
+`;
+
+            $("#retryTickets")
+                ?.addEventListener(
+                    "click",
+                    loadTickets
+                );
 
         }
 
-      }
-    );
+    }
 
-  });
+}
 
+/* =========================================================
+   CREATE TICKET
+========================================================= */
 
-/* HELP SEARCH */
+async function submitSupportTicket(
+    event
+){
 
-$("#searchHelpButton")
-  ?.addEventListener(
-    "click",
-    ()=>{
+    event.preventDefault();
 
-      const query=
-        $("#supportSearch").value.trim();
+    const form=
+        $("#supportForm");
 
-      if(!query){
+    const button=
+        $("#submitSupport");
 
-        $("#supportSearch").focus();
-
+    if(!form || !button)
         return;
 
-      }
+    const category=
+        $("#category").value.trim();
 
-      window.location.href=
-        "/help-centre.html?search="+
-        encodeURIComponent(query);
+    const priority=
+        $("#priority").value.trim();
 
-    }
-  );
+    const propertyId=
+        $("#propertyId").value.trim();
 
-$("#supportSearch")
-  ?.addEventListener(
-    "keydown",
-    event=>{
+    const referenceId=
+        $("#referenceId").value.trim();
 
-      if(event.key==="Enter"){
+    const subject=
+        $("#subject").value.trim();
 
-        event.preventDefault();
+    const message=
+        $("#message").value.trim();
 
-        $("#searchHelpButton").click();
+    if(!category){
 
-      }
-
-    }
-  );
-
-
-/* SUPPORT FORM */
-
-$("#supportForm")
-  ?.addEventListener(
-    "submit",
-    async event=>{
-
-      event.preventDefault();
-
-      const form=
-        event.currentTarget;
-
-      const message=
-        $("#formMessage");
-
-      const submit=
-        form.querySelector(
-          'button[type="submit"]'
+        showToast(
+            "Please select a support category."
         );
 
-      const payload={
-        subject:
-          $("#supportSubject").value.trim(),
+        return;
+    }
 
-        category:
-          $("#supportCategory").value,
+    if(!subject){
 
-        priority:
-          $("#supportPriority").value,
-
-        message:
-          $("#supportMessage").value.trim()
-      };
-
-      if(
-        !payload.subject ||
-        !payload.category ||
-        !payload.message
-      ){
-
-        message.style.display="block";
-        message.style.color="#e98c8c";
-        message.style.background=
-          "rgba(233,140,140,.07)";
-        message.textContent=
-          "Please complete all required fields.";
+        showToast(
+            "Please enter a support subject."
+        );
 
         return;
+    }
 
-      }
+    if(!message){
 
-      submit.disabled=true;
-      submit.textContent="Submitting...";
+        showToast(
+            "Please describe your issue."
+        );
 
-      try{
+        return;
+    }
 
-        const response=
-          await apiRequest(
-            API_BASE+"/support",
-            {
-              method:"POST",
-              body:
-                JSON.stringify(payload)
-            }
-          );
+    button.disabled=true;
 
-        message.style.display="block";
-        message.style.color="#82c995";
-        message.style.background=
-          "rgba(130,201,149,.07)";
+    button.textContent=
+        "Submitting...";
 
-        message.textContent=
-          response?.message ||
-          "Your support request has been submitted.";
+    const payload={
+
+        category,
+        priority,
+        subject,
+        message
+
+    };
+
+    if(propertyId)
+        payload.propertyId=propertyId;
+
+    if(referenceId)
+        payload.referenceId=referenceId;
+
+    try{
+
+        const response =
+            await apiRequest(
+                API_BASE+
+                "/support",
+                {
+                    method:"POST",
+
+                    body:
+                        JSON.stringify(
+                            payload
+                        )
+                }
+            );
+
+        const ticket =
+            response?.data ||
+            response?.ticket ||
+            response;
+
+        const reference =
+            ticket?.ticketNumber ||
+            ticket?.reference ||
+            ticket?.referenceId ||
+            ticket?.id;
+
+        showToast(
+            reference
+            ?
+            "Support ticket created: "+
+            reference
+            :
+            "Support ticket created successfully."
+        );
 
         form.reset();
 
-        loadTickets();
+        await loadTickets();
 
-      }catch(error){
+        setTimeout(
+            () => {
 
-        message.style.display="block";
-        message.style.color="#e98c8c";
-        message.style.background=
-          "rgba(233,140,140,.07)";
+                $("#ticketList")
+                    ?.scrollIntoView({
+                        behavior:"smooth",
+                        block:"start"
+                    });
 
-        message.textContent=
-          error.message ||
-          "Unable to submit your request. Please try again.";
+            },
+            200
+        );
 
-      }finally{
+    }catch(error){
 
-        submit.disabled=false;
-        submit.textContent="Submit Request";
+        console.error(
+            "GHAR create support ticket:",
+            error
+        );
 
-      }
+        /*
+         * No fake success is shown.
+         * The backend must confirm creation.
+         */
+
+        showToast(
+            error?.data?.message ||
+            error?.message ||
+            "Unable to create support ticket."
+        );
+
+    }finally{
+
+        button.disabled=false;
+
+        button.textContent=
+            "Submit ticket";
 
     }
-  );
-
-
-/* AI */
-
-function openAI(prompt=""){
-
-  const target=
-    prompt
-      ? "/buyer/ai.html?prompt="+
-        encodeURIComponent(prompt)
-      : "/buyer/ai.html";
-
-  window.location.href=target;
 
 }
 
-$("#openAI")
-  ?.addEventListener(
-    "click",
-    ()=>openAI()
-  );
+/* =========================================================
+   CATEGORY PRE-FILL
+========================================================= */
 
-document
-  .querySelectorAll("[data-ai-prompt]")
-  .forEach(button=>{
+function selectCategory(
+    category
+){
 
-    button.addEventListener(
-      "click",
-      ()=>{
-        openAI(
-          button.dataset.aiPrompt
+    const select=
+        $("#category");
+
+    if(!select)
+        return;
+
+    const option=
+        Array.from(
+            select.options
+        ).find(
+            item =>
+                item.value
+                .toLowerCase() ===
+                String(category)
+                    .toLowerCase()
         );
-      }
+
+    if(option)
+        select.value=option.value;
+
+    scrollToTicket();
+
+    $("#subject")
+        ?.focus();
+
+}
+
+/* =========================================================
+   SCROLL TO TICKET
+========================================================= */
+
+function scrollToTicket(){
+
+    const section=
+        $("#ticketFormSection");
+
+    if(!section)
+        return;
+
+    section.scrollIntoView({
+        behavior:"smooth",
+        block:"start"
+    });
+
+    setTimeout(
+        () => {
+
+            $("#category")
+                ?.focus();
+
+        },
+        450
+    );
+}
+
+/* =========================================================
+   RESET
+========================================================= */
+
+$("#resetSupport")
+    ?.addEventListener(
+        "click",
+        () => {
+
+            $("#supportForm")
+                ?.reset();
+
+            showToast(
+                "Support form reset."
+            );
+
+        }
     );
 
-  });
+/* =========================================================
+   FORM
+========================================================= */
 
+$("#supportForm")
+    ?.addEventListener(
+        "submit",
+        submitSupportTicket
+    );
 
-/* NOTIFICATIONS */
+/* =========================================================
+   CATEGORY BUTTONS
+========================================================= */
 
-$("#notificationButton")
-  ?.addEventListener(
-    "click",
-    ()=>{
-      window.location.href=
-        "/buyer/notifications.html";
-    }
-  );
+document
+    .querySelectorAll(
+        ".support-category"
+    )
+    .forEach(
+        button => {
 
+            button.addEventListener(
+                "click",
+                () => {
 
-/* MOBILE MENU */
+                    selectCategory(
+                        button.dataset.category ||
+                        ""
+                    );
+
+                }
+            );
+
+        }
+    );
+
+/* =========================================================
+   HERO BUTTONS
+========================================================= */
+
+$("#scrollTicket")
+    ?.addEventListener(
+        "click",
+        scrollToTicket
+    );
+
+$("#heroTicket")
+    ?.addEventListener(
+        "click",
+        scrollToTicket
+    );
+
+/* =========================================================
+   REFRESH
+========================================================= */
+
+$("#refreshTickets")
+    ?.addEventListener(
+        "click",
+        async () => {
+
+            const button=
+                $("#refreshTickets");
+
+            button.disabled=true;
+
+            button.textContent=
+                "Loading...";
+
+            await loadTickets();
+
+            button.disabled=false;
+
+            button.textContent=
+                "Refresh";
+
+        }
+    );
+
+/* =========================================================
+   FAQ
+========================================================= */
+
+document
+    .querySelectorAll(
+        ".faq-question"
+    )
+    .forEach(
+        button => {
+
+            button.addEventListener(
+                "click",
+                () => {
+
+                    const item=
+                        button.closest(
+                            ".faq-item"
+                        );
+
+                    const isOpen=
+                        item.classList
+                            .contains("open");
+
+                    document
+                        .querySelectorAll(
+                            ".faq-item.open"
+                        )
+                        .forEach(
+                            openItem => {
+
+                                openItem
+                                    .classList
+                                    .remove("open");
+
+                                const icon=
+                                    openItem
+                                        .querySelector(
+                                            ".faq-question span:last-child"
+                                        );
+
+                                if(icon)
+                                    icon.textContent="+";
+
+                            }
+                        );
+
+                    if(!isOpen){
+
+                        item.classList
+                            .add("open");
+
+                        const icon=
+                            button.querySelector(
+                                "span:last-child"
+                            );
+
+                        if(icon)
+                            icon.textContent="−";
+
+                    }
+
+                }
+            );
+
+        }
+    );
+
+/* =========================================================
+   MOBILE MENU
+========================================================= */
 
 $("#menuButton")
-  ?.addEventListener(
-    "click",
-    ()=>{
+    ?.addEventListener(
+        "click",
+        () => {
 
-      const nav=
-        $("#buyerNav");
+            const menu=
+                $("#mobileNav");
 
-      if(!nav)
-        return;
+            const button=
+                $("#menuButton");
 
-      const open=
-        nav.dataset.mobileOpen==="true";
+            const isOpen=
+                menu.classList
+                    .contains("open");
 
-      if(open){
+            menu.classList.toggle(
+                "open"
+            );
 
-        nav.style.display="";
-        nav.dataset.mobileOpen="false";
+            button.setAttribute(
+                "aria-expanded",
+                String(!isOpen)
+            );
 
-        return;
-      }
+            button.textContent=
+                !isOpen
+                ? "×"
+                : "☰";
 
-      nav.dataset.mobileOpen="true";
-
-      Object.assign(
-        nav.style,
-        {
-          display:"flex",
-          position:"absolute",
-          left:"14px",
-          right:"14px",
-          top:"66px",
-          padding:"10px",
-          flexDirection:"column",
-          alignItems:"stretch",
-          border:"1px solid rgba(229,199,125,.14)",
-          borderRadius:"16px",
-          background:"#0b1c14",
-          boxShadow:"0 25px 60px rgba(0,0,0,.35)"
         }
-      );
+    );
+
+document.addEventListener(
+    "click",
+    event => {
+
+        const menu=
+            $("#mobileNav");
+
+        const button=
+            $("#menuButton");
+
+        if(
+            !menu ||
+            !button
+        )
+            return;
+
+        if(
+            menu.classList.contains("open") &&
+            !menu.contains(event.target) &&
+            !button.contains(event.target)
+        ){
+
+            menu.classList.remove(
+                "open"
+            );
+
+            button.textContent="☰";
+
+            button.setAttribute(
+                "aria-expanded",
+                "false"
+            );
+
+        }
 
     }
-  );
+);
 
+/* =========================================================
+   NOTIFICATIONS
+========================================================= */
 
-/* INIT */
+$("#notificationButton")
+    ?.addEventListener(
+        "click",
+        () => {
+
+            window.location.href=
+                "/buyer/notifications.html";
+
+        }
+    );
+
+/* =========================================================
+   AI
+========================================================= */
+
+$("#openAI")
+    ?.addEventListener(
+        "click",
+        () => {
+
+            window.location.href=
+                "/buyer/ai.html";
+
+        }
+    );
+
+/* =========================================================
+   IMAGE FALLBACK
+========================================================= */
+
+document.addEventListener(
+    "error",
+    event => {
+
+        const element=
+            event.target;
+
+        if(
+            element.tagName==="IMG" &&
+            element.dataset.fallbackApplied!=="true"
+        ){
+
+            element.dataset.fallbackApplied="true";
+
+            if(
+                element.id==="profileImage" ||
+                element.id==="mobileProfileImage"
+            ){
+
+                element.src=
+                    "../assets/images/profile/default-avatar.jpg";
+
+            }
+
+        }
+
+    },
+    true
+);
+
+/* =========================================================
+   INIT
+========================================================= */
 
 async function initialize(){
 
-  $("#footerYear").textContent=
-    new Date().getFullYear();
+    $("#footerYear")
+        .textContent=
+            new Date()
+                .getFullYear();
 
-  await Promise.allSettled([
-    loadProfile(),
-    loadTickets()
-  ]);
+    await Promise.all([
+        loadProfile(),
+        loadTickets()
+    ]);
 
 }
 
 if(
-  document.readyState==="loading"
+    document.readyState==="loading"
 ){
 
-  document.addEventListener(
-    "DOMContentLoaded",
-    initialize
-  );
+    document.addEventListener(
+        "DOMContentLoaded",
+        initialize
+    );
 
 }else{
 
-  initialize();
+    initialize();
 
 }
+
 </script>
 
 </body>

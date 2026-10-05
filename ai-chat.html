@@ -1,2275 +1,1990 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-
-<meta name="theme-color" content="#f4ead9">
-<meta name="description" content="GHAR AI Chat -- intelligent real-estate assistance for buyers, sellers, renters and property owners.">
-
-<title>GHAR AI Chat -- Intelligent Property Assistant</title>
-
-<link rel="icon" type="image/png" href="assets/images/logo/ghar-logo.jpg">
-
-<!-- GLOBAL CSS -->
-<link rel="stylesheet" href="assets/css/variables.css">
-<link rel="stylesheet" href="assets/css/reset.css">
-<link rel="stylesheet" href="assets/css/style.css">
-<link rel="stylesheet" href="assets/css/layout.css">
-<link rel="stylesheet" href="assets/css/components.css">
-<link rel="stylesheet" href="assets/css/navigation.css">
-<link rel="stylesheet" href="assets/css/cards.css">
-<link rel="stylesheet" href="assets/css/forms.css">
-<link rel="stylesheet" href="assets/css/home.css">
-<link rel="stylesheet" href="assets/css/property.css">
-<link rel="stylesheet" href="assets/css/animations.css">
-<link rel="stylesheet" href="assets/css/responsive.css">
-<link rel="stylesheet" href="assets/css/utilities.css">
-
-<style>
-
-:root{
-  --ivory:#f8f1e5;
-  --pearl:#fffaf2;
-  --sand:#eadbc4;
-  --champagne:#d9bd83;
-  --gold:#b18a48;
-  --gold2:#e7d09b;
-  --emerald:#163a2e;
-  --emerald2:#245442;
-  --ink:#17251f;
-  --muted:#737d76;
-  --line:rgba(23,58,46,.12);
-  --shadow:0 30px 80px rgba(30,49,40,.12);
-  --radius:28px;
-}
-
-*{
-  box-sizing:border-box;
-}
-
-html{
-  scroll-behavior:smooth;
-}
-
-body{
-  margin:0;
-  background:var(--ivory);
-  color:var(--ink);
-  font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
-  line-height:1.55;
-  overflow-x:hidden;
-}
-
-a{
-  text-decoration:none;
-  color:inherit;
-}
-
-button,
-input,
-textarea{
-  font:inherit;
-}
-
-img{
-  display:block;
-  max-width:100%;
-}
-
-/* =========================================================
-   TOP BAR
-========================================================= */
-
-.topbar{
-  background:var(--emerald);
-  color:#f8f1e5;
-  text-align:center;
-  font-size:11px;
-  letter-spacing:.1em;
-  padding:8px 16px;
-}
-
-.topbar b{
-  color:var(--gold2);
-}
-
-/* =========================================================
-   HEADER
-========================================================= */
-
-.header{
-  position:sticky;
-  top:0;
-  z-index:1000;
-  padding:12px 3.5vw;
-  background:rgba(248,241,229,.92);
-  backdrop-filter:blur(18px);
-  border-bottom:1px solid var(--line);
-}
-
-.nav{
-  max-width:1380px;
-  margin:auto;
-  display:flex;
-  align-items:center;
-  gap:26px;
-}
-
-.brand{
-  display:flex;
-  align-items:center;
-  gap:11px;
-  font-weight:900;
-  letter-spacing:.2em;
-  color:var(--emerald);
-}
-
-.brand img{
-  width:42px;
-  height:42px;
-  object-fit:contain;
-}
-
-.links{
-  display:flex;
-  gap:5px;
-  margin-left:auto;
-}
-
-.links a{
-  font-size:13px;
-  font-weight:700;
-  padding:10px 13px;
-  border-radius:999px;
-}
-
-.links a:hover,
-.links a.active{
-  background:#eee3d2;
-}
-
-.nav-actions{
-  display:flex;
-  gap:8px;
-  align-items:center;
-}
-
-.pill{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  min-height:44px;
-  padding:0 17px;
-  border-radius:999px;
-  border:1px solid var(--line);
-  font-size:12px;
-  font-weight:800;
-}
-
-.pill.gold{
-  background:var(--emerald);
-  border-color:var(--emerald);
-  color:#fff;
-}
-
-.menu{
-  display:none;
-  border:0;
-  background:none;
-  font-size:24px;
-  color:var(--emerald);
-}
-
-/* =========================================================
-   HERO
-========================================================= */
-
-.hero{
-  position:relative;
-  min-height:430px;
-  display:flex;
-  align-items:center;
-  overflow:hidden;
-
-  background:
-    linear-gradient(
-      105deg,
-      rgba(17,48,38,.94),
-      rgba(17,48,38,.62) 55%,
-      rgba(17,48,38,.25)
-    ),
-    url("assets/images/banners/ghar-hero-evening.webp")
-    center/cover no-repeat;
-}
-
-.hero:after{
-  content:"";
-  position:absolute;
-  inset:auto 0 0;
-  height:120px;
-  background:linear-gradient(
-    transparent,
-    var(--ivory)
-  );
-  pointer-events:none;
-}
-
-.hero-inner{
-  position:relative;
-  z-index:2;
-  width:min(1280px,90vw);
-  margin:auto;
-  padding:80px 0 95px;
-}
-
-.eyebrow{
-  display:inline-flex;
-  align-items:center;
-  gap:9px;
-  color:var(--gold2);
-  font-size:10px;
-  font-weight:900;
-  letter-spacing:.22em;
-  text-transform:uppercase;
-}
-
-.eyebrow:before{
-  content:"";
-  width:30px;
-  height:1px;
-  background:var(--gold2);
-}
-
-.hero h1{
-  font:500 clamp(48px,7vw,82px)/.95 Georgia,serif;
-  letter-spacing:-.055em;
-  color:#fff;
-  margin:18px 0;
-  max-width:850px;
-}
-
-.hero h1 em{
-  color:#e8d19c;
-  font-style:normal;
-}
-
-.hero-copy{
-  max-width:650px;
-  color:rgba(255,255,255,.72);
-  font-size:15px;
-  line-height:1.8;
-}
-
-/* =========================================================
-   MAIN
-========================================================= */
-
-.section{
-  padding:90px 4.5vw;
-}
-
-.container{
-  max-width:1280px;
-  margin:auto;
-}
-
-/* =========================================================
-   AI WORKSPACE
-========================================================= */
-
-.chat-section{
-  position:relative;
-  margin-top:-55px;
-  z-index:10;
-  padding:0 4.5vw 100px;
-}
-
-.chat-shell{
-  max-width:1180px;
-  margin:auto;
-
-  display:grid;
-  grid-template-columns:280px 1fr;
-
-  min-height:700px;
-
-  overflow:hidden;
-
-  border-radius:32px;
-
-  background:var(--pearl);
-
-  border:1px solid rgba(177,138,72,.22);
-
-  box-shadow:
-    0 35px 100px rgba(30,49,40,.16);
-}
-
-/* =========================================================
-   SIDEBAR
-========================================================= */
-
-.chat-sidebar{
-  background:
-    linear-gradient(
-      160deg,
-      #173d30,
-      #102d23
-    );
-
-  color:#fff;
-
-  padding:25px;
-
-  display:flex;
-  flex-direction:column;
-}
-
-.ai-brand{
-  display:flex;
-  align-items:center;
-  gap:12px;
-
-  padding-bottom:24px;
-
-  border-bottom:1px solid rgba(255,255,255,.1);
-}
-
-.ai-icon{
-  width:46px;
-  height:46px;
-
-  border-radius:15px;
-
-  display:grid;
-  place-items:center;
-
-  background:var(--champagne);
-
-  color:var(--emerald);
-
-  font-size:22px;
-  font-weight:900;
-}
-
-.ai-brand strong{
-  display:block;
-  font-size:14px;
-}
-
-.ai-brand span{
-  display:block;
-  color:rgba(255,255,255,.5);
-  font-size:10px;
-  margin-top:2px;
-}
-
-.new-chat{
-  width:100%;
-  min-height:48px;
-
-  margin:24px 0 20px;
-
-  border:1px solid rgba(255,255,255,.16);
-  border-radius:14px;
-
-  background:rgba(255,255,255,.08);
-
-  color:#fff;
-
-  font-size:11px;
-  font-weight:900;
-
-  cursor:pointer;
-
-  transition:.25s;
-}
-
-.new-chat:hover{
-  background:rgba(255,255,255,.15);
-}
-
-.sidebar-title{
-  color:var(--gold2);
-  font-size:9px;
-  font-weight:900;
-  letter-spacing:.16em;
-  text-transform:uppercase;
-  margin:12px 0;
-}
-
-.quick-list{
-  display:grid;
-  gap:6px;
-}
-
-.quick{
-  border:0;
-  background:transparent;
-  color:rgba(255,255,255,.66);
-
-  text-align:left;
-
-  padding:11px 10px;
-
-  border-radius:11px;
-
-  font-size:11px;
-
-  cursor:pointer;
-
-  transition:.2s;
-}
-
-.quick:hover{
-  background:rgba(255,255,255,.07);
-  color:#fff;
-}
-
-.sidebar-bottom{
-  margin-top:auto;
-
-  padding-top:20px;
-
-  border-top:1px solid rgba(255,255,255,.1);
-}
-
-.sidebar-bottom a{
-  display:block;
-  color:rgba(255,255,255,.5);
-  font-size:10px;
-  margin:8px 0;
-}
-
-/* =========================================================
-   CHAT MAIN
-========================================================= */
-
-.chat-main{
-  min-width:0;
-  display:flex;
-  flex-direction:column;
-  background:#fffaf2;
-}
-
-.chat-header{
-  min-height:78px;
-
-  padding:15px 22px;
-
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-
-  border-bottom:1px solid var(--line);
-
-  background:rgba(255,250,242,.94);
-}
-
-.chat-title{
-  display:flex;
-  align-items:center;
-  gap:12px;
-}
-
-.status{
-  width:10px;
-  height:10px;
-  border-radius:50%;
-  background:#67a875;
-  box-shadow:0 0 0 5px rgba(103,168,117,.12);
-}
-
-.chat-title h2{
-  margin:0;
-  color:var(--emerald);
-  font:500 23px Georgia,serif;
-}
-
-.chat-title p{
-  margin:2px 0 0;
-  color:var(--muted);
-  font-size:9px;
-}
-
-.chat-actions{
-  display:flex;
-  gap:7px;
-}
-
-.chat-action{
-  width:38px;
-  height:38px;
-
-  border:1px solid var(--line);
-
-  background:#f2e8d8;
-
-  color:var(--emerald);
-
-  border-radius:50%;
-
-  cursor:pointer;
-}
-
-/* =========================================================
-   MESSAGES
-========================================================= */
-
-.messages{
-  flex:1;
-
-  min-height:0;
-
-  padding:28px;
-
-  overflow-y:auto;
-
-  display:flex;
-  flex-direction:column;
-
-  gap:20px;
-}
-
-.message{
-  display:flex;
-  gap:11px;
-  max-width:78%;
-}
-
-.message.user{
-  align-self:flex-end;
-  flex-direction:row-reverse;
-}
-
-.avatar{
-  flex:0 0 36px;
-
-  width:36px;
-  height:36px;
-
-  border-radius:12px;
-
-  display:grid;
-  place-items:center;
-
-  background:var(--emerald);
-
-  color:var(--gold2);
-
-  font-size:14px;
-  font-weight:900;
-}
-
-.user .avatar{
-  background:var(--champagne);
-  color:var(--emerald);
-}
-
-.bubble{
-  padding:14px 17px;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  border-radius:18px 18px 18px 5px;
+  <title>GHAR AI Chat | Intelligent Real Estate Assistant</title>
 
-  background:#f1e7d7;
+  <meta
+    name="description"
+    content="Chat with GHAR AI to discover properties, compare homes, explore locations, understand documents and plan your next property decision."
+  >
 
-  color:var(--ink);
+  <meta name="theme-color" content="#031b11">
 
-  font-size:12px;
-  line-height:1.7;
-}
+  <!-- =======================================================
+       FONTS
+       ======================================================= -->
 
-.user .bubble{
-  border-radius:18px 18px 5px 18px;
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-  background:var(--emerald);
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap"
+    rel="stylesheet"
+  >
 
-  color:#fff;
-}
+  <!-- =======================================================
+       ICONS
+       ======================================================= -->
 
-.bubble strong{
-  color:var(--emerald);
-}
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+  >
 
-.user .bubble strong{
-  color:var(--gold2);
-}
+  <style>
 
-.message-time{
-  margin-top:5px;
-  color:#999;
-  font-size:8px;
-}
+    /* =========================================================
+       GHAR AI CHAT
+       PREMIUM AI INTERFACE
+       ========================================================= */
 
-/* =========================================================
-   SUGGESTIONS
-========================================================= */
-
-.suggestions{
-  padding:0 28px 15px;
-
-  display:flex;
-  flex-wrap:wrap;
-  gap:7px;
-}
-
-.suggestion{
-  border:1px solid var(--line);
-
-  background:#f5ecdf;
-
-  color:var(--emerald);
-
-  border-radius:999px;
-
-  padding:9px 13px;
-
-  font-size:10px;
-  font-weight:800;
-
-  cursor:pointer;
-
-  transition:.2s;
-}
-
-.suggestion:hover{
-  background:var(--emerald);
-  color:#fff;
-}
-
-/* =========================================================
-   INPUT
-========================================================= */
-
-.chat-input-area{
-  padding:14px 18px 18px;
-
-  border-top:1px solid var(--line);
-
-  background:#fffaf2;
-}
-
-.chat-form{
-  display:flex;
-  align-items:flex-end;
-  gap:8px;
-
-  padding:7px;
-
-  border:1px solid rgba(23,58,46,.14);
-
-  border-radius:20px;
-
-  background:#f3e9da;
-}
-
-.chat-form textarea{
-  flex:1;
-
-  min-width:0;
-
-  resize:none;
-
-  min-height:44px;
-  max-height:120px;
-
-  border:0;
-  outline:0;
-
-  background:transparent;
-
-  padding:11px;
-
-  color:var(--ink);
-
-  font-size:12px;
-}
-
-.chat-form textarea::placeholder{
-  color:#8b918c;
-}
-
-.attach-btn,
-.send-btn{
-  width:44px;
-  height:44px;
-
-  flex:0 0 44px;
-
-  border:0;
-
-  border-radius:14px;
-
-  cursor:pointer;
-}
-
-.attach-btn{
-  background:transparent;
-  color:var(--emerald);
-  font-size:17px;
-}
-
-.send-btn{
-  background:var(--emerald);
-  color:#fff;
-  font-size:16px;
-}
-
-.disclaimer{
-  margin:8px 5px 0;
-
-  color:#949994;
-
-  font-size:8px;
-}
-
-/* =========================================================
-   FEATURES
-========================================================= */
-
-.feature-head{
-  margin-bottom:40px;
-}
-
-.kicker{
-  color:var(--gold);
-  font-size:10px;
-  font-weight:900;
-  letter-spacing:.2em;
-  text-transform:uppercase;
-}
-
-.feature-head h2{
-  color:var(--emerald);
-  font:500 clamp(40px,5vw,65px)/1 Georgia,serif;
-  letter-spacing:-.045em;
-  margin:12px 0;
-}
-
-.feature-head p{
-  color:var(--muted);
-  max-width:560px;
-  font-size:13px;
-}
-
-.feature-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:15px;
-}
-
-.feature-card{
-  padding:28px;
-  min-height:220px;
-
-  border-radius:24px;
-
-  background:
-    linear-gradient(
-      145deg,
-      #fffaf2,
-      #f0e4d1
-    );
-
-  border:1px solid var(--line);
-
-  transition:.3s;
-}
-
-.feature-card:hover{
-  transform:translateY(-5px);
-  box-shadow:var(--shadow);
-}
-
-.feature-icon{
-  width:46px;
-  height:46px;
-
-  display:grid;
-  place-items:center;
-
-  border-radius:14px;
-
-  background:var(--emerald);
-
-  color:var(--gold2);
-
-  font-size:19px;
-}
-
-.feature-card h3{
-  margin:28px 0 8px;
-
-  color:var(--emerald);
-
-  font:500 23px Georgia,serif;
-}
-
-.feature-card p{
-  margin:0;
-
-  color:var(--muted);
-
-  font-size:11px;
-  line-height:1.7;
-}
-
-/* =========================================================
-   FOOTER
-========================================================= */
-
-footer{
-  background:#10291f;
-  color:#fff;
-}
-
-.footer{
-  max-width:1280px;
-  margin:auto;
-  padding:70px 4.5vw;
-
-  display:grid;
-  grid-template-columns:2fr 1fr 1fr 1fr;
-
-  gap:45px;
-}
-
-.footer-brand{
-  font-size:25px;
-  font-weight:900;
-  letter-spacing:.2em;
-  color:var(--gold2);
-}
-
-.footer p{
-  color:rgba(255,255,255,.5);
-  max-width:380px;
-  font-size:12px;
-  line-height:1.8;
-}
-
-.footer h4{
-  color:var(--gold2);
-  margin:0 0 15px;
-  font-size:11px;
-  text-transform:uppercase;
-  letter-spacing:.15em;
-}
-
-.footer a{
-  display:block;
-  color:rgba(255,255,255,.6);
-  font-size:11px;
-  margin:9px 0;
-}
-
-.footer a:hover{
-  color:#fff;
-}
-
-.bottom{
-  max-width:1280px;
-  margin:auto;
-
-  padding:18px 4.5vw 25px;
-
-  border-top:1px solid rgba(255,255,255,.1);
-
-  display:flex;
-  justify-content:space-between;
-  gap:20px;
-
-  color:rgba(255,255,255,.4);
-
-  font-size:10px;
-}
-
-/* =========================================================
-   MOBILE DOCK
-========================================================= */
-
-.mobile-dock{
-  display:none;
-}
-
-/* =========================================================
-   RESPONSIVE
-========================================================= */
-
-@media(max-width:1050px){
-
-  .links{
-    display:none;
-  }
-
-  .menu{
-    display:block;
-  }
-
-  .chat-shell{
-    grid-template-columns:230px 1fr;
-  }
-
-  .feature-grid{
-    grid-template-columns:1fr 1fr;
-  }
-
-  .footer{
-    grid-template-columns:1fr 1fr;
-  }
-}
-
-@media(max-width:700px){
-
-  .topbar{
-    font-size:9px;
-  }
-
-  .header{
-    padding:9px 5vw;
-  }
-
-  .nav-actions .pill:first-child{
-    display:none;
-  }
-
-  .hero{
-    min-height:400px;
-  }
-
-  .hero-inner{
-    padding:65px 0 85px;
-  }
-
-  .hero h1{
-    font-size:51px;
-  }
-
-  .chat-section{
-    padding:0 3vw 70px;
-    margin-top:-35px;
-  }
-
-  .chat-shell{
-    display:block;
-    min-height:760px;
-    border-radius:25px;
-  }
-
-  .chat-sidebar{
-    display:none;
-  }
-
-  .chat-header{
-    padding:12px 15px;
-  }
-
-  .chat-title h2{
-    font-size:19px;
-  }
-
-  .messages{
-    padding:20px 15px;
-  }
-
-  .message{
-    max-width:92%;
-  }
-
-  .suggestions{
-    padding:0 15px 12px;
-    overflow-x:auto;
-    flex-wrap:nowrap;
-  }
-
-  .suggestion{
-    white-space:nowrap;
-  }
-
-  .chat-input-area{
-    padding:10px;
-  }
-
-  .feature-grid{
-    grid-template-columns:1fr;
-  }
-
-  .footer{
-    grid-template-columns:1fr;
-  }
-
-  .bottom{
-    flex-direction:column;
-  }
-
-  .mobile-dock{
-    position:fixed;
-    z-index:9999;
-
-    left:10px;
-    right:10px;
-    bottom:10px;
-
-    display:grid;
-    grid-template-columns:repeat(5,1fr);
-
-    background:rgba(16,41,31,.95);
-
-    backdrop-filter:blur(18px);
-
-    border:1px solid rgba(255,255,255,.12);
-
-    border-radius:20px;
-
-    padding:8px;
-
-    box-shadow:0 20px 50px rgba(0,0,0,.2);
-  }
-
-  .mobile-dock a{
-    text-align:center;
-    color:rgba(255,255,255,.65);
-    font-size:8px;
-    font-weight:800;
-  }
-
-  .mobile-dock span{
-    display:block;
-    color:var(--gold2);
-    font-size:18px;
-    line-height:1;
-    margin-bottom:3px;
-  }
-
-  body{
-    padding-bottom:80px;
-  }
-}
-
-</style>
+    :root {
+
+      --green-950: #031b11;
+      --green-900: #052d1d;
+      --green-850: #073a25;
+      --green-800: #08442a;
+      --green-700: #0c5535;
+      --green-600: #126742;
+
+      --gold-500: #d7ad4d;
+      --gold-400: #e7c76b;
+      --gold-300: #f1d98a;
+      --gold-200: #f6e8b1;
+
+      --cream: #f5efdf;
+      --cream-2: #eee5d0;
+
+      --white: #ffffff;
+
+      --text-dark: #122118;
+      --text-muted: #657068;
+
+      --border-gold: rgba(215,173,77,.65);
+      --border-light: rgba(255,255,255,.12);
+
+      --shadow: 0 20px 50px rgba(0,0,0,.18);
+
+      --serif: "Playfair Display", Georgia, serif;
+      --sans: "DM Sans", Arial, sans-serif;
+
+      --header-height: 72px;
+
+      --radius-sm: 10px;
+      --radius-md: 16px;
+      --radius-lg: 24px;
+
+      --container: 1380px;
+    }
+
+
+    /* =========================================================
+       RESET
+       ========================================================= */
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--sans);
+      background: var(--cream);
+      color: var(--text-dark);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    input,
+    textarea,
+    select {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .container {
+      width: min(calc(100% - 48px), var(--container));
+      margin: auto;
+    }
+
+
+    /* =========================================================
+       HEADER
+       ========================================================= */
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      height: var(--header-height);
+      background: var(--green-950);
+      border-bottom: 1px solid rgba(215,173,77,.45);
+    }
+
+    .header-inner {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 30px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      flex-shrink: 0;
+    }
+
+    .brand-mark {
+      width: 43px;
+      height: 43px;
+      border: 1.5px solid var(--gold-400);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: var(--gold-300);
+      font-size: 19px;
+      position: relative;
+    }
+
+    .brand-mark::after {
+      content: "";
+      position: absolute;
+      inset: 4px;
+      border: 1px solid rgba(231,199,107,.35);
+      border-radius: 50%;
+    }
+
+    .brand-name {
+      color: var(--gold-300);
+      font-family: var(--serif);
+      font-size: 25px;
+      letter-spacing: 2px;
+      line-height: 1;
+    }
+
+    .brand-tagline {
+      display: block;
+      margin-top: 3px;
+      color: #e9e2d2;
+      font-size: 7px;
+      letter-spacing: 2px;
+      font-weight: 600;
+    }
+
+    .main-nav {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 27px;
+      margin-left: auto;
+    }
+
+    .main-nav a {
+      position: relative;
+      color: rgba(255,255,255,.82);
+      font-size: 13px;
+      font-weight: 500;
+      padding: 26px 0;
+      transition: .25s ease;
+      white-space: nowrap;
+    }
+
+    .main-nav a:hover,
+    .main-nav a.active {
+      color: var(--gold-300);
+    }
+
+    .main-nav a.active::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 15px;
+      height: 2px;
+      background: var(--gold-400);
+      border-radius: 20px;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .header-search {
+      width: 38px;
+      height: 38px;
+      border: 0;
+      background: transparent;
+      color: white;
+      display: grid;
+      place-items: center;
+      font-size: 15px;
+    }
+
+    .login-btn {
+      min-width: 74px;
+      height: 38px;
+      padding: 0 17px;
+      border-radius: 22px;
+      border: 1px solid var(--gold-400);
+      background: transparent;
+      color: white;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .get-started {
+      height: 38px;
+      padding: 0 19px;
+      border-radius: 22px;
+      border: 1px solid var(--gold-400);
+      background: linear-gradient(135deg,var(--gold-300),var(--gold-500));
+      color: var(--green-950);
+      font-weight: 700;
+      font-size: 12px;
+    }
+
+    .mobile-menu {
+      display: none;
+      width: 40px;
+      height: 40px;
+      border: 1px solid var(--border-gold);
+      background: transparent;
+      color: var(--gold-300);
+      border-radius: 10px;
+    }
+
+
+    /* =========================================================
+       AI WORKSPACE
+       ========================================================= */
+
+    .ai-page {
+      min-height: calc(100vh - var(--header-height));
+      background:
+        radial-gradient(
+          circle at 10% 10%,
+          rgba(215,173,77,.12),
+          transparent 28%
+        ),
+        radial-gradient(
+          circle at 90% 90%,
+          rgba(12,85,53,.18),
+          transparent 30%
+        ),
+        var(--cream);
+      padding: 30px 0 45px;
+    }
+
+    .ai-shell {
+      min-height: 730px;
+      display: grid;
+      grid-template-columns: 280px minmax(0,1fr) 280px;
+      background: #efe7d5;
+      border: 1px solid rgba(5,45,29,.18);
+      border-radius: 26px;
+      overflow: hidden;
+      box-shadow: 0 25px 70px rgba(0,0,0,.15);
+    }
+
+
+    /* =========================================================
+       AI SIDEBAR
+       ========================================================= */
+
+    .ai-sidebar {
+      background: var(--green-950);
+      color: white;
+      padding: 25px 18px;
+      border-right: 1px solid rgba(215,173,77,.25);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .ai-sidebar-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 25px;
+    }
+
+    .ai-sidebar-title {
+      font-family: var(--serif);
+      color: var(--gold-300);
+      font-size: 22px;
+    }
+
+    .new-chat-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      border: 1px solid rgba(215,173,77,.5);
+      background: rgba(215,173,77,.08);
+      color: var(--gold-300);
+    }
+
+    .sidebar-label {
+      color: rgba(255,255,255,.42);
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 1.6px;
+      margin: 10px 9px 10px;
+    }
+
+    .chat-history {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .chat-history button {
+      text-align: left;
+      border: 0;
+      background: transparent;
+      color: rgba(255,255,255,.67);
+      padding: 11px 10px;
+      border-radius: 9px;
+      font-size: 11px;
+      transition: .2s ease;
+    }
+
+    .chat-history button:hover,
+    .chat-history button.active {
+      background: rgba(215,173,77,.1);
+      color: var(--gold-300);
+    }
+
+    .sidebar-bottom {
+      margin-top: auto;
+    }
+
+    .ai-status {
+      padding: 13px;
+      border: 1px solid rgba(215,173,77,.2);
+      background: rgba(255,255,255,.035);
+      border-radius: 12px;
+    }
+
+    .status-line {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: rgba(255,255,255,.7);
+      font-size: 10px;
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      background: #6fce91;
+      border-radius: 50%;
+      box-shadow: 0 0 10px rgba(111,206,145,.7);
+    }
+
+    .ai-status small {
+      display: block;
+      margin-top: 6px;
+      color: rgba(255,255,255,.38);
+      font-size: 9px;
+      line-height: 1.5;
+    }
+
+
+    /* =========================================================
+       CHAT AREA
+       ========================================================= */
+
+    .chat-area {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      background:
+        linear-gradient(
+          180deg,
+          rgba(255,255,255,.34),
+          rgba(238,229,208,.8)
+        );
+    }
+
+    .chat-topbar {
+      min-height: 72px;
+      padding: 14px 22px;
+      border-bottom: 1px solid rgba(5,45,29,.12);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      background: rgba(245,239,223,.72);
+      backdrop-filter: blur(12px);
+    }
+
+    .ai-identity {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+    }
+
+    .ai-avatar {
+      width: 43px;
+      height: 43px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: var(--gold-300);
+      background: var(--green-900);
+      border: 1px solid var(--gold-400);
+      box-shadow: 0 5px 20px rgba(5,45,29,.18);
+    }
+
+    .ai-identity strong {
+      display: block;
+      color: var(--green-900);
+      font-family: var(--serif);
+      font-size: 19px;
+    }
+
+    .ai-identity span {
+      display: block;
+      color: var(--text-muted);
+      font-size: 9px;
+    }
+
+    .chat-tools {
+      display: flex;
+      gap: 6px;
+    }
+
+    .chat-tool {
+      width: 35px;
+      height: 35px;
+      border-radius: 9px;
+      border: 1px solid rgba(5,45,29,.14);
+      background: rgba(255,255,255,.35);
+      color: var(--green-900);
+    }
+
+
+    /* =========================================================
+       MESSAGES
+       ========================================================= */
+
+    .messages {
+      flex: 1;
+      padding: 34px 35px;
+      overflow-y: auto;
+      min-height: 490px;
+    }
+
+    .welcome {
+      max-width: 720px;
+      margin: 30px auto 40px;
+      text-align: center;
+    }
+
+    .welcome-orb {
+      width: 76px;
+      height: 76px;
+      margin: auto;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: var(--gold-300);
+      background:
+        radial-gradient(
+          circle,
+          rgba(215,173,77,.3),
+          rgba(5,45,29,.95)
+        );
+      border: 1px solid var(--gold-400);
+      box-shadow:
+        0 0 0 10px rgba(215,173,77,.05),
+        0 15px 35px rgba(0,0,0,.15);
+      font-size: 27px;
+    }
+
+    .welcome h1 {
+      margin-top: 22px;
+      font-family: var(--serif);
+      color: var(--green-900);
+      font-size: clamp(32px,4vw,50px);
+      line-height: 1.05;
+    }
+
+    .welcome h1 em {
+      color: #9c7929;
+      font-weight: 500;
+    }
+
+    .welcome p {
+      max-width: 610px;
+      margin: 15px auto 0;
+      color: var(--text-muted);
+      font-size: 13px;
+      line-height: 1.8;
+    }
+
+
+    /* =========================================================
+       SUGGESTIONS
+       ========================================================= */
+
+    .suggestions {
+      max-width: 760px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(2,1fr);
+      gap: 10px;
+    }
+
+    .suggestion {
+      text-align: left;
+      padding: 14px 15px;
+      border-radius: 13px;
+      border: 1px solid rgba(5,45,29,.15);
+      background: rgba(255,255,255,.42);
+      color: var(--green-900);
+      transition: .2s ease;
+    }
+
+    .suggestion:hover {
+      transform: translateY(-2px);
+      border-color: rgba(215,173,77,.7);
+      background: #f8f0df;
+      box-shadow: 0 8px 20px rgba(0,0,0,.07);
+    }
+
+    .suggestion i {
+      color: #a17b29;
+      margin-right: 8px;
+    }
+
+    .suggestion strong {
+      font-size: 11px;
+    }
+
+    .suggestion span {
+      display: block;
+      color: var(--text-muted);
+      font-size: 9px;
+      margin-top: 3px;
+      padding-left: 22px;
+    }
+
+
+    /* =========================================================
+       SAMPLE MESSAGE
+       ========================================================= */
+
+    .message-row {
+      max-width: 760px;
+      margin: 20px auto;
+      display: none;
+    }
+
+    .message {
+      padding: 14px 16px;
+      border-radius: 15px;
+      font-size: 12px;
+      line-height: 1.7;
+    }
+
+    .message.user {
+      margin-left: auto;
+      max-width: 70%;
+      color: white;
+      background: var(--green-900);
+      border-bottom-right-radius: 4px;
+    }
+
+    .message.ai {
+      max-width: 78%;
+      background: rgba(255,255,255,.55);
+      border: 1px solid rgba(5,45,29,.12);
+      border-bottom-left-radius: 4px;
+      color: var(--text-dark);
+    }
+
+
+    /* =========================================================
+       INPUT AREA
+       ========================================================= */
+
+    .composer-area {
+      padding: 15px 22px 19px;
+      border-top: 1px solid rgba(5,45,29,.12);
+      background: rgba(245,239,223,.8);
+    }
+
+    .composer {
+      max-width: 850px;
+      margin: auto;
+      border: 1px solid rgba(5,45,29,.22);
+      background: #fffaf0;
+      border-radius: 18px;
+      padding: 10px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.07);
+    }
+
+    .composer textarea {
+      display: block;
+      width: 100%;
+      min-height: 54px;
+      max-height: 150px;
+      resize: none;
+      border: 0;
+      outline: 0;
+      background: transparent;
+      color: var(--text-dark);
+      padding: 6px 8px;
+      font-size: 12px;
+    }
+
+    .composer textarea::placeholder {
+      color: #92968e;
+    }
+
+    .composer-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .composer-actions {
+      display: flex;
+      gap: 5px;
+    }
+
+    .composer-action {
+      width: 33px;
+      height: 33px;
+      border-radius: 8px;
+      border: 0;
+      background: transparent;
+      color: #68736c;
+    }
+
+    .composer-action:hover {
+      color: var(--green-900);
+      background: rgba(5,45,29,.06);
+    }
+
+    .send-button {
+      width: 39px;
+      height: 39px;
+      border-radius: 11px;
+      border: 1px solid var(--gold-400);
+      background: linear-gradient(135deg,var(--gold-300),var(--gold-500));
+      color: var(--green-950);
+      display: grid;
+      place-items: center;
+    }
+
+    .composer-note {
+      max-width: 850px;
+      margin: 7px auto 0;
+      text-align: center;
+      color: rgba(18,33,24,.45);
+      font-size: 8px;
+    }
+
+
+    /* =========================================================
+       RIGHT INTELLIGENCE PANEL
+       ========================================================= */
+
+    .ai-insights {
+      background: var(--green-900);
+      color: white;
+      padding: 24px 18px;
+      border-left: 1px solid rgba(215,173,77,.25);
+      overflow-y: auto;
+    }
+
+    .insights-title {
+      font-family: var(--serif);
+      color: var(--gold-300);
+      font-size: 21px;
+      margin-bottom: 5px;
+    }
+
+    .insights-subtitle {
+      color: rgba(255,255,255,.45);
+      font-size: 9px;
+      line-height: 1.6;
+      margin-bottom: 25px;
+    }
+
+    .insight-card {
+      border: 1px solid rgba(215,173,77,.23);
+      background: rgba(255,255,255,.035);
+      border-radius: 13px;
+      padding: 15px;
+      margin-bottom: 10px;
+    }
+
+    .insight-icon {
+      width: 33px;
+      height: 33px;
+      display: grid;
+      place-items: center;
+      color: var(--gold-300);
+      border: 1px solid rgba(215,173,77,.4);
+      border-radius: 9px;
+      margin-bottom: 11px;
+      font-size: 12px;
+    }
+
+    .insight-card strong {
+      display: block;
+      font-size: 11px;
+      margin-bottom: 4px;
+    }
+
+    .insight-card p {
+      color: rgba(255,255,255,.48);
+      font-size: 9px;
+      line-height: 1.65;
+    }
+
+    .quick-actions {
+      margin-top: 25px;
+    }
+
+    .quick-actions-title {
+      color: rgba(255,255,255,.4);
+      font-size: 8px;
+      letter-spacing: 1.4px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .quick-action {
+      width: 100%;
+      text-align: left;
+      padding: 10px;
+      margin-bottom: 6px;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,.08);
+      background: transparent;
+      color: rgba(255,255,255,.64);
+      font-size: 9px;
+    }
+
+    .quick-action:hover {
+      border-color: rgba(215,173,77,.4);
+      color: var(--gold-300);
+    }
+
+    .quick-action i {
+      width: 18px;
+      color: var(--gold-300);
+    }
+
+
+    /* =========================================================
+       FOOTER
+       ========================================================= */
+
+    .footer {
+      background: #021b11;
+      color: white;
+      border-top: 1px solid rgba(215,173,77,.45);
+    }
+
+    .footer-inner {
+      width: min(calc(100% - 48px),var(--container));
+      margin: auto;
+      padding: 65px 0 45px;
+      display: grid;
+      grid-template-columns: 1.7fr 1fr 1fr 1fr;
+      gap: 35px;
+    }
+
+    .footer-brand strong {
+      color: var(--gold-300);
+      font-family: var(--serif);
+      font-size: 30px;
+      letter-spacing: 2px;
+    }
+
+    .footer-brand p {
+      max-width: 330px;
+      color: rgba(255,255,255,.58);
+      font-size: 12px;
+      line-height: 1.8;
+      margin-top: 17px;
+    }
+
+    .footer-column {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .footer-column h4 {
+      color: var(--gold-300);
+      font-size: 11px;
+      letter-spacing: 1.6px;
+      margin-bottom: 8px;
+    }
+
+    .footer-column a {
+      color: rgba(255,255,255,.66);
+      font-size: 12px;
+      transition: .2s ease;
+    }
+
+    .footer-column a:hover {
+      color: var(--gold-300);
+    }
+
+    .footer-bottom {
+      width: min(calc(100% - 48px),var(--container));
+      margin: auto;
+      border-top: 1px solid rgba(255,255,255,.08);
+      padding: 20px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      color: rgba(255,255,255,.43);
+      font-size: 10px;
+    }
+
+
+    /* =========================================================
+       MOBILE
+       ========================================================= */
+
+    @media (max-width:1100px) {
+
+      .main-nav {
+        gap: 17px;
+      }
+
+      .main-nav a {
+        font-size: 12px;
+      }
+
+      .ai-shell {
+        grid-template-columns: 230px minmax(0,1fr);
+      }
+
+      .ai-insights {
+        display: none;
+      }
+
+      .footer-inner {
+        grid-template-columns: 1.5fr 1fr 1fr 1fr;
+      }
+    }
+
+
+    @media (max-width:850px) {
+
+      :root {
+        --header-height:68px;
+      }
+
+      .container {
+        width: min(calc(100% - 32px),var(--container));
+      }
+
+      .main-nav,
+      .header-search,
+      .login-btn,
+      .get-started {
+        display: none;
+      }
+
+      .mobile-menu {
+        display: grid;
+        place-items: center;
+      }
+
+      .ai-page {
+        padding: 15px 0;
+      }
+
+      .ai-shell {
+        grid-template-columns: 1fr;
+        min-height: calc(100vh - 100px);
+        border-radius: 18px;
+      }
+
+      .ai-sidebar {
+        display: none;
+      }
+
+      .chat-topbar {
+        padding: 12px 15px;
+      }
+
+      .messages {
+        padding: 20px 15px;
+      }
+
+      .suggestions {
+        grid-template-columns: 1fr;
+      }
+
+      .composer-area {
+        padding: 10px;
+      }
+
+      .footer-inner {
+        width: min(calc(100% - 32px),var(--container));
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+
+    @media (max-width:560px) {
+
+      .container {
+        width: min(calc(100% - 24px),var(--container));
+      }
+
+      .brand-name {
+        font-size: 22px;
+      }
+
+      .brand-mark {
+        width: 39px;
+        height: 39px;
+      }
+
+      .welcome {
+        margin-top: 15px;
+      }
+
+      .welcome h1 {
+        font-size: 34px;
+      }
+
+      .welcome p {
+        font-size: 11px;
+      }
+
+      .chat-tools .chat-tool:nth-child(n+2) {
+        display: none;
+      }
+
+      .ai-identity strong {
+        font-size: 17px;
+      }
+
+      .message.user,
+      .message.ai {
+        max-width: 90%;
+      }
+
+      .footer-inner {
+        grid-template-columns: 1fr 1fr;
+        gap: 30px 20px;
+      }
+
+      .footer-brand {
+        grid-column: 1 / -1;
+      }
+
+      .footer-bottom {
+        width: min(calc(100% - 24px),var(--container));
+        display: block;
+      }
+
+      .footer-bottom span:last-child {
+        display: block;
+        margin-top: 8px;
+      }
+    }
+
+  </style>
 </head>
+
 
 <body>
 
-<!-- =========================================================
-     TOP BAR
-========================================================= -->
 
-<div class="topbar">
-  <b>GHAR AI</b>
-  &nbsp; | &nbsp;
-  Your intelligent property conversation
-</div>
+  <!-- =======================================================
+       HEADER
+       ======================================================= -->
 
+  <header class="site-header">
 
-<!-- =========================================================
-     HEADER
-========================================================= -->
+    <div class="container header-inner">
 
-<header class="header">
+      <a href="index.html" class="brand">
 
-  <nav class="nav">
-
-    <a href="index.html" class="brand">
-
-      <img
-        src="assets/images/logo/ghar-logo.png"
-        alt="GHAR"
-      >
-
-      <span>GHAR</span>
-
-    </a>
-
-    <div class="links">
-
-      <a href="properties.html">
-        Properties
-      </a>
-
-      <a href="about.html">
-        About
-      </a>
-
-      <a href="property-search.html">
-        Search
-      </a>
-
-      <a href="compare.html">
-        Compare
-      </a>
-
-      <a href="ai.html" class="active">
-        AI
-      </a>
-
-      <a href="contact.html">
-        Contact
-      </a>
-
-    </div>
-
-    <div class="nav-actions">
-
-      <a href="login.html" class="pill">
-        Login
-      </a>
-
-      <a href="profile.html" class="pill gold">
-        Account
-      </a>
-
-      <button
-        class="menu"
-        type="button"
-        aria-label="Open menu"
-      >
-        ☰
-      </button>
-
-    </div>
-
-  </nav>
-
-</header>
-
-
-<main>
-
-
-<!-- =========================================================
-     HERO
-========================================================= -->
-
-<section class="hero">
-
-  <div class="hero-inner">
-
-    <div class="eyebrow">
-      GHAR intelligence
-    </div>
-
-    <h1>
-      Talk to your
-      <em>property advisor.</em>
-    </h1>
-
-    <p class="hero-copy">
-      Ask GHAR about properties, locations, budgets,
-      investment ideas, loans, documents, listings
-      and your next step in the property journey.
-    </p>
-
-  </div>
-
-</section>
-
-
-<!-- =========================================================
-     CHAT WORKSPACE
-========================================================= -->
-
-<section class="chat-section">
-
-  <div class="chat-shell">
-
-
-    <!-- SIDEBAR -->
-
-    <aside class="chat-sidebar">
-
-      <div class="ai-brand">
-
-        <div class="ai-icon">
-          ✦
+        <div class="brand-mark">
+          <i class="fa-solid fa-house"></i>
         </div>
 
         <div>
-
-          <strong>
-            GHAR AI
-          </strong>
-
-          <span>
-            Property Intelligence
-          </span>
-
+          <div class="brand-name">GHAR</div>
+          <span class="brand-tagline">BUY | SELL | RENT</span>
         </div>
 
+      </a>
+
+
+      <nav class="main-nav">
+
+        <a href="index.html">
+          Home
+        </a>
+
+        <a href="properties.html">
+          Properties
+        </a>
+
+        <a href="buy.html">
+          Buy
+        </a>
+
+        <a href="rent.html">
+          Rent
+        </a>
+
+        <a href="sell.html">
+          Sell
+        </a>
+
+        <a href="ghar-ai.html" class="active">
+          GHAR AI
+        </a>
+
+        <a href="about.html">
+          About
+        </a>
+
+        <a href="contact.html">
+          Contact
+        </a>
+
+      </nav>
+
+
+      <div class="header-actions">
+
+        <button
+          class="header-search"
+          aria-label="Search"
+          onclick="window.location.href='property-search.html'"
+        >
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+
+        <a href="login.html" class="login-btn">
+          Login
+        </a>
+
+        <a href="registration.html" class="get-started">
+          Get Started
+        </a>
+
+        <button
+          class="mobile-menu"
+          id="mobileMenu"
+          aria-label="Menu"
+        >
+          <i class="fa-solid fa-bars"></i>
+        </button>
+
       </div>
 
+    </div>
 
-      <button
-        class="new-chat"
-        id="newChat"
-        type="button"
-      >
-        ＋ New conversation
-      </button>
+  </header>
 
 
-      <div class="sidebar-title">
-        Explore AI
-      </div>
 
-      <div class="quick-list">
+  <!-- =======================================================
+       AI PAGE
+       ======================================================= -->
 
-        <button class="quick" data-query="Help me find a property">
-          ⌂ Find a property
-        </button>
+  <main class="ai-page">
 
-        <button class="quick" data-query="Estimate the price of my property">
-          ◈ Estimate property price
-        </button>
+    <div class="container">
 
-        <button class="quick" data-query="Help me understand a home loan">
-          ₹ Loan assistance
-        </button>
-
-        <button class="quick" data-query="Help me evaluate a property investment">
-          ◇ Investment guidance
-        </button>
-
-        <button class="quick" data-query="What documents do I need to buy a property?">
-          ▣ Document assistance
-        </button>
-
-        <button class="quick" data-query="Help me write a property description">
-          ✎ Property description
-        </button>
-
-      </div>
+      <section class="ai-shell">
 
 
-      <div class="sidebar-bottom">
+        <!-- =================================================
+             LEFT AI SIDEBAR
+             ================================================= -->
 
-        <a href="ai-property-advisor.html">
-          AI Property Advisor →
-        </a>
+        <aside class="ai-sidebar">
 
-        <a href="ai-property-search.html">
-          AI Property Search →
-        </a>
+          <div class="ai-sidebar-top">
 
-        <a href="ai-price-estimator.html">
-          AI Price Estimator →
-        </a>
+            <div class="ai-sidebar-title">
+              GHAR AI
+            </div>
 
-        <a href="ai-investment-advisor.html">
-          AI Investment Advisor →
-        </a>
+            <button
+              class="new-chat-btn"
+              id="newChat"
+              title="New chat"
+            >
+              <i class="fa-solid fa-plus"></i>
+            </button>
 
-        <a href="ai-loan-advisor.html">
-          AI Loan Advisor →
-        </a>
-
-      </div>
-
-    </aside>
+          </div>
 
 
-    <!-- CHAT -->
+          <div class="sidebar-label">
+            RECENT CHATS
+          </div>
 
-    <section class="chat-main">
+
+          <div class="chat-history">
+
+            <button class="active">
+              <i class="fa-regular fa-message"></i>
+              &nbsp; Find a 3 BHK in Noida
+            </button>
+
+            <button>
+              <i class="fa-regular fa-message"></i>
+              &nbsp; Compare two properties
+            </button>
+
+            <button>
+              <i class="fa-regular fa-message"></i>
+              &nbsp; Investment opportunities
+            </button>
+
+            <button>
+              <i class="fa-regular fa-message"></i>
+              &nbsp; Best areas for families
+            </button>
+
+          </div>
 
 
-      <!-- CHAT HEADER -->
+          <div class="sidebar-bottom">
 
-      <div class="chat-header">
+            <div class="ai-status">
 
-        <div class="chat-title">
+              <div class="status-line">
 
-          <div class="status"></div>
+                <span class="status-dot"></span>
 
-          <div>
+                GHAR AI is online
 
-            <h2>
-              GHAR AI Assistant
-            </h2>
+              </div>
+
+              <small>
+                Your property discovery assistant.
+              </small>
+
+            </div>
+
+          </div>
+
+        </aside>
+
+
+
+        <!-- =================================================
+             CHAT
+             ================================================= -->
+
+        <section class="chat-area">
+
+
+          <!-- TOP BAR -->
+
+          <div class="chat-topbar">
+
+            <div class="ai-identity">
+
+              <div class="ai-avatar">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+              </div>
+
+              <div>
+
+                <strong>
+                  GHAR AI
+                </strong>
+
+                <span>
+                  Intelligent Property Assistant
+                </span>
+
+              </div>
+
+            </div>
+
+
+            <div class="chat-tools">
+
+              <button
+                class="chat-tool"
+                title="Voice"
+                id="voiceButton"
+              >
+                <i class="fa-solid fa-microphone"></i>
+              </button>
+
+              <button
+                class="chat-tool"
+                title="Clear conversation"
+                id="clearChat"
+              >
+                <i class="fa-solid fa-broom"></i>
+              </button>
+
+              <button
+                class="chat-tool"
+                title="More"
+              >
+                <i class="fa-solid fa-ellipsis"></i>
+              </button>
+
+            </div>
+
+          </div>
+
+
+
+          <!-- MESSAGES -->
+
+          <div class="messages" id="messages">
+
+
+            <div class="welcome" id="welcome">
+
+              <div class="welcome-orb">
+
+                <i class="fa-solid fa-sparkles"></i>
+
+              </div>
+
+
+              <h1>
+                What can I help you
+                <em>find?</em>
+              </h1>
+
+
+              <p>
+                Tell GHAR AI what you are looking for. Search
+                properties naturally, compare homes, explore
+                locations, understand documents or plan your
+                next property decision.
+              </p>
+
+            </div>
+
+
+            <!-- SUGGESTIONS -->
+
+            <div
+              class="suggestions"
+              id="suggestions"
+            >
+
+              <button
+                class="suggestion"
+                data-prompt="Find me a 3 BHK apartment in Noida under ₹1.5 crore"
+              >
+
+                <i class="fa-solid fa-house"></i>
+
+                <strong>
+                  Find a property
+                </strong>
+
+                <span>
+                  Search by location, budget and type
+                </span>
+
+              </button>
+
+
+              <button
+                class="suggestion"
+                data-prompt="Compare two properties for me"
+              >
+
+                <i class="fa-solid fa-scale-balanced"></i>
+
+                <strong>
+                  Compare properties
+                </strong>
+
+                <span>
+                  Understand the differences
+                </span>
+
+              </button>
+
+
+              <button
+                class="suggestion"
+                data-prompt="Which locations are best for families in Noida?"
+              >
+
+                <i class="fa-solid fa-location-dot"></i>
+
+                <strong>
+                  Explore locations
+                </strong>
+
+                <span>
+                  Discover areas based on your needs
+                </span>
+
+              </button>
+
+
+              <button
+                class="suggestion"
+                data-prompt="Help me understand the documents needed to buy a property"
+              >
+
+                <i class="fa-solid fa-file-lines"></i>
+
+                <strong>
+                  Understand documents
+                </strong>
+
+                <span>
+                  Get help with your property journey
+                </span>
+
+              </button>
+
+
+              <button
+                class="suggestion"
+                data-prompt="Show me investment-focused property opportunities"
+              >
+
+                <i class="fa-solid fa-chart-line"></i>
+
+                <strong>
+                  Investment insights
+                </strong>
+
+                <span>
+                  Explore potential opportunities
+                </span>
+
+              </button>
+
+
+              <button
+                class="suggestion"
+                data-prompt="Help me find a home according to my lifestyle"
+              >
+
+                <i class="fa-solid fa-heart"></i>
+
+                <strong>
+                  Find my ideal home
+                </strong>
+
+                <span>
+                  Match property to lifestyle
+                </span>
+
+              </button>
+
+            </div>
+
+
+            <!-- DYNAMIC CHAT MESSAGES -->
+
+            <div id="dynamicMessages"></div>
+
+          </div>
+
+
+
+          <!-- COMPOSER -->
+
+          <div class="composer-area">
+
+            <div class="composer">
+
+              <textarea
+                id="messageInput"
+                rows="1"
+                placeholder="Describe the property you are looking for..."
+                aria-label="Message GHAR AI"
+              ></textarea>
+
+
+              <div class="composer-bottom">
+
+                <div class="composer-actions">
+
+                  <button
+                    class="composer-action"
+                    title="Attach document"
+                    id="attachButton"
+                  >
+                    <i class="fa-solid fa-paperclip"></i>
+                  </button>
+
+                  <button
+                    class="composer-action"
+                    title="Location"
+                    id="locationButton"
+                  >
+                    <i class="fa-solid fa-location-dot"></i>
+                  </button>
+
+                  <button
+                    class="composer-action"
+                    title="Property search"
+                    id="propertyButton"
+                  >
+                    <i class="fa-solid fa-house"></i>
+                  </button>
+
+                </div>
+
+
+                <button
+                  class="send-button"
+                  id="sendButton"
+                  aria-label="Send"
+                >
+                  <i class="fa-solid fa-arrow-up"></i>
+                </button>
+
+              </div>
+
+            </div>
+
+
+            <div class="composer-note">
+              GHAR AI can help with property discovery, comparisons,
+              locations and general property information. Always verify
+              important transaction and legal information independently.
+            </div>
+
+          </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             RIGHT INSIGHTS
+             ================================================= -->
+
+        <aside class="ai-insights">
+
+          <div class="insights-title">
+            AI Intelligence
+          </div>
+
+          <p class="insights-subtitle">
+            Tools designed to help you make a more informed
+            property decision.
+          </p>
+
+
+          <div class="insight-card">
+
+            <div class="insight-icon">
+              <i class="fa-solid fa-wand-magic-sparkles"></i>
+            </div>
+
+            <strong>
+              Smart Matching
+            </strong>
 
             <p>
-              Ready to help with your property journey
+              Match properties against your budget,
+              location and lifestyle preferences.
             </p>
 
           </div>
 
-        </div>
 
+          <div class="insight-card">
 
-        <div class="chat-actions">
-
-          <button
-            class="chat-action"
-            id="clearChat"
-            type="button"
-            title="Clear chat"
-          >
-            ↺
-          </button>
-
-          <button
-            class="chat-action"
-            id="fullscreen"
-            type="button"
-            title="Fullscreen"
-          >
-            ⛶
-          </button>
-
-        </div>
-
-      </div>
-
-
-      <!-- MESSAGES -->
-
-      <div
-        class="messages"
-        id="messages"
-      >
-
-        <div class="message">
-
-          <div class="avatar">
-            ✦
-          </div>
-
-          <div>
-
-            <div class="bubble">
-
-              Hello. I'm <strong>GHAR AI</strong>.
-
-              <br><br>
-
-              I can help you explore properties,
-              understand listings, compare options,
-              estimate property prices, prepare questions
-              for sellers and organize your next steps.
-
-              <br><br>
-
-              What are you looking for today?
-
+            <div class="insight-icon">
+              <i class="fa-solid fa-scale-balanced"></i>
             </div>
 
-            <div class="message-time">
-              GHAR AI · Now
-            </div>
+            <strong>
+              Property Comparison
+            </strong>
+
+            <p>
+              Compare prices, sizes, amenities,
+              locations and other available details.
+            </p>
 
           </div>
 
-        </div>
+
+          <div class="insight-card">
+
+            <div class="insight-icon">
+              <i class="fa-solid fa-chart-line"></i>
+            </div>
+
+            <strong>
+              Investment View
+            </strong>
+
+            <p>
+              Organise property information to help
+              evaluate potential investment opportunities.
+            </p>
+
+          </div>
 
 
-      </div>
+          <div class="insight-card">
+
+            <div class="insight-icon">
+              <i class="fa-solid fa-file-shield"></i>
+            </div>
+
+            <strong>
+              Document Guidance
+            </strong>
+
+            <p>
+              Get general assistance understanding
+              property-related documents and processes.
+            </p>
+
+          </div>
 
 
-      <!-- SUGGESTIONS -->
+          <div class="quick-actions">
 
-      <div class="suggestions">
-
-        <button
-          class="suggestion"
-          data-query="Find me a 3 BHK in Noida under ₹2 Cr"
-        >
-          Find a 3 BHK
-        </button>
-
-        <button
-          class="suggestion"
-          data-query="What should I check before buying a property?"
-        >
-          Buying checklist
-        </button>
-
-        <button
-          class="suggestion"
-          data-query="How can I estimate the fair price of a property?"
-        >
-          Estimate price
-        </button>
-
-        <button
-          class="suggestion"
-          data-query="Explain home loan basics"
-        >
-          Home loan
-        </button>
-
-      </div>
+            <div class="quick-actions-title">
+              QUICK ACTIONS
+            </div>
 
 
-      <!-- INPUT -->
-
-      <div class="chat-input-area">
-
-        <form
-          class="chat-form"
-          id="chatForm"
-        >
-
-          <button
-            class="attach-btn"
-            type="button"
-            id="attachBtn"
-            title="Attach document"
-          >
-            ＋
-          </button>
-
-          <textarea
-            id="chatInput"
-            rows="1"
-            placeholder="Ask GHAR AI anything about property..."
-            aria-label="Message GHAR AI"
-          ></textarea>
-
-          <button
-            class="send-btn"
-            type="submit"
-            aria-label="Send message"
-          >
-            ↑
-          </button>
-
-        </form>
-
-        <div class="disclaimer">
-          GHAR AI provides informational assistance. Property,
-          legal, financial and valuation decisions should be
-          independently verified with appropriate professionals.
-        </div>
-
-      </div>
+            <button
+              class="quick-action"
+              data-prompt="Find properties near me"
+            >
+              <i class="fa-solid fa-location-crosshairs"></i>
+              Find properties near me
+            </button>
 
 
-    </section>
+            <button
+              class="quick-action"
+              data-prompt="Find affordable properties"
+            >
+              <i class="fa-solid fa-indian-rupee-sign"></i>
+              Find affordable properties
+            </button>
 
-  </div>
 
-</section>
+            <button
+              class="quick-action"
+              data-prompt="Find luxury properties"
+            >
+              <i class="fa-solid fa-crown"></i>
+              Explore luxury properties
+            </button>
 
 
-<!-- =========================================================
-     AI SERVICES
-========================================================= -->
+            <button
+              class="quick-action"
+              data-prompt="Find properties suitable for investment"
+            >
+              <i class="fa-solid fa-building"></i>
+              Investment properties
+            </button>
 
-<section class="section">
+          </div>
 
-  <div class="container">
+        </aside>
 
-    <div class="feature-head">
-
-      <div class="kicker">
-        Intelligent property services
-      </div>
-
-      <h2>
-        More than a chatbot.
-      </h2>
-
-      <p>
-        Use specialized GHAR AI tools for different stages
-        of buying, selling, renting and investing.
-      </p>
+      </section>
 
     </div>
 
-
-    <div class="feature-grid">
-
-
-      <a
-        class="feature-card"
-        href="ai-property-advisor.html"
-      >
-
-        <div class="feature-icon">
-          ⌂
-        </div>
-
-        <h3>
-          Property Advisor
-        </h3>
-
-        <p>
-          Get structured guidance based on your property
-          requirements, preferences and goals.
-        </p>
-
-      </a>
+  </main>
 
 
-      <a
-        class="feature-card"
-        href="ai-property-search.html"
-      >
 
-        <div class="feature-icon">
-          ⌕
-        </div>
+  <!-- =======================================================
+       FOOTER
+       ======================================================= -->
 
-        <h3>
-          Property Search
-        </h3>
+  <footer class="footer">
 
-        <p>
-          Turn natural-language requirements into a
-          focused property discovery experience.
-        </p>
-
-      </a>
-
-
-      <a
-        class="feature-card"
-        href="ai-price-estimator.html"
-      >
-
-        <div class="feature-icon">
-          ₹
-        </div>
-
-        <h3>
-          Price Estimator
-        </h3>
-
-        <p>
-          Organize property details and market inputs
-          to produce an estimated price range.
-        </p>
-
-      </a>
-
-
-      <a
-        class="feature-card"
-        href="ai-investment-advisor.html"
-      >
-
-        <div class="feature-icon">
-          ◇
-        </div>
-
-        <h3>
-          Investment Advisor
-        </h3>
-
-        <p>
-          Explore investment scenarios, rental potential,
-          risks and property-level considerations.
-        </p>
-
-      </a>
-
-
-      <a
-        class="feature-card"
-        href="ai-loan-advisor.html"
-      >
-
-        <div class="feature-icon">
-          ₹
-        </div>
-
-        <h3>
-          Loan Advisor
-        </h3>
-
-        <p>
-          Understand loan terminology, affordability
-          scenarios, documents and application steps.
-        </p>
-
-      </a>
-
-
-      <a
-        class="feature-card"
-        href="ai-document-assistant.html"
-      >
-
-        <div class="feature-icon">
-          ▣
-        </div>
-
-        <h3>
-          Document Assistant
-        </h3>
-
-        <p>
-          Understand property-document checklists and
-          organize questions before professional review.
-        </p>
-
-      </a>
-
-
-      <a
-        class="feature-card"
-        href="ai-property-description.html"
-      >
-
-        <div class="feature-icon">
-          ✎
-        </div>
-
-        <h3>
-          Property Description
-        </h3>
-
-        <p>
-          Create polished property descriptions from
-          structured listing information.
-        </p>
-
-      </a>
-
-
-      <a
-        class="feature-card"
-        href="ai-chat.html"
-      >
-
-        <div class="feature-icon">
-          ✦
-        </div>
-
-        <h3>
-          AI Chat
-        </h3>
-
-        <p>
-          Have an ongoing conversation with GHAR AI
-          about your property journey.
-        </p>
-
-      </a>
-
-
-    </div>
-
-  </div>
-
-</section>
-
-
-</main>
-
-
-<!-- =========================================================
-     FOOTER
-========================================================= -->
-
-<footer>
-
-  <div class="footer">
-
-
-    <div>
+    <div class="footer-inner">
 
       <div class="footer-brand">
-        GHAR
+
+        <strong>GHAR</strong>
+
+        <p>
+          A premium real estate experience built around
+          intelligent discovery, transparent transactions
+          and exceptional property journeys.
+        </p>
+
       </div>
 
-      <p>
-        A structured real-estate ecosystem connecting
-        buyers, sellers, renters and property transactions
-        through one premium digital experience.
-      </p>
+
+      <div class="footer-column">
+
+        <h4>EXPLORE</h4>
+
+        <a href="properties.html">Properties</a>
+        <a href="property-search.html">Search</a>
+        <a href="buyer/saved-properties.html">Saved Properties</a>
+        <a href="buyer/visits.html">Visits</a>
+
+      </div>
+
+
+      <div class="footer-column">
+
+        <h4>ACCOUNT</h4>
+
+        <a href="profile.html">Profile</a>
+        <a href="settings.html">Settings</a>
+        <a href="buyer/documents.html">Documents</a>
+        <a href="buyer/payments.html">Payments</a>
+
+      </div>
+
+
+      <div class="footer-column">
+
+        <h4>SUPPORT</h4>
+
+        <a href="help-centre.html">Help Centre</a>
+        <a href="faqs.html">FAQs</a>
+        <a href="contact.html">Contact</a>
+        <a href="privacy-policy.html">Privacy Policy</a>
+
+      </div>
 
     </div>
 
 
-    <div>
+    <div class="footer-bottom">
 
-      <h4>
-        Properties
-      </h4>
+      <span>
+        © 2026 GHAR. All rights reserved.
+      </span>
 
-      <a href="properties.html">
-        Buy
-      </a>
-
-      <a href="properties.html?listing=rent">
-        Rent
-      </a>
-
-      <a href="properties.html?listing=lease">
-        Lease
-      </a>
-
-      <a href="properties.html?type=commercial">
-        Commercial
-      </a>
-
-      <a href="properties.html?type=land">
-        Land
-      </a>
+      <span>
+        BUY • SELL • RENT • INVEST
+      </span>
 
     </div>
 
+  </footer>
 
-    <div>
 
-      <h4>
-        AI
-      </h4>
 
-      <a href="ai-property-advisor.html">
-        Property Advisor
-      </a>
+  <!-- =======================================================
+       JAVASCRIPT
+       ======================================================= -->
 
-      <a href="ai-property-search.html">
-        Property Search
-      </a>
+  <script>
 
-      <a href="ai-price-estimator.html">
-        Price Estimator
-      </a>
+    /* =========================================================
+       MOBILE MENU
+       ========================================================= */
 
-      <a href="ai-investment-advisor.html">
-        Investment Advisor
-      </a>
+    const mobileMenu =
+      document.getElementById("mobileMenu");
 
-      <a href="ai-chat.html">
-        AI Chat
-      </a>
+    mobileMenu.addEventListener("click", function () {
 
-    </div>
+      const nav =
+        document.querySelector(".main-nav");
 
+      const isOpen =
+        nav.classList.toggle("mobile-open");
 
-    <div>
+      if (isOpen) {
 
-      <h4>
-        Account
-      </h4>
+        nav.style.display = "flex";
+        nav.style.position = "absolute";
+        nav.style.top = "68px";
+        nav.style.left = "0";
+        nav.style.right = "0";
+        nav.style.padding = "18px";
+        nav.style.background = "#031b11";
+        nav.style.borderBottom =
+          "1px solid rgba(215,173,77,.45)";
+        nav.style.flexDirection = "column";
+        nav.style.alignItems = "stretch";
+        nav.style.gap = "0";
 
-      <a href="dashboard.html">
-        Dashboard
-      </a>
+        nav.querySelectorAll("a").forEach(function(link) {
 
-      <a href="buyer/saved-properties.html">
-        Saved Properties
-      </a>
+          link.style.padding = "13px 10px";
 
-      <a href="buyer/enquiries.html">
-        My Enquiries
-      </a>
+        });
 
-      <a href="profile.html">
-        My Profile
-      </a>
+      } else {
 
-    </div>
+        nav.removeAttribute("style");
 
-  </div>
+        nav.querySelectorAll("a").forEach(function(link) {
 
+          link.removeAttribute("style");
 
-  <div class="bottom">
+        });
 
-    <span>
-      © 2026 GHAR. All rights reserved.
-    </span>
-
-    <span>
-
-      <a href="about.html">
-        About
-      </a>
-
-      ·
-
-      <a href="contact.html">
-        Contact
-      </a>
-
-      ·
-
-      <a href="help-centre.html">
-        Help & Support
-      </a>
-
-      ·
-
-      <a href="terms.html">
-        Terms
-      </a>
-
-      ·
-
-      <a href="privacy.html">
-        Privacy
-      </a>
-
-    </span>
-
-  </div>
-
-</footer>
-
-
-<!-- =========================================================
-     MOBILE NAVIGATION
-========================================================= -->
-
-<nav
-  class="mobile-dock"
-  aria-label="Mobile navigation"
->
-
-  <a href="index.html">
-    <span>⌂</span>
-    Home
-  </a>
-
-  <a href="properties.html">
-    <span>⌕</span>
-    Search
-  </a>
-
-  <a href="buyer/saved-properties.html">
-    <span>♡</span>
-    Saved
-  </a>
-
-  <a href="profile.html">
-    <span>◉</span>
-    Account
-  </a>
-
-  <a href="ai-chat.html">
-    <span>✦</span>
-    AI
-  </a>
-
-</nav>
-
-
-<!-- =========================================================
-     CORE JAVASCRIPT
-========================================================= -->
-
-<script src="assets/js/constants.js" defer></script>
-<script src="assets/js/config.js" defer></script>
-<script src="assets/js/storage.js" defer></script>
-<script src="assets/js/api.js" defer></script>
-<script src="assets/js/auth.js" defer></script>
-<script src="assets/js/core.js" defer></script>
-<script src="assets/js/components.js" defer></script>
-<script src="assets/js/navigation.js" defer></script>
-
-
-<!-- =========================================================
-     PAGE JAVASCRIPT
-========================================================= -->
-
-<script>
-
-document.addEventListener("DOMContentLoaded",()=>{
-
-  const messages =
-    document.getElementById("messages");
-
-  const form =
-    document.getElementById("chatForm");
-
-  const input =
-    document.getElementById("chatInput");
-
-
-  /* =====================================================
-     ADD MESSAGE
-  ===================================================== */
-
-  function addMessage(text,type="user"){
-
-    const wrapper =
-      document.createElement("div");
-
-    wrapper.className =
-      "message " + type;
-
-
-    const avatar =
-      document.createElement("div");
-
-    avatar.className="avatar";
-
-    avatar.textContent =
-      type === "user" ? "◉" : "✦";
-
-
-    const content =
-      document.createElement("div");
-
-
-    const bubble =
-      document.createElement("div");
-
-    bubble.className="bubble";
-
-    bubble.textContent=text;
-
-
-    const time =
-      document.createElement("div");
-
-    time.className="message-time";
-
-    time.textContent =
-      type === "user"
-      ? "You · Now"
-      : "GHAR AI · Now";
-
-
-    content.appendChild(bubble);
-    content.appendChild(time);
-
-    wrapper.appendChild(avatar);
-    wrapper.appendChild(content);
-
-    messages.appendChild(wrapper);
-
-    messages.scrollTop =
-      messages.scrollHeight;
-  }
-
-
-  /* =====================================================
-     AI RESPONSE
-  ===================================================== */
-
-  function aiResponse(query){
-
-    const q =
-      query.toLowerCase();
-
-
-    let response =
-      "I can help you structure that property request. " +
-      "Please provide details such as location, property type, " +
-      "budget, configuration and whether you want to buy, rent or lease.";
-
-
-    if(
-      q.includes("3 bhk") ||
-      q.includes("find") ||
-      q.includes("search")
-    ){
-
-      response =
-        "I can help narrow the search. " +
-        "For a useful property match, consider location, " +
-        "budget, BHK, property type, preferred amenities " +
-        "and whether the requirement is for buying or renting.";
-
-    }
-
-
-    if(
-      q.includes("price") ||
-      q.includes("valuation") ||
-      q.includes("worth")
-    ){
-
-      response =
-        "For a property price estimate, GHAR should consider " +
-        "location, carpet or built-up area, configuration, " +
-        "property age, floor, amenities and comparable listings. " +
-        "An AI estimate should be treated as an indicative range, " +
-        "not a guaranteed market valuation.";
-
-    }
-
-
-    if(
-      q.includes("loan") ||
-      q.includes("emi")
-    ){
-
-      response =
-        "I can explain home-loan concepts such as loan amount, " +
-        "down payment, interest rate, tenure and EMI. " +
-        "Actual eligibility and approval depend on the lender " +
-        "and your financial profile.";
-
-    }
-
-
-    if(
-      q.includes("document") ||
-      q.includes("documents")
-    ){
-
-      response =
-        "For a property transaction, document requirements can " +
-        "vary by property type and transaction. GHAR can help " +
-        "organize a checklist, but important legal documents " +
-        "should be verified by a qualified professional.";
-
-    }
-
-
-    if(
-      q.includes("investment") ||
-      q.includes("invest")
-    ){
-
-      response =
-        "For an investment review, compare purchase price, " +
-        "expected rent, vacancy assumptions, maintenance, " +
-        "financing costs, liquidity, location prospects and risks. " +
-        "I can help structure these factors into a scenario.";
-
-    }
-
-
-    setTimeout(()=>{
-
-      addMessage(
-        response,
-        "ai"
-      );
-
-    },450);
-
-  }
-
-
-  /* =====================================================
-     SUBMIT
-  ===================================================== */
-
-  form.addEventListener(
-    "submit",
-    e=>{
-
-      e.preventDefault();
-
-      const value =
-        input.value.trim();
-
-      if(!value){
-        return;
       }
-
-      addMessage(
-        value,
-        "user"
-      );
-
-      input.value="";
-
-      input.style.height="44px";
-
-      aiResponse(value);
-
-    }
-  );
-
-
-  /* =====================================================
-     SUGGESTIONS
-  ===================================================== */
-
-  document
-    .querySelectorAll(
-      ".suggestion,.quick"
-    )
-    .forEach(button=>{
-
-      button.addEventListener(
-        "click",
-        ()=>{
-
-          const query =
-            button.dataset.query;
-
-          if(!query){
-            return;
-          }
-
-          input.value=query;
-
-          input.focus();
-
-          input.dispatchEvent(
-            new Event(
-              "input"
-            )
-          );
-
-        }
-      );
 
     });
 
 
-  /* =====================================================
-     NEW CHAT
-  ===================================================== */
 
-  document
-    .getElementById("newChat")
-    ?.addEventListener(
-      "click",
-      ()=>{
+    /* =========================================================
+       CHAT ELEMENTS
+       ========================================================= */
 
-        messages.innerHTML="";
+    const input =
+      document.getElementById("messageInput");
 
-        addMessage(
-          "Hello. I'm GHAR AI. What would you like help with today?",
-          "ai"
-        );
+    const sendButton =
+      document.getElementById("sendButton");
+
+    const messages =
+      document.getElementById("messages");
+
+    const dynamicMessages =
+      document.getElementById("dynamicMessages");
+
+    const welcome =
+      document.getElementById("welcome");
+
+    const suggestions =
+      document.getElementById("suggestions");
+
+
+
+    /* =========================================================
+       CREATE USER MESSAGE
+       ========================================================= */
+
+    function addUserMessage(text) {
+
+      const row =
+        document.createElement("div");
+
+      row.className =
+        "message-row";
+
+      row.style.display =
+        "block";
+
+      row.innerHTML = `
+        <div class="message user">
+          ${escapeHTML(text)}
+        </div>
+      `;
+
+      dynamicMessages.appendChild(row);
+
+      scrollChat();
+
+    }
+
+
+
+    /* =========================================================
+       CREATE AI MESSAGE
+       ========================================================= */
+
+    function addAIMessage(text) {
+
+      const row =
+        document.createElement("div");
+
+      row.className =
+        "message-row";
+
+      row.style.display =
+        "block";
+
+      row.innerHTML = `
+        <div class="message ai">
+          <strong style="color:#052d1d;">
+            GHAR AI
+          </strong>
+          <br>
+          ${escapeHTML(text)}
+        </div>
+      `;
+
+      dynamicMessages.appendChild(row);
+
+      scrollChat();
+
+    }
+
+
+
+    /* =========================================================
+       BASIC DEMO AI RESPONSE
+       ========================================================= */
+
+    function generateResponse(text) {
+
+      const value =
+        text.toLowerCase();
+
+      if (
+        value.includes("find") &&
+        value.includes("property")
+      ) {
+
+        return "I can help narrow this down. Tell me your preferred city or locality, approximate budget, property type, bedrooms and whether you want to buy, rent or invest.";
 
       }
-    );
 
+      if (
+        value.includes("compare")
+      ) {
 
-  /* =====================================================
-     CLEAR CHAT
-  ===================================================== */
-
-  document
-    .getElementById("clearChat")
-    ?.addEventListener(
-      "click",
-      ()=>{
-
-        messages.innerHTML="";
-
-        addMessage(
-          "Conversation cleared. How can I help you?",
-          "ai"
-        );
+        return "Absolutely. Send me the two GHAR property listings you want to compare and I can organise the available information around price, size, amenities, location and other relevant factors.";
 
       }
-    );
+
+      if (
+        value.includes("investment")
+      ) {
+
+        return "For an investment search, I can help organise properties by location, price, property type and available information. Tell me your budget, preferred location and investment horizon.";
+
+      }
+
+      if (
+        value.includes("document")
+      ) {
+
+        return "I can provide general guidance on property documents and help you understand what information a document contains. For legal or transaction-critical matters, verify the requirements with the appropriate professional or authority.";
+
+      }
+
+      if (
+        value.includes("location") ||
+        value.includes("area")
+      ) {
+
+        return "Tell me the city, your approximate budget and what matters most to you--schools, offices, metro access, lifestyle, rental potential or investment--and I can help structure the search.";
+
+      }
+
+      return "I understand. Tell me a little more about what you want from your property search--location, budget, property type, size, purpose and important preferences--and I will help you narrow it down.";
+
+    }
 
 
-  /* =====================================================
-     AUTO RESIZE
-  ===================================================== */
 
-  input.addEventListener(
-    "input",
-    ()=>{
+    /* =========================================================
+       SEND MESSAGE
+       ========================================================= */
 
-      input.style.height="auto";
+    function sendMessage(customText) {
+
+      const text =
+        customText ||
+        input.value.trim();
+
+      if (!text) {
+        return;
+      }
+
+      welcome.style.display =
+        "none";
+
+      suggestions.style.display =
+        "none";
+
+      addUserMessage(text);
+
+      input.value = "";
 
       input.style.height =
-        Math.min(
-          input.scrollHeight,
-          120
-        ) + "px";
+        "54px";
+
+
+      setTimeout(function () {
+
+        const response =
+          generateResponse(text);
+
+        addAIMessage(response);
+
+      }, 450);
 
     }
-  );
 
 
-  /* =====================================================
-     ENTER TO SEND
-  ===================================================== */
 
-  input.addEventListener(
-    "keydown",
-    e=>{
+    /* =========================================================
+       SEND BUTTON
+       ========================================================= */
 
-      if(
-        e.key==="Enter" &&
-        !e.shiftKey
-      ){
-
-        e.preventDefault();
-
-        form.requestSubmit();
-
-      }
-
-    }
-  );
-
-
-  /* =====================================================
-     ATTACHMENT
-  ===================================================== */
-
-  document
-    .getElementById("attachBtn")
-    ?.addEventListener(
+    sendButton.addEventListener(
       "click",
-      ()=>{
-
-        const file =
-          document.createElement(
-            "input"
-          );
-
-        file.type="file";
-
-        file.accept=
-          ".pdf,.jpg,.jpeg,.png,.doc,.docx";
-
-        file.click();
-
-
-        file.addEventListener(
-          "change",
-          ()=>{
-
-            if(file.files.length){
-
-              input.value =
-                "I want help reviewing this document: "
-                +
-                file.files[0].name;
-
-              input.focus();
-
-            }
-
-          }
-        );
-
+      function () {
+        sendMessage();
       }
     );
 
 
-  /* =====================================================
-     FULLSCREEN
-  ===================================================== */
 
-  document
-    .getElementById("fullscreen")
-    ?.addEventListener(
-      "click",
-      async()=>{
+    /* =========================================================
+       ENTER TO SEND
+       ========================================================= */
 
-        const shell =
-          document.querySelector(
-            ".chat-shell"
-          );
+    input.addEventListener(
+      "keydown",
+      function (event) {
 
-        try{
+        if (
+          event.key === "Enter" &&
+          !event.shiftKey
+        ) {
 
-          if(!document.fullscreenElement){
+          event.preventDefault();
 
-            await shell.requestFullscreen();
-
-          }else{
-
-            await document.exitFullscreen();
-
-          }
-
-        }catch(error){
-
-          shell.classList.toggle(
-            "fullscreen-fallback"
-          );
+          sendMessage();
 
         }
 
@@ -2277,9 +1992,288 @@ document.addEventListener("DOMContentLoaded",()=>{
     );
 
 
-});
 
-</script>
+    /* =========================================================
+       TEXTAREA AUTO RESIZE
+       ========================================================= */
+
+    input.addEventListener(
+      "input",
+      function () {
+
+        this.style.height =
+          "auto";
+
+        this.style.height =
+          Math.min(
+            this.scrollHeight,
+            150
+          ) + "px";
+
+      }
+    );
+
+
+
+    /* =========================================================
+       SUGGESTION BUTTONS
+       ========================================================= */
+
+    document
+      .querySelectorAll("[data-prompt]")
+      .forEach(function(button) {
+
+        button.addEventListener(
+          "click",
+          function() {
+
+            sendMessage(
+              this.dataset.prompt
+            );
+
+          }
+        );
+
+      });
+
+
+
+    /* =========================================================
+       NEW CHAT
+       ========================================================= */
+
+    document
+      .getElementById("newChat")
+      .addEventListener(
+        "click",
+        function() {
+
+          dynamicMessages.innerHTML = "";
+
+          welcome.style.display =
+            "block";
+
+          suggestions.style.display =
+            "grid";
+
+          input.value = "";
+
+          input.focus();
+
+        }
+      );
+
+
+
+    /* =========================================================
+       CLEAR CHAT
+       ========================================================= */
+
+    document
+      .getElementById("clearChat")
+      .addEventListener(
+        "click",
+        function() {
+
+          dynamicMessages.innerHTML = "";
+
+          welcome.style.display =
+            "block";
+
+          suggestions.style.display =
+            "grid";
+
+        }
+      );
+
+
+
+    /* =========================================================
+       LOCATION
+       ========================================================= */
+
+    document
+      .getElementById("locationButton")
+      .addEventListener(
+        "click",
+        function() {
+
+          input.value =
+            "Find properties near my current location";
+
+          input.focus();
+
+        }
+      );
+
+
+
+    /* =========================================================
+       PROPERTY SEARCH
+       ========================================================= */
+
+    document
+      .getElementById("propertyButton")
+      .addEventListener(
+        "click",
+        function() {
+
+          input.value =
+            "Help me search for a property";
+
+          input.focus();
+
+        }
+      );
+
+
+
+    /* =========================================================
+       ATTACHMENT
+       ========================================================= */
+
+    document
+      .getElementById("attachButton")
+      .addEventListener(
+        "click",
+        function() {
+
+          alert(
+            "Document upload can be connected to the GHAR document system here."
+          );
+
+        }
+      );
+
+
+
+    /* =========================================================
+       VOICE
+       ========================================================= */
+
+    document
+      .getElementById("voiceButton")
+      .addEventListener(
+        "click",
+        function() {
+
+          if (
+            !(
+              "webkitSpeechRecognition" in window ||
+              "SpeechRecognition" in window
+            )
+          ) {
+
+            alert(
+              "Voice input is not supported by this browser."
+            );
+
+            return;
+
+          }
+
+
+          const SpeechRecognition =
+            window.SpeechRecognition ||
+            window.webkitSpeechRecognition;
+
+          const recognition =
+            new SpeechRecognition();
+
+          recognition.lang =
+            "en-IN";
+
+          recognition.interimResults =
+            false;
+
+          recognition.maxAlternatives =
+            1;
+
+
+          recognition.start();
+
+
+          recognition.onresult =
+            function(event) {
+
+              input.value =
+                event.results[0][0].transcript;
+
+              input.dispatchEvent(
+                new Event("input")
+              );
+
+            };
+
+        }
+      );
+
+
+
+    /* =========================================================
+       ESCAPE HTML
+       ========================================================= */
+
+    function escapeHTML(value) {
+
+      const div =
+        document.createElement("div");
+
+      div.textContent =
+        value;
+
+      return div.innerHTML;
+
+    }
+
+
+
+    /* =========================================================
+       SCROLL CHAT
+       ========================================================= */
+
+    function scrollChat() {
+
+      setTimeout(function() {
+
+        messages.scrollTo({
+          top: messages.scrollHeight,
+          behavior: "smooth"
+        });
+
+      }, 50);
+
+    }
+
+
+
+    /* =========================================================
+       HEADER SHADOW
+       ========================================================= */
+
+    window.addEventListener(
+      "scroll",
+      function() {
+
+        const header =
+          document.querySelector(".site-header");
+
+        if (window.scrollY > 20) {
+
+          header.style.boxShadow =
+            "0 10px 30px rgba(0,0,0,.22)";
+
+        } else {
+
+          header.style.boxShadow =
+            "none";
+
+        }
+
+      }
+    );
+
+  </script>
 
 </body>
 </html>

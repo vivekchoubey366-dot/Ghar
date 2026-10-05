@@ -1,1505 +1,2746 @@
+<!-- /buyer/saved-properties.html -->
 <!doctype html>
 <html lang="en">
 <head>
+
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
 <meta name="description"
-      content="GHAR Buyer -- Your saved properties and shortlisted homes.">
+content="GHAR Buyer Saved Properties -- Manage properties saved for later review, comparison and purchase decisions.">
 
 <meta name="theme-color" content="#162d25">
 
 <title>GHAR · Saved Properties</title>
 
-<link rel="icon" href="../assets/images/favicon.svg">
+<link rel="icon" href="../assets/images/logo/favicon.svg">
 
 <style>
+
 /* =========================================================
-   GHAR BUYER -- SAVED PROPERTIES
-   Premium Buyer Experience
+   RESET
 ========================================================= */
 
 *{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
 }
 
 :root{
-  --green-950:#07130e;
-  --green-925:#0a1912;
-  --green-900:#0b1c14;
-  --green-850:#10261c;
-  --green-800:#162d25;
-  --green-750:#1a382c;
-  --green-700:#214438;
-  --green-600:#2b5847;
 
-  --gold-100:#fff7df;
-  --gold-200:#f4dfaa;
-  --gold-300:#e5c77d;
-  --gold-400:#c9a95c;
-  --gold-500:#a98238;
+    --green-950:#07130e;
+    --green-925:#091710;
+    --green-900:#0b1c14;
+    --green-875:#0e2118;
+    --green-850:#10261c;
+    --green-825:#132a20;
+    --green-800:#162d25;
+    --green-750:#1a382c;
+    --green-700:#214438;
+    --green-600:#2b5847;
 
-  --cream:#fffaf0;
-  --cream-2:#f7eedc;
-  --sand:#eee1c8;
+    --gold-100:#fffdf5;
+    --gold-200:#f4dfaa;
+    --gold-300:#e5c77d;
+    --gold-400:#c9a95c;
+    --gold-500:#a98238;
 
-  --text:#f9f5ea;
-  --text-dark:#17231c;
+    --cream:#fffaf0;
+    --cream-2:#f7eedc;
 
-  --muted:rgba(255,255,255,.68);
-  --muted-2:rgba(255,255,255,.45);
+    --text:#f9f5ea;
+    --muted:rgba(255,255,255,.72);
+    --muted-2:rgba(255,255,255,.46);
 
-  --border:rgba(229,199,125,.18);
-  --border-light:rgba(255,255,255,.09);
+    --border:rgba(229,199,125,.17);
+    --border-strong:rgba(229,199,125,.27);
+    --border-light:rgba(255,255,255,.09);
 
-  --success:#82c995;
-  --danger:#e98c8c;
+    --success:#82c995;
+    --warning:#e6c477;
+    --danger:#e98c8c;
+    --blue:#91b9e8;
 
-  --shadow:0 25px 80px rgba(0,0,0,.25);
+    --shadow:0 25px 80px rgba(0,0,0,.28);
 
-  --radius-xl:28px;
-  --radius-lg:21px;
-  --radius-md:15px;
+    --radius-xl:28px;
+    --radius-lg:21px;
+    --radius-md:14px;
 
-  --container:1440px;
+    --container:1440px;
 }
 
 html{
-  scroll-behavior:smooth;
+    scroll-behavior:smooth;
 }
 
 body{
-  min-height:100vh;
-  color:var(--text);
-  font-family:
-    Inter,
-    ui-sans-serif,
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    sans-serif;
 
-  background:
-    radial-gradient(
-      circle at 5% 0%,
-      rgba(229,199,125,.12),
-      transparent 28%
-    ),
-    radial-gradient(
-      circle at 100% 10%,
-      rgba(44,91,69,.22),
-      transparent 30%
-    ),
-    linear-gradient(
-      135deg,
-      #07130e,
-      #0b1c14 48%,
-      #10261c
-    );
+    min-height:100vh;
 
-  overflow-x:hidden;
+    color:var(--text);
+
+    font-family:
+        Inter,
+        ui-sans-serif,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    background:
+
+        radial-gradient(
+            circle at 5% 0%,
+            rgba(229,199,125,.12),
+            transparent 27%
+        ),
+
+        radial-gradient(
+            circle at 100% 8%,
+            rgba(44,91,69,.23),
+            transparent 31%
+        ),
+
+        radial-gradient(
+            circle at 50% 100%,
+            rgba(33,68,56,.18),
+            transparent 32%
+        ),
+
+        linear-gradient(
+            135deg,
+            #07130e,
+            #0b1c14 48%,
+            #10261c
+        );
+
+    overflow-x:hidden;
 }
 
 a{
-  color:inherit;
-  text-decoration:none;
+    color:inherit;
+    text-decoration:none;
 }
 
 button,
 input,
 select{
-  font:inherit;
+    font:inherit;
 }
 
 button{
-  cursor:pointer;
+    cursor:pointer;
 }
 
 img{
-  display:block;
-  max-width:100%;
+    display:block;
+    max-width:100%;
 }
 
 .container{
-  width:min(
-    calc(100% - 40px),
-    var(--container)
-  );
-  margin:auto;
+
+    width:min(
+        calc(100% - 40px),
+        var(--container)
+    );
+
+    margin:auto;
 }
+
 
 /* =========================================================
    BACKGROUND
 ========================================================= */
 
 .page-glow{
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  z-index:-1;
-  overflow:hidden;
+
+    position:fixed;
+    inset:0;
+
+    pointer-events:none;
+
+    z-index:-1;
+
+    overflow:hidden;
 }
 
-.page-glow::before{
-  content:"";
-  position:absolute;
-  width:550px;
-  height:550px;
-  top:-300px;
-  right:-220px;
-  border-radius:50%;
-  border:1px solid rgba(229,199,125,.12);
-  box-shadow:
-    0 0 0 60px rgba(229,199,125,.025),
-    0 0 0 120px rgba(229,199,125,.015);
+.page-glow:before{
+
+    content:"";
+
+    position:absolute;
+
+    width:560px;
+    height:560px;
+
+    top:-310px;
+    right:-230px;
+
+    border-radius:50%;
+
+    border:
+        1px solid
+        rgba(229,199,125,.13);
+
+    box-shadow:
+        0 0 0 60px rgba(229,199,125,.025),
+        0 0 0 120px rgba(229,199,125,.015),
+        0 0 0 180px rgba(229,199,125,.008);
 }
 
-.page-glow::after{
-  content:"";
-  position:absolute;
-  width:500px;
-  height:500px;
-  bottom:-300px;
-  left:-250px;
-  border-radius:50%;
-  border:1px solid rgba(255,255,255,.06);
+.page-glow:after{
+
+    content:"";
+
+    position:absolute;
+
+    width:520px;
+    height:520px;
+
+    bottom:-320px;
+    left:-260px;
+
+    border-radius:50%;
+
+    border:
+        1px solid
+        rgba(255,255,255,.06);
+
+    box-shadow:
+        0 0 0 70px rgba(255,255,255,.012);
 }
+
 
 /* =========================================================
    HEADER
 ========================================================= */
 
 .site-header{
-  position:sticky;
-  top:0;
-  z-index:100;
-  border-bottom:1px solid rgba(229,199,125,.10);
-  background:rgba(7,19,14,.90);
-  backdrop-filter:blur(22px);
+
+    position:sticky;
+    top:0;
+
+    z-index:1000;
+
+    border-bottom:
+        1px solid
+        rgba(229,199,125,.13);
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(7,19,14,.96),
+            rgba(7,19,14,.87)
+        );
+
+    backdrop-filter:blur(24px);
+    -webkit-backdrop-filter:blur(24px);
 }
 
 .header-inner{
-  min-height:76px;
-  display:flex;
-  align-items:center;
-  gap:24px;
+
+    min-height:82px;
+
+    display:flex;
+    align-items:center;
+
+    gap:20px;
 }
+
+
+/* =========================================================
+   BRAND
+========================================================= */
 
 .brand{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  flex-shrink:0;
+
+    display:flex;
+    align-items:center;
+
+    gap:12px;
+
+    flex-shrink:0;
 }
 
-.brand-mark{
-  width:45px;
-  height:45px;
-  display:grid;
-  place-items:center;
-  border-radius:14px;
-  color:#152116;
-  font-size:19px;
-  font-weight:1000;
-  background:linear-gradient(
-    135deg,
-    #f1dda5,
-    #b98b3d
-  );
-  box-shadow:
-    0 10px 25px rgba(0,0,0,.25),
-    inset 0 1px 0 rgba(255,255,255,.5);
+.brand-logo{
+
+    width:47px;
+    height:47px;
+
+    display:grid;
+    place-items:center;
+
+    overflow:hidden;
+
+    border-radius:14px;
+
+    border:
+        1px solid
+        rgba(229,199,125,.28);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(229,199,125,.15),
+            rgba(255,255,255,.04)
+        );
+
+    box-shadow:
+        0 10px 28px rgba(0,0,0,.25),
+        inset 0 1px 0 rgba(255,255,255,.08);
+}
+
+.brand-logo img{
+
+    width:100%;
+    height:100%;
+
+    object-fit:contain;
+
+    padding:5px;
+}
+
+.brand-logo-fallback{
+
+    width:100%;
+    height:100%;
+
+    display:grid;
+    place-items:center;
+
+    color:#172016;
+
+    font-size:20px;
+    font-weight:1000;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f1dda5,
+            #b98b3d
+        );
 }
 
 .brand-text strong{
-  display:block;
-  font-size:17px;
-  letter-spacing:.17em;
+
+    display:block;
+
+    color:var(--cream);
+
+    font-size:17px;
+    font-weight:950;
+
+    letter-spacing:.17em;
 }
 
 .brand-text span{
-  display:block;
-  margin-top:2px;
-  color:var(--muted-2);
-  font-size:8px;
-  font-weight:800;
-  letter-spacing:.16em;
-  text-transform:uppercase;
+
+    display:block;
+
+    margin-top:3px;
+
+    color:var(--muted-2);
+
+    font-size:8px;
+    font-weight:800;
+
+    letter-spacing:.15em;
+
+    text-transform:uppercase;
 }
 
+
+/* =========================================================
+   NAV
+========================================================= */
+
 .desktop-nav{
-  display:flex;
-  align-items:center;
-  gap:5px;
-  margin-left:auto;
+
+    display:flex;
+    align-items:center;
+
+    gap:2px;
+
+    margin-left:auto;
 }
 
 .desktop-nav a{
-  padding:10px 12px;
-  border-radius:10px;
-  color:var(--muted);
-  font-size:11px;
-  font-weight:700;
-  transition:.2s ease;
+
+    position:relative;
+
+    padding:11px 10px;
+
+    border-radius:10px;
+
+    color:var(--muted);
+
+    font-size:10px;
+    font-weight:750;
+
+    transition:.2s ease;
 }
 
-.desktop-nav a:hover,
-.desktop-nav a.active{
-  color:var(--gold-200);
-  background:rgba(229,199,125,.07);
+.desktop-nav a:hover{
+
+    color:var(--gold-200);
+
+    background:
+        rgba(229,199,125,.07);
 }
+
+.desktop-nav a.active{
+
+    color:var(--gold-200);
+
+    background:
+        rgba(229,199,125,.09);
+}
+
+.desktop-nav a.active:after{
+
+    content:"";
+
+    position:absolute;
+
+    left:12px;
+    right:12px;
+
+    bottom:3px;
+
+    height:2px;
+
+    border-radius:10px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            var(--gold-300),
+            transparent
+        );
+}
+
+
+/* =========================================================
+   HEADER ACTIONS
+========================================================= */
 
 .header-actions{
-  display:flex;
-  align-items:center;
-  gap:8px;
+
+    display:flex;
+    align-items:center;
+
+    gap:8px;
+
+    margin-left:4px;
 }
 
 .icon-btn{
-  width:41px;
-  height:41px;
-  display:grid;
-  place-items:center;
-  border:1px solid var(--border-light);
-  border-radius:12px;
-  color:var(--muted);
-  background:rgba(255,255,255,.035);
-  transition:.2s ease;
+
+    width:41px;
+    height:41px;
+
+    display:grid;
+    place-items:center;
+
+    border:
+        1px solid
+        var(--border-light);
+
+    border-radius:12px;
+
+    color:var(--muted);
+
+    background:
+        rgba(255,255,255,.035);
+
+    transition:.2s ease;
 }
 
 .icon-btn:hover{
-  color:var(--gold-200);
-  border-color:rgba(229,199,125,.25);
+
+    color:var(--gold-200);
+
+    border-color:
+        rgba(229,199,125,.30);
+
+    background:
+        rgba(229,199,125,.06);
+
+    transform:translateY(-1px);
 }
 
-.avatar{
-  width:40px;
-  height:40px;
-  display:grid;
-  place-items:center;
-  border-radius:50%;
-  color:#172016;
-  font-size:12px;
-  font-weight:1000;
-  background:linear-gradient(
-    135deg,
-    var(--gold-200),
-    var(--gold-500)
-  );
+.notification-wrap{
+    position:relative;
+}
+
+.notification-dot{
+
+    position:absolute;
+
+    width:7px;
+    height:7px;
+
+    top:7px;
+    right:7px;
+
+    border-radius:50%;
+
+    background:var(--gold-300);
+
+    box-shadow:
+        0 0 0 3px var(--green-900);
+}
+
+
+/* =========================================================
+   PROFILE
+========================================================= */
+
+.profile-menu{
+
+    min-height:43px;
+
+    display:flex;
+    align-items:center;
+
+    gap:9px;
+
+    padding:3px 8px 3px 4px;
+
+    border:
+        1px solid
+        var(--border-light);
+
+    border-radius:25px;
+
+    background:
+        rgba(255,255,255,.035);
+
+    transition:.2s ease;
+}
+
+.profile-menu:hover{
+
+    border-color:
+        rgba(229,199,125,.28);
+
+    background:
+        rgba(229,199,125,.055);
+}
+
+.profile-menu img{
+
+    width:35px;
+    height:35px;
+
+    object-fit:cover;
+
+    border-radius:50%;
+
+    border:
+        1px solid
+        rgba(229,199,125,.32);
+}
+
+.profile-info{
+    min-width:65px;
+}
+
+.profile-info strong{
+
+    display:block;
+
+    max-width:100px;
+
+    overflow:hidden;
+
+    color:var(--cream);
+
+    font-size:9px;
+    font-weight:900;
+
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
+
+.profile-info small{
+
+    display:block;
+
+    margin-top:2px;
+
+    color:var(--muted-2);
+
+    font-size:7px;
+}
+
+.profile-arrow{
+    color:var(--muted-2);
+    font-size:12px;
 }
 
 .mobile-menu{
-  display:none;
+    display:none;
 }
+
 
 /* =========================================================
-   PAGE HERO
+   PAGE
 ========================================================= */
 
-.page-hero{
-  padding:48px 0 25px;
+.page{
+    padding:43px 0 25px;
 }
 
-.page-hero-card{
-  position:relative;
-  overflow:hidden;
-  padding:38px;
-  border:1px solid var(--border);
-  border-radius:var(--radius-xl);
+.page-heading{
 
-  background:
-    radial-gradient(
-      circle at 100% 0%,
-      rgba(229,199,125,.13),
-      transparent 30%
-    ),
-    radial-gradient(
-      circle at 0% 100%,
-      rgba(44,91,69,.28),
-      transparent 40%
-    ),
-    linear-gradient(
-      145deg,
-      #0a1a12,
-      #10251b 55%,
-      #142d22
-    );
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
 
-  box-shadow:var(--shadow);
+    gap:25px;
+
+    margin-bottom:25px;
 }
 
-.page-hero-card::after{
-  content:"";
-  position:absolute;
-  width:300px;
-  height:300px;
-  right:-180px;
-  bottom:-180px;
-  border:1px solid rgba(229,199,125,.12);
-  border-radius:50%;
-  box-shadow:
-    0 0 0 45px rgba(229,199,125,.02),
-    0 0 0 90px rgba(229,199,125,.015);
+.eyebrow{
+
+    color:var(--gold-300);
+
+    font-size:10px;
+    font-weight:950;
+
+    letter-spacing:.18em;
+
+    text-transform:uppercase;
 }
 
-.breadcrumb{
-  position:relative;
-  z-index:2;
-  display:flex;
-  gap:8px;
-  align-items:center;
-  color:var(--muted-2);
-  font-size:9px;
-  font-weight:700;
+.page-heading h1{
+
+    margin-top:9px;
+
+    font-size:
+        clamp(35px,5vw,58px);
+
+    line-height:1;
+
+    letter-spacing:-.055em;
 }
 
-.breadcrumb a:hover{
-  color:var(--gold-300);
+.page-heading p{
+
+    max-width:760px;
+
+    margin-top:13px;
+
+    color:var(--muted);
+
+    font-size:12px;
+
+    line-height:1.75;
 }
 
-.breadcrumb span{
-  color:var(--gold-300);
+.heading-actions{
+
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
 }
 
-.page-eyebrow{
-  position:relative;
-  z-index:2;
-  margin-top:23px;
-  color:var(--gold-300);
-  font-size:10px;
-  font-weight:950;
-  letter-spacing:.18em;
-  text-transform:uppercase;
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.btn{
+
+    min-height:43px;
+
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+
+    gap:8px;
+
+    padding:0 16px;
+
+    border:
+        1px solid
+        transparent;
+
+    border-radius:11px;
+
+    font-size:10px;
+    font-weight:900;
+
+    transition:.2s ease;
 }
 
-.page-hero h1{
-  position:relative;
-  z-index:2;
-  margin-top:10px;
-  color:var(--cream);
-  font-size:clamp(35px,5vw,58px);
-  line-height:1;
-  letter-spacing:-.055em;
+.btn-primary{
+
+    color:#17170f;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f1dca1,
+            #cda85d
+        );
+
+    box-shadow:
+        0 8px 22px rgba(0,0,0,.12);
 }
 
-.page-hero h1 span{
-  color:var(--gold-300);
+.btn-primary:hover{
+    transform:translateY(-2px);
 }
 
-.page-hero p{
-  position:relative;
-  z-index:2;
-  max-width:720px;
-  margin-top:15px;
-  color:var(--muted);
-  font-size:12px;
-  line-height:1.75;
+.btn-secondary{
+
+    color:var(--cream);
+
+    border-color:
+        var(--border-light);
+
+    background:
+        rgba(255,255,255,.045);
 }
+
+.btn-secondary:hover{
+
+    color:var(--gold-200);
+
+    border-color:
+        rgba(229,199,125,.30);
+}
+
+.btn-danger{
+
+    color:#ffd9d9;
+
+    border-color:
+        rgba(233,140,140,.20);
+
+    background:
+        rgba(233,140,140,.07);
+}
+
+.btn-danger:hover{
+
+    color:#fff;
+
+    border-color:
+        rgba(233,140,140,.40);
+
+    background:
+        rgba(233,140,140,.13);
+}
+
+
+/* =========================================================
+   SAVED HERO
+========================================================= */
+
+.saved-hero{
+
+    position:relative;
+
+    padding:25px;
+
+    margin-bottom:22px;
+
+    overflow:hidden;
+
+    border:
+        1px solid
+        rgba(229,199,125,.18);
+
+    border-radius:var(--radius-xl);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(30,65,49,.96),
+            rgba(11,28,20,.97)
+        );
+
+    box-shadow:
+        0 18px 55px rgba(0,0,0,.16);
+}
+
+.saved-hero:before{
+
+    content:"";
+
+    position:absolute;
+
+    width:330px;
+    height:330px;
+
+    right:-150px;
+    top:-210px;
+
+    border-radius:50%;
+
+    border:
+        1px solid
+        rgba(229,199,125,.16);
+
+    box-shadow:
+        0 0 0 55px rgba(229,199,125,.025),
+        0 0 0 110px rgba(229,199,125,.012);
+}
+
+.saved-hero-content{
+
+    position:relative;
+    z-index:1;
+}
+
+.saved-hero-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        minmax(0,1fr)
+        260px;
+
+    gap:20px;
+
+    align-items:center;
+}
+
+.saved-title{
+
+    font-size:18px;
+    font-weight:950;
+}
+
+.saved-subtitle{
+
+    max-width:720px;
+
+    margin-top:7px;
+
+    color:var(--muted-2);
+
+    font-size:9px;
+
+    line-height:1.7;
+}
+
+.saved-stat{
+
+    padding:17px;
+
+    border:
+        1px solid
+        rgba(229,199,125,.17);
+
+    border-radius:16px;
+
+    background:
+        rgba(255,255,255,.035);
+}
+
+.saved-stat-label{
+
+    color:var(--muted-2);
+
+    font-size:7px;
+    font-weight:850;
+
+    letter-spacing:.10em;
+
+    text-transform:uppercase;
+}
+
+.saved-stat-value{
+
+    margin-top:6px;
+
+    color:var(--gold-200);
+
+    font-size:27px;
+    font-weight:1000;
+}
+
 
 /* =========================================================
    TOOLBAR
 ========================================================= */
 
-.toolbar-section{
-  padding:18px 0 8px;
+.results-header{
+
+    display:flex;
+
+    align-items:center;
+    justify-content:space-between;
+
+    gap:12px;
+
+    margin:
+        18px 0
+        12px;
 }
 
-.toolbar{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:15px;
-  padding:15px;
-  border:1px solid var(--border-light);
-  border-radius:17px;
-  background:
-    linear-gradient(
-      145deg,
-      rgba(20,45,34,.95),
-      rgba(11,28,20,.95)
-    );
+.results-count{
+
+    color:var(--muted-2);
+
+    font-size:9px;
 }
 
-.toolbar-left{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  min-width:0;
+.results-count strong{
+    color:var(--cream);
 }
 
-.search-box{
-  width:min(400px,100%);
-  height:43px;
-  display:flex;
-  align-items:center;
-  gap:8px;
-  padding:0 12px;
-  border:1px solid rgba(255,255,255,.08);
-  border-radius:11px;
-  background:rgba(255,255,255,.035);
+.results-actions{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:7px;
 }
 
-.search-box span{
-  color:var(--muted-2);
-  font-size:14px;
+.select{
+
+    width:100%;
+
+    height:42px;
+
+    padding:0 11px;
+
+    outline:none;
+
+    color:var(--cream);
+
+    border:
+        1px solid
+        rgba(255,255,255,.09);
+
+    border-radius:10px;
+
+    background:
+        rgba(255,255,255,.035);
+
+    font-size:9px;
 }
 
-.search-box input{
-  width:100%;
-  min-width:0;
-  border:0;
-  outline:0;
-  color:var(--cream);
-  background:transparent;
-  font-size:10px;
+.select option{
+    color:#172016;
 }
 
-.search-box input::placeholder{
-  color:var(--muted-2);
-}
+.view-toggle{
 
-.toolbar-actions{
-  display:flex;
-  gap:8px;
-}
+    display:flex;
 
-.select-control{
-  height:43px;
-  padding:0 12px;
-  border:1px solid rgba(255,255,255,.08);
-  border-radius:11px;
-  outline:0;
-  color:var(--muted);
-  background:#10251b;
-  font-size:9px;
+    padding:3px;
+
+    border:
+        1px solid
+        var(--border-light);
+
+    border-radius:9px;
+
+    background:
+        rgba(255,255,255,.025);
 }
 
 .view-btn{
-  width:43px;
-  height:43px;
-  display:grid;
-  place-items:center;
-  border:1px solid rgba(255,255,255,.08);
-  border-radius:11px;
-  color:var(--muted);
-  background:rgba(255,255,255,.035);
+
+    width:31px;
+    height:29px;
+
+    border:0;
+
+    border-radius:7px;
+
+    color:var(--muted-2);
+
+    background:transparent;
+
+    font-size:11px;
 }
 
 .view-btn.active{
-  color:var(--gold-300);
-  border-color:rgba(229,199,125,.25);
+
+    color:var(--gold-200);
+
+    background:
+        rgba(229,199,125,.09);
 }
 
-/* =========================================================
-   STATS
-========================================================= */
-
-.stats{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:12px;
-  padding:18px 0 5px;
-}
-
-.stat{
-  padding:17px;
-  border:1px solid var(--border-light);
-  border-radius:16px;
-  background:linear-gradient(
-    145deg,
-    rgba(20,45,34,.90),
-    rgba(11,28,20,.90)
-  );
-}
-
-.stat-label{
-  color:var(--muted-2);
-  font-size:8px;
-  font-weight:900;
-  letter-spacing:.08em;
-  text-transform:uppercase;
-}
-
-.stat-value{
-  margin-top:8px;
-  font-size:23px;
-  font-weight:950;
-  letter-spacing:-.04em;
-}
-
-.stat-note{
-  margin-top:3px;
-  color:var(--muted-2);
-  font-size:8px;
-}
-
-/* =========================================================
-   SECTION
-========================================================= */
-
-.section{
-  padding:22px 0;
-}
-
-.section-heading{
-  display:flex;
-  align-items:flex-end;
-  justify-content:space-between;
-  gap:15px;
-  margin-bottom:17px;
-}
-
-.section-heading h2{
-  font-size:23px;
-  letter-spacing:-.035em;
-}
-
-.section-heading p{
-  margin-top:5px;
-  color:var(--muted-2);
-  font-size:10px;
-}
-
-.section-link{
-  color:var(--gold-300);
-  font-size:10px;
-  font-weight:900;
-}
 
 /* =========================================================
    PROPERTY GRID
 ========================================================= */
 
 .property-grid{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:16px;
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,minmax(0,1fr));
+
+    gap:14px;
+}
+
+.property-grid.list-view{
+    grid-template-columns:1fr;
 }
 
 .property-card{
-  overflow:hidden;
-  border:1px solid var(--border-light);
-  border-radius:var(--radius-lg);
-  background:linear-gradient(
-    145deg,
-    #142d22,
-    #0b1c14
-  );
-  transition:
-    transform .25s ease,
-    border-color .25s ease,
-    box-shadow .25s ease;
+
+    position:relative;
+
+    overflow:hidden;
+
+    border:
+        1px solid
+        var(--border-light);
+
+    border-radius:var(--radius-lg);
+
+    background:
+        linear-gradient(
+            145deg,
+            #142d22,
+            #0b1c14
+        );
+
+    transition:.23s ease;
 }
 
 .property-card:hover{
-  transform:translateY(-5px);
-  border-color:rgba(229,199,125,.28);
-  box-shadow:0 22px 50px rgba(0,0,0,.20);
+
+    transform:translateY(-3px);
+
+    border-color:
+        rgba(229,199,125,.25);
+
+    box-shadow:
+        0 22px 55px rgba(0,0,0,.20);
 }
 
 .property-image{
-  height:205px;
-  position:relative;
-  overflow:hidden;
-  background:linear-gradient(
-    135deg,
-    #284c3c,
-    #142d22
-  );
+
+    position:relative;
+
+    height:230px;
+
+    overflow:hidden;
+
+    background:
+        linear-gradient(
+            135deg,
+            #284c3c,
+            #142d22
+        );
 }
 
 .property-image img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  transition:transform .5s ease;
+
+    width:100%;
+    height:100%;
+
+    object-fit:cover;
+
+    transition:
+        transform .45s ease;
 }
 
-.property-card:hover .property-image img{
-  transform:scale(1.045);
+.property-card:hover
+.property-image img{
+    transform:scale(1.045);
 }
 
-.property-badge{
-  position:absolute;
-  top:12px;
-  left:12px;
-  padding:6px 9px;
-  border-radius:8px;
-  color:#1b2116;
-  background:var(--gold-200);
-  font-size:8px;
-  font-weight:1000;
-  text-transform:uppercase;
-}
+.image-overlay{
 
-.remove-btn{
-  position:absolute;
-  top:11px;
-  right:11px;
-  width:35px;
-  height:35px;
-  display:grid;
-  place-items:center;
-  border:1px solid rgba(255,255,255,.15);
-  border-radius:10px;
-  color:#17170f;
-  background:var(--gold-300);
-  backdrop-filter:blur(8px);
-}
+    position:absolute;
 
-.remove-btn:hover{
-  background:var(--danger);
-  color:white;
-}
+    inset:0;
 
-.property-content{
-  padding:17px;
+    background:
+        linear-gradient(
+            180deg,
+            rgba(0,0,0,.03) 45%,
+            rgba(0,0,0,.58)
+        );
+
+    pointer-events:none;
 }
 
 .property-type{
-  color:var(--gold-300);
-  font-size:8px;
-  font-weight:900;
-  letter-spacing:.12em;
-  text-transform:uppercase;
+
+    position:absolute;
+
+    left:10px;
+    top:10px;
+
+    padding:6px 8px;
+
+    border-radius:8px;
+
+    color:#17170f;
+
+    background:
+        var(--gold-200);
+
+    font-size:7px;
+    font-weight:950;
+
+    letter-spacing:.05em;
+
+    text-transform:uppercase;
 }
 
-.property-title{
-  margin-top:7px;
-  font-size:15px;
-  font-weight:850;
-  line-height:1.3;
-}
+.property-status{
 
-.property-location{
-  margin-top:7px;
-  color:var(--muted-2);
-  font-size:9px;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
-}
+    position:absolute;
 
-.property-meta{
-  display:flex;
-  gap:12px;
-  margin-top:13px;
-  padding-top:12px;
-  border-top:1px solid rgba(255,255,255,.06);
-  color:var(--muted);
-  font-size:9px;
-}
+    left:10px;
+    bottom:10px;
 
-.property-price{
-  margin-top:14px;
-  font-size:17px;
-  font-weight:950;
-  color:var(--cream);
-}
+    padding:6px 8px;
 
-.property-price span{
-  color:var(--muted-2);
-  font-size:9px;
-  font-weight:600;
+    border:
+        1px solid
+        rgba(255,255,255,.13);
+
+    border-radius:8px;
+
+    color:var(--cream);
+
+    background:
+        rgba(7,19,14,.75);
+
+    backdrop-filter:blur(8px);
+
+    font-size:7px;
+    font-weight:850;
 }
 
 .property-actions{
-  display:flex;
-  gap:7px;
-  margin-top:14px;
+
+    position:absolute;
+
+    right:10px;
+    top:10px;
+
+    display:flex;
+
+    gap:6px;
 }
 
-.btn{
-  min-height:40px;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap:7px;
-  padding:0 13px;
-  border-radius:10px;
-  border:1px solid transparent;
-  font-size:9px;
-  font-weight:900;
-  transition:.2s ease;
+.property-action{
+
+    width:35px;
+    height:35px;
+
+    display:grid;
+    place-items:center;
+
+    border:
+        1px solid
+        rgba(255,255,255,.14);
+
+    border-radius:50%;
+
+    color:var(--cream);
+
+    background:
+        rgba(7,19,14,.68);
+
+    backdrop-filter:blur(8px);
+
+    transition:.2s ease;
 }
 
-.btn-primary{
-  color:#17170f;
-  background:linear-gradient(
-    135deg,
-    #f1dca1,
-    #cda85d
-  );
+.property-action:hover{
+
+    color:var(--gold-200);
+
+    border-color:
+        rgba(229,199,125,.30);
 }
 
-.btn-primary:hover{
-  transform:translateY(-2px);
+.property-action.saved{
+
+    color:#e98c8c;
+
+    background:
+        rgba(233,140,140,.12);
+
+    border-color:
+        rgba(233,140,140,.22);
 }
 
-.btn-secondary{
-  color:var(--cream);
-  border-color:var(--border-light);
-  background:rgba(255,255,255,.04);
+
+/* =========================================================
+   PROPERTY CONTENT
+========================================================= */
+
+.property-content{
+    padding:17px;
 }
 
-.btn-secondary:hover{
-  color:var(--gold-200);
-  border-color:rgba(229,199,125,.25);
+.property-label{
+
+    color:var(--gold-300);
+
+    font-size:7px;
+    font-weight:950;
+
+    letter-spacing:.12em;
+
+    text-transform:uppercase;
 }
 
-.property-actions .btn{
-  flex:1;
+.property-title{
+
+    margin-top:6px;
+
+    color:var(--cream);
+
+    font-size:15px;
+    font-weight:900;
+
+    line-height:1.3;
 }
+
+.property-location{
+
+    margin-top:5px;
+
+    color:var(--muted-2);
+
+    font-size:8px;
+}
+
+.property-meta{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:6px;
+
+    margin-top:11px;
+}
+
+.meta-chip{
+
+    padding:6px 7px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.07);
+
+    border-radius:7px;
+
+    color:var(--muted);
+
+    background:
+        rgba(255,255,255,.025);
+
+    font-size:7px;
+}
+
+.property-bottom{
+
+    display:flex;
+
+    align-items:flex-end;
+
+    justify-content:space-between;
+
+    gap:12px;
+
+    margin-top:15px;
+}
+
+.property-price{
+
+    color:var(--cream);
+
+    font-size:17px;
+    font-weight:950;
+}
+
+.property-price small{
+
+    display:block;
+
+    margin-top:3px;
+
+    color:var(--muted-2);
+
+    font-size:7px;
+    font-weight:600;
+}
+
+.property-actions-bottom{
+
+    display:flex;
+
+    gap:6px;
+}
+
+.property-view{
+
+    min-height:34px;
+
+    padding:0 11px;
+
+    display:inline-flex;
+
+    align-items:center;
+    justify-content:center;
+
+    border-radius:9px;
+
+    color:var(--gold-200);
+
+    border:
+        1px solid
+        rgba(229,199,125,.19);
+
+    background:
+        rgba(229,199,125,.055);
+
+    font-size:8px;
+    font-weight:900;
+}
+
+.property-view:hover{
+
+    color:#17170f;
+
+    background:
+        var(--gold-200);
+}
+
+
+/* =========================================================
+   LIST VIEW
+========================================================= */
+
+.property-grid.list-view .property-card{
+
+    display:grid;
+
+    grid-template-columns:270px 1fr;
+}
+
+.property-grid.list-view .property-image{
+
+    height:100%;
+
+    min-height:235px;
+}
+
+.property-grid.list-view .property-content{
+    padding:22px;
+}
+
 
 /* =========================================================
    EMPTY STATE
 ========================================================= */
 
 .empty-state{
-  display:none;
-  text-align:center;
-  padding:65px 25px;
-  border:1px solid var(--border-light);
-  border-radius:var(--radius-xl);
-  background:
-    radial-gradient(
-      circle at 50% 0%,
-      rgba(229,199,125,.09),
-      transparent 35%
-    ),
-    linear-gradient(
-      145deg,
-      rgba(20,45,34,.95),
-      rgba(11,28,20,.95)
-    );
+
+    grid-column:1/-1;
+
+    padding:78px 25px;
+
+    text-align:center;
+
+    border:
+        1px dashed
+        rgba(229,199,125,.20);
+
+    border-radius:var(--radius-lg);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(20,45,34,.72),
+            rgba(11,28,20,.72)
+        );
 }
 
 .empty-icon{
-  width:62px;
-  height:62px;
-  margin:auto;
-  display:grid;
-  place-items:center;
-  border:1px solid rgba(229,199,125,.18);
-  border-radius:18px;
-  color:var(--gold-300);
-  background:rgba(229,199,125,.07);
-  font-size:27px;
+
+    width:64px;
+    height:64px;
+
+    margin:auto;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:18px;
+
+    color:var(--gold-300);
+
+    background:
+        rgba(229,199,125,.08);
+
+    font-size:25px;
 }
 
 .empty-state h3{
-  margin-top:17px;
-  font-size:22px;
+
+    margin-top:17px;
+
+    font-size:20px;
 }
 
 .empty-state p{
-  max-width:520px;
-  margin:8px auto 0;
-  color:var(--muted-2);
-  font-size:10px;
-  line-height:1.7;
+
+    max-width:550px;
+
+    margin:8px auto 20px;
+
+    color:var(--muted-2);
+
+    font-size:10px;
+
+    line-height:1.75;
 }
 
-.empty-state .btn{
-  margin-top:19px;
+
+/* =========================================================
+   LOADING
+========================================================= */
+
+.loading-state{
+
+    grid-column:1/-1;
+
+    padding:65px;
+
+    text-align:center;
+
+    color:var(--muted-2);
+
+    border:
+        1px solid
+        var(--border-light);
+
+    border-radius:var(--radius-lg);
+
+    background:
+        rgba(255,255,255,.025);
 }
+
+.loading-spinner{
+
+    width:32px;
+    height:32px;
+
+    margin:0 auto 12px;
+
+    border:
+        3px solid
+        rgba(255,255,255,.08);
+
+    border-top-color:
+        var(--gold-300);
+
+    border-radius:50%;
+
+    animation:
+        spin .8s linear infinite;
+}
+
+@keyframes spin{
+    to{
+        transform:rotate(360deg);
+    }
+}
+
 
 /* =========================================================
    FOOTER
 ========================================================= */
 
 .site-footer{
-  margin-top:45px;
-  padding:35px 0 25px;
-  border-top:1px solid rgba(255,255,255,.07);
-  background:rgba(3,12,8,.35);
+
+    position:relative;
+
+    margin-top:55px;
+
+    padding:48px 0 25px;
+
+    border-top:
+        1px solid
+        rgba(229,199,125,.12);
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(3,12,8,.38),
+            rgba(3,12,8,.84)
+        );
+}
+
+.footer-top-line{
+
+    height:1px;
+
+    width:100%;
+
+    margin-bottom:35px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(229,199,125,.22),
+            transparent
+        );
 }
 
 .footer-grid{
-  display:grid;
-  grid-template-columns:1.4fr repeat(3,1fr);
-  gap:25px;
+
+    display:grid;
+
+    grid-template-columns:
+        1.6fr
+        repeat(4,1fr);
+
+    gap:30px;
 }
 
 .footer-brand{
-  max-width:300px;
+    max-width:350px;
+}
+
+.footer-brand .brand-logo{
+
+    width:43px;
+    height:43px;
 }
 
 .footer-brand p{
-  margin-top:10px;
-  color:var(--muted-2);
-  font-size:9px;
-  line-height:1.7;
+
+    margin-top:14px;
+
+    color:var(--muted-2);
+
+    font-size:9px;
+
+    line-height:1.85;
+}
+
+.footer-trust{
+
+    display:flex;
+    flex-wrap:wrap;
+
+    gap:6px;
+
+    margin-top:15px;
+}
+
+.trust-pill{
+
+    padding:6px 9px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.07);
+
+    border-radius:7px;
+
+    color:var(--muted-2);
+
+    background:
+        rgba(255,255,255,.025);
+
+    font-size:7px;
+    font-weight:800;
 }
 
 .footer-col h4{
-  color:var(--gold-200);
-  font-size:9px;
-  letter-spacing:.1em;
-  text-transform:uppercase;
+
+    color:var(--gold-200);
+
+    font-size:9px;
+
+    letter-spacing:.1em;
+
+    text-transform:uppercase;
 }
 
 .footer-col a{
-  display:block;
-  margin-top:9px;
-  color:var(--muted-2);
-  font-size:9px;
+
+    display:block;
+
+    margin-top:11px;
+
+    color:var(--muted-2);
+
+    font-size:9px;
+
+    transition:.2s ease;
 }
 
 .footer-col a:hover{
-  color:var(--gold-300);
+
+    color:var(--gold-300);
+
+    transform:translateX(2px);
+}
+
+.footer-contact{
+
+    display:flex;
+    align-items:center;
+
+    gap:8px;
+
+    margin-top:18px;
+    padding-top:14px;
+
+    border-top:
+        1px solid
+        rgba(255,255,255,.06);
+}
+
+.footer-contact-icon{
+
+    width:30px;
+    height:30px;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:9px;
+
+    color:var(--gold-300);
+
+    background:
+        rgba(229,199,125,.07);
+}
+
+.footer-contact-text span{
+
+    display:block;
+
+    color:var(--muted-2);
+
+    font-size:7px;
+}
+
+.footer-contact-text strong{
+
+    display:block;
+
+    margin-top:2px;
+
+    color:var(--cream);
+
+    font-size:8px;
 }
 
 .footer-bottom{
-  display:flex;
-  justify-content:space-between;
-  gap:15px;
-  margin-top:28px;
-  padding-top:17px;
-  border-top:1px solid rgba(255,255,255,.06);
-  color:var(--muted-2);
-  font-size:8px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    gap:15px;
+
+    margin-top:32px;
+    padding-top:19px;
+
+    border-top:
+        1px solid
+        rgba(255,255,255,.06);
+
+    color:var(--muted-2);
+
+    font-size:8px;
 }
 
+
 /* =========================================================
-   AI FLOATING
+   AI
 ========================================================= */
 
 .ai-floating{
-  position:fixed;
-  right:22px;
-  bottom:22px;
-  z-index:90;
-  min-height:48px;
-  display:flex;
-  align-items:center;
-  gap:8px;
-  padding:0 16px;
-  border:1px solid rgba(229,199,125,.25);
-  border-radius:30px;
-  color:#17170f;
-  background:linear-gradient(
-    135deg,
-    var(--gold-200),
-    var(--gold-400)
-  );
-  box-shadow:0 15px 35px rgba(0,0,0,.3);
-  font-size:10px;
-  font-weight:1000;
+
+    position:fixed;
+
+    right:22px;
+    bottom:22px;
+
+    z-index:900;
+
+    min-height:50px;
+
+    display:flex;
+    align-items:center;
+
+    gap:9px;
+
+    padding:0 18px;
+
+    border:
+        1px solid
+        rgba(229,199,125,.28);
+
+    border-radius:30px;
+
+    color:#17170f;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--gold-200),
+            var(--gold-400)
+        );
+
+    box-shadow:
+        0 15px 35px rgba(0,0,0,.30);
+
+    font-size:10px;
+    font-weight:1000;
+
+    transition:.2s ease;
 }
+
+.ai-floating:hover{
+    transform:translateY(-3px);
+}
+
+.ai-icon{
+
+    width:27px;
+    height:27px;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:50%;
+
+    background:
+        rgba(0,0,0,.10);
+}
+
 
 /* =========================================================
-   MOBILE
+   MOBILE NAV
 ========================================================= */
 
-@media (max-width:1100px){
+.mobile-nav-panel{
 
-  .desktop-nav{
     display:none;
-  }
 
-  .mobile-menu{
-    display:grid;
-  }
+    position:fixed;
 
-  .property-grid{
-    grid-template-columns:repeat(3,1fr);
-  }
-
-}
-
-@media (max-width:800px){
-
-  .container{
-    width:min(
-      calc(100% - 28px),
-      var(--container)
-    );
-  }
-
-  .page-hero-card{
-    padding:29px;
-  }
-
-  .property-grid{
-    grid-template-columns:repeat(2,1fr);
-  }
-
-  .stats{
-    grid-template-columns:repeat(2,1fr);
-  }
-
-  .toolbar{
-    align-items:stretch;
-    flex-direction:column;
-  }
-
-  .toolbar-left{
-    flex-direction:column;
-    align-items:stretch;
-  }
-
-  .search-box{
-    width:100%;
-  }
-
-  .toolbar-actions{
-    width:100%;
-  }
-
-  .toolbar-actions .select-control{
-    flex:1;
-  }
-
-  .footer-grid{
-    grid-template-columns:1fr 1fr;
-  }
-
-}
-
-@media (max-width:560px){
-
-  .header-inner{
-    min-height:68px;
-  }
-
-  .brand-text span{
-    display:none;
-  }
-
-  .header-actions .icon-btn{
-    display:none;
-  }
-
-  .page-hero{
-    padding-top:25px;
-  }
-
-  .page-hero-card{
-    padding:24px;
-    border-radius:22px;
-  }
-
-  .page-hero h1{
-    font-size:37px;
-  }
-
-  .page-hero p{
-    font-size:11px;
-  }
-
-  .stats{
-    grid-template-columns:1fr 1fr;
-    gap:9px;
-  }
-
-  .stat{
-    padding:14px;
-  }
-
-  .stat-value{
-    font-size:21px;
-  }
-
-  .property-grid{
-    grid-template-columns:1fr;
-  }
-
-  .property-image{
-    height:220px;
-  }
-
-  .section-heading{
-    align-items:flex-start;
-    flex-direction:column;
-  }
-
-  .footer-grid{
-    grid-template-columns:1fr;
-  }
-
-  .footer-bottom{
-    flex-direction:column;
-  }
-
-  .ai-floating{
+    left:14px;
     right:14px;
-    bottom:14px;
-  }
+    top:78px;
 
+    z-index:999;
+
+    padding:10px;
+
+    border:
+        1px solid
+        rgba(229,199,125,.17);
+
+    border-radius:18px;
+
+    background:
+        rgba(11,28,20,.98);
+
+    box-shadow:
+        0 25px 70px rgba(0,0,0,.45);
+
+    backdrop-filter:blur(22px);
 }
+
+.mobile-nav-panel.open{
+    display:block;
+}
+
+.mobile-nav-panel a{
+
+    display:flex;
+
+    align-items:center;
+    justify-content:space-between;
+
+    padding:13px 12px;
+
+    border-radius:10px;
+
+    color:var(--muted);
+
+    font-size:10px;
+    font-weight:750;
+}
+
+.mobile-nav-panel a:hover,
+.mobile-nav-panel a.active{
+
+    color:var(--gold-200);
+
+    background:
+        rgba(229,199,125,.07);
+}
+
+.mobile-profile{
+
+    display:flex;
+    align-items:center;
+
+    gap:10px;
+
+    margin-bottom:8px;
+    padding:10px;
+
+    border-bottom:
+        1px solid
+        rgba(255,255,255,.06);
+}
+
+.mobile-profile img{
+
+    width:38px;
+    height:38px;
+
+    border-radius:50%;
+
+    object-fit:cover;
+
+    border:
+        1px solid
+        rgba(229,199,125,.25);
+}
+
+.mobile-profile strong{
+
+    display:block;
+
+    color:var(--cream);
+
+    font-size:10px;
+}
+
+.mobile-profile span{
+
+    display:block;
+
+    margin-top:3px;
+
+    color:var(--muted-2);
+
+    font-size:7px;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:1240px){
+
+    .desktop-nav{
+        display:none;
+    }
+
+    .mobile-menu{
+        display:grid;
+    }
+
+    .saved-hero-grid{
+        grid-template-columns:1fr;
+    }
+
+    .footer-grid{
+        grid-template-columns:
+            1.5fr
+            repeat(3,1fr);
+    }
+}
+
+@media(max-width:1050px){
+
+    .property-grid{
+        grid-template-columns:
+            repeat(2,minmax(0,1fr));
+    }
+
+    .profile-info,
+    .profile-arrow{
+        display:none;
+    }
+
+    .profile-menu{
+
+        padding:3px;
+
+        border-radius:50%;
+
+        border-color:transparent;
+
+        background:transparent;
+    }
+}
+
+@media(max-width:800px){
+
+    .container{
+
+        width:min(
+            calc(100% - 28px),
+            var(--container)
+        );
+    }
+
+    .page-heading{
+
+        align-items:flex-start;
+
+        flex-direction:column;
+    }
+
+    .saved-hero{
+        padding:19px;
+    }
+
+    .property-grid.list-view .property-card{
+        grid-template-columns:1fr;
+    }
+
+    .property-grid.list-view .property-image{
+
+        height:220px;
+
+        min-height:0;
+    }
+
+    .footer-grid{
+        grid-template-columns:1fr 1fr;
+    }
+}
+
+@media(max-width:560px){
+
+    .header-inner{
+        min-height:68px;
+    }
+
+    .brand-text span{
+        display:none;
+    }
+
+    .header-actions .notification-wrap{
+        display:none;
+    }
+
+    .brand-logo{
+
+        width:42px;
+        height:42px;
+
+        border-radius:12px;
+    }
+
+    .page{
+        padding-top:28px;
+    }
+
+    .results-header{
+
+        align-items:flex-start;
+
+        flex-direction:column;
+    }
+
+    .results-actions{
+
+        width:100%;
+
+        justify-content:space-between;
+    }
+
+    .property-grid{
+        grid-template-columns:1fr;
+    }
+
+    .property-image{
+        height:225px;
+    }
+
+    .property-bottom{
+        align-items:stretch;
+        flex-direction:column;
+    }
+
+    .property-actions-bottom{
+        width:100%;
+    }
+
+    .property-view{
+        width:100%;
+    }
+
+    .footer-grid{
+        grid-template-columns:1fr;
+    }
+
+    .footer-bottom{
+        flex-direction:column;
+    }
+
+    .ai-floating{
+
+        right:14px;
+        bottom:14px;
+    }
+
+    .ai-floating .ai-text{
+        display:none;
+    }
+}
+
 </style>
+
 </head>
 
 <body>
 
 <div class="page-glow"></div>
 
-<!-- =========================================================
+
+<!-- =======================================================
      HEADER
-========================================================= -->
+======================================================= -->
 
 <header class="site-header">
 
-  <div class="container header-inner">
+<div class="container header-inner">
 
-    <a
-      class="brand"
-      href="/buyer/index.html"
-      aria-label="GHAR Buyer Home"
-    >
+<a
+    class="brand"
+    href="/buyer/index.html"
+    aria-label="GHAR Buyer Home"
+>
 
-      <div class="brand-mark">G</div>
+<div class="brand-logo">
 
-      <div class="brand-text">
-        <strong>GHAR</strong>
-        <span>Buyer Experience</span>
-      </div>
+<img
+    src="../assets/images/logo/ghar-logo-light.svg"
+    alt="GHAR"
+    onerror="
+        this.style.display='none';
+        this.nextElementSibling.style.display='grid';
+    "
+>
 
-    </a>
+<div
+    class="brand-logo-fallback"
+    style="display:none"
+>
+    G
+</div>
 
-    <nav
-      class="desktop-nav"
-      aria-label="Buyer navigation"
-    >
+</div>
 
-      <a href="/buyer/index.html">
-        Home
-      </a>
+<div class="brand-text">
 
-      <a href="/properties.html">
-        Properties
-      </a>
+<strong>GHAR</strong>
 
-      <a
-        class="active"
-        href="/buyer/saved-properties.html"
-      >
-        Saved
-      </a>
+<span>Buyer Experience</span>
 
-      <a href="/buyer/favourites.html">
-        Favourites
-      </a>
+</div>
 
-      <a href="/buyer/visits.html">
-        Visits
-      </a>
+</a>
 
-      <a href="/buyer/offers.html">
-        Offers
-      </a>
 
-      <a href="/buyer/loans.html">
-        Loans
-      </a>
+<nav
+    class="desktop-nav"
+    aria-label="Buyer navigation"
+>
 
-    </nav>
+<a href="/buyer/index.html">
+    Home
+</a>
 
-    <div class="header-actions">
+<a href="/buyer/properties.html">
+    Properties
+</a>
 
-      <button
-        class="icon-btn"
-        id="notificationButton"
-        type="button"
-        aria-label="Notifications"
-      >
-        ♢
-      </button>
+<a href="/buyer/search.html">
+    Search
+</a>
 
-      <a
-        class="avatar"
-        id="profileButton"
-        href="/buyer/profile.html"
-        aria-label="Profile"
-      >
-        U
-      </a>
+<a
+    class="active"
+    href="/buyer/saved-properties.html"
+>
+    Saved
+</a>
 
-      <button
-        class="icon-btn mobile-menu"
-        id="menuButton"
-        type="button"
-        aria-label="Open menu"
-      >
-        ☰
-      </button>
+<a href="/buyer/favourites.html">
+    Favourites
+</a>
 
-    </div>
+<a href="/buyer/visits.html">
+    Visits
+</a>
 
-  </div>
+<a href="/buyer/offers.html">
+    Offers
+</a>
+
+<a href="/buyer/applications.html">
+    Applications
+</a>
+
+</nav>
+
+
+<div class="header-actions">
+
+<div class="notification-wrap">
+
+<button
+    class="icon-btn"
+    id="notificationButton"
+    type="button"
+    aria-label="Notifications"
+>
+    ♢
+</button>
+
+<span
+    class="notification-dot"
+    aria-hidden="true"
+></span>
+
+</div>
+
+
+<a
+    class="profile-menu"
+    href="/buyer/profile.html"
+>
+
+<img
+    id="profileImage"
+    src="../assets/images/profile/buyer-default.jpg"
+    alt="Buyer profile"
+    onerror="
+        this.src='../assets/images/profile/default-avatar.jpg'
+    "
+>
+
+<span class="profile-info">
+
+<strong id="profileName">
+    Buyer
+</strong>
+
+<small>
+    My account
+</small>
+
+</span>
+
+<span class="profile-arrow">
+    ⌄
+</span>
+
+</a>
+
+
+<button
+    class="icon-btn mobile-menu"
+    id="menuButton"
+    type="button"
+    aria-label="Open buyer menu"
+    aria-expanded="false"
+>
+    ☰
+</button>
+
+</div>
+
+</div>
 
 </header>
 
+
+<!-- =======================================================
+     MOBILE NAV
+======================================================= -->
+
+<div
+    class="mobile-nav-panel"
+    id="mobileNav"
+>
+
+<div class="mobile-profile">
+
+<img
+    id="mobileProfileImage"
+    src="../assets/images/profile/buyer-default.jpg"
+    alt="Buyer profile"
+    onerror="
+        this.src='../assets/images/profile/default-avatar.jpg'
+    "
+>
+
+<div>
+
+<strong id="mobileProfileName">
+    Buyer
+</strong>
+
+<span>
+    GHAR Buyer Account
+</span>
+
+</div>
+
+</div>
+
+
+<a href="/buyer/index.html">
+    Home <span>›</span>
+</a>
+
+<a href="/buyer/properties.html">
+    Properties <span>›</span>
+</a>
+
+<a href="/buyer/search.html">
+    Search <span>›</span>
+</a>
+
+<a
+    class="active"
+    href="/buyer/saved-properties.html"
+>
+    Saved Properties <span>›</span>
+</a>
+
+<a href="/buyer/favourites.html">
+    Favourites <span>›</span>
+</a>
+
+<a href="/buyer/visits.html">
+    Visits <span>›</span>
+</a>
+
+<a href="/buyer/offers.html">
+    Offers <span>›</span>
+</a>
+
+<a href="/buyer/applications.html">
+    Applications <span>›</span>
+</a>
+
+<a href="/buyer/documents.html">
+    Documents <span>›</span>
+</a>
+
+<a href="/buyer/profile.html">
+    Profile <span>›</span>
+</a>
+
+</div>
+
+
+<!-- =======================================================
+     MAIN
+======================================================= -->
+
 <main>
 
-<!-- =========================================================
-     HERO
-========================================================= -->
+<section class="page">
 
-<section class="page-hero">
+<div class="container">
 
-  <div class="container">
 
-    <div class="page-hero-card">
+<!-- =====================================================
+     PAGE HEADING
+====================================================== -->
 
-      <div class="breadcrumb">
-        <a href="/buyer/index.html">Buyer</a>
-        <span>›</span>
-        <span>Saved Properties</span>
-      </div>
+<div class="page-heading">
 
-      <div class="page-eyebrow">
-        YOUR PROPERTY SHORTLIST
-      </div>
+<div>
 
-      <h1>
-        Saved
-        <span>properties.</span>
-      </h1>
+<div class="eyebrow">
+    MY PROPERTY COLLECTION
+</div>
 
-      <p>
-        Keep the properties you are considering in one place.
-        Compare your shortlist, review details, schedule visits
-        and move the right property toward an offer.
-      </p>
+<h1>
+    Saved properties.
+</h1>
 
-    </div>
+<p>
+    Keep the properties you are seriously considering
+    in one place. Review details, compare options,
+    schedule visits, make offers or remove properties
+    when your shortlist changes.
+</p>
 
-  </div>
+</div>
 
-</section>
 
-<!-- =========================================================
-     TOOLBAR
-========================================================= -->
+<div class="heading-actions">
 
-<section class="toolbar-section">
+<a
+    class="btn btn-secondary"
+    href="/buyer/search.html"
+>
+    Search properties
+</a>
 
-  <div class="container">
+<a
+    class="btn btn-primary"
+    href="/buyer/properties.html"
+>
+    Browse properties
+</a>
 
-    <div class="toolbar">
+</div>
 
-      <div class="toolbar-left">
+</div>
 
-        <div class="search-box">
 
-          <span>⌕</span>
+<!-- =====================================================
+     SAVED HERO
+====================================================== -->
 
-          <input
-            id="propertySearch"
-            type="search"
-            placeholder="Search your saved properties..."
-            autocomplete="off"
-          >
+<section class="saved-hero">
 
-        </div>
+<div class="saved-hero-content">
 
-      </div>
+<div class="saved-hero-grid">
 
-      <div class="toolbar-actions">
+<div>
 
-        <select
-          id="sortProperties"
-          class="select-control"
-          aria-label="Sort saved properties"
-        >
-          <option value="recent">
-            Recently saved
-          </option>
+<div class="saved-title">
+    Your saved property shortlist
+</div>
 
-          <option value="price-low">
-            Price: Low to High
-          </option>
+<div class="saved-subtitle">
+    Save properties that match your requirements and
+    return to them whenever you are ready. Your saved
+    collection is connected to your GHAR buyer account.
+</div>
 
-          <option value="price-high">
-            Price: High to Low
-          </option>
+</div>
 
-          <option value="name">
-            Name
-          </option>
-        </select>
 
-        <button
-          class="view-btn active"
-          id="gridView"
-          type="button"
-          aria-label="Grid view"
-        >
-          ▦
-        </button>
+<div class="saved-stat">
 
-        <button
-          class="view-btn"
-          id="listView"
-          type="button"
-          aria-label="List view"
-        >
-          ☷
-        </button>
+<div class="saved-stat-label">
+    Saved properties
+</div>
 
-      </div>
+<div
+    id="savedCount"
+    class="saved-stat-value"
+>
+    0
+</div>
 
-    </div>
+</div>
 
-  </div>
+</div>
+
+</div>
 
 </section>
 
-<!-- =========================================================
-     STATS
-========================================================= -->
 
-<section class="container">
+<!-- =====================================================
+     RESULTS TOOLBAR
+====================================================== -->
 
-  <div class="stats">
+<div class="results-header">
 
-    <article class="stat">
-      <div class="stat-label">Saved</div>
-      <div class="stat-value" id="savedCount">0</div>
-      <div class="stat-note">Properties shortlisted</div>
-    </article>
+<div
+    class="results-count"
+    id="resultsCount"
+>
 
-    <article class="stat">
-      <div class="stat-label">Average price</div>
-      <div class="stat-value" id="averagePrice">--</div>
-      <div class="stat-note">Across your shortlist</div>
-    </article>
+<strong>0</strong>
+saved properties
 
-    <article class="stat">
-      <div class="stat-label">Locations</div>
-      <div class="stat-value" id="locationCount">0</div>
-      <div class="stat-note">Different locations</div>
-    </article>
+</div>
 
-    <article class="stat">
-      <div class="stat-label">Verified</div>
-      <div class="stat-value" id="verifiedCount">0</div>
-      <div class="stat-note">Verified listings</div>
-    </article>
 
-  </div>
+<div class="results-actions">
 
-</section>
+<select
+    id="sortFilter"
+    class="select"
+    style="width:165px;"
+>
 
-<!-- =========================================================
-     SAVED PROPERTIES
-========================================================= -->
+<option value="recent">
+    Recently saved
+</option>
 
-<section class="section">
+<option value="price-low">
+    Price: low to high
+</option>
 
-  <div class="container">
+<option value="price-high">
+    Price: high to low
+</option>
 
-    <div class="section-heading">
+<option value="area-high">
+    Largest area
+</option>
 
-      <div>
-        <h2 id="resultTitle">
-          Your saved properties
-        </h2>
+</select>
 
-        <p id="resultSubtitle">
-          Your current property shortlist.
-        </p>
-      </div>
 
-      <a
-        class="section-link"
-        href="/property-search.html"
-      >
-        Find more properties →
-      </a>
+<div class="view-toggle">
 
-    </div>
+<button
+    id="gridView"
+    class="view-btn active"
+    type="button"
+    aria-label="Grid view"
+>
+    ▦
+</button>
 
-    <div
-      id="propertyGrid"
-      class="property-grid"
-    ></div>
+<button
+    id="listView"
+    class="view-btn"
+    type="button"
+    aria-label="List view"
+>
+    ☷
+</button>
 
-    <div
-      id="emptyState"
-      class="empty-state"
-    >
+</div>
 
-      <div class="empty-icon">
-        ♡
-      </div>
+</div>
 
-      <h3 id="emptyTitle">
-        Your shortlist is empty
-      </h3>
+</div>
 
-      <p id="emptyDescription">
-        Save properties while browsing GHAR and they will
-        appear here for easy comparison and follow-up.
-      </p>
 
-      <a
-        class="btn btn-primary"
-        href="/property-search.html"
-      >
-        Explore properties
-      </a>
+<!-- =====================================================
+     PROPERTY GRID
+====================================================== -->
 
-    </div>
+<div
+    id="propertyGrid"
+    class="property-grid"
+>
 
-  </div>
+<div class="loading-state">
+
+<div class="loading-spinner"></div>
+
+Loading your saved properties...
+
+</div>
+
+</div>
+
+
+</div>
 
 </section>
 
 </main>
 
-<!-- =========================================================
+
+<!-- =======================================================
      FOOTER
-========================================================= -->
+======================================================= -->
 
 <footer class="site-footer">
 
-  <div class="container">
+<div class="container">
 
-    <div class="footer-grid">
+<div class="footer-top-line"></div>
 
-      <div class="footer-brand">
+<div class="footer-grid">
 
-        <div class="brand">
 
-          <div class="brand-mark">G</div>
+<div class="footer-brand">
 
-          <div class="brand-text">
+<a
+    class="brand"
+    href="/buyer/index.html"
+>
 
-            <strong>GHAR</strong>
+<div class="brand-logo">
 
-            <span>
-              Real Estate Platform
-            </span>
+<img
+    src="../assets/images/logo/ghar-logo-light.svg"
+    alt="GHAR"
+    onerror="
+        this.style.display='none';
+        this.nextElementSibling.style.display='grid';
+    "
+>
 
-          </div>
+<div
+    class="brand-logo-fallback"
+    style="display:none"
+>
+    G
+</div>
 
-        </div>
+</div>
 
-        <p>
-          A connected real estate platform for discovering,
-          evaluating, financing and managing property decisions.
-        </p>
+<div class="brand-text">
 
-      </div>
+<strong>GHAR</strong>
 
-      <div class="footer-col">
+<span>Real Estate Platform</span>
 
-        <h4>Discover</h4>
+</div>
 
-        <a href="/properties.html">
-          Properties
-        </a>
+</a>
 
-        <a href="/property-search.html">
-          Property Search
-        </a>
 
-        <a href="/buyer/saved-properties.html">
-          Saved Properties
-        </a>
+<p>
+    A connected real estate platform for discovering,
+    evaluating, financing and managing property decisions
+    through one secure digital experience.
+</p>
 
-        <a href="/buyer/favourites.html">
-          Favourites
-        </a>
 
-      </div>
+<div class="footer-trust">
 
-      <div class="footer-col">
+<span class="trust-pill">
+    Secure Buyer Portal
+</span>
 
-        <h4>Buyer</h4>
+<span class="trust-pill">
+    Property Intelligence
+</span>
 
-        <a href="/buyer/profile.html">
-          Profile
-        </a>
+<span class="trust-pill">
+    AI Assisted
+</span>
 
-        <a href="/buyer/visits.html">
-          Visits
-        </a>
+<span class="trust-pill">
+    Verified Workflows
+</span>
 
-        <a href="/buyer/offers.html">
-          Offers
-        </a>
+</div>
 
-        <a href="/buyer/loans.html">
-          Loans
-        </a>
 
-      </div>
+<div class="footer-contact">
 
-      <div class="footer-col">
+<div class="footer-contact-icon">
+    ✦
+</div>
 
-        <h4>Support</h4>
+<div class="footer-contact-text">
 
-        <a href="/help-centre.html">
-          Help Centre
-        </a>
+<span>
+    GHAR ASSISTANCE
+</span>
 
-        <a href="/contact.html">
-          Contact
-        </a>
+<strong>
+    Your property journey, connected.
+</strong>
 
-        <a href="/buyer/support.html">
-          Buyer Support
-        </a>
+</div>
 
-        <a href="/privacy.html">
-          Privacy
-        </a>
+</div>
 
-      </div>
+</div>
 
-    </div>
 
-    <div class="footer-bottom">
+<div class="footer-col">
 
-      <span>
-        © <span id="footerYear"></span> GHAR.
-        All rights reserved.
-      </span>
+<h4>Discover</h4>
 
-      <span>
-        Buyer Portal · Secure Session
-      </span>
+<a href="/buyer/properties.html">
+    Properties
+</a>
 
-    </div>
+<a href="/buyer/search.html">
+    Property Search
+</a>
 
-  </div>
+<a href="/buyer/saved-properties.html">
+    Saved Properties
+</a>
+
+<a href="/buyer/favourites.html">
+    Favourites
+</a>
+
+<a href="/map.html">
+    Property Map
+</a>
+
+</div>
+
+
+<div class="footer-col">
+
+<h4>Buyer</h4>
+
+<a href="/buyer/profile.html">
+    Profile
+</a>
+
+<a href="/buyer/visits.html">
+    Property Visits
+</a>
+
+<a href="/buyer/offers.html">
+    Offers
+</a>
+
+<a href="/buyer/applications.html">
+    Applications
+</a>
+
+<a href="/buyer/documents.html">
+    Documents
+</a>
+
+</div>
+
+
+<div class="footer-col">
+
+<h4>Services</h4>
+
+<a href="/ai.html">
+    GHAR AI
+</a>
+
+<a href="/ai-loan-advisor.html">
+    Loan Advisor
+</a>
+
+<a href="/ai-investment-advisor.html">
+    Investment Advisor
+</a>
+
+<a href="/buyer/finance.html">
+    Buyer Finance
+</a>
+
+<a href="/buyer/verification.html">
+    Verification
+</a>
+
+</div>
+
+
+<div class="footer-col">
+
+<h4>Support</h4>
+
+<a href="/help-centre.html">
+    Help Centre
+</a>
+
+<a href="/contact.html">
+    Contact
+</a>
+
+<a href="/buyer/support.html">
+    Buyer Support
+</a>
+
+<a href="/privacy-policy.html">
+    Privacy
+</a>
+
+<a href="/terms.html">
+    Terms
+</a>
+
+</div>
+
+</div>
+
+
+<div class="footer-bottom">
+
+<span>
+    ©
+    <span id="footerYear"></span>
+    GHAR. All rights reserved.
+</span>
+
+<span>
+    Buyer Portal · Secure Session
+</span>
+
+</div>
+
+</div>
 
 </footer>
 
-<!-- =========================================================
+
+<!-- =======================================================
      AI
-========================================================= -->
+======================================================= -->
 
 <button
-  id="openAI"
-  class="ai-floating"
-  type="button"
+    id="openAI"
+    class="ai-floating"
+    type="button"
+    aria-label="Ask GHAR AI"
 >
-  ✦ Ask GHAR AI
+
+<span class="ai-icon">
+    ✦
+</span>
+
+<span class="ai-text">
+    Ask GHAR AI
+</span>
+
 </button>
+
 
 <script>
 "use strict";
 
+
 /* =========================================================
-   GHAR BUYER -- SAVED PROPERTIES
+   CONFIG
 ========================================================= */
 
 const API_BASE =
-  window.GHAR_API_BASE ||
-  window.API_BASE ||
-  "/api";
+    window.GHAR_API_BASE ||
+    window.API_BASE ||
+    "/api";
 
-const SAVED_API =
-  API_BASE +
-  "/users/me/saved-properties";
+const propertyGrid =
+    document.getElementById(
+        "propertyGrid"
+    );
+
+let savedProperties=[];
 
 
 /* =========================================================
@@ -1507,512 +2748,309 @@ const SAVED_API =
 ========================================================= */
 
 function $(selector){
-  return document.querySelector(selector);
+    return document.querySelector(selector);
 }
+
 
 function escapeHTML(value){
-  return String(value ?? "")
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
+
+    return String(value ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
 }
+
 
 async function apiRequest(
-  url,
-  options = {}
+    url,
+    options={}
 ){
 
-  const response =
-    await fetch(
-      url,
-      {
-        credentials:"include",
+    const response =
+        await fetch(
+            url,
+            {
+                credentials:"include",
 
-        headers:{
-          "Accept":"application/json",
-          "Content-Type":"application/json",
-          ...(options.headers || {})
-        },
+                headers:{
+                    "Accept":
+                        "application/json",
 
-        ...options
-      }
-    );
+                    "Content-Type":
+                        "application/json",
 
-  let data = null;
+                    ...(options.headers || {})
+                },
 
-  try{
-    data = await response.json();
-  }catch(error){
-    data = null;
-  }
+                ...options
+            }
+        );
 
-  if(!response.ok){
 
-    const error =
-      new Error(
-        data?.error?.message ||
-        data?.message ||
-        "Request failed."
-      );
+    let data=null;
 
-    error.status =
-      response.status;
+    try{
 
-    error.data =
-      data;
+        data=
+            await response.json();
 
-    throw error;
-  }
+    }catch{
 
-  return data;
+        data=null;
+
+    }
+
+
+    if(!response.ok){
+
+        const error=
+            new Error(
+                data?.error?.message ||
+                data?.message ||
+                "Request failed."
+            );
+
+        error.status=
+            response.status;
+
+        error.data=data;
+
+        throw error;
+    }
+
+
+    return data;
+}
+
+
+function normalizeCollection(
+    response
+){
+
+    if(Array.isArray(response))
+        return response;
+
+
+    if(Array.isArray(response?.data))
+        return response.data;
+
+
+    if(Array.isArray(response?.properties))
+        return response.properties;
+
+
+    if(Array.isArray(response?.items))
+        return response.items;
+
+
+    if(Array.isArray(response?.results))
+        return response.results;
+
+
+    return [];
 }
 
 
 /* =========================================================
-   COLLECTION NORMALIZER
+   PROPERTY HELPERS
 ========================================================= */
 
-function normalizeCollection(response){
-
-  if(Array.isArray(response)){
-    return response;
-  }
-
-  if(Array.isArray(response?.data)){
-    return response.data;
-  }
-
-  if(Array.isArray(response?.items)){
-    return response.items;
-  }
-
-  if(Array.isArray(response?.results)){
-    return response.results;
-  }
-
-  if(Array.isArray(response?.properties)){
-    return response.properties;
-  }
-
-  if(Array.isArray(response?.savedProperties)){
-    return response.savedProperties;
-  }
-
-  return [];
-}
-
-
-/* =========================================================
-   PRICE
-========================================================= */
-
-function numericPrice(property){
-
-  const value =
-    property?.price ??
-    property?.salePrice ??
-    property?.amount ??
-    property?.property?.price ??
-    property?.property?.salePrice;
-
-  const number =
-    Number(value);
-
-  return Number.isFinite(number)
-    ? number
-    : 0;
-}
-
-
-function formatPrice(value){
-
-  const amount =
-    Number(value);
-
-  if(!Number.isFinite(amount) || amount <= 0){
-    return "Price on request";
-  }
-
-  if(amount >= 10000000){
+function propertyObject(item){
 
     return (
-      "₹" +
-      (amount / 10000000).toFixed(2) +
-      " Cr"
+        item?.property ||
+        item?.listing ||
+        item
     );
-
-  }
-
-  if(amount >= 100000){
-
-    return (
-      "₹" +
-      (amount / 100000).toFixed(2) +
-      " L"
-    );
-
-  }
-
-  return (
-    "₹" +
-    amount.toLocaleString("en-IN")
-  );
 }
 
 
-/* =========================================================
-   PROPERTY IMAGE
-========================================================= */
+function propertyId(property){
+
+    return String(
+        property?.id ||
+        property?.propertyId ||
+        property?._id ||
+        ""
+    );
+}
+
+
+function propertyTitle(property){
+
+    return (
+        property?.title ||
+        property?.name ||
+        property?.propertyName ||
+        "GHAR Property"
+    );
+}
+
+
+function propertyLocation(property){
+
+    return (
+        property?.location ||
+        property?.locality ||
+        property?.address ||
+        property?.city ||
+        "Location available"
+    );
+}
+
+
+function propertyType(property){
+
+    return (
+        property?.propertyType ||
+        property?.type ||
+        "Property"
+    );
+}
+
+
+function listingType(property){
+
+    return (
+        property?.listingType ||
+        property?.transactionType ||
+        property?.purpose ||
+        "sale"
+    )
+    .toString()
+    .toLowerCase();
+}
+
+
+function propertyPrice(property){
+
+    return Number(
+        property?.price ||
+        property?.salePrice ||
+        property?.rent ||
+        property?.rentPrice ||
+        property?.amount ||
+        0
+    );
+}
+
+
+function propertyArea(property){
+
+    return Number(
+        property?.area ||
+        property?.areaSqFt ||
+        property?.builtUpArea ||
+        property?.superBuiltUpArea ||
+        0
+    );
+}
+
+
+function propertyBHK(property){
+
+    return (
+        property?.bhk ||
+        property?.configuration ||
+        property?.bedrooms ||
+        property?.bedroom ||
+        ""
+    );
+}
+
 
 function propertyImage(property){
 
-  const source =
-    property?.image ||
-    property?.coverImage ||
-    property?.thumbnail ||
-    property?.imageUrl ||
-    property?.images?.[0] ||
-    property?.property?.image ||
-    property?.property?.coverImage ||
-    property?.property?.images?.[0];
-
-  return (
-    source ||
-    "../assets/images/property-placeholder.jpg"
-  );
-}
+    const images =
+        Array.isArray(property?.images)
+            ? property.images
+            : [];
 
 
-/* =========================================================
-   PROPERTY NORMALIZATION
-========================================================= */
-
-function normalizeProperty(item){
-
-  const property =
-    item?.property ||
-    item;
-
-  return {
-    ...property,
-
-    _savedId:
-      item?.id ||
-      item?.savedPropertyId ||
-      property?.id ||
-      property?.propertyId ||
-      property?._id ||
-      "",
-
-    _propertyId:
-      property?.id ||
-      property?.propertyId ||
-      property?._id ||
-      item?.propertyId ||
-      item?.id ||
-      ""
-  };
-}
-
-
-/* =========================================================
-   PROPERTY CARD
-========================================================= */
-
-function createPropertyCard(property){
-
-  const id =
-    property._propertyId;
-
-  const title =
-    property.title ||
-    property.name ||
-    "Premium Property";
-
-  const type =
-    property.type ||
-    property.propertyType ||
-    "Property";
-
-  const location =
-    property.location ||
-    property.address ||
-    property.city ||
-    "Location available";
-
-  const bedrooms =
-    property.bedrooms ??
-    property.bhk ??
-    property.configuration ??
-    "--";
-
-  const area =
-    property.area ||
-    property.areaSqFt ||
-    property.size ||
-    "--";
-
-  const price =
-    formatPrice(
-      numericPrice(property)
+    return (
+        property?.image ||
+        property?.coverImage ||
+        property?.thumbnail ||
+        images[0] ||
+        "../assets/images/properties/property-placeholder.jpg"
     );
-
-  const badge =
-    property.badge ||
-    (
-      property.verified === true ||
-      property.isVerified === true
-        ? "Verified"
-        : "Saved"
-    );
-
-  const listingType =
-    String(
-      property.listingType ||
-      property.purpose ||
-      property.transactionType ||
-      "sale"
-    ).toLowerCase();
-
-  const image =
-    propertyImage(property);
-
-  const detailsURL =
-    "/property-details.html?id=" +
-    encodeURIComponent(id);
-
-
-  return `
-
-    <article
-      class="property-card"
-      data-property-id="${escapeHTML(id)}"
-    >
-
-      <div class="property-image">
-
-        <img
-          src="${escapeHTML(image)}"
-          alt="${escapeHTML(title)}"
-          loading="lazy"
-          onerror="
-            this.src='../assets/images/property-placeholder.jpg'
-          "
-        >
-
-        <span class="property-badge">
-          ${escapeHTML(badge)}
-        </span>
-
-        <button
-          class="remove-btn"
-          type="button"
-          data-remove-saved="${escapeHTML(id)}"
-          aria-label="Remove saved property"
-          title="Remove from saved"
-        >
-          ♥
-        </button>
-
-      </div>
-
-      <div class="property-content">
-
-        <div class="property-type">
-          ${escapeHTML(type)}
-        </div>
-
-        <h3 class="property-title">
-          ${escapeHTML(title)}
-        </h3>
-
-        <div class="property-location">
-          ${escapeHTML(location)}
-        </div>
-
-        <div class="property-meta">
-
-          <span>
-            🛏 ${escapeHTML(bedrooms)}
-            ${
-              String(bedrooms).toLowerCase().includes("bhk")
-                ? ""
-                : " BHK"
-            }
-          </span>
-
-          <span>
-            ⌂ ${escapeHTML(area)}
-          </span>
-
-        </div>
-
-        <div class="property-price">
-
-          ${escapeHTML(price)}
-
-          <span>
-            ${
-              listingType === "rent"
-                ? "/ month"
-                : ""
-            }
-          </span>
-
-        </div>
-
-        <div class="property-actions">
-
-          <a
-            class="btn btn-primary"
-            href="${detailsURL}"
-          >
-            View property
-          </a>
-
-          <button
-            class="btn btn-secondary"
-            type="button"
-            data-remove-saved="${escapeHTML(id)}"
-          >
-            Remove
-          </button>
-
-        </div>
-
-      </div>
-
-    </article>
-
-  `;
 }
 
 
-/* =========================================================
-   STATE
-========================================================= */
+function formatPrice(
+    value,
+    property
+){
 
-let savedProperties = [];
-let filteredProperties = [];
-
-
-/* =========================================================
-   RENDER
-========================================================= */
-
-function renderProperties(){
-
-  const grid =
-    $("#propertyGrid");
-
-  const empty =
-    $("#emptyState");
-
-  if(!grid || !empty){
-    return;
-  }
-
-  if(!filteredProperties.length){
-
-    grid.innerHTML = "";
-
-    empty.style.display =
-      "block";
-
-    $("#emptyTitle").textContent =
-      savedProperties.length
-        ? "No matching saved properties"
-        : "Your shortlist is empty";
-
-    $("#emptyDescription").textContent =
-      savedProperties.length
-        ? "Try another search term or clear your search to see your complete shortlist."
-        : "Save properties while browsing GHAR and they will appear here for easy comparison and follow-up.";
-
-    return;
-  }
-
-  empty.style.display =
-    "none";
-
-  grid.innerHTML =
-    filteredProperties
-      .map(createPropertyCard)
-      .join("");
-}
+    const amount=
+        Number(value);
 
 
-/* =========================================================
-   UPDATE STATS
-========================================================= */
+    if(
+        !Number.isFinite(amount) ||
+        amount<=0
+    ){
 
-function updateStats(){
+        return "Price on request";
 
-  const count =
-    savedProperties.length;
-
-  $("#savedCount").textContent =
-    count;
+    }
 
 
-  const prices =
-    savedProperties
-      .map(numericPrice)
-      .filter(value => value > 0);
-
-  if(prices.length){
-
-    const average =
-      prices.reduce(
-        (sum,value) => sum + value,
-        0
-      ) / prices.length;
-
-    $("#averagePrice").textContent =
-      formatPrice(average);
-
-  }else{
-
-    $("#averagePrice").textContent =
-      "--";
-
-  }
+    const type=
+        listingType(property);
 
 
-  const locations =
-    new Set(
-      savedProperties
-        .map(property =>
-          String(
-            property.city ||
-            property.location ||
-            property.address ||
-            ""
-          )
-          .trim()
-          .toLowerCase()
-        )
-        .filter(Boolean)
+    if(type==="rent"){
+
+        return (
+            "₹"+
+            amount.toLocaleString("en-IN")+
+            " / month"
+        );
+
+    }
+
+
+    if(type==="lease"){
+
+        return (
+            "₹"+
+            amount.toLocaleString("en-IN")
+        );
+
+    }
+
+
+    if(amount>=10000000){
+
+        return (
+            "₹"+
+            (amount/10000000)
+                .toFixed(2)+
+            " Cr"
+        );
+
+    }
+
+
+    if(amount>=100000){
+
+        return (
+            "₹"+
+            (amount/100000)
+                .toFixed(2)+
+            " L"
+        );
+
+    }
+
+
+    return (
+        "₹"+
+        amount.toLocaleString("en-IN")
     );
-
-  $("#locationCount").textContent =
-    locations.size;
-
-
-  const verified =
-    savedProperties.filter(
-      property =>
-        property.verified === true ||
-        property.isVerified === true ||
-        String(property.badge || "")
-          .toLowerCase()
-          .includes("verified")
-    ).length;
-
-  $("#verifiedCount").textContent =
-    verified;
 }
 
 
@@ -2020,121 +3058,424 @@ function updateStats(){
    SORT
 ========================================================= */
 
-function sortProperties(){
+function sortProperties(
+    list,
+    sort
+){
 
-  const mode =
-    $("#sortProperties")?.value ||
-    "recent";
+    return [...list].sort(
+        (a,b)=>{
 
-  const list =
-    [...filteredProperties];
+            const propertyA=
+                propertyObject(a);
 
-  if(mode === "price-low"){
+            const propertyB=
+                propertyObject(b);
 
-    list.sort(
-      (a,b) =>
-        numericPrice(a) -
-        numericPrice(b)
+
+            if(sort==="price-low"){
+
+                return (
+                    propertyPrice(propertyA) -
+                    propertyPrice(propertyB)
+                );
+
+            }
+
+
+            if(sort==="price-high"){
+
+                return (
+                    propertyPrice(propertyB) -
+                    propertyPrice(propertyA)
+                );
+
+            }
+
+
+            if(sort==="area-high"){
+
+                return (
+                    propertyArea(propertyB) -
+                    propertyArea(propertyA)
+                );
+
+            }
+
+
+            /*
+             * Prefer savedAt because this page
+             * represents the buyer's saved collection.
+             */
+
+            const dateA=
+                new Date(
+                    a.savedAt ||
+                    a.createdAt ||
+                    propertyA.updatedAt ||
+                    propertyA.createdAt ||
+                    0
+                ).getTime();
+
+
+            const dateB=
+                new Date(
+                    b.savedAt ||
+                    b.createdAt ||
+                    propertyB.updatedAt ||
+                    propertyB.createdAt ||
+                    0
+                ).getTime();
+
+
+            return dateB-dateA;
+
+        }
     );
+}
 
-  }else if(mode === "price-high"){
 
-    list.sort(
-      (a,b) =>
-        numericPrice(b) -
-        numericPrice(a)
-    );
+/* =========================================================
+   PROPERTY CARD
+========================================================= */
 
-  }else if(mode === "name"){
+function createPropertyCard(
+    savedItem
+){
 
-    list.sort(
-      (a,b) =>
-        String(
-          a.title ||
-          a.name ||
-          ""
-        ).localeCompare(
-          String(
-            b.title ||
-            b.name ||
-            ""
-          )
-        )
-    );
+    const property=
+        propertyObject(
+            savedItem
+        );
 
-  }else{
 
-    /*
-     * Keep API order for recently saved.
-     */
+    const id=
+        propertyId(property);
 
-    filteredProperties =
-      savedProperties.filter(
-        property =>
-          filteredProperties.includes(
-            property
-          )
-      );
 
-    return;
-  }
+    const title=
+        propertyTitle(property);
 
-  filteredProperties =
-    list;
+
+    const location=
+        propertyLocation(property);
+
+
+    const type=
+        propertyType(property);
+
+
+    const price=
+        propertyPrice(property);
+
+
+    const area=
+        propertyArea(property);
+
+
+    const bhk=
+        propertyBHK(property);
+
+
+    const image=
+        propertyImage(property);
+
+
+    const listing=
+        listingType(property);
+
+
+    const status=
+        property?.status ||
+        property?.verificationStatus ||
+        "Available";
+
+
+    const savedDate=
+        savedItem?.savedAt;
+
+
+    let savedLabel="Saved property";
+
+
+    if(savedDate){
+
+        const date=
+            new Date(savedDate);
+
+
+        if(!Number.isNaN(date.getTime())){
+
+            savedLabel=
+                "Saved "+
+                date.toLocaleDateString(
+                    "en-IN",
+                    {
+                        day:"numeric",
+                        month:"short",
+                        year:"numeric"
+                    }
+                );
+
+        }
+
+    }
+
+
+    return `
+
+<article
+    class="property-card"
+    data-property-id="${escapeHTML(id)}"
+>
+
+<div class="property-image">
+
+<a
+    href="/buyer/property-details.html?id=${encodeURIComponent(id)}"
+    aria-label="View ${escapeHTML(title)}"
+>
+
+<img
+    src="${escapeHTML(image)}"
+    alt="${escapeHTML(title)}"
+    loading="lazy"
+    onerror="
+        this.src='../assets/images/properties/property-placeholder.jpg'
+    "
+>
+
+</a>
+
+
+<div class="image-overlay"></div>
+
+
+<span class="property-type">
+    ${escapeHTML(type)}
+</span>
+
+
+<span class="property-status">
+    ${escapeHTML(status)}
+</span>
+
+
+<div class="property-actions">
+
+<button
+    class="property-action saved remove-saved"
+    type="button"
+    data-property-id="${escapeHTML(id)}"
+    aria-label="Remove saved property"
+    title="Remove from saved properties"
+>
+    ♥
+</button>
+
+</div>
+
+</div>
+
+
+<div class="property-content">
+
+<div class="property-label">
+    ${escapeHTML(listing)}
+</div>
+
+
+<h2 class="property-title">
+    ${escapeHTML(title)}
+</h2>
+
+
+<div class="property-location">
+    ${escapeHTML(location)}
+</div>
+
+
+<div class="property-meta">
+
+${
+    bhk
+    ?
+    `
+    <span class="meta-chip">
+        ${escapeHTML(bhk)}
+    </span>
+    `
+    :
+    ""
+}
+
+
+${
+    area
+    ?
+    `
+    <span class="meta-chip">
+        ${area.toLocaleString("en-IN")} sq.ft
+    </span>
+    `
+    :
+    ""
+}
+
+
+${
+    property?.furnishing
+    ?
+    `
+    <span class="meta-chip">
+        ${escapeHTML(property.furnishing)}
+    </span>
+    `
+    :
+    ""
+}
+
+
+<span class="meta-chip">
+    ${escapeHTML(savedLabel)}
+</span>
+
+</div>
+
+
+<div class="property-bottom">
+
+<div class="property-price">
+
+${escapeHTML(
+    formatPrice(
+        price,
+        property
+    )
+)}
+
+<small>
+    ${
+        listing==="rent"
+        ? "Monthly asking"
+        : "Property value"
+    }
+</small>
+
+</div>
+
+
+<div class="property-actions-bottom">
+
+<a
+    class="property-view"
+    href="/buyer/property-details.html?id=${encodeURIComponent(id)}"
+>
+    View property
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+</article>
+
+`;
 
 }
 
 
 /* =========================================================
-   FILTER
+   RENDER
 ========================================================= */
 
-function filterProperties(){
+function renderProperties(
+    list
+){
 
-  const query =
-    $("#propertySearch")
-      ?.value
-      ?.trim()
-      .toLowerCase() ||
-    "";
+    if(!propertyGrid)
+        return;
 
-  filteredProperties =
-    savedProperties.filter(
-      property => {
 
-        if(!query){
-          return true;
-        }
+    const count=
+        list.length;
 
-        const searchable = [
 
-          property.title,
-          property.name,
-          property.type,
-          property.propertyType,
-          property.location,
-          property.address,
-          property.city,
-          property.state,
-          property.bhk,
-          property.configuration,
-          property.area
+    $("#resultsCount")
+        .innerHTML=
+            "<strong>"+
+            count+
+            "</strong> "+
+            (
+                count===1
+                ? "saved property"
+                : "saved properties"
+            );
 
-        ]
-        .filter(Boolean)
-        .join(" ")
-        .toLowerCase();
 
-        return searchable.includes(
-          query
+    $("#savedCount")
+        .textContent=
+            count;
+
+
+    if(!count){
+
+        propertyGrid.innerHTML=`
+
+<div class="empty-state">
+
+<div class="empty-icon">
+    ♡
+</div>
+
+<h3>
+    Your saved collection is empty
+</h3>
+
+<p>
+    You have not saved any properties yet.
+    Search GHAR's property marketplace and save
+    the properties you want to review later.
+</p>
+
+<a
+    class="btn btn-primary"
+    href="/buyer/search.html"
+>
+    Find properties
+</a>
+
+</div>
+
+`;
+
+        return;
+    }
+
+
+    propertyGrid.innerHTML=
+        list
+            .map(createPropertyCard)
+            .join("");
+
+
+    document
+        .querySelectorAll(
+            ".remove-saved"
+        )
+        .forEach(
+            button=>{
+
+                button.addEventListener(
+                    "click",
+                    handleRemoveSaved
+                );
+
+            }
         );
 
-      }
-    );
-
-  sortProperties();
-
-  renderProperties();
 }
 
 
@@ -2144,28 +3485,159 @@ function filterProperties(){
 
 async function loadSavedProperties(){
 
-  const response =
-    await apiRequest(
-      SAVED_API
+    propertyGrid.innerHTML=`
+
+<div class="loading-state">
+
+<div class="loading-spinner"></div>
+
+Loading your saved properties...
+
+</div>
+
+`;
+
+
+    try{
+
+        const response=
+            await apiRequest(
+                API_BASE+
+                "/saved-properties"
+            );
+
+
+        savedProperties=
+            normalizeCollection(
+                response
+            );
+
+
+        /*
+         * Some APIs return IDs only.
+         * If the response contains a saved
+         * item without property information,
+         * try to hydrate it from /properties.
+         */
+
+        const needsHydration=
+            savedProperties.some(
+                item =>
+                    !item?.property &&
+                    !item?.title &&
+                    !item?.propertyName &&
+                    !item?.name
+            );
+
+
+        if(needsHydration){
+
+            try{
+
+                const propertyResponse=
+                    await apiRequest(
+                        API_BASE+
+                        "/properties"
+                    );
+
+
+                const allProperties=
+                    normalizeCollection(
+                        propertyResponse
+                    );
+
+
+                const propertyMap=
+                    new Map(
+                        allProperties.map(
+                            property=>[
+                                propertyId(property),
+                                property
+                            ]
+                        )
+                    );
+
+
+                savedProperties=
+                    savedProperties.map(
+                        saved=>{
+
+                            const id=
+                                String(
+                                    saved.propertyId ||
+                                    saved.id ||
+                                    saved._id ||
+                                    ""
+                                );
+
+
+                            const property=
+                                propertyMap.get(id);
+
+
+                            return property
+                                ? {
+                                    ...saved,
+                                    property
+                                }
+                                : saved;
+
+                        }
+                    );
+
+            }catch(error){
+
+                console.warn(
+                    "GHAR property hydration:",
+                    error
+                );
+
+            }
+
+        }
+
+
+    }catch(error){
+
+        console.warn(
+            "GHAR saved properties API:",
+            error
+        );
+
+
+        savedProperties=[];
+
+    }
+
+
+    renderCurrentList();
+
+}
+
+
+/* =========================================================
+   RENDER CURRENT SORT
+========================================================= */
+
+function renderCurrentList(){
+
+    const sort=
+        $("#sortFilter")
+            ?.value ||
+        "recent";
+
+
+    const sorted=
+        sortProperties(
+            savedProperties,
+            sort
+        );
+
+
+    renderProperties(
+        sorted
     );
 
-  savedProperties =
-    normalizeCollection(
-      response
-    )
-    .map(
-      normalizeProperty
-    )
-    .filter(
-      property =>
-        property._propertyId
-    );
-
-  filteredProperties =
-    [...savedProperties];
-
-  updateStats();
-  renderProperties();
 }
 
 
@@ -2173,253 +3645,228 @@ async function loadSavedProperties(){
    REMOVE SAVED PROPERTY
 ========================================================= */
 
-async function removeSavedProperty(
-  propertyId,
-  button
+async function handleRemoveSaved(
+    event
 ){
 
-  if(!propertyId){
-    return;
-  }
-
-  if(button){
-    button.disabled = true;
-  }
-
-  try{
-
-    /*
-     * DELETE is the canonical removal operation.
-     */
-
-    await apiRequest(
-      SAVED_API +
-      "/" +
-      encodeURIComponent(propertyId),
-      {
-        method:"DELETE"
-      }
-    );
+    event.preventDefault();
+    event.stopPropagation();
 
 
-    savedProperties =
-      savedProperties.filter(
-        property =>
-          property._propertyId !==
-          propertyId
-      );
-
-    filteredProperties =
-      filteredProperties.filter(
-        property =>
-          property._propertyId !==
-          propertyId
-      );
-
-    updateStats();
-    renderProperties();
+    const button=
+        event.currentTarget;
 
 
-  }catch(error){
+    const id=
+        button.dataset.propertyId;
 
-    console.error(
-      "GHAR remove saved property:",
-      error
-    );
 
-    /*
-     * Fallback for APIs that expose
-     * /saved-properties/:id with POST
-     * as a toggle endpoint.
-     */
+    if(!id)
+        return;
+
+
+    button.disabled=true;
+
+
+    const originalText=
+        button.textContent;
+
+
+    button.textContent="…";
+
 
     try{
 
-      await apiRequest(
-        SAVED_API +
-        "/" +
-        encodeURIComponent(propertyId),
-        {
-          method:"POST",
-          body:JSON.stringify({
-            saved:false
-          })
-        }
-      );
-
-      savedProperties =
-        savedProperties.filter(
-          property =>
-            property._propertyId !==
-            propertyId
+        await apiRequest(
+            API_BASE+
+            "/saved-properties/"+
+            encodeURIComponent(id),
+            {
+                method:"DELETE"
+            }
         );
 
-      filteredProperties =
-        filteredProperties.filter(
-          property =>
-            property._propertyId !==
-            propertyId
+
+        savedProperties=
+            savedProperties.filter(
+                item=>{
+
+                    const property=
+                        propertyObject(
+                            item
+                        );
+
+
+                    return (
+                        propertyId(property)!==
+                        String(id)
+                    );
+
+                }
+            );
+
+
+        renderCurrentList();
+
+
+    }catch(error){
+
+        console.warn(
+            "GHAR remove saved property:",
+            error
         );
 
-      updateStats();
-      renderProperties();
 
-    }catch(fallbackError){
+        button.disabled=false;
 
-      console.error(
-        "GHAR saved property fallback:",
-        fallbackError
-      );
+        button.textContent=
+            originalText;
 
-      alert(
-        "The property could not be removed right now. Please try again."
-      );
+        alert(
+            "Unable to remove this saved property right now."
+        );
 
     }
 
-  }finally{
-
-    if(button){
-      button.disabled = false;
-    }
-
-  }
 }
 
 
 /* =========================================================
-   EVENT DELEGATION
+   PROFILE
 ========================================================= */
 
-document.addEventListener(
-  "click",
-  event => {
+async function loadProfile(){
 
-    const removeButton =
-      event.target.closest(
-        "[data-remove-saved]"
-      );
+    try{
 
-    if(
-      removeButton
-    ){
+        const response=
+            await apiRequest(
+                API_BASE+
+                "/users/me"
+            );
 
-      event.preventDefault();
 
-      removeSavedProperty(
-        removeButton.dataset.removeSaved,
-        removeButton
-      );
+        const user=
+            response?.data ||
+            response?.user ||
+            response;
 
-      return;
+
+        const name=
+            user?.name ||
+            user?.fullName ||
+            user?.firstName ||
+            user?.email ||
+            "Buyer";
+
+
+        const image=
+            user?.profileImage ||
+            user?.avatar ||
+            user?.photo ||
+            user?.profilePhoto ||
+            "../assets/images/profile/buyer-default.jpg";
+
+
+        const displayName=
+            String(name)
+                .trim()
+                .split(/\s+/)
+                .slice(0,2)
+                .join(" ");
+
+
+        $("#profileName")
+            .textContent=
+                displayName;
+
+
+        $("#mobileProfileName")
+            .textContent=
+                displayName;
+
+
+        $("#profileImage")
+            .src=
+                image;
+
+
+        $("#mobileProfileImage")
+            .src=
+                image;
+
+
+    }catch(error){
+
+        console.warn(
+            "GHAR profile:",
+            error
+        );
+
     }
 
-
-    const notification =
-      event.target.closest(
-        "#notificationButton"
-      );
-
-    if(notification){
-
-      window.location.href =
-        "/buyer/notifications.html";
-
-      return;
-    }
-
-
-    const ai =
-      event.target.closest(
-        "#openAI"
-      );
-
-    if(ai){
-
-      window.location.href =
-        "/buyer/ai.html";
-
-    }
-
-  }
-);
+}
 
 
 /* =========================================================
-   SEARCH
+   SORT
 ========================================================= */
 
-$("#propertySearch")
-  ?.addEventListener(
-    "input",
-    filterProperties
-  );
-
-
-$("#sortProperties")
-  ?.addEventListener(
-    "change",
-    filterProperties
-  );
+$("#sortFilter")
+    ?.addEventListener(
+        "change",
+        renderCurrentList
+    );
 
 
 /* =========================================================
-   VIEW SWITCH
+   VIEW TOGGLE
 ========================================================= */
 
 $("#gridView")
-  ?.addEventListener(
-    "click",
-    () => {
+    ?.addEventListener(
+        "click",
+        ()=>{
 
-      $("#propertyGrid").style.display =
-        "";
+            propertyGrid
+                .classList
+                .remove("list-view");
 
-      $("#gridView").classList.add(
-        "active"
-      );
 
-      $("#listView").classList.remove(
-        "active"
-      );
+            $("#gridView")
+                .classList
+                .add("active");
 
-    }
-  );
+
+            $("#listView")
+                .classList
+                .remove("active");
+
+        }
+    );
 
 
 $("#listView")
-  ?.addEventListener(
-    "click",
-    () => {
+    ?.addEventListener(
+        "click",
+        ()=>{
 
-      $("#propertyGrid").style.display =
-        "grid";
-
-      $("#propertyGrid").style.gridTemplateColumns =
-        "1fr";
-
-      $("#gridView").classList.remove(
-        "active"
-      );
-
-      $("#listView").classList.add(
-        "active"
-      );
-
-    }
-  );
+            propertyGrid
+                .classList
+                .add("list-view");
 
 
-$("#gridView")
-  ?.addEventListener(
-    "click",
-    () => {
+            $("#listView")
+                .classList
+                .add("active");
 
-      $("#propertyGrid").style.gridTemplateColumns =
-        "";
 
-    }
-  );
+            $("#gridView")
+                .classList
+                .remove("active");
+
+        }
+    );
 
 
 /* =========================================================
@@ -2427,120 +3874,198 @@ $("#gridView")
 ========================================================= */
 
 $("#menuButton")
-  ?.addEventListener(
-    "click",
-    () => {
+    ?.addEventListener(
+        "click",
+        ()=>{
 
-      const nav =
-        document.querySelector(
-          ".desktop-nav"
-        );
+            const menu=
+                $("#mobileNav");
 
-      if(!nav){
-        return;
-      }
-
-      const visible =
-        nav.dataset.mobileOpen ===
-        "true";
-
-      if(visible){
-
-        nav.style.display = "";
-        nav.dataset.mobileOpen = "false";
-        return;
-
-      }
-
-      nav.dataset.mobileOpen = "true";
-      nav.style.display = "flex";
-      nav.style.position = "absolute";
-      nav.style.left = "14px";
-      nav.style.right = "14px";
-      nav.style.top = "66px";
-      nav.style.padding = "10px";
-      nav.style.flexDirection = "column";
-      nav.style.alignItems = "stretch";
-      nav.style.border =
-        "1px solid rgba(229,199,125,.14)";
-      nav.style.borderRadius = "16px";
-      nav.style.background = "#0b1c14";
-      nav.style.boxShadow =
-        "0 25px 60px rgba(0,0,0,.35)";
-
-    }
-  );
+            const button=
+                $("#menuButton");
 
 
-/* =========================================================
-   INITIALIZE PROFILE
-========================================================= */
+            const isOpen=
+                menu.classList
+                    .contains("open");
 
-async function loadProfile(){
 
-  try{
+            menu.classList.toggle(
+                "open"
+            );
 
-    const response =
-      await apiRequest(
-        API_BASE +
-        "/users/me"
-      );
 
-    const name =
-      response?.name ||
-      response?.fullName ||
-      response?.email ||
-      "U";
+            button.setAttribute(
+                "aria-expanded",
+                String(!isOpen)
+            );
 
-    $("#profileButton").textContent =
-      String(name)
-        .trim()
-        .charAt(0)
-        .toUpperCase();
 
-  }catch(error){
+            button.textContent=
+                !isOpen
+                ? "×"
+                : "☰";
 
-    console.warn(
-      "GHAR profile:",
-      error
+        }
     );
 
-  }
-}
+
+document.addEventListener(
+    "click",
+    event=>{
+
+        const menu=
+            $("#mobileNav");
+
+        const button=
+            $("#menuButton");
+
+
+        if(
+            !menu ||
+            !button
+        )
+            return;
+
+
+        if(
+            menu.classList.contains("open") &&
+            !menu.contains(event.target) &&
+            !button.contains(event.target)
+        ){
+
+            menu.classList.remove(
+                "open"
+            );
+
+
+            button.textContent=
+                "☰";
+
+
+            button.setAttribute(
+                "aria-expanded",
+                "false"
+            );
+
+        }
+
+    }
+);
 
 
 /* =========================================================
-   INITIALIZATION
+   NOTIFICATIONS
+========================================================= */
+
+$("#notificationButton")
+    ?.addEventListener(
+        "click",
+        ()=>{
+
+            window.location.href=
+                "/buyer/notifications.html";
+
+        }
+    );
+
+
+/* =========================================================
+   AI
+========================================================= */
+
+$("#openAI")
+    ?.addEventListener(
+        "click",
+        ()=>{
+
+            window.location.href=
+                "/buyer/ai.html";
+
+        }
+    );
+
+
+/* =========================================================
+   IMAGE FALLBACK
+========================================================= */
+
+document.addEventListener(
+    "error",
+    event=>{
+
+        const element=
+            event.target;
+
+
+        if(
+            element.tagName==="IMG" &&
+            element.dataset.fallbackApplied!=="true"
+        ){
+
+            element.dataset.fallbackApplied=
+                "true";
+
+
+            if(
+                element.id==="profileImage" ||
+                element.id==="mobileProfileImage"
+            ){
+
+                element.src=
+                    "../assets/images/profile/default-avatar.jpg";
+
+            }else{
+
+                element.src=
+                    "../assets/images/properties/property-placeholder.jpg";
+
+            }
+
+        }
+
+    },
+    true
+);
+
+
+/* =========================================================
+   INIT
 ========================================================= */
 
 async function initialize(){
 
-  $("#footerYear").textContent =
-    new Date().getFullYear();
+    $("#footerYear")
+        .textContent=
+            new Date()
+                .getFullYear();
 
-  await Promise.allSettled([
-    loadSavedProperties(),
-    loadProfile()
-  ]);
+
+    await Promise.all([
+        loadProfile()
+    ]);
+
+
+    await loadSavedProperties();
 
 }
 
 
 if(
-  document.readyState ===
-  "loading"
+    document.readyState==="loading"
 ){
 
-  document.addEventListener(
-    "DOMContentLoaded",
-    initialize
-  );
+    document.addEventListener(
+        "DOMContentLoaded",
+        initialize
+    );
 
 }else{
 
-  initialize();
+    initialize();
 
 }
+
 </script>
 
 </body>

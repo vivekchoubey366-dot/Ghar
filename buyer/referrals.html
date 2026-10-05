@@ -1,0 +1,4352 @@
+<!-- /buyer/referrals.html -->
+<!doctype html>
+<html lang="en">
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<meta name="description"
+content="GHAR Buyer Referrals -- Invite friends, track referrals, rewards and referral activity from your GHAR buyer account.">
+
+<meta name="theme-color" content="#162d25">
+
+<title>GHAR · Buyer Referrals</title>
+
+<link
+    rel="icon"
+    href="../assets/images/logo/favicon.svg"
+>
+
+<style>
+
+/* =========================================================
+   RESET
+========================================================= */
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+:root{
+
+    --green-950:#07130e;
+    --green-925:#091710;
+    --green-900:#0b1c14;
+    --green-875:#0e2118;
+    --green-850:#10261c;
+    --green-825:#132a20;
+    --green-800:#162d25;
+    --green-750:#1a382c;
+    --green-700:#214438;
+    --green-600:#2b5847;
+
+    --gold-100:#fffdf5;
+    --gold-200:#f4dfaa;
+    --gold-300:#e5c77d;
+    --gold-400:#c9a95c;
+    --gold-500:#a98238;
+
+    --cream:#fffaf0;
+    --cream-2:#f7eedc;
+
+    --text:#f9f5ea;
+    --muted:rgba(255,255,255,.72);
+    --muted-2:rgba(255,255,255,.46);
+
+    --border:rgba(229,199,125,.17);
+    --border-strong:rgba(229,199,125,.27);
+    --border-light:rgba(255,255,255,.09);
+
+    --success:#82c995;
+    --warning:#e6c477;
+    --danger:#e98c8c;
+    --blue:#91b9e8;
+
+    --shadow:0 25px 80px rgba(0,0,0,.28);
+
+    --radius-xl:28px;
+    --radius-lg:21px;
+    --radius-md:14px;
+
+    --container:1440px;
+}
+
+
+/* =========================================================
+   BASE
+========================================================= */
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+
+    min-height:100vh;
+
+    color:var(--text);
+
+    font-family:
+        Inter,
+        ui-sans-serif,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    background:
+
+        radial-gradient(
+            circle at 5% 0%,
+            rgba(229,199,125,.12),
+            transparent 27%
+        ),
+
+        radial-gradient(
+            circle at 100% 8%,
+            rgba(44,91,69,.23),
+            transparent 31%
+        ),
+
+        radial-gradient(
+            circle at 50% 100%,
+            rgba(33,68,56,.18),
+            transparent 32%
+        ),
+
+        linear-gradient(
+            135deg,
+            #07130e,
+            #0b1c14 48%,
+            #10261c
+        );
+
+    overflow-x:hidden;
+}
+
+a{
+    color:inherit;
+    text-decoration:none;
+}
+
+button,
+input,
+select{
+    font:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+img{
+    display:block;
+    max-width:100%;
+}
+
+.container{
+    width:min(
+        calc(100% - 40px),
+        var(--container)
+    );
+
+    margin:auto;
+}
+
+
+/* =========================================================
+   BACKGROUND
+========================================================= */
+
+.page-glow{
+
+    position:fixed;
+    inset:0;
+
+    pointer-events:none;
+
+    z-index:-1;
+
+    overflow:hidden;
+}
+
+.page-glow:before{
+
+    content:"";
+
+    position:absolute;
+
+    width:560px;
+    height:560px;
+
+    top:-310px;
+    right:-230px;
+
+    border-radius:50%;
+
+    border:1px solid rgba(229,199,125,.13);
+
+    box-shadow:
+        0 0 0 60px rgba(229,199,125,.025),
+        0 0 0 120px rgba(229,199,125,.015),
+        0 0 0 180px rgba(229,199,125,.008);
+}
+
+.page-glow:after{
+
+    content:"";
+
+    position:absolute;
+
+    width:520px;
+    height:520px;
+
+    bottom:-320px;
+    left:-260px;
+
+    border-radius:50%;
+
+    border:1px solid rgba(255,255,255,.06);
+
+    box-shadow:
+        0 0 0 70px rgba(255,255,255,.012);
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.site-header{
+
+    position:sticky;
+    top:0;
+
+    z-index:1000;
+
+    border-bottom:
+        1px solid
+        rgba(229,199,125,.13);
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(7,19,14,.96),
+            rgba(7,19,14,.87)
+        );
+
+    backdrop-filter:blur(24px);
+    -webkit-backdrop-filter:blur(24px);
+}
+
+.header-inner{
+
+    min-height:82px;
+
+    display:flex;
+    align-items:center;
+
+    gap:20px;
+}
+
+
+/* =========================================================
+   BRAND
+========================================================= */
+
+.brand{
+
+    display:flex;
+    align-items:center;
+
+    gap:12px;
+
+    flex-shrink:0;
+}
+
+.brand-logo{
+
+    width:47px;
+    height:47px;
+
+    display:grid;
+    place-items:center;
+
+    overflow:hidden;
+
+    border-radius:14px;
+
+    border:
+        1px solid
+        rgba(229,199,125,.28);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(229,199,125,.15),
+            rgba(255,255,255,.04)
+        );
+
+    box-shadow:
+        0 10px 28px rgba(0,0,0,.25),
+        inset 0 1px 0 rgba(255,255,255,.08);
+}
+
+.brand-logo img{
+
+    width:100%;
+    height:100%;
+
+    object-fit:contain;
+
+    padding:5px;
+}
+
+.brand-logo-fallback{
+
+    width:100%;
+    height:100%;
+
+    display:grid;
+    place-items:center;
+
+    color:#172016;
+
+    font-size:20px;
+    font-weight:1000;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f1dda5,
+            #b98b3d
+        );
+}
+
+.brand-text strong{
+
+    display:block;
+
+    color:var(--cream);
+
+    font-size:17px;
+    font-weight:950;
+
+    letter-spacing:.17em;
+}
+
+.brand-text span{
+
+    display:block;
+
+    margin-top:3px;
+
+    color:var(--muted-2);
+
+    font-size:8px;
+    font-weight:800;
+
+    letter-spacing:.15em;
+
+    text-transform:uppercase;
+}
+
+
+/* =========================================================
+   NAV
+========================================================= */
+
+.desktop-nav{
+
+    display:flex;
+    align-items:center;
+
+    gap:2px;
+
+    margin-left:auto;
+}
+
+.desktop-nav a{
+
+    position:relative;
+
+    padding:11px 10px;
+
+    border-radius:10px;
+
+    color:var(--muted);
+
+    font-size:10px;
+    font-weight:750;
+
+    transition:
+        color .2s ease,
+        background .2s ease;
+}
+
+.desktop-nav a:hover{
+
+    color:var(--gold-200);
+
+    background:
+        rgba(229,199,125,.07);
+}
+
+.desktop-nav a.active{
+
+    color:var(--gold-200);
+
+    background:
+        rgba(229,199,125,.09);
+}
+
+.desktop-nav a.active:after{
+
+    content:"";
+
+    position:absolute;
+
+    left:12px;
+    right:12px;
+
+    bottom:3px;
+
+    height:2px;
+
+    border-radius:10px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            var(--gold-300),
+            transparent
+        );
+}
+
+
+/* =========================================================
+   HEADER ACTIONS
+========================================================= */
+
+.header-actions{
+
+    display:flex;
+    align-items:center;
+
+    gap:8px;
+
+    margin-left:4px;
+}
+
+.icon-btn{
+
+    width:41px;
+    height:41px;
+
+    display:grid;
+    place-items:center;
+
+    border:
+        1px solid
+        var(--border-light);
+
+    border-radius:12px;
+
+    color:var(--muted);
+
+    background:
+        rgba(255,255,255,.035);
+
+    transition:.2s ease;
+}
+
+.icon-btn:hover{
+
+    color:var(--gold-200);
+
+    border-color:
+        rgba(229,199,125,.30);
+
+    background:
+        rgba(229,199,125,.06);
+
+    transform:translateY(-1px);
+}
+
+
+/* =========================================================
+   NOTIFICATION
+========================================================= */
+
+.notification-wrap{
+    position:relative;
+}
+
+.notification-dot{
+
+    position:absolute;
+
+    width:7px;
+    height:7px;
+
+    top:7px;
+    right:7px;
+
+    border-radius:50%;
+
+    background:
+        var(--gold-300);
+
+    box-shadow:
+        0 0 0 3px var(--green-900);
+}
+
+
+/* =========================================================
+   PROFILE
+========================================================= */
+
+.profile-menu{
+
+    min-height:43px;
+
+    display:flex;
+    align-items:center;
+
+    gap:9px;
+
+    padding:
+        3px
+        8px
+        3px
+        4px;
+
+    border:
+        1px solid
+        var(--border-light);
+
+    border-radius:25px;
+
+    background:
+        rgba(255,255,255,.035);
+
+    transition:.2s ease;
+}
+
+.profile-menu:hover{
+
+    border-color:
+        rgba(229,199,125,.28);
+
+    background:
+        rgba(229,199,125,.055);
+}
+
+.profile-menu img{
+
+    width:35px;
+    height:35px;
+
+    object-fit:cover;
+
+    border-radius:50%;
+
+    border:
+        1px solid
+        rgba(229,199,125,.32);
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--gold-200),
+            var(--gold-500)
+        );
+}
+
+.profile-info{
+    min-width:65px;
+}
+
+.profile-info strong{
+
+    display:block;
+
+    max-width:100px;
+
+    overflow:hidden;
+
+    color:var(--cream);
+
+    font-size:9px;
+    font-weight:900;
+
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
+
+.profile-info small{
+
+    display:block;
+
+    margin-top:2px;
+
+    color:var(--muted-2);
+
+    font-size:7px;
+}
+
+.profile-arrow{
+
+    color:var(--muted-2);
+
+    font-size:12px;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+.mobile-menu{
+    display:none;
+}
+
+
+/* =========================================================
+   PAGE
+========================================================= */
+
+.page{
+    padding:43px 0 20px;
+}
+
+.page-heading{
+
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+
+    gap:25px;
+
+    margin-bottom:25px;
+}
+
+.eyebrow{
+
+    color:var(--gold-300);
+
+    font-size:10px;
+    font-weight:950;
+
+    letter-spacing:.18em;
+
+    text-transform:uppercase;
+}
+
+.page-heading h1{
+
+    margin-top:9px;
+
+    font-size:
+        clamp(35px,5vw,56px);
+
+    line-height:1;
+
+    letter-spacing:-.055em;
+}
+
+.page-heading p{
+
+    max-width:760px;
+
+    margin-top:13px;
+
+    color:var(--muted);
+
+    font-size:12px;
+
+    line-height:1.75;
+}
+
+.heading-actions{
+
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+}
+
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.btn{
+
+    min-height:43px;
+
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+
+    gap:8px;
+
+    padding:0 16px;
+
+    border:
+        1px solid
+        transparent;
+
+    border-radius:11px;
+
+    font-size:10px;
+    font-weight:900;
+
+    transition:.2s ease;
+}
+
+.btn-primary{
+
+    color:#17170f;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f1dca1,
+            #cda85d
+        );
+
+    box-shadow:
+        0 8px 22px rgba(0,0,0,.12);
+}
+
+.btn-primary:hover{
+    transform:translateY(-2px);
+}
+
+.btn-secondary{
+
+    color:var(--cream);
+
+    border-color:
+        var(--border-light);
+
+    background:
+        rgba(255,255,255,.045);
+}
+
+.btn-secondary:hover{
+
+    color:var(--gold-200);
+
+    border-color:
+        rgba(229,199,125,.30);
+}
+
+.btn-small{
+
+    min-height:36px;
+
+    padding:0 12px;
+
+    font-size:9px;
+}
+
+
+/* =========================================================
+   REFERRAL HERO
+========================================================= */
+
+.referral-hero{
+
+    position:relative;
+
+    display:grid;
+
+    grid-template-columns:
+        1.35fr
+        .85fr;
+
+    gap:18px;
+
+    padding:28px;
+
+    overflow:hidden;
+
+    border:
+        1px solid
+        rgba(229,199,125,.20);
+
+    border-radius:var(--radius-xl);
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(26,56,44,.98),
+            rgba(11,28,20,.97)
+        );
+
+    box-shadow:
+        var(--shadow);
+}
+
+.referral-hero:before{
+
+    content:"";
+
+    position:absolute;
+
+    width:360px;
+    height:360px;
+
+    right:-140px;
+    top:-180px;
+
+    border-radius:50%;
+
+    border:
+        1px solid
+        rgba(229,199,125,.15);
+
+    box-shadow:
+        0 0 0 45px rgba(229,199,125,.025),
+        0 0 0 90px rgba(229,199,125,.015);
+}
+
+.hero-copy{
+    position:relative;
+    z-index:1;
+}
+
+.hero-kicker{
+
+    color:var(--gold-300);
+
+    font-size:9px;
+    font-weight:950;
+
+    letter-spacing:.15em;
+
+    text-transform:uppercase;
+}
+
+.hero-copy h2{
+
+    margin-top:9px;
+
+    max-width:700px;
+
+    color:var(--cream);
+
+    font-size:
+        clamp(25px,3.4vw,42px);
+
+    line-height:1.08;
+
+    letter-spacing:-.045em;
+}
+
+.hero-copy p{
+
+    max-width:680px;
+
+    margin-top:12px;
+
+    color:var(--muted);
+
+    font-size:11px;
+
+    line-height:1.75;
+}
+
+.referral-link-box{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    margin-top:20px;
+
+    max-width:650px;
+}
+
+.referral-code{
+
+    flex:1;
+
+    min-height:45px;
+
+    display:flex;
+
+    align-items:center;
+
+    padding:0 13px;
+
+    overflow:hidden;
+
+    border:
+        1px solid
+        rgba(229,199,125,.20);
+
+    border-radius:11px;
+
+    color:var(--gold-200);
+
+    background:
+        rgba(0,0,0,.18);
+
+    font-size:10px;
+    font-weight:850;
+
+    white-space:nowrap;
+    text-overflow:ellipsis;
+}
+
+.hero-reward{
+
+    position:relative;
+    z-index:1;
+
+    min-height:190px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    padding:23px;
+
+    border:
+        1px solid
+        rgba(229,199,125,.17);
+
+    border-radius:18px;
+
+    background:
+        rgba(255,255,255,.035);
+
+    backdrop-filter:blur(10px);
+}
+
+.reward-label{
+
+    color:var(--muted-2);
+
+    font-size:8px;
+    font-weight:900;
+
+    letter-spacing:.12em;
+
+    text-transform:uppercase;
+}
+
+.reward-value{
+
+    margin-top:8px;
+
+    color:var(--gold-200);
+
+    font-size:38px;
+    font-weight:950;
+
+    letter-spacing:-.055em;
+}
+
+.reward-value small{
+
+    color:var(--muted);
+
+    font-size:13px;
+    font-weight:800;
+}
+
+.reward-description{
+
+    margin-top:5px;
+
+    color:var(--muted-2);
+
+    font-size:9px;
+
+    line-height:1.55;
+}
+
+.reward-note{
+
+    margin-top:17px;
+
+    padding-top:13px;
+
+    border-top:
+        1px solid
+        rgba(255,255,255,.07);
+
+    color:var(--muted);
+
+    font-size:8px;
+}
+
+
+/* =========================================================
+   SUMMARY
+========================================================= */
+
+.summary-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+    gap:13px;
+
+    margin-top:22px;
+}
+
+.summary-card{
+
+    padding:20px;
+
+    border:
+        1px solid
+        var(--border-light);
+
+    border-radius:var(--radius-lg);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(20,45,34,.94),
+            rgba(11,28,20,.94)
+        );
+}
+
+.summary-top{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+}
+
+.summary-label{
+
+    color:var(--muted-2);
+
+    font-size:9px;
+    font-weight:850;
+
+    letter-spacing:.08em;
+
+    text-transform:uppercase;
+}
+
+.summary-icon{
+
+    width:35px;
+    height:35px;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:10px;
+
+    color:var(--gold-300);
+
+    background:
+        rgba(229,199,125,.08);
+}
+
+.summary-value{
+
+    margin-top:14px;
+
+    font-size:27px;
+    font-weight:950;
+
+    letter-spacing:-.04em;
+}
+
+.summary-note{
+
+    margin-top:4px;
+
+    color:var(--muted-2);
+
+    font-size:9px;
+}
+
+
+/* =========================================================
+   REFERRAL TOOL PANEL
+========================================================= */
+
+.tool-panel{
+
+    margin-top:22px;
+
+    padding:19px;
+
+    border:
+        1px solid
+        var(--border-light);
+
+    border-radius:var(--radius-lg);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(20,45,34,.94),
+            rgba(11,28,20,.94)
+        );
+}
+
+.tool-header{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:15px;
+
+    margin-bottom:13px;
+}
+
+.tool-title{
+
+    font-size:12px;
+    font-weight:950;
+}
+
+.tool-hint{
+
+    color:var(--muted-2);
+
+    font-size:8px;
+}
+
+.share-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        1fr
+        auto
+        auto
+        auto;
+
+    gap:9px;
+}
+
+.input{
+
+    width:100%;
+    height:44px;
+
+    padding:0 12px;
+
+    outline:none;
+
+    color:var(--cream);
+
+    border:
+        1px solid
+        rgba(255,255,255,.09);
+
+    border-radius:10px;
+
+    background:
+        rgba(255,255,255,.035);
+
+    font-size:10px;
+}
+
+.input::placeholder{
+    color:rgba(255,255,255,.38);
+}
+
+.input:focus{
+
+    border-color:
+        rgba(229,199,125,.45);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(229,199,125,.04);
+}
+
+
+/* =========================================================
+   BENEFITS
+========================================================= */
+
+.benefits-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:13px;
+
+    margin-top:22px;
+}
+
+.benefit-card{
+
+    min-height:150px;
+
+    padding:20px;
+
+    border:
+        1px solid
+        var(--border-light);
+
+    border-radius:var(--radius-lg);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(20,45,34,.92),
+            rgba(11,28,20,.92)
+        );
+
+    transition:.2s ease;
+}
+
+.benefit-card:hover{
+
+    transform:translateY(-2px);
+
+    border-color:
+        rgba(229,199,125,.24);
+}
+
+.benefit-icon{
+
+    width:40px;
+    height:40px;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:12px;
+
+    color:var(--gold-300);
+
+    background:
+        rgba(229,199,125,.08);
+
+    font-size:17px;
+}
+
+.benefit-card h3{
+
+    margin-top:13px;
+
+    font-size:13px;
+    font-weight:900;
+}
+
+.benefit-card p{
+
+    margin-top:6px;
+
+    color:var(--muted-2);
+
+    font-size:9px;
+
+    line-height:1.7;
+}
+
+
+/* =========================================================
+   REFERRAL TABLE
+========================================================= */
+
+.section-heading{
+
+    display:flex;
+
+    align-items:flex-end;
+
+    justify-content:space-between;
+
+    gap:15px;
+
+    margin-top:28px;
+
+    margin-bottom:13px;
+}
+
+.section-heading h2{
+
+    font-size:18px;
+    font-weight:950;
+
+    letter-spacing:-.025em;
+}
+
+.section-heading p{
+
+    color:var(--muted-2);
+
+    font-size:9px;
+}
+
+.referral-list{
+
+    display:grid;
+
+    gap:10px;
+}
+
+.referral-card{
+
+    display:grid;
+
+    grid-template-columns:
+        1.2fr
+        .75fr
+        .7fr
+        .7fr
+        auto;
+
+    align-items:center;
+
+    gap:15px;
+
+    padding:15px 17px;
+
+    border:
+        1px solid
+        var(--border-light);
+
+    border-radius:15px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(20,45,34,.90),
+            rgba(11,28,20,.90)
+        );
+
+    transition:.2s ease;
+}
+
+.referral-card:hover{
+
+    border-color:
+        rgba(229,199,125,.23);
+
+    transform:translateY(-1px);
+}
+
+.referral-person{
+
+    min-width:0;
+}
+
+.referral-person strong{
+
+    display:block;
+
+    overflow:hidden;
+
+    color:var(--cream);
+
+    font-size:10px;
+    font-weight:900;
+
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
+
+.referral-person span{
+
+    display:block;
+
+    margin-top:4px;
+
+    overflow:hidden;
+
+    color:var(--muted-2);
+
+    font-size:8px;
+
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
+
+.referral-cell-label{
+
+    display:block;
+
+    margin-bottom:4px;
+
+    color:var(--muted-2);
+
+    font-size:7px;
+    font-weight:800;
+
+    letter-spacing:.07em;
+
+    text-transform:uppercase;
+}
+
+.referral-cell-value{
+
+    color:var(--cream);
+
+    font-size:9px;
+    font-weight:800;
+}
+
+.referral-status{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:6px;
+
+    padding:6px 8px;
+
+    border-radius:8px;
+
+    font-size:7px;
+    font-weight:950;
+
+    text-transform:uppercase;
+}
+
+.referral-status:before{
+
+    content:"";
+
+    width:5px;
+    height:5px;
+
+    border-radius:50%;
+
+    background:currentColor;
+}
+
+.status-pending{
+
+    color:#f4dfaa;
+
+    background:
+        rgba(229,199,125,.10);
+}
+
+.status-invited{
+
+    color:#91b9e8;
+
+    background:
+        rgba(145,185,232,.10);
+}
+
+.status-joined,
+.status-qualified{
+
+    color:#82c995;
+
+    background:
+        rgba(130,201,149,.10);
+}
+
+.status-rewarded{
+
+    color:var(--gold-200);
+
+    background:
+        rgba(229,199,125,.12);
+}
+
+.status-expired{
+
+    color:#e98c8c;
+
+    background:
+        rgba(233,140,140,.10);
+}
+
+
+/* =========================================================
+   EMPTY / LOADING
+========================================================= */
+
+.empty-state{
+
+    padding:65px 25px;
+
+    text-align:center;
+
+    border:
+        1px dashed
+        rgba(229,199,125,.20);
+
+    border-radius:var(--radius-lg);
+
+    background:
+        rgba(255,255,255,.025);
+}
+
+.empty-icon{
+
+    width:55px;
+    height:55px;
+
+    margin:auto;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:16px;
+
+    color:var(--gold-300);
+
+    background:
+        rgba(229,199,125,.08);
+
+    font-size:22px;
+}
+
+.empty-state h3{
+
+    margin-top:15px;
+
+    font-size:18px;
+}
+
+.empty-state p{
+
+    max-width:500px;
+
+    margin:
+        7px auto
+        18px;
+
+    color:var(--muted-2);
+
+    font-size:10px;
+
+    line-height:1.7;
+}
+
+.loading-state{
+
+    padding:45px;
+
+    text-align:center;
+
+    color:var(--muted-2);
+
+    border:
+        1px solid
+        var(--border-light);
+
+    border-radius:var(--radius-lg);
+
+    background:
+        rgba(255,255,255,.025);
+}
+
+.loading-spinner{
+
+    width:32px;
+    height:32px;
+
+    margin:
+        0 auto
+        12px;
+
+    border:
+        3px solid
+        rgba(255,255,255,.08);
+
+    border-top-color:
+        var(--gold-300);
+
+    border-radius:50%;
+
+    animation:
+        spin .8s linear infinite;
+}
+
+@keyframes spin{
+    to{
+        transform:rotate(360deg);
+    }
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.site-footer{
+
+    position:relative;
+
+    margin-top:55px;
+
+    padding:
+        48px 0
+        25px;
+
+    border-top:
+        1px solid
+        rgba(229,199,125,.12);
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(3,12,8,.38),
+            rgba(3,12,8,.84)
+        );
+}
+
+.footer-top-line{
+
+    height:1px;
+
+    width:100%;
+
+    margin-bottom:35px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(229,199,125,.22),
+            transparent
+        );
+}
+
+.footer-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        1.6fr
+        repeat(4,1fr);
+
+    gap:30px;
+}
+
+.footer-brand{
+    max-width:350px;
+}
+
+.footer-brand .brand-logo{
+
+    width:43px;
+    height:43px;
+}
+
+.footer-brand p{
+
+    margin-top:14px;
+
+    color:var(--muted-2);
+
+    font-size:9px;
+
+    line-height:1.85;
+}
+
+.footer-trust{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:6px;
+
+    margin-top:15px;
+}
+
+.trust-pill{
+
+    padding:6px 9px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.07);
+
+    border-radius:7px;
+
+    color:var(--muted-2);
+
+    background:
+        rgba(255,255,255,.025);
+
+    font-size:7px;
+    font-weight:800;
+}
+
+.footer-col h4{
+
+    color:var(--gold-200);
+
+    font-size:9px;
+    letter-spacing:.1em;
+
+    text-transform:uppercase;
+}
+
+.footer-col a{
+
+    display:block;
+
+    margin-top:11px;
+
+    color:var(--muted-2);
+
+    font-size:9px;
+
+    transition:.2s ease;
+}
+
+.footer-col a:hover{
+
+    color:var(--gold-300);
+
+    transform:translateX(2px);
+}
+
+.footer-contact{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    margin-top:18px;
+
+    padding-top:14px;
+
+    border-top:
+        1px solid
+        rgba(255,255,255,.06);
+}
+
+.footer-contact-icon{
+
+    width:30px;
+    height:30px;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:9px;
+
+    color:var(--gold-300);
+
+    background:
+        rgba(229,199,125,.07);
+}
+
+.footer-contact-text span{
+
+    display:block;
+
+    color:var(--muted-2);
+
+    font-size:7px;
+}
+
+.footer-contact-text strong{
+
+    display:block;
+
+    margin-top:2px;
+
+    color:var(--cream);
+
+    font-size:8px;
+}
+
+.footer-bottom{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    gap:15px;
+
+    margin-top:32px;
+
+    padding-top:19px;
+
+    border-top:
+        1px solid
+        rgba(255,255,255,.06);
+
+    color:var(--muted-2);
+
+    font-size:8px;
+}
+
+
+/* =========================================================
+   AI
+========================================================= */
+
+.ai-floating{
+
+    position:fixed;
+
+    right:22px;
+    bottom:22px;
+
+    z-index:900;
+
+    min-height:50px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:9px;
+
+    padding:0 18px;
+
+    border:
+        1px solid
+        rgba(229,199,125,.28);
+
+    border-radius:30px;
+
+    color:#17170f;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--gold-200),
+            var(--gold-400)
+        );
+
+    box-shadow:
+        0 15px 35px rgba(0,0,0,.30);
+
+    font-size:10px;
+    font-weight:1000;
+
+    transition:.2s ease;
+}
+
+.ai-floating:hover{
+    transform:translateY(-3px);
+}
+
+.ai-icon{
+
+    width:27px;
+    height:27px;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:50%;
+
+    background:
+        rgba(0,0,0,.10);
+}
+
+
+/* =========================================================
+   MOBILE NAV PANEL
+========================================================= */
+
+.mobile-nav-panel{
+
+    display:none;
+
+    position:fixed;
+
+    left:14px;
+    right:14px;
+    top:78px;
+
+    z-index:999;
+
+    padding:10px;
+
+    border:
+        1px solid
+        rgba(229,199,125,.17);
+
+    border-radius:18px;
+
+    background:
+        rgba(11,28,20,.98);
+
+    box-shadow:
+        0 25px 70px rgba(0,0,0,.45);
+
+    backdrop-filter:blur(22px);
+}
+
+.mobile-nav-panel.open{
+    display:block;
+}
+
+.mobile-nav-panel a{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    padding:13px 12px;
+
+    border-radius:10px;
+
+    color:var(--muted);
+
+    font-size:10px;
+    font-weight:750;
+}
+
+.mobile-nav-panel a:hover,
+.mobile-nav-panel a.active{
+
+    color:var(--gold-200);
+
+    background:
+        rgba(229,199,125,.07);
+}
+
+.mobile-profile{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    margin-bottom:8px;
+
+    padding:10px;
+
+    border-bottom:
+        1px solid
+        rgba(255,255,255,.06);
+}
+
+.mobile-profile img{
+
+    width:38px;
+    height:38px;
+
+    border-radius:50%;
+
+    object-fit:cover;
+
+    border:
+        1px solid
+        rgba(229,199,125,.25);
+}
+
+.mobile-profile strong{
+
+    display:block;
+
+    color:var(--cream);
+
+    font-size:10px;
+}
+
+.mobile-profile span{
+
+    display:block;
+
+    margin-top:3px;
+
+    color:var(--muted-2);
+
+    font-size:7px;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:1240px){
+
+    .desktop-nav{
+        display:none;
+    }
+
+    .mobile-menu{
+        display:grid;
+    }
+
+    .footer-grid{
+        grid-template-columns:
+            1.5fr
+            repeat(3,1fr);
+    }
+
+    .referral-card{
+        grid-template-columns:
+            1.3fr
+            1fr
+            1fr;
+    }
+
+    .referral-card > :nth-child(4),
+    .referral-card > :nth-child(5){
+        grid-column:auto;
+    }
+}
+
+@media(max-width:1000px){
+
+    .profile-info,
+    .profile-arrow{
+        display:none;
+    }
+
+    .profile-menu{
+        padding:3px;
+        border-radius:50%;
+        border-color:transparent;
+        background:transparent;
+    }
+
+    .summary-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .referral-hero{
+        grid-template-columns:1fr;
+    }
+
+    .benefits-grid{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .share-grid{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .share-grid .input{
+        grid-column:1/-1;
+    }
+}
+
+@media(max-width:800px){
+
+    .container{
+
+        width:min(
+            calc(100% - 28px),
+            var(--container)
+        );
+    }
+
+    .page-heading{
+
+        align-items:flex-start;
+
+        flex-direction:column;
+    }
+
+    .referral-card{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .referral-person{
+        grid-column:1/-1;
+    }
+
+    .footer-grid{
+        grid-template-columns:1fr 1fr;
+    }
+}
+
+@media(max-width:560px){
+
+    .header-inner{
+        min-height:68px;
+    }
+
+    .brand-text span{
+        display:none;
+    }
+
+    .header-actions .notification-wrap{
+        display:none;
+    }
+
+    .brand-logo{
+
+        width:42px;
+        height:42px;
+
+        border-radius:12px;
+    }
+
+    .page{
+        padding-top:28px;
+    }
+
+    .referral-hero{
+        padding:20px;
+    }
+
+    .referral-link-box{
+        flex-direction:column;
+        align-items:stretch;
+    }
+
+    .summary-grid{
+        grid-template-columns:1fr 1fr;
+        gap:9px;
+    }
+
+    .summary-card{
+        padding:15px;
+    }
+
+    .summary-value{
+        font-size:22px;
+    }
+
+    .share-grid{
+        grid-template-columns:1fr;
+    }
+
+    .share-grid .input{
+        grid-column:auto;
+    }
+
+    .benefits-grid{
+        grid-template-columns:1fr;
+    }
+
+    .referral-card{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .section-heading{
+        align-items:flex-start;
+        flex-direction:column;
+    }
+
+    .footer-grid{
+        grid-template-columns:1fr;
+    }
+
+    .footer-bottom{
+        flex-direction:column;
+    }
+
+    .ai-floating{
+
+        right:14px;
+        bottom:14px;
+    }
+
+    .ai-floating .ai-text{
+        display:none;
+    }
+}
+
+@media(max-width:380px){
+
+    .summary-grid{
+        grid-template-columns:1fr;
+    }
+
+    .referral-card{
+        grid-template-columns:1fr;
+    }
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+<div class="page-glow"></div>
+
+
+<!-- =======================================================
+     HEADER
+======================================================= -->
+
+<header class="site-header">
+
+<div class="container header-inner">
+
+
+<a
+    class="brand"
+    href="/buyer/index.html"
+    aria-label="GHAR Buyer Home"
+>
+
+    <div class="brand-logo">
+
+        <img
+            src="../assets/images/logo/ghar-logo-light.svg"
+            alt="GHAR"
+            onerror="
+                this.style.display='none';
+                this.nextElementSibling.style.display='grid';
+            "
+        >
+
+        <div
+            class="brand-logo-fallback"
+            style="display:none"
+        >
+            G
+        </div>
+
+    </div>
+
+    <div class="brand-text">
+
+        <strong>GHAR</strong>
+
+        <span>
+            Buyer Experience
+        </span>
+
+    </div>
+
+</a>
+
+
+<nav
+    class="desktop-nav"
+    aria-label="Buyer navigation"
+>
+
+    <a href="/buyer/index.html">
+        Home
+    </a>
+
+    <a href="/buyer/properties.html">
+        Properties
+    </a>
+
+    <a href="/buyer/search.html">
+        Search
+    </a>
+
+    <a href="/buyer/saved-properties.html">
+        Saved
+    </a>
+
+    <a href="/buyer/favourites.html">
+        Favourites
+    </a>
+
+    <a href="/buyer/visits.html">
+        Visits
+    </a>
+
+    <a href="/buyer/offers.html">
+        Offers
+    </a>
+
+    <a href="/buyer/applications.html">
+        Applications
+    </a>
+
+    <a
+        class="active"
+        href="/buyer/referrals.html"
+    >
+        Referrals
+    </a>
+
+</nav>
+
+
+<div class="header-actions">
+
+
+    <div class="notification-wrap">
+
+        <button
+            class="icon-btn"
+            id="notificationButton"
+            type="button"
+            aria-label="Notifications"
+            title="Notifications"
+        >
+            ♢
+        </button>
+
+        <span
+            class="notification-dot"
+            aria-hidden="true"
+        ></span>
+
+    </div>
+
+
+    <a
+        class="profile-menu"
+        href="/buyer/profile.html"
+        aria-label="Open buyer profile"
+    >
+
+        <img
+            id="profileImage"
+            src="../assets/images/profile/buyer-default.jpg"
+            alt="Buyer profile"
+            onerror="
+                this.src='../assets/images/profile/default-avatar.jpg'
+            "
+        >
+
+        <span class="profile-info">
+
+            <strong id="profileName">
+                Buyer
+            </strong>
+
+            <small>
+                My account
+            </small>
+
+        </span>
+
+        <span class="profile-arrow">
+            ⌄
+        </span>
+
+    </a>
+
+
+    <button
+        class="icon-btn mobile-menu"
+        id="menuButton"
+        type="button"
+        aria-label="Open buyer menu"
+        aria-expanded="false"
+    >
+        ☰
+    </button>
+
+</div>
+
+</div>
+
+</header>
+
+
+<!-- =======================================================
+     MOBILE NAV
+======================================================= -->
+
+<div
+    class="mobile-nav-panel"
+    id="mobileNav"
+>
+
+<div class="mobile-profile">
+
+    <img
+        id="mobileProfileImage"
+        src="../assets/images/profile/buyer-default.jpg"
+        alt="Buyer profile"
+        onerror="
+            this.src='../assets/images/profile/default-avatar.jpg'
+        "
+    >
+
+    <div>
+
+        <strong id="mobileProfileName">
+            Buyer
+        </strong>
+
+        <span>
+            GHAR Buyer Account
+        </span>
+
+    </div>
+
+</div>
+
+
+<a href="/buyer/index.html">
+    Home
+    <span>›</span>
+</a>
+
+<a href="/buyer/properties.html">
+    Properties
+    <span>›</span>
+</a>
+
+<a href="/buyer/search.html">
+    Search
+    <span>›</span>
+</a>
+
+<a href="/buyer/saved-properties.html">
+    Saved Properties
+    <span>›</span>
+</a>
+
+<a href="/buyer/favourites.html">
+    Favourites
+    <span>›</span>
+</a>
+
+<a href="/buyer/visits.html">
+    Visits
+    <span>›</span>
+</a>
+
+<a href="/buyer/offers.html">
+    Offers
+    <span>›</span>
+</a>
+
+<a href="/buyer/applications.html">
+    Applications
+    <span>›</span>
+</a>
+
+<a
+    class="active"
+    href="/buyer/referrals.html"
+>
+    Referrals
+    <span>›</span>
+</a>
+
+<a href="/buyer/documents.html">
+    Documents
+    <span>›</span>
+</a>
+
+<a href="/buyer/profile.html">
+    Profile
+    <span>›</span>
+</a>
+
+</div>
+
+
+<!-- =======================================================
+     MAIN
+======================================================= -->
+
+<main>
+
+<section class="page">
+
+<div class="container">
+
+
+<!-- =====================================================
+     PAGE HEADING
+====================================================== -->
+
+<div class="page-heading">
+
+<div>
+
+    <div class="eyebrow">
+        GHAR REFERRAL PROGRAM
+    </div>
+
+    <h1>
+        Share GHAR. Earn rewards.
+    </h1>
+
+    <p>
+        Invite friends, family or colleagues to discover
+        properties through GHAR. Track every referral,
+        monitor qualification progress and view earned
+        rewards from one secure buyer workspace.
+    </p>
+
+</div>
+
+
+<div class="heading-actions">
+
+    <a
+        class="btn btn-secondary"
+        href="/buyer/profile.html"
+    >
+        My profile
+    </a>
+
+    <a
+        class="btn btn-primary"
+        href="/buyer/properties.html"
+    >
+        Explore properties
+    </a>
+
+</div>
+
+</div>
+
+
+<!-- =====================================================
+     REFERRAL HERO
+====================================================== -->
+
+<section class="referral-hero">
+
+
+<div class="hero-copy">
+
+    <div class="hero-kicker">
+        YOUR PERSONAL REFERRAL LINK
+    </div>
+
+    <h2>
+        Help someone find their next property.
+    </h2>
+
+    <p>
+        Share your unique GHAR referral link with someone
+        looking to buy, rent or explore property opportunities.
+        Referral eligibility and rewards are calculated
+        automatically from qualifying activity.
+    </p>
+
+
+    <div class="referral-link-box">
+
+        <div
+            class="referral-code"
+            id="referralLink"
+        >
+            Loading referral link...
+        </div>
+
+        <button
+            class="btn btn-primary"
+            id="copyReferral"
+            type="button"
+        >
+            Copy link
+        </button>
+
+    </div>
+
+</div>
+
+
+<div class="hero-reward">
+
+    <div class="reward-label">
+        CURRENT REWARD BALANCE
+    </div>
+
+    <div
+        class="reward-value"
+        id="rewardBalance"
+    >
+        ₹0
+        <small>earned</small>
+    </div>
+
+    <div class="reward-description">
+        Rewards shown here are based on qualifying
+        referral activity recorded by GHAR.
+    </div>
+
+    <div class="reward-note">
+        Referral rewards are subject to GHAR program
+        eligibility, verification and applicable terms.
+    </div>
+
+</div>
+
+
+</section>
+
+
+<!-- =====================================================
+     SUMMARY
+====================================================== -->
+
+<section class="summary-grid">
+
+
+<article class="summary-card">
+
+    <div class="summary-top">
+
+        <span class="summary-label">
+            Total Referrals
+        </span>
+
+        <div class="summary-icon">
+            ♧
+        </div>
+
+    </div>
+
+    <div
+        class="summary-value"
+        id="totalReferrals"
+    >
+        0
+    </div>
+
+    <div class="summary-note">
+        People invited
+    </div>
+
+</article>
+
+
+<article class="summary-card">
+
+    <div class="summary-top">
+
+        <span class="summary-label">
+            Joined
+        </span>
+
+        <div class="summary-icon">
+            ✓
+        </div>
+
+    </div>
+
+    <div
+        class="summary-value"
+        id="joinedReferrals"
+    >
+        0
+    </div>
+
+    <div class="summary-note">
+        Successful sign-ups
+    </div>
+
+</article>
+
+
+<article class="summary-card">
+
+    <div class="summary-top">
+
+        <span class="summary-label">
+            Qualified
+        </span>
+
+        <div class="summary-icon">
+            ◈
+        </div>
+
+    </div>
+
+    <div
+        class="summary-value"
+        id="qualifiedReferrals"
+    >
+        0
+    </div>
+
+    <div class="summary-note">
+        Eligible referrals
+    </div>
+
+</article>
+
+
+<article class="summary-card">
+
+    <div class="summary-top">
+
+        <span class="summary-label">
+            Rewards
+        </span>
+
+        <div class="summary-icon">
+            ₹
+        </div>
+
+    </div>
+
+    <div
+        class="summary-value"
+        id="totalRewards"
+    >
+        ₹0
+    </div>
+
+    <div class="summary-note">
+        Total earned
+    </div>
+
+</article>
+
+
+</section>
+
+
+<!-- =====================================================
+     SHARE TOOL
+====================================================== -->
+
+<section class="tool-panel">
+
+<div class="tool-header">
+
+    <div class="tool-title">
+        Invite someone to GHAR
+    </div>
+
+    <div class="tool-hint">
+        Enter an email or mobile number to prepare an invitation.
+    </div>
+
+</div>
+
+
+<div class="share-grid">
+
+    <input
+        class="input"
+        id="inviteTarget"
+        type="text"
+        placeholder="Email address or mobile number..."
+        autocomplete="off"
+    >
+
+    <button
+        class="btn btn-primary"
+        id="sendInvite"
+        type="button"
+    >
+        Send invitation
+    </button>
+
+    <button
+        class="btn btn-secondary"
+        id="shareWhatsApp"
+        type="button"
+    >
+        WhatsApp
+    </button>
+
+    <button
+        class="btn btn-secondary"
+        id="shareNative"
+        type="button"
+    >
+        Share
+    </button>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     BENEFITS
+====================================================== -->
+
+<section>
+
+<div class="section-heading">
+
+<div>
+
+    <h2>
+        How referrals work
+    </h2>
+
+    <p>
+        A simple three-stage referral journey.
+    </p>
+
+</div>
+
+</div>
+
+
+<div class="benefits-grid">
+
+
+<article class="benefit-card">
+
+    <div class="benefit-icon">
+        1
+    </div>
+
+    <h3>
+        Invite
+    </h3>
+
+    <p>
+        Share your personal GHAR referral link
+        or send an invitation directly to someone
+        interested in property.
+    </p>
+
+</article>
+
+
+<article class="benefit-card">
+
+    <div class="benefit-icon">
+        2
+    </div>
+
+    <h3>
+        Qualify
+    </h3>
+
+    <p>
+        Your referral joins GHAR and completes the
+        qualifying activity required by the referral
+        program.
+    </p>
+
+</article>
+
+
+<article class="benefit-card">
+
+    <div class="benefit-icon">
+        3
+    </div>
+
+    <h3>
+        Earn
+    </h3>
+
+    <p>
+        Once the referral is verified and qualifies,
+        the applicable reward is recorded in your
+        referral account.
+    </p>
+
+</article>
+
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     REFERRAL HISTORY
+====================================================== -->
+
+<section>
+
+<div class="section-heading">
+
+<div>
+
+    <h2>
+        Referral activity
+    </h2>
+
+    <p>
+        Track invitations and their current status.
+    </p>
+
+</div>
+
+<button
+    class="btn btn-secondary btn-small"
+    id="refreshReferrals"
+    type="button"
+>
+    Refresh
+</button>
+
+</div>
+
+
+<div
+    id="referralList"
+    class="referral-list"
+>
+
+    <div class="loading-state">
+
+        <div class="loading-spinner"></div>
+
+        Loading referral activity...
+
+    </div>
+
+</div>
+
+</section>
+
+
+</div>
+
+</section>
+
+</main>
+
+
+<!-- =======================================================
+     FOOTER
+======================================================= -->
+
+<footer class="site-footer">
+
+<div class="container">
+
+<div class="footer-top-line"></div>
+
+
+<div class="footer-grid">
+
+
+<div class="footer-brand">
+
+<a
+    class="brand"
+    href="/buyer/index.html"
+>
+
+    <div class="brand-logo">
+
+        <img
+            src="../assets/images/logo/ghar-logo-light.svg"
+            alt="GHAR"
+            onerror="
+                this.style.display='none';
+                this.nextElementSibling.style.display='grid';
+            "
+        >
+
+        <div
+            class="brand-logo-fallback"
+            style="display:none"
+        >
+            G
+        </div>
+
+    </div>
+
+    <div class="brand-text">
+
+        <strong>GHAR</strong>
+
+        <span>
+            Real Estate Platform
+        </span>
+
+    </div>
+
+</a>
+
+
+<p>
+    A connected real estate platform for discovering,
+    evaluating, financing and managing property decisions
+    through one secure digital experience.
+</p>
+
+
+<div class="footer-trust">
+
+    <span class="trust-pill">
+        Secure Buyer Portal
+    </span>
+
+    <span class="trust-pill">
+        Referral Tracking
+    </span>
+
+    <span class="trust-pill">
+        AI Assisted
+    </span>
+
+    <span class="trust-pill">
+        Property Intelligence
+    </span>
+
+</div>
+
+
+<div class="footer-contact">
+
+    <div class="footer-contact-icon">
+        ✦
+    </div>
+
+    <div class="footer-contact-text">
+
+        <span>
+            GHAR ASSISTANCE
+        </span>
+
+        <strong>
+            Your property journey, connected.
+        </strong>
+
+    </div>
+
+</div>
+
+</div>
+
+
+<div class="footer-col">
+
+<h4>
+    Discover
+</h4>
+
+<a href="/buyer/properties.html">
+    Properties
+</a>
+
+<a href="/buyer/search.html">
+    Property Search
+</a>
+
+<a href="/buyer/saved-properties.html">
+    Saved Properties
+</a>
+
+<a href="/buyer/favourites.html">
+    Favourites
+</a>
+
+<a href="/map.html">
+    Property Map
+</a>
+
+</div>
+
+
+<div class="footer-col">
+
+<h4>
+    Buyer
+</h4>
+
+<a href="/buyer/profile.html">
+    Profile
+</a>
+
+<a href="/buyer/visits.html">
+    Property Visits
+</a>
+
+<a href="/buyer/offers.html">
+    Offers
+</a>
+
+<a href="/buyer/applications.html">
+    Applications
+</a>
+
+<a href="/buyer/referrals.html">
+    Referrals
+</a>
+
+</div>
+
+
+<div class="footer-col">
+
+<h4>
+    Services
+</h4>
+
+<a href="/ai.html">
+    GHAR AI
+</a>
+
+<a href="/ai-loan-advisor.html">
+    Loan Advisor
+</a>
+
+<a href="/ai-investment-advisor.html">
+    Investment Advisor
+</a>
+
+<a href="/buyer/finance.html">
+    Buyer Finance
+</a>
+
+<a href="/buyer/verification.html">
+    Verification
+</a>
+
+</div>
+
+
+<div class="footer-col">
+
+<h4>
+    Support
+</h4>
+
+<a href="/help-centre.html">
+    Help Centre
+</a>
+
+<a href="/contact.html">
+    Contact
+</a>
+
+<a href="/buyer/support.html">
+    Buyer Support
+</a>
+
+<a href="/privacy-policy.html">
+    Privacy
+</a>
+
+<a href="/terms.html">
+    Terms
+</a>
+
+</div>
+
+
+</div>
+
+
+<div class="footer-bottom">
+
+<span>
+    ©
+    <span id="footerYear"></span>
+    GHAR. All rights reserved.
+</span>
+
+<span>
+    Buyer Portal · Secure Session
+</span>
+
+</div>
+
+</div>
+
+</footer>
+
+
+<!-- =======================================================
+     AI
+======================================================= -->
+
+<button
+    id="openAI"
+    class="ai-floating"
+    type="button"
+    aria-label="Ask GHAR AI"
+>
+
+<span class="ai-icon">
+    ✦
+</span>
+
+<span class="ai-text">
+    Ask GHAR AI
+</span>
+
+</button>
+
+
+<script>
+"use strict";
+
+
+/* =========================================================
+   CONFIG
+========================================================= */
+
+const API_BASE =
+    window.GHAR_API_BASE ||
+    window.API_BASE ||
+    "/api";
+
+let referrals=[];
+
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function $(selector){
+    return document.querySelector(selector);
+}
+
+
+function escapeHTML(value){
+
+    return String(value ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+}
+
+
+async function apiRequest(
+    url,
+    options={}
+){
+
+    const response =
+        await fetch(
+            url,
+            {
+                credentials:"include",
+
+                headers:{
+                    "Accept":
+                        "application/json",
+
+                    "Content-Type":
+                        "application/json",
+
+                    ...(options.headers || {})
+                },
+
+                ...options
+            }
+        );
+
+
+    let data=null;
+
+    try{
+
+        data =
+            await response.json();
+
+    }catch{
+
+        data=null;
+
+    }
+
+
+    if(!response.ok){
+
+        const error =
+            new Error(
+                data?.error?.message ||
+                data?.message ||
+                "Request failed."
+            );
+
+        error.status =
+            response.status;
+
+        error.data=data;
+
+        throw error;
+    }
+
+
+    return data;
+}
+
+
+function normalizeCollection(response){
+
+    if(Array.isArray(response))
+        return response;
+
+    if(Array.isArray(response?.data))
+        return response.data;
+
+    if(Array.isArray(response?.referrals))
+        return response.referrals;
+
+    if(Array.isArray(response?.items))
+        return response.items;
+
+    if(Array.isArray(response?.results))
+        return response.results;
+
+    return [];
+}
+
+
+function formatMoney(value){
+
+    const amount=Number(value);
+
+    if(!Number.isFinite(amount))
+        return "₹0";
+
+    return (
+        "₹"+
+        amount.toLocaleString(
+            "en-IN",
+            {
+                maximumFractionDigits:0
+            }
+        )
+    );
+}
+
+
+function formatDate(value){
+
+    if(!value)
+        return "Date unavailable";
+
+    const date=new Date(value);
+
+    if(Number.isNaN(date.getTime()))
+        return "Date unavailable";
+
+    return date.toLocaleDateString(
+        "en-IN",
+        {
+            day:"2-digit",
+            month:"short",
+            year:"numeric"
+        }
+    );
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+function getStatus(item){
+
+    return String(
+        item.status ||
+        item.referralStatus ||
+        "pending"
+    )
+    .toLowerCase()
+    .replace(/\s+/g,"-");
+}
+
+
+function statusLabel(status){
+
+    const labels={
+
+        pending:"Pending",
+
+        invited:"Invited",
+
+        joined:"Joined",
+
+        qualified:"Qualified",
+
+        rewarded:"Rewarded",
+
+        expired:"Expired"
+
+    };
+
+    return (
+        labels[status] ||
+        "Pending"
+    );
+}
+
+
+/* =========================================================
+   REFERRAL HELPERS
+========================================================= */
+
+function getReferralName(item){
+
+    return (
+        item.name ||
+        item.refereeName ||
+        item.referralName ||
+        item.friendName ||
+        item.email ||
+        item.mobile ||
+        "GHAR Referral"
+    );
+}
+
+
+function getReferralContact(item){
+
+    return (
+        item.email ||
+        item.mobile ||
+        item.phone ||
+        item.contact ||
+        "Contact information unavailable"
+    );
+}
+
+
+function getReward(item){
+
+    return (
+        item.reward ||
+        item.rewardAmount ||
+        item.amount ||
+        0
+    );
+}
+
+
+function getCreatedDate(item){
+
+    return (
+        item.createdAt ||
+        item.invitedAt ||
+        item.date ||
+        item.created ||
+        ""
+    );
+}
+
+
+/* =========================================================
+   RENDER REFERRALS
+========================================================= */
+
+function renderReferrals(list){
+
+    const container =
+        $("#referralList");
+
+
+    if(!container)
+        return;
+
+
+    if(!list.length){
+
+        container.innerHTML=`
+
+            <div class="empty-state">
+
+                <div class="empty-icon">
+                    ♧
+                </div>
+
+                <h3>
+                    No referrals yet
+                </h3>
+
+                <p>
+                    You have not invited anyone yet.
+                    Share your personal GHAR referral link
+                    to start building your referral activity.
+                </p>
+
+                <button
+                    class="btn btn-primary"
+                    type="button"
+                    onclick="copyReferralLink()"
+                >
+                    Copy referral link
+                </button>
+
+            </div>
+
+        `;
+
+        return;
+    }
+
+
+    container.innerHTML =
+        list
+            .map(
+                item => {
+
+                    const status =
+                        getStatus(item);
+
+                    const name =
+                        getReferralName(item);
+
+                    const contact =
+                        getReferralContact(item);
+
+                    const reward =
+                        getReward(item);
+
+                    const date =
+                        getCreatedDate(item);
+
+
+                    return `
+
+                    <article class="referral-card">
+
+                        <div class="referral-person">
+
+                            <strong>
+                                ${escapeHTML(name)}
+                            </strong>
+
+                            <span>
+                                ${escapeHTML(contact)}
+                            </span>
+
+                        </div>
+
+
+                        <div>
+
+                            <span class="referral-cell-label">
+                                Status
+                            </span>
+
+                            <span
+                                class="
+                                    referral-status
+                                    status-${escapeHTML(status)}
+                                "
+                            >
+                                ${escapeHTML(
+                                    statusLabel(status)
+                                )}
+                            </span>
+
+                        </div>
+
+
+                        <div>
+
+                            <span class="referral-cell-label">
+                                Reward
+                            </span>
+
+                            <span class="referral-cell-value">
+                                ${escapeHTML(
+                                    formatMoney(reward)
+                                )}
+                            </span>
+
+                        </div>
+
+
+                        <div>
+
+                            <span class="referral-cell-label">
+                                Invited
+                            </span>
+
+                            <span class="referral-cell-value">
+                                ${escapeHTML(
+                                    formatDate(date)
+                                )}
+                            </span>
+
+                        </div>
+
+
+                        <div>
+
+                            <button
+                                class="btn btn-secondary btn-small"
+                                type="button"
+                                onclick="viewReferral('${escapeHTML(
+                                    item.id ||
+                                    item.referralId ||
+                                    item._id ||
+                                    ""
+                                )}')"
+                            >
+                                Details
+                            </button>
+
+                        </div>
+
+                    </article>
+
+                    `;
+
+                }
+            )
+            .join("");
+}
+
+
+/* =========================================================
+   SUMMARY
+========================================================= */
+
+function updateSummary(list){
+
+    const total =
+        list.length;
+
+
+    const joined =
+        list.filter(
+            item =>
+                [
+                    "joined",
+                    "qualified",
+                    "rewarded"
+                ].includes(
+                    getStatus(item)
+                )
+        ).length;
+
+
+    const qualified =
+        list.filter(
+            item =>
+                [
+                    "qualified",
+                    "rewarded"
+                ].includes(
+                    getStatus(item)
+                )
+        ).length;
+
+
+    const rewards =
+        list.reduce(
+            (
+                total,
+                item
+            ) =>
+                total +
+                Number(
+                    getReward(item)
+                ),
+            0
+        );
+
+
+    $("#totalReferrals")
+        .textContent=total;
+
+    $("#joinedReferrals")
+        .textContent=joined;
+
+    $("#qualifiedReferrals")
+        .textContent=qualified;
+
+    $("#totalRewards")
+        .textContent=formatMoney(rewards);
+
+
+    const balance =
+        list.reduce(
+            (
+                total,
+                item
+            ) => {
+
+                if(
+                    getStatus(item)==="rewarded" ||
+                    item.rewarded === true
+                ){
+
+                    return (
+                        total +
+                        Number(
+                            getReward(item)
+                        )
+                    );
+
+                }
+
+                return total;
+
+            },
+            0
+        );
+
+
+    $("#rewardBalance")
+        .innerHTML =
+            `${escapeHTML(
+                formatMoney(balance)
+            )}
+            <small>earned</small>`;
+}
+
+
+/* =========================================================
+   LOAD REFERRALS
+========================================================= */
+
+async function loadReferrals(){
+
+    $("#referralList").innerHTML=`
+
+        <div class="loading-state">
+
+            <div class="loading-spinner"></div>
+
+            Loading referral activity...
+
+        </div>
+
+    `;
+
+
+    try{
+
+        const response =
+            await apiRequest(
+                API_BASE +
+                "/referrals?mine=true"
+            );
+
+
+        referrals =
+            normalizeCollection(
+                response
+            );
+
+    }catch(error){
+
+        console.warn(
+            "GHAR referrals API:",
+            error
+        );
+
+        referrals=[];
+
+    }
+
+
+    updateSummary(
+        referrals
+    );
+
+    renderReferrals(
+        referrals
+    );
+}
+
+
+/* =========================================================
+   REFERRAL LINK
+========================================================= */
+
+let referralLink="";
+
+
+async function loadReferralLink(){
+
+    try{
+
+        const response =
+            await apiRequest(
+                API_BASE +
+                "/referrals/me"
+            );
+
+
+        referralLink =
+            response?.data?.referralLink ||
+            response?.referralLink ||
+            response?.data?.link ||
+            response?.link ||
+            "";
+
+    }catch(error){
+
+        console.warn(
+            "GHAR referral link:",
+            error
+        );
+
+    }
+
+
+    if(!referralLink){
+
+        const origin =
+            window.location.origin;
+
+        referralLink =
+            origin +
+            "/register.html?ref=" +
+            "GHAR-BUYER";
+
+    }
+
+
+    $("#referralLink")
+        .textContent=referralLink;
+}
+
+
+/* =========================================================
+   COPY
+========================================================= */
+
+async function copyReferralLink(){
+
+    if(!referralLink)
+        await loadReferralLink();
+
+
+    try{
+
+        await navigator.clipboard.writeText(
+            referralLink
+        );
+
+
+        const button =
+            $("#copyReferral");
+
+
+        if(button){
+
+            const old =
+                button.textContent;
+
+            button.textContent =
+                "Copied";
+
+            setTimeout(
+                () => {
+                    button.textContent=old;
+                },
+                1800
+            );
+        }
+
+    }catch(error){
+
+        console.warn(
+            "Copy failed:",
+            error
+        );
+
+    }
+}
+
+
+$("#copyReferral")
+    ?.addEventListener(
+        "click",
+        copyReferralLink
+    );
+
+
+/* =========================================================
+   SEND INVITATION
+========================================================= */
+
+$("#sendInvite")
+    ?.addEventListener(
+        "click",
+        async () => {
+
+            const target =
+                $("#inviteTarget")
+                    .value
+                    .trim();
+
+
+            if(!target){
+
+                alert(
+                    "Enter an email address or mobile number."
+                );
+
+                return;
+            }
+
+
+            try{
+
+                await apiRequest(
+                    API_BASE +
+                    "/referrals/invite",
+                    {
+                        method:"POST",
+
+                        body:JSON.stringify({
+                            target,
+                            referralLink
+                        })
+                    }
+                );
+
+
+                $("#inviteTarget")
+                    .value="";
+
+
+                await loadReferrals();
+
+
+                alert(
+                    "Referral invitation sent."
+                );
+
+            }catch(error){
+
+                console.warn(
+                    "GHAR invitation:",
+                    error
+                );
+
+
+                /*
+                 * If the API is not yet available,
+                 * the referral link can still be shared
+                 * manually.
+                 */
+
+                await copyReferralLink();
+
+                alert(
+                    "The invitation service is not available yet. Your referral link has been copied instead."
+                );
+
+            }
+
+        }
+    );
+
+
+/* =========================================================
+   WHATSAPP
+========================================================= */
+
+$("#shareWhatsApp")
+    ?.addEventListener(
+        "click",
+        async () => {
+
+            if(!referralLink)
+                await loadReferralLink();
+
+
+            const text =
+                "Discover properties with GHAR. Join using my referral link: " +
+                referralLink;
+
+
+            window.open(
+                "https://wa.me/?text="+
+                encodeURIComponent(text),
+                "_blank",
+                "noopener,noreferrer"
+            );
+
+        }
+    );
+
+
+/* =========================================================
+   NATIVE SHARE
+========================================================= */
+
+$("#shareNative")
+    ?.addEventListener(
+        "click",
+        async () => {
+
+            if(!referralLink)
+                await loadReferralLink();
+
+
+            const shareData={
+
+                title:"GHAR Referral",
+
+                text:
+                    "Join GHAR and explore property opportunities.",
+
+                url:referralLink
+
+            };
+
+
+            if(
+                navigator.share
+            ){
+
+                try{
+
+                    await navigator.share(
+                        shareData
+                    );
+
+                }catch(error){
+
+                    if(
+                        error?.name !==
+                        "AbortError"
+                    ){
+
+                        console.warn(
+                            "Share failed:",
+                            error
+                        );
+
+                    }
+
+                }
+
+            }else{
+
+                await copyReferralLink();
+
+                alert(
+                    "Referral link copied."
+                );
+
+            }
+
+        }
+    );
+
+
+/* =========================================================
+   REFERRAL DETAILS
+========================================================= */
+
+window.viewReferral =
+    function(id){
+
+        if(!id){
+
+            window.location.href =
+                "/buyer/referrals.html";
+
+            return;
+        }
+
+
+        window.location.href =
+            "/buyer/referral-details.html?id="+
+            encodeURIComponent(id);
+
+    };
+
+
+/* =========================================================
+   REFRESH
+========================================================= */
+
+$("#refreshReferrals")
+    ?.addEventListener(
+        "click",
+        async () => {
+
+            const button =
+                $("#refreshReferrals");
+
+
+            const old =
+                button.textContent;
+
+
+            button.textContent =
+                "Loading...";
+
+
+            await loadReferrals();
+
+
+            button.textContent=old;
+
+        }
+    );
+
+
+/* =========================================================
+   PROFILE
+========================================================= */
+
+async function loadProfile(){
+
+    try{
+
+        const response =
+            await apiRequest(
+                API_BASE +
+                "/users/me"
+            );
+
+
+        const user =
+            response?.data ||
+            response?.user ||
+            response;
+
+
+        const name =
+            user?.name ||
+            user?.fullName ||
+            user?.firstName ||
+            user?.email ||
+            "Buyer";
+
+
+        const image =
+            user?.profileImage ||
+            user?.avatar ||
+            user?.photo ||
+            user?.profilePhoto ||
+            "../assets/images/profile/buyer-default.jpg";
+
+
+        const shortName =
+            String(name)
+                .trim()
+                .split(/\s+/)
+                .slice(0,2)
+                .join(" ");
+
+
+        $("#profileName")
+            .textContent=shortName;
+
+
+        $("#mobileProfileName")
+            .textContent=shortName;
+
+
+        $("#profileImage")
+            .src=image;
+
+
+        $("#mobileProfileImage")
+            .src=image;
+
+    }catch(error){
+
+        console.warn(
+            "GHAR profile:",
+            error
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE MENU
+========================================================= */
+
+$("#menuButton")
+    ?.addEventListener(
+        "click",
+        () => {
+
+            const menu =
+                $("#mobileNav");
+
+            const button =
+                $("#menuButton");
+
+
+            const isOpen =
+                menu.classList
+                    .contains("open");
+
+
+            menu.classList.toggle(
+                "open"
+            );
+
+
+            button.setAttribute(
+                "aria-expanded",
+                String(!isOpen)
+            );
+
+
+            button.textContent =
+                !isOpen
+                ? "×"
+                : "☰";
+
+        }
+    );
+
+
+document.addEventListener(
+    "click",
+    event => {
+
+        const menu =
+            $("#mobileNav");
+
+        const button =
+            $("#menuButton");
+
+
+        if(
+            !menu ||
+            !button
+        )
+            return;
+
+
+        if(
+            menu.classList.contains("open") &&
+            !menu.contains(event.target) &&
+            !button.contains(event.target)
+        ){
+
+            menu.classList.remove(
+                "open"
+            );
+
+            button.textContent="☰";
+
+            button.setAttribute(
+                "aria-expanded",
+                "false"
+            );
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   NOTIFICATIONS
+========================================================= */
+
+$("#notificationButton")
+    ?.addEventListener(
+        "click",
+        () => {
+
+            window.location.href =
+                "/buyer/notifications.html";
+
+        }
+    );
+
+
+/* =========================================================
+   AI
+========================================================= */
+
+$("#openAI")
+    ?.addEventListener(
+        "click",
+        () => {
+
+            window.location.href =
+                "/buyer/ai.html";
+
+        }
+    );
+
+
+/* =========================================================
+   IMAGE FALLBACK
+========================================================= */
+
+document.addEventListener(
+    "error",
+    event => {
+
+        const element =
+            event.target;
+
+
+        if(
+            element.tagName === "IMG" &&
+            element.dataset.fallbackApplied !== "true"
+        ){
+
+            element.dataset.fallbackApplied="true";
+
+
+            if(
+                element.id==="profileImage" ||
+                element.id==="mobileProfileImage"
+            ){
+
+                element.src =
+                    "../assets/images/profile/default-avatar.jpg";
+
+            }
+
+        }
+
+    },
+    true
+);
+
+
+/* =========================================================
+   INIT
+========================================================= */
+
+async function initialize(){
+
+    $("#footerYear")
+        .textContent =
+            new Date()
+                .getFullYear();
+
+
+    await Promise.all([
+        loadReferralLink(),
+        loadReferrals(),
+        loadProfile()
+    ]);
+
+}
+
+
+if(
+    document.readyState ===
+    "loading"
+){
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        initialize
+    );
+
+}else{
+
+    initialize();
+
+}
+
+</script>
+
+</body>
+</html>

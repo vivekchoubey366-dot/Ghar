@@ -1,130 +1,161 @@
+<!-- /buyer/favourites.html -->
 <!doctype html>
 <html lang="en">
 <head>
+
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
 <meta name="description"
-      content="GHAR Buyer -- Manage your favourite properties and build your perfect shortlist.">
+content="GHAR Buyer Favourites -- Save, compare and manage your favourite properties.">
 
 <meta name="theme-color" content="#162d25">
 
-<title>GHAR · Favourites</title>
+<title>GHAR · Buyer Favourites</title>
 
-<link rel="icon" href="../assets/images/favicon.svg">
+<link
+    rel="icon"
+    href="../assets/images/logo/favicon.svg"
+>
 
 <style>
 
 /* =========================================================
-   GHAR BUYER · FAVOURITES
-   Premium Buyer Experience
+   RESET
 ========================================================= */
 
 *{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
 }
 
 :root{
-  --green-950:#07130e;
-  --green-925:#0a1912;
-  --green-900:#0b1c14;
-  --green-850:#10261c;
-  --green-800:#162d25;
-  --green-750:#1a382c;
-  --green-700:#214438;
 
-  --gold-100:#fff7df;
-  --gold-200:#f4dfaa;
-  --gold-300:#e5c77d;
-  --gold-400:#c9a95c;
-  --gold-500:#a98238;
+    --green-950:#07130e;
+    --green-925:#091710;
+    --green-900:#0b1c14;
+    --green-875:#0e2118;
+    --green-850:#10261c;
+    --green-825:#132a20;
+    --green-800:#162d25;
+    --green-750:#1a382c;
+    --green-700:#214438;
+    --green-600:#2b5847;
 
-  --cream:#fffaf0;
-  --text:#f9f5ea;
+    --gold-100:#fffdf5;
+    --gold-200:#f4dfaa;
+    --gold-300:#e5c77d;
+    --gold-400:#c9a95c;
+    --gold-500:#a98238;
 
-  --muted:rgba(255,255,255,.68);
-  --muted-2:rgba(255,255,255,.45);
+    --cream:#fffaf0;
+    --cream-2:#f7eedc;
 
-  --border:rgba(229,199,125,.18);
-  --border-light:rgba(255,255,255,.09);
+    --text:#f9f5ea;
+    --muted:rgba(255,255,255,.72);
+    --muted-2:rgba(255,255,255,.46);
 
-  --success:#82c995;
-  --danger:#e98c8c;
+    --border:rgba(229,199,125,.17);
+    --border-strong:rgba(229,199,125,.27);
+    --border-light:rgba(255,255,255,.09);
 
-  --shadow:0 25px 80px rgba(0,0,0,.25);
+    --success:#82c995;
+    --warning:#e6c477;
+    --danger:#e98c8c;
+    --blue:#91b9e8;
 
-  --radius-xl:28px;
-  --radius-lg:21px;
-  --radius-md:15px;
+    --shadow:0 25px 80px rgba(0,0,0,.28);
 
-  --container:1440px;
+    --radius-xl:28px;
+    --radius-lg:21px;
+    --radius-md:14px;
+
+    --container:1440px;
 }
 
+
+/* =========================================================
+   BASE
+========================================================= */
+
 html{
-  scroll-behavior:smooth;
+    scroll-behavior:smooth;
 }
 
 body{
-  min-height:100vh;
-  color:var(--text);
-  font-family:
-    Inter,
-    ui-sans-serif,
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    sans-serif;
 
-  background:
-    radial-gradient(
-      circle at 5% 0%,
-      rgba(229,199,125,.12),
-      transparent 28%
-    ),
-    radial-gradient(
-      circle at 100% 10%,
-      rgba(44,91,69,.22),
-      transparent 30%
-    ),
-    linear-gradient(
-      135deg,
-      #07130e,
-      #0b1c14 48%,
-      #10261c
-    );
+    min-height:100vh;
 
-  overflow-x:hidden;
+    color:var(--text);
+
+    font-family:
+        Inter,
+        ui-sans-serif,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    background:
+
+        radial-gradient(
+            circle at 5% 0%,
+            rgba(229,199,125,.12),
+            transparent 27%
+        ),
+
+        radial-gradient(
+            circle at 100% 8%,
+            rgba(44,91,69,.23),
+            transparent 31%
+        ),
+
+        radial-gradient(
+            circle at 50% 100%,
+            rgba(33,68,56,.18),
+            transparent 32%
+        ),
+
+        linear-gradient(
+            135deg,
+            #07130e,
+            #0b1c14 48%,
+            #10261c
+        );
+
+    overflow-x:hidden;
 }
 
 a{
-  color:inherit;
-  text-decoration:none;
+    color:inherit;
+    text-decoration:none;
 }
 
 button,
 input,
 select{
-  font:inherit;
+    font:inherit;
 }
 
 button{
-  cursor:pointer;
+    cursor:pointer;
 }
 
-img{
-  display:block;
-  max-width:100%;
+img,
+video{
+    display:block;
+    max-width:100%;
 }
 
 .container{
-  width:min(
-    calc(100% - 40px),
-    var(--container)
-  );
-  margin:auto;
+    width:min(
+        calc(100% - 40px),
+        var(--container)
+    );
+
+    margin:auto;
 }
 
 
@@ -133,36 +164,56 @@ img{
 ========================================================= */
 
 .page-glow{
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  z-index:-1;
-  overflow:hidden;
+    position:fixed;
+    inset:0;
+
+    pointer-events:none;
+
+    z-index:-1;
+
+    overflow:hidden;
 }
 
-.page-glow::before{
-  content:"";
-  position:absolute;
-  width:550px;
-  height:550px;
-  top:-300px;
-  right:-220px;
-  border-radius:50%;
-  border:1px solid rgba(229,199,125,.12);
-  box-shadow:
-    0 0 0 60px rgba(229,199,125,.025),
-    0 0 0 120px rgba(229,199,125,.015);
+.page-glow:before{
+
+    content:"";
+
+    position:absolute;
+
+    width:560px;
+    height:560px;
+
+    top:-310px;
+    right:-230px;
+
+    border-radius:50%;
+
+    border:1px solid rgba(229,199,125,.13);
+
+    box-shadow:
+        0 0 0 60px rgba(229,199,125,.025),
+        0 0 0 120px rgba(229,199,125,.015),
+        0 0 0 180px rgba(229,199,125,.008);
 }
 
-.page-glow::after{
-  content:"";
-  position:absolute;
-  width:500px;
-  height:500px;
-  bottom:-300px;
-  left:-250px;
-  border-radius:50%;
-  border:1px solid rgba(255,255,255,.06);
+.page-glow:after{
+
+    content:"";
+
+    position:absolute;
+
+    width:520px;
+    height:520px;
+
+    bottom:-320px;
+    left:-260px;
+
+    border-radius:50%;
+
+    border:1px solid rgba(255,255,255,.06);
+
+    box-shadow:
+        0 0 0 70px rgba(255,255,255,.012);
 }
 
 
@@ -171,305 +222,845 @@ img{
 ========================================================= */
 
 .site-header{
-  position:sticky;
-  top:0;
-  z-index:100;
-  border-bottom:1px solid rgba(229,199,125,.10);
-  background:rgba(7,19,14,.90);
-  backdrop-filter:blur(22px);
+
+    position:sticky;
+    top:0;
+
+    z-index:1000;
+
+    border-bottom:
+        1px solid
+        rgba(229,199,125,.13);
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(7,19,14,.96),
+            rgba(7,19,14,.87)
+        );
+
+    backdrop-filter:blur(24px);
+    -webkit-backdrop-filter:blur(24px);
 }
 
 .header-inner{
-  min-height:76px;
-  display:flex;
-  align-items:center;
-  gap:24px;
+
+    min-height:82px;
+
+    display:flex;
+    align-items:center;
+
+    gap:20px;
 }
+
+
+/* =========================================================
+   BRAND
+========================================================= */
 
 .brand{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  flex-shrink:0;
+
+    display:flex;
+    align-items:center;
+
+    gap:12px;
+
+    flex-shrink:0;
 }
 
-.brand-mark{
-  width:45px;
-  height:45px;
-  display:grid;
-  place-items:center;
-  border-radius:14px;
-  color:#152116;
-  font-size:19px;
-  font-weight:1000;
-  background:linear-gradient(
-    135deg,
-    #f1dda5,
-    #b98b3d
-  );
-  box-shadow:
-    0 10px 25px rgba(0,0,0,.25),
-    inset 0 1px 0 rgba(255,255,255,.5);
+.brand-logo{
+
+    width:47px;
+    height:47px;
+
+    display:grid;
+    place-items:center;
+
+    overflow:hidden;
+
+    border-radius:14px;
+
+    border:
+        1px solid
+        rgba(229,199,125,.28);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(229,199,125,.15),
+            rgba(255,255,255,.04)
+        );
+
+    box-shadow:
+        0 10px 28px rgba(0,0,0,.25),
+        inset 0 1px 0 rgba(255,255,255,.08);
+}
+
+.brand-logo img{
+
+    width:100%;
+    height:100%;
+
+    object-fit:contain;
+
+    padding:5px;
+}
+
+.brand-logo-fallback{
+
+    width:100%;
+    height:100%;
+
+    display:grid;
+    place-items:center;
+
+    color:#172016;
+
+    font-size:20px;
+    font-weight:1000;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f1dda5,
+            #b98b3d
+        );
 }
 
 .brand-text strong{
-  display:block;
-  font-size:17px;
-  letter-spacing:.17em;
+
+    display:block;
+
+    color:var(--cream);
+
+    font-size:17px;
+    font-weight:950;
+
+    letter-spacing:.17em;
 }
 
 .brand-text span{
-  display:block;
-  margin-top:2px;
-  color:var(--muted-2);
-  font-size:8px;
-  font-weight:800;
-  letter-spacing:.16em;
-  text-transform:uppercase;
+
+    display:block;
+
+    margin-top:3px;
+
+    color:var(--muted-2);
+
+    font-size:8px;
+    font-weight:800;
+
+    letter-spacing:.15em;
+
+    text-transform:uppercase;
 }
 
+
+/* =========================================================
+   NAV
+========================================================= */
+
 .desktop-nav{
-  display:flex;
-  align-items:center;
-  gap:5px;
-  margin-left:auto;
+
+    display:flex;
+    align-items:center;
+
+    gap:2px;
+
+    margin-left:auto;
 }
 
 .desktop-nav a{
-  padding:10px 12px;
-  border-radius:10px;
-  color:var(--muted);
-  font-size:11px;
-  font-weight:700;
-  transition:.2s ease;
+
+    position:relative;
+
+    padding:11px 10px;
+
+    border-radius:10px;
+
+    color:var(--muted);
+
+    font-size:10px;
+    font-weight:750;
+
+    transition:
+        color .2s ease,
+        background .2s ease;
 }
 
-.desktop-nav a:hover,
-.desktop-nav a.active{
-  color:var(--gold-200);
-  background:rgba(229,199,125,.07);
+.desktop-nav a:hover{
+
+    color:var(--gold-200);
+
+    background:
+        rgba(229,199,125,.07);
 }
+
+.desktop-nav a.active{
+
+    color:var(--gold-200);
+
+    background:
+        rgba(229,199,125,.09);
+}
+
+.desktop-nav a.active:after{
+
+    content:"";
+
+    position:absolute;
+
+    left:12px;
+    right:12px;
+
+    bottom:3px;
+
+    height:2px;
+
+    border-radius:10px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            var(--gold-300),
+            transparent
+        );
+}
+
+
+/* =========================================================
+   HEADER ACTIONS
+========================================================= */
 
 .header-actions{
-  display:flex;
-  align-items:center;
-  gap:8px;
+
+    display:flex;
+    align-items:center;
+
+    gap:8px;
+
+    margin-left:4px;
 }
 
 .icon-btn{
-  width:41px;
-  height:41px;
-  display:grid;
-  place-items:center;
-  border:1px solid var(--border-light);
-  border-radius:12px;
-  color:var(--muted);
-  background:rgba(255,255,255,.035);
-  transition:.2s ease;
+
+    width:41px;
+    height:41px;
+
+    display:grid;
+    place-items:center;
+
+    border:
+        1px solid
+        var(--border-light);
+
+    border-radius:12px;
+
+    color:var(--muted);
+
+    background:
+        rgba(255,255,255,.035);
+
+    transition:.2s ease;
 }
 
 .icon-btn:hover{
-  color:var(--gold-200);
-  border-color:rgba(229,199,125,.25);
-}
 
-.avatar{
-  width:40px;
-  height:40px;
-  display:grid;
-  place-items:center;
-  border-radius:50%;
-  color:#172016;
-  font-size:12px;
-  font-weight:1000;
-  background:linear-gradient(
-    135deg,
-    var(--gold-200),
-    var(--gold-500)
-  );
-}
+    color:var(--gold-200);
 
-.mobile-menu{
-  display:none;
+    border-color:
+        rgba(229,199,125,.30);
+
+    background:
+        rgba(229,199,125,.06);
+
+    transform:translateY(-1px);
 }
 
 
 /* =========================================================
-   PAGE HERO
+   NOTIFICATION
 ========================================================= */
 
-.page-hero{
-  padding:48px 0 28px;
+.notification-wrap{
+    position:relative;
 }
 
-.hero-card{
-  position:relative;
-  overflow:hidden;
-  padding:38px 42px;
-  border:1px solid var(--border);
-  border-radius:var(--radius-xl);
+.notification-dot{
 
-  background:
-    radial-gradient(
-      circle at 90% 0%,
-      rgba(229,199,125,.13),
-      transparent 30%
-    ),
-    radial-gradient(
-      circle at 0% 100%,
-      rgba(44,91,69,.30),
-      transparent 40%
-    ),
-    linear-gradient(
-      145deg,
-      #0a1a12,
-      #10251b 55%,
-      #142d22
-    );
+    position:absolute;
 
-  box-shadow:var(--shadow);
+    width:7px;
+    height:7px;
+
+    top:7px;
+    right:7px;
+
+    border-radius:50%;
+
+    background:
+        var(--gold-300);
+
+    box-shadow:
+        0 0 0 3px var(--green-900);
 }
 
-.hero-card::after{
-  content:"";
-  position:absolute;
-  width:300px;
-  height:300px;
-  right:-190px;
-  bottom:-190px;
-  border-radius:50%;
-  border:1px solid rgba(229,199,125,.12);
+
+/* =========================================================
+   PROFILE
+========================================================= */
+
+.profile-menu{
+
+    min-height:43px;
+
+    display:flex;
+    align-items:center;
+
+    gap:9px;
+
+    padding:
+        3px
+        8px
+        3px
+        4px;
+
+    border:
+        1px solid
+        var(--border-light);
+
+    border-radius:25px;
+
+    background:
+        rgba(255,255,255,.035);
+
+    transition:.2s ease;
+}
+
+.profile-menu:hover{
+
+    border-color:
+        rgba(229,199,125,.28);
+
+    background:
+        rgba(229,199,125,.055);
+}
+
+.profile-menu img{
+
+    width:35px;
+    height:35px;
+
+    object-fit:cover;
+
+    border-radius:50%;
+
+    border:
+        1px solid
+        rgba(229,199,125,.32);
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--gold-200),
+            var(--gold-500)
+        );
+}
+
+.profile-info{
+    min-width:65px;
+}
+
+.profile-info strong{
+
+    display:block;
+
+    max-width:100px;
+
+    overflow:hidden;
+
+    color:var(--cream);
+
+    font-size:9px;
+    font-weight:900;
+
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
+
+.profile-info small{
+
+    display:block;
+
+    margin-top:2px;
+
+    color:var(--muted-2);
+
+    font-size:7px;
+}
+
+.profile-arrow{
+
+    color:var(--muted-2);
+
+    font-size:12px;
+}
+
+
+/* =========================================================
+   MOBILE MENU
+========================================================= */
+
+.mobile-menu{
+    display:none;
+}
+
+
+/* =========================================================
+   PAGE
+========================================================= */
+
+.page{
+    padding:43px 0 20px;
+}
+
+.page-heading{
+
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+
+    gap:25px;
+
+    margin-bottom:25px;
 }
 
 .eyebrow{
-  color:var(--gold-300);
-  font-size:10px;
-  font-weight:950;
-  letter-spacing:.18em;
-  text-transform:uppercase;
+
+    color:var(--gold-300);
+
+    font-size:10px;
+    font-weight:950;
+
+    letter-spacing:.18em;
+
+    text-transform:uppercase;
 }
 
-.hero-card h1{
-  position:relative;
-  z-index:2;
-  margin-top:11px;
-  font-size:clamp(34px,5vw,56px);
-  line-height:1;
-  letter-spacing:-.055em;
+.page-heading h1{
+
+    margin-top:9px;
+
+    font-size:
+        clamp(35px,5vw,56px);
+
+    line-height:1;
+
+    letter-spacing:-.055em;
 }
 
-.hero-card h1 span{
-  color:var(--gold-300);
+.page-heading p{
+
+    max-width:760px;
+
+    margin-top:13px;
+
+    color:var(--muted);
+
+    font-size:12px;
+
+    line-height:1.75;
 }
 
-.hero-description{
-  position:relative;
-  z-index:2;
-  max-width:720px;
-  margin-top:14px;
-  color:var(--muted);
-  font-size:13px;
-  line-height:1.7;
+.heading-actions{
+
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
 }
 
 
 /* =========================================================
-   TOOLBAR
+   BUTTONS
 ========================================================= */
 
-.toolbar-section{
-  padding:15px 0 12px;
-}
-
-.toolbar{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:15px;
-  padding:15px;
-  border:1px solid var(--border-light);
-  border-radius:var(--radius-lg);
-  background:
-    linear-gradient(
-      145deg,
-      rgba(20,45,34,.94),
-      rgba(11,28,20,.94)
-    );
-}
-
-.toolbar-left{
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-
-.result-count{
-  color:var(--muted);
-  font-size:10px;
-  font-weight:800;
-}
-
-.result-count strong{
-  color:var(--gold-300);
-}
-
-.toolbar-actions{
-  display:flex;
-  align-items:center;
-  gap:8px;
-}
-
-.select{
-  height:40px;
-  padding:0 12px;
-  border:1px solid var(--border-light);
-  border-radius:10px;
-  outline:none;
-  color:var(--cream);
-  background:#10261c;
-  font-size:10px;
-}
-
-.select:focus{
-  border-color:rgba(229,199,125,.4);
-}
-
 .btn{
-  min-height:42px;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap:8px;
-  padding:0 15px;
-  border-radius:11px;
-  border:1px solid transparent;
-  font-size:10px;
-  font-weight:900;
-  transition:.2s ease;
+
+    min-height:43px;
+
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+
+    gap:8px;
+
+    padding:0 16px;
+
+    border:
+        1px solid
+        transparent;
+
+    border-radius:11px;
+
+    font-size:10px;
+    font-weight:900;
+
+    transition:.2s ease;
 }
 
 .btn-primary{
-  color:#17170f;
-  background:linear-gradient(
-    135deg,
-    #f1dca1,
-    #cda85d
-  );
+
+    color:#17170f;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f1dca1,
+            #cda85d
+        );
+
+    box-shadow:
+        0 8px 22px rgba(0,0,0,.12);
 }
 
 .btn-primary:hover{
-  transform:translateY(-2px);
+    transform:translateY(-2px);
 }
 
 .btn-secondary{
-  color:var(--cream);
-  border-color:var(--border-light);
-  background:rgba(255,255,255,.045);
+
+    color:var(--cream);
+
+    border-color:
+        var(--border-light);
+
+    background:
+        rgba(255,255,255,.045);
 }
 
 .btn-secondary:hover{
-  color:var(--gold-200);
-  border-color:rgba(229,199,125,.25);
+
+    color:var(--gold-200);
+
+    border-color:
+        rgba(229,199,125,.30);
+}
+
+.btn-small{
+
+    min-height:36px;
+
+    padding:0 12px;
+
+    font-size:9px;
+}
+
+
+/* =========================================================
+   OVERVIEW
+========================================================= */
+
+.overview-strip{
+
+    display:grid;
+
+    grid-template-columns:
+        1.4fr
+        repeat(3,1fr);
+
+    gap:12px;
+
+    margin-bottom:22px;
+}
+
+.overview-card{
+
+    position:relative;
+
+    min-height:116px;
+
+    padding:18px;
+
+    overflow:hidden;
+
+    border:
+        1px solid
+        var(--border-light);
+
+    border-radius:var(--radius-lg);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(20,45,34,.95),
+            rgba(11,28,20,.95)
+        );
+
+    box-shadow:
+        0 12px 40px rgba(0,0,0,.10);
+}
+
+.overview-card.featured{
+
+    border-color:
+        rgba(229,199,125,.19);
+}
+
+.overview-card.featured:after{
+
+    content:"";
+
+    position:absolute;
+
+    width:180px;
+    height:180px;
+
+    right:-80px;
+    top:-80px;
+
+    border-radius:50%;
+
+    background:
+        rgba(229,199,125,.07);
+}
+
+.overview-label{
+
+    color:var(--muted-2);
+
+    font-size:8px;
+    font-weight:900;
+
+    letter-spacing:.12em;
+
+    text-transform:uppercase;
+}
+
+.overview-title{
+
+    margin-top:10px;
+
+    font-size:17px;
+    font-weight:900;
+}
+
+.overview-text{
+
+    margin-top:5px;
+
+    color:var(--muted-2);
+
+    font-size:9px;
+
+    line-height:1.55;
+}
+
+.overview-value{
+
+    margin-top:12px;
+
+    font-size:28px;
+    font-weight:950;
+
+    letter-spacing:-.04em;
+}
+
+
+/* =========================================================
+   SUMMARY
+========================================================= */
+
+.summary-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+    gap:13px;
+
+    margin-bottom:22px;
+}
+
+.summary-card{
+
+    padding:20px;
+
+    border:
+        1px solid
+        var(--border-light);
+
+    border-radius:var(--radius-lg);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(20,45,34,.94),
+            rgba(11,28,20,.94)
+        );
+}
+
+.summary-top{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+}
+
+.summary-label{
+
+    color:var(--muted-2);
+
+    font-size:9px;
+    font-weight:850;
+
+    letter-spacing:.08em;
+
+    text-transform:uppercase;
+}
+
+.summary-icon{
+
+    width:35px;
+    height:35px;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:10px;
+
+    color:var(--gold-300);
+
+    background:
+        rgba(229,199,125,.08);
+}
+
+.summary-value{
+
+    margin-top:14px;
+
+    font-size:27px;
+    font-weight:950;
+
+    letter-spacing:-.04em;
+}
+
+.summary-note{
+
+    margin-top:4px;
+
+    color:var(--muted-2);
+
+    font-size:9px;
+}
+
+
+/* =========================================================
+   FILTER
+========================================================= */
+
+.filter-panel{
+
+    padding:17px;
+
+    margin-bottom:18px;
+
+    border:
+        1px solid
+        var(--border-light);
+
+    border-radius:var(--radius-lg);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(20,45,34,.92),
+            rgba(11,28,20,.92)
+        );
+}
+
+.filter-header{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:15px;
+
+    margin-bottom:12px;
+}
+
+.filter-title{
+
+    font-size:11px;
+    font-weight:900;
+}
+
+.filter-hint{
+
+    color:var(--muted-2);
+
+    font-size:8px;
+}
+
+.filter-row{
+
+    display:grid;
+
+    grid-template-columns:
+        1.6fr
+        repeat(3,1fr)
+        auto;
+
+    gap:9px;
+}
+
+.input,
+.select{
+
+    width:100%;
+    height:44px;
+
+    padding:0 12px;
+
+    outline:none;
+
+    color:var(--cream);
+
+    border:
+        1px solid
+        rgba(255,255,255,.09);
+
+    border-radius:10px;
+
+    background:
+        rgba(255,255,255,.035);
+
+    font-size:10px;
+}
+
+.select option{
+    color:#172016;
+}
+
+.input::placeholder{
+    color:rgba(255,255,255,.38);
+}
+
+.input:focus,
+.select:focus{
+
+    border-color:
+        rgba(229,199,125,.45);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(229,199,125,.04);
 }
 
 
@@ -477,222 +1068,507 @@ img{
    FAVOURITE GRID
 ========================================================= */
 
-.section{
-  padding:18px 0 32px;
-}
+.favourite-list{
 
-.property-grid{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:16px;
-}
+    display:grid;
 
-.property-card{
-  overflow:hidden;
-  border:1px solid var(--border-light);
-  border-radius:var(--radius-lg);
+    grid-template-columns:
+        repeat(3,minmax(0,1fr));
 
-  background:
-    linear-gradient(
-      145deg,
-      #142d22,
-      #0b1c14
-    );
-
-  transition:
-    transform .25s ease,
-    border-color .25s ease,
-    box-shadow .25s ease;
-}
-
-.property-card:hover{
-  transform:translateY(-5px);
-  border-color:rgba(229,199,125,.28);
-  box-shadow:0 22px 50px rgba(0,0,0,.20);
-}
-
-.property-image{
-  height:215px;
-  position:relative;
-  overflow:hidden;
-  background:linear-gradient(
-    135deg,
-    #284c3c,
-    #142d22
-  );
-}
-
-.property-image img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  transition:transform .5s ease;
-}
-
-.property-card:hover .property-image img{
-  transform:scale(1.045);
-}
-
-.property-badge{
-  position:absolute;
-  top:12px;
-  left:12px;
-  padding:6px 9px;
-  border-radius:8px;
-  color:#1b2116;
-  background:var(--gold-200);
-  font-size:8px;
-  font-weight:1000;
-  text-transform:uppercase;
-}
-
-.card-actions{
-  position:absolute;
-  top:11px;
-  right:11px;
-  display:flex;
-  gap:6px;
-}
-
-.card-icon{
-  width:34px;
-  height:34px;
-  display:grid;
-  place-items:center;
-  border:1px solid rgba(255,255,255,.15);
-  border-radius:10px;
-  color:white;
-  background:rgba(0,0,0,.38);
-  backdrop-filter:blur(8px);
-}
-
-.card-icon:hover{
-  color:var(--gold-200);
-  border-color:rgba(229,199,125,.35);
-}
-
-.card-icon.remove{
-  color:#17170f;
-  background:var(--gold-300);
-}
-
-.property-content{
-  padding:17px;
-}
-
-.property-type{
-  color:var(--gold-300);
-  font-size:8px;
-  font-weight:900;
-  letter-spacing:.12em;
-  text-transform:uppercase;
-}
-
-.property-title{
-  margin-top:7px;
-  font-size:15px;
-  font-weight:850;
-  line-height:1.3;
-}
-
-.property-location{
-  margin-top:7px;
-  color:var(--muted-2);
-  font-size:9px;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
-}
-
-.property-meta{
-  display:flex;
-  gap:12px;
-  margin-top:13px;
-  padding-top:12px;
-  border-top:1px solid rgba(255,255,255,.06);
-  color:var(--muted);
-  font-size:9px;
-}
-
-.property-price{
-  margin-top:14px;
-  font-size:17px;
-  font-weight:950;
-  color:var(--cream);
-}
-
-.property-price span{
-  color:var(--muted-2);
-  font-size:9px;
-  font-weight:600;
-}
-
-.card-footer{
-  display:flex;
-  gap:7px;
-  margin-top:14px;
-}
-
-.card-footer .btn{
-  flex:1;
+    gap:15px;
 }
 
 
 /* =========================================================
-   EMPTY STATE
+   FAVOURITE CARD
+========================================================= */
+
+.favourite-card{
+
+    overflow:hidden;
+
+    border:
+        1px solid
+        var(--border-light);
+
+    border-radius:var(--radius-lg);
+
+    background:
+        linear-gradient(
+            145deg,
+            #142d22,
+            #0b1c14
+        );
+
+    transition:.22s ease;
+
+    box-shadow:
+        0 12px 35px rgba(0,0,0,.10);
+}
+
+.favourite-card:hover{
+
+    border-color:
+        rgba(229,199,125,.25);
+
+    box-shadow:
+        0 20px 55px rgba(0,0,0,.24);
+
+    transform:translateY(-2px);
+}
+
+
+/* =========================================================
+   FAVOURITE MEDIA
+========================================================= */
+
+.favourite-media{
+
+    position:relative;
+
+    height:245px;
+
+    overflow:hidden;
+
+    background:
+        linear-gradient(
+            135deg,
+            #284c3c,
+            #142d22
+        );
+}
+
+.favourite-media img{
+
+    width:100%;
+    height:100%;
+
+    object-fit:cover;
+
+    transition:
+        transform .45s ease;
+}
+
+.favourite-card:hover
+.favourite-media img{
+
+    transform:scale(1.045);
+}
+
+.favourite-media:after{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    pointer-events:none;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(0,0,0,.18),
+            transparent 35%,
+            rgba(0,0,0,.48)
+        );
+}
+
+
+/* =========================================================
+   MEDIA BADGES
+========================================================= */
+
+.media-type{
+
+    position:absolute;
+
+    z-index:3;
+
+    left:11px;
+    top:11px;
+
+    padding:7px 9px;
+
+    border-radius:8px;
+
+    color:#17170f;
+
+    background:
+        var(--gold-200);
+
+    font-size:7px;
+    font-weight:950;
+
+    letter-spacing:.06em;
+
+    text-transform:uppercase;
+}
+
+.media-status{
+
+    position:absolute;
+
+    z-index:3;
+
+    right:11px;
+    top:11px;
+
+    padding:7px 9px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.12);
+
+    border-radius:8px;
+
+    color:var(--cream);
+
+    background:
+        rgba(7,19,14,.72);
+
+    backdrop-filter:blur(9px);
+
+    font-size:7px;
+    font-weight:900;
+}
+
+.favourite-button{
+
+    position:absolute;
+
+    z-index:4;
+
+    right:11px;
+    bottom:11px;
+
+    width:39px;
+    height:39px;
+
+    display:grid;
+    place-items:center;
+
+    border:
+        1px solid
+        rgba(229,199,125,.30);
+
+    border-radius:50%;
+
+    color:#17170f;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--gold-200),
+            var(--gold-400)
+        );
+
+    box-shadow:
+        0 10px 25px rgba(0,0,0,.30);
+
+    font-size:18px;
+
+    transition:.2s ease;
+}
+
+.favourite-button:hover{
+
+    transform:
+        scale(1.08);
+}
+
+.favourite-button.removing{
+
+    opacity:.55;
+
+    transform:
+        scale(.92);
+}
+
+
+/* =========================================================
+   CARD CONTENT
+========================================================= */
+
+.favourite-content{
+
+    padding:17px;
+}
+
+.favourite-label{
+
+    color:var(--gold-300);
+
+    font-size:8px;
+    font-weight:950;
+
+    letter-spacing:.12em;
+
+    text-transform:uppercase;
+}
+
+.favourite-title{
+
+    margin-top:7px;
+
+    font-size:18px;
+    font-weight:900;
+
+    line-height:1.25;
+}
+
+.favourite-location{
+
+    margin-top:6px;
+
+    color:var(--muted-2);
+
+    font-size:9px;
+}
+
+.favourite-meta{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:6px;
+
+    margin-top:12px;
+}
+
+.meta-chip{
+
+    padding:6px 8px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.07);
+
+    border-radius:7px;
+
+    color:var(--muted);
+
+    background:
+        rgba(255,255,255,.025);
+
+    font-size:8px;
+}
+
+.favourite-price{
+
+    margin-top:15px;
+
+    font-size:19px;
+    font-weight:950;
+
+    color:var(--cream);
+}
+
+.favourite-price small{
+
+    display:block;
+
+    margin-top:3px;
+
+    color:var(--muted-2);
+
+    font-size:8px;
+
+    font-weight:600;
+}
+
+
+/* =========================================================
+   CARD DETAILS
+========================================================= */
+
+.favourite-details{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(2,1fr);
+
+    gap:7px;
+
+    margin-top:15px;
+}
+
+.detail-item{
+
+    padding:10px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.055);
+
+    border-radius:9px;
+
+    background:
+        rgba(255,255,255,.018);
+}
+
+.detail-label{
+
+    color:var(--muted-2);
+
+    font-size:7px;
+    font-weight:800;
+
+    letter-spacing:.07em;
+
+    text-transform:uppercase;
+}
+
+.detail-value{
+
+    margin-top:5px;
+
+    color:var(--cream);
+
+    font-size:9px;
+    font-weight:750;
+}
+
+
+/* =========================================================
+   CARD FOOTER
+========================================================= */
+
+.favourite-footer{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:7px;
+
+    margin-top:15px;
+
+    padding-top:14px;
+
+    border-top:
+        1px solid
+        rgba(255,255,255,.06);
+}
+
+.favourite-footer .btn{
+
+    flex:1;
+}
+
+
+/* =========================================================
+   EMPTY / LOADING
 ========================================================= */
 
 .empty-state{
-  display:none;
-  padding:65px 25px;
-  text-align:center;
-  border:1px solid var(--border-light);
-  border-radius:var(--radius-xl);
 
-  background:
-    radial-gradient(
-      circle at 50% 0%,
-      rgba(229,199,125,.10),
-      transparent 40%
-    ),
-    linear-gradient(
-      145deg,
-      rgba(20,45,34,.94),
-      rgba(11,28,20,.94)
-    );
+    grid-column:1/-1;
+
+    padding:70px 25px;
+
+    text-align:center;
+
+    border:
+        1px dashed
+        rgba(229,199,125,.20);
+
+    border-radius:var(--radius-lg);
+
+    background:
+        rgba(255,255,255,.025);
 }
 
 .empty-icon{
-  width:64px;
-  height:64px;
-  margin:auto;
-  display:grid;
-  place-items:center;
-  border-radius:20px;
-  color:var(--gold-300);
-  background:rgba(229,199,125,.08);
-  font-size:27px;
+
+    width:55px;
+    height:55px;
+
+    margin:auto;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:16px;
+
+    color:var(--gold-300);
+
+    background:
+        rgba(229,199,125,.08);
+
+    font-size:22px;
 }
 
-.empty-state h2{
-  margin-top:17px;
-  font-size:25px;
+.empty-state h3{
+
+    margin-top:15px;
+
+    font-size:18px;
 }
 
 .empty-state p{
-  max-width:510px;
-  margin:8px auto 0;
-  color:var(--muted-2);
-  font-size:10px;
-  line-height:1.7;
+
+    max-width:500px;
+
+    margin:
+        7px auto
+        18px;
+
+    color:var(--muted-2);
+
+    font-size:10px;
+
+    line-height:1.7;
 }
 
-.empty-actions{
-  display:flex;
-  justify-content:center;
-  gap:8px;
-  flex-wrap:wrap;
-  margin-top:20px;
+.loading-state{
+
+    grid-column:1/-1;
+
+    padding:45px;
+
+    text-align:center;
+
+    color:var(--muted-2);
+
+    border:
+        1px solid
+        var(--border-light);
+
+    border-radius:var(--radius-lg);
+
+    background:
+        rgba(255,255,255,.025);
+}
+
+.loading-spinner{
+
+    width:32px;
+    height:32px;
+
+    margin:
+        0 auto
+        12px;
+
+    border:
+        3px solid
+        rgba(255,255,255,.08);
+
+    border-top-color:
+        var(--gold-300);
+
+    border-radius:50%;
+
+    animation:
+        spin .8s linear infinite;
+}
+
+@keyframes spin{
+    to{
+        transform:rotate(360deg);
+    }
 }
 
 
@@ -701,232 +1577,586 @@ img{
 ========================================================= */
 
 .site-footer{
-  margin-top:30px;
-  padding:35px 0 25px;
-  border-top:1px solid rgba(255,255,255,.07);
-  background:rgba(3,12,8,.35);
+
+    position:relative;
+
+    margin-top:55px;
+
+    padding:
+        48px 0
+        25px;
+
+    border-top:
+        1px solid
+        rgba(229,199,125,.12);
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(3,12,8,.38),
+            rgba(3,12,8,.84)
+        );
+}
+
+.footer-top-line{
+
+    height:1px;
+
+    width:100%;
+
+    margin-bottom:35px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(229,199,125,.22),
+            transparent
+        );
 }
 
 .footer-grid{
-  display:grid;
-  grid-template-columns:1.4fr repeat(3,1fr);
-  gap:25px;
+
+    display:grid;
+
+    grid-template-columns:
+        1.6fr
+        repeat(4,1fr);
+
+    gap:30px;
 }
 
 .footer-brand{
-  max-width:300px;
+    max-width:350px;
+}
+
+.footer-brand .brand-logo{
+    width:43px;
+    height:43px;
 }
 
 .footer-brand p{
-  margin-top:10px;
-  color:var(--muted-2);
-  font-size:9px;
-  line-height:1.7;
+
+    margin-top:14px;
+
+    color:var(--muted-2);
+
+    font-size:9px;
+
+    line-height:1.85;
+}
+
+.footer-trust{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:6px;
+
+    margin-top:15px;
+}
+
+.trust-pill{
+
+    padding:6px 9px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.07);
+
+    border-radius:7px;
+
+    color:var(--muted-2);
+
+    background:
+        rgba(255,255,255,.025);
+
+    font-size:7px;
+    font-weight:800;
 }
 
 .footer-col h4{
-  color:var(--gold-200);
-  font-size:9px;
-  letter-spacing:.1em;
-  text-transform:uppercase;
+
+    color:var(--gold-200);
+
+    font-size:9px;
+    letter-spacing:.1em;
+
+    text-transform:uppercase;
 }
 
 .footer-col a{
-  display:block;
-  margin-top:9px;
-  color:var(--muted-2);
-  font-size:9px;
+
+    display:block;
+
+    margin-top:11px;
+
+    color:var(--muted-2);
+
+    font-size:9px;
+
+    transition:.2s ease;
 }
 
 .footer-col a:hover{
-  color:var(--gold-300);
+
+    color:var(--gold-300);
+
+    transform:translateX(2px);
+}
+
+.footer-contact{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    margin-top:18px;
+
+    padding-top:14px;
+
+    border-top:
+        1px solid
+        rgba(255,255,255,.06);
+}
+
+.footer-contact-icon{
+
+    width:30px;
+    height:30px;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:9px;
+
+    color:var(--gold-300);
+
+    background:
+        rgba(229,199,125,.07);
+}
+
+.footer-contact-text span{
+
+    display:block;
+
+    color:var(--muted-2);
+
+    font-size:7px;
+}
+
+.footer-contact-text strong{
+
+    display:block;
+
+    margin-top:2px;
+
+    color:var(--cream);
+
+    font-size:8px;
 }
 
 .footer-bottom{
-  display:flex;
-  justify-content:space-between;
-  gap:15px;
-  margin-top:28px;
-  padding-top:17px;
-  border-top:1px solid rgba(255,255,255,.06);
-  color:var(--muted-2);
-  font-size:8px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    gap:15px;
+
+    margin-top:32px;
+
+    padding-top:19px;
+
+    border-top:
+        1px solid
+        rgba(255,255,255,.06);
+
+    color:var(--muted-2);
+
+    font-size:8px;
 }
 
 
 /* =========================================================
-   AI FLOATING BUTTON
+   AI
 ========================================================= */
 
 .ai-floating{
-  position:fixed;
-  right:22px;
-  bottom:22px;
-  z-index:90;
-  min-height:48px;
-  display:flex;
-  align-items:center;
-  gap:8px;
-  padding:0 16px;
-  border:1px solid rgba(229,199,125,.25);
-  border-radius:30px;
-  color:#17170f;
-  background:linear-gradient(
-    135deg,
-    var(--gold-200),
-    var(--gold-400)
-  );
-  box-shadow:0 15px 35px rgba(0,0,0,.3);
-  font-size:10px;
-  font-weight:1000;
+
+    position:fixed;
+
+    right:22px;
+    bottom:22px;
+
+    z-index:900;
+
+    min-height:50px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:9px;
+
+    padding:
+        0 18px;
+
+    border:
+        1px solid
+        rgba(229,199,125,.28);
+
+    border-radius:30px;
+
+    color:#17170f;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--gold-200),
+            var(--gold-400)
+        );
+
+    box-shadow:
+        0 15px 35px rgba(0,0,0,.30);
+
+    font-size:10px;
+    font-weight:1000;
+
+    transition:.2s ease;
 }
 
-
-/* =========================================================
-   TOAST
-========================================================= */
-
-.toast{
-  position:fixed;
-  right:22px;
-  bottom:82px;
-  z-index:200;
-  max-width:330px;
-  padding:13px 16px;
-  border:1px solid rgba(229,199,125,.22);
-  border-radius:13px;
-  color:var(--cream);
-  background:#10261c;
-  box-shadow:0 20px 50px rgba(0,0,0,.35);
-  font-size:10px;
-  opacity:0;
-  pointer-events:none;
-  transform:translateY(10px);
-  transition:.25s ease;
+.ai-floating:hover{
+    transform:translateY(-3px);
 }
 
-.toast.show{
-  opacity:1;
-  transform:translateY(0);
-}
+.ai-icon{
 
+    width:27px;
+    height:27px;
 
-/* =========================================================
-   MOBILE
-========================================================= */
-
-@media(max-width:1100px){
-
-  .desktop-nav{
-    display:none;
-  }
-
-  .mobile-menu{
     display:grid;
-  }
+    place-items:center;
 
-  .property-grid{
-    grid-template-columns:repeat(3,1fr);
-  }
+    border-radius:50%;
+
+    background:
+        rgba(0,0,0,.10);
+}
+
+
+/* =========================================================
+   MOBILE NAV PANEL
+========================================================= */
+
+.mobile-nav-panel{
+
+    display:none;
+
+    position:fixed;
+
+    left:14px;
+    right:14px;
+    top:78px;
+
+    z-index:999;
+
+    padding:10px;
+
+    border:
+        1px solid
+        rgba(229,199,125,.17);
+
+    border-radius:18px;
+
+    background:
+        rgba(11,28,20,.98);
+
+    box-shadow:
+        0 25px 70px rgba(0,0,0,.45);
+
+    backdrop-filter:blur(22px);
+}
+
+.mobile-nav-panel.open{
+    display:block;
+}
+
+.mobile-nav-panel a{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    padding:13px 12px;
+
+    border-radius:10px;
+
+    color:var(--muted);
+
+    font-size:10px;
+    font-weight:750;
+}
+
+.mobile-nav-panel a:hover,
+.mobile-nav-panel a.active{
+
+    color:var(--gold-200);
+
+    background:
+        rgba(229,199,125,.07);
+}
+
+.mobile-profile{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    margin-bottom:8px;
+
+    padding:10px;
+
+    border-bottom:
+        1px solid
+        rgba(255,255,255,.06);
+}
+
+.mobile-profile img{
+
+    width:38px;
+    height:38px;
+
+    border-radius:50%;
+
+    object-fit:cover;
+
+    border:
+        1px solid
+        rgba(229,199,125,.25);
+}
+
+.mobile-profile strong{
+
+    display:block;
+
+    color:var(--cream);
+
+    font-size:10px;
+}
+
+.mobile-profile span{
+
+    display:block;
+
+    margin-top:3px;
+
+    color:var(--muted-2);
+
+    font-size:7px;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:1240px){
+
+    .desktop-nav{
+        display:none;
+    }
+
+    .mobile-menu{
+        display:grid;
+    }
+
+    .overview-strip{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .footer-grid{
+        grid-template-columns:
+            1.5fr
+            repeat(3,1fr);
+    }
+
+    .favourite-list{
+        grid-template-columns:
+            repeat(2,minmax(0,1fr));
+    }
+}
+
+@media(max-width:1000px){
+
+    .profile-info,
+    .profile-arrow{
+        display:none;
+    }
+
+    .profile-menu{
+        padding:3px;
+        border-radius:50%;
+        border-color:transparent;
+        background:transparent;
+    }
+
+    .summary-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .filter-row{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .filter-search{
+        grid-column:1/-1;
+    }
 }
 
 @media(max-width:800px){
 
-  .container{
-    width:min(
-      calc(100% - 28px),
-      var(--container)
-    );
-  }
+    .container{
 
-  .hero-card{
-    padding:30px;
-  }
+        width:min(
+            calc(100% - 28px),
+            var(--container)
+        );
+    }
 
-  .property-grid{
-    grid-template-columns:repeat(2,1fr);
-  }
+    .page-heading{
 
-  .toolbar{
-    align-items:flex-start;
-    flex-direction:column;
-  }
+        align-items:flex-start;
 
-  .toolbar-actions{
-    width:100%;
-  }
+        flex-direction:column;
+    }
 
-  .toolbar-actions .select,
-  .toolbar-actions .btn{
-    flex:1;
-  }
+    .favourite-list{
+        grid-template-columns:1fr;
+    }
 
-  .footer-grid{
-    grid-template-columns:1fr 1fr;
-  }
+    .footer-grid{
+        grid-template-columns:1fr 1fr;
+    }
 }
 
 @media(max-width:560px){
 
-  .header-inner{
-    min-height:68px;
-  }
+    .header-inner{
+        min-height:68px;
+    }
 
-  .brand-text span{
-    display:none;
-  }
+    .brand-text span{
+        display:none;
+    }
 
-  .header-actions .icon-btn{
-    display:none;
-  }
+    .header-actions .notification-wrap{
+        display:none;
+    }
 
-  .page-hero{
-    padding-top:25px;
-  }
+    .brand-logo{
 
-  .hero-card{
-    padding:25px;
-    border-radius:22px;
-  }
+        width:42px;
+        height:42px;
 
-  .hero-card h1{
-    font-size:37px;
-  }
+        border-radius:12px;
+    }
 
-  .hero-description{
-    font-size:12px;
-  }
+    .page{
+        padding-top:28px;
+    }
 
-  .property-grid{
-    grid-template-columns:1fr;
-  }
+    .overview-strip{
+        grid-template-columns:1fr;
+    }
 
-  .property-image{
-    height:225px;
-  }
+    .summary-grid{
 
-  .footer-grid{
-    grid-template-columns:1fr;
-  }
+        grid-template-columns:
+            1fr 1fr;
 
-  .footer-bottom{
-    flex-direction:column;
-  }
+        gap:9px;
+    }
 
-  .ai-floating{
-    right:14px;
-    bottom:14px;
-  }
+    .summary-card{
+        padding:15px;
+    }
 
-  .toast{
-    right:14px;
-    left:14px;
-    bottom:75px;
-    max-width:none;
-  }
+    .summary-value{
+        font-size:22px;
+    }
+
+    .filter-row{
+        grid-template-columns:1fr;
+    }
+
+    .filter-search{
+        grid-column:auto;
+    }
+
+    .filter-header{
+
+        align-items:flex-start;
+
+        flex-direction:column;
+    }
+
+    .favourite-media{
+        height:225px;
+    }
+
+    .favourite-content{
+        padding:15px;
+    }
+
+    .favourite-footer{
+        flex-direction:column;
+        align-items:stretch;
+    }
+
+    .favourite-footer .btn{
+        width:100%;
+    }
+
+    .footer-grid{
+        grid-template-columns:1fr;
+    }
+
+    .footer-bottom{
+        flex-direction:column;
+    }
+
+    .ai-floating{
+
+        right:14px;
+        bottom:14px;
+    }
+
+    .ai-floating span.ai-text{
+        display:none;
+    }
+}
+
+@media(max-width:380px){
+
+    .summary-grid{
+        grid-template-columns:1fr;
+    }
+
+    .favourite-details{
+        grid-template-columns:1fr;
+    }
 }
 
 </style>
+
 </head>
 
 <body>
@@ -934,431 +2164,960 @@ img{
 <div class="page-glow"></div>
 
 
-<!-- =========================================================
+<!-- =======================================================
      HEADER
-========================================================= -->
+======================================================= -->
 
 <header class="site-header">
 
-  <div class="container header-inner">
-
-    <a
-      class="brand"
-      href="/buyer/index.html"
-      aria-label="GHAR Buyer Home"
-    >
-
-      <div class="brand-mark">
-        G
-      </div>
-
-      <div class="brand-text">
-
-        <strong>GHAR</strong>
-
-        <span>
-          Buyer Experience
-        </span>
-
-      </div>
-
-    </a>
+    <div class="container header-inner">
 
 
-    <nav
-      class="desktop-nav"
-      aria-label="Buyer navigation"
-    >
+        <!-- BRAND -->
 
-      <a href="/buyer/index.html">
-        Home
-      </a>
+        <a
+            class="brand"
+            href="/buyer/index.html"
+            aria-label="GHAR Buyer Home"
+        >
 
-      <a href="/properties.html">
-        Properties
-      </a>
+            <div class="brand-logo">
 
-      <a href="/buyer/search.html">
-        Search
-      </a>
+                <img
+                    src="../assets/images/logo/ghar-logo-light.svg"
+                    alt="GHAR"
+                    onerror="
+                        this.style.display='none';
+                        this.nextElementSibling.style.display='grid';
+                    "
+                >
 
-      <a href="/buyer/saved-properties.html">
-        Saved
-      </a>
+                <div
+                    class="brand-logo-fallback"
+                    style="display:none"
+                >
+                    G
+                </div>
 
-      <a
-        class="active"
-        href="/buyer/favourites.html"
-      >
-        Favourites
-      </a>
+            </div>
 
-      <a href="/buyer/visits.html">
-        Visits
-      </a>
+            <div class="brand-text">
 
-      <a href="/buyer/offers.html">
-        Offers
-      </a>
+                <strong>GHAR</strong>
 
-    </nav>
+                <span>
+                    Buyer Experience
+                </span>
+
+            </div>
+
+        </a>
 
 
-    <div class="header-actions">
+        <!-- DESKTOP NAV -->
 
-      <button
-        class="icon-btn"
-        id="notificationButton"
-        type="button"
-        aria-label="Notifications"
-      >
-        ♢
-      </button>
+        <nav
+            class="desktop-nav"
+            id="mainNav"
+            aria-label="Buyer navigation"
+        >
 
-      <a
-        class="avatar"
-        id="profileButton"
-        href="/buyer/profile.html"
-        aria-label="Profile"
-      >
-        U
-      </a>
+            <a href="/buyer/index.html">
+                Home
+            </a>
 
-      <button
-        class="icon-btn mobile-menu"
-        id="menuButton"
-        type="button"
-        aria-label="Open menu"
-      >
-        ☰
-      </button>
+            <a href="/buyer/properties.html">
+                Properties
+            </a>
+
+            <a href="/buyer/search.html">
+                Search
+            </a>
+
+            <a href="/buyer/saved-properties.html">
+                Saved
+            </a>
+
+            <a
+                class="active"
+                href="/buyer/favourites.html"
+            >
+                Favourites
+            </a>
+
+            <a href="/buyer/visits.html">
+                Visits
+            </a>
+
+            <a href="/buyer/offers.html">
+                Offers
+            </a>
+
+            <a href="/buyer/applications.html">
+                Applications
+            </a>
+
+        </nav>
+
+
+        <!-- HEADER ACTIONS -->
+
+        <div class="header-actions">
+
+            <div class="notification-wrap">
+
+                <button
+                    class="icon-btn"
+                    id="notificationButton"
+                    type="button"
+                    aria-label="Notifications"
+                    title="Notifications"
+                >
+                    ♢
+                </button>
+
+                <span
+                    class="notification-dot"
+                    aria-hidden="true"
+                ></span>
+
+            </div>
+
+
+            <a
+                class="profile-menu"
+                id="profileButton"
+                href="/buyer/profile.html"
+                aria-label="Open buyer profile"
+            >
+
+                <img
+                    id="profileImage"
+                    src="../assets/images/profile/buyer-default.jpg"
+                    alt="Buyer profile"
+                    onerror="
+                        this.src='../assets/images/profile/default-avatar.jpg'
+                    "
+                >
+
+                <span class="profile-info">
+
+                    <strong id="profileName">
+                        Buyer
+                    </strong>
+
+                    <small>
+                        My account
+                    </small>
+
+                </span>
+
+                <span class="profile-arrow">
+                    ⌄
+                </span>
+
+            </a>
+
+
+            <button
+                class="icon-btn mobile-menu"
+                id="menuButton"
+                type="button"
+                aria-label="Open buyer menu"
+                aria-expanded="false"
+            >
+                ☰
+            </button>
+
+        </div>
 
     </div>
-
-  </div>
 
 </header>
 
 
-<main>
+<!-- =======================================================
+     MOBILE NAV
+======================================================= -->
 
+<div
+    class="mobile-nav-panel"
+    id="mobileNav"
+>
 
-<!-- =========================================================
-     HERO
-========================================================= -->
+    <div class="mobile-profile">
 
-<section class="page-hero">
-
-  <div class="container">
-
-    <div class="hero-card">
-
-      <div class="eyebrow">
-        BUYER · FAVOURITES
-      </div>
-
-      <h1>
-        Your favourite
-        <span>properties.</span>
-      </h1>
-
-      <p class="hero-description">
-        Keep the properties you love in one place. Compare your
-        shortlist, revisit property details, schedule visits,
-        or continue directly toward an offer.
-      </p>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- =========================================================
-     TOOLBAR
-========================================================= -->
-
-<section class="toolbar-section">
-
-  <div class="container">
-
-    <div class="toolbar">
-
-      <div class="toolbar-left">
-
-        <div
-          class="result-count"
-          id="resultCount"
+        <img
+            id="mobileProfileImage"
+            src="../assets/images/profile/buyer-default.jpg"
+            alt="Buyer profile"
+            onerror="
+                this.src='../assets/images/profile/default-avatar.jpg'
+            "
         >
-          <strong>0</strong>
-          favourite properties
+
+        <div>
+
+            <strong id="mobileProfileName">
+                Buyer
+            </strong>
+
+            <span>
+                GHAR Buyer Account
+            </span>
+
         </div>
 
-      </div>
-
-
-      <div class="toolbar-actions">
-
-        <select
-          class="select"
-          id="sortSelect"
-          aria-label="Sort favourites"
-        >
-
-          <option value="recent">
-            Recently added
-          </option>
-
-          <option value="price-low">
-            Price: Low to High
-          </option>
-
-          <option value="price-high">
-            Price: High to Low
-          </option>
-
-          <option value="name">
-            Property Name
-          </option>
-
-        </select>
-
-
-        <a
-          class="btn btn-primary"
-          href="/buyer/search.html"
-        >
-          + Find properties
-        </a>
-
-      </div>
-
     </div>
 
-  </div>
 
-</section>
+    <a href="/buyer/index.html">
+        Home
+        <span>›</span>
+    </a>
 
+    <a href="/buyer/properties.html">
+        Properties
+        <span>›</span>
+    </a>
 
-<!-- =========================================================
-     FAVOURITES
-========================================================= -->
+    <a href="/buyer/search.html">
+        Search
+        <span>›</span>
+    </a>
 
-<section class="section">
+    <a href="/buyer/saved-properties.html">
+        Saved Properties
+        <span>›</span>
+    </a>
 
-  <div class="container">
-
-    <div
-      id="propertyGrid"
-      class="property-grid"
-    ></div>
-
-
-    <div
-      id="emptyState"
-      class="empty-state"
+    <a
+        class="active"
+        href="/buyer/favourites.html"
     >
+        Favourites
+        <span>›</span>
+    </a>
 
-      <div class="empty-icon">
-        ♡
-      </div>
+    <a href="/buyer/visits.html">
+        Visits
+        <span>›</span>
+    </a>
 
-      <h2>
-        Your favourites are empty
-      </h2>
+    <a href="/buyer/offers.html">
+        Offers
+        <span>›</span>
+    </a>
 
-      <p>
-        Save properties you are seriously considering and
-        they will appear here. Build a shortlist before you
-        decide which home deserves a visit or offer.
-      </p>
+    <a href="/buyer/applications.html">
+        Applications
+        <span>›</span>
+    </a>
 
-      <div class="empty-actions">
+    <a href="/buyer/documents.html">
+        Documents
+        <span>›</span>
+    </a>
 
-        <a
-          class="btn btn-primary"
-          href="/buyer/search.html"
-        >
-          Search properties
-        </a>
+    <a href="/buyer/profile.html">
+        Profile
+        <span>›</span>
+    </a>
 
-        <a
-          class="btn btn-secondary"
-          href="/properties.html"
-        >
-          Browse all properties
-        </a>
+</div>
 
-      </div>
+
+<!-- =======================================================
+     MAIN
+======================================================= -->
+
+<main>
+
+<section class="page">
+
+<div class="container">
+
+
+    <!-- PAGE HEADING -->
+
+    <div class="page-heading">
+
+        <div>
+
+            <div class="eyebrow">
+                BUYER FAVOURITES
+            </div>
+
+            <h1>
+                Properties you love.
+            </h1>
+
+            <p>
+                Keep your preferred properties together in one
+                secure workspace. Review pricing, location,
+                configuration and property details, then move
+                directly to visits, offers or applications.
+            </p>
+
+        </div>
+
+
+        <div class="heading-actions">
+
+            <a
+                class="btn btn-secondary"
+                href="/buyer/saved-properties.html"
+            >
+                Saved properties
+            </a>
+
+            <a
+                class="btn btn-primary"
+                href="/buyer/properties.html"
+            >
+                Find a property
+            </a>
+
+        </div>
 
     </div>
 
-  </div>
+
+    <!-- =====================================================
+         OVERVIEW
+    ====================================================== -->
+
+    <div class="overview-strip">
+
+
+        <article
+            class="overview-card featured"
+        >
+
+            <div class="overview-label">
+                FAVOURITE WORKSPACE
+            </div>
+
+            <div class="overview-title">
+                Your shortlisted properties.
+            </div>
+
+            <div class="overview-text">
+                Compare the properties you are interested in
+                and continue your property journey from one
+                connected buyer workspace.
+            </div>
+
+        </article>
+
+
+        <article class="overview-card">
+
+            <div class="overview-label">
+                FAVOURITES
+            </div>
+
+            <div
+                class="overview-value"
+                id="totalFavourites"
+            >
+                0
+            </div>
+
+            <div class="overview-text">
+                Properties saved here
+            </div>
+
+        </article>
+
+
+        <article class="overview-card">
+
+            <div class="overview-label">
+                PROPERTY TYPES
+            </div>
+
+            <div
+                class="overview-value"
+                id="propertyTypes"
+            >
+                0
+            </div>
+
+            <div class="overview-text">
+                Types in your favourites
+            </div>
+
+        </article>
+
+
+        <article class="overview-card">
+
+            <div class="overview-label">
+                NEXT STEP
+            </div>
+
+            <div
+                class="overview-title"
+                id="nextAction"
+            >
+                Explore
+            </div>
+
+            <div class="overview-text">
+                Visit, offer or apply
+            </div>
+
+        </article>
+
+
+    </div>
+
+
+    <!-- =====================================================
+         SUMMARY
+    ====================================================== -->
+
+    <div class="summary-grid">
+
+
+        <article class="summary-card">
+
+            <div class="summary-top">
+
+                <span class="summary-label">
+                    Total
+                </span>
+
+                <div class="summary-icon">
+                    ♡
+                </div>
+
+            </div>
+
+            <div
+                class="summary-value"
+                id="summaryTotal"
+            >
+                0
+            </div>
+
+            <div class="summary-note">
+                Favourite properties
+            </div>
+
+        </article>
+
+
+        <article class="summary-card">
+
+            <div class="summary-top">
+
+                <span class="summary-label">
+                    Apartments
+                </span>
+
+                <div class="summary-icon">
+                    ▦
+                </div>
+
+            </div>
+
+            <div
+                class="summary-value"
+                id="summaryApartments"
+            >
+                0
+            </div>
+
+            <div class="summary-note">
+                Apartment favourites
+            </div>
+
+        </article>
+
+
+        <article class="summary-card">
+
+            <div class="summary-top">
+
+                <span class="summary-label">
+                    Villas
+                </span>
+
+                <div class="summary-icon">
+                    ⌂
+                </div>
+
+            </div>
+
+            <div
+                class="summary-value"
+                id="summaryVillas"
+            >
+                0
+            </div>
+
+            <div class="summary-note">
+                Villa favourites
+            </div>
+
+        </article>
+
+
+        <article class="summary-card">
+
+            <div class="summary-top">
+
+                <span class="summary-label">
+                    Other
+                </span>
+
+                <div class="summary-icon">
+                    ◆
+                </div>
+
+            </div>
+
+            <div
+                class="summary-value"
+                id="summaryOther"
+            >
+                0
+            </div>
+
+            <div class="summary-note">
+                Other property types
+            </div>
+
+        </article>
+
+
+    </div>
+
+
+    <!-- =====================================================
+         FILTER
+    ====================================================== -->
+
+    <section class="filter-panel">
+
+        <div class="filter-header">
+
+            <div class="filter-title">
+                Find a favourite property
+            </div>
+
+            <div class="filter-hint">
+                Search, filter and sort your favourites
+            </div>
+
+        </div>
+
+
+        <div class="filter-row">
+
+
+            <input
+                id="favouriteSearch"
+                class="input filter-search"
+                type="search"
+                placeholder="Search property, location or property ID..."
+                autocomplete="off"
+            >
+
+
+            <select
+                id="typeFilter"
+                class="select"
+            >
+
+                <option value="">
+                    All property types
+                </option>
+
+                <option value="apartment">
+                    Apartment
+                </option>
+
+                <option value="villa">
+                    Villa
+                </option>
+
+                <option value="house">
+                    House
+                </option>
+
+                <option value="commercial">
+                    Commercial
+                </option>
+
+                <option value="plot">
+                    Plot
+                </option>
+
+            </select>
+
+
+            <select
+                id="listingFilter"
+                class="select"
+            >
+
+                <option value="">
+                    All listings
+                </option>
+
+                <option value="sale">
+                    For Sale
+                </option>
+
+                <option value="rent">
+                    For Rent
+                </option>
+
+                <option value="lease">
+                    For Lease
+                </option>
+
+            </select>
+
+
+            <select
+                id="sortFilter"
+                class="select"
+            >
+
+                <option value="recent">
+                    Most recent
+                </option>
+
+                <option value="oldest">
+                    Oldest added
+                </option>
+
+                <option value="price-high">
+                    Highest value
+                </option>
+
+                <option value="price-low">
+                    Lowest value
+                </option>
+
+            </select>
+
+
+            <button
+                id="clearFilters"
+                class="btn btn-secondary"
+                type="button"
+            >
+                Clear
+            </button>
+
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         FAVOURITES
+    ====================================================== -->
+
+    <section>
+
+        <div
+            id="favouriteList"
+            class="favourite-list"
+        >
+
+            <div class="loading-state">
+
+                <div class="loading-spinner"></div>
+
+                Loading your favourites...
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+</div>
 
 </section>
 
 </main>
 
 
-<!-- =========================================================
+<!-- =======================================================
      FOOTER
-========================================================= -->
+======================================================= -->
 
 <footer class="site-footer">
 
-  <div class="container">
+<div class="container">
+
+    <div class="footer-top-line"></div>
+
 
     <div class="footer-grid">
 
-      <div class="footer-brand">
 
-        <div class="brand">
+        <div class="footer-brand">
 
-          <div class="brand-mark">
-            G
-          </div>
+            <a
+                class="brand"
+                href="/buyer/index.html"
+            >
 
-          <div class="brand-text">
+                <div class="brand-logo">
 
-            <strong>
-              GHAR
-            </strong>
+                    <img
+                        src="../assets/images/logo/ghar-logo-light.svg"
+                        alt="GHAR"
+                        onerror="
+                            this.style.display='none';
+                            this.nextElementSibling.style.display='grid';
+                        "
+                    >
 
-            <span>
-              Real Estate Platform
-            </span>
+                    <div
+                        class="brand-logo-fallback"
+                        style="display:none"
+                    >
+                        G
+                    </div>
 
-          </div>
+                </div>
+
+                <div class="brand-text">
+
+                    <strong>GHAR</strong>
+
+                    <span>
+                        Real Estate Platform
+                    </span>
+
+                </div>
+
+            </a>
+
+
+            <p>
+                A connected real estate platform for discovering,
+                evaluating, financing and managing property decisions
+                through one secure digital experience.
+            </p>
+
+
+            <div class="footer-trust">
+
+                <span class="trust-pill">
+                    Secure Buyer Portal
+                </span>
+
+                <span class="trust-pill">
+                    Smart Favourites
+                </span>
+
+                <span class="trust-pill">
+                    AI Assisted
+                </span>
+
+                <span class="trust-pill">
+                    Property Intelligence
+                </span>
+
+            </div>
+
+
+            <div class="footer-contact">
+
+                <div class="footer-contact-icon">
+                    ✦
+                </div>
+
+                <div class="footer-contact-text">
+
+                    <span>
+                        GHAR ASSISTANCE
+                    </span>
+
+                    <strong>
+                        Your property journey, connected.
+                    </strong>
+
+                </div>
+
+            </div>
 
         </div>
 
-        <p>
-          A connected real estate platform for discovering,
-          evaluating, financing and managing property decisions.
-        </p>
 
-      </div>
+        <div class="footer-col">
 
+            <h4>
+                Discover
+            </h4>
 
-      <div class="footer-col">
+            <a href="/buyer/properties.html">
+                Properties
+            </a>
 
-        <h4>
-          Discover
-        </h4>
+            <a href="/buyer/search.html">
+                Property Search
+            </a>
 
-        <a href="/properties.html">
-          Properties
-        </a>
+            <a href="/buyer/saved-properties.html">
+                Saved Properties
+            </a>
 
-        <a href="/property-search.html">
-          Property Search
-        </a>
+            <a href="/buyer/favourites.html">
+                Favourites
+            </a>
 
-        <a href="/buyer/search.html">
-          Buyer Search
-        </a>
+            <a href="/map.html">
+                Property Map
+            </a>
 
-        <a href="/buyer/saved-properties.html">
-          Saved Properties
-        </a>
-
-      </div>
+        </div>
 
 
-      <div class="footer-col">
+        <div class="footer-col">
 
-        <h4>
-          Buyer
-        </h4>
+            <h4>
+                Buyer
+            </h4>
 
-        <a href="/buyer/profile.html">
-          Profile
-        </a>
+            <a href="/buyer/profile.html">
+                Profile
+            </a>
 
-        <a href="/buyer/visits.html">
-          Visits
-        </a>
+            <a href="/buyer/visits.html">
+                Property Visits
+            </a>
 
-        <a href="/buyer/offers.html">
-          Offers
-        </a>
+            <a href="/buyer/offers.html">
+                Offers
+            </a>
 
-        <a href="/buyer/applications.html">
-          Applications
-        </a>
+            <a href="/buyer/applications.html">
+                Applications
+            </a>
 
-      </div>
+            <a href="/buyer/documents.html">
+                Documents
+            </a>
+
+        </div>
 
 
-      <div class="footer-col">
+        <div class="footer-col">
 
-        <h4>
-          Support
-        </h4>
+            <h4>
+                Services
+            </h4>
 
-        <a href="/help-centre.html">
-          Help Centre
-        </a>
+            <a href="/ai.html">
+                GHAR AI
+            </a>
 
-        <a href="/contact.html">
-          Contact
-        </a>
+            <a href="/ai-loan-advisor.html">
+                Loan Advisor
+            </a>
 
-        <a href="/buyer/support.html">
-          Support
-        </a>
+            <a href="/ai-investment-advisor.html">
+                Investment Advisor
+            </a>
 
-        <a href="/privacy.html">
-          Privacy
-        </a>
+            <a href="/buyer/finance.html">
+                Buyer Finance
+            </a>
 
-      </div>
+            <a href="/buyer/verification.html">
+                Verification
+            </a>
+
+        </div>
+
+
+        <div class="footer-col">
+
+            <h4>
+                Support
+            </h4>
+
+            <a href="/help-centre.html">
+                Help Centre
+            </a>
+
+            <a href="/contact.html">
+                Contact
+            </a>
+
+            <a href="/buyer/support.html">
+                Buyer Support
+            </a>
+
+            <a href="/privacy-policy.html">
+                Privacy
+            </a>
+
+            <a href="/terms.html">
+                Terms
+            </a>
+
+        </div>
+
 
     </div>
 
 
     <div class="footer-bottom">
 
-      <span>
-        © <span id="footerYear"></span> GHAR.
-        All rights reserved.
-      </span>
+        <span>
+            ©
+            <span id="footerYear"></span>
+            GHAR. All rights reserved.
+        </span>
 
-      <span>
-        Buyer Portal · Secure Session
-      </span>
+        <span>
+            Buyer Portal · Secure Session
+        </span>
 
     </div>
 
-  </div>
+</div>
 
 </footer>
 
 
-<!-- =========================================================
-     AI FLOATING BUTTON
-========================================================= -->
+<!-- =======================================================
+     AI
+======================================================= -->
 
 <button
-  id="openAI"
-  class="ai-floating"
-  type="button"
+    id="openAI"
+    class="ai-floating"
+    type="button"
+    aria-label="Ask GHAR AI"
 >
-  ✦ Ask GHAR AI
+
+    <span class="ai-icon">
+        ✦
+    </span>
+
+    <span class="ai-text">
+        Ask GHAR AI
+    </span>
+
 </button>
 
 
-<div
-  id="toast"
-  class="toast"
-  role="status"
-  aria-live="polite"
-></div>
-
-
 <script>
-
 "use strict";
 
 
@@ -1367,19 +3126,16 @@ img{
 ========================================================= */
 
 const API_BASE =
-  window.GHAR_API_BASE ||
-  window.API_BASE ||
-  "/api";
+    window.GHAR_API_BASE ||
+    window.API_BASE ||
+    "/api";
 
+const favouriteList =
+    document.getElementById(
+        "favouriteList"
+    );
 
-const FAVOURITES_API =
-  API_BASE +
-  "/users/me/favourites";
-
-
-const SAVED_API =
-  API_BASE +
-  "/users/me/saved-properties";
+let favourites=[];
 
 
 /* =========================================================
@@ -1387,438 +3143,600 @@ const SAVED_API =
 ========================================================= */
 
 function $(selector){
-  return document.querySelector(selector);
+    return document.querySelector(selector);
 }
 
 
 function escapeHTML(value){
 
-  return String(value ?? "")
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
-
-}
-
-
-function normalizeCollection(response){
-
-  if(Array.isArray(response)){
-    return response;
-  }
-
-  if(Array.isArray(response?.data)){
-    return response.data;
-  }
-
-  if(Array.isArray(response?.items)){
-    return response.items;
-  }
-
-  if(Array.isArray(response?.properties)){
-    return response.properties;
-  }
-
-  if(Array.isArray(response?.favourites)){
-    return response.favourites;
-  }
-
-  if(Array.isArray(response?.favorites)){
-    return response.favorites;
-  }
-
-  return [];
+    return String(value ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
 }
 
 
 async function apiRequest(
-  url,
-  options={}
+    url,
+    options={}
 ){
 
-  const response =
-    await fetch(
-      url,
-      {
-        credentials:"include",
+    const response =
+        await fetch(
+            url,
+            {
+                credentials:"include",
 
-        headers:{
-          "Accept":"application/json",
-          "Content-Type":"application/json",
-          ...(options.headers || {})
-        },
+                headers:{
+                    "Accept":
+                        "application/json",
 
-        ...options
-      }
-    );
+                    "Content-Type":
+                        "application/json",
 
+                    ...(options.headers || {})
+                },
 
-  let data=null;
-
-  try{
-    data=await response.json();
-  }catch{
-    data=null;
-  }
+                ...options
+            }
+        );
 
 
-  if(!response.ok){
+    let data=null;
 
-    const error =
-      new Error(
-        data?.error?.message ||
-        data?.message ||
-        "Request failed."
-      );
+    try{
 
-    error.status=response.status;
-    error.data=data;
+        data =
+            await response.json();
 
-    throw error;
-  }
+    }catch{
+
+        data=null;
+
+    }
 
 
-  return data;
+    if(!response.ok){
+
+        const error =
+            new Error(
+                data?.error?.message ||
+                data?.message ||
+                "Request failed."
+            );
+
+        error.status =
+            response.status;
+
+        error.data=data;
+
+        throw error;
+    }
+
+
+    return data;
+}
+
+
+function normalizeCollection(
+    response
+){
+
+    if(Array.isArray(response))
+        return response;
+
+    if(Array.isArray(response?.data))
+        return response.data;
+
+    if(Array.isArray(response?.favourites))
+        return response.favourites;
+
+    if(Array.isArray(response?.favorites))
+        return response.favorites;
+
+    if(Array.isArray(response?.items))
+        return response.items;
+
+    if(Array.isArray(response?.results))
+        return response.results;
+
+    return [];
 }
 
 
 /* =========================================================
-   TOAST
+   PROPERTY DATA HELPERS
 ========================================================= */
 
-let toastTimer=null;
+function getProperty(item){
 
-function showToast(message){
+    return (
+        item.property ||
+        item.propertyData ||
+        item.listing ||
+        {}
+    );
+}
 
-  const toast=$("#toast");
 
-  if(!toast){
-    return;
-  }
+function getPropertyId(item){
 
-  toast.textContent=message;
-  toast.classList.add("show");
+    const property =
+        getProperty(item);
 
-  clearTimeout(toastTimer);
+    return (
+        item.propertyId ||
+        item.property_id ||
+        property.id ||
+        property.propertyId ||
+        property._id ||
+        ""
+    );
+}
 
-  toastTimer =
-    setTimeout(
-      ()=>{
-        toast.classList.remove("show");
-      },
-      2600
+
+function getFavouriteId(item){
+
+    return (
+        item.id ||
+        item.favoriteId ||
+        item.favouriteId ||
+        item._id ||
+        getPropertyId(item)
+    );
+}
+
+
+function getTitle(item){
+
+    const property =
+        getProperty(item);
+
+    return (
+        item.propertyTitle ||
+        property.title ||
+        property.name ||
+        item.title ||
+        "GHAR Property"
+    );
+}
+
+
+function getLocation(item){
+
+    const property =
+        getProperty(item);
+
+    return (
+        item.location ||
+        property.location ||
+        property.address ||
+        property.city ||
+        "Location available"
+    );
+}
+
+
+function getType(item){
+
+    const property =
+        getProperty(item);
+
+    return (
+        item.propertyType ||
+        property.propertyType ||
+        property.type ||
+        "Property"
+    );
+}
+
+
+function getListingType(item){
+
+    const property =
+        getProperty(item);
+
+    return String(
+        item.listingType ||
+        item.transactionType ||
+        property.listingType ||
+        property.transactionType ||
+        property.purpose ||
+        property.listingPurpose ||
+        "sale"
+    ).toLowerCase();
+}
+
+
+function getPrice(item){
+
+    const property =
+        getProperty(item);
+
+    return (
+        item.price ||
+        property.price ||
+        property.salePrice ||
+        property.rent ||
+        property.rentPrice ||
+        property.leasePrice ||
+        0
+    );
+}
+
+
+function getImage(item){
+
+    const property =
+        getProperty(item);
+
+    const images =
+        property.images ||
+        item.images ||
+        [];
+
+
+    return (
+        item.image ||
+        item.thumbnail ||
+        property.image ||
+        property.coverImage ||
+        property.thumbnail ||
+        images[0] ||
+        "../assets/images/properties/property-placeholder.jpg"
+    );
+}
+
+
+function getConfiguration(item){
+
+    const property =
+        getProperty(item);
+
+    return (
+        item.configuration ||
+        item.bhk ||
+        property.configuration ||
+        property.bhk ||
+        property.bedrooms ||
+        "--"
+    );
+}
+
+
+function getArea(item){
+
+    const property =
+        getProperty(item);
+
+    return (
+        item.area ||
+        item.areaSqFt ||
+        property.area ||
+        property.areaSqFt ||
+        property.builtUpArea ||
+        "--"
+    );
+}
+
+
+function getAddedDate(item){
+
+    return (
+        item.createdAt ||
+        item.addedAt ||
+        item.savedAt ||
+        item.favouritedAt ||
+        item.favoriteAt ||
+        item.date ||
+        ""
     );
 }
 
 
 /* =========================================================
-   PRICE
+   FORMATTERS
 ========================================================= */
 
 function formatPrice(value){
 
-  const amount=Number(value);
+    const amount =
+        Number(value);
 
-  if(!Number.isFinite(amount)){
-    return "Price on request";
-  }
-
-  if(amount>=10000000){
-
-    return "₹"+
-      (amount/10000000).toFixed(2)+
-      " Cr";
-
-  }
-
-  if(amount>=100000){
-
-    return "₹"+
-      (amount/100000).toFixed(2)+
-      " L";
-
-  }
-
-  return "₹"+
-    amount.toLocaleString("en-IN");
-}
+    if(!Number.isFinite(amount) || amount<=0)
+        return "Price on request";
 
 
-/* =========================================================
-   IMAGE
-========================================================= */
+    if(amount>=10000000){
 
-function propertyImage(property){
-
-  return (
-    property.image ||
-    property.coverImage ||
-    property.thumbnail ||
-    property.imageUrl ||
-    property.images?.[0] ||
-    "../assets/images/property-placeholder.jpg"
-  );
-
-}
+        return (
+            "₹"+
+            (amount/10000000)
+                .toFixed(2)+
+            " Cr"
+        );
+    }
 
 
-/* =========================================================
-   GET PROPERTY ID
-========================================================= */
+    if(amount>=100000){
 
-function propertyId(property){
-
-  return (
-    property.id ||
-    property.propertyId ||
-    property._id ||
-    ""
-  );
-
-}
+        return (
+            "₹"+
+            (amount/100000)
+                .toFixed(2)+
+            " L"
+        );
+    }
 
 
-/* =========================================================
-   PROPERTY CARD
-========================================================= */
-
-function createPropertyCard(property,index){
-
-  const id=propertyId(property);
-
-  const title =
-    property.title ||
-    property.name ||
-    "Premium Property";
-
-  const type =
-    property.type ||
-    property.propertyType ||
-    "Property";
-
-  const location =
-    property.location ||
-    property.city ||
-    "Location available";
-
-  const price =
-    formatPrice(
-      property.price ??
-      property.salePrice ??
-      property.amount
+    return (
+        "₹"+
+        amount.toLocaleString("en-IN")
     );
-
-  const bedrooms =
-    property.bedrooms ??
-    property.bhk ??
-    property.configuration ??
-    "--";
-
-  const area =
-    property.area ||
-    property.areaSqFt ||
-    property.size ||
-    "--";
-
-  const image=
-    propertyImage(property);
+}
 
 
-  return `
+function formatDate(value){
+
+    if(!value)
+        return "Recently added";
+
+    const date =
+        new Date(value);
+
+    if(Number.isNaN(date.getTime()))
+        return "Recently added";
+
+    return date.toLocaleDateString(
+        "en-IN",
+        {
+            day:"2-digit",
+            month:"short",
+            year:"numeric"
+        }
+    );
+}
+
+
+function listingLabel(type){
+
+    const labels={
+
+        sale:"For Sale",
+
+        rent:"For Rent",
+
+        lease:"For Lease"
+
+    };
+
+    return (
+        labels[type] ||
+        "Property"
+    );
+}
+
+
+/* =========================================================
+   FAVOURITE CARD
+========================================================= */
+
+function createFavouriteCard(
+    item
+){
+
+    const favouriteId =
+        getFavouriteId(item);
+
+    const propertyId =
+        getPropertyId(item);
+
+    const title =
+        getTitle(item);
+
+    const location =
+        getLocation(item);
+
+    const type =
+        getType(item);
+
+    const listingType =
+        getListingType(item);
+
+    const price =
+        getPrice(item);
+
+    const image =
+        getImage(item);
+
+    const configuration =
+        getConfiguration(item);
+
+    const area =
+        getArea(item);
+
+    const addedDate =
+        getAddedDate(item);
+
+
+    return `
 
     <article
-      class="property-card"
-      data-property-id="${escapeHTML(id)}"
-      data-index="${index}"
+        class="favourite-card"
+        data-favourite-id="${escapeHTML(favouriteId)}"
+        data-property-id="${escapeHTML(propertyId)}"
+        data-type="${escapeHTML(String(type).toLowerCase())}"
+        data-listing="${escapeHTML(listingType)}"
+        data-title="${escapeHTML(title)}"
+        data-location="${escapeHTML(location)}"
+        data-price="${escapeHTML(price || 0)}"
+        data-date="${escapeHTML(addedDate)}"
     >
 
-      <div class="property-image">
 
-        <img
-          src="${escapeHTML(image)}"
-          alt="${escapeHTML(title)}"
-          loading="lazy"
-          onerror="
-            this.onerror=null;
-            this.src='../assets/images/property-placeholder.jpg';
-          "
-        >
+        <!-- MEDIA -->
 
-        <span class="property-badge">
-          ${escapeHTML(
-            property.badge ||
-            "Favourite"
-          )}
-        </span>
+        <div class="favourite-media">
 
+            <a
+                href="/buyer/property-details.html?id=${encodeURIComponent(propertyId)}"
+                aria-label="View ${escapeHTML(title)}"
+            >
 
-        <div class="card-actions">
+                <img
+                    src="${escapeHTML(image)}"
+                    alt="${escapeHTML(title)}"
+                    loading="lazy"
+                    onerror="
+                        this.src='../assets/images/properties/property-placeholder.jpg'
+                    "
+                >
 
-          <button
-            class="card-icon remove"
-            type="button"
-            data-remove-favourite="${escapeHTML(id)}"
-            aria-label="Remove from favourites"
-            title="Remove favourite"
-          >
-            ♥
-          </button>
-
-        </div>
-
-      </div>
+            </a>
 
 
-      <div class="property-content">
-
-        <div class="property-type">
-          ${escapeHTML(type)}
-        </div>
-
-        <h3 class="property-title">
-          ${escapeHTML(title)}
-        </h3>
-
-        <div class="property-location">
-          ${escapeHTML(location)}
-        </div>
+            <span class="media-type">
+                ${escapeHTML(type)}
+            </span>
 
 
-        <div class="property-meta">
+            <span class="media-status">
+                ${escapeHTML(
+                    listingLabel(listingType)
+                )}
+            </span>
 
-          <span>
-            🛏 ${escapeHTML(bedrooms)} BHK
-          </span>
 
-          <span>
-            ⌂ ${escapeHTML(area)}
-          </span>
+            <button
+                class="favourite-button"
+                type="button"
+                title="Remove from favourites"
+                aria-label="Remove ${escapeHTML(title)} from favourites"
+                data-remove-favourite="${escapeHTML(favouriteId)}"
+            >
+                ♥
+            </button>
 
         </div>
 
 
-        <div class="property-price">
+        <!-- CONTENT -->
 
-          ${escapeHTML(price)}
+        <div class="favourite-content">
 
-          <span>
-            ${
-              property.listingType === "rent"
-                ? "/ month"
-                : ""
-            }
-          </span>
+            <div class="favourite-label">
+                ${escapeHTML(type)}
+            </div>
+
+
+            <h2 class="favourite-title">
+                ${escapeHTML(title)}
+            </h2>
+
+
+            <div class="favourite-location">
+                ${escapeHTML(location)}
+            </div>
+
+
+            <div class="favourite-meta">
+
+                <span class="meta-chip">
+                    ${escapeHTML(configuration)}
+                </span>
+
+                <span class="meta-chip">
+                    ${escapeHTML(area)}
+                </span>
+
+                <span class="meta-chip">
+                    ${escapeHTML(
+                        listingLabel(listingType)
+                    )}
+                </span>
+
+            </div>
+
+
+            <div class="favourite-price">
+
+                ${escapeHTML(
+                    formatPrice(price)
+                )}
+
+                <small>
+                    Property value · Added
+                    ${escapeHTML(
+                        formatDate(addedDate)
+                    )}
+                </small>
+
+            </div>
+
+
+            <div class="favourite-details">
+
+
+                <div class="detail-item">
+
+                    <div class="detail-label">
+                        Property ID
+                    </div>
+
+                    <div class="detail-value">
+                        ${escapeHTML(
+                            propertyId ||
+                            "--"
+                        )}
+                    </div>
+
+                </div>
+
+
+                <div class="detail-item">
+
+                    <div class="detail-label">
+                        Listing
+                    </div>
+
+                    <div class="detail-value">
+                        ${escapeHTML(
+                            listingLabel(listingType)
+                        )}
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+            <div class="favourite-footer">
+
+                <a
+                    class="btn btn-secondary btn-small"
+                    href="/buyer/property-details.html?id=${encodeURIComponent(propertyId)}"
+                >
+                    View property
+                </a>
+
+
+                <a
+                    class="btn btn-primary btn-small"
+                    href="/buyer/visits.html?propertyId=${encodeURIComponent(propertyId)}"
+                >
+                    Schedule visit
+                </a>
+
+            </div>
 
         </div>
-
-
-        <div class="card-footer">
-
-          <a
-            class="btn btn-secondary"
-            href="/property-details.html?id=${encodeURIComponent(id)}"
-          >
-            View
-          </a>
-
-          <a
-            class="btn btn-primary"
-            href="/buyer/visits.html?propertyId=${encodeURIComponent(id)}"
-          >
-            Visit
-          </a>
-
-        </div>
-
-      </div>
 
     </article>
 
-  `;
-
-}
-
-
-/* =========================================================
-   SORT
-========================================================= */
-
-let favouriteProperties=[];
-
-function sortProperties(){
-
-  const sort=$("#sortSelect")?.value;
-
-  const properties=[
-    ...favouriteProperties
-  ];
-
-
-  if(sort==="price-low"){
-
-    properties.sort(
-      (a,b)=>
-        Number(
-          a.price ??
-          a.salePrice ??
-          a.amount ??
-          Infinity
-        ) -
-        Number(
-          b.price ??
-          b.salePrice ??
-          b.amount ??
-          Infinity
-        )
-    );
-
-  }
-
-
-  if(sort==="price-high"){
-
-    properties.sort(
-      (a,b)=>
-        Number(
-          b.price ??
-          b.salePrice ??
-          b.amount ??
-          0
-        ) -
-        Number(
-          a.price ??
-          a.salePrice ??
-          a.amount ??
-          0
-        )
-    );
-
-  }
-
-
-  if(sort==="name"){
-
-    properties.sort(
-      (a,b)=>
-        String(
-          a.title ||
-          a.name ||
-          ""
-        ).localeCompare(
-          String(
-            b.title ||
-            b.name ||
-            ""
-          )
-        )
-    );
-
-  }
-
-
-  renderProperties(properties);
+    `;
 }
 
 
@@ -1826,48 +3744,281 @@ function sortProperties(){
    RENDER
 ========================================================= */
 
-function renderProperties(properties){
-
-  const grid=$("#propertyGrid");
-  const empty=$("#emptyState");
-
-  if(!grid || !empty){
-    return;
-  }
-
-
-  const list=
-    Array.isArray(properties)
-      ? properties
-      : [];
-
-
-  $("#resultCount").innerHTML =
-    `<strong>${list.length}</strong> favourite ${
-      list.length===1
-        ? "property"
-        : "properties"
-    }`;
-
-
-  if(!list.length){
-
-    grid.innerHTML="";
-    grid.style.display="none";
-
-    empty.style.display="block";
-
-    return;
-  }
-
-
-  empty.style.display="none";
-  grid.style.display="grid";
-
-  grid.innerHTML =
+function renderFavourites(
     list
-      .map(createPropertyCard)
-      .join("");
+){
+
+    if(!favouriteList)
+        return;
+
+
+    if(!list.length){
+
+        favouriteList.innerHTML=`
+
+            <div class="empty-state">
+
+                <div class="empty-icon">
+                    ♡
+                </div>
+
+                <h3>
+                    No favourite properties found
+                </h3>
+
+                <p>
+                    You have not added any properties to your
+                    favourites matching the current filters.
+                    Explore GHAR properties and save the ones
+                    you want to review later.
+                </p>
+
+                <a
+                    class="btn btn-primary"
+                    href="/buyer/properties.html"
+                >
+                    Explore properties
+                </a>
+
+            </div>
+
+        `;
+
+        return;
+    }
+
+
+    favouriteList.innerHTML =
+        list
+            .map(createFavouriteCard)
+            .join("");
+}
+
+
+/* =========================================================
+   SUMMARY
+========================================================= */
+
+function updateSummary(
+    list
+){
+
+    const total =
+        list.length;
+
+
+    const normalizedTypes =
+        list.map(
+            item =>
+                String(
+                    getType(item)
+                ).toLowerCase()
+        );
+
+
+    const apartments =
+        normalizedTypes.filter(
+            type =>
+                type.includes("apartment") ||
+                type.includes("flat")
+        ).length;
+
+
+    const villas =
+        normalizedTypes.filter(
+            type =>
+                type.includes("villa")
+        ).length;
+
+
+    const types =
+        new Set(
+            normalizedTypes
+                .filter(Boolean)
+        );
+
+
+    const other =
+        Math.max(
+            0,
+            total -
+            apartments -
+            villas
+        );
+
+
+    $("#totalFavourites")
+        .textContent=total;
+
+    $("#propertyTypes")
+        .textContent=types.size;
+
+    $("#summaryTotal")
+        .textContent=total;
+
+    $("#summaryApartments")
+        .textContent=apartments;
+
+    $("#summaryVillas")
+        .textContent=villas;
+
+    $("#summaryOther")
+        .textContent=other;
+
+
+    $("#nextAction")
+        .textContent =
+            total
+            ? "Compare"
+            : "Explore";
+}
+
+
+/* =========================================================
+   FILTER
+========================================================= */
+
+function applyFilters(){
+
+    const search =
+        $("#favouriteSearch")
+            .value
+            .trim()
+            .toLowerCase();
+
+
+    const type =
+        $("#typeFilter")
+            .value
+            .toLowerCase();
+
+
+    const listing =
+        $("#listingFilter")
+            .value
+            .toLowerCase();
+
+
+    const sort =
+        $("#sortFilter")
+            .value;
+
+
+    let filtered =
+        favourites.filter(
+            item => {
+
+
+                const itemType =
+                    String(
+                        getType(item)
+                    ).toLowerCase();
+
+
+                const itemListing =
+                    getListingType(item);
+
+
+                const title =
+                    String(
+                        getTitle(item)
+                    ).toLowerCase();
+
+
+                const location =
+                    String(
+                        getLocation(item)
+                    ).toLowerCase();
+
+
+                const propertyId =
+                    String(
+                        getPropertyId(item)
+                    ).toLowerCase();
+
+
+                const matchesSearch =
+                    !search ||
+                    title.includes(search) ||
+                    location.includes(search) ||
+                    propertyId.includes(search);
+
+
+                const matchesType =
+                    !type ||
+                    itemType.includes(type);
+
+
+                const matchesListing =
+                    !listing ||
+                    itemListing===listing;
+
+
+                return (
+                    matchesSearch &&
+                    matchesType &&
+                    matchesListing
+                );
+
+            }
+        );
+
+
+    filtered.sort(
+        (a,b) => {
+
+
+            if(sort==="price-high"){
+
+                return (
+                    Number(
+                        getPrice(b) || 0
+                    ) -
+                    Number(
+                        getPrice(a) || 0
+                    )
+                );
+            }
+
+
+            if(sort==="price-low"){
+
+                return (
+                    Number(
+                        getPrice(a) || 0
+                    ) -
+                    Number(
+                        getPrice(b) || 0
+                    )
+                );
+            }
+
+
+            const dateA =
+                new Date(
+                    getAddedDate(a) ||
+                    0
+                ).getTime();
+
+
+            const dateB =
+                new Date(
+                    getAddedDate(b) ||
+                    0
+                ).getTime();
+
+
+            return sort==="oldest"
+                ? dateA-dateB
+                : dateB-dateA;
+
+        }
+    );
+
+
+    renderFavourites(
+        filtered
+    );
 }
 
 
@@ -1877,66 +4028,123 @@ function renderProperties(properties){
 
 async function loadFavourites(){
 
-  try{
+    favouriteList.innerHTML=`
 
-    let response;
+        <div class="loading-state">
+
+            <div class="loading-spinner"></div>
+
+            Loading your favourites...
+
+        </div>
+
+    `;
+
 
     try{
 
-      response =
-        await apiRequest(
-          FAVOURITES_API
-        );
+        const endpoints=[
+
+            API_BASE +
+            "/favourites?mine=true",
+
+            API_BASE +
+            "/favorites?mine=true"
+
+        ];
+
+
+        let response=null;
+
+
+        for(
+            const endpoint
+            of endpoints
+        ){
+
+            try{
+
+                response =
+                    await apiRequest(
+                        endpoint
+                    );
+
+                break;
+
+            }catch(error){
+
+                if(
+                    endpoint ===
+                    endpoints[
+                        endpoints.length-1
+                    ]
+                ){
+
+                    throw error;
+
+                }
+
+            }
+
+        }
+
+
+        favourites =
+            normalizeCollection(
+                response
+            );
+
 
     }catch(error){
 
-      /*
-       * Some GHAR API versions may use
-       * saved-properties as the canonical endpoint.
-       */
-
-      response =
-        await apiRequest(
-          SAVED_API
+        console.warn(
+            "GHAR favourites API:",
+            error
         );
+
+
+        /*
+         * Keep the page functional even if the
+         * favourites API is not mounted yet.
+         *
+         * If another GHAR script has already placed
+         * favourites in localStorage, use those records.
+         */
+
+        try{
+
+            const localData =
+                JSON.parse(
+                    localStorage.getItem(
+                        "ghar_favourites"
+                    ) ||
+                    localStorage.getItem(
+                        "gharFavorites"
+                    ) ||
+                    "[]"
+                );
+
+
+            favourites =
+                Array.isArray(localData)
+                ? localData
+                : [];
+
+        }catch{
+
+            favourites=[];
+
+        }
 
     }
 
 
-    favouriteProperties =
-      normalizeCollection(
-        response
-      );
-
-
-    renderProperties(
-      favouriteProperties
-    );
-
-  }catch(error){
-
-    console.error(
-      "GHAR favourites:",
-      error
+    updateSummary(
+        favourites
     );
 
 
-    /*
-     * Do not fabricate favourite records.
-     * If the API cannot be reached, show an
-     * empty-state action instead.
-     */
-
-    favouriteProperties=[];
-
-    renderProperties([]);
-
-    showToast(
-      "Unable to load favourites right now."
-    );
-
-  }
-
+    applyFilters();
 }
 
 
@@ -1944,129 +4152,323 @@ async function loadFavourites(){
    REMOVE FAVOURITE
 ========================================================= */
 
-document.addEventListener(
-  "click",
-  async event => {
+async function removeFavourite(
+    favouriteId,
+    propertyId,
+    button
+){
 
-    const button =
-      event.target.closest(
-        "[data-remove-favourite]"
-      );
+    if(button){
 
-    if(!button){
-      return;
-    }
+        button.classList.add(
+            "removing"
+        );
 
+        button.disabled=true;
 
-    const id=
-      button.dataset.removeFavourite;
-
-
-    if(!id){
-      return;
     }
 
 
     try{
 
-      button.disabled=true;
+        const encoded =
+            encodeURIComponent(
+                favouriteId
+            );
 
 
-      let removed=false;
+        const propertyEncoded =
+            encodeURIComponent(
+                propertyId
+            );
 
 
-      try{
+        const endpoints=[
 
-        await apiRequest(
-          FAVOURITES_API +
-          "/" +
-          encodeURIComponent(id),
-          {
-            method:"DELETE"
-          }
-        );
+            API_BASE +
+            "/favourites/" +
+            encoded,
 
-        removed=true;
+            API_BASE +
+            "/favorites/" +
+            encoded
 
-      }catch(error){
+        ];
+
+
+        let removed=false;
+
+
+        for(
+            const endpoint
+            of endpoints
+        ){
+
+            try{
+
+                await apiRequest(
+                    endpoint,
+                    {
+                        method:"DELETE"
+                    }
+                );
+
+                removed=true;
+
+                break;
+
+            }catch(error){
+
+                /*
+                 * Continue to the alternate
+                 * endpoint when the first route
+                 * is not available.
+                 */
+
+            }
+
+        }
+
 
         /*
-         * Compatibility with APIs that
-         * remove a property from saved list.
+         * Also update local state so the UI
+         * immediately reflects the removal.
          */
+
+        favourites =
+            favourites.filter(
+                item =>
+                    String(
+                        getFavouriteId(item)
+                    ) !==
+                    String(favouriteId) &&
+                    String(
+                        getPropertyId(item)
+                    ) !==
+                    String(propertyId)
+            );
+
 
         try{
 
-          await apiRequest(
-            SAVED_API +
-            "/" +
-            encodeURIComponent(id),
-            {
-              method:"DELETE"
-            }
-          );
-
-          removed=true;
+            localStorage.setItem(
+                "ghar_favourites",
+                JSON.stringify(
+                    favourites
+                )
+            );
 
         }catch{
-          throw error;
+
+            /* Storage may be unavailable. */
+
         }
 
-      }
 
-
-      if(removed){
-
-        favouriteProperties =
-          favouriteProperties.filter(
-            property =>
-              String(
-                propertyId(property)
-              ) !== String(id)
-          );
-
-
-        renderProperties(
-          favouriteProperties
+        updateSummary(
+            favourites
         );
 
+        applyFilters();
 
-        showToast(
-          "Property removed from favourites."
-        );
-
-      }
 
     }catch(error){
 
-      console.error(
-        "GHAR remove favourite:",
-        error
-      );
+        console.error(
+            "GHAR remove favourite:",
+            error
+        );
 
-      showToast(
-        "Could not remove this property."
-      );
 
-    }finally{
+        if(button){
 
-      button.disabled=false;
+            button.classList.remove(
+                "removing"
+            );
+
+            button.disabled=false;
+
+        }
 
     }
 
-  }
+}
+
+
+/* =========================================================
+   FAVOURITE BUTTON EVENTS
+========================================================= */
+
+document.addEventListener(
+    "click",
+    event => {
+
+        const button =
+            event.target.closest(
+                "[data-remove-favourite]"
+            );
+
+
+        if(!button)
+            return;
+
+
+        event.preventDefault();
+
+        event.stopPropagation();
+
+
+        const favouriteId =
+            button.dataset
+                .removeFavourite ||
+            "";
+
+
+        const card =
+            button.closest(
+                ".favourite-card"
+            );
+
+
+        const propertyId =
+            card?.dataset
+                ?.propertyId ||
+            "";
+
+
+        removeFavourite(
+            favouriteId,
+            propertyId,
+            button
+        );
+
+    }
 );
 
 
 /* =========================================================
-   SORT EVENT
+   PROFILE
 ========================================================= */
 
-$("#sortSelect")
-  ?.addEventListener(
-    "change",
-    sortProperties
-  );
+async function loadProfile(){
+
+    try{
+
+        const response =
+            await apiRequest(
+                API_BASE +
+                "/users/me"
+            );
+
+
+        const user =
+            response?.data ||
+            response?.user ||
+            response;
+
+
+        const name =
+            user?.name ||
+            user?.fullName ||
+            user?.firstName ||
+            user?.email ||
+            "Buyer";
+
+
+        const image =
+            user?.profileImage ||
+            user?.avatar ||
+            user?.photo ||
+            user?.profilePhoto ||
+            "../assets/images/profile/buyer-default.jpg";
+
+
+        const displayName =
+            String(name)
+                .trim()
+                .split(/\s+/)
+                .slice(0,2)
+                .join(" ");
+
+
+        $("#profileName")
+            .textContent=
+                displayName;
+
+
+        $("#mobileProfileName")
+            .textContent=
+                displayName;
+
+
+        $("#profileImage")
+            .src=image;
+
+
+        $("#mobileProfileImage")
+            .src=image;
+
+
+    }catch(error){
+
+        console.warn(
+            "GHAR profile:",
+            error
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   FILTER EVENTS
+========================================================= */
+
+[
+    "#favouriteSearch",
+    "#typeFilter",
+    "#listingFilter",
+    "#sortFilter"
+].forEach(
+    selector => {
+
+        $(selector)?.addEventListener(
+            "input",
+            applyFilters
+        );
+
+
+        $(selector)?.addEventListener(
+            "change",
+            applyFilters
+        );
+
+    }
+);
+
+
+$("#clearFilters")
+    ?.addEventListener(
+        "click",
+        () => {
+
+            $("#favouriteSearch")
+                .value="";
+
+            $("#typeFilter")
+                .value="";
+
+            $("#listingFilter")
+                .value="";
+
+            $("#sortFilter")
+                .value="recent";
+
+            applyFilters();
+
+        }
+    );
 
 
 /* =========================================================
@@ -2074,50 +4476,82 @@ $("#sortSelect")
 ========================================================= */
 
 $("#menuButton")
-  ?.addEventListener(
+    ?.addEventListener(
+        "click",
+        () => {
+
+            const menu =
+                $("#mobileNav");
+
+            const button =
+                $("#menuButton");
+
+
+            const isOpen =
+                menu.classList
+                    .contains("open");
+
+
+            menu.classList.toggle(
+                "open"
+            );
+
+
+            button
+                .setAttribute(
+                    "aria-expanded",
+                    String(!isOpen)
+                );
+
+
+            button.textContent =
+                !isOpen
+                ? "×"
+                : "☰";
+
+        }
+    );
+
+
+document.addEventListener(
     "click",
-    ()=>{
+    event => {
 
-      const nav=
-        document.querySelector(
-          ".desktop-nav"
-        );
+        const menu =
+            $("#mobileNav");
 
-      if(!nav){
-        return;
-      }
+        const button =
+            $("#menuButton");
 
 
-      const visible=
-        nav.dataset.mobileOpen==="true";
+        if(
+            !menu ||
+            !button
+        )
+            return;
 
 
-      if(visible){
+        if(
+            menu.classList.contains("open") &&
+            !menu.contains(event.target) &&
+            !button.contains(event.target)
+        ){
 
-        nav.style.display="";
-        nav.dataset.mobileOpen="false";
+            menu.classList.remove(
+                "open"
+            );
 
-        return;
-      }
+            button.textContent="☰";
 
+            button.setAttribute(
+                "aria-expanded",
+                "false"
+            );
 
-      nav.dataset.mobileOpen="true";
-
-      nav.style.display="flex";
-      nav.style.position="absolute";
-      nav.style.left="14px";
-      nav.style.right="14px";
-      nav.style.top="66px";
-      nav.style.padding="10px";
-      nav.style.flexDirection="column";
-      nav.style.alignItems="stretch";
-      nav.style.border="1px solid rgba(229,199,125,.14)";
-      nav.style.borderRadius="16px";
-      nav.style.background="#0b1c14";
-      nav.style.boxShadow="0 25px 60px rgba(0,0,0,.35)";
+        }
 
     }
-  );
+);
 
 
 /* =========================================================
@@ -2125,63 +4559,15 @@ $("#menuButton")
 ========================================================= */
 
 $("#notificationButton")
-  ?.addEventListener(
-    "click",
-    ()=>{
-      window.location.href=
-        "/buyer/notifications.html";
-    }
-  );
+    ?.addEventListener(
+        "click",
+        () => {
 
+            window.location.href =
+                "/buyer/notifications.html";
 
-/* =========================================================
-   PROFILE
-========================================================= */
-
-async function loadBuyerProfile(){
-
-  try{
-
-    const response=
-      await apiRequest(
-        API_BASE +
-        "/users/me"
-      );
-
-
-    const user=
-      response?.user ||
-      response?.data ||
-      response;
-
-
-    if(user){
-
-      const name=
-        user.name ||
-        user.fullName ||
-        user.email ||
-        "U";
-
-
-      $("#profileButton").textContent=
-        name
-          .trim()
-          .charAt(0)
-          .toUpperCase();
-
-    }
-
-  }catch(error){
-
-    console.warn(
-      "GHAR profile:",
-      error
+        }
     );
-
-  }
-
-}
 
 
 /* =========================================================
@@ -2189,13 +4575,57 @@ async function loadBuyerProfile(){
 ========================================================= */
 
 $("#openAI")
-  ?.addEventListener(
-    "click",
-    ()=>{
-      window.location.href=
-        "/buyer/ai.html";
-    }
-  );
+    ?.addEventListener(
+        "click",
+        () => {
+
+            window.location.href =
+                "/buyer/ai.html";
+
+        }
+    );
+
+
+/* =========================================================
+   IMAGE FALLBACK
+========================================================= */
+
+document.addEventListener(
+    "error",
+    event => {
+
+        const element =
+            event.target;
+
+
+        if(
+            element.tagName === "IMG" &&
+            element.dataset.fallbackApplied !== "true"
+        ){
+
+            element.dataset.fallbackApplied="true";
+
+
+            if(
+                element.id==="profileImage" ||
+                element.id==="mobileProfileImage"
+            ){
+
+                element.src =
+                    "../assets/images/profile/default-avatar.jpg";
+
+            }else{
+
+                element.src =
+                    "../assets/images/properties/property-placeholder.jpg";
+
+            }
+
+        }
+
+    },
+    true
+);
 
 
 /* =========================================================
@@ -2204,30 +4634,33 @@ $("#openAI")
 
 async function initialize(){
 
-  $("#footerYear").textContent=
-    new Date().getFullYear();
+    $("#footerYear")
+        .textContent =
+            new Date()
+                .getFullYear();
 
 
-  await Promise.allSettled([
-    loadFavourites(),
-    loadBuyerProfile()
-  ]);
+    await Promise.all([
+        loadFavourites(),
+        loadProfile()
+    ]);
 
 }
 
 
 if(
-  document.readyState==="loading"
+    document.readyState ===
+    "loading"
 ){
 
-  document.addEventListener(
-    "DOMContentLoaded",
-    initialize
-  );
+    document.addEventListener(
+        "DOMContentLoaded",
+        initialize
+    );
 
 }else{
 
-  initialize();
+    initialize();
 
 }
 

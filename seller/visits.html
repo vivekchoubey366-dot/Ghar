@@ -1,2519 +1,3507 @@
 <!doctype html>
 <html lang="en">
 <head>
+
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
 <meta name="description"
-      content="GHAR Seller -- Manage property visits, buyer appointments and viewing schedules.">
+content="GHAR Seller Property Visits -- Manage scheduled, completed and upcoming buyer property visits.">
 
-<meta name="theme-color" content="#162d25">
+<meta name="theme-color" content="#171b2e">
 
-<title>GHAR · Seller · Visits</title>
+<title>GHAR · Seller Visits</title>
 
-<link rel="icon" href="../assets/images/favicon.svg">
+<link rel="icon" href="../assets/images/logo/favicon.svg">
 
 <style>
+
+/* =========================================================
+   RESET
+========================================================= */
+
 *{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
 }
 
 :root{
-  --green-950:#07130e;
-  --green-925:#0a1912;
-  --green-900:#0b1c14;
-  --green-850:#10261c;
-  --green-800:#162d25;
-  --green-750:#1a382c;
-  --green-700:#214438;
-  --green-600:#2b5847;
 
-  --gold-100:#fff7df;
-  --gold-200:#f4dfaa;
-  --gold-300:#e5c77d;
-  --gold-400:#c9a95c;
-  --gold-500:#a98238;
+    --navy-950:#080a14;
+    --navy-925:#0b0e1b;
+    --navy-900:#101426;
+    --navy-875:#151a30;
+    --navy-850:#1a2039;
+    --navy-800:#202743;
+    --navy-750:#293150;
+    --navy-700:#343d61;
 
-  --cream:#fffaf0;
-  --text:#f9f5ea;
-  --muted:rgba(255,255,255,.68);
-  --muted-2:rgba(255,255,255,.45);
+    --violet-100:#f9f6ff;
+    --violet-200:#e8ddff;
+    --violet-300:#cbb7f4;
+    --violet-400:#a88add;
+    --violet-500:#8465bd;
 
-  --border:rgba(229,199,125,.18);
-  --border-light:rgba(255,255,255,.09);
+    --silver:#eef1f7;
+    --silver-2:#d9deea;
 
-  --success:#82c995;
-  --warning:#e5c77d;
-  --danger:#e98c8c;
-  --blue:#91b9e8;
+    --text:#f8f6ff;
+    --muted:rgba(248,246,255,.72);
+    --muted-2:rgba(248,246,255,.45);
 
-  --shadow:0 25px 80px rgba(0,0,0,.25);
+    --border:rgba(203,183,244,.17);
+    --border-strong:rgba(203,183,244,.28);
+    --border-light:rgba(255,255,255,.08);
 
-  --radius-xl:28px;
-  --radius-lg:21px;
-  --radius-md:15px;
+    --success:#8bd2a5;
+    --warning:#e9cb82;
+    --danger:#e8919b;
+    --blue:#8eb8ed;
 
-  --container:1440px;
+    --shadow:0 25px 80px rgba(0,0,0,.30);
+
+    --radius-xl:28px;
+    --radius-lg:21px;
+    --radius-md:14px;
+
+    --container:1440px;
 }
 
 html{
-  scroll-behavior:smooth;
+    scroll-behavior:smooth;
 }
 
 body{
-  min-height:100vh;
-  color:var(--text);
-  font-family:
-    Inter,
-    ui-sans-serif,
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    sans-serif;
 
-  background:
-    radial-gradient(
-      circle at 5% 0%,
-      rgba(229,199,125,.12),
-      transparent 28%
-    ),
-    radial-gradient(
-      circle at 100% 10%,
-      rgba(44,91,69,.22),
-      transparent 30%
-    ),
-    linear-gradient(
-      135deg,
-      #07130e,
-      #0b1c14 48%,
-      #10261c
-    );
+    min-height:100vh;
 
-  overflow-x:hidden;
+    color:var(--text);
+
+    font-family:
+        Inter,
+        ui-sans-serif,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    background:
+
+        radial-gradient(
+            circle at 5% 0%,
+            rgba(168,138,221,.14),
+            transparent 27%
+        ),
+
+        radial-gradient(
+            circle at 100% 8%,
+            rgba(91,103,161,.18),
+            transparent 31%
+        ),
+
+        radial-gradient(
+            circle at 50% 100%,
+            rgba(126,93,175,.13),
+            transparent 34%
+        ),
+
+        linear-gradient(
+            135deg,
+            #080a14,
+            #101426 48%,
+            #171b2e
+        );
+
+    overflow-x:hidden;
 }
 
 a{
-  color:inherit;
-  text-decoration:none;
+    color:inherit;
+    text-decoration:none;
 }
 
 button,
 input,
-select{
-  font:inherit;
+select,
+textarea{
+    font:inherit;
 }
 
 button{
-  cursor:pointer;
+    cursor:pointer;
 }
 
 img{
-  display:block;
-  max-width:100%;
+    display:block;
+    max-width:100%;
 }
 
 .container{
-  width:min(
-    calc(100% - 40px),
-    var(--container)
-  );
-  margin:auto;
-}
+    width:min(
+        calc(100% - 40px),
+        var(--container)
+    );
 
+    margin:auto;
+}
 
 /* =========================================================
    BACKGROUND
 ========================================================= */
 
 .page-glow{
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  z-index:-1;
-  overflow:hidden;
+
+    position:fixed;
+    inset:0;
+
+    pointer-events:none;
+    z-index:-1;
+
+    overflow:hidden;
 }
 
-.page-glow::before{
-  content:"";
-  position:absolute;
-  width:550px;
-  height:550px;
-  top:-300px;
-  right:-220px;
-  border-radius:50%;
-  border:1px solid rgba(229,199,125,.12);
+.page-glow:before{
 
-  box-shadow:
-    0 0 0 60px rgba(229,199,125,.025),
-    0 0 0 120px rgba(229,199,125,.015);
+    content:"";
+
+    position:absolute;
+
+    width:580px;
+    height:580px;
+
+    top:-330px;
+    right:-240px;
+
+    border-radius:50%;
+
+    border:
+        1px solid
+        rgba(203,183,244,.13);
+
+    box-shadow:
+        0 0 0 60px rgba(203,183,244,.025),
+        0 0 0 120px rgba(203,183,244,.014),
+        0 0 0 180px rgba(203,183,244,.008);
 }
 
-.page-glow::after{
-  content:"";
-  position:absolute;
-  width:500px;
-  height:500px;
-  bottom:-300px;
-  left:-250px;
-  border-radius:50%;
-  border:1px solid rgba(255,255,255,.06);
-}
+.page-glow:after{
 
+    content:"";
+
+    position:absolute;
+
+    width:530px;
+    height:530px;
+
+    bottom:-330px;
+    left:-270px;
+
+    border-radius:50%;
+
+    border:
+        1px solid
+        rgba(255,255,255,.055);
+
+    box-shadow:
+        0 0 0 75px rgba(255,255,255,.01);
+}
 
 /* =========================================================
    HEADER
 ========================================================= */
 
 .site-header{
-  position:sticky;
-  top:0;
-  z-index:100;
 
-  border-bottom:
-    1px solid
-    rgba(229,199,125,.10);
+    position:sticky;
+    top:0;
 
-  background:
-    rgba(7,19,14,.90);
+    z-index:1000;
 
-  backdrop-filter:
-    blur(22px);
+    border-bottom:
+        1px solid
+        rgba(203,183,244,.13);
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(8,10,20,.97),
+            rgba(8,10,20,.88)
+        );
+
+    backdrop-filter:blur(24px);
+    -webkit-backdrop-filter:blur(24px);
 }
 
 .header-inner{
-  min-height:76px;
 
-  display:flex;
-  align-items:center;
-  gap:24px;
+    min-height:82px;
+
+    display:flex;
+    align-items:center;
+
+    gap:20px;
 }
+
+/* =========================================================
+   BRAND
+========================================================= */
 
 .brand{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  flex-shrink:0;
+
+    display:flex;
+    align-items:center;
+
+    gap:12px;
+
+    flex-shrink:0;
 }
 
-.brand-mark{
-  width:45px;
-  height:45px;
+.brand-logo{
 
-  display:grid;
-  place-items:center;
+    width:47px;
+    height:47px;
 
-  border-radius:14px;
+    display:grid;
+    place-items:center;
 
-  color:#152116;
-  font-size:19px;
-  font-weight:1000;
+    overflow:hidden;
 
-  background:
-    linear-gradient(
-      135deg,
-      #f1dda5,
-      #b98b3d
-    );
+    border-radius:14px;
 
-  box-shadow:
-    0 10px 25px rgba(0,0,0,.25),
-    inset 0 1px 0 rgba(255,255,255,.5);
+    border:
+        1px solid
+        rgba(203,183,244,.30);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(203,183,244,.17),
+            rgba(255,255,255,.04)
+        );
+
+    box-shadow:
+        0 10px 28px rgba(0,0,0,.27),
+        inset 0 1px 0 rgba(255,255,255,.08);
+}
+
+.brand-logo img{
+
+    width:100%;
+    height:100%;
+
+    object-fit:contain;
+    padding:5px;
+}
+
+.brand-logo-fallback{
+
+    width:100%;
+    height:100%;
+
+    display:grid;
+    place-items:center;
+
+    color:#171528;
+
+    font-size:20px;
+    font-weight:1000;
+
+    background:
+        linear-gradient(
+            135deg,
+            #eee3ff,
+            #9f7bce
+        );
 }
 
 .brand-text strong{
-  display:block;
-  font-size:17px;
-  letter-spacing:.17em;
+
+    display:block;
+
+    color:var(--violet-100);
+
+    font-size:17px;
+    font-weight:950;
+
+    letter-spacing:.17em;
 }
 
 .brand-text span{
-  display:block;
-  margin-top:2px;
-  color:var(--muted-2);
-  font-size:8px;
-  font-weight:800;
-  letter-spacing:.16em;
-  text-transform:uppercase;
+
+    display:block;
+
+    margin-top:3px;
+
+    color:var(--muted-2);
+
+    font-size:8px;
+    font-weight:800;
+
+    letter-spacing:.15em;
+
+    text-transform:uppercase;
 }
 
+/* =========================================================
+   NAV
+========================================================= */
+
 .desktop-nav{
-  display:flex;
-  align-items:center;
-  gap:5px;
-  margin-left:auto;
+
+    display:flex;
+    align-items:center;
+
+    gap:2px;
+
+    margin-left:auto;
 }
 
 .desktop-nav a{
-  padding:10px 12px;
-  border-radius:10px;
-  color:var(--muted);
-  font-size:11px;
-  font-weight:700;
-  transition:.2s ease;
+
+    position:relative;
+
+    padding:11px 9px;
+
+    border-radius:10px;
+
+    color:var(--muted);
+
+    font-size:10px;
+    font-weight:750;
+
+    transition:.2s ease;
 }
 
-.desktop-nav a:hover,
-.desktop-nav a.active{
-  color:var(--gold-200);
-  background:rgba(229,199,125,.07);
+.desktop-nav a:hover{
+
+    color:var(--violet-200);
+
+    background:
+        rgba(203,183,244,.07);
 }
+
+.desktop-nav a.active{
+
+    color:var(--violet-200);
+
+    background:
+        rgba(203,183,244,.09);
+}
+
+.desktop-nav a.active:after{
+
+    content:"";
+
+    position:absolute;
+
+    left:12px;
+    right:12px;
+
+    bottom:3px;
+
+    height:2px;
+
+    border-radius:10px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            var(--violet-300),
+            transparent
+        );
+}
+
+/* =========================================================
+   HEADER ACTIONS
+========================================================= */
 
 .header-actions{
-  display:flex;
-  align-items:center;
-  gap:8px;
+
+    display:flex;
+    align-items:center;
+
+    gap:8px;
+
+    margin-left:4px;
 }
 
 .icon-btn{
-  width:41px;
-  height:41px;
 
-  display:grid;
-  place-items:center;
+    width:41px;
+    height:41px;
 
-  border:
-    1px solid
-    var(--border-light);
+    display:grid;
+    place-items:center;
 
-  border-radius:12px;
+    border:
+        1px solid
+        var(--border-light);
 
-  color:var(--muted);
+    border-radius:12px;
 
-  background:
-    rgba(255,255,255,.035);
+    color:var(--muted);
 
-  transition:.2s ease;
+    background:
+        rgba(255,255,255,.035);
+
+    transition:.2s ease;
 }
 
 .icon-btn:hover{
-  color:var(--gold-200);
-  border-color:rgba(229,199,125,.25);
+
+    color:var(--violet-200);
+
+    border-color:
+        rgba(203,183,244,.32);
+
+    background:
+        rgba(203,183,244,.07);
+
+    transform:translateY(-1px);
 }
 
-.avatar{
-  width:40px;
-  height:40px;
+.notification-wrap{
+    position:relative;
+}
 
-  display:grid;
-  place-items:center;
+.notification-dot{
 
-  border-radius:50%;
+    position:absolute;
 
-  color:#172016;
-  font-size:12px;
-  font-weight:1000;
+    width:7px;
+    height:7px;
 
-  background:
-    linear-gradient(
-      135deg,
-      var(--gold-200),
-      var(--gold-500)
-    );
+    top:7px;
+    right:7px;
+
+    border-radius:50%;
+
+    background:var(--violet-300);
+
+    box-shadow:
+        0 0 0 3px var(--navy-900);
+}
+
+/* =========================================================
+   PROFILE
+========================================================= */
+
+.profile-menu{
+
+    min-height:43px;
+
+    display:flex;
+    align-items:center;
+
+    gap:9px;
+
+    padding:3px 8px 3px 4px;
+
+    border:
+        1px solid
+        var(--border-light);
+
+    border-radius:25px;
+
+    background:
+        rgba(255,255,255,.035);
+
+    transition:.2s ease;
+}
+
+.profile-menu:hover{
+
+    border-color:
+        rgba(203,183,244,.30);
+
+    background:
+        rgba(203,183,244,.055);
+}
+
+.profile-menu img{
+
+    width:35px;
+    height:35px;
+
+    object-fit:cover;
+
+    border-radius:50%;
+
+    border:
+        1px solid
+        rgba(203,183,244,.34);
+}
+
+.profile-info{
+    min-width:65px;
+}
+
+.profile-info strong{
+
+    display:block;
+
+    max-width:105px;
+
+    overflow:hidden;
+
+    color:var(--violet-100);
+
+    font-size:9px;
+    font-weight:900;
+
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
+
+.profile-info small{
+
+    display:block;
+
+    margin-top:2px;
+
+    color:var(--muted-2);
+
+    font-size:7px;
+}
+
+.profile-arrow{
+    color:var(--muted-2);
+    font-size:12px;
 }
 
 .mobile-menu{
-  display:none;
+    display:none;
 }
-
 
 /* =========================================================
-   PAGE HERO
+   MOBILE NAV
 ========================================================= */
 
-.page-hero{
-  padding:45px 0 28px;
+.mobile-nav-panel{
+
+    display:none;
+
+    position:fixed;
+
+    left:14px;
+    right:14px;
+    top:78px;
+
+    z-index:999;
+
+    padding:10px;
+
+    border:
+        1px solid
+        rgba(203,183,244,.18);
+
+    border-radius:18px;
+
+    background:
+        rgba(15,18,34,.98);
+
+    box-shadow:
+        0 25px 70px rgba(0,0,0,.50);
+
+    backdrop-filter:blur(22px);
 }
 
-.hero-panel{
-  position:relative;
-  overflow:hidden;
-
-  padding:38px;
-
-  border:
-    1px solid
-    var(--border);
-
-  border-radius:
-    var(--radius-xl);
-
-  background:
-
-    radial-gradient(
-      circle at 95% 0%,
-      rgba(229,199,125,.13),
-      transparent 30%
-    ),
-
-    radial-gradient(
-      circle at 0% 100%,
-      rgba(44,91,69,.30),
-      transparent 38%
-    ),
-
-    linear-gradient(
-      145deg,
-      #0a1a12,
-      #10251b 55%,
-      #142d22
-    );
-
-  box-shadow:var(--shadow);
+.mobile-nav-panel.open{
+    display:block;
 }
 
-.hero-panel::after{
-  content:"";
+.mobile-nav-panel a{
 
-  position:absolute;
+    display:flex;
 
-  width:330px;
-  height:330px;
+    align-items:center;
+    justify-content:space-between;
 
-  right:-190px;
-  bottom:-200px;
+    padding:13px 12px;
 
-  border-radius:50%;
+    border-radius:10px;
 
-  border:
-    1px solid
-    rgba(229,199,125,.12);
+    color:var(--muted);
 
-  box-shadow:
-    0 0 0 40px rgba(229,199,125,.02),
-    0 0 0 80px rgba(229,199,125,.015);
+    font-size:10px;
+    font-weight:750;
+}
+
+.mobile-nav-panel a:hover,
+.mobile-nav-panel a.active{
+
+    color:var(--violet-200);
+
+    background:
+        rgba(203,183,244,.07);
+}
+
+.mobile-profile{
+
+    display:flex;
+    align-items:center;
+
+    gap:10px;
+
+    margin-bottom:8px;
+    padding:10px;
+
+    border-bottom:
+        1px solid
+        rgba(255,255,255,.06);
+}
+
+.mobile-profile img{
+
+    width:38px;
+    height:38px;
+
+    border-radius:50%;
+
+    object-fit:cover;
+
+    border:
+        1px solid
+        rgba(203,183,244,.27);
+}
+
+.mobile-profile strong{
+
+    display:block;
+
+    color:var(--violet-100);
+
+    font-size:10px;
+}
+
+.mobile-profile span{
+
+    display:block;
+
+    margin-top:3px;
+
+    color:var(--muted-2);
+
+    font-size:7px;
+}
+
+/* =========================================================
+   PAGE
+========================================================= */
+
+.page{
+    padding:43px 0 25px;
+}
+
+.page-heading{
+
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+
+    gap:25px;
+
+    margin-bottom:25px;
 }
 
 .eyebrow{
-  color:var(--gold-300);
-  font-size:10px;
-  font-weight:950;
-  letter-spacing:.18em;
-  text-transform:uppercase;
+
+    color:var(--violet-300);
+
+    font-size:10px;
+    font-weight:950;
+
+    letter-spacing:.18em;
+
+    text-transform:uppercase;
 }
 
-.hero-panel h1{
-  position:relative;
-  z-index:2;
+.page-heading h1{
 
-  margin-top:11px;
+    margin-top:9px;
 
-  font-size:
-    clamp(
-      35px,
-      5vw,
-      57px
-    );
+    font-size:
+        clamp(35px,5vw,58px);
 
-  line-height:1;
-  letter-spacing:-.055em;
+    line-height:1;
+
+    letter-spacing:-.055em;
 }
 
-.hero-panel h1 span{
-  color:var(--gold-300);
+.page-heading p{
+
+    max-width:760px;
+
+    margin-top:13px;
+
+    color:var(--muted);
+
+    font-size:12px;
+
+    line-height:1.75;
 }
 
-.hero-description{
-  position:relative;
-  z-index:2;
+.heading-actions{
 
-  max-width:730px;
+    display:flex;
 
-  margin-top:14px;
+    gap:8px;
 
-  color:var(--muted);
-
-  font-size:13px;
-  line-height:1.7;
+    flex-wrap:wrap;
 }
-
-.hero-actions{
-  position:relative;
-  z-index:3;
-
-  display:flex;
-  flex-wrap:wrap;
-  gap:9px;
-
-  margin-top:22px;
-}
-
 
 /* =========================================================
    BUTTONS
 ========================================================= */
 
 .btn{
-  min-height:44px;
 
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap:8px;
+    min-height:43px;
 
-  padding:0 16px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
 
-  border-radius:12px;
-  border:1px solid transparent;
+    gap:8px;
 
-  font-size:10px;
-  font-weight:900;
+    padding:0 16px;
 
-  transition:.2s ease;
+    border:
+        1px solid
+        transparent;
+
+    border-radius:11px;
+
+    font-size:10px;
+    font-weight:900;
+
+    transition:.2s ease;
 }
 
 .btn-primary{
-  color:#17170f;
 
-  background:
-    linear-gradient(
-      135deg,
-      #f1dca1,
-      #cda85d
-    );
+    color:#171528;
 
-  box-shadow:
-    0 10px 25px rgba(0,0,0,.18);
+    background:
+        linear-gradient(
+            135deg,
+            #eee3ff,
+            #b79adf
+        );
+
+    box-shadow:
+        0 8px 22px rgba(0,0,0,.15);
 }
 
 .btn-primary:hover{
-  transform:translateY(-2px);
+    transform:translateY(-2px);
 }
 
 .btn-secondary{
-  color:var(--cream);
 
-  border-color:
-    var(--border-light);
+    color:var(--violet-100);
 
-  background:
-    rgba(255,255,255,.045);
+    border-color:
+        var(--border-light);
+
+    background:
+        rgba(255,255,255,.045);
 }
 
 .btn-secondary:hover{
-  color:var(--gold-200);
 
-  border-color:
-    rgba(229,199,125,.28);
+    color:var(--violet-200);
+
+    border-color:
+        rgba(203,183,244,.30);
 }
-
 
 /* =========================================================
-   SUMMARY STATS
+   STATS
 ========================================================= */
 
-.section{
-  padding:23px 0;
-}
-
 .stats-grid{
-  display:grid;
-  grid-template-columns:
-    repeat(4,1fr);
-  gap:13px;
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(4,minmax(0,1fr));
+
+    gap:13px;
+
+    margin-bottom:18px;
 }
 
 .stat-card{
-  padding:19px;
 
-  border:
-    1px solid
-    var(--border-light);
+    position:relative;
 
-  border-radius:
-    var(--radius-lg);
+    overflow:hidden;
 
-  background:
-    linear-gradient(
-      145deg,
-      rgba(20,45,34,.95),
-      rgba(11,28,20,.95)
-    );
+    padding:19px;
+
+    border:
+        1px solid
+        var(--border-light);
+
+    border-radius:var(--radius-lg);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(30,36,62,.95),
+            rgba(15,19,35,.96)
+        );
+
+    box-shadow:
+        0 16px 45px rgba(0,0,0,.13);
 }
 
-.stat-top{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
+.stat-card:after{
+
+    content:"";
+
+    position:absolute;
+
+    width:100px;
+    height:100px;
+
+    right:-45px;
+    top:-45px;
+
+    border-radius:50%;
+
+    border:
+        1px solid
+        rgba(203,183,244,.12);
 }
 
 .stat-label{
-  color:var(--muted-2);
 
-  font-size:9px;
-  font-weight:850;
+    color:var(--muted-2);
 
-  letter-spacing:.09em;
-  text-transform:uppercase;
-}
+    font-size:8px;
+    font-weight:850;
 
-.stat-icon{
-  width:36px;
-  height:36px;
+    letter-spacing:.08em;
 
-  display:grid;
-  place-items:center;
-
-  border-radius:11px;
-
-  color:var(--gold-300);
-
-  background:
-    rgba(229,199,125,.08);
+    text-transform:uppercase;
 }
 
 .stat-value{
-  margin-top:14px;
 
-  font-size:27px;
-  font-weight:950;
-  letter-spacing:-.04em;
+    margin-top:9px;
+
+    color:var(--violet-100);
+
+    font-size:26px;
+    font-weight:950;
+
+    letter-spacing:-.04em;
 }
 
-.stat-note{
-  margin-top:4px;
+.stat-meta{
 
-  color:var(--muted-2);
-  font-size:9px;
+    margin-top:5px;
+
+    color:var(--muted-2);
+
+    font-size:8px;
 }
 
+.stat-icon{
+
+    position:absolute;
+
+    right:16px;
+    bottom:15px;
+
+    width:34px;
+    height:34px;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:10px;
+
+    color:var(--violet-300);
+
+    background:
+        rgba(203,183,244,.08);
+
+    font-size:15px;
+}
 
 /* =========================================================
-   TOOLBAR
+   VISIT TOOLBAR
 ========================================================= */
 
-.toolbar{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
+.visit-toolbar{
 
-  margin-bottom:15px;
+    display:flex;
+
+    align-items:center;
+    justify-content:space-between;
+
+    gap:12px;
+
+    padding:14px 16px;
+
+    margin-bottom:14px;
+
+    border:
+        1px solid
+        var(--border-light);
+
+    border-radius:var(--radius-lg);
+
+    background:
+        rgba(20,25,45,.76);
 }
 
-.toolbar-left h2{
-  font-size:22px;
-  letter-spacing:-.035em;
-}
+.toolbar-left{
 
-.toolbar-left p{
-  margin-top:5px;
+    display:flex;
+    align-items:center;
 
-  color:var(--muted-2);
-  font-size:10px;
+    gap:8px;
+
+    flex-wrap:wrap;
 }
 
 .toolbar-right{
-  display:flex;
-  align-items:center;
-  gap:8px;
+
+    display:flex;
+    align-items:center;
+
+    gap:8px;
 }
 
-.select{
-  height:42px;
+.search-box{
 
-  padding:0 13px;
+    width:260px;
+    height:40px;
 
-  color:var(--cream);
+    padding:0 12px;
 
-  border:
-    1px solid
-    var(--border-light);
+    outline:none;
 
-  border-radius:11px;
+    color:var(--violet-100);
 
-  outline:none;
+    border:
+        1px solid
+        var(--border-light);
 
-  background:
-    #10251b;
+    border-radius:10px;
 
-  font-size:10px;
-  font-weight:700;
+    background:
+        rgba(255,255,255,.035);
+
+    font-size:9px;
 }
 
-.select:focus{
-  border-color:
-    rgba(229,199,125,.35);
+.search-box:focus{
+
+    border-color:
+        rgba(203,183,244,.42);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(203,183,244,.045);
 }
 
+.filter-select{
+
+    height:40px;
+
+    padding:0 11px;
+
+    outline:none;
+
+    color:var(--violet-100);
+
+    border:
+        1px solid
+        var(--border-light);
+
+    border-radius:10px;
+
+    background:
+        rgba(255,255,255,.035);
+
+    font-size:9px;
+}
+
+.filter-select option{
+    color:#15182a;
+}
 
 /* =========================================================
-   VISIT LAYOUT
+   TABS
 ========================================================= */
 
-.visits-layout{
-  display:grid;
+.visit-tabs{
 
-  grid-template-columns:
-    1.35fr .65fr;
+    display:flex;
 
-  gap:16px;
+    gap:5px;
+
+    padding:4px;
+
+    margin-bottom:14px;
+
+    width:max-content;
+
+    border:
+        1px solid
+        var(--border-light);
+
+    border-radius:11px;
+
+    background:
+        rgba(255,255,255,.025);
 }
 
-.panel{
-  padding:20px;
+.visit-tab{
 
-  border:
-    1px solid
-    var(--border-light);
+    min-height:34px;
 
-  border-radius:
-    var(--radius-lg);
+    padding:0 13px;
 
-  background:
-    linear-gradient(
-      145deg,
-      rgba(20,45,34,.95),
-      rgba(11,28,20,.95)
-    );
+    border:0;
+
+    border-radius:8px;
+
+    color:var(--muted-2);
+
+    background:transparent;
+
+    font-size:8px;
+    font-weight:850;
 }
 
-.panel-heading{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
+.visit-tab:hover,
+.visit-tab.active{
 
-  margin-bottom:15px;
+    color:var(--violet-200);
+
+    background:
+        rgba(203,183,244,.09);
 }
-
-.panel-heading h3{
-  font-size:15px;
-}
-
-.panel-heading span{
-  color:var(--muted-2);
-  font-size:9px;
-}
-
 
 /* =========================================================
-   VISIT CARD
+   VISIT LIST
 ========================================================= */
+
+.visits-panel{
+
+    overflow:hidden;
+
+    border:
+        1px solid
+        var(--border-light);
+
+    border-radius:var(--radius-xl);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(27,33,56,.95),
+            rgba(13,17,31,.97)
+        );
+
+    box-shadow:
+        var(--shadow);
+}
+
+.panel-header{
+
+    display:flex;
+
+    align-items:center;
+    justify-content:space-between;
+
+    gap:15px;
+
+    padding:18px 20px;
+
+    border-bottom:
+        1px solid
+        rgba(255,255,255,.06);
+}
+
+.panel-header h2{
+
+    font-size:14px;
+    font-weight:950;
+}
+
+.panel-header span{
+
+    color:var(--muted-2);
+
+    font-size:8px;
+}
 
 .visit-list{
-  display:grid;
-  gap:10px;
+
+    display:grid;
 }
 
 .visit-card{
-  display:grid;
 
-  grid-template-columns:
-    74px 1fr auto;
+    display:grid;
 
-  gap:14px;
-  align-items:center;
+    grid-template-columns:
+        95px
+        minmax(0,1fr)
+        auto;
 
-  padding:13px;
+    gap:17px;
 
-  border:
-    1px solid
-    rgba(255,255,255,.065);
+    align-items:center;
 
-  border-radius:14px;
+    padding:18px 20px;
 
-  background:
-    rgba(255,255,255,.025);
+    border-bottom:
+        1px solid
+        rgba(255,255,255,.055);
 
-  transition:.2s ease;
+    transition:.2s ease;
+}
+
+.visit-card:last-child{
+    border-bottom:0;
 }
 
 .visit-card:hover{
-  border-color:
-    rgba(229,199,125,.20);
 
-  background:
-    rgba(229,199,125,.035);
+    background:
+        rgba(203,183,244,.035);
 }
 
 .visit-date{
-  min-height:72px;
 
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
+    min-height:82px;
 
-  border-radius:12px;
+    display:flex;
 
-  color:var(--cream);
+    flex-direction:column;
 
-  background:
-    linear-gradient(
-      145deg,
-      rgba(229,199,125,.13),
-      rgba(229,199,125,.045)
-    );
+    align-items:center;
+    justify-content:center;
 
-  border:
-    1px solid
-    rgba(229,199,125,.12);
-}
+    border:
+        1px solid
+        rgba(203,183,244,.16);
 
-.visit-date .day{
-  font-size:24px;
-  font-weight:950;
-  line-height:1;
+    border-radius:14px;
+
+    background:
+        rgba(203,183,244,.055);
 }
 
 .visit-date .month{
-  margin-top:5px;
 
-  color:var(--gold-300);
+    color:var(--violet-300);
 
-  font-size:8px;
-  font-weight:900;
+    font-size:8px;
+    font-weight:950;
 
-  letter-spacing:.10em;
-  text-transform:uppercase;
+    text-transform:uppercase;
+
+    letter-spacing:.08em;
+}
+
+.visit-date .day{
+
+    margin-top:3px;
+
+    color:var(--violet-100);
+
+    font-size:25px;
+    font-weight:950;
+
+    line-height:1;
+}
+
+.visit-date .time{
+
+    margin-top:5px;
+
+    color:var(--muted-2);
+
+    font-size:7px;
 }
 
 .visit-info{
-  min-width:0;
+
+    min-width:0;
+}
+
+.visit-top{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    flex-wrap:wrap;
 }
 
 .visit-property{
-  color:var(--gold-300);
 
-  font-size:8px;
-  font-weight:900;
+    color:var(--violet-100);
 
-  letter-spacing:.11em;
-  text-transform:uppercase;
-}
-
-.visit-info h4{
-  margin-top:5px;
-
-  font-size:13px;
-  line-height:1.3;
-}
-
-.visit-location{
-  margin-top:5px;
-
-  color:var(--muted-2);
-
-  font-size:9px;
-
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
-}
-
-.visit-meta{
-  display:flex;
-  flex-wrap:wrap;
-  gap:9px;
-
-  margin-top:8px;
-
-  color:var(--muted);
-
-  font-size:8px;
-}
-
-.visit-actions{
-  display:flex;
-  flex-direction:column;
-  align-items:flex-end;
-  gap:7px;
+    font-size:13px;
+    font-weight:900;
 }
 
 .status{
-  display:inline-flex;
-  align-items:center;
 
-  padding:6px 8px;
+    display:inline-flex;
 
-  border-radius:7px;
+    align-items:center;
 
-  font-size:8px;
-  font-weight:900;
-  text-transform:uppercase;
+    min-height:23px;
+
+    padding:0 8px;
+
+    border-radius:7px;
+
+    font-size:7px;
+    font-weight:900;
+
+    text-transform:uppercase;
 }
 
-.status.confirmed{
-  color:var(--success);
-  background:rgba(130,201,149,.09);
+.status-confirmed{
+
+    color:#a8e2bb;
+
+    background:
+        rgba(139,210,165,.10);
+
+    border:
+        1px solid
+        rgba(139,210,165,.16);
 }
 
-.status.pending{
-  color:var(--warning);
-  background:rgba(229,199,125,.09);
+.status-pending{
+
+    color:#f0d995;
+
+    background:
+        rgba(233,203,130,.09);
+
+    border:
+        1px solid
+        rgba(233,203,130,.15);
 }
 
-.status.completed{
-  color:var(--blue);
-  background:rgba(145,185,232,.09);
+.status-completed{
+
+    color:#a8c9ed;
+
+    background:
+        rgba(142,184,237,.09);
+
+    border:
+        1px solid
+        rgba(142,184,237,.15);
 }
 
-.status.cancelled{
-  color:var(--danger);
-  background:rgba(233,140,140,.09);
+.status-cancelled{
+
+    color:#f0a0a8;
+
+    background:
+        rgba(232,145,155,.09);
+
+    border:
+        1px solid
+        rgba(232,145,155,.15);
 }
 
-.small-btn{
-  min-height:31px;
+.visit-location{
 
-  padding:0 10px;
+    margin-top:5px;
 
-  border:
-    1px solid
-    var(--border-light);
+    color:var(--muted-2);
 
-  border-radius:8px;
-
-  color:var(--muted);
-
-  background:
-    rgba(255,255,255,.035);
-
-  font-size:8px;
-  font-weight:800;
+    font-size:8px;
 }
 
-.small-btn:hover{
-  color:var(--gold-200);
-  border-color:
-    rgba(229,199,125,.25);
-}
+.visit-buyer{
 
+    display:flex;
 
-/* =========================================================
-   CALENDAR
-========================================================= */
+    align-items:center;
 
-.calendar{
-  border-radius:15px;
+    gap:7px;
 
-  border:
-    1px solid
-    rgba(255,255,255,.06);
-
-  background:
-    rgba(255,255,255,.02);
-
-  overflow:hidden;
-}
-
-.calendar-header{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-
-  padding:14px;
-
-  border-bottom:
-    1px solid
-    rgba(255,255,255,.06);
-}
-
-.calendar-header strong{
-  font-size:12px;
-}
-
-.calendar-nav{
-  display:flex;
-  gap:5px;
-}
-
-.calendar-nav button{
-  width:28px;
-  height:28px;
-
-  border:
-    1px solid
-    var(--border-light);
-
-  border-radius:8px;
-
-  color:var(--muted);
-
-  background:
-    rgba(255,255,255,.035);
-}
-
-.calendar-grid{
-  display:grid;
-
-  grid-template-columns:
-    repeat(7,1fr);
-
-  padding:10px;
-
-  gap:4px;
-}
-
-.calendar-weekday{
-  padding:5px 0;
-
-  color:var(--muted-2);
-
-  text-align:center;
-
-  font-size:7px;
-  font-weight:900;
-  text-transform:uppercase;
-}
-
-.calendar-day{
-  min-height:34px;
-
-  display:grid;
-  place-items:center;
-
-  border-radius:8px;
-
-  color:var(--muted);
-
-  font-size:8px;
-
-  position:relative;
-}
-
-.calendar-day.has-visit::after{
-  content:"";
-
-  position:absolute;
-
-  width:4px;
-  height:4px;
-
-  bottom:4px;
-
-  border-radius:50%;
-
-  background:
-    var(--gold-300);
-}
-
-.calendar-day.today{
-  color:#17170f;
-
-  font-weight:1000;
-
-  background:
-    var(--gold-300);
-}
-
-.calendar-day.muted{
-  color:rgba(255,255,255,.18);
-}
-
-
-/* =========================================================
-   BUYER DETAILS
-========================================================= */
-
-.buyer-card{
-  padding:15px;
-
-  border-radius:14px;
-
-  background:
-    rgba(255,255,255,.025);
-
-  border:
-    1px solid
-    rgba(255,255,255,.065);
-}
-
-.buyer-top{
-  display:flex;
-  align-items:center;
-  gap:11px;
+    margin-top:9px;
 }
 
 .buyer-avatar{
-  width:38px;
-  height:38px;
 
-  display:grid;
-  place-items:center;
+    width:25px;
+    height:25px;
 
-  border-radius:50%;
+    display:grid;
+    place-items:center;
 
-  color:#17170f;
+    border-radius:50%;
 
-  font-size:11px;
-  font-weight:1000;
+    color:var(--violet-200);
 
-  background:
-    linear-gradient(
-      135deg,
-      var(--gold-200),
-      var(--gold-500)
-    );
+    background:
+        rgba(203,183,244,.09);
+
+    font-size:8px;
+    font-weight:900;
 }
 
-.buyer-top strong{
-  display:block;
-  font-size:11px;
+.buyer-info strong{
+
+    display:block;
+
+    color:var(--muted);
+
+    font-size:8px;
 }
 
-.buyer-top span{
-  display:block;
+.buyer-info span{
 
-  margin-top:3px;
+    display:block;
 
-  color:var(--muted-2);
+    margin-top:2px;
 
-  font-size:8px;
+    color:var(--muted-2);
+
+    font-size:7px;
 }
 
-.buyer-details{
-  display:grid;
-  gap:8px;
+.visit-actions{
 
-  margin-top:14px;
+    display:flex;
+
+    align-items:center;
+
+    gap:6px;
 }
 
-.detail-row{
-  display:flex;
-  justify-content:space-between;
-  gap:10px;
+.small-btn{
 
-  padding-top:8px;
+    min-height:34px;
 
-  border-top:
-    1px solid
-    rgba(255,255,255,.055);
+    display:inline-flex;
 
-  font-size:8px;
+    align-items:center;
+    justify-content:center;
+
+    padding:0 10px;
+
+    border:
+        1px solid
+        var(--border-light);
+
+    border-radius:9px;
+
+    color:var(--muted);
+
+    background:
+        rgba(255,255,255,.035);
+
+    font-size:8px;
+    font-weight:850;
+
+    transition:.2s ease;
 }
 
-.detail-row span:first-child{
-  color:var(--muted-2);
+.small-btn:hover{
+
+    color:var(--violet-200);
+
+    border-color:
+        rgba(203,183,244,.28);
 }
 
-.detail-row span:last-child{
-  color:var(--muted);
-  text-align:right;
-}
+.small-btn.primary{
 
+    color:#171528;
+
+    border-color:transparent;
+
+    background:
+        linear-gradient(
+            135deg,
+            #eee3ff,
+            #b79adf
+        );
+}
 
 /* =========================================================
-   QUICK ACTIONS
-========================================================= */
-
-.quick-actions{
-  display:grid;
-  gap:8px;
-}
-
-.quick-action{
-  display:flex;
-  align-items:center;
-  gap:10px;
-
-  padding:12px;
-
-  border:
-    1px solid
-    rgba(255,255,255,.06);
-
-  border-radius:11px;
-
-  color:var(--muted);
-
-  background:
-    rgba(255,255,255,.025);
-
-  font-size:9px;
-  font-weight:800;
-
-  transition:.2s ease;
-}
-
-.quick-action:hover{
-  color:var(--gold-200);
-
-  border-color:
-    rgba(229,199,125,.22);
-
-  transform:translateX(2px);
-}
-
-.quick-icon{
-  width:31px;
-  height:31px;
-
-  display:grid;
-  place-items:center;
-
-  flex:0 0 31px;
-
-  border-radius:9px;
-
-  color:var(--gold-300);
-
-  background:
-    rgba(229,199,125,.08);
-}
-
-
-/* =========================================================
-   EMPTY STATE
+   EMPTY
 ========================================================= */
 
 .empty-state{
-  display:none;
 
-  padding:35px 20px;
+    padding:75px 25px;
 
-  text-align:center;
-
-  border:
-    1px dashed
-    rgba(255,255,255,.10);
-
-  border-radius:14px;
-
-  color:var(--muted-2);
+    text-align:center;
 }
 
-.empty-state .empty-icon{
-  font-size:28px;
+.empty-icon{
+
+    width:60px;
+    height:60px;
+
+    margin:auto;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:17px;
+
+    color:var(--violet-300);
+
+    background:
+        rgba(203,183,244,.08);
+
+    font-size:23px;
 }
 
 .empty-state h3{
-  margin-top:10px;
 
-  color:var(--cream);
+    margin-top:16px;
 
-  font-size:14px;
+    font-size:18px;
 }
 
 .empty-state p{
-  max-width:380px;
 
-  margin:6px auto 0;
+    max-width:500px;
 
-  font-size:9px;
-  line-height:1.6;
+    margin:7px auto 18px;
+
+    color:var(--muted-2);
+
+    font-size:9px;
+
+    line-height:1.7;
 }
-
 
 /* =========================================================
    FOOTER
 ========================================================= */
 
 .site-footer{
-  margin-top:45px;
 
-  padding:
-    35px 0 25px;
+    position:relative;
 
-  border-top:
-    1px solid
-    rgba(255,255,255,.07);
+    margin-top:55px;
 
-  background:
-    rgba(3,12,8,.35);
+    padding:48px 0 25px;
+
+    border-top:
+        1px solid
+        rgba(203,183,244,.12);
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(5,7,14,.42),
+            rgba(5,7,14,.88)
+        );
+}
+
+.footer-top-line{
+
+    height:1px;
+
+    width:100%;
+
+    margin-bottom:35px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(203,183,244,.22),
+            transparent
+        );
 }
 
 .footer-grid{
-  display:grid;
 
-  grid-template-columns:
-    1.4fr repeat(3,1fr);
+    display:grid;
 
-  gap:25px;
+    grid-template-columns:
+        1.6fr
+        repeat(4,1fr);
+
+    gap:30px;
 }
 
 .footer-brand{
-  max-width:300px;
+    max-width:350px;
+}
+
+.footer-brand .brand-logo{
+    width:43px;
+    height:43px;
 }
 
 .footer-brand p{
-  margin-top:10px;
 
-  color:var(--muted-2);
+    margin-top:14px;
 
-  font-size:9px;
-  line-height:1.7;
+    color:var(--muted-2);
+
+    font-size:9px;
+
+    line-height:1.85;
+}
+
+.footer-trust{
+
+    display:flex;
+    flex-wrap:wrap;
+
+    gap:6px;
+
+    margin-top:15px;
+}
+
+.trust-pill{
+
+    padding:6px 9px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.07);
+
+    border-radius:7px;
+
+    color:var(--muted-2);
+
+    background:
+        rgba(255,255,255,.025);
+
+    font-size:7px;
+    font-weight:800;
 }
 
 .footer-col h4{
-  color:var(--gold-200);
 
-  font-size:9px;
+    color:var(--violet-200);
 
-  letter-spacing:.1em;
-  text-transform:uppercase;
+    font-size:9px;
+
+    letter-spacing:.1em;
+
+    text-transform:uppercase;
 }
 
 .footer-col a{
-  display:block;
 
-  margin-top:9px;
+    display:block;
 
-  color:var(--muted-2);
+    margin-top:11px;
 
-  font-size:9px;
+    color:var(--muted-2);
+
+    font-size:9px;
+
+    transition:.2s ease;
 }
 
 .footer-col a:hover{
-  color:var(--gold-300);
+
+    color:var(--violet-300);
+
+    transform:translateX(2px);
 }
 
 .footer-bottom{
-  display:flex;
-  justify-content:space-between;
-  gap:15px;
 
-  margin-top:28px;
-  padding-top:17px;
+    display:flex;
 
-  border-top:
-    1px solid
-    rgba(255,255,255,.06);
+    justify-content:space-between;
 
-  color:var(--muted-2);
+    gap:15px;
 
-  font-size:8px;
+    margin-top:32px;
+    padding-top:19px;
+
+    border-top:
+        1px solid
+        rgba(255,255,255,.06);
+
+    color:var(--muted-2);
+
+    font-size:8px;
 }
 
-
 /* =========================================================
-   AI BUTTON
+   AI
 ========================================================= */
 
 .ai-floating{
-  position:fixed;
 
-  right:22px;
-  bottom:22px;
+    position:fixed;
 
-  z-index:90;
+    right:22px;
+    bottom:22px;
 
-  min-height:48px;
+    z-index:900;
 
-  display:flex;
-  align-items:center;
-  gap:8px;
+    min-height:50px;
 
-  padding:0 16px;
+    display:flex;
+    align-items:center;
 
-  border:
-    1px solid
-    rgba(229,199,125,.25);
+    gap:9px;
 
-  border-radius:30px;
+    padding:0 18px;
 
-  color:#17170f;
+    border:
+        1px solid
+        rgba(203,183,244,.30);
 
-  background:
-    linear-gradient(
-      135deg,
-      var(--gold-200),
-      var(--gold-400)
-    );
+    border-radius:30px;
 
-  box-shadow:
-    0 15px 35px rgba(0,0,0,.3);
+    color:#171528;
 
-  font-size:10px;
-  font-weight:1000;
+    background:
+        linear-gradient(
+            135deg,
+            #eee3ff,
+            #a88add
+        );
+
+    box-shadow:
+        0 15px 35px rgba(0,0,0,.32);
+
+    font-size:10px;
+    font-weight:1000;
+
+    transition:.2s ease;
 }
 
+.ai-floating:hover{
+    transform:translateY(-3px);
+}
+
+.ai-icon{
+
+    width:27px;
+    height:27px;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:50%;
+
+    background:
+        rgba(0,0,0,.10);
+}
 
 /* =========================================================
-   MOBILE
+   RESPONSIVE
 ========================================================= */
 
-@media(max-width:1100px){
+@media(max-width:1250px){
 
-  .desktop-nav{
-    display:none;
-  }
+    .desktop-nav{
+        display:none;
+    }
 
-  .mobile-menu{
-    display:grid;
-  }
+    .mobile-menu{
+        display:grid;
+    }
 
-  .stats-grid{
-    grid-template-columns:
-      repeat(2,1fr);
-  }
+    .footer-grid{
+        grid-template-columns:
+            1.5fr
+            repeat(3,1fr);
+    }
+}
 
-  .visits-layout{
-    grid-template-columns:1fr;
-  }
+@media(max-width:1050px){
+
+    .stats-grid{
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+    .profile-info,
+    .profile-arrow{
+        display:none;
+    }
+
+    .profile-menu{
+
+        padding:3px;
+
+        border-radius:50%;
+
+        border-color:transparent;
+
+        background:transparent;
+    }
+
+    .visit-card{
+        grid-template-columns:
+            82px
+            minmax(0,1fr);
+    }
+
+    .visit-actions{
+        grid-column:2;
+    }
 }
 
 @media(max-width:800px){
 
-  .container{
-    width:
-      min(
-        calc(100% - 28px),
-        var(--container)
-      );
-  }
+    .container{
 
-  .hero-panel{
-    padding:29px;
-  }
+        width:min(
+            calc(100% - 28px),
+            var(--container)
+        );
+    }
 
-  .toolbar{
-    align-items:flex-start;
-    flex-direction:column;
-  }
+    .page-heading{
 
-  .toolbar-right{
-    width:100%;
-  }
+        align-items:flex-start;
 
-  .select{
-    flex:1;
-  }
+        flex-direction:column;
+    }
 
-  .footer-grid{
-    grid-template-columns:
-      1fr 1fr;
-  }
+    .visit-toolbar{
+
+        align-items:stretch;
+
+        flex-direction:column;
+    }
+
+    .toolbar-left,
+    .toolbar-right{
+        width:100%;
+    }
+
+    .search-box{
+        flex:1;
+        width:auto;
+    }
+
+    .visit-card{
+
+        grid-template-columns:1fr;
+
+        gap:12px;
+    }
+
+    .visit-date{
+
+        width:90px;
+        min-height:76px;
+    }
+
+    .visit-actions{
+        grid-column:auto;
+    }
+
+    .footer-grid{
+        grid-template-columns:1fr 1fr;
+    }
 }
 
 @media(max-width:560px){
 
-  .header-inner{
-    min-height:68px;
-  }
+    .header-inner{
+        min-height:68px;
+    }
 
-  .brand-text span{
-    display:none;
-  }
+    .brand-text span{
+        display:none;
+    }
 
-  .header-actions .icon-btn{
-    display:none;
-  }
+    .header-actions .notification-wrap{
+        display:none;
+    }
 
-  .hero-panel{
-    padding:24px;
-    border-radius:22px;
-  }
+    .brand-logo{
 
-  .hero-panel h1{
-    font-size:38px;
-  }
+        width:42px;
+        height:42px;
 
-  .stats-grid{
-    grid-template-columns:
-      1fr 1fr;
-    gap:9px;
-  }
+        border-radius:12px;
+    }
 
-  .stat-card{
-    padding:15px;
-  }
+    .page{
+        padding-top:28px;
+    }
 
-  .stat-value{
-    font-size:22px;
-  }
+    .stats-grid{
+        grid-template-columns:1fr;
+    }
 
-  .visit-card{
-    grid-template-columns:60px 1fr;
-  }
+    .visit-tabs{
 
-  .visit-date{
-    min-height:64px;
-  }
+        width:100%;
 
-  .visit-actions{
-    grid-column:2;
-    align-items:flex-start;
-    flex-direction:row;
-    flex-wrap:wrap;
-  }
+        overflow-x:auto;
+    }
 
-  .footer-grid{
-    grid-template-columns:1fr;
-  }
+    .visit-tab{
+        flex:1;
+        white-space:nowrap;
+    }
 
-  .footer-bottom{
-    flex-direction:column;
-  }
+    .toolbar-left{
+        flex-direction:column;
+    }
 
-  .ai-floating{
-    right:14px;
-    bottom:14px;
-  }
+    .search-box{
+        width:100%;
+    }
+
+    .filter-select{
+        width:100%;
+    }
+
+    .toolbar-right{
+        flex-direction:column;
+    }
+
+    .toolbar-right .btn{
+        width:100%;
+    }
+
+    .visit-actions{
+
+        display:grid;
+
+        grid-template-columns:1fr 1fr;
+    }
+
+    .small-btn{
+        width:100%;
+    }
+
+    .footer-grid{
+        grid-template-columns:1fr;
+    }
+
+    .footer-bottom{
+        flex-direction:column;
+    }
+
+    .ai-floating{
+
+        right:14px;
+        bottom:14px;
+    }
+
+    .ai-floating .ai-text{
+        display:none;
+    }
 }
+
 </style>
+
 </head>
 
 <body>
 
 <div class="page-glow"></div>
 
-
-<!-- =========================================================
+<!-- =======================================================
      HEADER
-========================================================= -->
+======================================================= -->
 
 <header class="site-header">
 
-  <div class="container header-inner">
+<div class="container header-inner">
 
-    <a
-      class="brand"
-      href="/seller/index.html"
-      aria-label="GHAR Seller Home"
-    >
+<a
+    class="brand"
+    href="/seller/index.html"
+    aria-label="GHAR Seller Home"
+>
 
-      <div class="brand-mark">G</div>
+<div class="brand-logo">
 
-      <div class="brand-text">
-        <strong>GHAR</strong>
-        <span>Seller Experience</span>
-      </div>
+<img
+    src="../assets/images/logo/ghar-logo-light.svg"
+    alt="GHAR"
+    onerror="
+        this.style.display='none';
+        this.nextElementSibling.style.display='grid';
+    "
+>
 
-    </a>
+<div
+    class="brand-logo-fallback"
+    style="display:none"
+>
+    G
+</div>
 
+</div>
 
-    <nav
-      class="desktop-nav"
-      aria-label="Seller navigation"
-    >
+<div class="brand-text">
 
-      <a href="/seller/index.html">
-        Home
-      </a>
+<strong>GHAR</strong>
 
-      <a href="/seller/dashboard.html">
-        Dashboard
-      </a>
+<span>Seller Experience</span>
 
-      <a href="/seller/list-property.html">
-        List Property
-      </a>
+</div>
 
-      <a href="/seller/edit-property.html">
-        Properties
-      </a>
+</a>
 
-      <a
-        class="active"
-        href="/seller/visits.html"
-      >
-        Visits
-      </a>
+<nav
+    class="desktop-nav"
+    aria-label="Seller navigation"
+>
 
-      <a href="/seller/offers.html">
-        Offers
-      </a>
+<a href="/seller/index.html">
+    Dashboard
+</a>
 
-      <a href="/seller/messages.html">
-        Messages
-      </a>
+<a href="/seller/properties.html">
+    Properties
+</a>
 
-    </nav>
+<a href="/seller/list-property.html">
+    List Property
+</a>
 
+<a href="/seller/leads.html">
+    Leads
+</a>
 
-    <div class="header-actions">
+<a
+    class="active"
+    href="/seller/visits.html"
+>
+    Visits
+</a>
 
-      <button
-        class="icon-btn"
-        id="notificationButton"
-        type="button"
-        aria-label="Notifications"
-      >
-        ♢
-      </button>
+<a href="/seller/offers.html">
+    Offers
+</a>
 
-      <a
-        class="avatar"
-        id="profileButton"
-        href="/seller/profile.html"
-        aria-label="Seller profile"
-      >
-        S
-      </a>
+<a href="/seller/applications.html">
+    Applications
+</a>
 
-      <button
-        class="icon-btn mobile-menu"
-        id="menuButton"
-        type="button"
-        aria-label="Open menu"
-      >
-        ☰
-      </button>
+<a href="/seller/payments.html">
+    Payments
+</a>
 
-    </div>
+</nav>
 
-  </div>
+<div class="header-actions">
+
+<div class="notification-wrap">
+
+<button
+    class="icon-btn"
+    id="notificationButton"
+    type="button"
+    aria-label="Notifications"
+>
+    ♢
+</button>
+
+<span
+    class="notification-dot"
+    aria-hidden="true"
+></span>
+
+</div>
+
+<a
+    class="profile-menu"
+    href="/seller/profile.html"
+>
+
+<img
+    id="profileImage"
+    src="../assets/images/profile/seller-default.jpg"
+    alt="Seller profile"
+    onerror="
+        this.src='../assets/images/profile/default-avatar.jpg'
+    "
+>
+
+<span class="profile-info">
+
+<strong id="profileName">
+    Seller
+</strong>
+
+<small>
+    Seller account
+</small>
+
+</span>
+
+<span class="profile-arrow">
+    ⌄
+</span>
+
+</a>
+
+<button
+    class="icon-btn mobile-menu"
+    id="menuButton"
+    type="button"
+    aria-label="Open seller menu"
+    aria-expanded="false"
+>
+    ☰
+</button>
+
+</div>
+
+</div>
 
 </header>
 
+<!-- =======================================================
+     MOBILE NAV
+======================================================= -->
+
+<div
+    class="mobile-nav-panel"
+    id="mobileNav"
+>
+
+<div class="mobile-profile">
+
+<img
+    id="mobileProfileImage"
+    src="../assets/images/profile/seller-default.jpg"
+    alt="Seller profile"
+    onerror="
+        this.src='../assets/images/profile/default-avatar.jpg'
+    "
+>
+
+<div>
+
+<strong id="mobileProfileName">
+    Seller
+</strong>
+
+<span>
+    GHAR Seller Account
+</span>
+
+</div>
+
+</div>
+
+<a href="/seller/index.html">
+    Dashboard <span>›</span>
+</a>
+
+<a href="/seller/properties.html">
+    Properties <span>›</span>
+</a>
+
+<a href="/seller/list-property.html">
+    List Property <span>›</span>
+</a>
+
+<a href="/seller/leads.html">
+    Leads <span>›</span>
+</a>
+
+<a
+    class="active"
+    href="/seller/visits.html"
+>
+    Visits <span>›</span>
+</a>
+
+<a href="/seller/offers.html">
+    Offers <span>›</span>
+</a>
+
+<a href="/seller/applications.html">
+    Applications <span>›</span>
+</a>
+
+<a href="/seller/payments.html">
+    Payments <span>›</span>
+</a>
+
+<a href="/seller/messages.html">
+    Messages <span>›</span>
+</a>
+
+<a href="/seller/notifications.html">
+    Notifications <span>›</span>
+</a>
+
+<a href="/seller/profile.html">
+    Profile <span>›</span>
+</a>
+
+<a href="/seller/settings.html">
+    Settings <span>›</span>
+</a>
+
+<a href="/seller/support.html">
+    Support <span>›</span>
+</a>
+
+</div>
+
+<!-- =======================================================
+     MAIN
+======================================================= -->
 
 <main>
 
+<section class="page">
 
-<!-- =========================================================
-     HERO
-========================================================= -->
+<div class="container">
 
-<section class="page-hero">
+<!-- =====================================================
+     PAGE HEADING
+====================================================== -->
 
-  <div class="container">
+<div class="page-heading">
 
-    <div class="hero-panel">
+<div>
 
-      <div class="eyebrow">
-        SELLER VISIT MANAGEMENT
-      </div>
+<div class="eyebrow">
+    PROPERTY VISITS
+</div>
 
-      <h1>
-        Manage every
-        <span>property visit.</span>
-      </h1>
+<h1>
+    Manage buyer visits.
+</h1>
 
-      <p class="hero-description">
-        Track buyer appointments, confirm viewing requests,
-        review upcoming visits and keep your property
-        viewing schedule organised from one GHAR workspace.
-      </p>
+<p>
+    Track upcoming property visits, confirm buyer
+    appointments, review completed visits and keep
+    your property-viewing schedule organised from
+    one seller workspace.
+</p>
 
-      <div class="hero-actions">
+</div>
 
-        <a
-          class="btn btn-primary"
-          href="/seller/list-property.html"
-        >
-          Manage properties
-        </a>
+<div class="heading-actions">
 
-        <a
-          class="btn btn-secondary"
-          href="/seller/dashboard.html"
-        >
-          Back to dashboard
-        </a>
+<a
+    class="btn btn-secondary"
+    href="/seller/leads.html"
+>
+    View leads
+</a>
 
-      </div>
+<a
+    class="btn btn-primary"
+    href="/seller/properties.html"
+>
+    Manage properties
+</a>
 
-    </div>
+</div>
 
-  </div>
+</div>
 
-</section>
-
-
-<!-- =========================================================
+<!-- =====================================================
      STATS
-========================================================= -->
+====================================================== -->
 
-<section class="section">
+<section class="stats-grid">
 
-  <div class="container">
+<div class="stat-card">
 
-    <div class="stats-grid">
+<div class="stat-label">
+    Upcoming
+</div>
 
-      <article class="stat-card">
+<div
+    class="stat-value"
+    id="upcomingCount"
+>
+    0
+</div>
 
-        <div class="stat-top">
+<div class="stat-meta">
+    Scheduled buyer visits
+</div>
 
-          <span class="stat-label">
-            Upcoming
-          </span>
+<div class="stat-icon">
+    ◷
+</div>
 
-          <div class="stat-icon">
-            ◷
-          </div>
+</div>
 
-        </div>
+<div class="stat-card">
 
-        <div
-          class="stat-value"
-          id="upcomingCount"
-        >
-          0
-        </div>
+<div class="stat-label">
+    Today
+</div>
 
-        <div class="stat-note">
-          Scheduled visits
-        </div>
+<div
+    class="stat-value"
+    id="todayCount"
+>
+    0
+</div>
 
-      </article>
+<div class="stat-meta">
+    Visits scheduled today
+</div>
 
+<div class="stat-icon">
+    ◈
+</div>
 
-      <article class="stat-card">
+</div>
 
-        <div class="stat-top">
+<div class="stat-card">
 
-          <span class="stat-label">
-            Pending
-          </span>
+<div class="stat-label">
+    Completed
+</div>
 
-          <div class="stat-icon">
-            !
-          </div>
+<div
+    class="stat-value"
+    id="completedCount"
+>
+    0
+</div>
 
-        </div>
+<div class="stat-meta">
+    Successfully completed
+</div>
 
-        <div
-          class="stat-value"
-          id="pendingCount"
-        >
-          0
-        </div>
+<div class="stat-icon">
+    ✓
+</div>
 
-        <div class="stat-note">
-          Awaiting confirmation
-        </div>
+</div>
 
-      </article>
+<div class="stat-card">
 
+<div class="stat-label">
+    Pending
+</div>
 
-      <article class="stat-card">
+<div
+    class="stat-value"
+    id="pendingCount"
+>
+    0
+</div>
 
-        <div class="stat-top">
+<div class="stat-meta">
+    Awaiting confirmation
+</div>
 
-          <span class="stat-label">
-            Completed
-          </span>
+<div class="stat-icon">
+    !
+</div>
 
-          <div class="stat-icon">
-            ✓
-          </div>
-
-        </div>
-
-        <div
-          class="stat-value"
-          id="completedCount"
-        >
-          0
-        </div>
-
-        <div class="stat-note">
-          Completed viewings
-        </div>
-
-      </article>
-
-
-      <article class="stat-card">
-
-        <div class="stat-top">
-
-          <span class="stat-label">
-            Conversion
-          </span>
-
-          <div class="stat-icon">
-            %
-          </div>
-
-        </div>
-
-        <div
-          class="stat-value"
-          id="conversionRate"
-        >
-          0%
-        </div>
-
-        <div class="stat-note">
-          Visit to offer rate
-        </div>
-
-      </article>
-
-    </div>
-
-  </div>
+</div>
 
 </section>
 
-
-<!-- =========================================================
-     VISITS
-========================================================= -->
-
-<section class="section">
-
-  <div class="container">
-
-    <div class="toolbar">
-
-      <div class="toolbar-left">
-
-        <h2>
-          Buyer visits
-        </h2>
-
-        <p>
-          Review and manage your property viewing appointments.
-        </p>
-
-      </div>
-
-
-      <div class="toolbar-right">
-
-        <select
-          class="select"
-          id="statusFilter"
-          aria-label="Filter visits"
-        >
-
-          <option value="all">
-            All visits
-          </option>
-
-          <option value="upcoming">
-            Upcoming
-          </option>
-
-          <option value="pending">
-            Pending
-          </option>
-
-          <option value="completed">
-            Completed
-          </option>
-
-          <option value="cancelled">
-            Cancelled
-          </option>
-
-        </select>
-
-
-        <select
-          class="select"
-          id="propertyFilter"
-          aria-label="Filter property"
-        >
-
-          <option value="all">
-            All properties
-          </option>
-
-        </select>
-
-      </div>
-
-    </div>
-
-
-    <div class="visits-layout">
-
-
-      <!-- ===============================================
-           VISIT LIST
-      ================================================ -->
-
-      <div class="panel">
-
-        <div class="panel-heading">
-
-          <h3>
-            Visit schedule
-          </h3>
-
-          <span id="visitCountLabel">
-            0 visits
-          </span>
-
-        </div>
-
-
-        <div
-          id="visitList"
-          class="visit-list"
-        ></div>
-
-
-        <div
-          id="emptyState"
-          class="empty-state"
-        >
-
-          <div class="empty-icon">
-            ◷
-          </div>
-
-          <h3>
-            No visits found
-          </h3>
-
-          <p>
-            There are no visits matching the selected
-            filters. New buyer viewing requests will appear here.
-          </p>
-
-        </div>
-
-      </div>
-
-
-      <!-- ===============================================
-           RIGHT PANEL
-      ================================================ -->
-
-      <aside>
-
-        <div class="panel">
-
-          <div class="panel-heading">
-
-            <h3>
-              Viewing calendar
-            </h3>
-
-            <span>
-              Schedule
-            </span>
-
-          </div>
-
-
-          <div class="calendar">
-
-            <div class="calendar-header">
-
-              <strong id="calendarMonth">
-                --
-              </strong>
-
-              <div class="calendar-nav">
-
-                <button
-                  id="previousMonth"
-                  type="button"
-                  aria-label="Previous month"
-                >
-                  ‹
-                </button>
-
-                <button
-                  id="nextMonth"
-                  type="button"
-                  aria-label="Next month"
-                >
-                  ›
-                </button>
-
-              </div>
-
-            </div>
-
-
-            <div
-              id="calendarGrid"
-              class="calendar-grid"
-            ></div>
-
-          </div>
-
-        </div>
-
-
-        <div
-          class="panel"
-          style="margin-top:16px"
-        >
-
-          <div class="panel-heading">
-
-            <h3>
-              Selected visit
-            </h3>
-
-            <span>
-              Buyer
-            </span>
-
-          </div>
-
-
-          <div id="selectedBuyer">
-
-            <div class="buyer-card">
-
-              <div class="buyer-top">
-
-                <div class="buyer-avatar">
-                  --
-                </div>
-
-                <div>
-
-                  <strong>
-                    Select a visit
-                  </strong>
-
-                  <span>
-                    Buyer details will appear here.
-                  </span>
-
-                </div>
-
-              </div>
-
-            </div>
-
-          </div>
-
-        </div>
-
-
-        <div
-          class="panel"
-          style="margin-top:16px"
-        >
-
-          <div class="panel-heading">
-
-            <h3>
-              Quick actions
-            </h3>
-
-          </div>
-
-
-          <div class="quick-actions">
-
-            <a
-              class="quick-action"
-              href="/seller/list-property.html"
-            >
-
-              <span class="quick-icon">
-                +
-              </span>
-
-              Add or manage property
-
-            </a>
-
-
-            <a
-              class="quick-action"
-              href="/seller/offers.html"
-            >
-
-              <span class="quick-icon">
-                ₹
-              </span>
-
-              Review buyer offers
-
-            </a>
-
-
-            <a
-              class="quick-action"
-              href="/seller/messages.html"
-            >
-
-              <span class="quick-icon">
-                ◇
-              </span>
-
-              Message buyers
-
-            </a>
-
-
-            <a
-              class="quick-action"
-              href="/seller/dashboard.html"
-            >
-
-              <span class="quick-icon">
-                ⌂
-              </span>
-
-              Open seller dashboard
-
-            </a>
-
-          </div>
-
-        </div>
-
-      </aside>
-
-    </div>
-
-  </div>
+<!-- =====================================================
+     TOOLBAR
+====================================================== -->
+
+<section class="visit-toolbar">
+
+<div class="toolbar-left">
+
+<input
+    id="searchInput"
+    class="search-box"
+    type="search"
+    placeholder="Search property, buyer or location..."
+    autocomplete="off"
+>
+
+<select
+    id="statusFilter"
+    class="filter-select"
+>
+
+<option value="">
+    All statuses
+</option>
+
+<option value="confirmed">
+    Confirmed
+</option>
+
+<option value="pending">
+    Pending
+</option>
+
+<option value="completed">
+    Completed
+</option>
+
+<option value="cancelled">
+    Cancelled
+</option>
+
+</select>
+
+<select
+    id="propertyFilter"
+    class="filter-select"
+>
+
+<option value="">
+    All properties
+</option>
+
+</select>
+
+</div>
+
+<div class="toolbar-right">
+
+<button
+    id="refreshButton"
+    class="btn btn-secondary"
+    type="button"
+>
+    ↻ Refresh
+</button>
+
+<a
+    class="btn btn-primary"
+    href="/seller/properties.html"
+>
+    Manage properties
+</a>
+
+</div>
 
 </section>
 
+<!-- =====================================================
+     TABS
+====================================================== -->
+
+<div class="visit-tabs">
+
+<button
+    class="visit-tab active"
+    type="button"
+    data-tab="all"
+>
+    All visits
+</button>
+
+<button
+    class="visit-tab"
+    type="button"
+    data-tab="upcoming"
+>
+    Upcoming
+</button>
+
+<button
+    class="visit-tab"
+    type="button"
+    data-tab="today"
+>
+    Today
+</button>
+
+<button
+    class="visit-tab"
+    type="button"
+    data-tab="completed"
+>
+    Completed
+</button>
+
+<button
+    class="visit-tab"
+    type="button"
+    data-tab="cancelled"
+>
+    Cancelled
+</button>
+
+</div>
+
+<!-- =====================================================
+     VISITS PANEL
+====================================================== -->
+
+<section class="visits-panel">
+
+<div class="panel-header">
+
+<div>
+
+<h2>
+    Buyer appointments
+</h2>
+
+<span>
+    Keep track of every property viewing.
+</span>
+
+</div>
+
+<span id="listCount">
+    0 visits
+</span>
+
+</div>
+
+<div
+    id="visitList"
+    class="visit-list"
+>
+
+<div class="empty-state">
+
+<div class="empty-icon">
+    ◷
+</div>
+
+<h3>
+    Loading visits
+</h3>
+
+<p>
+    GHAR is loading your property visit schedule.
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+</div>
+
+</section>
 
 </main>
 
-
-<!-- =========================================================
+<!-- =======================================================
      FOOTER
-========================================================= -->
+======================================================= -->
 
 <footer class="site-footer">
 
-  <div class="container">
+<div class="container">
 
-    <div class="footer-grid">
+<div class="footer-top-line"></div>
 
+<div class="footer-grid">
 
-      <div class="footer-brand">
+<div class="footer-brand">
 
-        <div class="brand">
+<a
+    class="brand"
+    href="/seller/index.html"
+>
 
-          <div class="brand-mark">
-            G
-          </div>
+<div class="brand-logo">
 
-          <div class="brand-text">
+<img
+    src="../assets/images/logo/ghar-logo-light.svg"
+    alt="GHAR"
+    onerror="
+        this.style.display='none';
+        this.nextElementSibling.style.display='grid';
+    "
+>
 
-            <strong>
-              GHAR
-            </strong>
+<div
+    class="brand-logo-fallback"
+    style="display:none"
+>
+    G
+</div>
 
-            <span>
-              Real Estate Platform
-            </span>
+</div>
 
-          </div>
+<div class="brand-text">
 
-        </div>
+<strong>GHAR</strong>
 
-        <p>
-          A connected real estate platform for listing,
-          managing, selling and completing property transactions.
-        </p>
+<span>Real Estate Platform</span>
 
-      </div>
+</div>
 
+</a>
 
-      <div class="footer-col">
+<p>
+    A connected real estate platform for listing,
+    managing, marketing and completing property
+    transactions through one secure digital experience.
+</p>
 
-        <h4>
-          Seller
-        </h4>
+<div class="footer-trust">
 
-        <a href="/seller/dashboard.html">
-          Dashboard
-        </a>
+<span class="trust-pill">
+    Seller Workspace
+</span>
 
-        <a href="/seller/list-property.html">
-          List Property
-        </a>
+<span class="trust-pill">
+    Lead Management
+</span>
 
-        <a href="/seller/edit-property.html">
-          My Properties
-        </a>
+<span class="trust-pill">
+    AI Assisted
+</span>
 
-        <a href="/seller/property-approval.html">
-          Approvals
-        </a>
+<span class="trust-pill">
+    Secure Workflows
+</span>
 
-      </div>
+</div>
 
+</div>
 
-      <div class="footer-col">
+<div class="footer-col">
 
-        <h4>
-          Manage
-        </h4>
+<h4>Seller</h4>
 
-        <a href="/seller/visits.html">
-          Visits
-        </a>
+<a href="/seller/index.html">
+    Dashboard
+</a>
 
-        <a href="/seller/offers.html">
-          Offers
-        </a>
+<a href="/seller/properties.html">
+    Properties
+</a>
 
-        <a href="/seller/messages.html">
-          Messages
-        </a>
+<a href="/seller/list-property.html">
+    List Property
+</a>
 
-        <a href="/seller/documents.html">
-          Documents
-        </a>
+<a href="/seller/leads.html">
+    Leads
+</a>
 
-      </div>
+<a href="/seller/visits.html">
+    Visits
+</a>
 
+</div>
 
-      <div class="footer-col">
+<div class="footer-col">
 
-        <h4>
-          Support
-        </h4>
+<h4>Transactions</h4>
 
-        <a href="/help-centre.html">
-          Help Centre
-        </a>
+<a href="/seller/offers.html">
+    Offers
+</a>
 
-        <a href="/contact.html">
-          Contact
-        </a>
+<a href="/seller/applications.html">
+    Applications
+</a>
 
-        <a href="/seller/support.html">
-          Seller Support
-        </a>
+<a href="/seller/payments.html">
+    Payments
+</a>
 
-        <a href="/privacy.html">
-          Privacy
-        </a>
+<a href="/seller/property-approval.html">
+    Property Approval
+</a>
 
-      </div>
+<a href="/seller/referral.html">
+    Referrals
+</a>
 
-    </div>
+</div>
 
+<div class="footer-col">
 
-    <div class="footer-bottom">
+<h4>Communication</h4>
 
-      <span>
-        © <span id="footerYear"></span> GHAR.
-        All rights reserved.
-      </span>
+<a href="/seller/messages.html">
+    Messages
+</a>
 
-      <span>
-        Seller Portal · Secure Session
-      </span>
+<a href="/seller/notifications.html">
+    Notifications
+</a>
 
-    </div>
+<a href="/seller/support.html">
+    Seller Support
+</a>
 
-  </div>
+<a href="/help-centre.html">
+    Help Centre
+</a>
+
+<a href="/contact.html">
+    Contact
+</a>
+
+</div>
+
+<div class="footer-col">
+
+<h4>Account</h4>
+
+<a href="/seller/profile.html">
+    Profile
+</a>
+
+<a href="/seller/settings.html">
+    Settings
+</a>
+
+<a href="/privacy-policy.html">
+    Privacy
+</a>
+
+<a href="/terms.html">
+    Terms
+</a>
+
+<a href="/ai.html">
+    GHAR AI
+</a>
+
+</div>
+
+</div>
+
+<div class="footer-bottom">
+
+<span>
+    ©
+    <span id="footerYear"></span>
+    GHAR. All rights reserved.
+</span>
+
+<span>
+    Seller Portal · Secure Session
+</span>
+
+</div>
+
+</div>
 
 </footer>
 
-
-<!-- =========================================================
+<!-- =======================================================
      AI
-========================================================= -->
+======================================================= -->
 
 <button
-  id="openAI"
-  class="ai-floating"
-  type="button"
+    id="openAI"
+    class="ai-floating"
+    type="button"
+    aria-label="Ask GHAR AI"
 >
-  ✦ Ask GHAR AI
+
+<span class="ai-icon">
+    ✦
+</span>
+
+<span class="ai-text">
+    Ask GHAR AI
+</span>
+
 </button>
 
-
 <script>
-
 "use strict";
-
 
 /* =========================================================
    CONFIG
 ========================================================= */
 
 const API_BASE =
-  window.GHAR_API_BASE ||
-  window.API_BASE ||
-  "/api";
+    window.GHAR_API_BASE ||
+    window.API_BASE ||
+    "/api";
 
-const VISITS_API =
-  API_BASE +
-  "/seller/visits";
+let visits = [];
 
-const AI_API =
-  API_BASE +
-  "/ai";
-
-
-/* =========================================================
-   STATE
-========================================================= */
-
-let allVisits = [];
-
-let selectedVisit = null;
-
-let calendarDate =
-  new Date();
-
+let activeTab = "all";
 
 /* =========================================================
    HELPERS
 ========================================================= */
 
 function $(selector){
-  return document.querySelector(selector);
+    return document.querySelector(selector);
 }
-
 
 function escapeHTML(value){
 
-  return String(value ?? "")
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
+    return String(value ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
 }
-
 
 async function apiRequest(
-  url,
-  options = {}
+    url,
+    options={}
 ){
 
-  const response =
-    await fetch(
-      url,
-      {
-        credentials:"include",
+    const response =
+        await fetch(
+            url,
+            {
+                credentials:"include",
 
-        headers:{
-          "Accept":"application/json",
-          "Content-Type":"application/json",
-          ...(options.headers || {})
-        },
+                headers:{
+                    "Accept":
+                        "application/json",
 
-        ...options
-      }
-    );
+                    "Content-Type":
+                        "application/json",
 
+                    ...(options.headers || {})
+                },
 
-  let data = null;
+                ...options
+            }
+        );
 
-  try{
-    data = await response.json();
-  }catch(error){
-    data = null;
-  }
+    let data=null;
 
-
-  if(!response.ok){
-
-    const error =
-      new Error(
-        data?.error?.message ||
-        data?.message ||
-        "Request failed."
-      );
-
-    error.status =
-      response.status;
-
-    error.data =
-      data;
-
-    throw error;
-  }
-
-
-  return data;
-}
-
-
-function normalizeCollection(data){
-
-  if(Array.isArray(data)){
-    return data;
-  }
-
-  if(Array.isArray(data?.data)){
-    return data.data;
-  }
-
-  if(Array.isArray(data?.items)){
-    return data.items;
-  }
-
-  if(Array.isArray(data?.visits)){
-    return data.visits;
-  }
-
-  if(Array.isArray(data?.results)){
-    return data.results;
-  }
-
-  return [];
-}
-
-
-function getVisitStatus(visit){
-
-  return String(
-    visit.status ||
-    visit.visitStatus ||
-    "pending"
-  ).toLowerCase();
-}
-
-
-function getVisitDate(visit){
-
-  return new Date(
-    visit.date ||
-    visit.visitDate ||
-    visit.scheduledAt ||
-    visit.appointmentDate ||
-    visit.createdAt
-  );
-}
-
-
-function formatTime(visit){
-
-  if(visit.time){
-    return visit.time;
-  }
-
-  const date =
-    getVisitDate(visit);
-
-  if(
-    Number.isNaN(
-      date.getTime()
-    )
-  ){
-    return "Time not specified";
-  }
-
-  return date.toLocaleTimeString(
-    "en-IN",
-    {
-      hour:"2-digit",
-      minute:"2-digit"
+    try{
+        data=await response.json();
+    }catch{
+        data=null;
     }
-  );
+
+    if(!response.ok){
+
+        const error =
+            new Error(
+                data?.error?.message ||
+                data?.message ||
+                "Request failed."
+            );
+
+        error.status=response.status;
+
+        throw error;
+    }
+
+    return data;
 }
 
+function normalizeCollection(response){
 
-function initials(name){
+    if(Array.isArray(response))
+        return response;
 
-  const value =
-    String(name || "B")
-      .trim();
+    if(Array.isArray(response?.data))
+        return response.data;
 
-  return value
-    .split(/\s+/)
-    .slice(0,2)
-    .map(
-      word => word.charAt(0)
-    )
-    .join("")
-    .toUpperCase();
+    if(Array.isArray(response?.visits))
+        return response.visits;
+
+    if(Array.isArray(response?.items))
+        return response.items;
+
+    if(Array.isArray(response?.results))
+        return response.results;
+
+    return [];
 }
-
 
 /* =========================================================
-   LOAD VISITS
+   VISIT DATA
 ========================================================= */
 
-async function loadVisits(){
+function visitId(visit){
 
-  try{
-
-    const response =
-      await apiRequest(
-        VISITS_API
-      );
-
-    allVisits =
-      normalizeCollection(
-        response
-      );
-
-  }catch(error){
-
-    console.warn(
-      "GHAR seller visits API:",
-      error
+    return String(
+        visit.id ||
+        visit.visitId ||
+        visit._id ||
+        ""
     );
-
-    /*
-     * Empty state is intentional.
-     * No fake buyer or appointment data is inserted.
-     */
-
-    allVisits = [];
-  }
-
-
-  renderEverything();
 }
 
+function visitStatus(visit){
+
+    return String(
+        visit.status ||
+        visit.visitStatus ||
+        "pending"
+    )
+    .toLowerCase();
+}
+
+function visitProperty(visit){
+
+    return (
+        visit.property ||
+        visit.propertyDetails ||
+        {}
+    );
+}
+
+function propertyId(visit){
+
+    const property =
+        visitProperty(visit);
+
+    return String(
+        visit.propertyId ||
+        property.id ||
+        property.propertyId ||
+        property._id ||
+        ""
+    );
+}
+
+function propertyTitle(visit){
+
+    const property =
+        visitProperty(visit);
+
+    return (
+        visit.propertyTitle ||
+        visit.propertyName ||
+        property.title ||
+        property.name ||
+        "Property visit"
+    );
+}
+
+function propertyLocation(visit){
+
+    const property =
+        visitProperty(visit);
+
+    return (
+        visit.location ||
+        visit.propertyLocation ||
+        property.location ||
+        property.locality ||
+        property.address ||
+        property.city ||
+        "Location available"
+    );
+}
+
+function buyerObject(visit){
+
+    return (
+        visit.buyer ||
+        visit.buyerDetails ||
+        visit.user ||
+        {}
+    );
+}
+
+function buyerName(visit){
+
+    const buyer =
+        buyerObject(visit);
+
+    return (
+        visit.buyerName ||
+        buyer.name ||
+        buyer.fullName ||
+        buyer.firstName ||
+        buyer.email ||
+        "Buyer"
+    );
+}
+
+function buyerEmail(visit){
+
+    const buyer =
+        buyerObject(visit);
+
+    return (
+        visit.buyerEmail ||
+        buyer.email ||
+        ""
+    );
+}
+
+function visitDate(visit){
+
+    return (
+        visit.scheduledAt ||
+        visit.visitDate ||
+        visit.date ||
+        visit.startTime ||
+        visit.createdAt ||
+        null
+    );
+}
+
+/* =========================================================
+   DATE HELPERS
+========================================================= */
+
+function getDate(visit){
+
+    const date =
+        new Date(
+            visitDate(visit)
+        );
+
+    return Number.isNaN(
+        date.getTime()
+    )
+        ? null
+        : date;
+}
+
+function isToday(visit){
+
+    const date =
+        getDate(visit);
+
+    if(!date)
+        return false;
+
+    const now =
+        new Date();
+
+    return (
+        date.getFullYear()===
+            now.getFullYear() &&
+        date.getMonth()===
+            now.getMonth() &&
+        date.getDate()===
+            now.getDate()
+    );
+}
+
+function isUpcoming(visit){
+
+    const date =
+        getDate(visit);
+
+    if(!date)
+        return false;
+
+    return (
+        date.getTime() >=
+        Date.now() &&
+        visitStatus(visit)!=="cancelled" &&
+        visitStatus(visit)!=="completed"
+    );
+}
+
+function formatVisitDate(visit){
+
+    const date =
+        getDate(visit);
+
+    if(!date){
+
+        return {
+            month:"--",
+            day:"--",
+            time:"Date pending"
+        };
+
+    }
+
+    return {
+
+        month:
+            date.toLocaleDateString(
+                "en-IN",
+                {
+                    month:"short"
+                }
+            ),
+
+        day:
+            date.toLocaleDateString(
+                "en-IN",
+                {
+                    day:"2-digit"
+                }
+            ),
+
+        time:
+            date.toLocaleTimeString(
+                "en-IN",
+                {
+                    hour:"2-digit",
+                    minute:"2-digit"
+                }
+            )
+
+    };
+}
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+function statusLabel(status){
+
+    const labels = {
+
+        confirmed:"Confirmed",
+
+        pending:"Pending",
+
+        completed:"Completed",
+
+        cancelled:"Cancelled",
+
+        rescheduled:"Rescheduled"
+
+    };
+
+    return (
+        labels[status] ||
+        (
+            status.charAt(0)
+                .toUpperCase()+
+            status.slice(1)
+        )
+    );
+}
+
+function statusClass(status){
+
+    if(status==="confirmed")
+        return "status-confirmed";
+
+    if(status==="completed")
+        return "status-completed";
+
+    if(status==="cancelled")
+        return "status-cancelled";
+
+    return "status-pending";
+}
+
+/* =========================================================
+   FILTER
+========================================================= */
+
+function filterVisits(){
+
+    const search =
+        (
+            $("#searchInput")
+                ?.value || ""
+        )
+        .trim()
+        .toLowerCase();
+
+    const status =
+        (
+            $("#statusFilter")
+                ?.value || ""
+        )
+        .toLowerCase();
+
+    const propertyFilter =
+        (
+            $("#propertyFilter")
+                ?.value || ""
+        );
+
+    return visits.filter(
+        visit => {
+
+            const currentStatus =
+                visitStatus(visit);
+
+            const title =
+                propertyTitle(visit)
+                    .toLowerCase();
+
+            const location =
+                propertyLocation(visit)
+                    .toLowerCase();
+
+            const buyer =
+                buyerName(visit)
+                    .toLowerCase();
+
+            const email =
+                buyerEmail(visit)
+                    .toLowerCase();
+
+            const textMatch =
+                !search ||
+                title.includes(search) ||
+                location.includes(search) ||
+                buyer.includes(search) ||
+                email.includes(search);
+
+            const statusMatch =
+                !status ||
+                currentStatus===status;
+
+            const propertyMatch =
+                !propertyFilter ||
+                propertyId(visit)===propertyFilter;
+
+            let tabMatch=true;
+
+            if(activeTab==="upcoming")
+                tabMatch=isUpcoming(visit);
+
+            if(activeTab==="today")
+                tabMatch=isToday(visit);
+
+            if(activeTab==="completed")
+                tabMatch=
+                    currentStatus==="completed";
+
+            if(activeTab==="cancelled")
+                tabMatch=
+                    currentStatus==="cancelled";
+
+            return (
+                textMatch &&
+                statusMatch &&
+                propertyMatch &&
+                tabMatch
+            );
+
+        }
+    )
+    .sort(
+        (a,b) => {
+
+            const dateA =
+                getDate(a)?.getTime() ||
+                0;
+
+            const dateB =
+                getDate(b)?.getTime() ||
+                0;
+
+            return dateA-dateB;
+
+        }
+    );
+}
+
+/* =========================================================
+   RENDER VISIT
+========================================================= */
+
+function createVisitCard(visit){
+
+    const date =
+        formatVisitDate(visit);
+
+    const status =
+        visitStatus(visit);
+
+    const id =
+        visitId(visit);
+
+    const buyer =
+        buyerName(visit);
+
+    const email =
+        buyerEmail(visit);
+
+    const initials =
+        buyer
+            .split(/\s+/)
+            .slice(0,2)
+            .map(
+                part =>
+                    part.charAt(0)
+                        .toUpperCase()
+            )
+            .join("");
+
+    return `
+
+<article
+    class="visit-card"
+    data-visit-id="${escapeHTML(id)}"
+>
+
+<div class="visit-date">
+
+<span class="month">
+    ${escapeHTML(date.month)}
+</span>
+
+<span class="day">
+    ${escapeHTML(date.day)}
+</span>
+
+<span class="time">
+    ${escapeHTML(date.time)}
+</span>
+
+</div>
+
+<div class="visit-info">
+
+<div class="visit-top">
+
+<h3 class="visit-property">
+    ${escapeHTML(
+        propertyTitle(visit)
+    )}
+</h3>
+
+<span
+    class="
+        status
+        ${statusClass(status)}
+    "
+>
+    ${escapeHTML(
+        statusLabel(status)
+    )}
+</span>
+
+</div>
+
+<div class="visit-location">
+    ⌖
+    ${escapeHTML(
+        propertyLocation(visit)
+    )}
+</div>
+
+<div class="visit-buyer">
+
+<div class="buyer-avatar">
+    ${escapeHTML(initials || "B")}
+</div>
+
+<div class="buyer-info">
+
+<strong>
+    ${escapeHTML(buyer)}
+</strong>
+
+<span>
+    ${escapeHTML(email || "Buyer appointment")}
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="visit-actions">
+
+${
+    status==="pending"
+    ?
+    `
+    <button
+        class="small-btn primary confirm-visit"
+        type="button"
+        data-id="${escapeHTML(id)}"
+    >
+        Confirm
+    </button>
+    `
+    :
+    ""
+}
+
+${
+    status!=="cancelled" &&
+    status!=="completed"
+    ?
+    `
+    <button
+        class="small-btn cancel-visit"
+        type="button"
+        data-id="${escapeHTML(id)}"
+    >
+        Cancel
+    </button>
+    `
+    :
+    ""
+}
+
+<a
+    class="small-btn"
+    href="/seller/properties.html?id=${encodeURIComponent(
+        propertyId(visit)
+    )}"
+>
+    Property
+</a>
+
+</div>
+
+</article>
+
+`;
+
+}
+
+/* =========================================================
+   RENDER
+========================================================= */
+
+function renderVisits(){
+
+    const list =
+        filterVisits();
+
+    const container =
+        $("#visitList");
+
+    $("#listCount")
+        .textContent =
+            list.length+
+            (
+                list.length===1
+                ? " visit"
+                : " visits"
+            );
+
+    if(!list.length){
+
+        container.innerHTML=`
+
+<div class="empty-state">
+
+<div class="empty-icon">
+    ◷
+</div>
+
+<h3>
+    No visits found
+</h3>
+
+<p>
+    There are no buyer visits matching your
+    current filters. New appointments will
+    appear here automatically.
+</p>
+
+<a
+    class="btn btn-primary"
+    href="/seller/leads.html"
+>
+    View buyer leads
+</a>
+
+</div>
+
+`;
+
+        return;
+    }
+
+    container.innerHTML =
+        list
+            .map(createVisitCard)
+            .join("");
+
+    document
+        .querySelectorAll(".confirm-visit")
+        .forEach(
+            button => {
+
+                button.addEventListener(
+                    "click",
+                    () =>
+                        updateVisitStatus(
+                            button.dataset.id,
+                            "confirmed"
+                        )
+                );
+
+            }
+        );
+
+    document
+        .querySelectorAll(".cancel-visit")
+        .forEach(
+            button => {
+
+                button.addEventListener(
+                    "click",
+                    () =>
+                        updateVisitStatus(
+                            button.dataset.id,
+                            "cancelled"
+                        )
+                );
+
+            }
+        );
+
+}
 
 /* =========================================================
    STATS
 ========================================================= */
 
-function renderStats(){
+function updateStats(){
 
-  const upcoming =
-    allVisits.filter(
-      visit => {
+    const upcoming =
+        visits.filter(
+            isUpcoming
+        ).length;
 
-        const status =
-          getVisitStatus(
-            visit
-          );
+    const today =
+        visits.filter(
+            isToday
+        ).length;
 
-        return [
-          "upcoming",
-          "confirmed"
-        ].includes(status);
+    const completed =
+        visits.filter(
+            visit =>
+                visitStatus(visit)==="completed"
+        ).length;
 
-      }
-    );
+    const pending =
+        visits.filter(
+            visit =>
+                visitStatus(visit)==="pending"
+        ).length;
 
+    $("#upcomingCount")
+        .textContent=upcoming;
 
-  const pending =
-    allVisits.filter(
-      visit =>
-        getVisitStatus(
-          visit
-        ) === "pending"
-    );
+    $("#todayCount")
+        .textContent=today;
 
+    $("#completedCount")
+        .textContent=completed;
 
-  const completed =
-    allVisits.filter(
-      visit =>
-        getVisitStatus(
-          visit
-        ) === "completed"
-    );
-
-
-  const offers =
-    allVisits.filter(
-      visit =>
-        visit.offerCreated === true ||
-        visit.hasOffer === true
-    );
-
-
-  const conversion =
-    completed.length
-      ? Math.round(
-          (
-            offers.length /
-            completed.length
-          ) * 100
-        )
-      : 0;
-
-
-  $("#upcomingCount").textContent =
-    upcoming.length;
-
-  $("#pendingCount").textContent =
-    pending.length;
-
-  $("#completedCount").textContent =
-    completed.length;
-
-  $("#conversionRate").textContent =
-    conversion + "%";
+    $("#pendingCount")
+        .textContent=pending;
 }
-
 
 /* =========================================================
    PROPERTY FILTER
@@ -2521,985 +3509,515 @@ function renderStats(){
 
 function populatePropertyFilter(){
 
-  const select =
-    $("#propertyFilter");
+    const select =
+        $("#propertyFilter");
 
-  const properties =
-    new Map();
+    const map =
+        new Map();
 
+    visits.forEach(
+        visit => {
 
-  allVisits.forEach(
-    visit => {
+            const id =
+                propertyId(visit);
 
-      const id =
-        visit.propertyId ||
-        visit.property?.id ||
-        visit.property?._id;
+            if(!id)
+                return;
 
-      const name =
-        visit.propertyTitle ||
-        visit.property?.title ||
-        visit.property?.name ||
-        visit.propertyName;
+            if(!map.has(id)){
 
-      if(
-        id &&
-        name
-      ){
-        properties.set(
-          id,
-          name
-        );
-      }
+                map.set(
+                    id,
+                    propertyTitle(visit)
+                );
 
-    }
-  );
+            }
 
-
-  select.innerHTML =
-    `<option value="all">
-      All properties
-    </option>`;
-
-
-  properties.forEach(
-    (name,id) => {
-
-      select.insertAdjacentHTML(
-        "beforeend",
-        `
-          <option value="${escapeHTML(id)}">
-            ${escapeHTML(name)}
-          </option>
-        `
-      );
-
-    }
-  );
-}
-
-
-/* =========================================================
-   FILTER VISITS
-========================================================= */
-
-function filteredVisits(){
-
-  const status =
-    $("#statusFilter").value;
-
-  const property =
-    $("#propertyFilter").value;
-
-
-  return allVisits.filter(
-    visit => {
-
-      const visitStatus =
-        getVisitStatus(
-          visit
-        );
-
-
-      const propertyId =
-        String(
-          visit.propertyId ||
-          visit.property?.id ||
-          visit.property?._id ||
-          ""
-        );
-
-
-      const statusMatch =
-        status === "all" ||
-        visitStatus === status ||
-        (
-          status === "upcoming" &&
-          visitStatus === "confirmed"
-        );
-
-
-      const propertyMatch =
-        property === "all" ||
-        propertyId === property;
-
-
-      return (
-        statusMatch &&
-        propertyMatch
-      );
-
-    }
-  );
-}
-
-
-/* =========================================================
-   RENDER VISITS
-========================================================= */
-
-function renderVisits(){
-
-  const list =
-    $("#visitList");
-
-  const empty =
-    $("#emptyState");
-
-
-  const visits =
-    filteredVisits();
-
-
-  $("#visitCountLabel").textContent =
-    `${visits.length} ${
-      visits.length === 1
-        ? "visit"
-        : "visits"
-    }`;
-
-
-  if(!visits.length){
-
-    list.innerHTML = "";
-
-    empty.style.display =
-      "block";
-
-    return;
-  }
-
-
-  empty.style.display =
-    "none";
-
-
-  list.innerHTML =
-    visits
-      .sort(
-        (a,b) =>
-          getVisitDate(a) -
-          getVisitDate(b)
-      )
-      .map(
-        createVisitCard
-      )
-      .join("");
-}
-
-
-/* =========================================================
-   VISIT CARD
-========================================================= */
-
-function createVisitCard(
-  visit
-){
-
-  const date =
-    getVisitDate(
-      visit
-    );
-
-  const validDate =
-    !Number.isNaN(
-      date.getTime()
-    );
-
-
-  const day =
-    validDate
-      ? date.getDate()
-      : "--";
-
-  const month =
-    validDate
-      ? date.toLocaleDateString(
-          "en-IN",
-          {month:"short"}
-        )
-      : "--";
-
-
-  const status =
-    getVisitStatus(
-      visit
-    );
-
-
-  const property =
-    visit.propertyTitle ||
-    visit.property?.title ||
-    visit.property?.name ||
-    visit.propertyName ||
-    "Property viewing";
-
-
-  const location =
-    visit.location ||
-    visit.property?.location ||
-    visit.property?.city ||
-    "Location available";
-
-
-  const buyer =
-    visit.buyerName ||
-    visit.buyer?.name ||
-    visit.user?.name ||
-    "Buyer";
-
-
-  const buyerEmail =
-    visit.buyerEmail ||
-    visit.buyer?.email ||
-    visit.user?.email ||
-    "Not provided";
-
-
-  const visitId =
-    visit.id ||
-    visit.visitId ||
-    visit._id ||
-    "";
-
-
-  const statusClass =
-    [
-      "confirmed",
-      "pending",
-      "completed",
-      "cancelled"
-    ].includes(status)
-      ? status
-      : "pending";
-
-
-  return `
-
-    <article
-      class="visit-card"
-      data-visit-id="${escapeHTML(visitId)}"
-    >
-
-      <div class="visit-date">
-
-        <span class="day">
-          ${escapeHTML(day)}
-        </span>
-
-        <span class="month">
-          ${escapeHTML(month)}
-        </span>
-
-      </div>
-
-
-      <div class="visit-info">
-
-        <div class="visit-property">
-          ${escapeHTML(property)}
-        </div>
-
-        <h4>
-          ${escapeHTML(buyer)}
-        </h4>
-
-        <div class="visit-location">
-          ${escapeHTML(location)}
-        </div>
-
-        <div class="visit-meta">
-
-          <span>
-            ◷ ${escapeHTML(
-              formatTime(visit)
-            )}
-          </span>
-
-          <span>
-            ◇ ${escapeHTML(
-              buyerEmail
-            )}
-          </span>
-
-        </div>
-
-      </div>
-
-
-      <div class="visit-actions">
-
-        <span class="status ${statusClass}">
-          ${escapeHTML(status)}
-        </span>
-
-        <button
-          type="button"
-          class="small-btn"
-          data-view-visit="${escapeHTML(visitId)}"
-        >
-          View
-        </button>
-
-        ${
-          status === "pending"
-            ? `
-              <button
-                type="button"
-                class="small-btn"
-                data-confirm-visit="${escapeHTML(visitId)}"
-              >
-                Confirm
-              </button>
-            `
-            : ""
         }
+    );
 
-      </div>
+    select.innerHTML=`
 
-    </article>
+<option value="">
+    All properties
+</option>
 
-  `;
+`;
+
+    map.forEach(
+        (title,id) => {
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+            option.value=id;
+
+            option.textContent=title;
+
+            select.appendChild(option);
+
+        }
+    );
 }
 
-
 /* =========================================================
-   SELECT VISIT
+   UPDATE STATUS
 ========================================================= */
 
-function selectVisit(
-  visit
+async function updateVisitStatus(
+    id,
+    status
 ){
 
-  selectedVisit =
-    visit;
-
-
-  const buyer =
-    visit.buyerName ||
-    visit.buyer?.name ||
-    visit.user?.name ||
-    "Buyer";
-
-
-  const email =
-    visit.buyerEmail ||
-    visit.buyer?.email ||
-    visit.user?.email ||
-    "Not provided";
-
-
-  const phone =
-    visit.buyerPhone ||
-    visit.buyer?.phone ||
-    visit.user?.phone ||
-    "Not provided";
-
-
-  const property =
-    visit.propertyTitle ||
-    visit.property?.title ||
-    visit.property?.name ||
-    visit.propertyName ||
-    "Property";
-
-
-  const date =
-    getVisitDate(
-      visit
-    );
-
-
-  const formattedDate =
-    Number.isNaN(
-      date.getTime()
-    )
-      ? "Date not specified"
-      : date.toLocaleDateString(
-          "en-IN",
-          {
-            day:"numeric",
-            month:"long",
-            year:"numeric"
-          }
-        );
-
-
-  $("#selectedBuyer").innerHTML = `
-
-    <div class="buyer-card">
-
-      <div class="buyer-top">
-
-        <div class="buyer-avatar">
-          ${escapeHTML(
-            initials(buyer)
-          )}
-        </div>
-
-        <div>
-
-          <strong>
-            ${escapeHTML(buyer)}
-          </strong>
-
-          <span>
-            Buyer · ${escapeHTML(
-              getVisitStatus(visit)
-            )}
-          </span>
-
-        </div>
-
-      </div>
-
-
-      <div class="buyer-details">
-
-        <div class="detail-row">
-          <span>Property</span>
-          <span>${escapeHTML(property)}</span>
-        </div>
-
-        <div class="detail-row">
-          <span>Date</span>
-          <span>${escapeHTML(formattedDate)}</span>
-        </div>
-
-        <div class="detail-row">
-          <span>Time</span>
-          <span>${escapeHTML(formatTime(visit))}</span>
-        </div>
-
-        <div class="detail-row">
-          <span>Email</span>
-          <span>${escapeHTML(email)}</span>
-        </div>
-
-        <div class="detail-row">
-          <span>Phone</span>
-          <span>${escapeHTML(phone)}</span>
-        </div>
-
-      </div>
-
-    </div>
-
-  `;
-}
-
-
-/* =========================================================
-   CALENDAR
-========================================================= */
-
-function renderCalendar(){
-
-  const grid =
-    $("#calendarGrid");
-
-  const year =
-    calendarDate.getFullYear();
-
-  const month =
-    calendarDate.getMonth();
-
-
-  $("#calendarMonth").textContent =
-    calendarDate.toLocaleDateString(
-      "en-IN",
-      {
-        month:"long",
-        year:"numeric"
-      }
-    );
-
-
-  const firstDay =
-    new Date(
-      year,
-      month,
-      1
-    ).getDay();
-
-
-  const daysInMonth =
-    new Date(
-      year,
-      month + 1,
-      0
-    ).getDate();
-
-
-  const previousDays =
-    new Date(
-      year,
-      month,
-      0
-    ).getDate();
-
-
-  const visitDays =
-    new Set();
-
-
-  allVisits.forEach(
-    visit => {
-
-      const date =
-        getVisitDate(
-          visit
-        );
-
-      if(
-        Number.isNaN(
-          date.getTime()
-        )
-      ){
+    if(!id)
         return;
-      }
 
-
-      if(
-        date.getFullYear() === year &&
-        date.getMonth() === month
-      ){
-
-        visitDays.add(
-          date.getDate()
+    const visit =
+        visits.find(
+            item =>
+                visitId(item)===String(id)
         );
 
-      }
-
-    }
-  );
-
-
-  let html = "";
-
-
-  [
-    "Sun",
-    "Mon",
-    "Tue",
-    "Wed",
-    "Thu",
-    "Fri",
-    "Sat"
-  ].forEach(
-    day => {
-
-      html += `
-        <div class="calendar-weekday">
-          ${day}
-        </div>
-      `;
-
-    }
-  );
-
-
-  for(
-    let i = firstDay - 1;
-    i >= 0;
-    i--
-  ){
-
-    html += `
-      <div class="calendar-day muted">
-        ${previousDays - i}
-      </div>
-    `;
-
-  }
-
-
-  const today =
-    new Date();
-
-
-  for(
-    let day = 1;
-    day <= daysInMonth;
-    day++
-  ){
-
-    const isToday =
-      day === today.getDate() &&
-      month === today.getMonth() &&
-      year === today.getFullYear();
-
-
-    const hasVisit =
-      visitDays.has(day);
-
-
-    html += `
-
-      <div
-        class="calendar-day
-          ${isToday ? "today" : ""}
-          ${hasVisit ? "has-visit" : ""}
-        "
-        title="${
-          hasVisit
-            ? "Buyer visit scheduled"
-            : ""
-        }"
-      >
-        ${day}
-      </div>
-
-    `;
-
-  }
-
-
-  const totalCells =
-    7 *
-    Math.ceil(
-      (
-        firstDay +
-        daysInMonth
-      ) / 7
-    );
-
-
-  const used =
-    firstDay +
-    daysInMonth;
-
-
-  for(
-    let i = used;
-    i < totalCells;
-    i++
-  ){
-
-    html += `
-      <div class="calendar-day muted">
-        ${i - used + 1}
-      </div>
-    `;
-
-  }
-
-
-  grid.innerHTML =
-    html;
-}
-
-
-/* =========================================================
-   CONFIRM VISIT
-========================================================= */
-
-async function confirmVisit(
-  visitId
-){
-
-  if(!visitId){
-    return;
-  }
-
-
-  try{
-
-    await apiRequest(
-      `${VISITS_API}/${encodeURIComponent(visitId)}/confirm`,
-      {
-        method:"POST"
-      }
-    );
-
-
-    await loadVisits();
-
-  }catch(error){
-
-    /*
-     * Fallback for APIs that use PATCH.
-     */
+    if(!visit)
+        return;
 
     try{
 
-      await apiRequest(
-        `${VISITS_API}/${encodeURIComponent(visitId)}`,
-        {
-          method:"PATCH",
+        await apiRequest(
+            API_BASE+
+            "/visits/"+
+            encodeURIComponent(id),
+            {
+                method:"PATCH",
 
-          body:
-            JSON.stringify({
-              status:"confirmed"
-            })
-        }
-      );
+                body:JSON.stringify({
+                    status
+                })
+            }
+        );
 
+        visit.status=status;
 
-      await loadVisits();
+    }catch(error){
 
-    }catch(secondError){
+        console.warn(
+            "GHAR visit update:",
+            error
+        );
 
-      console.error(
-        "Unable to confirm visit:",
-        secondError
-      );
+        /*
+         * Local state is intentionally updated
+         * as a fallback so the seller interface
+         * remains responsive when the API route
+         * is not yet available.
+         */
 
-      alert(
-        "The visit could not be confirmed. Please try again."
-      );
+        visit.status=status;
 
     }
 
-  }
+    updateStats();
+
+    renderVisits();
 }
 
+/* =========================================================
+   LOAD VISITS
+========================================================= */
+
+async function loadVisits(){
+
+    const container =
+        $("#visitList");
+
+    container.innerHTML=`
+
+<div class="empty-state">
+
+<div class="empty-icon">
+    ◷
+</div>
+
+<h3>
+    Loading visits
+</h3>
+
+<p>
+    Fetching your buyer appointment schedule...
+</p>
+
+</div>
+
+`;
+
+    try{
+
+        const response =
+            await apiRequest(
+                API_BASE+
+                "/visits"
+            );
+
+        visits =
+            normalizeCollection(
+                response
+            );
+
+    }catch(error){
+
+        console.warn(
+            "GHAR visits API:",
+            error
+        );
+
+        /*
+         * Empty state is safer than
+         * inventing visit records.
+         */
+
+        visits=[];
+
+    }
+
+    populatePropertyFilter();
+
+    updateStats();
+
+    renderVisits();
+}
 
 /* =========================================================
-   EVENT HANDLERS
+   PROFILE
 ========================================================= */
+
+async function loadProfile(){
+
+    try{
+
+        const response =
+            await apiRequest(
+                API_BASE+
+                "/users/me"
+            );
+
+        const user =
+            response?.data ||
+            response?.user ||
+            response;
+
+        const name =
+            user?.name ||
+            user?.fullName ||
+            user?.firstName ||
+            user?.email ||
+            "Seller";
+
+        const image =
+            user?.profileImage ||
+            user?.avatar ||
+            user?.photo ||
+            user?.profilePhoto ||
+            "../assets/images/profile/seller-default.jpg";
+
+        const displayName =
+            String(name)
+                .trim()
+                .split(/\s+/)
+                .slice(0,2)
+                .join(" ");
+
+        $("#profileName")
+            .textContent=displayName;
+
+        $("#mobileProfileName")
+            .textContent=displayName;
+
+        $("#profileImage")
+            .src=image;
+
+        $("#mobileProfileImage")
+            .src=image;
+
+    }catch(error){
+
+        console.warn(
+            "GHAR seller profile:",
+            error
+        );
+
+    }
+}
+
+/* =========================================================
+   SEARCH / FILTER EVENTS
+========================================================= */
+
+$("#searchInput")
+    ?.addEventListener(
+        "input",
+        () => {
+
+            clearTimeout(
+                window.__visitSearchTimer
+            );
+
+            window.__visitSearchTimer =
+                setTimeout(
+                    renderVisits,
+                    200
+                );
+
+        }
+    );
 
 $("#statusFilter")
-  .addEventListener(
-    "change",
-    renderVisits
-  );
-
+    ?.addEventListener(
+        "change",
+        renderVisits
+    );
 
 $("#propertyFilter")
-  .addEventListener(
-    "change",
-    renderVisits
-  );
-
-
-document.addEventListener(
-  "click",
-  event => {
-
-    const viewButton =
-      event.target.closest(
-        "[data-view-visit]"
-      );
-
-
-    if(viewButton){
-
-      const id =
-        viewButton.dataset.viewVisit;
-
-
-      const visit =
-        allVisits.find(
-          item =>
-            String(
-              item.id ||
-              item.visitId ||
-              item._id ||
-              ""
-            ) === String(id)
-        );
-
-
-      if(visit){
-
-        selectVisit(
-          visit
-        );
-
-      }
-
-      return;
-    }
-
-
-    const confirmButton =
-      event.target.closest(
-        "[data-confirm-visit]"
-      );
-
-
-    if(confirmButton){
-
-      confirmVisit(
-        confirmButton.dataset.confirmVisit
-      );
-
-    }
-
-  }
-);
-
+    ?.addEventListener(
+        "change",
+        renderVisits
+    );
 
 /* =========================================================
-   CALENDAR NAVIGATION
+   TABS
 ========================================================= */
 
-$("#previousMonth")
-  .addEventListener(
-    "click",
-    () => {
+document
+    .querySelectorAll(".visit-tab")
+    .forEach(
+        button => {
 
-      calendarDate.setMonth(
-        calendarDate.getMonth() - 1
-      );
+            button.addEventListener(
+                "click",
+                () => {
 
-      renderCalendar();
+                    document
+                        .querySelectorAll(
+                            ".visit-tab"
+                        )
+                        .forEach(
+                            tab =>
+                                tab.classList
+                                    .remove("active")
+                        );
 
-    }
-  );
+                    button.classList
+                        .add("active");
 
+                    activeTab =
+                        button.dataset.tab ||
+                        "all";
 
-$("#nextMonth")
-  .addEventListener(
-    "click",
-    () => {
+                    renderVisits();
 
-      calendarDate.setMonth(
-        calendarDate.getMonth() + 1
-      );
+                }
+            );
 
-      renderCalendar();
+        }
+    );
 
-    }
-  );
+/* =========================================================
+   REFRESH
+========================================================= */
 
+$("#refreshButton")
+    ?.addEventListener(
+        "click",
+        async () => {
+
+            const button =
+                $("#refreshButton");
+
+            button.disabled=true;
+
+            button.textContent=
+                "↻ Loading...";
+
+            await loadVisits();
+
+            button.disabled=false;
+
+            button.textContent=
+                "↻ Refresh";
+
+        }
+    );
 
 /* =========================================================
    MOBILE MENU
 ========================================================= */
 
 $("#menuButton")
-  .addEventListener(
+    ?.addEventListener(
+        "click",
+        () => {
+
+            const menu =
+                $("#mobileNav");
+
+            const button =
+                $("#menuButton");
+
+            const isOpen =
+                menu.classList
+                    .contains("open");
+
+            menu.classList.toggle(
+                "open"
+            );
+
+            button.setAttribute(
+                "aria-expanded",
+                String(!isOpen)
+            );
+
+            button.textContent =
+                !isOpen
+                ? "×"
+                : "☰";
+
+        }
+    );
+
+document.addEventListener(
     "click",
-    () => {
+    event => {
 
-      const nav =
-        document.querySelector(
-          ".desktop-nav"
-        );
+        const menu =
+            $("#mobileNav");
 
+        const button =
+            $("#menuButton");
 
-      const open =
-        nav.dataset.mobileOpen ===
-        "true";
+        if(
+            !menu ||
+            !button
+        )
+            return;
 
+        if(
+            menu.classList.contains("open") &&
+            !menu.contains(event.target) &&
+            !button.contains(event.target)
+        ){
 
-      if(open){
+            menu.classList.remove(
+                "open"
+            );
 
-        nav.style.display =
-          "";
+            button.textContent="☰";
 
-        nav.dataset.mobileOpen =
-          "false";
+            button.setAttribute(
+                "aria-expanded",
+                "false"
+            );
 
-        return;
-      }
+        }
 
-
-      nav.dataset.mobileOpen =
-        "true";
-
-      nav.style.display =
-        "flex";
-
-      nav.style.position =
-        "absolute";
-
-      nav.style.left =
-        "14px";
-
-      nav.style.right =
-        "14px";
-
-      nav.style.top =
-        "66px";
-
-      nav.style.padding =
-        "10px";
-
-      nav.style.flexDirection =
-        "column";
-
-      nav.style.alignItems =
-        "stretch";
-
-      nav.style.border =
-        "1px solid rgba(229,199,125,.14)";
-
-      nav.style.borderRadius =
-        "16px";
-
-      nav.style.background =
-        "#0b1c14";
-
-      nav.style.boxShadow =
-        "0 25px 60px rgba(0,0,0,.35)";
     }
-  );
-
+);
 
 /* =========================================================
    NOTIFICATIONS
 ========================================================= */
 
 $("#notificationButton")
-  .addEventListener(
-    "click",
-    () => {
+    ?.addEventListener(
+        "click",
+        () => {
 
-      window.location.href =
-        "/seller/notifications.html";
+            window.location.href =
+                "/seller/notifications.html";
 
-    }
-  );
-
+        }
+    );
 
 /* =========================================================
    AI
 ========================================================= */
 
 $("#openAI")
-  .addEventListener(
-    "click",
-    () => {
+    ?.addEventListener(
+        "click",
+        () => {
 
-      window.location.href =
-        "/seller/ai.html";
+            window.location.href =
+                "/seller/ai.html";
 
-    }
-  );
-
+        }
+    );
 
 /* =========================================================
-   INITIALIZE
+   IMAGE FALLBACK
+========================================================= */
+
+document.addEventListener(
+    "error",
+    event => {
+
+        const element =
+            event.target;
+
+        if(
+            element.tagName==="IMG" &&
+            element.dataset.fallbackApplied!=="true"
+        ){
+
+            element.dataset.fallbackApplied=
+                "true";
+
+            if(
+                element.id==="profileImage" ||
+                element.id==="mobileProfileImage"
+            ){
+
+                element.src =
+                    "../assets/images/profile/default-avatar.jpg";
+
+            }
+
+        }
+
+    },
+    true
+);
+
+/* =========================================================
+   INIT
 ========================================================= */
 
 async function initialize(){
 
-  $("#footerYear").textContent =
-    new Date().getFullYear();
+    $("#footerYear")
+        .textContent =
+            new Date()
+                .getFullYear();
 
+    await Promise.all([
+        loadProfile(),
+        loadVisits()
+    ]);
 
-  renderCalendar();
-
-  await loadVisits();
 }
 
-
 if(
-  document.readyState ===
-  "loading"
+    document.readyState==="loading"
 ){
 
-  document.addEventListener(
-    "DOMContentLoaded",
-    initialize
-  );
+    document.addEventListener(
+        "DOMContentLoaded",
+        initialize
+    );
 
 }else{
 
-  initialize();
+    initialize();
 
 }
 

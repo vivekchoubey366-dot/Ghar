@@ -1,5136 +1,5629 @@
+<!-- /seller/edit-property.html -->
 <!doctype html>
 <html lang="en">
+
 <head>
+
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
 <meta name="description"
-      content="GHAR Seller -- Edit and manage your listed property.">
+content="GHAR Seller Edit Property -- Update property details, pricing, media, amenities and listing information.">
 
-<meta name="theme-color" content="#162d25">
+<meta name="theme-color" content="#111827">
 
 <title>GHAR · Edit Property</title>
 
-<link rel="icon" href="../assets/images/favicon.svg">
+<link rel="icon" href="../assets/images/logo/favicon.svg">
 
 <style>
 
 /* =========================================================
-   GHAR SELLER · EDIT PROPERTY
-   Premium Seller Experience
+   RESET
 ========================================================= */
 
 *{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
 }
 
 :root{
-  --green-950:#07130e;
-  --green-925:#0a1912;
-  --green-900:#0b1c14;
-  --green-850:#10261c;
-  --green-800:#162d25;
-  --green-750:#1a382c;
-  --green-700:#214438;
-  --green-600:#2b5847;
 
-  --gold-100:#fff7df;
-  --gold-200:#f4dfaa;
-  --gold-300:#e5c77d;
-  --gold-400:#c9a95c;
-  --gold-500:#a98238;
+    --navy-950:#070b14;
+    --navy-925:#0a0f1c;
+    --navy-900:#0d1424;
+    --navy-875:#10182b;
+    --navy-850:#131d32;
+    --navy-825:#17223a;
+    --navy-800:#1b2944;
+    --navy-750:#223454;
+    --navy-700:#2a4064;
 
-  --cream:#fffaf0;
-  --cream-2:#f7eedc;
-  --sand:#eee1c8;
+    --champagne-100:#fffdf7;
+    --champagne-200:#f8edc9;
+    --champagne-300:#ead79f;
+    --champagne-400:#d2b86d;
+    --champagne-500:#a98d43;
 
-  --text:#f9f5ea;
-  --text-dark:#17231c;
+    --cream:#fffaf0;
 
-  --muted:rgba(255,255,255,.68);
-  --muted-2:rgba(255,255,255,.45);
+    --text:#f7f5ef;
+    --muted:rgba(255,255,255,.72);
+    --muted-2:rgba(255,255,255,.46);
 
-  --border:rgba(229,199,125,.18);
-  --border-light:rgba(255,255,255,.09);
+    --border:rgba(234,215,159,.17);
+    --border-strong:rgba(234,215,159,.29);
+    --border-light:rgba(255,255,255,.085);
 
-  --success:#82c995;
-  --danger:#e98c8c;
-  --blue:#91b9e8;
+    --success:#82c995;
+    --warning:#e5c477;
+    --danger:#e68d8d;
+    --blue:#8eb9ee;
 
-  --shadow:0 25px 80px rgba(0,0,0,.25);
+    --shadow:
+        0 25px 80px rgba(0,0,0,.30);
 
-  --radius-xl:28px;
-  --radius-lg:21px;
-  --radius-md:15px;
+    --radius-xl:28px;
+    --radius-lg:21px;
+    --radius-md:14px;
 
-  --container:1440px;
+    --container:1440px;
 }
 
 html{
-  scroll-behavior:smooth;
+    scroll-behavior:smooth;
 }
 
 body{
-  min-height:100vh;
-  color:var(--text);
-  font-family:
-    Inter,
-    ui-sans-serif,
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    sans-serif;
 
-  background:
-    radial-gradient(
-      circle at 5% 0%,
-      rgba(229,199,125,.12),
-      transparent 28%
-    ),
-    radial-gradient(
-      circle at 100% 10%,
-      rgba(44,91,69,.22),
-      transparent 30%
-    ),
-    linear-gradient(
-      135deg,
-      #07130e,
-      #0b1c14 48%,
-      #10261c
-    );
+    min-height:100vh;
 
-  overflow-x:hidden;
+    color:var(--text);
+
+    font-family:
+        Inter,
+        ui-sans-serif,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    background:
+
+        radial-gradient(
+            circle at 5% 0%,
+            rgba(234,215,159,.10),
+            transparent 28%
+        ),
+
+        radial-gradient(
+            circle at 100% 5%,
+            rgba(68,91,142,.20),
+            transparent 34%
+        ),
+
+        radial-gradient(
+            circle at 50% 100%,
+            rgba(35,54,88,.22),
+            transparent 35%
+        ),
+
+        linear-gradient(
+            135deg,
+            #070b14,
+            #0d1424 48%,
+            #131d32
+        );
+
+    overflow-x:hidden;
 }
 
 a{
-  color:inherit;
-  text-decoration:none;
+    color:inherit;
+    text-decoration:none;
 }
 
 button,
 input,
 select,
 textarea{
-  font:inherit;
+    font:inherit;
 }
 
 button{
-  cursor:pointer;
+    cursor:pointer;
 }
 
 img{
-  display:block;
-  max-width:100%;
+    display:block;
+    max-width:100%;
 }
 
 .container{
-  width:min(
-    calc(100% - 40px),
-    var(--container)
-  );
-  margin:auto;
-}
 
+    width:min(
+        calc(100% - 40px),
+        var(--container)
+    );
+
+    margin:auto;
+}
 
 /* =========================================================
    BACKGROUND
 ========================================================= */
 
 .page-glow{
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  z-index:-1;
-  overflow:hidden;
+
+    position:fixed;
+    inset:0;
+
+    pointer-events:none;
+    z-index:-1;
+
+    overflow:hidden;
 }
 
-.page-glow::before{
-  content:"";
-  position:absolute;
-  width:550px;
-  height:550px;
-  top:-300px;
-  right:-220px;
-  border-radius:50%;
-  border:1px solid rgba(229,199,125,.12);
+.page-glow:before{
 
-  box-shadow:
-    0 0 0 60px rgba(229,199,125,.025),
-    0 0 0 120px rgba(229,199,125,.015);
+    content:"";
+
+    position:absolute;
+
+    width:600px;
+    height:600px;
+
+    top:-350px;
+    right:-250px;
+
+    border-radius:50%;
+
+    border:
+        1px solid
+        rgba(234,215,159,.13);
+
+    box-shadow:
+
+        0 0 0 65px
+        rgba(234,215,159,.025),
+
+        0 0 0 130px
+        rgba(234,215,159,.014),
+
+        0 0 0 195px
+        rgba(234,215,159,.007);
 }
 
-.page-glow::after{
-  content:"";
-  position:absolute;
-  width:500px;
-  height:500px;
-  bottom:-300px;
-  left:-250px;
-  border-radius:50%;
-  border:1px solid rgba(255,255,255,.06);
-}
+.page-glow:after{
 
+    content:"";
+
+    position:absolute;
+
+    width:560px;
+    height:560px;
+
+    bottom:-350px;
+    left:-280px;
+
+    border-radius:50%;
+
+    border:
+        1px solid
+        rgba(255,255,255,.055);
+
+    box-shadow:
+        0 0 0 75px
+        rgba(255,255,255,.012);
+}
 
 /* =========================================================
    HEADER
 ========================================================= */
 
 .site-header{
-  position:sticky;
-  top:0;
-  z-index:100;
-  border-bottom:1px solid rgba(229,199,125,.10);
-  background:rgba(7,19,14,.90);
-  backdrop-filter:blur(22px);
+
+    position:sticky;
+    top:0;
+
+    z-index:1000;
+
+    border-bottom:
+        1px solid
+        rgba(234,215,159,.13);
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(7,11,20,.97),
+            rgba(7,11,20,.88)
+        );
+
+    backdrop-filter:blur(24px);
+    -webkit-backdrop-filter:blur(24px);
 }
 
 .header-inner{
-  min-height:76px;
-  display:flex;
-  align-items:center;
-  gap:24px;
+
+    min-height:82px;
+
+    display:flex;
+    align-items:center;
+
+    gap:20px;
 }
+
+/* =========================================================
+   BRAND
+========================================================= */
 
 .brand{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  flex-shrink:0;
+
+    display:flex;
+    align-items:center;
+
+    gap:12px;
+
+    flex-shrink:0;
 }
 
-.brand-mark{
-  width:45px;
-  height:45px;
-  display:grid;
-  place-items:center;
-  border-radius:14px;
-  color:#152116;
-  font-size:19px;
-  font-weight:1000;
+.brand-logo{
 
-  background:
-    linear-gradient(
-      135deg,
-      #f1dda5,
-      #b98b3d
-    );
+    width:47px;
+    height:47px;
 
-  box-shadow:
-    0 10px 25px rgba(0,0,0,.25),
-    inset 0 1px 0 rgba(255,255,255,.5);
+    display:grid;
+    place-items:center;
+
+    overflow:hidden;
+
+    border-radius:14px;
+
+    border:
+        1px solid
+        rgba(234,215,159,.28);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(234,215,159,.14),
+            rgba(255,255,255,.035)
+        );
+
+    box-shadow:
+        0 10px 28px rgba(0,0,0,.25),
+        inset 0 1px 0 rgba(255,255,255,.08);
+}
+
+.brand-logo img{
+
+    width:100%;
+    height:100%;
+
+    object-fit:contain;
+
+    padding:5px;
+}
+
+.brand-logo-fallback{
+
+    width:100%;
+    height:100%;
+
+    display:grid;
+    place-items:center;
+
+    color:#171713;
+
+    font-size:20px;
+    font-weight:1000;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f4e3b2,
+            #b8954b
+        );
 }
 
 .brand-text strong{
-  display:block;
-  font-size:17px;
-  letter-spacing:.17em;
+
+    display:block;
+
+    color:var(--cream);
+
+    font-size:17px;
+    font-weight:950;
+
+    letter-spacing:.17em;
 }
 
 .brand-text span{
-  display:block;
-  margin-top:2px;
-  color:var(--muted-2);
-  font-size:8px;
-  font-weight:800;
-  letter-spacing:.16em;
-  text-transform:uppercase;
+
+    display:block;
+
+    margin-top:3px;
+
+    color:var(--muted-2);
+
+    font-size:8px;
+    font-weight:800;
+
+    letter-spacing:.15em;
+
+    text-transform:uppercase;
 }
 
+/* =========================================================
+   NAV
+========================================================= */
+
 .desktop-nav{
-  display:flex;
-  align-items:center;
-  gap:5px;
-  margin-left:auto;
+
+    display:flex;
+    align-items:center;
+
+    gap:2px;
+
+    margin-left:auto;
 }
 
 .desktop-nav a{
-  padding:10px 12px;
-  border-radius:10px;
-  color:var(--muted);
-  font-size:11px;
-  font-weight:700;
-  transition:.2s ease;
+
+    position:relative;
+
+    padding:11px 10px;
+
+    border-radius:10px;
+
+    color:var(--muted);
+
+    font-size:10px;
+    font-weight:750;
+
+    transition:.2s ease;
 }
 
-.desktop-nav a:hover,
-.desktop-nav a.active{
-  color:var(--gold-200);
-  background:rgba(229,199,125,.07);
+.desktop-nav a:hover{
+
+    color:var(--champagne-200);
+
+    background:
+        rgba(234,215,159,.07);
 }
+
+.desktop-nav a.active{
+
+    color:var(--champagne-200);
+
+    background:
+        rgba(234,215,159,.09);
+}
+
+.desktop-nav a.active:after{
+
+    content:"";
+
+    position:absolute;
+
+    left:12px;
+    right:12px;
+
+    bottom:3px;
+
+    height:2px;
+
+    border-radius:10px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            var(--champagne-300),
+            transparent
+        );
+}
+
+/* =========================================================
+   HEADER ACTIONS
+========================================================= */
 
 .header-actions{
-  display:flex;
-  align-items:center;
-  gap:8px;
+
+    display:flex;
+    align-items:center;
+
+    gap:8px;
+
+    margin-left:4px;
 }
 
 .icon-btn{
-  width:41px;
-  height:41px;
-  display:grid;
-  place-items:center;
-  border:1px solid var(--border-light);
-  border-radius:12px;
-  color:var(--muted);
-  background:rgba(255,255,255,.035);
-  transition:.2s ease;
+
+    width:41px;
+    height:41px;
+
+    display:grid;
+    place-items:center;
+
+    border:
+        1px solid
+        var(--border-light);
+
+    border-radius:12px;
+
+    color:var(--muted);
+
+    background:
+        rgba(255,255,255,.035);
+
+    transition:.2s ease;
 }
 
 .icon-btn:hover{
-  color:var(--gold-200);
-  border-color:rgba(229,199,125,.25);
+
+    color:var(--champagne-200);
+
+    border-color:
+        rgba(234,215,159,.30);
+
+    background:
+        rgba(234,215,159,.06);
+
+    transform:translateY(-1px);
 }
 
-.avatar{
-  width:40px;
-  height:40px;
-  display:grid;
-  place-items:center;
-  border-radius:50%;
-  color:#172016;
-  font-size:12px;
-  font-weight:1000;
+.notification-wrap{
+    position:relative;
+}
 
-  background:
-    linear-gradient(
-      135deg,
-      var(--gold-200),
-      var(--gold-500)
-    );
+.notification-dot{
+
+    position:absolute;
+
+    width:7px;
+    height:7px;
+
+    top:7px;
+    right:7px;
+
+    border-radius:50%;
+
+    background:var(--champagne-300);
+
+    box-shadow:
+        0 0 0 3px var(--navy-900);
+}
+
+/* =========================================================
+   PROFILE
+========================================================= */
+
+.profile-menu{
+
+    min-height:43px;
+
+    display:flex;
+    align-items:center;
+
+    gap:9px;
+
+    padding:3px 8px 3px 4px;
+
+    border:
+        1px solid
+        var(--border-light);
+
+    border-radius:25px;
+
+    background:
+        rgba(255,255,255,.035);
+
+    transition:.2s ease;
+}
+
+.profile-menu:hover{
+
+    border-color:
+        rgba(234,215,159,.28);
+
+    background:
+        rgba(234,215,159,.055);
+}
+
+.profile-menu img{
+
+    width:35px;
+    height:35px;
+
+    object-fit:cover;
+
+    border-radius:50%;
+
+    border:
+        1px solid
+        rgba(234,215,159,.32);
+}
+
+.profile-info{
+    min-width:65px;
+}
+
+.profile-info strong{
+
+    display:block;
+
+    max-width:100px;
+
+    overflow:hidden;
+
+    color:var(--cream);
+
+    font-size:9px;
+    font-weight:900;
+
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
+
+.profile-info small{
+
+    display:block;
+
+    margin-top:2px;
+
+    color:var(--muted-2);
+
+    font-size:7px;
+}
+
+.profile-arrow{
+    color:var(--muted-2);
+    font-size:12px;
 }
 
 .mobile-menu{
-  display:none;
+    display:none;
 }
-
 
 /* =========================================================
-   PAGE HERO
+   MOBILE NAV
 ========================================================= */
 
-.page-hero{
-  padding:45px 0 25px;
+.mobile-nav-panel{
+
+    display:none;
+
+    position:fixed;
+
+    left:14px;
+    right:14px;
+    top:78px;
+
+    z-index:999;
+
+    padding:10px;
+
+    border:
+        1px solid
+        rgba(234,215,159,.17);
+
+    border-radius:18px;
+
+    background:
+        rgba(13,20,36,.98);
+
+    box-shadow:
+        0 25px 70px rgba(0,0,0,.45);
+
+    backdrop-filter:blur(22px);
 }
 
-.page-hero-card{
-  position:relative;
-  overflow:hidden;
-
-  padding:34px;
-
-  border:1px solid var(--border);
-  border-radius:var(--radius-xl);
-
-  background:
-    radial-gradient(
-      circle at 100% 0%,
-      rgba(229,199,125,.13),
-      transparent 30%
-    ),
-    radial-gradient(
-      circle at 0% 100%,
-      rgba(44,91,69,.30),
-      transparent 38%
-    ),
-    linear-gradient(
-      145deg,
-      #0a1a12,
-      #10251b 55%,
-      #142d22
-    );
-
-  box-shadow:var(--shadow);
+.mobile-nav-panel.open{
+    display:block;
 }
 
-.page-hero-card::after{
-  content:"";
-  position:absolute;
+.mobile-nav-panel a{
 
-  width:300px;
-  height:300px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
 
-  right:-170px;
-  bottom:-190px;
+    padding:13px 12px;
 
-  border:1px solid rgba(229,199,125,.10);
-  border-radius:50%;
+    border-radius:10px;
+
+    color:var(--muted);
+
+    font-size:10px;
+    font-weight:750;
+}
+
+.mobile-nav-panel a:hover,
+.mobile-nav-panel a.active{
+
+    color:var(--champagne-200);
+
+    background:
+        rgba(234,215,159,.07);
+}
+
+.mobile-profile{
+
+    display:flex;
+    align-items:center;
+
+    gap:10px;
+
+    margin-bottom:8px;
+    padding:10px;
+
+    border-bottom:
+        1px solid
+        rgba(255,255,255,.06);
+}
+
+.mobile-profile img{
+
+    width:38px;
+    height:38px;
+
+    border-radius:50%;
+
+    object-fit:cover;
+
+    border:
+        1px solid
+        rgba(234,215,159,.25);
+}
+
+.mobile-profile strong{
+
+    display:block;
+
+    color:var(--cream);
+
+    font-size:10px;
+}
+
+.mobile-profile span{
+
+    display:block;
+
+    margin-top:3px;
+
+    color:var(--muted-2);
+
+    font-size:7px;
+}
+
+/* =========================================================
+   PAGE
+========================================================= */
+
+.page{
+    padding:43px 0 25px;
+}
+
+.page-heading{
+
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+
+    gap:25px;
+
+    margin-bottom:24px;
 }
 
 .eyebrow{
-  color:var(--gold-300);
-  font-size:10px;
-  font-weight:950;
-  letter-spacing:.18em;
-  text-transform:uppercase;
+
+    color:var(--champagne-300);
+
+    font-size:10px;
+    font-weight:950;
+
+    letter-spacing:.18em;
+
+    text-transform:uppercase;
 }
 
-.page-hero h1{
-  margin-top:10px;
-  font-size:clamp(32px,5vw,48px);
-  line-height:1;
-  letter-spacing:-.05em;
+.page-heading h1{
+
+    margin-top:9px;
+
+    font-size:
+        clamp(34px,5vw,56px);
+
+    line-height:1;
+
+    letter-spacing:-.055em;
 }
 
-.page-hero h1 span{
-  color:var(--gold-300);
+.page-heading p{
+
+    max-width:760px;
+
+    margin-top:13px;
+
+    color:var(--muted);
+
+    font-size:12px;
+
+    line-height:1.75;
 }
 
-.page-hero p{
-  max-width:750px;
-  margin-top:13px;
-  color:var(--muted);
-  font-size:12px;
-  line-height:1.7;
-}
+.heading-actions{
 
+    display:flex;
+
+    gap:8px;
+
+    flex-wrap:wrap;
+}
 
 /* =========================================================
-   BREADCRUMB
+   BUTTONS
 ========================================================= */
 
-.breadcrumb{
-  display:flex;
-  flex-wrap:wrap;
-  align-items:center;
-  gap:8px;
-  margin-bottom:15px;
+.btn{
 
-  color:var(--muted-2);
-  font-size:9px;
+    min-height:43px;
+
+    display:inline-flex;
+
+    align-items:center;
+    justify-content:center;
+
+    gap:8px;
+
+    padding:0 16px;
+
+    border:
+        1px solid
+        transparent;
+
+    border-radius:11px;
+
+    font-size:10px;
+    font-weight:900;
+
+    transition:.2s ease;
 }
 
-.breadcrumb a:hover{
-  color:var(--gold-300);
+.btn-primary{
+
+    color:#171713;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f5e4b3,
+            #cdb069
+        );
+
+    box-shadow:
+        0 8px 22px rgba(0,0,0,.16);
 }
 
-.breadcrumb .current{
-  color:var(--gold-300);
+.btn-primary:hover{
+    transform:translateY(-2px);
 }
 
+.btn-secondary{
+
+    color:var(--cream);
+
+    border-color:
+        var(--border-light);
+
+    background:
+        rgba(255,255,255,.045);
+}
+
+.btn-secondary:hover{
+
+    color:var(--champagne-200);
+
+    border-color:
+        rgba(234,215,159,.30);
+}
+
+.btn-danger{
+
+    color:#ffd7d7;
+
+    border-color:
+        rgba(230,141,141,.20);
+
+    background:
+        rgba(230,141,141,.07);
+}
+
+.btn-danger:hover{
+
+    background:
+        rgba(230,141,141,.13);
+}
 
 /* =========================================================
    STATUS BAR
 ========================================================= */
 
 .status-bar{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:15px;
 
-  margin-top:18px;
-  padding:13px 15px;
+    display:flex;
 
-  border:1px solid var(--border-light);
-  border-radius:14px;
+    align-items:center;
+    justify-content:space-between;
 
-  background:rgba(255,255,255,.025);
+    gap:15px;
+
+    margin-bottom:16px;
+
+    padding:13px 16px;
+
+    border:
+        1px solid
+        var(--border-light);
+
+    border-radius:14px;
+
+    background:
+        rgba(255,255,255,.028);
 }
 
 .status-left{
-  display:flex;
-  align-items:center;
-  gap:9px;
+
+    display:flex;
+    align-items:center;
+
+    gap:10px;
 }
 
 .status-dot{
-  width:9px;
-  height:9px;
-  border-radius:50%;
-  background:var(--success);
-  box-shadow:0 0 0 5px rgba(130,201,149,.08);
+
+    width:8px;
+    height:8px;
+
+    border-radius:50%;
+
+    background:var(--warning);
+
+    box-shadow:
+        0 0 0 4px
+        rgba(229,196,119,.08);
 }
 
 .status-text strong{
-  display:block;
-  font-size:10px;
+
+    display:block;
+
+    color:var(--cream);
+
+    font-size:9px;
 }
 
 .status-text span{
-  display:block;
-  margin-top:2px;
-  color:var(--muted-2);
-  font-size:8px;
+
+    display:block;
+
+    margin-top:2px;
+
+    color:var(--muted-2);
+
+    font-size:7px;
 }
 
 .property-id{
-  color:var(--muted-2);
-  font-size:8px;
-}
 
+    color:var(--muted-2);
+
+    font-size:8px;
+}
 
 /* =========================================================
-   LAYOUT
+   EDIT LAYOUT
 ========================================================= */
 
-.editor-layout{
-  display:grid;
-  grid-template-columns:minmax(0,1fr) 350px;
-  gap:18px;
-  align-items:start;
-}
+.edit-layout{
 
-.form-column{
-  min-width:0;
-}
+    display:grid;
 
-.side-column{
-  position:sticky;
-  top:96px;
-  display:grid;
-  gap:15px;
-}
+    grid-template-columns:
+        minmax(0,1fr)
+        315px;
 
+    gap:16px;
+
+    align-items:start;
+}
 
 /* =========================================================
    PANELS
 ========================================================= */
 
 .panel{
-  margin-bottom:16px;
-  padding:23px;
 
-  border:1px solid var(--border-light);
-  border-radius:var(--radius-lg);
+    padding:21px;
 
-  background:
-    linear-gradient(
-      145deg,
-      rgba(20,45,34,.96),
-      rgba(11,28,20,.96)
-    );
+    border:
+        1px solid
+        var(--border-light);
+
+    border-radius:var(--radius-lg);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(19,29,50,.96),
+            rgba(10,15,28,.95)
+        );
+
+    box-shadow:
+        0 16px 50px rgba(0,0,0,.13);
 }
 
-.panel:last-child{
-  margin-bottom:0;
+.panel + .panel{
+    margin-top:14px;
 }
 
-.panel-heading{
-  display:flex;
-  align-items:flex-start;
-  justify-content:space-between;
-  gap:15px;
+.panel-header{
 
-  margin-bottom:19px;
-  padding-bottom:15px;
+    display:flex;
 
-  border-bottom:1px solid rgba(255,255,255,.06);
+    align-items:flex-start;
+    justify-content:space-between;
+
+    gap:15px;
+
+    padding-bottom:15px;
+
+    border-bottom:
+        1px solid
+        rgba(255,255,255,.06);
 }
 
-.panel-heading h2{
-  font-size:17px;
-  letter-spacing:-.025em;
+.panel-title{
+
+    font-size:14px;
+    font-weight:950;
 }
 
-.panel-heading p{
-  margin-top:4px;
-  color:var(--muted-2);
-  font-size:9px;
-  line-height:1.5;
+.panel-subtitle{
+
+    margin-top:4px;
+
+    color:var(--muted-2);
+
+    font-size:8px;
+
+    line-height:1.6;
 }
 
-.panel-number{
-  width:29px;
-  height:29px;
+.section-number{
 
-  flex:0 0 29px;
+    width:30px;
+    height:30px;
 
-  display:grid;
-  place-items:center;
+    display:grid;
+    place-items:center;
 
-  border-radius:9px;
+    flex-shrink:0;
 
-  color:#1a2116;
-  background:var(--gold-300);
+    border-radius:9px;
 
-  font-size:9px;
-  font-weight:1000;
+    color:var(--champagne-300);
+
+    background:
+        rgba(234,215,159,.08);
+
+    border:
+        1px solid
+        rgba(234,215,159,.13);
+
+    font-size:8px;
+    font-weight:950;
 }
-
 
 /* =========================================================
    FORM
 ========================================================= */
 
 .form-grid{
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:14px;
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(2,minmax(0,1fr));
+
+    gap:13px;
+
+    margin-top:17px;
 }
 
 .form-group{
-  min-width:0;
+    min-width:0;
 }
 
 .form-group.full{
-  grid-column:1/-1;
+    grid-column:1/-1;
 }
 
 .form-label{
-  display:block;
-  margin-bottom:7px;
 
-  color:var(--cream);
-  font-size:9px;
-  font-weight:800;
+    display:block;
+
+    margin-bottom:7px;
+
+    color:var(--muted);
+
+    font-size:8px;
+    font-weight:850;
+
+    letter-spacing:.05em;
+
+    text-transform:uppercase;
 }
 
-.form-label span{
-  color:var(--gold-300);
-}
-
-.form-help{
-  margin-top:5px;
-  color:var(--muted-2);
-  font-size:8px;
-  line-height:1.45;
+.required{
+    color:var(--champagne-300);
 }
 
 .input,
 .select,
 .textarea{
-  width:100%;
 
-  border:1px solid rgba(255,255,255,.09);
-  border-radius:11px;
+    width:100%;
 
-  outline:none;
+    outline:none;
 
-  color:var(--cream);
-  background:rgba(255,255,255,.045);
+    color:var(--cream);
 
-  transition:
-    border-color .2s ease,
-    box-shadow .2s ease,
-    background .2s ease;
+    border:
+        1px solid
+        rgba(255,255,255,.095);
+
+    border-radius:11px;
+
+    background:
+        rgba(255,255,255,.035);
+
+    transition:.2s ease;
 }
 
 .input,
 .select{
-  height:45px;
-  padding:0 13px;
+
+    height:45px;
+
+    padding:0 12px;
+
+    font-size:9px;
 }
 
 .textarea{
-  min-height:125px;
-  resize:vertical;
-  padding:12px 13px;
-  line-height:1.55;
+
+    min-height:105px;
+
+    padding:12px;
+
+    resize:vertical;
+
+    font-size:9px;
+
+    line-height:1.65;
 }
 
 .input::placeholder,
 .textarea::placeholder{
-  color:rgba(255,255,255,.28);
-}
-
-.select{
-  appearance:none;
-
-  background-image:
-    linear-gradient(45deg,transparent 50%,#c9a95c 50%),
-    linear-gradient(135deg,#c9a95c 50%,transparent 50%);
-
-  background-position:
-    calc(100% - 17px) 19px,
-    calc(100% - 12px) 19px;
-
-  background-size:5px 5px,5px 5px;
-  background-repeat:no-repeat;
-}
-
-.select option{
-  color:#17231c;
-  background:#fffaf0;
+    color:rgba(255,255,255,.34);
 }
 
 .input:focus,
 .select:focus,
 .textarea:focus{
-  border-color:rgba(229,199,125,.52);
-  background:rgba(255,255,255,.06);
 
-  box-shadow:
-    0 0 0 3px rgba(229,199,125,.06);
+    border-color:
+        rgba(234,215,159,.46);
+
+    box-shadow:
+        0 0 0 4px
+        rgba(234,215,159,.045);
 }
 
-
-/* =========================================================
-   CHECKBOXES / RADIO
-========================================================= */
-
-.option-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:9px;
+.select option{
+    color:#151820;
 }
 
-.option{
-  position:relative;
+.field-hint{
+
+    margin-top:5px;
+
+    color:var(--muted-2);
+
+    font-size:7px;
+
+    line-height:1.5;
 }
-
-.option input{
-  position:absolute;
-  opacity:0;
-  pointer-events:none;
-}
-
-.option label{
-  min-height:43px;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  padding:9px;
-
-  border:1px solid rgba(255,255,255,.08);
-  border-radius:10px;
-
-  color:var(--muted);
-  background:rgba(255,255,255,.025);
-
-  font-size:9px;
-  font-weight:700;
-
-  text-align:center;
-
-  cursor:pointer;
-
-  transition:.2s ease;
-}
-
-.option input:checked + label{
-  color:var(--gold-200);
-  border-color:rgba(229,199,125,.42);
-  background:rgba(229,199,125,.08);
-}
-
-.option label:hover{
-  border-color:rgba(229,199,125,.25);
-}
-
 
 /* =========================================================
    PRICE INPUT
 ========================================================= */
 
 .price-wrap{
-  position:relative;
+    position:relative;
 }
 
 .price-prefix{
-  position:absolute;
-  left:13px;
-  top:50%;
-  transform:translateY(-50%);
 
-  color:var(--gold-300);
-  font-size:12px;
-  font-weight:900;
+    position:absolute;
 
-  pointer-events:none;
+    left:12px;
+    top:0;
+
+    height:45px;
+
+    display:flex;
+    align-items:center;
+
+    color:var(--champagne-300);
+
+    font-size:10px;
+    font-weight:900;
 }
 
 .price-wrap .input{
-  padding-left:30px;
+    padding-left:29px;
 }
-
 
 /* =========================================================
-   IMAGE MANAGEMENT
+   CHECKBOXES
 ========================================================= */
 
-.image-upload{
-  display:grid;
-  grid-template-columns:1fr;
-  gap:12px;
+.checkbox-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:8px;
+
+    margin-top:17px;
 }
 
-.drop-zone{
-  min-height:150px;
+.checkbox-card{
 
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
+    position:relative;
 
-  padding:25px;
+    display:flex;
 
-  border:1px dashed rgba(229,199,125,.30);
-  border-radius:16px;
+    align-items:center;
 
-  color:var(--muted);
+    gap:8px;
 
-  background:
-    radial-gradient(
-      circle at center,
-      rgba(229,199,125,.07),
-      transparent 55%
-    );
+    min-height:40px;
 
-  text-align:center;
-  cursor:pointer;
+    padding:9px;
 
-  transition:.2s ease;
+    border:
+        1px solid
+        rgba(255,255,255,.07);
+
+    border-radius:10px;
+
+    color:var(--muted);
+
+    background:
+        rgba(255,255,255,.025);
+
+    font-size:8px;
+
+    transition:.2s ease;
 }
 
-.drop-zone:hover,
-.drop-zone.dragover{
-  border-color:rgba(229,199,125,.65);
-  background:rgba(229,199,125,.07);
+.checkbox-card:hover{
+
+    border-color:
+        rgba(234,215,159,.22);
+
+    color:var(--cream);
+}
+
+.checkbox-card input{
+
+    accent-color:
+        var(--champagne-400);
+}
+
+/* =========================================================
+   IMAGE UPLOAD
+========================================================= */
+
+.upload-zone{
+
+    position:relative;
+
+    min-height:150px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+    justify-content:center;
+
+    padding:22px;
+
+    text-align:center;
+
+    border:
+        1px dashed
+        rgba(234,215,159,.24);
+
+    border-radius:15px;
+
+    background:
+        rgba(234,215,159,.025);
+
+    transition:.2s ease;
+
+    margin-top:17px;
+}
+
+.upload-zone:hover,
+.upload-zone.dragover{
+
+    border-color:
+        rgba(234,215,159,.48);
+
+    background:
+        rgba(234,215,159,.055);
 }
 
 .upload-icon{
-  width:43px;
-  height:43px;
 
-  display:grid;
-  place-items:center;
+    width:46px;
+    height:46px;
 
-  border-radius:12px;
+    display:grid;
+    place-items:center;
 
-  color:var(--gold-300);
-  background:rgba(229,199,125,.08);
+    border-radius:13px;
 
-  font-size:19px;
+    color:var(--champagne-300);
+
+    background:
+        rgba(234,215,159,.08);
+
+    font-size:19px;
 }
 
-.drop-zone strong{
-  margin-top:10px;
-  font-size:11px;
+.upload-zone h3{
+
+    margin-top:11px;
+
+    font-size:11px;
 }
 
-.drop-zone span{
-  margin-top:5px;
-  color:var(--muted-2);
-  font-size:8px;
+.upload-zone p{
+
+    max-width:400px;
+
+    margin-top:5px;
+
+    color:var(--muted-2);
+
+    font-size:8px;
+
+    line-height:1.6;
 }
 
-#imageInput{
-  display:none;
+.upload-zone input{
+
+    position:absolute;
+
+    inset:0;
+
+    width:100%;
+    height:100%;
+
+    opacity:0;
+
+    cursor:pointer;
 }
 
-.image-grid{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:9px;
+.image-preview-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+    gap:9px;
+
+    margin-top:12px;
 }
-
-.image-item{
-  position:relative;
-  overflow:hidden;
-
-  aspect-ratio:1/1;
-
-  border:1px solid rgba(255,255,255,.08);
-  border-radius:12px;
-
-  background:#0b1c14;
-}
-
-.image-item img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
-
-.image-remove{
-  position:absolute;
-  top:6px;
-  right:6px;
-
-  width:27px;
-  height:27px;
-
-  display:grid;
-  place-items:center;
-
-  border:1px solid rgba(255,255,255,.15);
-  border-radius:8px;
-
-  color:white;
-  background:rgba(0,0,0,.55);
-
-  font-size:12px;
-}
-
-.image-primary{
-  position:absolute;
-  left:6px;
-  bottom:6px;
-
-  padding:4px 6px;
-
-  border-radius:6px;
-
-  color:#17170f;
-  background:var(--gold-300);
-
-  font-size:7px;
-  font-weight:1000;
-}
-
-
-/* =========================================================
-   AMENITIES
-========================================================= */
-
-.amenities{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:8px;
-}
-
-.amenity{
-  position:relative;
-}
-
-.amenity input{
-  position:absolute;
-  opacity:0;
-}
-
-.amenity label{
-  display:flex;
-  align-items:center;
-  gap:7px;
-
-  min-height:40px;
-  padding:8px;
-
-  border:1px solid rgba(255,255,255,.07);
-  border-radius:9px;
-
-  color:var(--muted);
-  background:rgba(255,255,255,.025);
-
-  font-size:8px;
-  cursor:pointer;
-}
-
-.amenity input:checked + label{
-  color:var(--gold-200);
-  border-color:rgba(229,199,125,.35);
-  background:rgba(229,199,125,.07);
-}
-
-.amenity-mark{
-  width:17px;
-  height:17px;
-
-  display:grid;
-  place-items:center;
-
-  border-radius:5px;
-
-  color:transparent;
-  background:rgba(255,255,255,.07);
-
-  font-size:8px;
-}
-
-.amenity input:checked + label .amenity-mark{
-  color:#172016;
-  background:var(--gold-300);
-}
-
-
-/* =========================================================
-   SIDEBAR PREVIEW
-========================================================= */
 
 .preview-card{
-  overflow:hidden;
 
-  border:1px solid var(--border);
-  border-radius:var(--radius-lg);
+    position:relative;
 
-  background:
-    linear-gradient(
-      145deg,
-      #142d22,
-      #0b1c14
-    );
+    aspect-ratio:1;
+
+    overflow:hidden;
+
+    border:
+        1px solid
+        rgba(255,255,255,.08);
+
+    border-radius:11px;
+
+    background:
+        rgba(255,255,255,.025);
 }
 
-.preview-image{
-  height:210px;
-  position:relative;
-  overflow:hidden;
+.preview-card img{
 
-  background:
-    linear-gradient(
-      135deg,
-      #284c3c,
-      #142d22
-    );
+    width:100%;
+    height:100%;
+
+    object-fit:cover;
 }
 
-.preview-image img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
+.preview-remove{
+
+    position:absolute;
+
+    right:5px;
+    top:5px;
+
+    width:25px;
+    height:25px;
+
+    display:grid;
+    place-items:center;
+
+    border:0;
+
+    border-radius:50%;
+
+    color:#fff;
+
+    background:
+        rgba(0,0,0,.68);
+
+    font-size:10px;
 }
-
-.preview-placeholder{
-  width:100%;
-  height:100%;
-
-  display:grid;
-  place-items:center;
-
-  color:rgba(255,255,255,.35);
-  font-size:10px;
-}
-
-.preview-badge{
-  position:absolute;
-  top:12px;
-  left:12px;
-
-  padding:6px 9px;
-
-  border-radius:7px;
-
-  color:#17170f;
-  background:var(--gold-200);
-
-  font-size:7px;
-  font-weight:1000;
-  text-transform:uppercase;
-}
-
-.preview-content{
-  padding:18px;
-}
-
-.preview-type{
-  color:var(--gold-300);
-  font-size:8px;
-  font-weight:900;
-  letter-spacing:.12em;
-  text-transform:uppercase;
-}
-
-.preview-title{
-  margin-top:7px;
-  font-size:16px;
-  font-weight:900;
-}
-
-.preview-location{
-  margin-top:6px;
-  color:var(--muted-2);
-  font-size:9px;
-}
-
-.preview-price{
-  margin-top:14px;
-  font-size:19px;
-  font-weight:950;
-}
-
 
 /* =========================================================
-   SIDE ACTIONS
+   SIDEBAR
 ========================================================= */
 
-.action-panel{
-  padding:18px;
+.sidebar-card{
 
-  border:1px solid var(--border-light);
-  border-radius:var(--radius-lg);
+    position:sticky;
 
-  background:
-    linear-gradient(
-      145deg,
-      rgba(20,45,34,.95),
-      rgba(11,28,20,.95)
-    );
+    top:100px;
 }
 
-.action-panel h3{
-  font-size:13px;
+.progress{
+
+    margin-top:17px;
 }
 
-.action-panel p{
-  margin-top:5px;
-  color:var(--muted-2);
-  font-size:8px;
-  line-height:1.5;
+.progress-head{
+
+    display:flex;
+
+    align-items:center;
+    justify-content:space-between;
+
+    color:var(--muted);
+
+    font-size:8px;
 }
 
-.actions{
-  display:grid;
-  gap:8px;
-  margin-top:15px;
+.progress-head strong{
+    color:var(--champagne-300);
 }
 
-.btn{
-  min-height:45px;
+.progress-track{
 
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap:8px;
+    height:7px;
 
-  padding:0 16px;
+    margin-top:8px;
 
-  border:1px solid transparent;
-  border-radius:11px;
+    overflow:hidden;
 
-  font-size:10px;
-  font-weight:900;
+    border-radius:10px;
 
-  transition:.2s ease;
+    background:
+        rgba(255,255,255,.07);
 }
 
-.btn-primary{
-  color:#17170f;
+.progress-value{
 
-  background:
-    linear-gradient(
-      135deg,
-      #f1dca1,
-      #cda85d
-    );
+    width:68%;
 
-  box-shadow:
-    0 10px 25px rgba(0,0,0,.18);
+    height:100%;
+
+    border-radius:10px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #b69a50,
+            #f0dfaa
+        );
 }
-
-.btn-primary:hover{
-  transform:translateY(-2px);
-}
-
-.btn-secondary{
-  color:var(--cream);
-  border-color:var(--border-light);
-  background:rgba(255,255,255,.045);
-}
-
-.btn-secondary:hover{
-  color:var(--gold-200);
-  border-color:rgba(229,199,125,.28);
-}
-
-.btn-danger{
-  color:#ffd7d7;
-  border-color:rgba(233,140,140,.20);
-  background:rgba(233,140,140,.06);
-}
-
-.btn-danger:hover{
-  border-color:rgba(233,140,140,.42);
-  background:rgba(233,140,140,.10);
-}
-
-
-/* =========================================================
-   CHECKLIST
-========================================================= */
 
 .checklist{
-  display:grid;
-  gap:10px;
+
+    display:grid;
+
+    gap:8px;
+
+    margin-top:19px;
 }
 
 .check-item{
-  display:flex;
-  align-items:center;
-  gap:9px;
 
-  color:var(--muted);
+    display:flex;
 
-  font-size:9px;
+    align-items:center;
+
+    gap:9px;
+
+    padding:9px;
+
+    border-radius:9px;
+
+    background:
+        rgba(255,255,255,.025);
+
+    color:var(--muted);
+
+    font-size:8px;
+}
+
+.check-item.done{
+    color:#c9e6d0;
 }
 
 .check-icon{
-  width:21px;
-  height:21px;
 
-  display:grid;
-  place-items:center;
+    width:22px;
+    height:22px;
 
-  border-radius:7px;
+    display:grid;
+    place-items:center;
 
-  color:var(--success);
-  background:rgba(130,201,149,.08);
+    flex-shrink:0;
 
-  font-size:9px;
+    border-radius:7px;
+
+    background:
+        rgba(255,255,255,.055);
+
+    font-size:9px;
 }
 
-.check-item.pending .check-icon{
-  color:var(--muted-2);
-  background:rgba(255,255,255,.05);
+.check-item.done .check-icon{
+
+    color:var(--success);
+
+    background:
+        rgba(130,201,149,.09);
 }
 
+.save-box{
+
+    margin-top:14px;
+
+    padding:14px;
+
+    border:
+        1px solid
+        rgba(234,215,159,.14);
+
+    border-radius:14px;
+
+    background:
+        rgba(234,215,159,.035);
+}
+
+.save-box strong{
+
+    display:block;
+
+    color:var(--cream);
+
+    font-size:9px;
+}
+
+.save-box p{
+
+    margin-top:5px;
+
+    color:var(--muted-2);
+
+    font-size:7px;
+
+    line-height:1.6;
+}
+
+.save-actions{
+
+    display:grid;
+
+    gap:8px;
+
+    margin-top:13px;
+}
+
+.delete-property{
+
+    margin-top:10px;
+
+    width:100%;
+}
 
 /* =========================================================
-   DELETE CONFIRM
+   LOCATION
 ========================================================= */
 
-.delete-box{
-  display:none;
+.location-grid{
 
-  margin-top:10px;
-  padding:13px;
+    display:grid;
 
-  border:1px solid rgba(233,140,140,.20);
-  border-radius:12px;
+    grid-template-columns:
+        repeat(3,1fr);
 
-  background:rgba(233,140,140,.05);
+    gap:12px;
+
+    margin-top:17px;
 }
 
-.delete-box.show{
-  display:block;
+.map-preview{
+
+    min-height:190px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    margin-top:13px;
+
+    overflow:hidden;
+
+    border:
+        1px solid
+        rgba(255,255,255,.07);
+
+    border-radius:13px;
+
+    background:
+
+        linear-gradient(
+            135deg,
+            rgba(39,57,88,.75),
+            rgba(13,20,36,.96)
+        );
+
+    color:var(--muted-2);
+
+    text-align:center;
 }
 
-.delete-box p{
-  color:#ffd7d7;
-  font-size:8px;
-  line-height:1.5;
+.map-preview-inner{
+
+    padding:25px;
 }
 
-.delete-actions{
-  display:flex;
-  gap:7px;
-  margin-top:10px;
+.map-icon{
+
+    font-size:30px;
+
+    color:var(--champagne-300);
 }
 
+.map-preview strong{
+
+    display:block;
+
+    margin-top:8px;
+
+    color:var(--cream);
+
+    font-size:10px;
+}
+
+.map-preview span{
+
+    display:block;
+
+    margin-top:4px;
+
+    font-size:8px;
+}
 
 /* =========================================================
-   NOTIFICATION
+   DOCUMENT STATUS
+========================================================= */
+
+.document-list{
+
+    display:grid;
+
+    gap:9px;
+
+    margin-top:17px;
+}
+
+.document-item{
+
+    display:flex;
+
+    align-items:center;
+    justify-content:space-between;
+
+    gap:12px;
+
+    padding:12px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.07);
+
+    border-radius:11px;
+
+    background:
+        rgba(255,255,255,.025);
+}
+
+.document-left{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+}
+
+.document-icon{
+
+    width:34px;
+    height:34px;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:9px;
+
+    color:var(--champagne-300);
+
+    background:
+        rgba(234,215,159,.07);
+}
+
+.document-name strong{
+
+    display:block;
+
+    color:var(--cream);
+
+    font-size:8px;
+}
+
+.document-name span{
+
+    display:block;
+
+    margin-top:3px;
+
+    color:var(--muted-2);
+
+    font-size:7px;
+}
+
+.document-status{
+
+    padding:6px 8px;
+
+    border-radius:7px;
+
+    color:#bfe2c8;
+
+    background:
+        rgba(130,201,149,.08);
+
+    font-size:7px;
+    font-weight:850;
+}
+
+/* =========================================================
+   TOAST
 ========================================================= */
 
 .toast{
-  position:fixed;
 
-  right:20px;
-  bottom:20px;
+    position:fixed;
 
-  z-index:999;
+    right:22px;
+    bottom:22px;
 
-  max-width:360px;
+    z-index:3000;
 
-  padding:14px 17px;
+    min-width:260px;
 
-  border:1px solid rgba(229,199,125,.25);
-  border-radius:13px;
+    max-width:400px;
 
-  color:var(--cream);
+    padding:14px 16px;
 
-  background:#10261c;
+    border:
+        1px solid
+        rgba(234,215,159,.25);
 
-  box-shadow:0 20px 50px rgba(0,0,0,.35);
+    border-radius:13px;
 
-  font-size:9px;
-  line-height:1.5;
+    background:
+        rgba(13,20,36,.97);
 
-  transform:
-    translateY(30px);
+    box-shadow:
+        0 20px 50px rgba(0,0,0,.35);
 
-  opacity:0;
-  pointer-events:none;
+    transform:
+        translateY(25px);
 
-  transition:.25s ease;
+    opacity:0;
+
+    pointer-events:none;
+
+    transition:.25s ease;
 }
 
 .toast.show{
-  transform:translateY(0);
-  opacity:1;
+
+    transform:
+        translateY(0);
+
+    opacity:1;
 }
 
-.toast.success{
-  border-color:rgba(130,201,149,.30);
+.toast strong{
+
+    display:block;
+
+    color:var(--cream);
+
+    font-size:9px;
 }
 
-.toast.error{
-  border-color:rgba(233,140,140,.30);
-}
+.toast span{
 
+    display:block;
+
+    margin-top:4px;
+
+    color:var(--muted-2);
+
+    font-size:8px;
+
+    line-height:1.5;
+}
 
 /* =========================================================
    FOOTER
 ========================================================= */
 
 .site-footer{
-  margin-top:45px;
-  padding:35px 0 25px;
 
-  border-top:1px solid rgba(255,255,255,.07);
+    position:relative;
 
-  background:rgba(3,12,8,.35);
+    margin-top:55px;
+
+    padding:48px 0 25px;
+
+    border-top:
+        1px solid
+        rgba(234,215,159,.12);
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(3,7,14,.35),
+            rgba(3,7,14,.85)
+        );
+}
+
+.footer-top-line{
+
+    height:1px;
+
+    width:100%;
+
+    margin-bottom:35px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(234,215,159,.22),
+            transparent
+        );
 }
 
 .footer-grid{
-  display:grid;
-  grid-template-columns:1.4fr repeat(3,1fr);
-  gap:25px;
+
+    display:grid;
+
+    grid-template-columns:
+        1.6fr
+        repeat(4,1fr);
+
+    gap:30px;
 }
 
 .footer-brand{
-  max-width:300px;
+    max-width:350px;
+}
+
+.footer-brand .brand-logo{
+
+    width:43px;
+    height:43px;
 }
 
 .footer-brand p{
-  margin-top:10px;
-  color:var(--muted-2);
-  font-size:9px;
-  line-height:1.7;
+
+    margin-top:14px;
+
+    color:var(--muted-2);
+
+    font-size:9px;
+
+    line-height:1.85;
+}
+
+.footer-trust{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:6px;
+
+    margin-top:15px;
+}
+
+.trust-pill{
+
+    padding:6px 9px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.07);
+
+    border-radius:7px;
+
+    color:var(--muted-2);
+
+    background:
+        rgba(255,255,255,.025);
+
+    font-size:7px;
+    font-weight:800;
 }
 
 .footer-col h4{
-  color:var(--gold-200);
-  font-size:9px;
-  letter-spacing:.1em;
-  text-transform:uppercase;
+
+    color:var(--champagne-200);
+
+    font-size:9px;
+
+    letter-spacing:.1em;
+
+    text-transform:uppercase;
 }
 
 .footer-col a{
-  display:block;
-  margin-top:9px;
-  color:var(--muted-2);
-  font-size:9px;
+
+    display:block;
+
+    margin-top:11px;
+
+    color:var(--muted-2);
+
+    font-size:9px;
+
+    transition:.2s ease;
 }
 
 .footer-col a:hover{
-  color:var(--gold-300);
+
+    color:var(--champagne-300);
+
+    transform:translateX(2px);
 }
 
 .footer-bottom{
-  display:flex;
-  justify-content:space-between;
-  gap:15px;
 
-  margin-top:28px;
-  padding-top:17px;
+    display:flex;
 
-  border-top:1px solid rgba(255,255,255,.06);
+    justify-content:space-between;
 
-  color:var(--muted-2);
-  font-size:8px;
+    gap:15px;
+
+    margin-top:32px;
+    padding-top:19px;
+
+    border-top:
+        1px solid
+        rgba(255,255,255,.06);
+
+    color:var(--muted-2);
+
+    font-size:8px;
 }
 
-
 /* =========================================================
-   AI BUTTON
+   AI
 ========================================================= */
 
 .ai-floating{
-  position:fixed;
 
-  right:22px;
-  bottom:22px;
+    position:fixed;
 
-  z-index:90;
+    right:22px;
+    bottom:22px;
 
-  min-height:48px;
+    z-index:900;
 
-  display:flex;
-  align-items:center;
-  gap:8px;
+    min-height:50px;
 
-  padding:0 16px;
+    display:flex;
+    align-items:center;
 
-  border:1px solid rgba(229,199,125,.25);
-  border-radius:30px;
+    gap:9px;
 
-  color:#17170f;
+    padding:0 18px;
 
-  background:
-    linear-gradient(
-      135deg,
-      var(--gold-200),
-      var(--gold-400)
-    );
+    border:
+        1px solid
+        rgba(234,215,159,.28);
 
-  box-shadow:
-    0 15px 35px rgba(0,0,0,.3);
+    border-radius:30px;
 
-  font-size:10px;
-  font-weight:1000;
+    color:#171713;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--champagne-200),
+            var(--champagne-400)
+        );
+
+    box-shadow:
+        0 15px 35px rgba(0,0,0,.30);
+
+    font-size:10px;
+    font-weight:1000;
+
+    transition:.2s ease;
 }
 
-
-/* =========================================================
-   LOADING
-========================================================= */
-
-.loading-overlay{
-  position:fixed;
-  inset:0;
-
-  z-index:500;
-
-  display:none;
-  place-items:center;
-
-  background:rgba(3,12,8,.75);
-  backdrop-filter:blur(8px);
+.ai-floating:hover{
+    transform:translateY(-3px);
 }
 
-.loading-overlay.show{
-  display:grid;
-}
+.ai-icon{
 
-.loader-card{
-  width:min(300px,calc(100% - 40px));
-  padding:25px;
+    width:27px;
+    height:27px;
 
-  text-align:center;
-
-  border:1px solid var(--border);
-  border-radius:18px;
-
-  background:#10261c;
-
-  box-shadow:var(--shadow);
-}
-
-.loader{
-  width:34px;
-  height:34px;
-
-  margin:auto;
-
-  border:3px solid rgba(229,199,125,.15);
-  border-top-color:var(--gold-300);
-  border-radius:50%;
-
-  animation:spin .8s linear infinite;
-}
-
-.loader-card p{
-  margin-top:12px;
-  color:var(--muted);
-  font-size:9px;
-}
-
-@keyframes spin{
-  to{
-    transform:rotate(360deg);
-  }
-}
-
-
-/* =========================================================
-   MOBILE
-========================================================= */
-
-@media(max-width:1150px){
-
-  .desktop-nav{
-    display:none;
-  }
-
-  .mobile-menu{
     display:grid;
-  }
+    place-items:center;
 
-  .editor-layout{
-    grid-template-columns:1fr;
-  }
+    border-radius:50%;
 
-  .side-column{
-    position:static;
-    grid-template-columns:1fr 1fr;
-  }
+    background:
+        rgba(0,0,0,.10);
+}
 
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:1240px){
+
+    .desktop-nav{
+        display:none;
+    }
+
+    .mobile-menu{
+        display:grid;
+    }
+
+    .edit-layout{
+        grid-template-columns:1fr;
+    }
+
+    .sidebar-card{
+        position:static;
+        order:-1;
+    }
+
+    .footer-grid{
+        grid-template-columns:
+            1.5fr
+            repeat(3,1fr);
+    }
+}
+
+@media(max-width:900px){
+
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+
+    .form-group.full{
+        grid-column:auto;
+    }
+
+    .checkbox-grid{
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+    .location-grid{
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+    .profile-info,
+    .profile-arrow{
+        display:none;
+    }
+
+    .profile-menu{
+
+        padding:3px;
+
+        border-radius:50%;
+
+        border-color:transparent;
+
+        background:transparent;
+    }
 }
 
 @media(max-width:800px){
 
-  .container{
-    width:min(
-      calc(100% - 28px),
-      var(--container)
-    );
-  }
+    .container{
 
-  .form-grid{
-    grid-template-columns:1fr;
-  }
+        width:min(
+            calc(100% - 28px),
+            var(--container)
+        );
+    }
 
-  .form-group.full{
-    grid-column:auto;
-  }
+    .page-heading{
 
-  .option-grid{
-    grid-template-columns:1fr 1fr;
-  }
+        align-items:flex-start;
 
-  .amenities{
-    grid-template-columns:1fr 1fr;
-  }
+        flex-direction:column;
+    }
 
-  .image-grid{
-    grid-template-columns:repeat(3,1fr);
-  }
+    .page{
+        padding-top:28px;
+    }
 
-  .side-column{
-    grid-template-columns:1fr;
-  }
+    .status-bar{
+        align-items:flex-start;
+        flex-direction:column;
+    }
 
-  .footer-grid{
-    grid-template-columns:1fr 1fr;
-  }
+    .image-preview-grid{
+        grid-template-columns:
+            repeat(3,1fr);
+    }
 
+    .footer-grid{
+        grid-template-columns:
+            1fr 1fr;
+    }
 }
 
 @media(max-width:560px){
 
-  .header-inner{
-    min-height:68px;
-  }
+    .header-inner{
+        min-height:68px;
+    }
 
-  .brand-text span{
-    display:none;
-  }
+    .brand-text span{
+        display:none;
+    }
 
-  .header-actions .icon-btn{
-    display:none;
-  }
+    .header-actions
+    .notification-wrap{
+        display:none;
+    }
 
-  .header-actions .mobile-menu{
-    display:grid;
-  }
+    .brand-logo{
 
-  .page-hero{
-    padding-top:25px;
-  }
+        width:42px;
+        height:42px;
 
-  .page-hero-card{
-    padding:24px;
-    border-radius:22px;
-  }
+        border-radius:12px;
+    }
 
-  .page-hero h1{
-    font-size:35px;
-  }
+    .page-heading h1{
+        font-size:35px;
+    }
 
-  .panel{
-    padding:17px;
-  }
+    .panel{
+        padding:16px;
+    }
 
-  .option-grid{
-    grid-template-columns:1fr 1fr;
-  }
+    .checkbox-grid,
+    .location-grid{
+        grid-template-columns:1fr;
+    }
 
-  .image-grid{
-    grid-template-columns:repeat(2,1fr);
-  }
+    .image-preview-grid{
+        grid-template-columns:
+            repeat(2,1fr);
+    }
 
-  .amenities{
-    grid-template-columns:1fr;
-  }
+    .footer-grid{
+        grid-template-columns:1fr;
+    }
 
-  .status-bar{
-    align-items:flex-start;
-    flex-direction:column;
-  }
+    .footer-bottom{
+        flex-direction:column;
+    }
 
-  .footer-grid{
-    grid-template-columns:1fr;
-  }
+    .ai-floating{
 
-  .footer-bottom{
-    flex-direction:column;
-  }
+        right:14px;
+        bottom:14px;
+    }
 
-  .ai-floating{
-    right:14px;
-    bottom:14px;
-  }
-
+    .ai-floating .ai-text{
+        display:none;
+    }
 }
 
 </style>
+
 </head>
 
 <body>
 
 <div class="page-glow"></div>
 
-
-<!-- =========================================================
+<!-- =======================================================
      HEADER
-========================================================= -->
+======================================================= -->
 
 <header class="site-header">
 
-  <div class="container header-inner">
+<div class="container header-inner">
 
-    <a
-      class="brand"
-      href="/seller/index.html"
-      aria-label="GHAR Seller Home"
-    >
+<a
+    class="brand"
+    href="/seller/index.html"
+    aria-label="GHAR Seller Home"
+>
 
-      <div class="brand-mark">
-        G
-      </div>
+<div class="brand-logo">
 
-      <div class="brand-text">
+<img
+    src="../assets/images/logo/ghar-logo-light.svg"
+    alt="GHAR"
+    onerror="
+        this.style.display='none';
+        this.nextElementSibling.style.display='grid';
+    "
+>
 
-        <strong>GHAR</strong>
+<div
+    class="brand-logo-fallback"
+    style="display:none"
+>
+    G
+</div>
 
-        <span>
-          Seller Experience
-        </span>
+</div>
 
-      </div>
+<div class="brand-text">
 
-    </a>
+<strong>GHAR</strong>
 
+<span>Seller Experience</span>
 
-    <nav
-      class="desktop-nav"
-      aria-label="Seller navigation"
-    >
+</div>
 
-      <a href="/seller/index.html">
-        Home
-      </a>
+</a>
 
-      <a href="/seller/dashboard.html">
-        Dashboard
-      </a>
+<nav
+    class="desktop-nav"
+    aria-label="Seller navigation"
+>
 
-      <a href="/seller/properties.html"
-         class="active">
-        Properties
-      </a>
+<a href="/seller/index.html">
+    Home
+</a>
 
-      <a href="/seller/list-property.html">
-        List Property
-      </a>
+<a href="/seller/dashboard.html">
+    Dashboard
+</a>
 
-      <a href="/seller/leads.html">
-        Leads
-      </a>
+<a href="/seller/properties.html" class="active">
+    Properties
+</a>
 
-      <a href="/seller/offers.html">
-        Offers
-      </a>
+<a href="/seller/leads.html">
+    Leads
+</a>
 
-    </nav>
+<a href="/seller/visits.html">
+    Visits
+</a>
 
+<a href="/seller/offers.html">
+    Offers
+</a>
 
-    <div class="header-actions">
+<a href="/seller/applications.html">
+    Applications
+</a>
 
-      <button
-        class="icon-btn"
-        id="notificationButton"
-        type="button"
-        aria-label="Notifications"
-      >
-        ♢
-      </button>
+<a href="/seller/payments.html">
+    Payments
+</a>
 
-      <a
-        class="avatar"
-        id="profileButton"
-        href="/seller/profile.html"
-        aria-label="Profile"
-      >
-        U
-      </a>
+</nav>
 
-      <button
-        class="icon-btn mobile-menu"
-        id="menuButton"
-        type="button"
-        aria-label="Open menu"
-      >
-        ☰
-      </button>
+<div class="header-actions">
 
-    </div>
+<div class="notification-wrap">
 
-  </div>
+<button
+    class="icon-btn"
+    id="notificationButton"
+    type="button"
+    aria-label="Notifications"
+>
+    ♢
+</button>
+
+<span class="notification-dot"></span>
+
+</div>
+
+<a
+    class="profile-menu"
+    href="/seller/profile.html"
+>
+
+<img
+    id="profileImage"
+    src="../assets/images/profile/seller-default.jpg"
+    alt="Seller profile"
+    onerror="
+        this.src='../assets/images/profile/default-avatar.jpg'
+    "
+>
+
+<span class="profile-info">
+
+<strong id="profileName">
+    Seller
+</strong>
+
+<small>
+    My account
+</small>
+
+</span>
+
+<span class="profile-arrow">
+    ⌄
+</span>
+
+</a>
+
+<button
+    class="icon-btn mobile-menu"
+    id="menuButton"
+    type="button"
+    aria-label="Open seller menu"
+    aria-expanded="false"
+>
+    ☰
+</button>
+
+</div>
+
+</div>
 
 </header>
 
+<!-- =======================================================
+     MOBILE NAV
+======================================================= -->
+
+<div
+    class="mobile-nav-panel"
+    id="mobileNav"
+>
+
+<div class="mobile-profile">
+
+<img
+    id="mobileProfileImage"
+    src="../assets/images/profile/seller-default.jpg"
+    alt="Seller profile"
+    onerror="
+        this.src='../assets/images/profile/default-avatar.jpg'
+    "
+>
+
+<div>
+
+<strong id="mobileProfileName">
+    Seller
+</strong>
+
+<span>
+    GHAR Seller Account
+</span>
+
+</div>
+
+</div>
+
+<a href="/seller/index.html">
+    Home <span>›</span>
+</a>
+
+<a href="/seller/dashboard.html">
+    Dashboard <span>›</span>
+</a>
+
+<a
+    href="/seller/properties.html"
+    class="active"
+>
+    Properties <span>›</span>
+</a>
+
+<a href="/seller/list-property.html">
+    List Property <span>›</span>
+</a>
+
+<a href="/seller/leads.html">
+    Leads <span>›</span>
+</a>
+
+<a href="/seller/visits.html">
+    Visits <span>›</span>
+</a>
+
+<a href="/seller/offers.html">
+    Offers <span>›</span>
+</a>
+
+<a href="/seller/applications.html">
+    Applications <span>›</span>
+</a>
+
+<a href="/seller/payments.html">
+    Payments <span>›</span>
+</a>
+
+<a href="/seller/documents.html">
+    Documents <span>›</span>
+</a>
+
+<a href="/seller/referral.html">
+    Referral <span>›</span>
+</a>
+
+<a href="/seller/profile.html">
+    Profile <span>›</span>
+</a>
+
+<a href="/seller/settings.html">
+    Settings <span>›</span>
+</a>
+
+<a href="/seller/support.html">
+    Support <span>›</span>
+</a>
+
+</div>
+
+<!-- =======================================================
+     MAIN
+======================================================= -->
 
 <main>
 
+<section class="page">
 
-<!-- =========================================================
-     PAGE HERO
-========================================================= -->
+<div class="container">
 
-<section class="page-hero">
+<!-- =====================================================
+     PAGE HEADING
+====================================================== -->
 
-  <div class="container">
+<div class="page-heading">
 
-    <div class="breadcrumb">
+<div>
 
-      <a href="/seller/index.html">
-        Seller
-      </a>
+<div class="eyebrow">
+    PROPERTY MANAGEMENT
+</div>
 
-      <span>›</span>
+<h1>
+    Edit property.
+</h1>
 
-      <a href="/seller/properties.html">
-        Properties
-      </a>
+<p>
+    Update your property's information, pricing,
+    location, amenities, media and listing details.
+    Changes are saved securely to your GHAR seller account.
+</p>
 
-      <span>›</span>
+</div>
 
-      <span class="current">
-        Edit Property
-      </span>
+<div class="heading-actions">
 
-    </div>
+<a
+    class="btn btn-secondary"
+    href="/seller/properties.html"
+>
+    ← Back to properties
+</a>
 
+<a
+    class="btn btn-primary"
+    href="/seller/list-property.html"
+>
+    + List another property
+</a>
 
-    <div class="page-hero-card">
+</div>
 
-      <div class="eyebrow">
-        PROPERTY MANAGEMENT
-      </div>
+</div>
 
-      <h1>
-        Edit your
-        <span>property.</span>
-      </h1>
+<!-- =====================================================
+     STATUS
+====================================================== -->
 
-      <p>
-        Update property information, pricing, media, amenities,
-        location and listing preferences. Changes are saved
-        securely to your GHAR seller account.
-      </p>
+<div class="status-bar">
 
+<div class="status-left">
 
-      <div class="status-bar">
+<span class="status-dot"></span>
 
-        <div class="status-left">
+<div class="status-text">
 
-          <div class="status-dot"></div>
+<strong id="propertyStatus">
+    Loading property...
+</strong>
 
-          <div class="status-text">
+<span id="propertyStatusMessage">
+    Retrieving property information.
+</span>
 
-            <strong id="listingStatus">
-              Loading property...
-            </strong>
+</div>
 
-            <span id="listingStatusText">
-              Please wait while the property information is loaded.
-            </span>
+</div>
 
-          </div>
+<div class="property-id">
 
-        </div>
+Property ID:
+<strong id="propertyId">
+    --
+</strong>
 
-        <div
-          class="property-id"
-          id="propertyIdLabel"
-        >
-          Property ID --
-        </div>
+</div>
 
-      </div>
+</div>
 
-    </div>
+<!-- =====================================================
+     EDIT LAYOUT
+====================================================== -->
 
-  </div>
+<div class="edit-layout">
+
+<!-- ===================================================
+     MAIN FORM
+=================================================== -->
+
+<div>
+
+<form id="propertyForm">
+
+<!-- =================================================
+     BASIC INFORMATION
+================================================== -->
+
+<section class="panel">
+
+<div class="panel-header">
+
+<div>
+
+<div class="panel-title">
+    Basic property information
+</div>
+
+<div class="panel-subtitle">
+    Core information buyers will see throughout
+    the GHAR property marketplace.
+</div>
+
+</div>
+
+<div class="section-number">
+    01
+</div>
+
+</div>
+
+<div class="form-grid">
+
+<div class="form-group full">
+
+<label
+    class="form-label"
+    for="propertyTitle"
+>
+    Property title
+    <span class="required">*</span>
+</label>
+
+<input
+    id="propertyTitle"
+    class="input"
+    type="text"
+    maxlength="150"
+    placeholder="e.g. Premium 3 BHK Apartment in Sector 100"
+    required
+>
+
+</div>
+
+<div class="form-group">
+
+<label
+    class="form-label"
+    for="listingType"
+>
+    Listing type
+</label>
+
+<select
+    id="listingType"
+    class="select"
+>
+
+<option value="sale">
+    For Sale
+</option>
+
+<option value="rent">
+    For Rent
+</option>
+
+<option value="lease">
+    For Lease
+</option>
+
+</select>
+
+</div>
+
+<div class="form-group">
+
+<label
+    class="form-label"
+    for="propertyType"
+>
+    Property type
+</label>
+
+<select
+    id="propertyType"
+    class="select"
+>
+
+<option value="apartment">
+    Apartment
+</option>
+
+<option value="villa">
+    Villa
+</option>
+
+<option value="house">
+    House
+</option>
+
+<option value="plot">
+    Plot
+</option>
+
+<option value="commercial">
+    Commercial
+</option>
+
+<option value="office">
+    Office
+</option>
+
+<option value="shop">
+    Shop
+</option>
+
+</select>
+
+</div>
+
+<div class="form-group">
+
+<label
+    class="form-label"
+    for="configuration"
+>
+    Configuration
+</label>
+
+<select
+    id="configuration"
+    class="select"
+>
+
+<option value="">
+    Select configuration
+</option>
+
+<option value="1 BHK">
+    1 BHK
+</option>
+
+<option value="2 BHK">
+    2 BHK
+</option>
+
+<option value="3 BHK">
+    3 BHK
+</option>
+
+<option value="4 BHK">
+    4 BHK
+</option>
+
+<option value="5 BHK">
+    5 BHK
+</option>
+
+<option value="5+ BHK">
+    5+ BHK
+</option>
+
+<option value="Studio">
+    Studio
+</option>
+
+<option value="Plot">
+    Plot
+</option>
+
+</select>
+
+</div>
+
+<div class="form-group">
+
+<label
+    class="form-label"
+    for="furnishing"
+>
+    Furnishing
+</label>
+
+<select
+    id="furnishing"
+    class="select"
+>
+
+<option value="">
+    Select furnishing
+</option>
+
+<option value="Unfurnished">
+    Unfurnished
+</option>
+
+<option value="Semi Furnished">
+    Semi Furnished
+</option>
+
+<option value="Fully Furnished">
+    Fully Furnished
+</option>
+
+</select>
+
+</div>
+
+<div class="form-group">
+
+<label
+    class="form-label"
+    for="propertyStatusSelect"
+>
+    Property status
+</label>
+
+<select
+    id="propertyStatusSelect"
+    class="select"
+>
+
+<option value="available">
+    Available
+</option>
+
+<option value="under-construction">
+    Under Construction
+</option>
+
+<option value="ready-to-move">
+    Ready to Move
+</option>
+
+<option value="sold">
+    Sold
+</option>
+
+<option value="rented">
+    Rented
+</option>
+
+<option value="inactive">
+    Inactive
+</option>
+
+</select>
+
+</div>
+
+</div>
 
 </section>
 
+<!-- =================================================
+     PRICE & AREA
+================================================== -->
 
-<!-- =========================================================
-     EDITOR
-========================================================= -->
+<section class="panel">
 
-<section class="section">
+<div class="panel-header">
 
-  <div class="container">
+<div>
 
-    <div class="editor-layout">
+<div class="panel-title">
+    Price & property dimensions
+</div>
 
+<div class="panel-subtitle">
+    Keep your asking price and property measurements
+    accurate so buyers receive reliable information.
+</div>
 
-      <!-- ===================================================
-           FORM COLUMN
-      ==================================================== -->
+</div>
 
-      <div class="form-column">
+<div class="section-number">
+    02
+</div>
 
-        <form
-          id="propertyForm"
-          novalidate
-        >
+</div>
 
+<div class="form-grid">
 
-          <!-- =================================================
-               BASIC INFORMATION
-          ================================================== -->
+<div class="form-group">
 
-          <section class="panel">
+<label
+    class="form-label"
+    for="price"
+>
+    Asking price
+    <span class="required">*</span>
+</label>
 
-            <div class="panel-heading">
+<div class="price-wrap">
 
-              <div>
+<span class="price-prefix">
+    ₹
+</span>
 
-                <h2>
-                  Basic information
-                </h2>
+<input
+    id="price"
+    class="input"
+    type="number"
+    min="0"
+    step="1"
+    placeholder="e.g. 8500000"
+    required
+>
 
-                <p>
-                  Update the core information buyers will see.
-                </p>
+</div>
 
-              </div>
+<div class="field-hint">
+    Enter the full numeric asking price.
+</div>
 
-              <div class="panel-number">
-                01
-              </div>
+</div>
 
-            </div>
+<div class="form-group">
 
+<label
+    class="form-label"
+    for="maintenance"
+>
+    Monthly maintenance
+</label>
 
-            <div class="form-grid">
+<div class="price-wrap">
 
+<span class="price-prefix">
+    ₹
+</span>
 
-              <div class="form-group full">
+<input
+    id="maintenance"
+    class="input"
+    type="number"
+    min="0"
+    placeholder="Optional"
+>
 
-                <label
-                  class="form-label"
-                  for="title"
-                >
-                  Property title <span>*</span>
-                </label>
+</div>
 
-                <input
-                  class="input"
-                  id="title"
-                  name="title"
-                  type="text"
-                  placeholder="e.g. Premium 3 BHK Apartment in Noida"
-                  required
-                >
+</div>
 
-              </div>
+<div class="form-group">
 
+<label
+    class="form-label"
+    for="area"
+>
+    Built-up / property area
+</label>
 
-              <div class="form-group">
+<input
+    id="area"
+    class="input"
+    type="number"
+    min="0"
+    placeholder="e.g. 1450"
+>
 
-                <label
-                  class="form-label"
-                  for="listingType"
-                >
-                  Listing purpose <span>*</span>
-                </label>
+</div>
 
-                <select
-                  class="select"
-                  id="listingType"
-                  name="listingType"
-                  required
-                >
+<div class="form-group">
 
-                  <option value="">
-                    Select purpose
-                  </option>
+<label
+    class="form-label"
+    for="areaUnit"
+>
+    Area unit
+</label>
 
-                  <option value="sale">
-                    For Sale
-                  </option>
+<select
+    id="areaUnit"
+    class="select"
+>
 
-                  <option value="rent">
-                    For Rent
-                  </option>
+<option value="sq.ft">
+    Sq.ft
+</option>
 
-                  <option value="lease">
-                    For Lease
-                  </option>
+<option value="sq.m">
+    Sq.m
+</option>
 
-                </select>
+<option value="sq.yd">
+    Sq.yd
+</option>
 
-              </div>
+<option value="acre">
+    Acre
+</option>
 
+<option value="hectare">
+    Hectare
+</option>
 
-              <div class="form-group">
+</select>
 
-                <label
-                  class="form-label"
-                  for="propertyType"
-                >
-                  Property type <span>*</span>
-                </label>
+</div>
 
-                <select
-                  class="select"
-                  id="propertyType"
-                  name="propertyType"
-                  required
-                >
+<div class="form-group">
 
-                  <option value="">
-                    Select property type
-                  </option>
+<label
+    class="form-label"
+    for="carpetArea"
+>
+    Carpet area
+</label>
 
-                  <option value="apartment">
-                    Apartment
-                  </option>
+<input
+    id="carpetArea"
+    class="input"
+    type="number"
+    min="0"
+    placeholder="Optional"
+>
 
-                  <option value="villa">
-                    Villa
-                  </option>
+</div>
 
-                  <option value="house">
-                    Independent House
-                  </option>
+<div class="form-group">
 
-                  <option value="plot">
-                    Plot
-                  </option>
+<label
+    class="form-label"
+    for="floor"
+>
+    Floor
+</label>
 
-                  <option value="commercial">
-                    Commercial
-                  </option>
+<input
+    id="floor"
+    class="input"
+    type="text"
+    placeholder="e.g. 12 of 24"
+>
+
+</div>
 
-                  <option value="office">
-                    Office
-                  </option>
+</div>
+
+</section>
+
+<!-- =================================================
+     PROPERTY DETAILS
+================================================== -->
+
+<section class="panel">
+
+<div class="panel-header">
+
+<div>
+
+<div class="panel-title">
+    Property details
+</div>
+
+<div class="panel-subtitle">
+    Provide useful specifications that help buyers
+    understand the property before arranging a visit.
+</div>
+
+</div>
 
-                  <option value="shop">
-                    Shop
-                  </option>
+<div class="section-number">
+    03
+</div>
 
-                  <option value="warehouse">
-                    Warehouse
-                  </option>
+</div>
+
+<div class="form-grid">
 
-                </select>
+<div class="form-group">
 
-              </div>
+<label
+    class="form-label"
+    for="bedrooms"
+>
+    Bedrooms
+</label>
 
+<input
+    id="bedrooms"
+    class="input"
+    type="number"
+    min="0"
+    placeholder="e.g. 3"
+>
+
+</div>
+
+<div class="form-group">
+
+<label
+    class="form-label"
+    for="bathrooms"
+>
+    Bathrooms
+</label>
 
-              <div class="form-group">
+<input
+    id="bathrooms"
+    class="input"
+    type="number"
+    min="0"
+    placeholder="e.g. 3"
+>
 
-                <label
-                  class="form-label"
-                  for="configuration"
-                >
-                  Configuration
-                </label>
+</div>
 
-                <select
-                  class="select"
-                  id="configuration"
-                  name="configuration"
-                >
+<div class="form-group">
 
-                  <option value="">
-                    Select configuration
-                  </option>
+<label
+    class="form-label"
+    for="balconies"
+>
+    Balconies
+</label>
 
-                  <option value="1 BHK">
-                    1 BHK
-                  </option>
+<input
+    id="balconies"
+    class="input"
+    type="number"
+    min="0"
+    placeholder="e.g. 2"
+>
 
-                  <option value="2 BHK">
-                    2 BHK
-                  </option>
+</div>
 
-                  <option value="3 BHK">
-                    3 BHK
-                  </option>
+<div class="form-group">
 
-                  <option value="4 BHK">
-                    4 BHK
-                  </option>
+<label
+    class="form-label"
+    for="parking"
+>
+    Parking
+</label>
 
-                  <option value="5 BHK">
-                    5 BHK
-                  </option>
+<select
+    id="parking"
+    class="select"
+>
 
-                  <option value="6+ BHK">
-                    6+ BHK
-                  </option>
+<option value="">
+    Select
+</option>
 
-                  <option value="studio">
-                    Studio
-                  </option>
+<option value="None">
+    None
+</option>
 
-                  <option value="other">
-                    Other
-                  </option>
+<option value="1">
+    1 Car
+</option>
 
-                </select>
+<option value="2">
+    2 Cars
+</option>
 
-              </div>
+<option value="3+">
+    3+ Cars
+</option>
 
+<option value="Covered">
+    Covered
+</option>
 
-              <div class="form-group">
+<option value="Open">
+    Open
+</option>
 
-                <label
-                  class="form-label"
-                  for="propertyStatus"
-                >
-                  Property status
-                </label>
+</select>
 
-                <select
-                  class="select"
-                  id="propertyStatus"
-                  name="status"
-                >
+</div>
 
-                  <option value="active">
-                    Active
-                  </option>
+<div class="form-group full">
 
-                  <option value="draft">
-                    Draft
-                  </option>
+<label
+    class="form-label"
+    for="description"
+>
+    Property description
+</label>
 
-                  <option value="paused">
-                    Paused
-                  </option>
+<textarea
+    id="description"
+    class="textarea"
+    maxlength="5000"
+    placeholder="Describe the property's condition, layout, location advantages, views, nearby facilities and other relevant details..."
+></textarea>
 
-                  <option value="sold">
-                    Sold
-                  </option>
+<div class="field-hint">
+    Avoid publishing personal phone numbers or private owner information in the description.
+</div>
 
-                  <option value="rented">
-                    Rented
-                  </option>
+</div>
 
-                </select>
+</div>
 
-              </div>
+</section>
 
+<!-- =================================================
+     LOCATION
+================================================== -->
 
-              <div class="form-group full">
+<section class="panel">
 
-                <label
-                  class="form-label"
-                  for="description"
-                >
-                  Property description
-                </label>
+<div class="panel-header">
 
-                <textarea
-                  class="textarea"
-                  id="description"
-                  name="description"
-                  placeholder="Describe the property, its condition, key features and advantages..."
-                ></textarea>
+<div>
 
-                <div class="form-help">
-                  Avoid publishing personal contact details in the description.
-                </div>
+<div class="panel-title">
+    Location
+</div>
 
-              </div>
+<div class="panel-subtitle">
+    Update the property's location and geographic
+    information used for search and mapping.
+</div>
 
-            </div>
+</div>
 
-          </section>
+<div class="section-number">
+    04
+</div>
 
+</div>
 
-          <!-- =================================================
-               PRICE
-          ================================================== -->
+<div class="location-grid">
 
-          <section class="panel">
+<div class="form-group">
 
-            <div class="panel-heading">
+<label
+    class="form-label"
+    for="city"
+>
+    City
+</label>
 
-              <div>
+<input
+    id="city"
+    class="input"
+    type="text"
+    placeholder="e.g. Noida"
+>
 
-                <h2>
-                  Pricing & area
-                </h2>
+</div>
 
-                <p>
-                  Keep your asking price and property dimensions accurate.
-                </p>
+<div class="form-group">
 
-              </div>
+<label
+    class="form-label"
+    for="state"
+>
+    State
+</label>
 
-              <div class="panel-number">
-                02
-              </div>
+<input
+    id="state"
+    class="input"
+    type="text"
+    placeholder="e.g. Uttar Pradesh"
+>
 
-            </div>
+</div>
 
+<div class="form-group">
 
-            <div class="form-grid">
+<label
+    class="form-label"
+    for="pincode"
+>
+    Pincode
+</label>
 
+<input
+    id="pincode"
+    class="input"
+    type="text"
+    maxlength="10"
+    placeholder="e.g. 201301"
+>
 
-              <div class="form-group">
+</div>
 
-                <label
-                  class="form-label"
-                  for="price"
-                >
-                  Asking price <span>*</span>
-                </label>
+<div class="form-group">
 
-                <div class="price-wrap">
+<label
+    class="form-label"
+    for="locality"
+>
+    Locality
+</label>
 
-                  <span class="price-prefix">
-                    ₹
-                  </span>
+<input
+    id="locality"
+    class="input"
+    type="text"
+    placeholder="e.g. Sector 100"
+>
 
-                  <input
-                    class="input"
-                    id="price"
-                    name="price"
-                    type="number"
-                    min="0"
-                    step="1"
-                    placeholder="e.g. 12500000"
-                    required
-                  >
+</div>
 
-                </div>
+<div class="form-group">
 
-              </div>
+<label
+    class="form-label"
+    for="projectName"
+>
+    Project / society
+</label>
 
+<input
+    id="projectName"
+    class="input"
+    type="text"
+    placeholder="Project or society name"
+>
 
-              <div class="form-group">
+</div>
 
-                <label
-                  class="form-label"
-                  for="maintenance"
-                >
-                  Maintenance / month
-                </label>
+<div class="form-group">
 
-                <div class="price-wrap">
+<label
+    class="form-label"
+    for="address"
+>
+    Address
+</label>
 
-                  <span class="price-prefix">
-                    ₹
-                  </span>
+<input
+    id="address"
+    class="input"
+    type="text"
+    placeholder="Property address"
+>
 
-                  <input
-                    class="input"
-                    id="maintenance"
-                    name="maintenance"
-                    type="number"
-                    min="0"
-                    step="1"
-                    placeholder="Optional"
-                  >
+</div>
 
-                </div>
+</div>
 
-              </div>
+<div class="map-preview">
 
+<div class="map-preview-inner">
 
-              <div class="form-group">
+<div class="map-icon">
+    ⌖
+</div>
 
-                <label
-                  class="form-label"
-                  for="area"
-                >
-                  Built-up / usable area <span>*</span>
-                </label>
+<strong id="mapLocation">
+    Property location
+</strong>
 
-                <input
-                  class="input"
-                  id="area"
-                  name="area"
-                  type="number"
-                  min="0"
-                  step="1"
-                  placeholder="e.g. 1850"
-                  required
-                >
+<span>
+    Map coordinates can be updated through the property location service.
+</span>
 
-              </div>
+</div>
 
+</div>
 
-              <div class="form-group">
+</section>
 
-                <label
-                  class="form-label"
-                  for="areaUnit"
-                >
-                  Area unit
-                </label>
+<!-- =================================================
+     AMENITIES
+================================================== -->
 
-                <select
-                  class="select"
-                  id="areaUnit"
-                  name="areaUnit"
-                >
+<section class="panel">
 
-                  <option value="sqft">
-                    Sq. Ft.
-                  </option>
+<div class="panel-header">
 
-                  <option value="sqm">
-                    Sq. M.
-                  </option>
+<div>
 
-                  <option value="sqyd">
-                    Sq. Yd.
-                  </option>
+<div class="panel-title">
+    Amenities & features
+</div>
 
-                  <option value="acre">
-                    Acre
-                  </option>
+<div class="panel-subtitle">
+    Select features available with the property.
+</div>
 
-                </select>
+</div>
 
-              </div>
+<div class="section-number">
+    05
+</div>
 
+</div>
 
-              <div class="form-group">
+<div class="checkbox-grid">
 
-                <label
-                  class="form-label"
-                  for="bedrooms"
-                >
-                  Bedrooms
-                </label>
+<label class="checkbox-card">
+<input type="checkbox" value="Swimming Pool">
+Swimming Pool
+</label>
 
-                <input
-                  class="input"
-                  id="bedrooms"
-                  name="bedrooms"
-                  type="number"
-                  min="0"
-                  step="1"
-                  placeholder="e.g. 3"
-                >
+<label class="checkbox-card">
+<input type="checkbox" value="Gym">
+Gym
+</label>
 
-              </div>
+<label class="checkbox-card">
+<input type="checkbox" value="Clubhouse">
+Clubhouse
+</label>
 
+<label class="checkbox-card">
+<input type="checkbox" value="Lift">
+Lift
+</label>
 
-              <div class="form-group">
+<label class="checkbox-card">
+<input type="checkbox" value="Power Backup">
+Power Backup
+</label>
 
-                <label
-                  class="form-label"
-                  for="bathrooms"
-                >
-                  Bathrooms
-                </label>
+<label class="checkbox-card">
+<input type="checkbox" value="Security">
+24×7 Security
+</label>
 
-                <input
-                  class="input"
-                  id="bathrooms"
-                  name="bathrooms"
-                  type="number"
-                  min="0"
-                  step="1"
-                  placeholder="e.g. 3"
-                >
+<label class="checkbox-card">
+<input type="checkbox" value="CCTV">
+CCTV
+</label>
 
-              </div>
+<label class="checkbox-card">
+<input type="checkbox" value="Park">
+Park / Garden
+</label>
 
-            </div>
+<label class="checkbox-card">
+<input type="checkbox" value="Visitor Parking">
+Visitor Parking
+</label>
 
-          </section>
+<label class="checkbox-card">
+<input type="checkbox" value="Intercom">
+Intercom
+</label>
 
+<label class="checkbox-card">
+<input type="checkbox" value="Fire Safety">
+Fire Safety
+</label>
 
-          <!-- =================================================
-               LOCATION
-          ================================================== -->
+<label class="checkbox-card">
+<input type="checkbox" value="Water Supply">
+24×7 Water Supply
+</label>
 
-          <section class="panel">
+</div>
 
-            <div class="panel-heading">
+</section>
 
-              <div>
+<!-- =================================================
+     MEDIA
+================================================== -->
 
-                <h2>
-                  Location
-                </h2>
+<section class="panel">
 
-                <p>
-                  Help buyers understand exactly where the property is.
-                </p>
+<div class="panel-header">
 
-              </div>
+<div>
 
-              <div class="panel-number">
-                03
-              </div>
+<div class="panel-title">
+    Property media
+</div>
 
-            </div>
+<div class="panel-subtitle">
+    Replace or add high-quality property photographs.
+</div>
 
+</div>
 
-            <div class="form-grid">
+<div class="section-number">
+    06
+</div>
 
+</div>
 
-              <div class="form-group full">
+<div
+    class="upload-zone"
+    id="uploadZone"
+>
 
-                <label
-                  class="form-label"
-                  for="address"
-                >
-                  Address
-                </label>
+<div class="upload-icon">
+    ＋
+</div>
 
-                <input
-                  class="input"
-                  id="address"
-                  name="address"
-                  type="text"
-                  placeholder="Building / locality / street"
-                >
+<h3>
+    Add property photographs
+</h3>
 
-              </div>
+<p>
+    Select multiple JPG, JPEG, PNG or WEBP images.
+    Use clear property photographs for better buyer engagement.
+</p>
 
+<input
+    id="imageInput"
+    type="file"
+    accept="image/jpeg,image/png,image/webp"
+    multiple
+>
 
-              <div class="form-group">
+</div>
 
-                <label
-                  class="form-label"
-                  for="city"
-                >
-                  City <span>*</span>
-                </label>
+<div
+    id="imagePreview"
+    class="image-preview-grid"
+></div>
 
-                <input
-                  class="input"
-                  id="city"
-                  name="city"
-                  type="text"
-                  placeholder="e.g. Noida"
-                  required
-                >
+</section>
 
-              </div>
+<!-- =================================================
+     DOCUMENTS
+================================================== -->
 
+<section class="panel">
 
-              <div class="form-group">
+<div class="panel-header">
 
-                <label
-                  class="form-label"
-                  for="state"
-                >
-                  State
-                </label>
+<div>
 
-                <input
-                  class="input"
-                  id="state"
-                  name="state"
-                  type="text"
-                  placeholder="e.g. Uttar Pradesh"
-                >
+<div class="panel-title">
+    Verification documents
+</div>
 
-              </div>
+<div class="panel-subtitle">
+    Review the verification status associated with this property.
+</div>
 
+</div>
 
-              <div class="form-group">
+<div class="section-number">
+    07
+</div>
 
-                <label
-                  class="form-label"
-                  for="locality"
-                >
-                  Locality / Sector
-                </label>
+</div>
 
-                <input
-                  class="input"
-                  id="locality"
-                  name="locality"
-                  type="text"
-                  placeholder="e.g. Sector 150"
-                >
+<div class="document-list">
 
-              </div>
+<div class="document-item">
 
+<div class="document-left">
 
-              <div class="form-group">
+<div class="document-icon">
+    ▣
+</div>
 
-                <label
-                  class="form-label"
-                  for="pincode"
-                >
-                  Pincode
-                </label>
+<div class="document-name">
 
-                <input
-                  class="input"
-                  id="pincode"
-                  name="pincode"
-                  type="text"
-                  inputmode="numeric"
-                  maxlength="6"
-                  placeholder="e.g. 201301"
-                >
+<strong>
+    Ownership document
+</strong>
 
-              </div>
+<span>
+    Property ownership verification
+</span>
 
+</div>
 
-              <div class="form-group">
+</div>
 
-                <label
-                  class="form-label"
-                  for="latitude"
-                >
-                  Latitude
-                </label>
+<span class="document-status">
+    Submitted
+</span>
 
-                <input
-                  class="input"
-                  id="latitude"
-                  name="latitude"
-                  type="number"
-                  step="any"
-                  placeholder="Optional"
-                >
+</div>
 
-              </div>
+<div class="document-item">
 
+<div class="document-left">
 
-              <div class="form-group">
+<div class="document-icon">
+    ▣
+</div>
 
-                <label
-                  class="form-label"
-                  for="longitude"
-                >
-                  Longitude
-                </label>
+<div class="document-name">
 
-                <input
-                  class="input"
-                  id="longitude"
-                  name="longitude"
-                  type="number"
-                  step="any"
-                  placeholder="Optional"
-                >
+<strong>
+    Identity verification
+</strong>
 
-              </div>
+<span>
+    Seller identity document
+</span>
 
-            </div>
+</div>
 
-          </section>
+</div>
 
+<span class="document-status">
+    Submitted
+</span>
 
-          <!-- =================================================
-               PROPERTY DETAILS
-          ================================================== -->
+</div>
 
-          <section class="panel">
+<div class="document-item">
 
-            <div class="panel-heading">
+<div class="document-left">
 
-              <div>
+<div class="document-icon">
+    ▣
+</div>
 
-                <h2>
-                  Property details
-                </h2>
+<div class="document-name">
 
-                <p>
-                  Update specifications that help buyers compare listings.
-                </p>
+<strong>
+    Property verification
+</strong>
 
-              </div>
+<span>
+    GHAR property review
+</span>
 
-              <div class="panel-number">
-                04
-              </div>
+</div>
 
-            </div>
+</div>
 
+<span
+    id="verificationStatus"
+    class="document-status"
+>
+    Pending
+</span>
 
-            <div class="form-grid">
+</div>
 
+</div>
 
-              <div class="form-group">
+<div
+    class="field-hint"
+    style="margin-top:12px;"
+>
+    Document replacement and verification requests are handled through the seller documents workflow.
+</div>
 
-                <label
-                  class="form-label"
-                  for="floor"
-                >
-                  Floor
-                </label>
+</section>
 
-                <input
-                  class="input"
-                  id="floor"
-                  name="floor"
-                  type="text"
-                  placeholder="e.g. 8"
-                >
+</form>
 
-              </div>
+</div>
 
+<!-- ===================================================
+     SIDEBAR
+=================================================== -->
 
-              <div class="form-group">
+<aside>
 
-                <label
-                  class="form-label"
-                  for="totalFloors"
-                >
-                  Total floors
-                </label>
+<div class="panel sidebar-card">
 
-                <input
-                  class="input"
-                  id="totalFloors"
-                  name="totalFloors"
-                  type="number"
-                  min="0"
-                  placeholder="e.g. 18"
-                >
+<div class="panel-title">
+    Listing readiness
+</div>
 
-              </div>
+<div class="panel-subtitle">
+    Complete the important property information
+    before submitting your changes.
+</div>
 
+<div class="progress">
 
-              <div class="form-group">
+<div class="progress-head">
 
-                <label
-                  class="form-label"
-                  for="facing"
-                >
-                  Facing
-                </label>
+<span>
+    Completion
+</span>
 
-                <select
-                  class="select"
-                  id="facing"
-                  name="facing"
-                >
+<strong id="completionValue">
+    68%
+</strong>
 
-                  <option value="">
-                    Select facing
-                  </option>
+</div>
 
-                  <option value="north">
-                    North
-                  </option>
+<div class="progress-track">
 
-                  <option value="south">
-                    South
-                  </option>
+<div
+    id="completionBar"
+    class="progress-value"
+></div>
 
-                  <option value="east">
-                    East
-                  </option>
+</div>
 
-                  <option value="west">
-                    West
-                  </option>
+</div>
 
-                  <option value="north-east">
-                    North-East
-                  </option>
+<div class="checklist">
 
-                  <option value="north-west">
-                    North-West
-                  </option>
+<div
+    class="check-item"
+    id="checkBasic"
+>
 
-                  <option value="south-east">
-                    South-East
-                  </option>
+<div class="check-icon">
+    ✓
+</div>
 
-                  <option value="south-west">
-                    South-West
-                  </option>
+<span>
+    Basic information
+</span>
 
-                </select>
+</div>
 
-              </div>
+<div
+    class="check-item"
+    id="checkPrice"
+>
 
+<div class="check-icon">
+    ✓
+</div>
 
-              <div class="form-group">
+<span>
+    Price & area
+</span>
 
-                <label
-                  class="form-label"
-                  for="age"
-                >
-                  Property age
-                </label>
+</div>
 
-                <select
-                  class="select"
-                  id="age"
-                  name="age"
-                >
+<div
+    class="check-item"
+    id="checkLocation"
+>
 
-                  <option value="">
-                    Select age
-                  </option>
+<div class="check-icon">
+    ✓
+</div>
 
-                  <option value="new">
-                    New / Under Construction
-                  </option>
+<span>
+    Location details
+</span>
 
-                  <option value="0-1">
-                    0–1 Years
-                  </option>
+</div>
 
-                  <option value="1-5">
-                    1–5 Years
-                  </option>
+<div
+    class="check-item"
+    id="checkDescription"
+>
 
-                  <option value="5-10">
-                    5–10 Years
-                  </option>
+<div class="check-icon">
+    ✓
+</div>
 
-                  <option value="10+">
-                    10+ Years
-                  </option>
+<span>
+    Property description
+</span>
 
-                </select>
+</div>
 
-              </div>
+<div
+    class="check-item"
+    id="checkMedia"
+>
 
+<div class="check-icon">
+    ✓
+</div>
 
-              <div class="form-group full">
+<span>
+    Property photographs
+</span>
 
-                <label class="form-label">
-                  Furnishing
-                </label>
+</div>
 
-                <div class="option-grid">
+</div>
 
-                  <div class="option">
-                    <input
-                      type="radio"
-                      id="furnishingNone"
-                      name="furnishing"
-                      value="unfurnished"
-                    >
-                    <label for="furnishingNone">
-                      Unfurnished
-                    </label>
-                  </div>
+<div class="save-box">
 
-                  <div class="option">
-                    <input
-                      type="radio"
-                      id="furnishingSemi"
-                      name="furnishing"
-                      value="semi-furnished"
-                    >
-                    <label for="furnishingSemi">
-                      Semi Furnished
-                    </label>
-                  </div>
+<strong>
+    Ready to save?
+</strong>
 
-                  <div class="option">
-                    <input
-                      type="radio"
-                      id="furnishingFull"
-                      name="furnishing"
-                      value="fully-furnished"
-                    >
-                    <label for="furnishingFull">
-                      Fully Furnished
-                    </label>
-                  </div>
+<p>
+    Your changes will be submitted to GHAR.
+    Verification requirements may apply before
+    modified information becomes publicly visible.
+</p>
 
-                </div>
+<div class="save-actions">
 
-              </div>
+<button
+    id="saveButton"
+    class="btn btn-primary"
+    type="submit"
+    form="propertyForm"
+>
+    Save changes
+</button>
 
+<button
+    id="previewButton"
+    class="btn btn-secondary"
+    type="button"
+>
+    Preview property
+</button>
 
-              <div class="form-group full">
+</div>
 
-                <label class="form-label">
-                  Ownership
-                </label>
+</div>
 
-                <div class="option-grid">
+<button
+    id="deleteButton"
+    class="btn btn-danger delete-property"
+    type="button"
+>
+    Delete / deactivate property
+</button>
 
-                  <div class="option">
-                    <input
-                      type="radio"
-                      id="ownerFirst"
-                      name="ownership"
-                      value="first-owner"
-                    >
-                    <label for="ownerFirst">
-                      First Owner
-                    </label>
-                  </div>
+</div>
 
-                  <div class="option">
-                    <input
-                      type="radio"
-                      id="ownerSecond"
-                      name="ownership"
-                      value="second-owner"
-                    >
-                    <label for="ownerSecond">
-                      Second Owner
-                    </label>
-                  </div>
+</aside>
 
-                  <div class="option">
-                    <input
-                      type="radio"
-                      id="ownerOther"
-                      name="ownership"
-                      value="other"
-                    >
-                    <label for="ownerOther">
-                      Other
-                    </label>
-                  </div>
+</div>
 
-                </div>
-
-              </div>
-
-            </div>
-
-          </section>
-
-
-          <!-- =================================================
-               AMENITIES
-          ================================================== -->
-
-          <section class="panel">
-
-            <div class="panel-heading">
-
-              <div>
-
-                <h2>
-                  Amenities
-                </h2>
-
-                <p>
-                  Select all facilities available with the property.
-                </p>
-
-              </div>
-
-              <div class="panel-number">
-                05
-              </div>
-
-            </div>
-
-
-            <div class="amenities">
-
-              <div class="amenity">
-                <input type="checkbox" id="amenityParking" value="parking">
-                <label for="amenityParking">
-                  <span class="amenity-mark">✓</span>
-                  Parking
-                </label>
-              </div>
-
-              <div class="amenity">
-                <input type="checkbox" id="amenityLift" value="lift">
-                <label for="amenityLift">
-                  <span class="amenity-mark">✓</span>
-                  Lift
-                </label>
-              </div>
-
-              <div class="amenity">
-                <input type="checkbox" id="amenitySecurity" value="security">
-                <label for="amenitySecurity">
-                  <span class="amenity-mark">✓</span>
-                  Security
-                </label>
-              </div>
-
-              <div class="amenity">
-                <input type="checkbox" id="amenityPower" value="power-backup">
-                <label for="amenityPower">
-                  <span class="amenity-mark">✓</span>
-                  Power Backup
-                </label>
-              </div>
-
-              <div class="amenity">
-                <input type="checkbox" id="amenityGym" value="gym">
-                <label for="amenityGym">
-                  <span class="amenity-mark">✓</span>
-                  Gym
-                </label>
-              </div>
-
-              <div class="amenity">
-                <input type="checkbox" id="amenityPool" value="swimming-pool">
-                <label for="amenityPool">
-                  <span class="amenity-mark">✓</span>
-                  Swimming Pool
-                </label>
-              </div>
-
-              <div class="amenity">
-                <input type="checkbox" id="amenityGarden" value="garden">
-                <label for="amenityGarden">
-                  <span class="amenity-mark">✓</span>
-                  Garden
-                </label>
-              </div>
-
-              <div class="amenity">
-                <input type="checkbox" id="amenityClub" value="club-house">
-                <label for="amenityClub">
-                  <span class="amenity-mark">✓</span>
-                  Club House
-                </label>
-              </div>
-
-              <div class="amenity">
-                <input type="checkbox" id="amenityCCTV" value="cctv">
-                <label for="amenityCCTV">
-                  <span class="amenity-mark">✓</span>
-                  CCTV
-                </label>
-              </div>
-
-              <div class="amenity">
-                <input type="checkbox" id="amenityWater" value="water-supply">
-                <label for="amenityWater">
-                  <span class="amenity-mark">✓</span>
-                  Water Supply
-                </label>
-              </div>
-
-              <div class="amenity">
-                <input type="checkbox" id="amenityInternet" value="internet">
-                <label for="amenityInternet">
-                  <span class="amenity-mark">✓</span>
-                  Internet
-                </label>
-              </div>
-
-              <div class="amenity">
-                <input type="checkbox" id="amenityEV" value="ev-charging">
-                <label for="amenityEV">
-                  <span class="amenity-mark">✓</span>
-                  EV Charging
-                </label>
-              </div>
-
-            </div>
-
-          </section>
-
-
-          <!-- =================================================
-               IMAGES
-          ================================================== -->
-
-          <section class="panel">
-
-            <div class="panel-heading">
-
-              <div>
-
-                <h2>
-                  Property images
-                </h2>
-
-                <p>
-                  Replace or add high-quality images to improve your listing.
-                </p>
-
-              </div>
-
-              <div class="panel-number">
-                06
-              </div>
-
-            </div>
-
-
-            <div class="image-upload">
-
-              <label
-                class="drop-zone"
-                id="dropZone"
-                for="imageInput"
-              >
-
-                <div class="upload-icon">
-                  ↑
-                </div>
-
-                <strong>
-                  Add property photos
-                </strong>
-
-                <span>
-                  Click or drag images here · JPG, PNG, WEBP
-                </span>
-
-              </label>
-
-              <input
-                id="imageInput"
-                type="file"
-                accept="image/jpeg,image/png,image/webp"
-                multiple
-              >
-
-
-              <div
-                class="image-grid"
-                id="imageGrid"
-              >
-                <!-- Images populated by JS -->
-              </div>
-
-            </div>
-
-          </section>
-
-
-          <!-- =================================================
-               EXTRA INFORMATION
-          ================================================== -->
-
-          <section class="panel">
-
-            <div class="panel-heading">
-
-              <div>
-
-                <h2>
-                  Additional information
-                </h2>
-
-                <p>
-                  Add useful information that can improve buyer confidence.
-                </p>
-
-              </div>
-
-              <div class="panel-number">
-                07
-              </div>
-
-            </div>
-
-
-            <div class="form-grid">
-
-
-              <div class="form-group">
-
-                <label
-                  class="form-label"
-                  for="possession"
-                >
-                  Possession
-                </label>
-
-                <input
-                  class="input"
-                  id="possession"
-                  name="possession"
-                  type="text"
-                  placeholder="e.g. Ready to move"
-                >
-
-              </div>
-
-
-              <div class="form-group">
-
-                <label
-                  class="form-label"
-                  for="parkingCount"
-                >
-                  Parking spaces
-                </label>
-
-                <input
-                  class="input"
-                  id="parkingCount"
-                  name="parkingCount"
-                  type="number"
-                  min="0"
-                  placeholder="e.g. 2"
-                >
-
-              </div>
-
-
-              <div class="form-group full">
-
-                <label
-                  class="form-label"
-                  for="additionalDetails"
-                >
-                  Additional details
-                </label>
-
-                <textarea
-                  class="textarea"
-                  id="additionalDetails"
-                  name="additionalDetails"
-                  placeholder="Add any other relevant property information..."
-                ></textarea>
-
-              </div>
-
-            </div>
-
-          </section>
-
-
-          <!-- =================================================
-               SAVE ACTIONS
-          ================================================== -->
-
-          <section class="panel">
-
-            <div class="panel-heading">
-
-              <div>
-
-                <h2>
-                  Save changes
-                </h2>
-
-                <p>
-                  Review your information before publishing the update.
-                </p>
-
-              </div>
-
-              <div class="panel-number">
-                08
-              </div>
-
-            </div>
-
-
-            <div style="
-              display:flex;
-              gap:9px;
-              flex-wrap:wrap;
-            ">
-
-              <button
-                class="btn btn-primary"
-                type="submit"
-                id="saveButton"
-              >
-                ✓ Save changes
-              </button>
-
-              <button
-                class="btn btn-secondary"
-                type="button"
-                id="saveDraftButton"
-              >
-                Save as draft
-              </button>
-
-              <a
-                class="btn btn-secondary"
-                id="cancelButton"
-                href="/seller/properties.html"
-              >
-                Cancel
-              </a>
-
-            </div>
-
-          </section>
-
-        </form>
-
-      </div>
-
-
-      <!-- ===================================================
-           SIDEBAR
-      ==================================================== -->
-
-      <aside class="side-column">
-
-
-        <!-- =================================================
-             PREVIEW
-        ================================================== -->
-
-        <div class="preview-card">
-
-          <div class="preview-image">
-
-            <div
-              class="preview-placeholder"
-              id="previewPlaceholder"
-            >
-              Property preview
-            </div>
-
-            <img
-              id="previewImage"
-              src=""
-              alt=""
-              style="display:none"
-            >
-
-            <span class="preview-badge">
-              Seller Preview
-            </span>
-
-          </div>
-
-
-          <div class="preview-content">
-
-            <div
-              class="preview-type"
-              id="previewType"
-            >
-              PROPERTY
-            </div>
-
-            <div
-              class="preview-title"
-              id="previewTitle"
-            >
-              Your property title
-            </div>
-
-            <div
-              class="preview-location"
-              id="previewLocation"
-            >
-              Property location
-            </div>
-
-            <div
-              class="preview-price"
-              id="previewPrice"
-            >
-              ₹ Price
-            </div>
-
-          </div>
-
-        </div>
-
-
-        <!-- =================================================
-             LISTING CHECKLIST
-        ================================================== -->
-
-        <div class="action-panel">
-
-          <h3>
-            Listing quality
-          </h3>
-
-          <p>
-            Complete information helps buyers understand your property.
-          </p>
-
-
-          <div class="checklist">
-
-            <div
-              class="check-item pending"
-              id="checkTitle"
-            >
-              <span class="check-icon">
-                ✓
-              </span>
-              Property title
-            </div>
-
-            <div
-              class="check-item pending"
-              id="checkPrice"
-            >
-              <span class="check-icon">
-                ✓
-              </span>
-              Asking price
-            </div>
-
-            <div
-              class="check-item pending"
-              id="checkLocation"
-            >
-              <span class="check-icon">
-                ✓
-              </span>
-              Location
-            </div>
-
-            <div
-              class="check-item pending"
-              id="checkDescription"
-            >
-              <span class="check-icon">
-                ✓
-              </span>
-              Description
-            </div>
-
-            <div
-              class="check-item pending"
-              id="checkImages"
-            >
-              <span class="check-icon">
-                ✓
-              </span>
-              Property images
-            </div>
-
-          </div>
-
-        </div>
-
-
-        <!-- =================================================
-             DANGER ZONE
-        ================================================== -->
-
-        <div class="action-panel">
-
-          <h3>
-            Property actions
-          </h3>
-
-          <p>
-            Deleting a listing is permanent and should only be used when
-            the property should no longer exist on GHAR.
-          </p>
-
-
-          <div class="actions">
-
-            <a
-              class="btn btn-secondary"
-              id="viewPropertyButton"
-              href="#"
-            >
-              View property
-            </a>
-
-            <button
-              class="btn btn-danger"
-              type="button"
-              id="deleteButton"
-            >
-              Delete property
-            </button>
-
-          </div>
-
-
-          <div
-            class="delete-box"
-            id="deleteBox"
-          >
-
-            <p>
-              Are you sure? This action may permanently remove
-              the property and its listing data.
-            </p>
-
-            <div class="delete-actions">
-
-              <button
-                class="btn btn-danger"
-                type="button"
-                id="confirmDelete"
-              >
-                Yes, delete
-              </button>
-
-              <button
-                class="btn btn-secondary"
-                type="button"
-                id="cancelDelete"
-              >
-                Cancel
-              </button>
-
-            </div>
-
-          </div>
-
-        </div>
-
-      </aside>
-
-    </div>
-
-  </div>
+</div>
 
 </section>
 
 </main>
 
-
-<!-- =========================================================
+<!-- =======================================================
      FOOTER
-========================================================= -->
+======================================================= -->
 
 <footer class="site-footer">
 
-  <div class="container">
+<div class="container">
 
-    <div class="footer-grid">
+<div class="footer-top-line"></div>
 
+<div class="footer-grid">
 
-      <div class="footer-brand">
+<div class="footer-brand">
 
-        <div class="brand">
-
-          <div class="brand-mark">
-            G
-          </div>
-
-          <div class="brand-text">
-
-            <strong>
-              GHAR
-            </strong>
-
-            <span>
-              Real Estate Platform
-            </span>
-
-          </div>
-
-        </div>
-
-        <p>
-          A connected real estate platform for discovering,
-          listing, evaluating, financing and managing property decisions.
-        </p>
-
-      </div>
-
-
-      <div class="footer-col">
-
-        <h4>
-          Seller
-        </h4>
-
-        <a href="/seller/index.html">
-          Seller Home
-        </a>
-
-        <a href="/seller/dashboard.html">
-          Dashboard
-        </a>
-
-        <a href="/seller/properties.html">
-          My Properties
-        </a>
-
-        <a href="/seller/list-property.html">
-          List Property
-        </a>
-
-      </div>
-
-
-      <div class="footer-col">
-
-        <h4>
-          Manage
-        </h4>
-
-        <a href="/seller/leads.html">
-          Leads
-        </a>
-
-        <a href="/seller/offers.html">
-          Offers
-        </a>
-
-        <a href="/seller/visits.html">
-          Visits
-        </a>
-
-        <a href="/seller/documents.html">
-          Documents
-        </a>
-
-      </div>
-
-
-      <div class="footer-col">
-
-        <h4>
-          Support
-        </h4>
-
-        <a href="/help-centre.html">
-          Help Centre
-        </a>
-
-        <a href="/contact.html">
-          Contact
-        </a>
-
-        <a href="/seller/support.html">
-          Support
-        </a>
-
-        <a href="/privacy.html">
-          Privacy
-        </a>
-
-      </div>
-
-    </div>
-
-
-    <div class="footer-bottom">
-
-      <span>
-        © <span id="footerYear"></span> GHAR.
-        All rights reserved.
-      </span>
-
-      <span>
-        Seller Portal · Secure Session
-      </span>
-
-    </div>
-
-  </div>
-
-</footer>
-
-
-<!-- =========================================================
-     AI
-========================================================= -->
-
-<button
-  id="openAI"
-  class="ai-floating"
-  type="button"
->
-  ✦ Ask GHAR AI
-</button>
-
-
-<!-- =========================================================
-     TOAST
-========================================================= -->
-
-<div
-  class="toast"
-  id="toast"
-  role="status"
-  aria-live="polite"
-></div>
-
-
-<!-- =========================================================
-     LOADING
-========================================================= -->
-
-<div
-  class="loading-overlay"
-  id="loadingOverlay"
+<a
+    class="brand"
+    href="/seller/index.html"
 >
 
-  <div class="loader-card">
+<div class="brand-logo">
 
-    <div class="loader"></div>
+<img
+    src="../assets/images/logo/ghar-logo-light.svg"
+    alt="GHAR"
+    onerror="
+        this.style.display='none';
+        this.nextElementSibling.style.display='grid';
+    "
+>
 
-    <p id="loadingText">
-      Loading property...
-    </p>
-
-  </div>
+<div
+    class="brand-logo-fallback"
+    style="display:none"
+>
+    G
+</div>
 
 </div>
 
+<div class="brand-text">
+
+<strong>GHAR</strong>
+
+<span>Real Estate Platform</span>
+
+</div>
+
+</a>
+
+<p>
+    A connected real estate platform for discovering,
+    listing, evaluating, financing and managing property
+    decisions through one secure digital experience.
+</p>
+
+<div class="footer-trust">
+
+<span class="trust-pill">
+    Secure Seller Portal
+</span>
+
+<span class="trust-pill">
+    Property Intelligence
+</span>
+
+<span class="trust-pill">
+    AI Assisted
+</span>
+
+<span class="trust-pill">
+    Verified Workflows
+</span>
+
+</div>
+
+</div>
+
+<div class="footer-col">
+
+<h4>Seller</h4>
+
+<a href="/seller/dashboard.html">
+    Dashboard
+</a>
+
+<a href="/seller/properties.html">
+    My Properties
+</a>
+
+<a href="/seller/list-property.html">
+    List Property
+</a>
+
+<a href="/seller/leads.html">
+    Leads
+</a>
+
+<a href="/seller/visits.html">
+    Visits
+</a>
+
+</div>
+
+<div class="footer-col">
+
+<h4>Transactions</h4>
+
+<a href="/seller/offers.html">
+    Offers
+</a>
+
+<a href="/seller/applications.html">
+    Applications
+</a>
+
+<a href="/seller/payments.html">
+    Payments
+</a>
+
+<a href="/seller/documents.html">
+    Documents
+</a>
+
+<a href="/seller/property-approval.html">
+    Property Approval
+</a>
+
+</div>
+
+<div class="footer-col">
+
+<h4>Account</h4>
+
+<a href="/seller/profile.html">
+    Profile
+</a>
+
+<a href="/seller/settings.html">
+    Settings
+</a>
+
+<a href="/seller/referral.html">
+    Referral
+</a>
+
+<a href="/seller/messages.html">
+    Messages
+</a>
+
+<a href="/seller/notifications.html">
+    Notifications
+</a>
+
+</div>
+
+<div class="footer-col">
+
+<h4>Support</h4>
+
+<a href="/help-centre.html">
+    Help Centre
+</a>
+
+<a href="/seller/support.html">
+    Seller Support
+</a>
+
+<a href="/contact.html">
+    Contact
+</a>
+
+<a href="/privacy-policy.html">
+    Privacy
+</a>
+
+<a href="/terms.html">
+    Terms
+</a>
+
+</div>
+
+</div>
+
+<div class="footer-bottom">
+
+<span>
+    ©
+    <span id="footerYear"></span>
+    GHAR. All rights reserved.
+</span>
+
+<span>
+    Seller Portal · Secure Session
+</span>
+
+</div>
+
+</div>
+
+</footer>
+
+<!-- =======================================================
+     AI
+======================================================= -->
+
+<button
+    id="openAI"
+    class="ai-floating"
+    type="button"
+    aria-label="Ask GHAR AI"
+>
+
+<span class="ai-icon">
+    ✦
+</span>
+
+<span class="ai-text">
+    Ask GHAR AI
+</span>
+
+</button>
+
+<!-- =======================================================
+     TOAST
+======================================================= -->
+
+<div
+    id="toast"
+    class="toast"
+    role="status"
+    aria-live="polite"
+>
+
+<strong id="toastTitle">
+    GHAR
+</strong>
+
+<span id="toastMessage">
+    --
+</span>
+
+</div>
 
 <script>
-
 "use strict";
-
 
 /* =========================================================
    CONFIG
 ========================================================= */
 
 const API_BASE =
-  window.GHAR_API_BASE ||
-  window.API_BASE ||
-  "/api";
+    window.GHAR_API_BASE ||
+    window.API_BASE ||
+    "/api";
 
+const propertyForm =
+    document.getElementById("propertyForm");
 
 let propertyId =
-  getPropertyId();
+    new URLSearchParams(
+        window.location.search
+    ).get("id");
 
+let propertyData=null;
 
-let currentProperty = null;
-
-let propertyImages = [];
-
+let selectedImages=[];
 
 /* =========================================================
    HELPERS
 ========================================================= */
 
 function $(selector){
-  return document.querySelector(selector);
+    return document.querySelector(selector);
 }
-
 
 function escapeHTML(value){
 
-  return String(value ?? "")
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
-
+    return String(value ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
 }
 
+async function apiRequest(
+    url,
+    options={}
+){
 
-function getPropertyId(){
+    const response =
+        await fetch(
+            url,
+            {
+                credentials:"include",
 
-  const params =
-    new URLSearchParams(
-      window.location.search
-    );
+                headers:{
+                    "Accept":
+                        "application/json",
 
-  return (
-    params.get("id") ||
-    params.get("propertyId") ||
-    params.get("property_id") ||
-    ""
-  );
+                    ...(options.body
+                        ? {
+                            "Content-Type":
+                                "application/json"
+                        }
+                        : {}),
 
+                    ...(options.headers || {})
+                },
+
+                ...options
+            }
+        );
+
+    let data=null;
+
+    try{
+        data=await response.json();
+    }catch{
+        data=null;
+    }
+
+    if(!response.ok){
+
+        const error =
+            new Error(
+                data?.error?.message ||
+                data?.message ||
+                "Request failed."
+            );
+
+        error.status=response.status;
+        error.data=data;
+
+        throw error;
+    }
+
+    return data;
 }
 
-
-function formatPrice(value){
-
-  const amount =
-    Number(value);
-
-  if(
-    !Number.isFinite(amount) ||
-    amount <= 0
-  ){
-    return "₹ Price";
-  }
-
-  if(amount >= 10000000){
+function normalizeProperty(response){
 
     return (
-      "₹" +
-      (
-        amount / 10000000
-      ).toFixed(2) +
-      " Cr"
+        response?.data?.property ||
+        response?.property ||
+        response?.data ||
+        response
     );
-
-  }
-
-  if(amount >= 100000){
-
-    return (
-      "₹" +
-      (
-        amount / 100000
-      ).toFixed(2) +
-      " L"
-    );
-
-  }
-
-  return (
-    "₹" +
-    amount.toLocaleString(
-      "en-IN"
-    )
-  );
-
 }
-
 
 /* =========================================================
    TOAST
 ========================================================= */
 
-let toastTimer;
+let toastTimer=null;
 
 function showToast(
-  message,
-  type = "success"
+    title,
+    message
 ){
 
-  const toast =
-    $("#toast");
+    $("#toastTitle")
+        .textContent=title;
 
-  toast.textContent =
-    message;
+    $("#toastMessage")
+        .textContent=message;
 
-  toast.className =
-    "toast show " +
-    type;
+    $("#toast")
+        .classList
+        .add("show");
 
-  clearTimeout(
-    toastTimer
-  );
+    clearTimeout(toastTimer);
 
-  toastTimer =
-    setTimeout(
-      () => {
-        toast.classList.remove(
-          "show"
+    toastTimer =
+        setTimeout(
+            () => {
+
+                $("#toast")
+                    .classList
+                    .remove("show");
+
+            },
+            4000
         );
-      },
-      3500
-    );
-
 }
 
-
 /* =========================================================
-   LOADING
+   FORM SETTER
 ========================================================= */
 
-function setLoading(
-  state,
-  text = "Please wait..."
+function setValue(
+    id,
+    value
 ){
 
-  $("#loadingText").textContent =
-    text;
+    const element =
+        document.getElementById(id);
 
-  $("#loadingOverlay")
-    .classList.toggle(
-      "show",
-      state
-    );
-
+    if(element)
+        element.value =
+            value ?? "";
 }
 
-
 /* =========================================================
-   API
-========================================================= */
-
-async function apiRequest(
-  url,
-  options = {}
-){
-
-  const response =
-    await fetch(
-      url,
-      {
-        credentials:"include",
-
-        headers:{
-          "Accept":
-            "application/json",
-
-          ...(options.body
-            ? {
-                "Content-Type":
-                  "application/json"
-              }
-            : {}),
-
-          ...(options.headers || {})
-        },
-
-        ...options
-      }
-    );
-
-
-  let data = null;
-
-  try{
-    data =
-      await response.json();
-  }catch(error){
-    data = null;
-  }
-
-
-  if(!response.ok){
-
-    const error =
-      new Error(
-        data?.error?.message ||
-        data?.message ||
-        "Request failed."
-      );
-
-    error.status =
-      response.status;
-
-    error.data =
-      data;
-
-    throw error;
-  }
-
-
-  return data;
-
-}
-
-
-/* =========================================================
-   EXTRACT PROPERTY
-========================================================= */
-
-function extractProperty(
-  response
-){
-
-  if(!response){
-    return null;
-  }
-
-  if(response.property){
-    return response.property;
-  }
-
-  if(response.data?.property){
-    return response.data.property;
-  }
-
-  if(response.data){
-    return response.data;
-  }
-
-  return response;
-
-}
-
-
-/* =========================================================
-   LOAD PROPERTY
+   PROPERTY LOADING
 ========================================================= */
 
 async function loadProperty(){
 
-  if(!propertyId){
+    if(!propertyId){
 
-    showToast(
-      "No property ID was provided.",
-      "error"
+        showToast(
+            "Property ID required",
+            "Open this page with ?id=PROPERTY_ID."
+        );
+
+        setPropertyStatus(
+            "Property ID missing",
+            "A property identifier is required."
+        );
+
+        return;
+    }
+
+    setPropertyStatus(
+        "Loading property",
+        "Retrieving property information..."
     );
 
-    $("#listingStatus").textContent =
-      "Property ID required";
+    try{
 
-    $("#listingStatusText").textContent =
-      "Open this page with ?id=PROPERTY_ID.";
+        const response =
+            await apiRequest(
+                API_BASE+
+                "/properties/"+
+                encodeURIComponent(propertyId)
+            );
 
-    return;
+        propertyData =
+            normalizeProperty(
+                response
+            );
 
-  }
+        if(!propertyData ||
+           typeof propertyData!=="object"){
 
+            throw new Error(
+                "Property was not found."
+            );
+        }
 
-  setLoading(
-    true,
-    "Loading property information..."
-  );
+        populateForm(
+            propertyData
+        );
 
+        setPropertyStatus(
+            propertyData.status ||
+            "Available",
+            "Property information loaded."
+        );
 
-  try{
+    }catch(error){
 
-    const response =
-      await apiRequest(
-        API_BASE +
-        "/properties/" +
-        encodeURIComponent(
-          propertyId
-        )
-      );
+        console.error(
+            "GHAR property load:",
+            error
+        );
 
+        setPropertyStatus(
+            "Unable to load property",
+            error.message ||
+            "Please try again."
+        );
 
-    currentProperty =
-      extractProperty(
-        response
-      );
-
-
-    if(!currentProperty){
-
-      throw new Error(
-        "Property was not found."
-      );
+        showToast(
+            "Unable to load",
+            error.message ||
+            "Property could not be loaded."
+        );
 
     }
 
-
-    populateForm(
-      currentProperty
-    );
-
-
-    $("#listingStatus").textContent =
-      getStatusLabel(
-        currentProperty.status
-      );
-
-
-    $("#listingStatusText").textContent =
-      "Property information loaded successfully.";
-
-    $("#propertyIdLabel").textContent =
-      "Property ID " +
-      (
-        currentProperty.id ||
-        currentProperty.propertyId ||
-        propertyId
-      );
-
-
-    $("#viewPropertyButton").href =
-      "/property-details.html?id=" +
-      encodeURIComponent(
-        propertyId
-      );
-
-
-  }catch(error){
-
-    console.error(
-      "GHAR property loading:",
-      error
-    );
-
-
-    $("#listingStatus").textContent =
-      "Unable to load property";
-
-
-    $("#listingStatusText").textContent =
-      error.message;
-
-
-    showToast(
-      error.message,
-      "error"
-    );
-
-  }finally{
-
-    setLoading(false);
-
-  }
-
 }
-
 
 /* =========================================================
    STATUS
 ========================================================= */
 
-function getStatusLabel(
-  status
+function setPropertyStatus(
+    status,
+    message
 ){
 
-  const map = {
-    active:"Active listing",
-    draft:"Draft listing",
-    paused:"Listing paused",
-    sold:"Property sold",
-    rented:"Property rented",
-    pending:"Pending review",
-    rejected:"Needs attention"
-  };
+    $("#propertyStatus")
+        .textContent=
+            status || "Property";
 
-  return (
-    map[
-      String(status || "")
-        .toLowerCase()
-    ] ||
-    "Property listing"
-  );
+    $("#propertyStatusMessage")
+        .textContent=
+            message || "";
 
+    $("#propertyId")
+        .textContent=
+            propertyId || "--";
 }
 
-
 /* =========================================================
-   SET FIELD
+   POPULATE
 ========================================================= */
 
-function setField(
-  id,
-  value
-){
+function populateForm(property){
 
-  const field =
-    document.getElementById(id);
+    const title =
+        property.title ||
+        property.name ||
+        property.propertyName ||
+        "";
 
-  if(field){
-    field.value =
-      value ?? "";
-  }
-
-}
-
-
-/* =========================================================
-   POPULATE FORM
-========================================================= */
-
-function populateForm(
-  property
-){
-
-  setField(
-    "title",
-    property.title ||
-    property.name
-  );
-
-  setField(
-    "listingType",
-    property.listingType ||
-    property.purpose ||
-    property.transactionType ||
-    "sale"
-  );
-
-  setField(
-    "propertyType",
-    property.propertyType ||
-    property.type
-  );
-
-  setField(
-    "configuration",
-    property.configuration ||
-    property.bhk
-  );
-
-  setField(
-    "propertyStatus",
-    property.status ||
-    "active"
-  );
-
-  setField(
-    "description",
-    property.description
-  );
-
-  setField(
-    "price",
-    property.price ||
-    property.salePrice ||
-    property.amount
-  );
-
-  setField(
-    "maintenance",
-    property.maintenance ||
-    property.maintenanceFee
-  );
-
-  setField(
-    "area",
-    property.area ||
-    property.areaSqFt ||
-    property.size
-  );
-
-  setField(
-    "areaUnit",
-    property.areaUnit ||
-    "sqft"
-  );
-
-  setField(
-    "bedrooms",
-    property.bedrooms
-  );
-
-  setField(
-    "bathrooms",
-    property.bathrooms
-  );
-
-  setField(
-    "address",
-    property.address
-  );
-
-  setField(
-    "city",
-    property.city
-  );
-
-  setField(
-    "state",
-    property.state
-  );
-
-  setField(
-    "locality",
-    property.locality ||
-    property.sector ||
-    property.neighborhood
-  );
-
-  setField(
-    "pincode",
-    property.pincode ||
-    property.postalCode
-  );
-
-  setField(
-    "latitude",
-    property.latitude
-  );
-
-  setField(
-    "longitude",
-    property.longitude
-  );
-
-  setField(
-    "floor",
-    property.floor
-  );
-
-  setField(
-    "totalFloors",
-    property.totalFloors
-  );
-
-  setField(
-    "facing",
-    property.facing
-  );
-
-  setField(
-    "age",
-    property.age
-  );
-
-  setField(
-    "possession",
-    property.possession
-  );
-
-  setField(
-    "parkingCount",
-    property.parkingCount ||
-    property.parking
-  );
-
-  setField(
-    "additionalDetails",
-    property.additionalDetails
-  );
-
-
-  /* Furnishing */
-
-  setRadio(
-    "furnishing",
-    property.furnishing
-  );
-
-
-  /* Ownership */
-
-  setRadio(
-    "ownership",
-    property.ownership
-  );
-
-
-  /* Amenities */
-
-  const amenities =
-    property.amenities || [];
-
-  document
-    .querySelectorAll(
-      ".amenity input"
-    )
-    .forEach(
-      input => {
-
-        input.checked =
-          amenities
-            .map(
-              item =>
-                typeof item === "string"
-                  ? item
-                  : item?.name
-            )
-            .includes(
-              input.value
-            );
-
-      }
+    setValue(
+        "propertyTitle",
+        title
     );
 
-
-  /* Images */
-
-  propertyImages =
-    normalizeImages(
-      property.images ||
-      property.photos ||
-      []
+    setValue(
+        "listingType",
+        (
+            property.listingType ||
+            property.transactionType ||
+            property.purpose ||
+            "sale"
+        ).toLowerCase()
     );
 
-
-  renderImages();
-
-
-  updatePreview();
-
-  updateChecklist();
-
-}
-
-
-/* =========================================================
-   RADIO
-========================================================= */
-
-function setRadio(
-  name,
-  value
-){
-
-  if(!value){
-    return;
-  }
-
-  const input =
-    document.querySelector(
-      `input[name="${name}"][value="${CSS.escape(String(value))}"]`
+    setValue(
+        "propertyType",
+        (
+            property.propertyType ||
+            property.type ||
+            "apartment"
+        ).toLowerCase()
     );
 
-  if(input){
-    input.checked = true;
-  }
-
-}
-
-
-/* =========================================================
-   IMAGES
-========================================================= */
-
-function normalizeImages(
-  images
-){
-
-  if(!Array.isArray(images)){
-    return [];
-  }
-
-  return images
-    .map(
-      image => {
-
-        if(typeof image === "string"){
-
-          return {
-            url:image,
-            existing:true
-          };
-
-        }
-
-        return {
-          url:
-            image.url ||
-            image.imageUrl ||
-            image.src ||
-            image.path ||
-            "",
-          id:
-            image.id ||
-            image.imageId ||
-            null,
-          existing:true
-        };
-
-      }
-    )
-    .filter(
-      image =>
-        image.url
+    setValue(
+        "configuration",
+        property.configuration ||
+        property.bhk ||
+        ""
     );
 
+    setValue(
+        "furnishing",
+        property.furnishing ||
+        ""
+    );
+
+    setValue(
+        "propertyStatusSelect",
+        (
+            property.status ||
+            "available"
+        ).toLowerCase()
+    );
+
+    setValue(
+        "price",
+        property.price ||
+        property.salePrice ||
+        property.rent ||
+        property.rentPrice ||
+        ""
+    );
+
+    setValue(
+        "maintenance",
+        property.maintenance ||
+        property.maintenanceCharges ||
+        ""
+    );
+
+    setValue(
+        "area",
+        property.area ||
+        property.areaSqFt ||
+        property.builtUpArea ||
+        property.superBuiltUpArea ||
+        ""
+    );
+
+    setValue(
+        "areaUnit",
+        property.areaUnit ||
+        "sq.ft"
+    );
+
+    setValue(
+        "carpetArea",
+        property.carpetArea ||
+        ""
+    );
+
+    setValue(
+        "floor",
+        property.floor ||
+        property.floorNumber ||
+        ""
+    );
+
+    setValue(
+        "bedrooms",
+        property.bedrooms ||
+        property.bhk ||
+        ""
+    );
+
+    setValue(
+        "bathrooms",
+        property.bathrooms ||
+        property.bathroom ||
+        ""
+    );
+
+    setValue(
+        "balconies",
+        property.balconies ||
+        ""
+    );
+
+    setValue(
+        "parking",
+        property.parking ||
+        ""
+    );
+
+    setValue(
+        "description",
+        property.description ||
+        property.details ||
+        ""
+    );
+
+    setValue(
+        "city",
+        property.city ||
+        ""
+    );
+
+    setValue(
+        "state",
+        property.state ||
+        ""
+    );
+
+    setValue(
+        "pincode",
+        property.pincode ||
+        property.zipCode ||
+        ""
+    );
+
+    setValue(
+        "locality",
+        property.locality ||
+        ""
+    );
+
+    setValue(
+        "projectName",
+        property.projectName ||
+        property.project ||
+        property.society ||
+        ""
+    );
+
+    setValue(
+        "address",
+        property.address ||
+        ""
+    );
+
+    updateMapLocation();
+
+    populateAmenities(
+        property.amenities ||
+        property.features ||
+        []
+    );
+
+    renderExistingImages(
+        property
+    );
+
+    updateCompletion();
+
+    $("#verificationStatus")
+        .textContent =
+            property.verificationStatus ||
+            property.approvalStatus ||
+            "Pending";
 }
-
-
-function renderImages(){
-
-  const grid =
-    $("#imageGrid");
-
-  if(!grid){
-    return;
-  }
-
-
-  if(!propertyImages.length){
-
-    grid.innerHTML = "";
-
-    return;
-
-  }
-
-
-  grid.innerHTML =
-    propertyImages
-      .map(
-        (image,index) => `
-
-          <div
-            class="image-item"
-            data-image-index="${index}"
-          >
-
-            <img
-              src="${escapeHTML(image.url)}"
-              alt="Property image ${index + 1}"
-            >
-
-            ${
-              index === 0
-              ? `
-                <span class="image-primary">
-                  PRIMARY
-                </span>
-              `
-              : ""
-            }
-
-            <button
-              type="button"
-              class="image-remove"
-              data-remove-image="${index}"
-              aria-label="Remove image"
-            >
-              ×
-            </button>
-
-          </div>
-
-        `
-      )
-      .join("");
-
-}
-
 
 /* =========================================================
-   NEW IMAGE PREVIEW
+   AMENITIES
 ========================================================= */
 
-function addSelectedImages(
-  files
+function populateAmenities(
+    amenities
 ){
 
-  const validFiles =
-    Array.from(files || [])
-      .filter(
-        file =>
-          file.type.startsWith(
-            "image/"
-          )
-      );
+    if(typeof amenities==="string"){
 
-
-  validFiles.forEach(
-    file => {
-
-      const url =
-        URL.createObjectURL(
-          file
-        );
-
-      propertyImages.push({
-        url,
-        file,
-        existing:false
-      });
-
+        amenities =
+            amenities
+                .split(",")
+                .map(
+                    item =>
+                        item.trim()
+                );
     }
-  );
 
+    if(!Array.isArray(amenities))
+        return;
 
-  renderImages();
+    document
+        .querySelectorAll(
+            '.checkbox-card input[type="checkbox"]'
+        )
+        .forEach(
+            checkbox => {
 
-  updatePreview();
+                checkbox.checked =
+                    amenities.includes(
+                        checkbox.value
+                    );
 
-  updateChecklist();
-
+            }
+        );
 }
 
+/* =========================================================
+   EXISTING IMAGES
+========================================================= */
+
+function renderExistingImages(
+    property
+){
+
+    const images =
+        Array.isArray(property.images)
+            ? property.images
+            : [];
+
+    const image =
+        property.image ||
+        property.coverImage ||
+        property.thumbnail;
+
+    const allImages =
+        image
+        ? [image,...images]
+        : images;
+
+    const unique =
+        [...new Set(
+            allImages.filter(Boolean)
+        )];
+
+    $("#imagePreview")
+        .innerHTML =
+            unique
+                .map(
+                    (src,index) => `
+
+<div
+    class="preview-card"
+    data-existing-index="${index}"
+>
+
+<img
+    src="${escapeHTML(src)}"
+    alt="Property image ${index+1}"
+    onerror="
+        this.src='../assets/images/properties/property-placeholder.jpg'
+    "
+>
+
+<button
+    type="button"
+    class="preview-remove"
+    data-existing-image="${escapeHTML(src)}"
+    title="Remove image"
+>
+    ×
+</button>
+
+</div>
+
+`
+                )
+                .join("");
+
+    bindPreviewRemoveButtons();
+}
+
+function bindPreviewRemoveButtons(){
+
+    document
+        .querySelectorAll(
+            "[data-existing-image]"
+        )
+        .forEach(
+            button => {
+
+                button.addEventListener(
+                    "click",
+                    () => {
+
+                        button
+                            .closest(
+                                ".preview-card"
+                            )
+                            ?.remove();
+
+                    }
+                );
+
+            }
+        );
+}
 
 /* =========================================================
    IMAGE INPUT
 ========================================================= */
 
 $("#imageInput")
-  .addEventListener(
-    "change",
-    event => {
+    ?.addEventListener(
+        "change",
+        event => {
 
-      addSelectedImages(
-        event.target.files
-      );
+            const files =
+                [...event.target.files];
 
-      event.target.value = "";
+            selectedImages =
+                files;
 
-    }
-  );
+            const existing =
+                [...document.querySelectorAll(
+                    "[data-existing-image]"
+                )]
+                .map(
+                    element =>
+                        element.dataset
+                            .existingImage
+                );
 
+            $("#imagePreview")
+                .innerHTML =
+                    existing
+                        .map(
+                            (src,index) => `
+
+<div
+    class="preview-card"
+    data-existing-index="${index}"
+>
+
+<img
+    src="${escapeHTML(src)}"
+    alt="Property image"
+>
+
+<button
+    type="button"
+    class="preview-remove"
+    data-existing-image="${escapeHTML(src)}"
+>
+    ×
+</button>
+
+</div>
+
+`
+                        )
+                        .join("");
+
+            files.forEach(
+                file => {
+
+                    if(
+                        !file.type
+                            .startsWith("image/")
+                    )
+                        return;
+
+                    const reader =
+                        new FileReader();
+
+                    reader.onload =
+                        event => {
+
+                            const card =
+                                document
+                                    .createElement(
+                                        "div"
+                                    );
+
+                            card.className=
+                                "preview-card";
+
+                            card.innerHTML=`
+
+<img
+    src="${event.target.result}"
+    alt="New property image"
+>
+
+<button
+    type="button"
+    class="preview-remove"
+>
+    ×
+</button>
+
+`;
+
+                            card
+                                .querySelector(
+                                    ".preview-remove"
+                                )
+                                .addEventListener(
+                                    "click",
+                                    () => card.remove()
+                                );
+
+                            $("#imagePreview")
+                                .appendChild(card);
+
+                        };
+
+                    reader.readAsDataURL(
+                        file
+                    );
+
+                }
+            );
+
+            bindPreviewRemoveButtons();
+
+            updateCompletion();
+
+        }
+    );
 
 /* =========================================================
    DRAG & DROP
 ========================================================= */
 
-const dropZone =
-  $("#dropZone");
+const uploadZone =
+    $("#uploadZone");
 
+uploadZone?.addEventListener(
+    "dragover",
+    event => {
 
-dropZone.addEventListener(
-  "dragover",
-  event => {
+        event.preventDefault();
 
-    event.preventDefault();
+        uploadZone
+            .classList
+            .add("dragover");
 
-    dropZone.classList.add(
-      "dragover"
-    );
-
-  }
+    }
 );
 
+uploadZone?.addEventListener(
+    "dragleave",
+    () => {
 
-dropZone.addEventListener(
-  "dragleave",
-  () => {
+        uploadZone
+            .classList
+            .remove("dragover");
 
-    dropZone.classList.remove(
-      "dragover"
-    );
-
-  }
+    }
 );
 
+uploadZone?.addEventListener(
+    "drop",
+    event => {
 
-dropZone.addEventListener(
-  "drop",
-  event => {
+        event.preventDefault();
 
-    event.preventDefault();
+        uploadZone
+            .classList
+            .remove("dragover");
 
-    dropZone.classList.remove(
-      "dragover"
-    );
+        const files =
+            [...event.dataTransfer.files]
+                .filter(
+                    file =>
+                        file.type
+                            .startsWith("image/")
+                );
 
-    addSelectedImages(
-      event.dataTransfer.files
-    );
+        if(files.length){
 
-  }
+            selectedImages =
+                files;
+
+            files.forEach(
+                file => {
+
+                    const reader =
+                        new FileReader();
+
+                    reader.onload =
+                        event => {
+
+                            const card =
+                                document
+                                    .createElement(
+                                        "div"
+                                    );
+
+                            card.className=
+                                "preview-card";
+
+                            card.innerHTML=`
+
+<img
+    src="${event.target.result}"
+    alt="New property image"
+>
+
+<button
+    type="button"
+    class="preview-remove"
+>
+    ×
+</button>
+
+`;
+
+                            card
+                                .querySelector(
+                                    ".preview-remove"
+                                )
+                                .addEventListener(
+                                    "click",
+                                    () => card.remove()
+                                );
+
+                            $("#imagePreview")
+                                .appendChild(card);
+
+                        };
+
+                    reader.readAsDataURL(file);
+
+                }
+            );
+
+            updateCompletion();
+
+        }
+
+    }
 );
-
 
 /* =========================================================
-   REMOVE IMAGE
+   AMENITY COLLECTION
 ========================================================= */
 
-document.addEventListener(
-  "click",
-  event => {
+function getAmenities(){
 
-    const button =
-      event.target.closest(
-        "[data-remove-image]"
-      );
-
-    if(!button){
-      return;
-    }
-
-
-    const index =
-      Number(
-        button.dataset.removeImage
-      );
-
-
-    if(
-      propertyImages[index]?.file &&
-      propertyImages[index].url.startsWith(
-        "blob:"
-      )
-    ){
-
-      URL.revokeObjectURL(
-        propertyImages[index].url
-      );
-
-    }
-
-
-    propertyImages.splice(
-      index,
-      1
+    return [
+        ...document.querySelectorAll(
+            '.checkbox-card input[type="checkbox"]:checked'
+        )
+    ].map(
+        checkbox =>
+            checkbox.value
     );
-
-
-    renderImages();
-
-    updatePreview();
-
-    updateChecklist();
-
-  }
-);
-
+}
 
 /* =========================================================
    FORM DATA
 ========================================================= */
 
-function getFormData(){
+function collectPropertyData(){
 
-  const form =
-    $("#propertyForm");
+    return {
 
-  const data =
-    new FormData(form);
+        title:
+            $("#propertyTitle").value.trim(),
 
-  const payload =
-    Object.fromEntries(
-      data.entries()
-    );
+        listingType:
+            $("#listingType").value,
 
+        propertyType:
+            $("#propertyType").value,
 
-  payload.propertyId =
-    propertyId;
+        configuration:
+            $("#configuration").value,
 
+        furnishing:
+            $("#furnishing").value,
 
-  payload.price =
-    payload.price
-      ? Number(payload.price)
-      : null;
+        status:
+            $("#propertyStatusSelect").value,
 
+        price:
+            Number(
+                $("#price").value || 0
+            ),
 
-  payload.maintenance =
-    payload.maintenance
-      ? Number(payload.maintenance)
-      : null;
+        maintenance:
+            Number(
+                $("#maintenance").value || 0
+            ),
 
+        area:
+            Number(
+                $("#area").value || 0
+            ),
 
-  payload.area =
-    payload.area
-      ? Number(payload.area)
-      : null;
+        areaUnit:
+            $("#areaUnit").value,
 
+        carpetArea:
+            Number(
+                $("#carpetArea").value || 0
+            ),
 
-  payload.bedrooms =
-    payload.bedrooms
-      ? Number(payload.bedrooms)
-      : null;
+        floor:
+            $("#floor").value.trim(),
 
+        bedrooms:
+            Number(
+                $("#bedrooms").value || 0
+            ),
 
-  payload.bathrooms =
-    payload.bathrooms
-      ? Number(payload.bathrooms)
-      : null;
+        bathrooms:
+            Number(
+                $("#bathrooms").value || 0
+            ),
 
+        balconies:
+            Number(
+                $("#balconies").value || 0
+            ),
 
-  payload.totalFloors =
-    payload.totalFloors
-      ? Number(payload.totalFloors)
-      : null;
+        parking:
+            $("#parking").value,
 
+        description:
+            $("#description").value.trim(),
 
-  payload.parkingCount =
-    payload.parkingCount
-      ? Number(payload.parkingCount)
-      : null;
+        city:
+            $("#city").value.trim(),
 
+        state:
+            $("#state").value.trim(),
 
-  payload.latitude =
-    payload.latitude
-      ? Number(payload.latitude)
-      : null;
+        pincode:
+            $("#pincode").value.trim(),
 
+        locality:
+            $("#locality").value.trim(),
 
-  payload.longitude =
-    payload.longitude
-      ? Number(payload.longitude)
-      : null;
+        projectName:
+            $("#projectName").value.trim(),
 
+        address:
+            $("#address").value.trim(),
 
-  payload.amenities =
-    Array.from(
-      document.querySelectorAll(
-        ".amenity input:checked"
-      )
-    )
-    .map(
-      input =>
-        input.value
-    );
+        amenities:
+            getAmenities()
 
-
-  payload.images =
-    propertyImages
-      .filter(
-        image =>
-          image.existing
-      )
-      .map(
-        image =>
-          image.url
-      );
-
-
-  return payload;
+    };
 
 }
 
-
 /* =========================================================
-   UPDATE PROPERTY
+   SAVE
 ========================================================= */
 
-async function updateProperty(
-  statusOverride = null
-){
+propertyForm
+    ?.addEventListener(
+        "submit",
+        async event => {
 
-  if(!propertyId){
+            event.preventDefault();
 
-    showToast(
-      "Property ID is missing.",
-      "error"
-    );
+            if(!propertyId){
 
-    return;
+                showToast(
+                    "Cannot save",
+                    "Property ID is missing."
+                );
 
-  }
+                return;
+            }
 
+            if(
+                !$("#propertyTitle")
+                    .value.trim()
+            ){
 
-  const title =
-    $("#title").value.trim();
+                showToast(
+                    "Missing information",
+                    "Property title is required."
+                );
 
-  const price =
-    $("#price").value;
+                $("#propertyTitle")
+                    .focus();
 
-  const city =
-    $("#city").value.trim();
+                return;
+            }
 
+            if(
+                !$("#price").value ||
+                Number($("#price").value)<0
+            ){
 
-  if(!title){
+                showToast(
+                    "Invalid price",
+                    "Enter a valid property price."
+                );
 
-    showToast(
-      "Please enter a property title.",
-      "error"
-    );
+                $("#price")
+                    .focus();
 
-    $("#title").focus();
+                return;
+            }
 
-    return;
+            const saveButton =
+                $("#saveButton");
 
-  }
+            const originalText =
+                saveButton.textContent;
 
+            saveButton.disabled=true;
 
-  if(!price){
+            saveButton.textContent=
+                "Saving...";
 
-    showToast(
-      "Please enter the asking price.",
-      "error"
-    );
+            try{
 
-    $("#price").focus();
+                const payload =
+                    collectPropertyData();
 
-    return;
+                await apiRequest(
+                    API_BASE+
+                    "/properties/"+
+                    encodeURIComponent(
+                        propertyId
+                    ),
+                    {
+                        method:"PUT",
+                        body:
+                            JSON.stringify(
+                                payload
+                            )
+                    }
+                );
 
-  }
+                showToast(
+                    "Changes saved",
+                    "Your property has been updated successfully."
+                );
 
+                setPropertyStatus(
+                    payload.status,
+                    "Property changes saved successfully."
+                );
 
-  if(!city){
+                propertyData =
+                    {
+                        ...propertyData,
+                        ...payload
+                    };
 
-    showToast(
-      "Please enter the property city.",
-      "error"
-    );
+                updateCompletion();
 
-    $("#city").focus();
+            }catch(error){
 
-    return;
+                console.error(
+                    "GHAR property update:",
+                    error
+                );
 
-  }
+                showToast(
+                    "Save failed",
+                    error.message ||
+                    "Unable to update property."
+                );
 
+            }finally{
 
-  const payload =
-    getFormData();
+                saveButton.disabled=false;
 
+                saveButton.textContent=
+                    originalText;
 
-  if(statusOverride){
+            }
 
-    payload.status =
-      statusOverride;
-
-  }
-
-
-  setLoading(
-    true,
-    "Saving property changes..."
-  );
-
-
-  try{
-
-    const response =
-      await apiRequest(
-        API_BASE +
-        "/properties/" +
-        encodeURIComponent(
-          propertyId
-        ),
-        {
-          method:"PUT",
-
-          body:
-            JSON.stringify(
-              payload
-            )
         }
-      );
-
-
-    currentProperty =
-      extractProperty(
-        response
-      ) ||
-      {
-        ...currentProperty,
-        ...payload
-      };
-
-
-    $("#listingStatus").textContent =
-      getStatusLabel(
-        payload.status ||
-        currentProperty.status
-      );
-
-
-    $("#listingStatusText").textContent =
-      "Changes saved successfully.";
-
-
-    showToast(
-      "Property updated successfully."
     );
 
+/* =========================================================
+   COMPLETION
+========================================================= */
 
-    updatePreview();
+function updateCompletion(){
 
-    updateChecklist();
+    const checks = {
 
+        basic:
+            Boolean(
+                $("#propertyTitle")
+                    ?.value.trim() &&
+                $("#propertyType")
+                    ?.value
+            ),
 
-  }catch(error){
+        price:
+            Boolean(
+                $("#price")
+                    ?.value &&
+                Number(
+                    $("#price")
+                        .value
+                )>0
+            ),
 
-    console.error(
-      "GHAR update property:",
-      error
-    );
+        location:
+            Boolean(
+                $("#city")
+                    ?.value.trim() &&
+                $("#locality")
+                    ?.value.trim()
+            ),
 
+        description:
+            Boolean(
+                $("#description")
+                    ?.value.trim()
+            ),
 
-    showToast(
-      error.message ||
-      "Unable to update property.",
-      "error"
-    );
+        media:
+            Boolean(
+                document.querySelector(
+                    "#imagePreview .preview-card"
+                )
+            )
 
-  }finally{
+    };
 
-    setLoading(false);
+    const total =
+        Object.keys(checks).length;
 
-  }
+    const completed =
+        Object.values(checks)
+            .filter(Boolean)
+            .length;
+
+    const percentage =
+        Math.round(
+            completed /
+            total *
+            100
+        );
+
+    $("#completionValue")
+        .textContent=
+            percentage+
+            "%";
+
+    $("#completionBar")
+        .style.width=
+            percentage+
+            "%";
+
+    $("#checkBasic")
+        .classList
+        .toggle(
+            "done",
+            checks.basic
+        );
+
+    $("#checkPrice")
+        .classList
+        .toggle(
+            "done",
+            checks.price
+        );
+
+    $("#checkLocation")
+        .classList
+        .toggle(
+            "done",
+            checks.location
+        );
+
+    $("#checkDescription")
+        .classList
+        .toggle(
+            "done",
+            checks.description
+        );
+
+    $("#checkMedia")
+        .classList
+        .toggle(
+            "done",
+            checks.media
+        );
 
 }
 
-
 /* =========================================================
-   FORM SUBMIT
-========================================================= */
-
-$("#propertyForm")
-  .addEventListener(
-    "submit",
-    event => {
-
-      event.preventDefault();
-
-      updateProperty();
-
-    }
-  );
-
-
-/* =========================================================
-   SAVE DRAFT
-========================================================= */
-
-$("#saveDraftButton")
-  .addEventListener(
-    "click",
-    () => {
-
-      updateProperty(
-        "draft"
-      );
-
-    }
-  );
-
-
-/* =========================================================
-   LIVE PREVIEW
-========================================================= */
-
-function updatePreview(){
-
-  const title =
-    $("#title").value.trim() ||
-    "Your property title";
-
-
-  const type =
-    $("#propertyType").value ||
-    "PROPERTY";
-
-
-  const city =
-    $("#city").value.trim();
-
-
-  const locality =
-    $("#locality").value.trim();
-
-
-  const location =
-    [locality,city]
-      .filter(Boolean)
-      .join(", ") ||
-    "Property location";
-
-
-  const price =
-    formatPrice(
-      $("#price").value
-    );
-
-
-  $("#previewTitle").textContent =
-    title;
-
-
-  $("#previewType").textContent =
-    type
-      .replace(/-/g," ")
-      .toUpperCase();
-
-
-  $("#previewLocation").textContent =
-    location;
-
-
-  $("#previewPrice").textContent =
-    price;
-
-
-  const firstImage =
-    propertyImages[0];
-
-
-  const previewImage =
-    $("#previewImage");
-
-  const placeholder =
-    $("#previewPlaceholder");
-
-
-  if(firstImage?.url){
-
-    previewImage.src =
-      firstImage.url;
-
-    previewImage.style.display =
-      "block";
-
-    placeholder.style.display =
-      "none";
-
-  }else{
-
-    previewImage.style.display =
-      "none";
-
-    placeholder.style.display =
-      "grid";
-
-  }
-
-}
-
-
-/* =========================================================
-   CHECKLIST
-========================================================= */
-
-function setCheck(
-  selector,
-  complete
-){
-
-  const element =
-    $(selector);
-
-  if(!element){
-    return;
-  }
-
-  element.classList.toggle(
-    "pending",
-    !complete
-  );
-
-}
-
-
-function updateChecklist(){
-
-  setCheck(
-    "#checkTitle",
-    Boolean(
-      $("#title").value.trim()
-    )
-  );
-
-
-  setCheck(
-    "#checkPrice",
-    Boolean(
-      $("#price").value
-    )
-  );
-
-
-  setCheck(
-    "#checkLocation",
-    Boolean(
-      $("#city").value.trim()
-    )
-  );
-
-
-  setCheck(
-    "#checkDescription",
-    Boolean(
-      $("#description").value.trim()
-    )
-  );
-
-
-  setCheck(
-    "#checkImages",
-    propertyImages.length > 0
-  );
-
-}
-
-
-/* =========================================================
-   LIVE FORM EVENTS
+   FORM CHANGE TRACKING
 ========================================================= */
 
 document
-  .querySelectorAll(
-    "#propertyForm input, #propertyForm select, #propertyForm textarea"
-  )
-  .forEach(
-    field => {
+    .querySelectorAll(
+        "#propertyForm input, #propertyForm select, #propertyForm textarea"
+    )
+    .forEach(
+        element => {
 
-      field.addEventListener(
-        "input",
-        () => {
+            element.addEventListener(
+                "input",
+                () => {
 
-          updatePreview();
+                    updateCompletion();
 
-          updateChecklist();
+                    updateMapLocation();
+
+                }
+            );
+
+            element.addEventListener(
+                "change",
+                () => {
+
+                    updateCompletion();
+
+                    updateMapLocation();
+
+                }
+            );
 
         }
-      );
-
-
-      field.addEventListener(
-        "change",
-        () => {
-
-          updatePreview();
-
-          updateChecklist();
-
-        }
-      );
-
-    }
-  );
-
+    );
 
 /* =========================================================
-   DELETE PROPERTY
+   MAP LOCATION
+========================================================= */
+
+function updateMapLocation(){
+
+    const locality =
+        $("#locality")
+            ?.value.trim();
+
+    const city =
+        $("#city")
+            ?.value.trim();
+
+    const state =
+        $("#state")
+            ?.value.trim();
+
+    const parts =
+        [
+            locality,
+            city,
+            state
+        ]
+        .filter(Boolean);
+
+    $("#mapLocation")
+        .textContent =
+            parts.length
+            ? parts.join(", ")
+            : "Property location";
+
+}
+
+/* =========================================================
+   PREVIEW
+========================================================= */
+
+$("#previewButton")
+    ?.addEventListener(
+        "click",
+        () => {
+
+            if(!propertyId){
+
+                showToast(
+                    "Preview unavailable",
+                    "Property ID is missing."
+                );
+
+                return;
+            }
+
+            window.open(
+                "/buyer/property-details.html?id="+
+                encodeURIComponent(propertyId),
+                "_blank",
+                "noopener"
+            );
+
+        }
+    );
+
+/* =========================================================
+   DELETE / DEACTIVATE
 ========================================================= */
 
 $("#deleteButton")
-  .addEventListener(
-    "click",
-    () => {
+    ?.addEventListener(
+        "click",
+        async () => {
 
-      $("#deleteBox")
-        .classList.add(
-          "show"
+            if(!propertyId)
+                return;
+
+            const confirmed =
+                window.confirm(
+                    "Are you sure you want to deactivate this property? This action may remove it from active marketplace results."
+                );
+
+            if(!confirmed)
+                return;
+
+            const button =
+                $("#deleteButton");
+
+            button.disabled=true;
+
+            button.textContent=
+                "Processing...";
+
+            try{
+
+                await apiRequest(
+                    API_BASE+
+                    "/properties/"+
+                    encodeURIComponent(
+                        propertyId
+                    ),
+                    {
+                        method:"DELETE"
+                    }
+                );
+
+                showToast(
+                    "Property deactivated",
+                    "The property has been removed from the active listing workflow."
+                );
+
+                setTimeout(
+                    () => {
+
+                        window.location.href =
+                            "/seller/properties.html";
+
+                    },
+                    1200
+                );
+
+            }catch(error){
+
+                console.error(
+                    "GHAR property delete:",
+                    error
+                );
+
+                showToast(
+                    "Action failed",
+                    error.message ||
+                    "Unable to deactivate property."
+                );
+
+                button.disabled=false;
+
+                button.textContent=
+                    "Delete / deactivate property";
+
+            }
+
+        }
+    );
+
+/* =========================================================
+   PROFILE
+========================================================= */
+
+async function loadProfile(){
+
+    try{
+
+        const response =
+            await apiRequest(
+                API_BASE+
+                "/users/me"
+            );
+
+        const user =
+            response?.data ||
+            response?.user ||
+            response;
+
+        const name =
+            user?.name ||
+            user?.fullName ||
+            user?.firstName ||
+            user?.email ||
+            "Seller";
+
+        const image =
+            user?.profileImage ||
+            user?.avatar ||
+            user?.photo ||
+            user?.profilePhoto ||
+            "../assets/images/profile/seller-default.jpg";
+
+        const displayName =
+            String(name)
+                .trim()
+                .split(/\s+/)
+                .slice(0,2)
+                .join(" ");
+
+        $("#profileName")
+            .textContent=
+                displayName;
+
+        $("#mobileProfileName")
+            .textContent=
+                displayName;
+
+        $("#profileImage")
+            .src=image;
+
+        $("#mobileProfileImage")
+            .src=image;
+
+    }catch(error){
+
+        console.warn(
+            "GHAR seller profile:",
+            error
         );
 
     }
-  );
 
-
-$("#cancelDelete")
-  .addEventListener(
-    "click",
-    () => {
-
-      $("#deleteBox")
-        .classList.remove(
-          "show"
-        );
-
-    }
-  );
-
-
-$("#confirmDelete")
-  .addEventListener(
-    "click",
-    async () => {
-
-      if(!propertyId){
-
-        showToast(
-          "Property ID is missing.",
-          "error"
-        );
-
-        return;
-
-      }
-
-
-      setLoading(
-        true,
-        "Deleting property..."
-      );
-
-
-      try{
-
-        await apiRequest(
-          API_BASE +
-          "/properties/" +
-          encodeURIComponent(
-            propertyId
-          ),
-          {
-            method:"DELETE"
-          }
-        );
-
-
-        showToast(
-          "Property deleted successfully."
-        );
-
-
-        setTimeout(
-          () => {
-
-            window.location.href =
-              "/seller/properties.html";
-
-          },
-          800
-        );
-
-
-      }catch(error){
-
-        console.error(
-          "GHAR delete property:",
-          error
-        );
-
-
-        showToast(
-          error.message ||
-          "Unable to delete property.",
-          "error"
-        );
-
-      }finally{
-
-        setLoading(false);
-
-      }
-
-    }
-  );
-
+}
 
 /* =========================================================
    MOBILE MENU
 ========================================================= */
 
 $("#menuButton")
-  .addEventListener(
+    ?.addEventListener(
+        "click",
+        () => {
+
+            const menu =
+                $("#mobileNav");
+
+            const button =
+                $("#menuButton");
+
+            const isOpen =
+                menu.classList
+                    .contains("open");
+
+            menu.classList.toggle(
+                "open"
+            );
+
+            button.setAttribute(
+                "aria-expanded",
+                String(!isOpen)
+            );
+
+            button.textContent =
+                !isOpen
+                ? "×"
+                : "☰";
+
+        }
+    );
+
+document.addEventListener(
     "click",
-    () => {
+    event => {
 
-      const nav =
-        document.querySelector(
-          ".desktop-nav"
-        );
+        const menu =
+            $("#mobileNav");
 
+        const button =
+            $("#menuButton");
 
-      const visible =
-        nav.dataset.mobileOpen ===
-        "true";
+        if(
+            !menu ||
+            !button
+        )
+            return;
 
+        if(
+            menu.classList.contains("open") &&
+            !menu.contains(event.target) &&
+            !button.contains(event.target)
+        ){
 
-      if(visible){
+            menu.classList.remove(
+                "open"
+            );
 
-        nav.style.display =
-          "";
+            button.textContent="☰";
 
-        nav.dataset.mobileOpen =
-          "false";
+            button.setAttribute(
+                "aria-expanded",
+                "false"
+            );
 
-        return;
-
-      }
-
-
-      nav.dataset.mobileOpen =
-        "true";
-
-      nav.style.display =
-        "flex";
-
-      nav.style.position =
-        "absolute";
-
-      nav.style.left =
-        "14px";
-
-      nav.style.right =
-        "14px";
-
-      nav.style.top =
-        "66px";
-
-      nav.style.padding =
-        "10px";
-
-      nav.style.flexDirection =
-        "column";
-
-      nav.style.alignItems =
-        "stretch";
-
-      nav.style.border =
-        "1px solid rgba(229,199,125,.14)";
-
-      nav.style.borderRadius =
-        "16px";
-
-      nav.style.background =
-        "#0b1c14";
-
-      nav.style.boxShadow =
-        "0 25px 60px rgba(0,0,0,.35)";
+        }
 
     }
-  );
-
+);
 
 /* =========================================================
    NOTIFICATIONS
 ========================================================= */
 
 $("#notificationButton")
-  .addEventListener(
-    "click",
-    () => {
+    ?.addEventListener(
+        "click",
+        () => {
 
-      window.location.href =
-        "/seller/notifications.html";
+            window.location.href =
+                "/seller/notifications.html";
 
-    }
-  );
-
+        }
+    );
 
 /* =========================================================
    AI
 ========================================================= */
 
 $("#openAI")
-  .addEventListener(
-    "click",
-    () => {
+    ?.addEventListener(
+        "click",
+        () => {
 
-      window.location.href =
-        "/seller/ai.html";
+            window.location.href =
+                "/seller/ai.html";
 
-    }
-  );
-
+        }
+    );
 
 /* =========================================================
-   INITIALIZE
+   IMAGE FALLBACK
 ========================================================= */
 
-$("#footerYear").textContent =
-  new Date().getFullYear();
+document.addEventListener(
+    "error",
+    event => {
 
+        const element =
+            event.target;
 
-loadProperty();
+        if(
+            element.tagName==="IMG" &&
+            element.dataset
+                .fallbackApplied!=="true"
+        ){
+
+            element.dataset
+                .fallbackApplied="true";
+
+            if(
+                element.id==="profileImage" ||
+                element.id==="mobileProfileImage"
+            ){
+
+                element.src =
+                    "../assets/images/profile/default-avatar.jpg";
+
+            }else{
+
+                element.src =
+                    "../assets/images/properties/property-placeholder.jpg";
+
+            }
+
+        }
+
+    },
+    true
+);
+
+/* =========================================================
+   INIT
+========================================================= */
+
+async function initialize(){
+
+    $("#footerYear")
+        .textContent =
+            new Date()
+                .getFullYear();
+
+    updateCompletion();
+
+    await Promise.all([
+        loadProfile(),
+        loadProperty()
+    ]);
+
+    updateCompletion();
+
+}
+
+if(
+    document.readyState==="loading"
+){
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        initialize
+    );
+
+}else{
+
+    initialize();
+
+}
 
 </script>
 
 </body>
+
 </html>

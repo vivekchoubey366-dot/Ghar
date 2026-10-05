@@ -1,137 +1,155 @@
+<!-- /seller/property-approval.html -->
 <!doctype html>
 <html lang="en">
 <head>
+
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
 <meta name="description"
-      content="GHAR Seller -- Review, track and manage property approval requests.">
+content="GHAR Seller Property Approval -- Track property verification, document review, approval status and listing readiness.">
 
-<meta name="theme-color" content="#162d25">
+<meta name="theme-color" content="#211a2e">
 
 <title>GHAR · Property Approval</title>
 
-<link rel="icon" href="../assets/images/favicon.svg">
+<link rel="icon" href="../assets/images/logo/favicon.svg">
 
 <style>
 
 /* =========================================================
-   GHAR SELLER -- PROPERTY APPROVAL
-   Premium Seller Experience
+   RESET
 ========================================================= */
 
 *{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
 }
 
 :root{
-  --green-950:#07130e;
-  --green-925:#0a1912;
-  --green-900:#0b1c14;
-  --green-850:#10261c;
-  --green-800:#162d25;
-  --green-750:#1a382c;
-  --green-700:#214438;
-  --green-600:#2b5847;
 
-  --gold-100:#fff7df;
-  --gold-200:#f4dfaa;
-  --gold-300:#e5c77d;
-  --gold-400:#c9a95c;
-  --gold-500:#a98238;
+    /* PREMIUM PLUM / CHAMPAGNE SYSTEM */
 
-  --cream:#fffaf0;
-  --cream-2:#f7eedc;
-  --sand:#eee1c8;
+    --plum-950:#100b18;
+    --plum-925:#15101f;
+    --plum-900:#1b1427;
+    --plum-875:#21192f;
+    --plum-850:#281f38;
+    --plum-825:#302642;
+    --plum-800:#382c4c;
+    --plum-750:#453758;
+    --plum-700:#514163;
 
-  --text:#f9f5ea;
-  --text-dark:#17231c;
+    --gold-100:#fffdf6;
+    --gold-200:#f8e9bd;
+    --gold-300:#e7cb88;
+    --gold-400:#c8a85b;
+    --gold-500:#9d7b35;
 
-  --muted:rgba(255,255,255,.68);
-  --muted-2:rgba(255,255,255,.45);
+    --cream:#fffaf0;
 
-  --border:rgba(229,199,125,.18);
-  --border-light:rgba(255,255,255,.09);
+    --text:#faf7ef;
+    --muted:rgba(255,255,255,.73);
+    --muted-2:rgba(255,255,255,.46);
 
-  --success:#82c995;
-  --warning:#e7c878;
-  --danger:#e98c8c;
-  --blue:#91b9e8;
+    --border:rgba(231,203,136,.17);
+    --border-strong:rgba(231,203,136,.29);
+    --border-light:rgba(255,255,255,.085);
 
-  --shadow:0 25px 80px rgba(0,0,0,.25);
+    --success:#91d4a2;
+    --warning:#e7c879;
+    --danger:#e89a9a;
+    --blue:#9dc2ec;
+    --purple:#c7a7ed;
 
-  --radius-xl:28px;
-  --radius-lg:21px;
-  --radius-md:15px;
+    --shadow:0 25px 80px rgba(0,0,0,.30);
 
-  --container:1440px;
+    --radius-xl:28px;
+    --radius-lg:21px;
+    --radius-md:14px;
+
+    --container:1440px;
 }
 
 html{
-  scroll-behavior:smooth;
+    scroll-behavior:smooth;
 }
 
 body{
-  min-height:100vh;
-  color:var(--text);
-  font-family:
-    Inter,
-    ui-sans-serif,
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    sans-serif;
 
-  background:
-    radial-gradient(
-      circle at 5% 0%,
-      rgba(229,199,125,.12),
-      transparent 28%
-    ),
-    radial-gradient(
-      circle at 100% 10%,
-      rgba(44,91,69,.22),
-      transparent 30%
-    ),
-    linear-gradient(
-      135deg,
-      #07130e,
-      #0b1c14 48%,
-      #10261c
-    );
+    min-height:100vh;
 
-  overflow-x:hidden;
+    color:var(--text);
+
+    font-family:
+        Inter,
+        ui-sans-serif,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    background:
+
+        radial-gradient(
+            circle at 5% 0%,
+            rgba(231,203,136,.11),
+            transparent 27%
+        ),
+
+        radial-gradient(
+            circle at 100% 7%,
+            rgba(134,101,168,.20),
+            transparent 32%
+        ),
+
+        radial-gradient(
+            circle at 48% 100%,
+            rgba(79,59,101,.22),
+            transparent 34%
+        ),
+
+        linear-gradient(
+            135deg,
+            #100b18,
+            #1b1427 48%,
+            #281f38
+        );
+
+    overflow-x:hidden;
 }
 
 a{
-  color:inherit;
-  text-decoration:none;
+    color:inherit;
+    text-decoration:none;
 }
 
 button,
 input,
-select{
-  font:inherit;
+select,
+textarea{
+    font:inherit;
 }
 
 button{
-  cursor:pointer;
+    cursor:pointer;
 }
 
 img{
-  display:block;
-  max-width:100%;
+    display:block;
+    max-width:100%;
 }
 
 .container{
-  width:min(
-    calc(100% - 40px),
-    var(--container)
-  );
-  margin:auto;
+
+    width:min(
+        calc(100% - 40px),
+        var(--container)
+    );
+
+    margin:auto;
 }
 
 /* =========================================================
@@ -139,36 +157,60 @@ img{
 ========================================================= */
 
 .page-glow{
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  z-index:-1;
-  overflow:hidden;
+
+    position:fixed;
+    inset:0;
+
+    pointer-events:none;
+    z-index:-1;
+
+    overflow:hidden;
 }
 
-.page-glow::before{
-  content:"";
-  position:absolute;
-  width:550px;
-  height:550px;
-  top:-300px;
-  right:-220px;
-  border-radius:50%;
-  border:1px solid rgba(229,199,125,.12);
-  box-shadow:
-    0 0 0 60px rgba(229,199,125,.025),
-    0 0 0 120px rgba(229,199,125,.015);
+.page-glow:before{
+
+    content:"";
+
+    position:absolute;
+
+    width:570px;
+    height:570px;
+
+    top:-320px;
+    right:-220px;
+
+    border-radius:50%;
+
+    border:
+        1px solid
+        rgba(231,203,136,.14);
+
+    box-shadow:
+        0 0 0 60px rgba(231,203,136,.025),
+        0 0 0 120px rgba(231,203,136,.015),
+        0 0 0 180px rgba(231,203,136,.008);
 }
 
-.page-glow::after{
-  content:"";
-  position:absolute;
-  width:500px;
-  height:500px;
-  bottom:-300px;
-  left:-250px;
-  border-radius:50%;
-  border:1px solid rgba(255,255,255,.06);
+.page-glow:after{
+
+    content:"";
+
+    position:absolute;
+
+    width:520px;
+    height:520px;
+
+    bottom:-330px;
+    left:-270px;
+
+    border-radius:50%;
+
+    border:
+        1px solid
+        rgba(255,255,255,.055);
+
+    box-shadow:
+        0 0 0 75px rgba(255,255,255,.012);
 }
 
 /* =========================================================
@@ -176,204 +218,542 @@ img{
 ========================================================= */
 
 .site-header{
-  position:sticky;
-  top:0;
-  z-index:100;
-  border-bottom:1px solid rgba(229,199,125,.10);
-  background:rgba(7,19,14,.90);
-  backdrop-filter:blur(22px);
+
+    position:sticky;
+    top:0;
+
+    z-index:1000;
+
+    border-bottom:
+        1px solid
+        rgba(231,203,136,.13);
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(16,11,24,.97),
+            rgba(16,11,24,.88)
+        );
+
+    backdrop-filter:blur(24px);
+    -webkit-backdrop-filter:blur(24px);
 }
 
 .header-inner{
-  min-height:76px;
-  display:flex;
-  align-items:center;
-  gap:24px;
-}
 
-.brand{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  flex-shrink:0;
-}
+    min-height:82px;
 
-.brand-mark{
-  width:45px;
-  height:45px;
-  display:grid;
-  place-items:center;
-  border-radius:14px;
-  color:#152116;
-  font-size:19px;
-  font-weight:1000;
-  background:linear-gradient(
-    135deg,
-    #f1dda5,
-    #b98b3d
-  );
-  box-shadow:
-    0 10px 25px rgba(0,0,0,.25),
-    inset 0 1px 0 rgba(255,255,255,.5);
-}
+    display:flex;
+    align-items:center;
 
-.brand-text strong{
-  display:block;
-  font-size:17px;
-  letter-spacing:.17em;
-}
-
-.brand-text span{
-  display:block;
-  margin-top:2px;
-  color:var(--muted-2);
-  font-size:8px;
-  font-weight:800;
-  letter-spacing:.16em;
-  text-transform:uppercase;
-}
-
-.desktop-nav{
-  display:flex;
-  align-items:center;
-  gap:5px;
-  margin-left:auto;
-}
-
-.desktop-nav a{
-  padding:10px 12px;
-  border-radius:10px;
-  color:var(--muted);
-  font-size:11px;
-  font-weight:700;
-  transition:.2s ease;
-}
-
-.desktop-nav a:hover,
-.desktop-nav a.active{
-  color:var(--gold-200);
-  background:rgba(229,199,125,.07);
-}
-
-.header-actions{
-  display:flex;
-  align-items:center;
-  gap:8px;
-}
-
-.icon-btn{
-  width:41px;
-  height:41px;
-  display:grid;
-  place-items:center;
-  border:1px solid var(--border-light);
-  border-radius:12px;
-  color:var(--muted);
-  background:rgba(255,255,255,.035);
-  transition:.2s ease;
-}
-
-.icon-btn:hover{
-  color:var(--gold-200);
-  border-color:rgba(229,199,125,.25);
-}
-
-.avatar{
-  width:40px;
-  height:40px;
-  display:grid;
-  place-items:center;
-  border-radius:50%;
-  color:#172016;
-  font-size:12px;
-  font-weight:1000;
-  background:linear-gradient(
-    135deg,
-    var(--gold-200),
-    var(--gold-500)
-  );
-}
-
-.mobile-menu{
-  display:none;
+    gap:20px;
 }
 
 /* =========================================================
-   PAGE HERO
+   BRAND
 ========================================================= */
 
-.page-hero{
-  padding:48px 0 25px;
+.brand{
+
+    display:flex;
+    align-items:center;
+
+    gap:12px;
+
+    flex-shrink:0;
 }
 
-.hero-panel{
-  position:relative;
-  overflow:hidden;
-  padding:38px 42px;
-  border:1px solid var(--border);
-  border-radius:var(--radius-xl);
+.brand-logo{
 
-  background:
-    radial-gradient(
-      circle at 95% 0%,
-      rgba(229,199,125,.14),
-      transparent 30%
-    ),
-    radial-gradient(
-      circle at 0% 100%,
-      rgba(44,91,69,.28),
-      transparent 38%
-    ),
-    linear-gradient(
-      145deg,
-      #0a1a12,
-      #10251b 55%,
-      #142d22
-    );
+    width:47px;
+    height:47px;
 
-  box-shadow:var(--shadow);
+    display:grid;
+    place-items:center;
+
+    overflow:hidden;
+
+    border-radius:14px;
+
+    border:
+        1px solid
+        rgba(231,203,136,.29);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(231,203,136,.14),
+            rgba(255,255,255,.035)
+        );
+
+    box-shadow:
+        0 10px 28px rgba(0,0,0,.28),
+        inset 0 1px 0 rgba(255,255,255,.08);
 }
 
-.hero-panel::after{
-  content:"";
-  position:absolute;
-  width:360px;
-  height:360px;
-  right:-220px;
-  bottom:-250px;
-  border:1px solid rgba(229,199,125,.12);
-  border-radius:50%;
-  box-shadow:
-    0 0 0 45px rgba(229,199,125,.02),
-    0 0 0 90px rgba(229,199,125,.015);
+.brand-logo img{
+
+    width:100%;
+    height:100%;
+
+    object-fit:contain;
+    padding:5px;
+}
+
+.brand-logo-fallback{
+
+    width:100%;
+    height:100%;
+
+    display:grid;
+    place-items:center;
+
+    color:#1b1427;
+
+    font-size:20px;
+    font-weight:1000;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f3dfa7,
+            #b78e42
+        );
+}
+
+.brand-text strong{
+
+    display:block;
+
+    color:var(--cream);
+
+    font-size:17px;
+    font-weight:950;
+
+    letter-spacing:.17em;
+}
+
+.brand-text span{
+
+    display:block;
+
+    margin-top:3px;
+
+    color:var(--muted-2);
+
+    font-size:8px;
+    font-weight:800;
+
+    letter-spacing:.15em;
+
+    text-transform:uppercase;
+}
+
+/* =========================================================
+   NAV
+========================================================= */
+
+.desktop-nav{
+
+    display:flex;
+    align-items:center;
+
+    gap:2px;
+
+    margin-left:auto;
+}
+
+.desktop-nav a{
+
+    position:relative;
+
+    padding:11px 10px;
+
+    border-radius:10px;
+
+    color:var(--muted);
+
+    font-size:10px;
+    font-weight:750;
+
+    transition:.2s ease;
+}
+
+.desktop-nav a:hover{
+
+    color:var(--gold-200);
+
+    background:
+        rgba(231,203,136,.07);
+}
+
+.desktop-nav a.active{
+
+    color:var(--gold-200);
+
+    background:
+        rgba(231,203,136,.09);
+}
+
+.desktop-nav a.active:after{
+
+    content:"";
+
+    position:absolute;
+
+    left:12px;
+    right:12px;
+
+    bottom:3px;
+
+    height:2px;
+
+    border-radius:10px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            var(--gold-300),
+            transparent
+        );
+}
+
+/* =========================================================
+   HEADER ACTIONS
+========================================================= */
+
+.header-actions{
+
+    display:flex;
+    align-items:center;
+
+    gap:8px;
+
+    margin-left:4px;
+}
+
+.icon-btn{
+
+    width:41px;
+    height:41px;
+
+    display:grid;
+    place-items:center;
+
+    border:
+        1px solid
+        var(--border-light);
+
+    border-radius:12px;
+
+    color:var(--muted);
+
+    background:
+        rgba(255,255,255,.035);
+
+    transition:.2s ease;
+}
+
+.icon-btn:hover{
+
+    color:var(--gold-200);
+
+    border-color:
+        rgba(231,203,136,.30);
+
+    background:
+        rgba(231,203,136,.06);
+
+    transform:translateY(-1px);
+}
+
+.notification-wrap{
+    position:relative;
+}
+
+.notification-dot{
+
+    position:absolute;
+
+    width:7px;
+    height:7px;
+
+    top:7px;
+    right:7px;
+
+    border-radius:50%;
+
+    background:var(--gold-300);
+
+    box-shadow:
+        0 0 0 3px var(--plum-900);
+}
+
+/* =========================================================
+   PROFILE
+========================================================= */
+
+.profile-menu{
+
+    min-height:43px;
+
+    display:flex;
+    align-items:center;
+
+    gap:9px;
+
+    padding:3px 8px 3px 4px;
+
+    border:
+        1px solid
+        var(--border-light);
+
+    border-radius:25px;
+
+    background:
+        rgba(255,255,255,.035);
+
+    transition:.2s ease;
+}
+
+.profile-menu:hover{
+
+    border-color:
+        rgba(231,203,136,.28);
+
+    background:
+        rgba(231,203,136,.055);
+}
+
+.profile-menu img{
+
+    width:35px;
+    height:35px;
+
+    object-fit:cover;
+
+    border-radius:50%;
+
+    border:
+        1px solid
+        rgba(231,203,136,.32);
+}
+
+.profile-info{
+    min-width:65px;
+}
+
+.profile-info strong{
+
+    display:block;
+
+    max-width:100px;
+
+    overflow:hidden;
+
+    color:var(--cream);
+
+    font-size:9px;
+    font-weight:900;
+
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
+
+.profile-info small{
+
+    display:block;
+
+    margin-top:2px;
+
+    color:var(--muted-2);
+
+    font-size:7px;
+}
+
+.profile-arrow{
+    color:var(--muted-2);
+    font-size:12px;
+}
+
+.mobile-menu{
+    display:none;
+}
+
+/* =========================================================
+   MOBILE NAV
+========================================================= */
+
+.mobile-nav-panel{
+
+    display:none;
+
+    position:fixed;
+
+    left:14px;
+    right:14px;
+    top:78px;
+
+    z-index:999;
+
+    padding:10px;
+
+    border:
+        1px solid
+        rgba(231,203,136,.17);
+
+    border-radius:18px;
+
+    background:
+        rgba(27,20,39,.98);
+
+    box-shadow:
+        0 25px 70px rgba(0,0,0,.48);
+
+    backdrop-filter:blur(22px);
+}
+
+.mobile-nav-panel.open{
+    display:block;
+}
+
+.mobile-nav-panel a{
+
+    display:flex;
+
+    align-items:center;
+    justify-content:space-between;
+
+    padding:13px 12px;
+
+    border-radius:10px;
+
+    color:var(--muted);
+
+    font-size:10px;
+    font-weight:750;
+}
+
+.mobile-nav-panel a:hover,
+.mobile-nav-panel a.active{
+
+    color:var(--gold-200);
+
+    background:
+        rgba(231,203,136,.07);
+}
+
+.mobile-profile{
+
+    display:flex;
+    align-items:center;
+
+    gap:10px;
+
+    margin-bottom:8px;
+    padding:10px;
+
+    border-bottom:
+        1px solid
+        rgba(255,255,255,.06);
+}
+
+.mobile-profile img{
+
+    width:38px;
+    height:38px;
+
+    border-radius:50%;
+
+    object-fit:cover;
+
+    border:
+        1px solid
+        rgba(231,203,136,.25);
+}
+
+.mobile-profile strong{
+
+    display:block;
+
+    color:var(--cream);
+
+    font-size:10px;
+}
+
+.mobile-profile span{
+
+    display:block;
+
+    margin-top:3px;
+
+    color:var(--muted-2);
+
+    font-size:7px;
+}
+
+/* =========================================================
+   PAGE
+========================================================= */
+
+.page{
+    padding:43px 0 25px;
+}
+
+.page-heading{
+
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+
+    gap:25px;
+
+    margin-bottom:25px;
 }
 
 .eyebrow{
-  color:var(--gold-300);
-  font-size:10px;
-  font-weight:950;
-  letter-spacing:.18em;
-  text-transform:uppercase;
+
+    color:var(--gold-300);
+
+    font-size:10px;
+    font-weight:950;
+
+    letter-spacing:.18em;
+
+    text-transform:uppercase;
 }
 
-.hero-title{
-  max-width:800px;
-  margin-top:10px;
-  font-size:clamp(34px,5vw,58px);
-  line-height:1;
-  letter-spacing:-.055em;
+.page-heading h1{
+
+    margin-top:9px;
+
+    font-size:
+        clamp(35px,5vw,58px);
+
+    line-height:1;
+
+    letter-spacing:-.055em;
 }
 
-.hero-title span{
-  color:var(--gold-300);
+.page-heading p{
+
+    max-width:760px;
+
+    margin-top:13px;
+
+    color:var(--muted);
+
+    font-size:12px;
+
+    line-height:1.75;
 }
 
-.hero-description{
-  max-width:760px;
-  margin-top:15px;
-  color:var(--muted);
-  font-size:13px;
-  line-height:1.75;
+.heading-actions{
+
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
 }
 
 /* =========================================================
@@ -381,54 +761,246 @@ img{
 ========================================================= */
 
 .btn{
-  min-height:44px;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap:8px;
-  padding:0 16px;
-  border-radius:11px;
-  border:1px solid transparent;
-  font-size:10px;
-  font-weight:900;
-  transition:.2s ease;
-}
 
-.btn:hover{
-  transform:translateY(-1px);
+    min-height:43px;
+
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+
+    gap:8px;
+
+    padding:0 16px;
+
+    border:
+        1px solid
+        transparent;
+
+    border-radius:11px;
+
+    font-size:10px;
+    font-weight:900;
+
+    transition:.2s ease;
 }
 
 .btn-primary{
-  color:#17170f;
-  background:linear-gradient(
-    135deg,
-    #f1dca1,
-    #cda85d
-  );
-  box-shadow:0 10px 25px rgba(0,0,0,.18);
+
+    color:#1b1427;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f3dfa7,
+            #c7a45a
+        );
+
+    box-shadow:
+        0 8px 22px rgba(0,0,0,.14);
+}
+
+.btn-primary:hover{
+    transform:translateY(-2px);
 }
 
 .btn-secondary{
-  color:var(--cream);
-  border-color:var(--border-light);
-  background:rgba(255,255,255,.045);
+
+    color:var(--cream);
+
+    border-color:
+        var(--border-light);
+
+    background:
+        rgba(255,255,255,.045);
 }
 
 .btn-secondary:hover{
-  color:var(--gold-200);
-  border-color:rgba(229,199,125,.25);
+
+    color:var(--gold-200);
+
+    border-color:
+        rgba(231,203,136,.30);
 }
 
 .btn-danger{
-  color:#ffeaea;
-  border-color:rgba(233,140,140,.22);
-  background:rgba(233,140,140,.07);
+
+    color:#ffdada;
+
+    border-color:
+        rgba(232,154,154,.22);
+
+    background:
+        rgba(232,154,154,.07);
 }
 
-.btn-success{
-  color:#dff7e5;
-  border-color:rgba(130,201,149,.22);
-  background:rgba(130,201,149,.08);
+/* =========================================================
+   APPROVAL HERO
+========================================================= */
+
+.approval-hero{
+
+    position:relative;
+
+    padding:25px;
+
+    margin-bottom:18px;
+
+    overflow:hidden;
+
+    border:
+        1px solid
+        rgba(231,203,136,.19);
+
+    border-radius:var(--radius-xl);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(61,45,76,.97),
+            rgba(27,20,39,.98)
+        );
+
+    box-shadow:
+        0 18px 55px rgba(0,0,0,.18);
+}
+
+.approval-hero:before{
+
+    content:"";
+
+    position:absolute;
+
+    width:360px;
+    height:360px;
+
+    right:-170px;
+    top:-210px;
+
+    border-radius:50%;
+
+    border:
+        1px solid
+        rgba(231,203,136,.16);
+
+    box-shadow:
+        0 0 0 55px rgba(231,203,136,.025),
+        0 0 0 110px rgba(231,203,136,.012);
+}
+
+.approval-hero-content{
+
+    position:relative;
+    z-index:1;
+
+    display:grid;
+
+    grid-template-columns:
+        minmax(0,1fr)
+        285px;
+
+    gap:25px;
+
+    align-items:center;
+}
+
+.hero-kicker{
+
+    color:var(--gold-300);
+
+    font-size:8px;
+    font-weight:950;
+
+    letter-spacing:.16em;
+
+    text-transform:uppercase;
+}
+
+.hero-title{
+
+    margin-top:8px;
+
+    font-size:24px;
+    font-weight:950;
+
+    letter-spacing:-.035em;
+}
+
+.hero-description{
+
+    max-width:720px;
+
+    margin-top:8px;
+
+    color:var(--muted);
+
+    font-size:10px;
+
+    line-height:1.7;
+}
+
+.hero-status{
+
+    padding:18px;
+
+    border:
+        1px solid
+        rgba(231,203,136,.20);
+
+    border-radius:17px;
+
+    background:
+        rgba(255,255,255,.035);
+}
+
+.hero-status-label{
+
+    color:var(--muted-2);
+
+    font-size:7px;
+    font-weight:850;
+
+    letter-spacing:.09em;
+
+    text-transform:uppercase;
+}
+
+.hero-status-value{
+
+    display:flex;
+    align-items:center;
+
+    gap:8px;
+
+    margin-top:8px;
+
+    color:var(--gold-200);
+
+    font-size:18px;
+    font-weight:950;
+}
+
+.status-dot{
+
+    width:9px;
+    height:9px;
+
+    border-radius:50%;
+
+    background:var(--warning);
+
+    box-shadow:
+        0 0 0 5px rgba(231,200,121,.09);
+}
+
+.hero-status-note{
+
+    margin-top:7px;
+
+    color:var(--muted-2);
+
+    font-size:8px;
+
+    line-height:1.5;
 }
 
 /* =========================================================
@@ -436,353 +1008,470 @@ img{
 ========================================================= */
 
 .summary-grid{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:13px;
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(4,minmax(0,1fr));
+
+    gap:12px;
+
+    margin-bottom:18px;
 }
 
 .summary-card{
-  padding:20px;
-  border:1px solid var(--border-light);
-  border-radius:var(--radius-lg);
-  background:linear-gradient(
-    145deg,
-    rgba(20,45,34,.92),
-    rgba(11,28,20,.92)
-  );
+
+    padding:17px;
+
+    border:
+        1px solid
+        var(--border-light);
+
+    border-radius:var(--radius-lg);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(48,38,66,.94),
+            rgba(27,20,39,.95)
+        );
+}
+
+.summary-icon{
+
+    width:37px;
+    height:37px;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:11px;
+
+    color:var(--gold-300);
+
+    background:
+        rgba(231,203,136,.075);
+
+    font-size:15px;
 }
 
 .summary-label{
-  color:var(--muted-2);
-  font-size:9px;
-  font-weight:800;
-  letter-spacing:.08em;
-  text-transform:uppercase;
+
+    margin-top:13px;
+
+    color:var(--muted-2);
+
+    font-size:7px;
+    font-weight:850;
+
+    letter-spacing:.08em;
+
+    text-transform:uppercase;
 }
 
 .summary-value{
-  margin-top:12px;
-  font-size:28px;
-  font-weight:950;
-  letter-spacing:-.045em;
+
+    margin-top:4px;
+
+    color:var(--cream);
+
+    font-size:20px;
+    font-weight:950;
 }
 
 .summary-note{
-  margin-top:4px;
-  color:var(--muted-2);
-  font-size:9px;
+
+    margin-top:4px;
+
+    color:var(--muted-2);
+
+    font-size:7px;
 }
 
 /* =========================================================
-   SECTION
+   MAIN LAYOUT
 ========================================================= */
 
-.section{
-  padding:25px 0;
+.approval-layout{
+
+    display:grid;
+
+    grid-template-columns:
+        minmax(0,1fr)
+        330px;
+
+    gap:16px;
+
+    align-items:start;
 }
-
-.section-heading{
-  display:flex;
-  align-items:flex-end;
-  justify-content:space-between;
-  gap:15px;
-  margin-bottom:16px;
-}
-
-.section-heading h2{
-  font-size:23px;
-  letter-spacing:-.035em;
-}
-
-.section-heading p{
-  margin-top:5px;
-  color:var(--muted-2);
-  font-size:10px;
-}
-
-.section-link{
-  color:var(--gold-300);
-  font-size:10px;
-  font-weight:900;
-}
-
-/* =========================================================
-   MAIN GRID
-========================================================= */
-
-.content-grid{
-  display:grid;
-  grid-template-columns:1.45fr .55fr;
-  gap:17px;
-}
-
-/* =========================================================
-   PANEL
-========================================================= */
 
 .panel{
-  padding:22px;
-  border:1px solid var(--border-light);
-  border-radius:var(--radius-lg);
-  background:linear-gradient(
-    145deg,
-    rgba(20,45,34,.96),
-    rgba(11,28,20,.96)
-  );
+
+    padding:19px;
+
+    border:
+        1px solid
+        var(--border-light);
+
+    border-radius:var(--radius-lg);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(43,34,59,.95),
+            rgba(25,19,36,.96)
+        );
+
+    box-shadow:
+        0 12px 38px rgba(0,0,0,.11);
+}
+
+.panel + .panel{
+    margin-top:14px;
 }
 
 .panel-header{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:15px;
-  margin-bottom:18px;
+
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+
+    gap:12px;
+
+    margin-bottom:16px;
 }
 
-.panel-header h3{
-  font-size:16px;
+.panel-title{
+
+    font-size:13px;
+    font-weight:950;
 }
 
-.panel-header p{
-  margin-top:4px;
-  color:var(--muted-2);
-  font-size:9px;
+.panel-subtitle{
+
+    margin-top:4px;
+
+    color:var(--muted-2);
+
+    font-size:8px;
+
+    line-height:1.55;
+}
+
+.badge{
+
+    display:inline-flex;
+    align-items:center;
+
+    min-height:27px;
+
+    padding:0 9px;
+
+    border-radius:8px;
+
+    font-size:7px;
+    font-weight:900;
+
+    letter-spacing:.04em;
+
+    text-transform:uppercase;
+}
+
+.badge-pending{
+
+    color:#f8e9bd;
+
+    border:
+        1px solid
+        rgba(231,203,136,.20);
+
+    background:
+        rgba(231,203,136,.08);
+}
+
+.badge-approved{
+
+    color:#c8f0d2;
+
+    border:
+        1px solid
+        rgba(145,212,162,.20);
+
+    background:
+        rgba(145,212,162,.08);
+}
+
+.badge-review{
+
+    color:#cbdfff;
+
+    border:
+        1px solid
+        rgba(157,194,236,.20);
+
+    background:
+        rgba(157,194,236,.08);
+}
+
+.badge-rejected{
+
+    color:#ffd4d4;
+
+    border:
+        1px solid
+        rgba(232,154,154,.20);
+
+    background:
+        rgba(232,154,154,.08);
 }
 
 /* =========================================================
-   FILTER BAR
+   PROPERTY SELECTOR
 ========================================================= */
 
-.filter-bar{
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
-  margin-bottom:15px;
+.property-selector{
+
+    display:grid;
+
+    grid-template-columns:
+        92px minmax(0,1fr)
+        auto;
+
+    gap:13px;
+
+    align-items:center;
+
+    padding:12px;
+
+    border:
+        1px solid
+        rgba(231,203,136,.12);
+
+    border-radius:15px;
+
+    background:
+        rgba(255,255,255,.025);
+
+    transition:.2s ease;
 }
 
-.filter-btn{
-  min-height:35px;
-  padding:0 12px;
-  border:1px solid var(--border-light);
-  border-radius:9px;
-  color:var(--muted);
-  background:rgba(255,255,255,.035);
-  font-size:9px;
-  font-weight:800;
+.property-selector + .property-selector{
+    margin-top:9px;
 }
 
-.filter-btn.active{
-  color:#17170f;
-  border-color:transparent;
-  background:var(--gold-300);
+.property-selector:hover,
+.property-selector.active{
+
+    border-color:
+        rgba(231,203,136,.27);
+
+    background:
+        rgba(231,203,136,.045);
 }
 
-/* =========================================================
-   APPROVAL TABLE
-========================================================= */
+.property-thumb{
 
-.approval-table-wrap{
-  width:100%;
-  overflow-x:auto;
+    width:92px;
+    height:70px;
+
+    overflow:hidden;
+
+    border-radius:10px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #4a3b59,
+            #271e35
+        );
 }
 
-.approval-table{
-  width:100%;
-  min-width:780px;
-  border-collapse:collapse;
+.property-thumb img{
+
+    width:100%;
+    height:100%;
+
+    object-fit:cover;
 }
 
-.approval-table th{
-  padding:11px 12px;
-  text-align:left;
-  color:var(--muted-2);
-  border-bottom:1px solid rgba(255,255,255,.07);
-  font-size:8px;
-  font-weight:900;
-  letter-spacing:.08em;
-  text-transform:uppercase;
+.property-name{
+
+    color:var(--cream);
+
+    font-size:11px;
+    font-weight:900;
 }
 
-.approval-table td{
-  padding:13px 12px;
-  border-bottom:1px solid rgba(255,255,255,.055);
-  vertical-align:middle;
-  font-size:9px;
+.property-location{
+
+    margin-top:4px;
+
+    color:var(--muted-2);
+
+    font-size:8px;
 }
 
-.approval-table tbody tr{
-  transition:.2s ease;
+.property-meta{
+
+    display:flex;
+    flex-wrap:wrap;
+
+    gap:5px;
+
+    margin-top:7px;
 }
 
-.approval-table tbody tr:hover{
-  background:rgba(255,255,255,.025);
+.meta-chip{
+
+    padding:5px 7px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.07);
+
+    border-radius:6px;
+
+    color:var(--muted);
+
+    background:
+        rgba(255,255,255,.025);
+
+    font-size:7px;
 }
 
-.property-mini{
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
+.property-price{
 
-.property-mini-image{
-  width:48px;
-  height:43px;
-  flex:0 0 48px;
-  overflow:hidden;
-  border-radius:9px;
-  background:#142d22;
-}
+    margin-top:7px;
 
-.property-mini-image img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
+    color:var(--gold-200);
 
-.property-mini strong{
-  display:block;
-  max-width:190px;
-  overflow:hidden;
-  white-space:nowrap;
-  text-overflow:ellipsis;
-  font-size:10px;
-}
-
-.property-mini span{
-  display:block;
-  margin-top:3px;
-  color:var(--muted-2);
-  font-size:8px;
-}
-
-.status{
-  display:inline-flex;
-  align-items:center;
-  gap:5px;
-  padding:6px 8px;
-  border-radius:7px;
-  font-size:8px;
-  font-weight:900;
-  white-space:nowrap;
-}
-
-.status-pending{
-  color:#f4dfaa;
-  background:rgba(229,199,125,.10);
-  border:1px solid rgba(229,199,125,.14);
-}
-
-.status-approved{
-  color:#ccefd4;
-  background:rgba(130,201,149,.09);
-  border:1px solid rgba(130,201,149,.15);
-}
-
-.status-rejected{
-  color:#ffd0d0;
-  background:rgba(233,140,140,.09);
-  border:1px solid rgba(233,140,140,.15);
-}
-
-.status-review{
-  color:#c9def6;
-  background:rgba(145,185,232,.09);
-  border:1px solid rgba(145,185,232,.15);
-}
-
-.action-link{
-  color:var(--gold-300);
-  font-size:8px;
-  font-weight:900;
+    font-size:10px;
+    font-weight:950;
 }
 
 /* =========================================================
-   TIMELINE
+   APPROVAL TIMELINE
 ========================================================= */
 
 .timeline{
-  display:grid;
-  gap:16px;
+
+    position:relative;
+
+    padding-left:12px;
+}
+
+.timeline:before{
+
+    content:"";
+
+    position:absolute;
+
+    top:9px;
+    bottom:10px;
+    left:16px;
+
+    width:1px;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(145,212,162,.55),
+            rgba(231,203,136,.25),
+            rgba(255,255,255,.07)
+        );
 }
 
 .timeline-item{
-  position:relative;
-  display:flex;
-  gap:12px;
+
+    position:relative;
+
+    display:grid;
+
+    grid-template-columns:42px 1fr;
+
+    gap:12px;
+
+    min-height:90px;
 }
 
-.timeline-item:not(:last-child)::after{
-  content:"";
-  position:absolute;
-  left:14px;
-  top:30px;
-  bottom:-17px;
-  width:1px;
-  background:rgba(229,199,125,.13);
+.timeline-marker{
+
+    position:relative;
+    z-index:1;
+
+    width:33px;
+    height:33px;
+
+    display:grid;
+    place-items:center;
+
+    border:
+        1px solid
+        rgba(231,203,136,.20);
+
+    border-radius:50%;
+
+    color:var(--muted-2);
+
+    background:
+        #21192f;
+
+    font-size:11px;
 }
 
-.timeline-dot{
-  width:29px;
-  height:29px;
-  flex:0 0 29px;
-  display:grid;
-  place-items:center;
-  border-radius:50%;
-  color:var(--gold-300);
-  background:rgba(229,199,125,.08);
-  border:1px solid rgba(229,199,125,.12);
-  font-size:10px;
+.timeline-item.complete .timeline-marker{
+
+    color:#172016;
+
+    border-color:
+        rgba(145,212,162,.30);
+
+    background:
+        var(--success);
 }
 
-.timeline-content{
-  min-width:0;
+.timeline-item.current .timeline-marker{
+
+    color:#1b1427;
+
+    border-color:
+        rgba(231,203,136,.34);
+
+    background:
+        var(--gold-300);
+
+    box-shadow:
+        0 0 0 5px
+        rgba(231,203,136,.07);
 }
 
-.timeline-content strong{
-  display:block;
-  font-size:10px;
+.timeline-title{
+
+    color:var(--cream);
+
+    font-size:10px;
+    font-weight:900;
 }
 
-.timeline-content span{
-  display:block;
-  margin-top:4px;
-  color:var(--muted-2);
-  font-size:8px;
-  line-height:1.5;
+.timeline-text{
+
+    margin-top:4px;
+
+    color:var(--muted-2);
+
+    font-size:8px;
+
+    line-height:1.6;
 }
 
-.timeline-time{
-  margin-top:4px;
-  color:var(--gold-300)!important;
-}
+.timeline-date{
 
-/* =========================================================
-   APPROVAL DETAIL CARDS
-========================================================= */
+    margin-top:5px;
 
-.detail-grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:10px;
-}
+    color:var(--gold-300);
 
-.detail-item{
-  padding:12px;
-  border:1px solid rgba(255,255,255,.06);
-  border-radius:11px;
-  background:rgba(255,255,255,.025);
-}
-
-.detail-item span{
-  display:block;
-  color:var(--muted-2);
-  font-size:8px;
-}
-
-.detail-item strong{
-  display:block;
-  margin-top:5px;
-  font-size:10px;
+    font-size:7px;
+    font-weight:800;
 }
 
 /* =========================================================
@@ -790,163 +1479,317 @@ img{
 ========================================================= */
 
 .document-list{
-  display:grid;
-  gap:8px;
+
+    display:grid;
+
+    gap:8px;
 }
 
-.document-item{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  padding:11px;
-  border-radius:10px;
-  background:rgba(255,255,255,.025);
-  border:1px solid rgba(255,255,255,.055);
+.document-row{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:12px;
+
+    padding:12px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.065);
+
+    border-radius:11px;
+
+    background:
+        rgba(255,255,255,.025);
+}
+
+.document-main{
+
+    display:flex;
+    align-items:center;
+
+    gap:9px;
+
+    min-width:0;
 }
 
 .document-icon{
-  width:32px;
-  height:32px;
-  display:grid;
-  place-items:center;
-  flex:0 0 32px;
-  border-radius:9px;
-  color:var(--gold-300);
-  background:rgba(229,199,125,.08);
+
+    width:32px;
+    height:32px;
+
+    flex-shrink:0;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:9px;
+
+    color:var(--gold-300);
+
+    background:
+        rgba(231,203,136,.07);
 }
 
-.document-text{
-  min-width:0;
-  flex:1;
+.document-name{
+
+    color:var(--cream);
+
+    font-size:8px;
+    font-weight:850;
 }
 
-.document-text strong{
-  display:block;
-  font-size:9px;
+.document-note{
+
+    margin-top:3px;
+
+    color:var(--muted-2);
+
+    font-size:7px;
 }
 
-.document-text span{
-  display:block;
-  margin-top:3px;
-  color:var(--muted-2);
-  font-size:7px;
-}
+.document-status{
 
-.document-state{
-  font-size:8px;
-  font-weight:900;
-}
-
-.document-state.complete{
-  color:var(--success);
-}
-
-.document-state.missing{
-  color:var(--danger);
-}
-
-.document-state.review{
-  color:var(--warning);
+    flex-shrink:0;
 }
 
 /* =========================================================
-   HELP / INFO
+   DETAILS
 ========================================================= */
 
-.info-card{
-  padding:22px;
-  border:1px solid rgba(229,199,125,.20);
-  border-radius:var(--radius-lg);
+.detail-grid{
 
-  background:
-    radial-gradient(
-      circle at 100% 0%,
-      rgba(229,199,125,.13),
-      transparent 38%
-    ),
-    linear-gradient(
-      145deg,
-      #18382b,
-      #0c1f16
-    );
+    display:grid;
+
+    grid-template-columns:
+        repeat(2,1fr);
+
+    gap:9px;
 }
 
-.info-badge{
-  display:inline-flex;
-  padding:6px 8px;
-  border-radius:7px;
-  color:#182016;
-  background:var(--gold-300);
-  font-size:8px;
-  font-weight:1000;
+.detail-box{
+
+    padding:12px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.06);
+
+    border-radius:10px;
+
+    background:
+        rgba(255,255,255,.022);
 }
 
-.info-card h3{
-  margin-top:13px;
-  font-size:20px;
-  line-height:1.15;
+.detail-label{
+
+    color:var(--muted-2);
+
+    font-size:7px;
+    font-weight:800;
+
+    letter-spacing:.06em;
+
+    text-transform:uppercase;
 }
 
-.info-card p{
-  margin-top:8px;
-  color:var(--muted);
-  font-size:9px;
-  line-height:1.65;
-}
+.detail-value{
 
-.info-list{
-  display:grid;
-  gap:7px;
-  margin-top:16px;
-}
+    margin-top:5px;
 
-.info-list div{
-  display:flex;
-  gap:8px;
-  align-items:flex-start;
-  padding:9px;
-  border:1px solid rgba(255,255,255,.07);
-  border-radius:9px;
-  background:rgba(255,255,255,.03);
-  color:var(--muted);
-  font-size:8px;
+    color:var(--cream);
+
+    font-size:9px;
+    font-weight:850;
+
+    word-break:break-word;
 }
 
 /* =========================================================
-   EMPTY
+   SIDEBAR ACTIONS
+========================================================= */
+
+.action-stack{
+
+    display:grid;
+
+    gap:8px;
+}
+
+.action-stack .btn{
+    width:100%;
+}
+
+.help-box{
+
+    padding:14px;
+
+    margin-top:14px;
+
+    border:
+        1px solid
+        rgba(157,194,236,.14);
+
+    border-radius:13px;
+
+    background:
+        rgba(157,194,236,.045);
+}
+
+.help-box strong{
+
+    display:block;
+
+    color:#d8e7fb;
+
+    font-size:9px;
+}
+
+.help-box p{
+
+    margin-top:5px;
+
+    color:var(--muted-2);
+
+    font-size:7px;
+
+    line-height:1.65;
+}
+
+.help-box a{
+
+    display:inline-flex;
+
+    margin-top:8px;
+
+    color:var(--blue);
+
+    font-size:8px;
+    font-weight:850;
+}
+
+/* =========================================================
+   NOTICE
+========================================================= */
+
+.notice{
+
+    display:flex;
+
+    gap:10px;
+
+    padding:13px;
+
+    border:
+        1px solid
+        rgba(231,203,136,.14);
+
+    border-radius:12px;
+
+    background:
+        rgba(231,203,136,.045);
+}
+
+.notice-icon{
+
+    width:29px;
+    height:29px;
+
+    flex-shrink:0;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:8px;
+
+    color:var(--gold-300);
+
+    background:
+        rgba(231,203,136,.08);
+}
+
+.notice strong{
+
+    display:block;
+
+    color:var(--gold-200);
+
+    font-size:8px;
+}
+
+.notice p{
+
+    margin-top:3px;
+
+    color:var(--muted-2);
+
+    font-size:7px;
+
+    line-height:1.6;
+}
+
+/* =========================================================
+   EMPTY STATE
 ========================================================= */
 
 .empty-state{
-  padding:45px 20px;
-  text-align:center;
-  border:1px dashed rgba(229,199,125,.18);
-  border-radius:15px;
-  background:rgba(255,255,255,.02);
+
+    padding:60px 20px;
+
+    text-align:center;
+
+    border:
+        1px dashed
+        rgba(231,203,136,.20);
+
+    border-radius:var(--radius-lg);
+
+    background:
+        rgba(255,255,255,.025);
 }
 
 .empty-icon{
-  width:48px;
-  height:48px;
-  display:grid;
-  place-items:center;
-  margin:0 auto;
-  border-radius:14px;
-  color:var(--gold-300);
-  background:rgba(229,199,125,.08);
-  font-size:19px;
+
+    width:55px;
+    height:55px;
+
+    margin:auto;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:16px;
+
+    color:var(--gold-300);
+
+    background:
+        rgba(231,203,136,.08);
+
+    font-size:22px;
 }
 
 .empty-state h3{
-  margin-top:12px;
-  font-size:15px;
+
+    margin-top:14px;
+
+    font-size:17px;
 }
 
 .empty-state p{
-  max-width:450px;
-  margin:7px auto 0;
-  color:var(--muted-2);
-  font-size:9px;
-  line-height:1.6;
+
+    max-width:500px;
+
+    margin:7px auto 17px;
+
+    color:var(--muted-2);
+
+    font-size:9px;
+
+    line-height:1.7;
 }
 
 /* =========================================================
@@ -954,1132 +1797,1756 @@ img{
 ========================================================= */
 
 .site-footer{
-  margin-top:45px;
-  padding:35px 0 25px;
-  border-top:1px solid rgba(255,255,255,.07);
-  background:rgba(3,12,8,.35);
+
+    position:relative;
+
+    margin-top:55px;
+
+    padding:48px 0 25px;
+
+    border-top:
+        1px solid
+        rgba(231,203,136,.12);
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(12,8,18,.38),
+            rgba(8,6,12,.88)
+        );
+}
+
+.footer-top-line{
+
+    height:1px;
+
+    width:100%;
+
+    margin-bottom:35px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(231,203,136,.22),
+            transparent
+        );
 }
 
 .footer-grid{
-  display:grid;
-  grid-template-columns:1.4fr repeat(3,1fr);
-  gap:25px;
+
+    display:grid;
+
+    grid-template-columns:
+        1.6fr
+        repeat(4,1fr);
+
+    gap:30px;
 }
 
 .footer-brand{
-  max-width:300px;
+    max-width:350px;
+}
+
+.footer-brand .brand-logo{
+
+    width:43px;
+    height:43px;
 }
 
 .footer-brand p{
-  margin-top:10px;
-  color:var(--muted-2);
-  font-size:9px;
-  line-height:1.7;
+
+    margin-top:14px;
+
+    color:var(--muted-2);
+
+    font-size:9px;
+
+    line-height:1.85;
+}
+
+.footer-trust{
+
+    display:flex;
+    flex-wrap:wrap;
+
+    gap:6px;
+
+    margin-top:15px;
+}
+
+.trust-pill{
+
+    padding:6px 9px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.07);
+
+    border-radius:7px;
+
+    color:var(--muted-2);
+
+    background:
+        rgba(255,255,255,.025);
+
+    font-size:7px;
+    font-weight:800;
 }
 
 .footer-col h4{
-  color:var(--gold-200);
-  font-size:9px;
-  letter-spacing:.1em;
-  text-transform:uppercase;
+
+    color:var(--gold-200);
+
+    font-size:9px;
+    letter-spacing:.1em;
+
+    text-transform:uppercase;
 }
 
 .footer-col a{
-  display:block;
-  margin-top:9px;
-  color:var(--muted-2);
-  font-size:9px;
+
+    display:block;
+
+    margin-top:11px;
+
+    color:var(--muted-2);
+
+    font-size:9px;
+
+    transition:.2s ease;
 }
 
 .footer-col a:hover{
-  color:var(--gold-300);
+
+    color:var(--gold-300);
+
+    transform:translateX(2px);
+}
+
+.footer-contact{
+
+    display:flex;
+    align-items:center;
+
+    gap:8px;
+
+    margin-top:18px;
+    padding-top:14px;
+
+    border-top:
+        1px solid
+        rgba(255,255,255,.06);
+}
+
+.footer-contact-icon{
+
+    width:30px;
+    height:30px;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:9px;
+
+    color:var(--gold-300);
+
+    background:
+        rgba(231,203,136,.07);
+}
+
+.footer-contact-text span{
+
+    display:block;
+
+    color:var(--muted-2);
+
+    font-size:7px;
+}
+
+.footer-contact-text strong{
+
+    display:block;
+
+    margin-top:2px;
+
+    color:var(--cream);
+
+    font-size:8px;
 }
 
 .footer-bottom{
-  display:flex;
-  justify-content:space-between;
-  gap:15px;
-  margin-top:28px;
-  padding-top:17px;
-  border-top:1px solid rgba(255,255,255,.06);
-  color:var(--muted-2);
-  font-size:8px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    gap:15px;
+
+    margin-top:32px;
+    padding-top:19px;
+
+    border-top:
+        1px solid
+        rgba(255,255,255,.06);
+
+    color:var(--muted-2);
+
+    font-size:8px;
 }
 
 /* =========================================================
-   AI FLOATING BUTTON
+   AI
 ========================================================= */
 
 .ai-floating{
-  position:fixed;
-  right:22px;
-  bottom:22px;
-  z-index:90;
-  min-height:48px;
-  display:flex;
-  align-items:center;
-  gap:8px;
-  padding:0 16px;
-  border:1px solid rgba(229,199,125,.25);
-  border-radius:30px;
-  color:#17170f;
-  background:linear-gradient(
-    135deg,
-    var(--gold-200),
-    var(--gold-400)
-  );
-  box-shadow:0 15px 35px rgba(0,0,0,.3);
-  font-size:10px;
-  font-weight:1000;
+
+    position:fixed;
+
+    right:22px;
+    bottom:22px;
+
+    z-index:900;
+
+    min-height:50px;
+
+    display:flex;
+    align-items:center;
+
+    gap:9px;
+
+    padding:0 18px;
+
+    border:
+        1px solid
+        rgba(231,203,136,.28);
+
+    border-radius:30px;
+
+    color:#1b1427;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--gold-200),
+            var(--gold-400)
+        );
+
+    box-shadow:
+        0 15px 35px rgba(0,0,0,.30);
+
+    font-size:10px;
+    font-weight:1000;
+
+    transition:.2s ease;
+}
+
+.ai-floating:hover{
+    transform:translateY(-3px);
+}
+
+.ai-icon{
+
+    width:27px;
+    height:27px;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:50%;
+
+    background:
+        rgba(0,0,0,.10);
 }
 
 /* =========================================================
-   MOBILE
+   RESPONSIVE
 ========================================================= */
 
-@media(max-width:1100px){
+@media(max-width:1250px){
 
-  .desktop-nav{
-    display:none;
-  }
+    .desktop-nav{
+        display:none;
+    }
 
-  .mobile-menu{
-    display:grid;
-  }
+    .mobile-menu{
+        display:grid;
+    }
 
-  .summary-grid{
-    grid-template-columns:repeat(2,1fr);
-  }
+    .approval-layout{
+        grid-template-columns:1fr;
+    }
 
-  .content-grid{
-    grid-template-columns:1fr;
-  }
+    .summary-grid{
+        grid-template-columns:
+            repeat(2,1fr);
+    }
 }
 
-@media(max-width:800px){
+@media(max-width:900px){
 
-  .container{
-    width:min(
-      calc(100% - 28px),
-      var(--container)
-    );
-  }
+    .approval-hero-content{
+        grid-template-columns:1fr;
+    }
 
-  .hero-panel{
-    padding:30px;
-  }
-
-  .hero-title{
-    font-size:42px;
-  }
-
-  .footer-grid{
-    grid-template-columns:1fr 1fr;
-  }
+    .footer-grid{
+        grid-template-columns:
+            1.5fr
+            repeat(3,1fr);
+    }
 }
 
-@media(max-width:560px){
+@media(max-width:700px){
 
-  .header-inner{
-    min-height:68px;
-  }
+    .container{
 
-  .brand-text span{
-    display:none;
-  }
+        width:min(
+            calc(100% - 28px),
+            var(--container)
+        );
+    }
 
-  .header-actions .icon-btn{
-    display:none;
-  }
+    .page{
+        padding-top:28px;
+    }
 
-  .page-hero{
-    padding-top:25px;
-  }
+    .page-heading{
 
-  .hero-panel{
-    padding:24px;
-    border-radius:22px;
-  }
+        align-items:flex-start;
 
-  .hero-title{
-    font-size:36px;
-  }
+        flex-direction:column;
+    }
 
-  .hero-description{
-    font-size:12px;
-  }
+    .summary-grid{
+        grid-template-columns:1fr 1fr;
+    }
 
-  .summary-grid{
-    grid-template-columns:1fr 1fr;
-    gap:9px;
-  }
+    .property-selector{
+        grid-template-columns:
+            72px 1fr;
+    }
 
-  .summary-card{
-    padding:15px;
-  }
+    .property-thumb{
 
-  .summary-value{
-    font-size:22px;
-  }
+        width:72px;
+        height:62px;
+    }
 
-  .section-heading{
-    align-items:flex-start;
-    flex-direction:column;
-  }
+    .property-selector > .btn{
+        grid-column:1/-1;
+        width:100%;
+    }
 
-  .panel{
-    padding:16px;
-  }
+    .detail-grid{
+        grid-template-columns:1fr;
+    }
 
-  .footer-grid{
-    grid-template-columns:1fr;
-  }
+    .footer-grid{
+        grid-template-columns:1fr 1fr;
+    }
+}
 
-  .footer-bottom{
-    flex-direction:column;
-  }
+@media(max-width:520px){
 
-  .ai-floating{
-    right:14px;
-    bottom:14px;
-  }
+    .header-inner{
+        min-height:68px;
+    }
+
+    .brand-logo{
+
+        width:42px;
+        height:42px;
+
+        border-radius:12px;
+    }
+
+    .brand-text span{
+        display:none;
+    }
+
+    .header-actions .notification-wrap{
+        display:none;
+    }
+
+    .profile-info,
+    .profile-arrow{
+        display:none;
+    }
+
+    .profile-menu{
+
+        padding:3px;
+
+        border-radius:50%;
+
+        border-color:transparent;
+
+        background:transparent;
+    }
+
+    .approval-hero{
+        padding:19px;
+    }
+
+    .hero-title{
+        font-size:20px;
+    }
+
+    .summary-grid{
+        grid-template-columns:1fr;
+    }
+
+    .property-selector{
+        grid-template-columns:60px 1fr;
+    }
+
+    .property-thumb{
+        width:60px;
+        height:55px;
+    }
+
+    .document-row{
+        align-items:flex-start;
+    }
+
+    .footer-grid{
+        grid-template-columns:1fr;
+    }
+
+    .footer-bottom{
+        flex-direction:column;
+    }
+
+    .ai-floating{
+
+        right:14px;
+        bottom:14px;
+    }
+
+    .ai-floating .ai-text{
+        display:none;
+    }
 }
 
 </style>
+
 </head>
 
 <body>
 
 <div class="page-glow"></div>
 
-<!-- =========================================================
+<!-- =======================================================
      HEADER
-========================================================= -->
+======================================================= -->
 
 <header class="site-header">
 
-  <div class="container header-inner">
+<div class="container header-inner">
 
-    <a
-      class="brand"
-      href="/seller/index.html"
-      aria-label="GHAR Seller Home"
-    >
+<a
+    class="brand"
+    href="/seller/index.html"
+    aria-label="GHAR Seller Home"
+>
 
-      <div class="brand-mark">G</div>
+<div class="brand-logo">
 
-      <div class="brand-text">
+<img
+    src="../assets/images/logo/ghar-logo-light.svg"
+    alt="GHAR"
+    onerror="
+        this.style.display='none';
+        this.nextElementSibling.style.display='grid';
+    "
+>
 
-        <strong>GHAR</strong>
+<div
+    class="brand-logo-fallback"
+    style="display:none"
+>
+    G
+</div>
 
-        <span>
-          Seller Experience
-        </span>
+</div>
 
-      </div>
+<div class="brand-text">
 
-    </a>
+<strong>GHAR</strong>
 
-    <nav
-      class="desktop-nav"
-      aria-label="Seller navigation"
-    >
+<span>Seller Experience</span>
 
-      <a href="/seller/index.html">
-        Home
-      </a>
+</div>
 
-      <a href="/seller/dashboard.html">
-        Dashboard
-      </a>
+</a>
 
-      <a href="/seller/list-property.html">
-        List Property
-      </a>
+<nav
+    class="desktop-nav"
+    aria-label="Seller navigation"
+>
 
-      <a href="/seller/edit-property.html">
-        My Properties
-      </a>
+<a href="/seller/index.html">
+    Dashboard
+</a>
 
-      <a
-        class="active"
-        href="/seller/property-approval.html"
-      >
-        Approvals
-      </a>
+<a href="/seller/properties.html">
+    Properties
+</a>
 
-      <a href="/seller/leads.html">
-        Leads
-      </a>
+<a
+    class="active"
+    href="/seller/property-approval.html"
+>
+    Approval
+</a>
 
-      <a href="/seller/offers.html">
-        Offers
-      </a>
+<a href="/seller/list-property.html">
+    List Property
+</a>
 
-    </nav>
+<a href="/seller/leads.html">
+    Leads
+</a>
 
-    <div class="header-actions">
+<a href="/seller/visits.html">
+    Visits
+</a>
 
-      <button
-        class="icon-btn"
-        id="notificationButton"
-        type="button"
-        aria-label="Notifications"
-      >
-        ♢
-      </button>
+<a href="/seller/offers.html">
+    Offers
+</a>
 
-      <a
-        class="avatar"
-        id="profileButton"
-        href="/seller/profile.html"
-        aria-label="Profile"
-      >
-        S
-      </a>
+<a href="/seller/applications.html">
+    Applications
+</a>
 
-      <button
-        class="icon-btn mobile-menu"
-        id="menuButton"
-        type="button"
-        aria-label="Open menu"
-      >
-        ☰
-      </button>
+</nav>
 
-    </div>
+<div class="header-actions">
 
-  </div>
+<div class="notification-wrap">
+
+<button
+    class="icon-btn"
+    id="notificationButton"
+    type="button"
+    aria-label="Notifications"
+>
+    ♢
+</button>
+
+<span
+    class="notification-dot"
+    aria-hidden="true"
+></span>
+
+</div>
+
+<a
+    class="profile-menu"
+    href="/seller/profile.html"
+>
+
+<img
+    id="profileImage"
+    src="../assets/images/profile/seller-default.jpg"
+    alt="Seller profile"
+    onerror="
+        this.src='../assets/images/profile/default-avatar.jpg'
+    "
+>
+
+<span class="profile-info">
+
+<strong id="profileName">
+    Seller
+</strong>
+
+<small>
+    Seller account
+</small>
+
+</span>
+
+<span class="profile-arrow">
+    ⌄
+</span>
+
+</a>
+
+<button
+    class="icon-btn mobile-menu"
+    id="menuButton"
+    type="button"
+    aria-label="Open seller menu"
+    aria-expanded="false"
+>
+    ☰
+</button>
+
+</div>
+
+</div>
 
 </header>
 
+<!-- =======================================================
+     MOBILE NAV
+======================================================= -->
+
+<div
+    class="mobile-nav-panel"
+    id="mobileNav"
+>
+
+<div class="mobile-profile">
+
+<img
+    id="mobileProfileImage"
+    src="../assets/images/profile/seller-default.jpg"
+    alt="Seller profile"
+    onerror="
+        this.src='../assets/images/profile/default-avatar.jpg'
+    "
+>
+
+<div>
+
+<strong id="mobileProfileName">
+    Seller
+</strong>
+
+<span>
+    GHAR Seller Account
+</span>
+
+</div>
+
+</div>
+
+<a href="/seller/index.html">
+    Dashboard <span>›</span>
+</a>
+
+<a href="/seller/properties.html">
+    Properties <span>›</span>
+</a>
+
+<a
+    class="active"
+    href="/seller/property-approval.html"
+>
+    Property Approval <span>›</span>
+</a>
+
+<a href="/seller/list-property.html">
+    List Property <span>›</span>
+</a>
+
+<a href="/seller/leads.html">
+    Leads <span>›</span>
+</a>
+
+<a href="/seller/visits.html">
+    Visits <span>›</span>
+</a>
+
+<a href="/seller/messages.html">
+    Messages <span>›</span>
+</a>
+
+<a href="/seller/offers.html">
+    Offers <span>›</span>
+</a>
+
+<a href="/seller/applications.html">
+    Applications <span>›</span>
+</a>
+
+<a href="/seller/payments.html">
+    Payments <span>›</span>
+</a>
+
+<a href="/seller/documents.html">
+    Documents <span>›</span>
+</a>
+
+<a href="/seller/referral.html">
+    Referral <span>›</span>
+</a>
+
+<a href="/seller/profile.html">
+    Profile <span>›</span>
+</a>
+
+</div>
+
+<!-- =======================================================
+     MAIN
+======================================================= -->
+
 <main>
 
-<!-- =========================================================
+<section class="page">
+
+<div class="container">
+
+<!-- =====================================================
+     PAGE HEADING
+====================================================== -->
+
+<div class="page-heading">
+
+<div>
+
+<div class="eyebrow">
+    LISTING VERIFICATION
+</div>
+
+<h1>
+    Property approval.
+</h1>
+
+<p>
+    Track every property submitted for GHAR verification,
+    review the approval workflow, monitor document checks
+    and resolve any action required before your listing
+    becomes publicly available.
+</p>
+
+</div>
+
+<div class="heading-actions">
+
+<a
+    class="btn btn-secondary"
+    href="/seller/properties.html"
+>
+    My properties
+</a>
+
+<a
+    class="btn btn-primary"
+    href="/seller/list-property.html"
+>
+    List new property
+</a>
+
+</div>
+
+</div>
+
+<!-- =====================================================
      HERO
-========================================================= -->
+====================================================== -->
 
-<section class="page-hero">
+<section class="approval-hero">
 
-  <div class="container">
+<div class="approval-hero-content">
 
-    <div class="hero-panel">
+<div>
 
-      <div class="eyebrow">
-        SELLER PROPERTY MANAGEMENT
-      </div>
+<div class="hero-kicker">
+    GHAR PROPERTY CONTROL
+</div>
 
-      <h1 class="hero-title">
-        Property
-        <span>approval</span>
-        centre.
-      </h1>
+<div class="hero-title">
+    Keep your listings approval-ready.
+</div>
 
-      <p class="hero-description">
-        Track every property submitted for GHAR verification,
-        review document requirements, monitor approval progress
-        and resolve issues before your listing goes live.
-      </p>
+<p class="hero-description">
+    GHAR reviews property information, seller-submitted
+    documents and verification requirements before a
+    listing can move through the publishing workflow.
+    Use this page to see exactly where each property stands.
+</p>
 
-    </div>
+</div>
 
-  </div>
+<div class="hero-status">
+
+<div class="hero-status-label">
+    Current workflow
+</div>
+
+<div class="hero-status-value">
+
+<span class="status-dot"></span>
+
+<span id="heroStatus">
+    Review pending
+</span>
+
+</div>
+
+<div
+    class="hero-status-note"
+    id="heroStatusNote"
+>
+    Select a property below to inspect its approval progress.
+</div>
+
+</div>
+
+</div>
 
 </section>
 
-<!-- =========================================================
+<!-- =====================================================
      SUMMARY
-========================================================= -->
+====================================================== -->
 
-<section class="section">
+<section class="summary-grid">
 
-  <div class="container">
+<div class="summary-card">
 
-    <div class="summary-grid">
+<div class="summary-icon">
+    ◈
+</div>
 
-      <article class="summary-card">
+<div class="summary-label">
+    Total listings
+</div>
 
-        <div class="summary-label">
-          Total submissions
-        </div>
+<div
+    class="summary-value"
+    id="totalProperties"
+>
+    0
+</div>
 
-        <div
-          class="summary-value"
-          id="totalCount"
-        >
-          0
-        </div>
+<div class="summary-note">
+    Seller properties
+</div>
 
-        <div class="summary-note">
-          Properties submitted for review
-        </div>
+</div>
 
-      </article>
+<div class="summary-card">
 
-      <article class="summary-card">
+<div class="summary-icon">
+    ◌
+</div>
 
-        <div class="summary-label">
-          Pending
-        </div>
+<div class="summary-label">
+    Pending review
+</div>
 
-        <div
-          class="summary-value"
-          id="pendingCount"
-        >
-          0
-        </div>
+<div
+    class="summary-value"
+    id="pendingProperties"
+>
+    0
+</div>
 
-        <div class="summary-note">
-          Awaiting approval
-        </div>
+<div class="summary-note">
+    Awaiting verification
+</div>
 
-      </article>
+</div>
 
-      <article class="summary-card">
+<div class="summary-card">
 
-        <div class="summary-label">
-          Approved
-        </div>
+<div class="summary-icon">
+    ✓
+</div>
 
-        <div
-          class="summary-value"
-          id="approvedCount"
-        >
-          0
-        </div>
+<div class="summary-label">
+    Approved
+</div>
 
-        <div class="summary-note">
-          Ready to publish
-        </div>
+<div
+    class="summary-value"
+    id="approvedProperties"
+>
+    0
+</div>
 
-      </article>
+<div class="summary-note">
+    Ready or live
+</div>
 
-      <article class="summary-card">
+</div>
 
-        <div class="summary-label">
-          Action required
-        </div>
+<div class="summary-card">
 
-        <div
-          class="summary-value"
-          id="actionCount"
-        >
-          0
-        </div>
+<div class="summary-icon">
+    !
+</div>
 
-        <div class="summary-note">
-          Documents or corrections needed
-        </div>
+<div class="summary-label">
+    Action required
+</div>
 
-      </article>
+<div
+    class="summary-value"
+    id="actionProperties"
+>
+    0
+</div>
 
-    </div>
+<div class="summary-note">
+    Seller attention needed
+</div>
 
-  </div>
+</div>
 
 </section>
 
-<!-- =========================================================
-     APPROVAL CENTRE
-========================================================= -->
+<!-- =====================================================
+     MAIN LAYOUT
+====================================================== -->
 
-<section class="section">
+<div class="approval-layout">
 
-  <div class="container">
+<!-- =====================================================
+     LEFT
+====================================================== -->
 
-    <div class="section-heading">
+<div>
 
-      <div>
+<section class="panel">
 
-        <h2>
-          Approval centre
-        </h2>
+<div class="panel-header">
 
-        <p>
-          Monitor the status of your submitted properties.
-        </p>
+<div>
 
-      </div>
+<div class="panel-title">
+    Properties under approval
+</div>
 
-      <a
-        class="section-link"
-        href="/seller/list-property.html"
-      >
-        + List another property
-      </a>
+<div class="panel-subtitle">
+    Select a property to inspect its current verification
+    stage, documents and approval requirements.
+</div>
 
-    </div>
+</div>
 
-    <div class="content-grid">
+<span
+    class="badge badge-review"
+    id="listBadge"
+>
+    Seller listings
+</span>
 
-      <!-- ===================================================
-           APPROVAL TABLE
-      ==================================================== -->
+</div>
 
-      <div class="panel">
+<div id="propertyList">
 
-        <div class="panel-header">
+<div class="empty-state">
 
-          <div>
+<div class="empty-icon">
+    ◈
+</div>
 
-            <h3>
-              Submitted properties
-            </h3>
+<h3>
+    Loading your properties
+</h3>
 
-            <p>
-              Select a status to filter your listings.
-            </p>
+<p>
+    GHAR is retrieving your seller properties and
+    approval information.
+</p>
 
-          </div>
+</div>
 
-        </div>
-
-        <div class="filter-bar">
-
-          <button
-            class="filter-btn active"
-            type="button"
-            data-filter="all"
-          >
-            All
-          </button>
-
-          <button
-            class="filter-btn"
-            type="button"
-            data-filter="pending"
-          >
-            Pending
-          </button>
-
-          <button
-            class="filter-btn"
-            type="button"
-            data-filter="approved"
-          >
-            Approved
-          </button>
-
-          <button
-            class="filter-btn"
-            type="button"
-            data-filter="rejected"
-          >
-            Rejected
-          </button>
-
-          <button
-            class="filter-btn"
-            type="button"
-            data-filter="action"
-          >
-            Action required
-          </button>
-
-        </div>
-
-        <div class="approval-table-wrap">
-
-          <table class="approval-table">
-
-            <thead>
-
-              <tr>
-
-                <th>
-                  Property
-                </th>
-
-                <th>
-                  Submitted
-                </th>
-
-                <th>
-                  Status
-                </th>
-
-                <th>
-                  Documents
-                </th>
-
-                <th>
-                  Action
-                </th>
-
-              </tr>
-
-            </thead>
-
-            <tbody id="approvalTableBody">
-
-              <!-- JS populated -->
-
-            </tbody>
-
-          </table>
-
-        </div>
-
-      </div>
-
-      <!-- ===================================================
-           PROCESS
-      ==================================================== -->
-
-      <aside class="panel">
-
-        <div class="panel-header">
-
-          <div>
-
-            <h3>
-              Approval process
-            </h3>
-
-            <p>
-              How GHAR reviews your property.
-            </p>
-
-          </div>
-
-        </div>
-
-        <div class="timeline">
-
-          <div class="timeline-item">
-
-            <div class="timeline-dot">
-              1
-            </div>
-
-            <div class="timeline-content">
-
-              <strong>
-                Property submitted
-              </strong>
-
-              <span>
-                Property information and initial documents
-                are submitted by the seller.
-              </span>
-
-              <span class="timeline-time">
-                Seller action
-              </span>
-
-            </div>
-
-          </div>
-
-          <div class="timeline-item">
-
-            <div class="timeline-dot">
-              2
-            </div>
-
-            <div class="timeline-content">
-
-              <strong>
-                Document review
-              </strong>
-
-              <span>
-                Submitted documents are checked for
-                completeness and consistency.
-              </span>
-
-              <span class="timeline-time">
-                Verification
-              </span>
-
-            </div>
-
-          </div>
-
-          <div class="timeline-item">
-
-            <div class="timeline-dot">
-              3
-            </div>
-
-            <div class="timeline-content">
-
-              <strong>
-                Property verification
-              </strong>
-
-              <span>
-                Property information may be reviewed before
-                the listing can become active.
-              </span>
-
-              <span class="timeline-time">
-                GHAR review
-              </span>
-
-            </div>
-
-          </div>
-
-          <div class="timeline-item">
-
-            <div class="timeline-dot">
-              4
-            </div>
-
-            <div class="timeline-content">
-
-              <strong>
-                Approval decision
-              </strong>
-
-              <span>
-                The listing is approved, rejected or returned
-                for additional information.
-              </span>
-
-              <span class="timeline-time">
-                Final status
-              </span>
-
-            </div>
-
-          </div>
-
-        </div>
-
-      </aside>
-
-    </div>
-
-  </div>
+</div>
 
 </section>
 
-<!-- =========================================================
-     DOCUMENT CHECKLIST + INFO
-========================================================= -->
+<section class="panel">
 
-<section class="section">
+<div class="panel-header">
 
-  <div class="container">
+<div>
 
-    <div class="content-grid">
+<div class="panel-title">
+    Approval workflow
+</div>
 
-      <div class="panel">
+<div class="panel-subtitle">
+    Standard verification stages for a GHAR property listing.
+</div>
 
-        <div class="panel-header">
+</div>
 
-          <div>
+<span
+    class="badge badge-pending"
+    id="workflowBadge"
+>
+    In progress
+</span>
 
-            <h3>
-              Document readiness
-            </h3>
+</div>
 
-            <p>
-              Keep your property documents complete before
-              submitting for approval.
-            </p>
+<div
+    class="timeline"
+    id="approvalTimeline"
+>
 
-          </div>
+<div class="timeline-item complete">
 
-          <a
-            class="section-link"
-            href="/seller/documents.html"
-          >
-            Manage documents →
-          </a>
+<div class="timeline-marker">
+    ✓
+</div>
 
-        </div>
+<div>
 
-        <div class="document-list">
+<div class="timeline-title">
+    Property submitted
+</div>
 
-          <div class="document-item">
+<div class="timeline-text">
+    Property information has been submitted to GHAR.
+</div>
 
-            <div class="document-icon">
-              ✓
-            </div>
+<div class="timeline-date">
+    Completed
+</div>
 
-            <div class="document-text">
+</div>
 
-              <strong>
-                Ownership / title document
-              </strong>
+</div>
 
-              <span>
-                Proof of ownership associated with the property.
-              </span>
+<div class="timeline-item complete">
 
-            </div>
+<div class="timeline-marker">
+    ✓
+</div>
 
-            <span
-              class="document-state complete"
-              id="docOwnership"
-            >
-              Ready
-            </span>
+<div>
 
-          </div>
+<div class="timeline-title">
+    Initial information check
+</div>
 
-          <div class="document-item">
+<div class="timeline-text">
+    Basic listing fields and property information have
+    been checked for completeness.
+</div>
 
-            <div class="document-icon">
-              ◇
-            </div>
+<div class="timeline-date">
+    Completed
+</div>
 
-            <div class="document-text">
+</div>
 
-              <strong>
-                Property identification
-              </strong>
+</div>
 
-              <span>
-                Property details and identification information.
-              </span>
+<div class="timeline-item current">
 
-            </div>
+<div class="timeline-marker">
+    3
+</div>
 
-            <span
-              class="document-state complete"
-              id="docIdentity"
-            >
-              Ready
-            </span>
+<div>
 
-          </div>
+<div class="timeline-title">
+    Document & verification review
+</div>
 
-          <div class="document-item">
+<div class="timeline-text">
+    Ownership and supporting documentation may be
+    reviewed before approval.
+</div>
 
-            <div class="document-icon">
-              ₹
-            </div>
+<div class="timeline-date">
+    Current stage
+</div>
 
-            <div class="document-text">
+</div>
 
-              <strong>
-                Tax / payment records
-              </strong>
+</div>
 
-              <span>
-                Relevant available property payment records.
-              </span>
+<div class="timeline-item">
 
-            </div>
+<div class="timeline-marker">
+    4
+</div>
 
-            <span
-              class="document-state review"
-              id="docTax"
-            >
-              Review
-            </span>
+<div>
 
-          </div>
+<div class="timeline-title">
+    Final approval
+</div>
 
-          <div class="document-item">
+<div class="timeline-text">
+    The property is approved for the next publishing
+    stage after required checks are completed.
+</div>
 
-            <div class="document-icon">
-              ⌂
-            </div>
+<div class="timeline-date">
+    Pending
+</div>
 
-            <div class="document-text">
+</div>
 
-              <strong>
-                Additional property documents
-              </strong>
+</div>
 
-              <span>
-                Supporting documents requested for verification.
-              </span>
+<div class="timeline-item">
 
-            </div>
+<div class="timeline-marker">
+    5
+</div>
 
-            <span
-              class="document-state missing"
-              id="docAdditional"
-            >
-              Check
-            </span>
+<div>
 
-          </div>
+<div class="timeline-title">
+    Listing published
+</div>
 
-        </div>
+<div class="timeline-text">
+    Approved property becomes available according to
+    GHAR's listing and visibility rules.
+</div>
 
-      </div>
+<div class="timeline-date">
+    Pending
+</div>
 
-      <aside class="info-card">
+</div>
 
-        <span class="info-badge">
-          SELLER GUIDE
-        </span>
+</div>
 
-        <h3>
-          Want faster approval?
-        </h3>
-
-        <p>
-          Complete your property information and upload clear,
-          valid documents before submitting a listing for review.
-        </p>
-
-        <div class="info-list">
-
-          <div>
-            <span>✓</span>
-            Use accurate property information.
-          </div>
-
-          <div>
-            <span>✓</span>
-            Upload readable document files.
-          </div>
-
-          <div>
-            <span>✓</span>
-            Make sure ownership details are consistent.
-          </div>
-
-          <div>
-            <span>✓</span>
-            Respond promptly if GHAR requests clarification.
-          </div>
-
-        </div>
-
-        <a
-          class="btn btn-primary"
-          href="/seller/edit-property.html"
-          style="margin-top:17px"
-        >
-          Review my properties
-        </a>
-
-      </aside>
-
-    </div>
-
-  </div>
+</div>
 
 </section>
 
-<!-- =========================================================
-     SUPPORT CTA
-========================================================= -->
+<section class="panel">
 
-<section class="section">
+<div class="panel-header">
 
-  <div class="container">
+<div>
 
-    <div class="hero-panel">
+<div class="panel-title">
+    Required documents
+</div>
 
-      <div class="eyebrow">
-        SELLER SUPPORT
-      </div>
+<div class="panel-subtitle">
+    Document status for the selected property.
+</div>
 
-      <h2
-        style="
-          margin-top:10px;
-          font-size:27px;
-          letter-spacing:-.04em;
-        "
-      >
-        Something is unclear about your approval?
-      </h2>
+</div>
 
-      <p
-        style="
-          max-width:700px;
-          margin-top:8px;
-          color:var(--muted);
-          font-size:10px;
-          line-height:1.65;
-        "
-      >
-        Review your property status, check requested documents
-        or contact GHAR support for assistance with the
-        verification process.
-      </p>
+<a
+    class="btn btn-secondary"
+    href="/seller/documents.html"
+>
+    Manage documents
+</a>
 
-      <div
-        style="
-          display:flex;
-          flex-wrap:wrap;
-          gap:9px;
-          margin-top:18px;
-        "
-      >
+</div>
 
-        <a
-          class="btn btn-primary"
-          href="/seller/support.html"
-        >
-          Contact support
-        </a>
+<div
+    class="document-list"
+    id="documentList"
+>
 
-        <a
-          class="btn btn-secondary"
-          href="/help-centre.html"
-        >
-          Open help centre
-        </a>
+<div class="document-row">
 
-      </div>
+<div class="document-main">
 
-    </div>
+<div class="document-icon">
+    PDF
+</div>
 
-  </div>
+<div>
+
+<div class="document-name">
+    Property ownership document
+</div>
+
+<div class="document-note">
+    Supporting ownership evidence
+</div>
+
+</div>
+
+</div>
+
+<span class="badge badge-pending">
+    Review
+</span>
+
+</div>
+
+<div class="document-row">
+
+<div class="document-main">
+
+<div class="document-icon">
+    ID
+</div>
+
+<div>
+
+<div class="document-name">
+    Seller identity document
+</div>
+
+<div class="document-note">
+    Identity verification
+</div>
+
+</div>
+
+</div>
+
+<span class="badge badge-review">
+    Pending
+</span>
+
+</div>
+
+<div class="document-row">
+
+<div class="document-main">
+
+<div class="document-icon">
+    DOC
+</div>
+
+<div>
+
+<div class="document-name">
+    Supporting property documents
+</div>
+
+<div class="document-note">
+    Additional documents where applicable
+</div>
+
+</div>
+
+</div>
+
+<span class="badge badge-review">
+    Pending
+</span>
+
+</div>
+
+</div>
+
+</section>
+
+</div>
+
+<!-- =====================================================
+     RIGHT
+====================================================== -->
+
+<aside>
+
+<section class="panel">
+
+<div class="panel-header">
+
+<div>
+
+<div class="panel-title">
+    Selected property
+</div>
+
+<div class="panel-subtitle">
+    Approval information and property details.
+</div>
+
+</div>
+
+</div>
+
+<div id="selectedProperty">
+
+<div class="empty-state">
+
+<div class="empty-icon">
+    ◇
+</div>
+
+<h3>
+    No property selected
+</h3>
+
+<p>
+    Select a property from the list to view its
+    approval information.
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+<section class="panel">
+
+<div class="panel-header">
+
+<div>
+
+<div class="panel-title">
+    Seller actions
+</div>
+
+<div class="panel-subtitle">
+    Continue your property workflow from here.
+</div>
+
+</div>
+
+</div>
+
+<div class="action-stack">
+
+<a
+    class="btn btn-primary"
+    id="editPropertyButton"
+    href="/seller/properties.html"
+>
+    Edit selected property
+</a>
+
+<a
+    class="btn btn-secondary"
+    id="viewPropertyButton"
+    href="/seller/properties.html"
+>
+    View property
+</a>
+
+<a
+    class="btn btn-secondary"
+    href="/seller/documents.html"
+>
+    Upload documents
+</a>
+
+<a
+    class="btn btn-secondary"
+    href="/seller/messages.html"
+>
+    Contact support
+</a>
+
+</div>
+
+<div class="help-box">
+
+<strong>
+    Need help with approval?
+</strong>
+
+<p>
+    If a property remains pending or a document requires
+    attention, review the status shown above before
+    contacting GHAR support.
+</p>
+
+<a href="/seller/support.html">
+    Open seller support →
+</a>
+
+</div>
+
+</section>
+
+<section class="panel">
+
+<div class="panel-header">
+
+<div>
+
+<div class="panel-title">
+    Property information
+</div>
+
+<div class="panel-subtitle">
+    Basic information from your listing.
+</div>
+
+</div>
+
+</div>
+
+<div
+    class="detail-grid"
+    id="propertyDetails"
+>
+
+<div class="detail-box">
+
+<div class="detail-label">
+    Property ID
+</div>
+
+<div
+    class="detail-value"
+    id="detailId"
+>
+    --
+</div>
+
+</div>
+
+<div class="detail-box">
+
+<div class="detail-label">
+    Listing type
+</div>
+
+<div
+    class="detail-value"
+    id="detailListing"
+>
+    --
+</div>
+
+</div>
+
+<div class="detail-box">
+
+<div class="detail-label">
+    Property type
+</div>
+
+<div
+    class="detail-value"
+    id="detailType"
+>
+    --
+</div>
+
+</div>
+
+<div class="detail-box">
+
+<div class="detail-label">
+    Configuration
+</div>
+
+<div
+    class="detail-value"
+    id="detailConfiguration"
+>
+    --
+</div>
+
+</div>
+
+<div class="detail-box">
+
+<div class="detail-label">
+    Location
+</div>
+
+<div
+    class="detail-value"
+    id="detailLocation"
+>
+    --
+</div>
+
+</div>
+
+<div class="detail-box">
+
+<div class="detail-label">
+    Asking price
+</div>
+
+<div
+    class="detail-value"
+    id="detailPrice"
+>
+    --
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<section class="panel">
+
+<div class="notice">
+
+<div class="notice-icon">
+    !
+</div>
+
+<div>
+
+<strong>
+    Approval information
+</strong>
+
+<p>
+    Approval status is dependent on the information,
+    documents and verification workflow configured
+    for your GHAR seller account. Do not upload
+    inaccurate or misleading documents.
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+</aside>
+
+</div>
+
+</div>
 
 </section>
 
 </main>
 
-<!-- =========================================================
+<!-- =======================================================
      FOOTER
-========================================================= -->
+======================================================= -->
 
 <footer class="site-footer">
 
-  <div class="container">
+<div class="container">
 
-    <div class="footer-grid">
+<div class="footer-top-line"></div>
 
-      <div class="footer-brand">
+<div class="footer-grid">
 
-        <div class="brand">
+<div class="footer-brand">
 
-          <div class="brand-mark">
-            G
-          </div>
+<a
+    class="brand"
+    href="/seller/index.html"
+>
 
-          <div class="brand-text">
+<div class="brand-logo">
 
-            <strong>
-              GHAR
-            </strong>
+<img
+    src="../assets/images/logo/ghar-logo-light.svg"
+    alt="GHAR"
+    onerror="
+        this.style.display='none';
+        this.nextElementSibling.style.display='grid';
+    "
+>
 
-            <span>
-              Real Estate Platform
-            </span>
+<div
+    class="brand-logo-fallback"
+    style="display:none"
+>
+    G
+</div>
 
-          </div>
+</div>
 
-        </div>
+<div class="brand-text">
 
-        <p>
-          A connected real estate platform for listing,
-          managing, verifying and selling property.
-        </p>
+<strong>GHAR</strong>
 
-      </div>
+<span>Real Estate Platform</span>
 
-      <div class="footer-col">
+</div>
 
-        <h4>
-          Seller
-        </h4>
+</a>
 
-        <a href="/seller/index.html">
-          Seller Home
-        </a>
+<p>
+    A connected real estate platform for listing,
+    verifying, managing and growing property
+    opportunities through one secure digital experience.
+</p>
 
-        <a href="/seller/dashboard.html">
-          Dashboard
-        </a>
+<div class="footer-trust">
 
-        <a href="/seller/list-property.html">
-          List Property
-        </a>
+<span class="trust-pill">
+    Secure Seller Portal
+</span>
 
-        <a href="/seller/edit-property.html">
-          My Properties
-        </a>
+<span class="trust-pill">
+    Listing Intelligence
+</span>
 
-      </div>
+<span class="trust-pill">
+    AI Assisted
+</span>
 
-      <div class="footer-col">
+<span class="trust-pill">
+    Verification Workflows
+</span>
 
-        <h4>
-          Management
-        </h4>
+</div>
 
-        <a href="/seller/property-approval.html">
-          Property Approval
-        </a>
+<div class="footer-contact">
 
-        <a href="/seller/leads.html">
-          Leads
-        </a>
+<div class="footer-contact-icon">
+    ✦
+</div>
 
-        <a href="/seller/offers.html">
-          Offers
-        </a>
+<div class="footer-contact-text">
 
-        <a href="/seller/documents.html">
-          Documents
-        </a>
+<span>
+    GHAR SELLER ASSISTANCE
+</span>
 
-      </div>
+<strong>
+    Your listing journey, connected.
+</strong>
 
-      <div class="footer-col">
+</div>
 
-        <h4>
-          Support
-        </h4>
+</div>
 
-        <a href="/help-centre.html">
-          Help Centre
-        </a>
+</div>
 
-        <a href="/contact.html">
-          Contact
-        </a>
+<div class="footer-col">
 
-        <a href="/seller/support.html">
-          Seller Support
-        </a>
+<h4>Seller</h4>
 
-        <a href="/privacy.html">
-          Privacy
-        </a>
+<a href="/seller/index.html">
+    Dashboard
+</a>
 
-      </div>
+<a href="/seller/properties.html">
+    My Properties
+</a>
 
-    </div>
+<a href="/seller/list-property.html">
+    List Property
+</a>
 
-    <div class="footer-bottom">
+<a href="/seller/property-approval.html">
+    Property Approval
+</a>
 
-      <span>
-        © <span id="footerYear"></span> GHAR.
-        All rights reserved.
-      </span>
+<a href="/seller/leads.html">
+    Leads
+</a>
 
-      <span>
-        Seller Portal · Secure Session
-      </span>
+</div>
 
-    </div>
+<div class="footer-col">
 
-  </div>
+<h4>Transactions</h4>
+
+<a href="/seller/visits.html">
+    Visits
+</a>
+
+<a href="/seller/offers.html">
+    Offers
+</a>
+
+<a href="/seller/applications.html">
+    Applications
+</a>
+
+<a href="/seller/payments.html">
+    Payments
+</a>
+
+<a href="/seller/messages.html">
+    Messages
+</a>
+
+</div>
+
+<div class="footer-col">
+
+<h4>Account</h4>
+
+<a href="/seller/documents.html">
+    Documents
+</a>
+
+<a href="/seller/referral.html">
+    Referral
+</a>
+
+<a href="/seller/profile.html">
+    Profile
+</a>
+
+<a href="/seller/settings.html">
+    Settings
+</a>
+
+<a href="/seller/support.html">
+    Support
+</a>
+
+</div>
+
+<div class="footer-col">
+
+<h4>GHAR</h4>
+
+<a href="/ai.html">
+    GHAR AI
+</a>
+
+<a href="/help-centre.html">
+    Help Centre
+</a>
+
+<a href="/contact.html">
+    Contact
+</a>
+
+<a href="/privacy-policy.html">
+    Privacy
+</a>
+
+<a href="/terms.html">
+    Terms
+</a>
+
+</div>
+
+</div>
+
+<div class="footer-bottom">
+
+<span>
+    ©
+    <span id="footerYear"></span>
+    GHAR. All rights reserved.
+</span>
+
+<span>
+    Seller Portal · Secure Session
+</span>
+
+</div>
+
+</div>
 
 </footer>
 
-<!-- =========================================================
-     AI FLOATING BUTTON
-========================================================= -->
+<!-- =======================================================
+     AI
+======================================================= -->
 
 <button
-  id="openAI"
-  class="ai-floating"
-  type="button"
+    id="openAI"
+    class="ai-floating"
+    type="button"
+    aria-label="Ask GHAR AI"
 >
-  ✦ Ask GHAR AI
+
+<span class="ai-icon">
+    ✦
+</span>
+
+<span class="ai-text">
+    Ask GHAR AI
+</span>
+
 </button>
 
 <script>
-
-/* =========================================================
-   GHAR SELLER PROPERTY APPROVAL
-========================================================= */
-
 "use strict";
 
 /* =========================================================
@@ -2087,848 +3554,1301 @@ img{
 ========================================================= */
 
 const API_BASE =
-  window.GHAR_API_BASE ||
-  window.API_BASE ||
-  "/api";
+    window.GHAR_API_BASE ||
+    window.API_BASE ||
+    "/api";
 
-const APPROVAL_API =
-  API_BASE +
-  "/seller/property-approvals";
-
-const PROPERTY_API =
-  API_BASE +
-  "/properties";
-
-const AI_API =
-  API_BASE +
-  "/ai";
+let properties = [];
+let selectedProperty = null;
 
 /* =========================================================
    HELPERS
 ========================================================= */
 
 function $(selector){
-  return document.querySelector(selector);
+    return document.querySelector(selector);
 }
 
 function escapeHTML(value){
 
-  return String(value ?? "")
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
+    return String(value ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
 }
-
-/* =========================================================
-   API
-========================================================= */
 
 async function apiRequest(
-  url,
-  options = {}
+    url,
+    options={}
 ){
 
-  const response =
-    await fetch(
-      url,
-      {
-        credentials:"include",
+    const response =
+        await fetch(
+            url,
+            {
+                credentials:"include",
 
-        headers:{
-          "Accept":"application/json",
-          "Content-Type":"application/json",
-          ...(options.headers || {})
-        },
+                headers:{
+                    "Accept":
+                        "application/json",
 
-        ...options
-      }
-    );
+                    "Content-Type":
+                        "application/json",
 
-  let data = null;
+                    ...(options.headers || {})
+                },
 
-  try{
-    data = await response.json();
-  }catch(error){
-    data = null;
-  }
+                ...options
+            }
+        );
 
-  if(!response.ok){
+    let data=null;
 
-    const message =
-      data?.error?.message ||
-      data?.message ||
-      "Request failed.";
+    try{
+        data=await response.json();
+    }catch{
+        data=null;
+    }
 
-    const error =
-      new Error(message);
+    if(!response.ok){
 
-    error.status =
-      response.status;
+        const error =
+            new Error(
+                data?.error?.message ||
+                data?.message ||
+                "Request failed."
+            );
 
-    error.data =
-      data;
+        error.status=response.status;
+        error.data=data;
 
-    throw error;
-  }
+        throw error;
+    }
 
-  return data;
+    return data;
 }
-
-/* =========================================================
-   NORMALIZE
-========================================================= */
 
 function normalizeCollection(response){
 
-  if(Array.isArray(response)){
-    return response;
-  }
+    if(Array.isArray(response))
+        return response;
 
-  if(Array.isArray(response?.data)){
-    return response.data;
-  }
+    if(Array.isArray(response?.data))
+        return response.data;
 
-  if(Array.isArray(response?.items)){
-    return response.items;
-  }
+    if(Array.isArray(response?.properties))
+        return response.properties;
 
-  if(Array.isArray(response?.properties)){
-    return response.properties;
-  }
+    if(Array.isArray(response?.items))
+        return response.items;
 
-  if(Array.isArray(response?.results)){
-    return response.results;
-  }
+    if(Array.isArray(response?.results))
+        return response.results;
 
-  return [];
+    return [];
 }
 
-/* =========================================================
-   SAMPLE FALLBACK DATA
-   Used only when API is not available.
-========================================================= */
+function propertyId(property){
 
-const fallbackApprovals = [
+    return String(
+        property?.id ||
+        property?.propertyId ||
+        property?._id ||
+        ""
+    );
+}
 
-  {
-    id:"GHAR-P001",
-    title:"Luxury 3 BHK Apartment",
-    location:"Sector 150, Noida",
-    image:"../assets/images/property-apartment.jpg",
-    submittedAt:"2026-10-02",
-    status:"pending",
-    documents:"4/5"
-  },
+function propertyTitle(property){
 
-  {
-    id:"GHAR-P002",
-    title:"Premium Villa",
-    location:"Sector 128, Noida",
-    image:"../assets/images/property-villa.jpg",
-    submittedAt:"2026-09-29",
-    status:"approved",
-    documents:"5/5"
-  },
+    return (
+        property?.title ||
+        property?.name ||
+        property?.propertyName ||
+        "GHAR Property"
+    );
+}
 
-  {
-    id:"GHAR-P003",
-    title:"Commercial Office Space",
-    location:"Sector 62, Noida",
-    image:"../assets/images/property-office.jpg",
-    submittedAt:"2026-09-27",
-    status:"review",
-    documents:"3/5"
-  },
+function propertyLocation(property){
 
-  {
-    id:"GHAR-P004",
-    title:"Modern 2 BHK Apartment",
-    location:"Greater Noida West",
-    image:"../assets/images/property-apartment-2.jpg",
-    submittedAt:"2026-09-25",
-    status:"rejected",
-    documents:"2/5"
-  }
+    return (
+        property?.location ||
+        property?.locality ||
+        property?.address ||
+        property?.city ||
+        "Location available"
+    );
+}
 
-];
+function propertyType(property){
 
-/* =========================================================
-   LOAD APPROVAL DATA
-========================================================= */
+    return (
+        property?.propertyType ||
+        property?.type ||
+        "Property"
+    );
+}
 
-async function loadApprovals(){
+function listingType(property){
 
-  try{
+    return String(
+        property?.listingType ||
+        property?.transactionType ||
+        property?.purpose ||
+        "sale"
+    ).toLowerCase();
+}
 
-    const response =
-      await apiRequest(
-        APPROVAL_API
-      );
+function propertyPrice(property){
 
-    const collection =
-      normalizeCollection(
-        response
-      );
+    return Number(
+        property?.price ||
+        property?.salePrice ||
+        property?.rent ||
+        property?.rentPrice ||
+        property?.amount ||
+        0
+    );
+}
 
-    if(collection.length){
-      return collection;
+function propertyArea(property){
+
+    return Number(
+        property?.area ||
+        property?.areaSqFt ||
+        property?.builtUpArea ||
+        property?.superBuiltUpArea ||
+        0
+    );
+}
+
+function propertyConfiguration(property){
+
+    return (
+        property?.bhk ||
+        property?.configuration ||
+        property?.bedrooms ||
+        ""
+    );
+}
+
+function propertyImage(property){
+
+    const images =
+        Array.isArray(property?.images)
+            ? property.images
+            : [];
+
+    return (
+        property?.image ||
+        property?.coverImage ||
+        property?.thumbnail ||
+        images[0] ||
+        "../assets/images/properties/property-placeholder.jpg"
+    );
+}
+
+function formatPrice(value,property){
+
+    const amount=Number(value);
+
+    if(!Number.isFinite(amount) || amount<=0)
+        return "Price on request";
+
+    const type=listingType(property);
+
+    if(type==="rent"){
+
+        return (
+            "₹"+
+            amount.toLocaleString("en-IN")+
+            " / month"
+        );
     }
 
-  }catch(error){
+    if(amount>=10000000){
 
-    console.warn(
-      "GHAR approval API:",
-      error
-    );
+        return (
+            "₹"+
+            (amount/10000000)
+                .toFixed(2)+
+            " Cr"
+        );
+    }
 
-  }
+    if(amount>=100000){
 
-  /*
-   * Fallback data keeps the UI usable while the backend
-   * approval endpoint is being implemented.
-   */
+        return (
+            "₹"+
+            (amount/100000)
+                .toFixed(2)+
+            " L"
+        );
+    }
 
-  return fallbackApprovals;
+    return "₹"+amount.toLocaleString("en-IN");
 }
 
 /* =========================================================
    STATUS
 ========================================================= */
 
-function normalizeStatus(
-  item
-){
+function normalizeStatus(property){
 
-  const value =
-    String(
-      item.status ||
-      item.approvalStatus ||
-      "pending"
+    const raw=String(
+        property?.approvalStatus ||
+        property?.verificationStatus ||
+        property?.status ||
+        property?.approval ||
+        "pending"
     ).toLowerCase();
 
-  if(
-    value.includes("approve")
-  ){
-    return "approved";
-  }
-
-  if(
-    value.includes("reject")
-  ){
-    return "rejected";
-  }
-
-  if(
-    value.includes("action") ||
-    value.includes("correction") ||
-    value.includes("document")
-  ){
-    return "action";
-  }
-
-  if(
-    value.includes("review")
-  ){
-    return "review";
-  }
-
-  return "pending";
-}
-
-/* =========================================================
-   STATUS LABEL
-========================================================= */
-
-function statusLabel(
-  status
-){
-
-  const labels = {
-    pending:"Pending",
-    approved:"Approved",
-    rejected:"Rejected",
-    review:"Under review",
-    action:"Action required"
-  };
-
-  return labels[status] ||
-    "Pending";
-}
-
-/* =========================================================
-   DATE
-========================================================= */
-
-function formatDate(
-  value
-){
-
-  if(!value){
-    return "--";
-  }
-
-  const date =
-    new Date(value);
-
-  if(
-    Number.isNaN(
-      date.getTime()
-    )
-  ){
-    return escapeHTML(value);
-  }
-
-  return date.toLocaleDateString(
-    "en-IN",
-    {
-      day:"2-digit",
-      month:"short",
-      year:"numeric"
+    if(
+        raw.includes("approv") ||
+        raw.includes("live") ||
+        raw.includes("publish")
+    ){
+        return "approved";
     }
-  );
+
+    if(
+        raw.includes("reject") ||
+        raw.includes("declin")
+    ){
+        return "rejected";
+    }
+
+    if(
+        raw.includes("action") ||
+        raw.includes("correction") ||
+        raw.includes("required")
+    ){
+        return "action";
+    }
+
+    if(
+        raw.includes("review") ||
+        raw.includes("verif")
+    ){
+        return "review";
+    }
+
+    return "pending";
+}
+
+function statusLabel(status){
+
+    const labels={
+        approved:"Approved",
+        rejected:"Rejected",
+        action:"Action required",
+        review:"Under review",
+        pending:"Pending"
+    };
+
+    return labels[status] || "Pending";
+}
+
+function statusClass(status){
+
+    if(status==="approved")
+        return "badge-approved";
+
+    if(status==="rejected")
+        return "badge-rejected";
+
+    if(status==="review")
+        return "badge-review";
+
+    return "badge-pending";
 }
 
 /* =========================================================
-   IMAGE
+   PROPERTY CARD
 ========================================================= */
 
-function propertyImage(
-  item
-){
+function createPropertyRow(property){
 
-  return (
-    item.image ||
-    item.coverImage ||
-    item.thumbnail ||
-    item.imageUrl ||
-    item.images?.[0] ||
-    "../assets/images/property-placeholder.jpg"
-  );
+    const id=propertyId(property);
+
+    const status=normalizeStatus(property);
+
+    const active =
+        selectedProperty &&
+        propertyId(selectedProperty)===id;
+
+    return `
+
+<div
+    class="property-selector ${active ? "active" : ""}"
+    data-property-id="${escapeHTML(id)}"
+>
+
+<div class="property-thumb">
+
+<img
+    src="${escapeHTML(propertyImage(property))}"
+    alt="${escapeHTML(propertyTitle(property))}"
+    loading="lazy"
+    onerror="
+        this.src='../assets/images/properties/property-placeholder.jpg'
+    "
+>
+
+</div>
+
+<div>
+
+<div class="property-name">
+    ${escapeHTML(propertyTitle(property))}
+</div>
+
+<div class="property-location">
+    ${escapeHTML(propertyLocation(property))}
+</div>
+
+<div class="property-meta">
+
+${
+    propertyConfiguration(property)
+    ?
+    `
+    <span class="meta-chip">
+        ${escapeHTML(propertyConfiguration(property))}
+    </span>
+    `
+    :
+    ""
+}
+
+${
+    propertyArea(property)
+    ?
+    `
+    <span class="meta-chip">
+        ${propertyArea(property).toLocaleString("en-IN")} sq.ft
+    </span>
+    `
+    :
+    ""
+}
+
+</div>
+
+<div class="property-price">
+    ${escapeHTML(formatPrice(propertyPrice(property),property))}
+</div>
+
+</div>
+
+<span class="
+    badge
+    ${statusClass(status)}
+">
+    ${escapeHTML(statusLabel(status))}
+</span>
+
+</div>
+
+`;
+
 }
 
 /* =========================================================
-   TABLE ROW
+   RENDER PROPERTY LIST
 ========================================================= */
 
-function createApprovalRow(
-  property
-){
+function renderPropertyList(){
 
-  const id =
-    property.id ||
-    property.propertyId ||
-    property._id ||
-    "";
+    const container=$("#propertyList");
 
-  const title =
-    property.title ||
-    property.name ||
-    "Property";
+    if(!container)
+        return;
 
-  const location =
-    property.location ||
-    property.city ||
-    "Location available";
+    if(!properties.length){
 
-  const submitted =
-    property.submittedAt ||
-    property.createdAt ||
-    property.created_at;
+        container.innerHTML=`
 
-  const status =
-    normalizeStatus(
-      property
-    );
+<div class="empty-state">
 
-  const documents =
-    property.documentsStatus ||
-    property.documentCount ||
-    property.documents ||
-    "--";
+<div class="empty-icon">
+    ◈
+</div>
 
-  const image =
-    propertyImage(
-      property
-    );
+<h3>
+    No seller properties found
+</h3>
 
-  let statusClass =
-    "status-pending";
+<p>
+    You have no property records available in the
+    seller account yet. Start by adding your first
+    property to GHAR.
+</p>
 
-  if(status === "approved"){
-    statusClass = "status-approved";
-  }
+<a
+    class="btn btn-primary"
+    href="/seller/list-property.html"
+>
+    List a property
+</a>
 
-  if(status === "rejected"){
-    statusClass = "status-rejected";
-  }
+</div>
 
-  if(status === "review"){
-    statusClass = "status-review";
-  }
+`;
 
-  if(status === "action"){
-    statusClass = "status-pending";
-  }
+        return;
+    }
 
-  return `
+    container.innerHTML =
+        properties
+            .map(createPropertyRow)
+            .join("");
 
-    <tr
-      data-status="${escapeHTML(status)}"
-      data-property-id="${escapeHTML(id)}"
-    >
+    container
+        .querySelectorAll(".property-selector")
+        .forEach(
+            item => {
 
-      <td>
+                item.addEventListener(
+                    "click",
+                    () => {
 
-        <div class="property-mini">
+                        const id =
+                            item.dataset.propertyId;
 
-          <div class="property-mini-image">
+                        selectProperty(
+                            properties.find(
+                                property =>
+                                    propertyId(property)===id
+                            )
+                        );
 
-            <img
-              src="${escapeHTML(image)}"
-              alt="${escapeHTML(title)}"
-              loading="lazy"
-              onerror="
-                this.src='../assets/images/property-placeholder.jpg'
-              "
-            >
+                    }
+                );
 
-          </div>
-
-          <div>
-
-            <strong>
-              ${escapeHTML(title)}
-            </strong>
-
-            <span>
-              ${escapeHTML(location)}
-            </span>
-
-          </div>
-
-        </div>
-
-      </td>
-
-      <td>
-        ${escapeHTML(
-          formatDate(submitted)
-        )}
-      </td>
-
-      <td>
-
-        <span
-          class="status ${statusClass}"
-        >
-          ${escapeHTML(
-            statusLabel(status)
-          )}
-        </span>
-
-      </td>
-
-      <td>
-        ${escapeHTML(documents)}
-      </td>
-
-      <td>
-
-        <a
-          class="action-link"
-          href="/seller/edit-property.html?id=${encodeURIComponent(id)}"
-        >
-          Review →
-        </a>
-
-      </td>
-
-    </tr>
-
-  `;
-}
-
-/* =========================================================
-   RENDER TABLE
-========================================================= */
-
-let approvalData = [];
-
-function renderApprovalTable(
-  data
-){
-
-  const tbody =
-    $("#approvalTableBody");
-
-  if(!tbody){
-    return;
-  }
-
-  if(!data.length){
-
-    tbody.innerHTML = `
-
-      <tr>
-
-        <td colspan="5">
-
-          <div class="empty-state">
-
-            <div class="empty-icon">
-              ⌂
-            </div>
-
-            <h3>
-              No properties submitted
-            </h3>
-
-            <p>
-              List your first property to start the
-              GHAR verification and approval process.
-            </p>
-
-            <a
-              class="btn btn-primary"
-              href="/seller/list-property.html"
-              style="margin-top:15px"
-            >
-              List property
-            </a>
-
-          </div>
-
-        </td>
-
-      </tr>
-
-    `;
-
-    return;
-  }
-
-  tbody.innerHTML =
-    data
-      .map(createApprovalRow)
-      .join("");
-}
-
-/* =========================================================
-   UPDATE SUMMARY
-========================================================= */
-
-function updateSummary(
-  data
-){
-
-  const total =
-    data.length;
-
-  const pending =
-    data.filter(
-      item =>
-        normalizeStatus(item) ===
-        "pending"
-    ).length;
-
-  const approved =
-    data.filter(
-      item =>
-        normalizeStatus(item) ===
-        "approved"
-    ).length;
-
-  const action =
-    data.filter(
-      item => {
-
-        const status =
-          normalizeStatus(item);
-
-        return (
-          status === "action" ||
-          status === "rejected"
+            }
         );
-
-      }
-    ).length;
-
-  $("#totalCount").textContent =
-    total;
-
-  $("#pendingCount").textContent =
-    pending;
-
-  $("#approvedCount").textContent =
-    approved;
-
-  $("#actionCount").textContent =
-    action;
 }
 
 /* =========================================================
-   FILTER
+   SELECT PROPERTY
 ========================================================= */
 
-function filterApprovals(
-  filter
-){
+function selectProperty(property){
 
-  const rows =
-    document.querySelectorAll(
-      "#approvalTableBody tr[data-status]"
-    );
+    if(!property)
+        return;
 
-  rows.forEach(
-    row => {
+    selectedProperty=property;
 
-      const status =
-        row.dataset.status;
+    renderPropertyList();
 
-      row.style.display =
-        filter === "all" ||
-        status === filter ||
-        (
-          filter === "action" &&
-          (
-            status === "action" ||
-            status === "rejected"
-          )
-        )
-          ? ""
-          : "none";
+    renderSelectedProperty();
 
-    }
-  );
+    renderDocuments();
+
+    renderTimeline();
+
+    updateHeroStatus();
 }
 
-document
-  .querySelectorAll(
-    "[data-filter]"
-  )
-  .forEach(
-    button => {
+/* =========================================================
+   SELECTED PROPERTY
+========================================================= */
 
-      button.addEventListener(
-        "click",
-        () => {
+function renderSelectedProperty(){
 
-          document
-            .querySelectorAll(
-              "[data-filter]"
-            )
-            .forEach(
-              item =>
-                item.classList.remove(
-                  "active"
-                )
+    if(!selectedProperty)
+        return;
+
+    const property=selectedProperty;
+
+    const status=normalizeStatus(property);
+
+    $("#selectedProperty").innerHTML=`
+
+<div>
+
+<div
+    class="property-thumb"
+    style="
+        width:100%;
+        height:180px;
+        margin-bottom:14px;
+    "
+>
+
+<img
+    src="${escapeHTML(propertyImage(property))}"
+    alt="${escapeHTML(propertyTitle(property))}"
+    onerror="
+        this.src='../assets/images/properties/property-placeholder.jpg'
+    "
+>
+
+</div>
+
+<div class="property-name">
+    ${escapeHTML(propertyTitle(property))}
+</div>
+
+<div class="property-location">
+    ${escapeHTML(propertyLocation(property))}
+</div>
+
+<div
+    style="
+        margin-top:10px;
+    "
+>
+
+<span class="
+    badge
+    ${statusClass(status)}
+">
+    ${escapeHTML(statusLabel(status))}
+</span>
+
+</div>
+
+<div
+    style="
+        margin-top:14px;
+    "
+>
+
+<div
+    style="
+        color:var(--muted-2);
+        font-size:7px;
+        text-transform:uppercase;
+        letter-spacing:.07em;
+    "
+>
+    Current approval status
+</div>
+
+<div
+    style="
+        margin-top:5px;
+        color:var(--cream);
+        font-size:14px;
+        font-weight:950;
+    "
+>
+    ${escapeHTML(statusLabel(status))}
+</div>
+
+</div>
+
+</div>
+
+`;
+
+    const id=propertyId(property);
+
+    $("#editPropertyButton").href =
+        "/seller/edit-property.html?id="+
+        encodeURIComponent(id);
+
+    $("#viewPropertyButton").href =
+        "/seller/property-details.html?id="+
+        encodeURIComponent(id);
+
+    $("#detailId").textContent =
+        id || "--";
+
+    $("#detailListing").textContent =
+        listingType(property)
+            .replace(
+                /^./,
+                char => char.toUpperCase()
             );
 
-          button.classList.add(
-            "active"
-          );
+    $("#detailType").textContent =
+        propertyType(property);
 
-          filterApprovals(
-            button.dataset.filter
-          );
+    $("#detailConfiguration").textContent =
+        propertyConfiguration(property) || "--";
+
+    $("#detailLocation").textContent =
+        propertyLocation(property);
+
+    $("#detailPrice").textContent =
+        formatPrice(
+            propertyPrice(property),
+            property
+        );
+}
+
+/* =========================================================
+   DOCUMENTS
+========================================================= */
+
+function renderDocuments(){
+
+    if(!selectedProperty)
+        return;
+
+    const property=selectedProperty;
+
+    const documents =
+        Array.isArray(property.documents)
+            ? property.documents
+            : Array.isArray(property.files)
+                ? property.files
+                : [];
+
+    if(!documents.length){
+
+        $("#documentList").innerHTML=`
+
+<div class="document-row">
+
+<div class="document-main">
+
+<div class="document-icon">
+    DOC
+</div>
+
+<div>
+
+<div class="document-name">
+    Property documents
+</div>
+
+<div class="document-note">
+    No document-level status was returned by the API.
+</div>
+
+</div>
+
+</div>
+
+<span class="badge badge-review">
+    Check
+</span>
+
+</div>
+
+<div class="document-row">
+
+<div class="document-main">
+
+<div class="document-icon">
+    ID
+</div>
+
+<div>
+
+<div class="document-name">
+    Seller verification
+</div>
+
+<div class="document-note">
+    Review your seller documents if requested.
+</div>
+
+</div>
+
+</div>
+
+<span class="badge badge-pending">
+    Pending
+</span>
+
+</div>
+
+`;
+
+        return;
+    }
+
+    $("#documentList").innerHTML =
+        documents
+            .map(
+                document => {
+
+                    const status =
+                        String(
+                            document.status ||
+                            document.verificationStatus ||
+                            "pending"
+                        ).toLowerCase();
+
+                    const normalized =
+                        status.includes("approv")
+                            ? "approved"
+                            : status.includes("reject")
+                                ? "rejected"
+                                : status.includes("review")
+                                    ? "review"
+                                    : "pending";
+
+                    return `
+
+<div class="document-row">
+
+<div class="document-main">
+
+<div class="document-icon">
+    PDF
+</div>
+
+<div>
+
+<div class="document-name">
+    ${escapeHTML(
+        document.name ||
+        document.title ||
+        document.documentType ||
+        "Property document"
+    )}
+</div>
+
+<div class="document-note">
+    ${escapeHTML(
+        document.note ||
+        document.description ||
+        "Submitted document"
+    )}
+</div>
+
+</div>
+
+</div>
+
+<span class="
+    badge
+    ${statusClass(normalized)}
+">
+    ${escapeHTML(statusLabel(normalized))}
+</span>
+
+</div>
+
+`;
+
+                }
+            )
+            .join("");
+}
+
+/* =========================================================
+   TIMELINE
+========================================================= */
+
+function renderTimeline(){
+
+    if(!selectedProperty)
+        return;
+
+    const status=
+        normalizeStatus(selectedProperty);
+
+    const timeline=$("#approvalTimeline");
+
+    const stages=[
+        {
+            title:"Property submitted",
+            text:"Property information has been submitted to GHAR."
+        },
+        {
+            title:"Initial information check",
+            text:"Basic listing fields and property information have been checked."
+        },
+        {
+            title:"Document & verification review",
+            text:"Supporting information and documents are being reviewed."
+        },
+        {
+            title:"Final approval",
+            text:"Final approval is pending completion of required checks."
+        },
+        {
+            title:"Listing published",
+            text:"The approved listing can move into its publishing stage."
+        }
+    ];
+
+    let currentIndex=2;
+
+    if(status==="approved")
+        currentIndex=4;
+
+    if(status==="rejected" || status==="action")
+        currentIndex=2;
+
+    timeline.innerHTML =
+        stages
+            .map(
+                (stage,index) => {
+
+                    let state="";
+
+                    if(index<currentIndex)
+                        state="complete";
+
+                    if(index===currentIndex)
+                        state="current";
+
+                    return `
+
+<div class="
+    timeline-item
+    ${state}
+">
+
+<div class="timeline-marker">
+
+${
+    state==="complete"
+        ? "✓"
+        : index+1
+}
+
+</div>
+
+<div>
+
+<div class="timeline-title">
+    ${escapeHTML(stage.title)}
+</div>
+
+<div class="timeline-text">
+    ${escapeHTML(stage.text)}
+</div>
+
+<div class="timeline-date">
+
+${
+    state==="complete"
+        ? "Completed"
+        : state==="current"
+            ? statusLabel(status)
+            : "Pending"
+}
+
+</div>
+
+</div>
+
+</div>
+
+`;
+
+                }
+            )
+            .join("");
+
+    $("#workflowBadge").textContent =
+        status==="approved"
+            ? "Complete"
+            : status==="rejected"
+                ? "Action required"
+                : "In progress";
+
+    $("#workflowBadge").className =
+        "badge "+
+        (
+            status==="approved"
+                ? "badge-approved"
+                : status==="rejected" ||
+                  status==="action"
+                    ? "badge-rejected"
+                    : "badge-pending"
+        );
+}
+
+/* =========================================================
+   HERO STATUS
+========================================================= */
+
+function updateHeroStatus(){
+
+    if(!selectedProperty)
+        return;
+
+    const status=
+        normalizeStatus(selectedProperty);
+
+    $("#heroStatus").textContent =
+        statusLabel(status);
+
+    $("#heroStatusNote").textContent =
+        status==="approved"
+            ? "This property has completed the approval workflow."
+            : status==="rejected"
+                ? "Action is required before this property can proceed."
+                : status==="action"
+                    ? "Review the property and complete the requested seller actions."
+                    : "This property is currently moving through GHAR's verification workflow.";
+}
+
+/* =========================================================
+   SUMMARY
+========================================================= */
+
+function renderSummary(){
+
+    const counts={
+        total:properties.length,
+        pending:0,
+        approved:0,
+        action:0
+    };
+
+    properties.forEach(
+        property => {
+
+            const status=
+                normalizeStatus(property);
+
+            if(status==="approved")
+                counts.approved++;
+
+            else if(
+                status==="action" ||
+                status==="rejected"
+            )
+                counts.action++;
+
+            else
+                counts.pending++;
 
         }
-      );
+    );
+
+    $("#totalProperties")
+        .textContent=counts.total;
+
+    $("#pendingProperties")
+        .textContent=counts.pending;
+
+    $("#approvedProperties")
+        .textContent=counts.approved;
+
+    $("#actionProperties")
+        .textContent=counts.action;
+}
+
+/* =========================================================
+   LOAD PROPERTIES
+========================================================= */
+
+async function loadProperties(){
+
+    const container=$("#propertyList");
+
+    try{
+
+        let response;
+
+        try{
+
+            response =
+                await apiRequest(
+                    API_BASE+
+                    "/properties/my"
+                );
+
+        }catch{
+
+            response =
+                await apiRequest(
+                    API_BASE+
+                    "/properties"
+                );
+
+        }
+
+        properties=
+            normalizeCollection(response);
+
+    }catch(error){
+
+        console.warn(
+            "GHAR seller properties:",
+            error
+        );
+
+        properties=[];
 
     }
-  );
+
+    renderSummary();
+
+    renderPropertyList();
+
+    if(properties.length){
+
+        selectProperty(
+            properties[0]
+        );
+
+    }else{
+
+        container.innerHTML=`
+
+<div class="empty-state">
+
+<div class="empty-icon">
+    ◈
+</div>
+
+<h3>
+    No properties available
+</h3>
+
+<p>
+    Add a property to your seller account to begin
+    the GHAR approval workflow.
+</p>
+
+<a
+    class="btn btn-primary"
+    href="/seller/list-property.html"
+>
+    List property
+</a>
+
+</div>
+
+`;
+
+    }
+
+}
 
 /* =========================================================
    PROFILE
 ========================================================= */
 
-async function loadSellerProfile(){
+async function loadProfile(){
 
-  try{
+    try{
 
-    const data =
-      await apiRequest(
-        API_BASE +
-        "/users/me"
-      );
+        const response =
+            await apiRequest(
+                API_BASE+
+                "/users/me"
+            );
 
-    const user =
-      data?.user ||
-      data;
+        const user =
+            response?.data ||
+            response?.user ||
+            response;
 
-    if(!user){
-      return;
+        const name =
+            user?.name ||
+            user?.fullName ||
+            user?.firstName ||
+            user?.email ||
+            "Seller";
+
+        const image =
+            user?.profileImage ||
+            user?.avatar ||
+            user?.photo ||
+            user?.profilePhoto ||
+            "../assets/images/profile/seller-default.jpg";
+
+        const displayName =
+            String(name)
+                .trim()
+                .split(/\s+/)
+                .slice(0,2)
+                .join(" ");
+
+        $("#profileName")
+            .textContent=displayName;
+
+        $("#mobileProfileName")
+            .textContent=displayName;
+
+        $("#profileImage")
+            .src=image;
+
+        $("#mobileProfileImage")
+            .src=image;
+
+    }catch(error){
+
+        console.warn(
+            "GHAR seller profile:",
+            error
+        );
+
     }
 
-    const name =
-      user.name ||
-      user.fullName ||
-      user.email ||
-      "Seller";
-
-    $("#profileButton").textContent =
-      name
-        .trim()
-        .charAt(0)
-        .toUpperCase();
-
-  }catch(error){
-
-    console.warn(
-      "GHAR seller profile:",
-      error
-    );
-
-  }
 }
-
-/* =========================================================
-   NOTIFICATIONS
-========================================================= */
-
-$("#notificationButton")
-  ?.addEventListener(
-    "click",
-    () => {
-
-      window.location.href =
-        "/seller/notifications.html";
-
-    }
-  );
 
 /* =========================================================
    MOBILE MENU
 ========================================================= */
 
 $("#menuButton")
-  ?.addEventListener(
+    ?.addEventListener(
+        "click",
+        () => {
+
+            const menu=$("#mobileNav");
+            const button=$("#menuButton");
+
+            const isOpen =
+                menu.classList
+                    .contains("open");
+
+            menu.classList.toggle(
+                "open"
+            );
+
+            button.setAttribute(
+                "aria-expanded",
+                String(!isOpen)
+            );
+
+            button.textContent =
+                !isOpen
+                    ? "×"
+                    : "☰";
+
+        }
+    );
+
+document.addEventListener(
     "click",
-    () => {
+    event => {
 
-      const nav =
-        document.querySelector(
-          ".desktop-nav"
-        );
+        const menu=$("#mobileNav");
+        const button=$("#menuButton");
 
-      if(!nav){
-        return;
-      }
+        if(
+            !menu ||
+            !button
+        )
+            return;
 
-      const visible =
-        nav.dataset.mobileOpen ===
-        "true";
+        if(
+            menu.classList.contains("open") &&
+            !menu.contains(event.target) &&
+            !button.contains(event.target)
+        ){
 
-      if(visible){
+            menu.classList.remove(
+                "open"
+            );
 
-        nav.style.display = "";
-        nav.dataset.mobileOpen = "false";
+            button.textContent="☰";
 
-        return;
-      }
+            button.setAttribute(
+                "aria-expanded",
+                "false"
+            );
 
-      nav.dataset.mobileOpen =
-        "true";
-
-      nav.style.display =
-        "flex";
-
-      nav.style.position =
-        "absolute";
-
-      nav.style.left =
-        "14px";
-
-      nav.style.right =
-        "14px";
-
-      nav.style.top =
-        "66px";
-
-      nav.style.padding =
-        "10px";
-
-      nav.style.flexDirection =
-        "column";
-
-      nav.style.alignItems =
-        "stretch";
-
-      nav.style.border =
-        "1px solid rgba(229,199,125,.14)";
-
-      nav.style.borderRadius =
-        "16px";
-
-      nav.style.background =
-        "#0b1c14";
-
-      nav.style.boxShadow =
-        "0 25px 60px rgba(0,0,0,.35)";
+        }
 
     }
-  );
+);
+
+/* =========================================================
+   NOTIFICATIONS
+========================================================= */
+
+$("#notificationButton")
+    ?.addEventListener(
+        "click",
+        () => {
+
+            window.location.href =
+                "/seller/notifications.html";
+
+        }
+    );
 
 /* =========================================================
    AI
 ========================================================= */
 
-async function openAI(){
-
-  window.location.href =
-    "/seller/ai.html";
-
-}
-
 $("#openAI")
-  ?.addEventListener(
-    "click",
-    openAI
-  );
+    ?.addEventListener(
+        "click",
+        () => {
+
+            window.location.href =
+                "/seller/ai.html";
+
+        }
+    );
 
 /* =========================================================
-   INITIALIZATION
+   IMAGE FALLBACK
+========================================================= */
+
+document.addEventListener(
+    "error",
+    event => {
+
+        const element=event.target;
+
+        if(
+            element.tagName==="IMG" &&
+            element.dataset.fallbackApplied!=="true"
+        ){
+
+            element.dataset.fallbackApplied="true";
+
+            if(
+                element.id==="profileImage" ||
+                element.id==="mobileProfileImage"
+            ){
+
+                element.src =
+                    "../assets/images/profile/default-avatar.jpg";
+
+            }else{
+
+                element.src =
+                    "../assets/images/properties/property-placeholder.jpg";
+
+            }
+
+        }
+
+    },
+    true
+);
+
+/* =========================================================
+   INIT
 ========================================================= */
 
 async function initialize(){
 
-  $("#footerYear").textContent =
-    new Date().getFullYear();
+    $("#footerYear")
+        .textContent =
+            new Date()
+                .getFullYear();
 
-  await loadSellerProfile();
+    await loadProfile();
 
-  approvalData =
-    await loadApprovals();
-
-  updateSummary(
-    approvalData
-  );
-
-  renderApprovalTable(
-    approvalData
-  );
+    await loadProperties();
 
 }
 
-/* =========================================================
-   START
-========================================================= */
-
 if(
-  document.readyState ===
-  "loading"
+    document.readyState==="loading"
 ){
 
-  document.addEventListener(
-    "DOMContentLoaded",
-    initialize
-  );
+    document.addEventListener(
+        "DOMContentLoaded",
+        initialize
+    );
 
 }else{
 
-  initialize();
+    initialize();
 
 }
 

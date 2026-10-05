@@ -1,2303 +1,3811 @@
+<!-- /seller/applications.html -->
 <!doctype html>
 <html lang="en">
+
 <head>
+
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
 <meta name="description"
-      content="GHAR Seller Applications -- Manage buyer applications, review documents and track application progress.">
+content="GHAR Seller Applications -- Review, manage and track buyer property applications.">
 
-<meta name="theme-color" content="#162d25">
+<meta name="theme-color" content="#11151f">
 
-<title>GHAR · Seller · Applications</title>
+<title>GHAR · Seller Applications</title>
 
-<link rel="icon" href="../assets/images/favicon.svg">
+<link
+    rel="icon"
+    href="../assets/images/logo/favicon.svg"
+>
 
 <style>
+
+/* =========================================================
+   RESET
+========================================================= */
+
 *{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
 }
 
 :root{
-  --green-950:#07130e;
-  --green-925:#0a1912;
-  --green-900:#0b1c14;
-  --green-850:#10261c;
-  --green-800:#162d25;
-  --green-750:#1a382c;
-  --green-700:#214438;
-  --green-600:#2b5847;
 
-  --gold-100:#fff7df;
-  --gold-200:#f4dfaa;
-  --gold-300:#e5c77d;
-  --gold-400:#c9a95c;
-  --gold-500:#a98238;
+    /* =====================================================
+       MIDNIGHT / CHAMPAGNE SELLER THEME
+    ===================================================== */
 
-  --cream:#fffaf0;
-  --text:#f9f5ea;
-  --muted:rgba(255,255,255,.68);
-  --muted-2:rgba(255,255,255,.45);
+    --navy-950:#080b12;
+    --navy-925:#0b0e16;
+    --navy-900:#0e121b;
+    --navy-875:#111620;
+    --navy-850:#141a25;
+    --navy-825:#18202d;
+    --navy-800:#1c2634;
+    --navy-750:#222f40;
+    --navy-700:#2b394d;
+    --navy-600:#3a4a61;
 
-  --border:rgba(229,199,125,.18);
-  --border-light:rgba(255,255,255,.09);
+    --gold-100:#fffdf7;
+    --gold-200:#f8e7b5;
+    --gold-300:#e7c77e;
+    --gold-400:#c6a45a;
+    --gold-500:#9d7a38;
 
-  --success:#82c995;
-  --warning:#e5c77d;
-  --danger:#e98c8c;
-  --blue:#91b9e8;
+    --cream:#fffaf0;
+    --cream-2:#f5eddd;
 
-  --shadow:0 25px 80px rgba(0,0,0,.25);
+    --text:#f8f4e9;
+    --muted:rgba(255,255,255,.72);
+    --muted-2:rgba(255,255,255,.46);
 
-  --radius-xl:28px;
-  --radius-lg:21px;
-  --radius-md:15px;
+    --border:rgba(231,199,126,.16);
+    --border-strong:rgba(231,199,126,.28);
+    --border-light:rgba(255,255,255,.085);
 
-  --container:1440px;
+    --success:#8bd19d;
+    --warning:#e9c875;
+    --danger:#e99494;
+    --blue:#91b8e8;
+    --purple:#b7a0e8;
+
+    --shadow:
+        0 25px 80px rgba(0,0,0,.30);
+
+    --radius-xl:28px;
+    --radius-lg:21px;
+    --radius-md:14px;
+
+    --container:1440px;
 }
 
 html{
-  scroll-behavior:smooth;
+    scroll-behavior:smooth;
 }
 
 body{
-  min-height:100vh;
-  color:var(--text);
-  font-family:
-    Inter,
-    ui-sans-serif,
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    sans-serif;
 
-  background:
-    radial-gradient(
-      circle at 5% 0%,
-      rgba(229,199,125,.12),
-      transparent 28%
-    ),
-    radial-gradient(
-      circle at 100% 10%,
-      rgba(44,91,69,.22),
-      transparent 30%
-    ),
-    linear-gradient(
-      135deg,
-      #07130e,
-      #0b1c14 48%,
-      #10261c
-    );
+    min-height:100vh;
 
-  overflow-x:hidden;
+    color:var(--text);
+
+    font-family:
+        Inter,
+        ui-sans-serif,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    background:
+
+        radial-gradient(
+            circle at 0% 0%,
+            rgba(231,199,126,.10),
+            transparent 27%
+        ),
+
+        radial-gradient(
+            circle at 100% 8%,
+            rgba(91,112,151,.17),
+            transparent 32%
+        ),
+
+        radial-gradient(
+            circle at 50% 100%,
+            rgba(103,83,125,.12),
+            transparent 35%
+        ),
+
+        linear-gradient(
+            135deg,
+            #080b12,
+            #0e121b 48%,
+            #141a25
+        );
+
+    overflow-x:hidden;
 }
 
 a{
-  color:inherit;
-  text-decoration:none;
+    color:inherit;
+    text-decoration:none;
 }
 
 button,
 input,
 select{
-  font:inherit;
+    font:inherit;
 }
 
 button{
-  cursor:pointer;
+    cursor:pointer;
 }
 
 img{
-  display:block;
-  max-width:100%;
+    display:block;
+    max-width:100%;
 }
 
 .container{
-  width:min(
-    calc(100% - 40px),
-    var(--container)
-  );
-  margin:auto;
-}
 
+    width:min(
+        calc(100% - 40px),
+        var(--container)
+    );
+
+    margin:auto;
+}
 
 /* =========================================================
    BACKGROUND
 ========================================================= */
 
 .page-glow{
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  z-index:-1;
-  overflow:hidden;
+
+    position:fixed;
+    inset:0;
+
+    pointer-events:none;
+
+    z-index:-1;
+
+    overflow:hidden;
 }
 
-.page-glow::before{
-  content:"";
-  position:absolute;
-  width:550px;
-  height:550px;
-  top:-300px;
-  right:-220px;
-  border-radius:50%;
-  border:1px solid rgba(229,199,125,.12);
-  box-shadow:
-    0 0 0 60px rgba(229,199,125,.025),
-    0 0 0 120px rgba(229,199,125,.015);
+.page-glow:before{
+
+    content:"";
+
+    position:absolute;
+
+    width:600px;
+    height:600px;
+
+    top:-350px;
+    right:-250px;
+
+    border-radius:50%;
+
+    border:
+        1px solid
+        rgba(231,199,126,.13);
+
+    box-shadow:
+
+        0 0 0 65px
+        rgba(231,199,126,.025),
+
+        0 0 0 130px
+        rgba(231,199,126,.014),
+
+        0 0 0 195px
+        rgba(231,199,126,.008);
 }
 
-.page-glow::after{
-  content:"";
-  position:absolute;
-  width:500px;
-  height:500px;
-  bottom:-300px;
-  left:-250px;
-  border-radius:50%;
-  border:1px solid rgba(255,255,255,.06);
-}
+.page-glow:after{
 
+    content:"";
+
+    position:absolute;
+
+    width:540px;
+    height:540px;
+
+    bottom:-330px;
+    left:-270px;
+
+    border-radius:50%;
+
+    border:
+        1px solid
+        rgba(145,184,232,.08);
+
+    box-shadow:
+        0 0 0 75px
+        rgba(145,184,232,.012);
+}
 
 /* =========================================================
    HEADER
 ========================================================= */
 
 .site-header{
-  position:sticky;
-  top:0;
-  z-index:100;
-  border-bottom:1px solid rgba(229,199,125,.10);
-  background:rgba(7,19,14,.90);
-  backdrop-filter:blur(22px);
+
+    position:sticky;
+
+    top:0;
+
+    z-index:1000;
+
+    border-bottom:
+        1px solid
+        rgba(231,199,126,.13);
+
+    background:
+
+        linear-gradient(
+            180deg,
+            rgba(8,11,18,.97),
+            rgba(8,11,18,.88)
+        );
+
+    backdrop-filter:blur(24px);
+    -webkit-backdrop-filter:blur(24px);
 }
 
 .header-inner{
-  min-height:76px;
-  display:flex;
-  align-items:center;
-  gap:24px;
+
+    min-height:82px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:20px;
 }
+
+/* =========================================================
+   BRAND
+========================================================= */
 
 .brand{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  flex-shrink:0;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    flex-shrink:0;
 }
 
-.brand-mark{
-  width:45px;
-  height:45px;
-  display:grid;
-  place-items:center;
-  border-radius:14px;
-  color:#152116;
-  font-size:19px;
-  font-weight:1000;
-  background:linear-gradient(
-    135deg,
-    #f1dda5,
-    #b98b3d
-  );
-  box-shadow:
-    0 10px 25px rgba(0,0,0,.25),
-    inset 0 1px 0 rgba(255,255,255,.5);
+.brand-logo{
+
+    width:47px;
+    height:47px;
+
+    display:grid;
+
+    place-items:center;
+
+    overflow:hidden;
+
+    border-radius:14px;
+
+    border:
+        1px solid
+        rgba(231,199,126,.28);
+
+    background:
+
+        linear-gradient(
+            145deg,
+            rgba(231,199,126,.15),
+            rgba(255,255,255,.035)
+        );
+
+    box-shadow:
+
+        0 10px 28px
+        rgba(0,0,0,.30),
+
+        inset 0 1px 0
+        rgba(255,255,255,.08);
+}
+
+.brand-logo img{
+
+    width:100%;
+    height:100%;
+
+    object-fit:contain;
+
+    padding:5px;
+}
+
+.brand-logo-fallback{
+
+    width:100%;
+    height:100%;
+
+    display:grid;
+
+    place-items:center;
+
+    color:#181711;
+
+    font-size:20px;
+
+    font-weight:1000;
+
+    background:
+
+        linear-gradient(
+            135deg,
+            #f3dfa5,
+            #b98d42
+        );
 }
 
 .brand-text strong{
-  display:block;
-  font-size:17px;
-  letter-spacing:.17em;
+
+    display:block;
+
+    color:var(--cream);
+
+    font-size:17px;
+
+    font-weight:950;
+
+    letter-spacing:.17em;
 }
 
 .brand-text span{
-  display:block;
-  margin-top:2px;
-  color:var(--muted-2);
-  font-size:8px;
-  font-weight:800;
-  letter-spacing:.16em;
-  text-transform:uppercase;
+
+    display:block;
+
+    margin-top:3px;
+
+    color:var(--muted-2);
+
+    font-size:8px;
+
+    font-weight:800;
+
+    letter-spacing:.15em;
+
+    text-transform:uppercase;
 }
 
+/* =========================================================
+   DESKTOP NAV
+========================================================= */
+
 .desktop-nav{
-  display:flex;
-  align-items:center;
-  gap:5px;
-  margin-left:auto;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:2px;
+
+    margin-left:auto;
 }
 
 .desktop-nav a{
-  padding:10px 12px;
-  border-radius:10px;
-  color:var(--muted);
-  font-size:11px;
-  font-weight:700;
-  transition:.2s ease;
+
+    position:relative;
+
+    padding:11px 9px;
+
+    border-radius:10px;
+
+    color:var(--muted);
+
+    font-size:9px;
+
+    font-weight:750;
+
+    transition:.2s ease;
 }
 
-.desktop-nav a:hover,
-.desktop-nav a.active{
-  color:var(--gold-200);
-  background:rgba(229,199,125,.07);
+.desktop-nav a:hover{
+
+    color:var(--gold-200);
+
+    background:
+        rgba(231,199,126,.07);
 }
+
+.desktop-nav a.active{
+
+    color:var(--gold-200);
+
+    background:
+        rgba(231,199,126,.09);
+}
+
+.desktop-nav a.active:after{
+
+    content:"";
+
+    position:absolute;
+
+    left:12px;
+    right:12px;
+
+    bottom:3px;
+
+    height:2px;
+
+    border-radius:10px;
+
+    background:
+
+        linear-gradient(
+            90deg,
+            transparent,
+            var(--gold-300),
+            transparent
+        );
+}
+
+/* =========================================================
+   HEADER ACTIONS
+========================================================= */
 
 .header-actions{
-  display:flex;
-  align-items:center;
-  gap:8px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    margin-left:4px;
 }
 
 .icon-btn{
-  width:41px;
-  height:41px;
-  display:grid;
-  place-items:center;
-  border:1px solid var(--border-light);
-  border-radius:12px;
-  color:var(--muted);
-  background:rgba(255,255,255,.035);
-  transition:.2s ease;
+
+    width:41px;
+    height:41px;
+
+    display:grid;
+
+    place-items:center;
+
+    border:
+        1px solid
+        var(--border-light);
+
+    border-radius:12px;
+
+    color:var(--muted);
+
+    background:
+        rgba(255,255,255,.035);
+
+    transition:.2s ease;
 }
 
 .icon-btn:hover{
-  color:var(--gold-200);
-  border-color:rgba(229,199,125,.25);
+
+    color:var(--gold-200);
+
+    border-color:
+        rgba(231,199,126,.30);
+
+    background:
+        rgba(231,199,126,.06);
+
+    transform:translateY(-1px);
 }
 
-.avatar{
-  width:40px;
-  height:40px;
-  display:grid;
-  place-items:center;
-  border-radius:50%;
-  color:#172016;
-  font-size:12px;
-  font-weight:1000;
-  background:linear-gradient(
-    135deg,
-    var(--gold-200),
-    var(--gold-500)
-  );
+.notification-wrap{
+    position:relative;
+}
+
+.notification-dot{
+
+    position:absolute;
+
+    width:7px;
+    height:7px;
+
+    top:7px;
+    right:7px;
+
+    border-radius:50%;
+
+    background:var(--gold-300);
+
+    box-shadow:
+        0 0 0 3px var(--navy-900);
+}
+
+/* =========================================================
+   PROFILE
+========================================================= */
+
+.profile-menu{
+
+    min-height:43px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:9px;
+
+    padding:3px 8px 3px 4px;
+
+    border:
+        1px solid
+        var(--border-light);
+
+    border-radius:25px;
+
+    background:
+        rgba(255,255,255,.035);
+
+    transition:.2s ease;
+}
+
+.profile-menu:hover{
+
+    border-color:
+        rgba(231,199,126,.28);
+
+    background:
+        rgba(231,199,126,.055);
+}
+
+.profile-menu img{
+
+    width:35px;
+    height:35px;
+
+    object-fit:cover;
+
+    border-radius:50%;
+
+    border:
+        1px solid
+        rgba(231,199,126,.32);
+}
+
+.profile-info{
+    min-width:65px;
+}
+
+.profile-info strong{
+
+    display:block;
+
+    max-width:110px;
+
+    overflow:hidden;
+
+    color:var(--cream);
+
+    font-size:9px;
+
+    font-weight:900;
+
+    text-overflow:ellipsis;
+
+    white-space:nowrap;
+}
+
+.profile-info small{
+
+    display:block;
+
+    margin-top:2px;
+
+    color:var(--muted-2);
+
+    font-size:7px;
+}
+
+.profile-arrow{
+
+    color:var(--muted-2);
+
+    font-size:12px;
 }
 
 .mobile-menu{
-  display:none;
+    display:none;
 }
-
 
 /* =========================================================
-   PAGE HEADER
+   PAGE
 ========================================================= */
 
-.page-header{
-  padding:42px 0 24px;
+.page{
+
+    padding:43px 0 25px;
 }
 
-.page-header-card{
-  position:relative;
-  overflow:hidden;
-  padding:34px;
-  border:1px solid var(--border);
-  border-radius:var(--radius-xl);
+.page-heading{
 
-  background:
-    radial-gradient(
-      circle at 100% 0%,
-      rgba(229,199,125,.13),
-      transparent 28%
-    ),
-    radial-gradient(
-      circle at 0% 100%,
-      rgba(44,91,69,.25),
-      transparent 38%
-    ),
-    linear-gradient(
-      145deg,
-      #0a1a12,
-      #10251b 55%,
-      #142d22
-    );
+    display:flex;
 
-  box-shadow:var(--shadow);
-}
+    align-items:flex-end;
 
-.page-header-card::after{
-  content:"";
-  position:absolute;
-  width:320px;
-  height:320px;
-  right:-190px;
-  bottom:-210px;
-  border-radius:50%;
-  border:1px solid rgba(229,199,125,.12);
-  box-shadow:
-    0 0 0 40px rgba(229,199,125,.02),
-    0 0 0 80px rgba(229,199,125,.015);
+    justify-content:space-between;
+
+    gap:25px;
+
+    margin-bottom:25px;
 }
 
 .eyebrow{
-  color:var(--gold-300);
-  font-size:10px;
-  font-weight:950;
-  letter-spacing:.18em;
-  text-transform:uppercase;
+
+    color:var(--gold-300);
+
+    font-size:10px;
+
+    font-weight:950;
+
+    letter-spacing:.18em;
+
+    text-transform:uppercase;
 }
 
-.page-header h1{
-  position:relative;
-  z-index:2;
-  margin-top:10px;
-  font-size:clamp(34px,5vw,54px);
-  line-height:1;
-  letter-spacing:-.05em;
+.page-heading h1{
+
+    margin-top:9px;
+
+    font-size:
+        clamp(35px,5vw,58px);
+
+    line-height:1;
+
+    letter-spacing:-.055em;
 }
 
-.page-header h1 span{
-  color:var(--gold-300);
+.page-heading p{
+
+    max-width:760px;
+
+    margin-top:13px;
+
+    color:var(--muted);
+
+    font-size:12px;
+
+    line-height:1.75;
 }
 
-.page-header p{
-  position:relative;
-  z-index:2;
-  max-width:760px;
-  margin-top:13px;
-  color:var(--muted);
-  font-size:12px;
-  line-height:1.7;
-}
+.heading-actions{
 
+    display:flex;
+
+    gap:8px;
+
+    flex-wrap:wrap;
+}
 
 /* =========================================================
    BUTTONS
 ========================================================= */
 
 .btn{
-  min-height:42px;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap:8px;
-  padding:0 15px;
-  border-radius:11px;
-  border:1px solid transparent;
-  font-size:10px;
-  font-weight:900;
-  transition:.2s ease;
+
+    min-height:43px;
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:8px;
+
+    padding:0 16px;
+
+    border:
+        1px solid
+        transparent;
+
+    border-radius:11px;
+
+    font-size:10px;
+
+    font-weight:900;
+
+    transition:.2s ease;
 }
 
 .btn-primary{
-  color:#17170f;
-  background:linear-gradient(
-    135deg,
-    #f1dca1,
-    #cda85d
-  );
+
+    color:#18170f;
+
+    background:
+
+        linear-gradient(
+            135deg,
+            #f1dca1,
+            #c9a65d
+        );
+
+    box-shadow:
+        0 8px 22px
+        rgba(0,0,0,.16);
 }
 
 .btn-primary:hover{
-  transform:translateY(-2px);
+    transform:translateY(-2px);
 }
 
 .btn-secondary{
-  color:var(--cream);
-  border-color:var(--border-light);
-  background:rgba(255,255,255,.045);
+
+    color:var(--cream);
+
+    border-color:
+        var(--border-light);
+
+    background:
+        rgba(255,255,255,.045);
 }
 
 .btn-secondary:hover{
-  color:var(--gold-200);
-  border-color:rgba(229,199,125,.25);
+
+    color:var(--gold-200);
+
+    border-color:
+        rgba(231,199,126,.30);
 }
 
-.btn-danger{
-  color:#ffdede;
-  border-color:rgba(233,140,140,.22);
-  background:rgba(233,140,140,.07);
+/* =========================================================
+   APPLICATION HERO
+========================================================= */
+
+.application-hero{
+
+    position:relative;
+
+    overflow:hidden;
+
+    padding:25px;
+
+    margin-bottom:20px;
+
+    border:
+        1px solid
+        rgba(231,199,126,.18);
+
+    border-radius:var(--radius-xl);
+
+    background:
+
+        linear-gradient(
+            145deg,
+            rgba(34,47,64,.97),
+            rgba(12,16,25,.98)
+        );
+
+    box-shadow:
+        0 18px 55px
+        rgba(0,0,0,.18);
 }
 
-.btn-success{
-  color:#d8f5df;
-  border-color:rgba(130,201,149,.22);
-  background:rgba(130,201,149,.07);
+.application-hero:before{
+
+    content:"";
+
+    position:absolute;
+
+    width:330px;
+    height:330px;
+
+    right:-150px;
+    top:-200px;
+
+    border-radius:50%;
+
+    border:
+        1px solid
+        rgba(231,199,126,.14);
+
+    box-shadow:
+
+        0 0 0 55px
+        rgba(231,199,126,.025),
+
+        0 0 0 110px
+        rgba(231,199,126,.012);
 }
 
+.hero-content{
+
+    position:relative;
+
+    z-index:1;
+}
+
+.hero-title{
+
+    font-size:18px;
+
+    font-weight:950;
+}
+
+.hero-subtitle{
+
+    max-width:800px;
+
+    margin-top:7px;
+
+    color:var(--muted-2);
+
+    font-size:9px;
+
+    line-height:1.7;
+}
 
 /* =========================================================
    STATS
 ========================================================= */
 
-.section{
-  padding:16px 0 28px;
-}
-
 .stats-grid{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:13px;
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(5,minmax(0,1fr));
+
+    gap:10px;
+
+    margin-top:18px;
 }
 
 .stat-card{
-  padding:19px;
-  border:1px solid var(--border-light);
-  border-radius:var(--radius-lg);
 
-  background:
-    linear-gradient(
-      145deg,
-      rgba(20,45,34,.92),
-      rgba(11,28,20,.92)
-    );
+    position:relative;
+
+    padding:16px;
+
+    overflow:hidden;
+
+    border:
+        1px solid
+        rgba(255,255,255,.075);
+
+    border-radius:15px;
+
+    background:
+        rgba(255,255,255,.035);
 }
 
-.stat-top{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
+.stat-card:before{
+
+    content:"";
+
+    position:absolute;
+
+    left:0;
+    top:0;
+
+    width:3px;
+    height:100%;
+
+    background:
+        linear-gradient(
+            180deg,
+            var(--gold-300),
+            transparent
+        );
 }
 
 .stat-label{
-  color:var(--muted-2);
-  font-size:9px;
-  font-weight:800;
-  text-transform:uppercase;
-  letter-spacing:.08em;
-}
 
-.stat-icon{
-  width:36px;
-  height:36px;
-  display:grid;
-  place-items:center;
-  border-radius:11px;
-  color:var(--gold-300);
-  background:rgba(229,199,125,.08);
+    color:var(--muted-2);
+
+    font-size:7px;
+
+    font-weight:850;
+
+    letter-spacing:.09em;
+
+    text-transform:uppercase;
 }
 
 .stat-value{
-  margin-top:14px;
-  font-size:27px;
-  font-weight:900;
-  letter-spacing:-.04em;
+
+    margin-top:7px;
+
+    color:var(--cream);
+
+    font-size:23px;
+
+    font-weight:950;
 }
 
 .stat-note{
-  margin-top:4px;
-  color:var(--muted-2);
-  font-size:9px;
-}
 
+    margin-top:4px;
+
+    color:var(--muted-2);
+
+    font-size:7px;
+}
 
 /* =========================================================
    TOOLBAR
 ========================================================= */
 
 .toolbar{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:15px;
-  margin-bottom:15px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:12px;
+
+    margin:22px 0 13px;
+
+    padding:14px;
+
+    border:
+        1px solid
+        var(--border-light);
+
+    border-radius:16px;
+
+    background:
+        rgba(255,255,255,.025);
 }
 
-.toolbar-left h2{
-  font-size:22px;
-  letter-spacing:-.035em;
-}
+.toolbar-left{
 
-.toolbar-left p{
-  margin-top:5px;
-  color:var(--muted-2);
-  font-size:10px;
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    flex-wrap:wrap;
 }
 
 .toolbar-right{
-  display:flex;
-  align-items:center;
-  gap:8px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:7px;
 }
 
 .search-box{
-  height:42px;
-  width:260px;
-  padding:0 13px;
-  border:1px solid var(--border-light);
-  border-radius:11px;
-  outline:none;
-  color:var(--cream);
-  background:rgba(255,255,255,.035);
+
+    position:relative;
+
+    min-width:260px;
 }
 
-.search-box:focus{
-  border-color:rgba(229,199,125,.45);
+.search-box input{
+
+    width:100%;
+
+    height:39px;
+
+    padding:0 13px 0 38px;
+
+    outline:none;
+
+    color:var(--cream);
+
+    border:
+        1px solid
+        rgba(255,255,255,.09);
+
+    border-radius:10px;
+
+    background:
+        rgba(255,255,255,.035);
+
+    font-size:9px;
+}
+
+.search-box span{
+
+    position:absolute;
+
+    left:13px;
+
+    top:50%;
+
+    transform:translateY(-50%);
+
+    color:var(--muted-2);
+
+    font-size:13px;
 }
 
 .select{
-  height:42px;
-  padding:0 12px;
-  border:1px solid var(--border-light);
-  border-radius:11px;
-  outline:none;
-  color:var(--cream);
-  background:#10261c;
-  font-size:10px;
+
+    height:39px;
+
+    padding:0 11px;
+
+    outline:none;
+
+    color:var(--cream);
+
+    border:
+        1px solid
+        rgba(255,255,255,.09);
+
+    border-radius:10px;
+
+    background:
+        #171d28;
+
+    font-size:9px;
 }
 
+.select option{
+    color:#11151f;
+}
 
 /* =========================================================
-   APPLICATION PANEL
+   APPLICATIONS
 ========================================================= */
 
-.application-panel{
-  overflow:hidden;
-  border:1px solid var(--border-light);
-  border-radius:var(--radius-lg);
-  background:
-    linear-gradient(
-      145deg,
-      rgba(20,45,34,.96),
-      rgba(11,28,20,.96)
-    );
+.applications-panel{
+
+    overflow:hidden;
+
+    border:
+        1px solid
+        var(--border-light);
+
+    border-radius:var(--radius-lg);
+
+    background:
+
+        linear-gradient(
+            145deg,
+            rgba(20,26,37,.96),
+            rgba(10,14,21,.96)
+        );
 }
 
+.panel-header{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:15px;
+
+    padding:18px;
+
+    border-bottom:
+        1px solid
+        rgba(255,255,255,.06);
+}
+
+.panel-header h2{
+
+    font-size:13px;
+
+    font-weight:950;
+}
+
+.panel-header p{
+
+    margin-top:4px;
+
+    color:var(--muted-2);
+
+    font-size:8px;
+}
+
+/* =========================================================
+   TABLE
+========================================================= */
+
 .table-wrap{
-  width:100%;
-  overflow-x:auto;
+
+    width:100%;
+
+    overflow-x:auto;
 }
 
 .application-table{
-  width:100%;
-  min-width:1050px;
-  border-collapse:collapse;
+
+    width:100%;
+
+    min-width:1020px;
+
+    border-collapse:collapse;
 }
 
 .application-table th{
-  padding:14px 16px;
-  text-align:left;
-  color:var(--muted-2);
-  background:rgba(255,255,255,.025);
-  border-bottom:1px solid rgba(255,255,255,.07);
-  font-size:8px;
-  font-weight:900;
-  letter-spacing:.1em;
-  text-transform:uppercase;
+
+    padding:12px 16px;
+
+    color:var(--muted-2);
+
+    border-bottom:
+        1px solid
+        rgba(255,255,255,.07);
+
+    font-size:7px;
+
+    font-weight:900;
+
+    letter-spacing:.10em;
+
+    text-align:left;
+
+    text-transform:uppercase;
 }
 
 .application-table td{
-  padding:15px 16px;
-  border-bottom:1px solid rgba(255,255,255,.055);
-  vertical-align:middle;
-  font-size:10px;
+
+    padding:15px 16px;
+
+    color:var(--muted);
+
+    border-bottom:
+        1px solid
+        rgba(255,255,255,.055);
+
+    font-size:9px;
+
+    vertical-align:middle;
 }
 
 .application-table tbody tr{
-  transition:.2s ease;
+
+    transition:.18s ease;
 }
 
 .application-table tbody tr:hover{
-  background:rgba(229,199,125,.025);
+
+    background:
+        rgba(231,199,126,.035);
 }
 
 .application-table tbody tr:last-child td{
-  border-bottom:0;
+    border-bottom:0;
 }
 
-.buyer-cell{
-  display:flex;
-  align-items:center;
-  gap:10px;
+/* =========================================================
+   APPLICATION PROPERTY
+========================================================= */
+
+.property-cell{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    min-width:240px;
 }
 
-.buyer-avatar{
-  width:36px;
-  height:36px;
-  flex:0 0 36px;
-  display:grid;
-  place-items:center;
-  border-radius:11px;
-  color:#172016;
-  background:linear-gradient(
-    135deg,
-    var(--gold-200),
-    var(--gold-500)
-  );
-  font-size:10px;
-  font-weight:1000;
+.property-thumb{
+
+    width:58px;
+    height:48px;
+
+    flex-shrink:0;
+
+    overflow:hidden;
+
+    border-radius:9px;
+
+    border:
+        1px solid
+        rgba(231,199,126,.15);
+
+    background:
+        #1a2230;
 }
 
-.buyer-name{
-  font-weight:850;
+.property-thumb img{
+
+    width:100%;
+    height:100%;
+
+    object-fit:cover;
 }
 
-.buyer-email{
-  margin-top:3px;
-  color:var(--muted-2);
-  font-size:8px;
+.property-info strong{
+
+    display:block;
+
+    max-width:210px;
+
+    overflow:hidden;
+
+    color:var(--cream);
+
+    font-size:9px;
+
+    font-weight:900;
+
+    text-overflow:ellipsis;
+
+    white-space:nowrap;
 }
 
-.property-name{
-  max-width:210px;
-  font-weight:750;
+.property-info span{
+
+    display:block;
+
+    max-width:210px;
+
+    margin-top:4px;
+
+    overflow:hidden;
+
+    color:var(--muted-2);
+
+    font-size:7px;
+
+    text-overflow:ellipsis;
+
+    white-space:nowrap;
 }
 
-.property-id{
-  margin-top:3px;
-  color:var(--muted-2);
-  font-size:8px;
+/* =========================================================
+   APPLICANT
+========================================================= */
+
+.applicant strong{
+
+    display:block;
+
+    color:var(--cream);
+
+    font-size:9px;
+
+    font-weight:850;
 }
+
+.applicant span{
+
+    display:block;
+
+    margin-top:3px;
+
+    color:var(--muted-2);
+
+    font-size:7px;
+}
+
+/* =========================================================
+   AMOUNT
+========================================================= */
 
 .amount{
-  color:var(--cream);
-  font-weight:900;
+
+    color:var(--cream);
+
+    font-size:10px;
+
+    font-weight:900;
 }
 
-.date{
-  color:var(--muted);
-  font-size:9px;
-}
+.amount small{
 
+    display:block;
+
+    margin-top:3px;
+
+    color:var(--muted-2);
+
+    font-size:7px;
+
+    font-weight:600;
+}
 
 /* =========================================================
    STATUS
 ========================================================= */
 
 .status{
-  display:inline-flex;
-  align-items:center;
-  gap:5px;
-  padding:6px 9px;
-  border-radius:20px;
-  font-size:8px;
-  font-weight:900;
-  white-space:nowrap;
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:6px;
+
+    padding:6px 9px;
+
+    border-radius:8px;
+
+    font-size:7px;
+
+    font-weight:900;
+
+    white-space:nowrap;
 }
 
-.status::before{
-  content:"";
-  width:5px;
-  height:5px;
-  border-radius:50%;
-  background:currentColor;
+.status:before{
+
+    content:"";
+
+    width:5px;
+    height:5px;
+
+    border-radius:50%;
+
+    background:currentColor;
 }
 
-.status-pending{
-  color:var(--warning);
-  background:rgba(229,199,125,.08);
+.status.pending{
+
+    color:var(--warning);
+
+    background:
+        rgba(230,196,117,.09);
+
+    border:
+        1px solid
+        rgba(230,196,117,.15);
 }
 
-.status-review{
-  color:var(--blue);
-  background:rgba(145,185,232,.08);
+.status.approved{
+
+    color:var(--success);
+
+    background:
+        rgba(139,209,157,.08);
+
+    border:
+        1px solid
+        rgba(139,209,157,.14);
 }
 
-.status-approved{
-  color:var(--success);
-  background:rgba(130,201,149,.08);
+.status.rejected{
+
+    color:var(--danger);
+
+    background:
+        rgba(233,148,148,.08);
+
+    border:
+        1px solid
+        rgba(233,148,148,.14);
 }
 
-.status-rejected{
-  color:var(--danger);
-  background:rgba(233,140,140,.08);
+.status.review{
+
+    color:var(--blue);
+
+    background:
+        rgba(145,184,232,.08);
+
+    border:
+        1px solid
+        rgba(145,184,232,.14);
 }
 
-.status-withdrawn{
-  color:var(--muted);
-  background:rgba(255,255,255,.06);
+.status.withdrawn{
+
+    color:var(--muted-2);
+
+    background:
+        rgba(255,255,255,.045);
+
+    border:
+        1px solid
+        rgba(255,255,255,.08);
 }
 
+/* =========================================================
+   DATE
+========================================================= */
+
+.date-cell strong{
+
+    display:block;
+
+    color:var(--cream);
+
+    font-size:8px;
+}
+
+.date-cell span{
+
+    display:block;
+
+    margin-top:3px;
+
+    color:var(--muted-2);
+
+    font-size:7px;
+}
 
 /* =========================================================
    ACTIONS
 ========================================================= */
 
 .row-actions{
-  display:flex;
-  align-items:center;
-  gap:6px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:6px;
 }
 
-.row-action{
-  min-height:32px;
-  padding:0 9px;
-  border:1px solid var(--border-light);
-  border-radius:8px;
-  color:var(--muted);
-  background:rgba(255,255,255,.035);
-  font-size:8px;
-  font-weight:800;
+.table-action{
+
+    min-height:32px;
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    padding:0 10px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.08);
+
+    border-radius:8px;
+
+    color:var(--muted);
+
+    background:
+        rgba(255,255,255,.035);
+
+    font-size:7px;
+
+    font-weight:850;
+
+    transition:.18s ease;
 }
 
-.row-action:hover{
-  color:var(--gold-200);
-  border-color:rgba(229,199,125,.24);
+.table-action:hover{
+
+    color:var(--gold-200);
+
+    border-color:
+        rgba(231,199,126,.28);
+
+    background:
+        rgba(231,199,126,.055);
 }
 
+.table-action.primary{
+
+    color:#19180f;
+
+    border-color:
+        transparent;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f0d99e,
+            #c5a15b
+        );
+}
 
 /* =========================================================
-   EMPTY STATE
+   EMPTY
 ========================================================= */
 
 .empty-state{
-  display:none;
-  padding:60px 25px;
-  text-align:center;
+
+    padding:75px 25px;
+
+    text-align:center;
 }
 
 .empty-icon{
-  width:58px;
-  height:58px;
-  margin:0 auto;
-  display:grid;
-  place-items:center;
-  border-radius:17px;
-  color:var(--gold-300);
-  background:rgba(229,199,125,.08);
-  font-size:24px;
+
+    width:58px;
+    height:58px;
+
+    margin:auto;
+
+    display:grid;
+
+    place-items:center;
+
+    border-radius:17px;
+
+    color:var(--gold-300);
+
+    background:
+        rgba(231,199,126,.08);
+
+    font-size:23px;
 }
 
 .empty-state h3{
-  margin-top:15px;
-  font-size:17px;
+
+    margin-top:15px;
+
+    color:var(--cream);
+
+    font-size:18px;
 }
 
 .empty-state p{
-  max-width:420px;
-  margin:7px auto 0;
-  color:var(--muted-2);
-  font-size:10px;
-  line-height:1.6;
-}
 
+    max-width:520px;
+
+    margin:8px auto 18px;
+
+    color:var(--muted-2);
+
+    font-size:9px;
+
+    line-height:1.7;
+}
 
 /* =========================================================
-   SIDE INFORMATION
+   LOADING
 ========================================================= */
 
-.info-grid{
-  display:grid;
-  grid-template-columns:1.25fr .75fr;
-  gap:16px;
+.loading-state{
+
+    padding:65px 25px;
+
+    text-align:center;
+
+    color:var(--muted-2);
+
+    font-size:9px;
 }
 
-.panel{
-  padding:21px;
-  border:1px solid var(--border-light);
-  border-radius:var(--radius-lg);
-  background:
-    linear-gradient(
-      145deg,
-      rgba(20,45,34,.95),
-      rgba(11,28,20,.95)
-    );
+.loading-spinner{
+
+    width:32px;
+    height:32px;
+
+    margin:0 auto 12px;
+
+    border:
+        3px solid
+        rgba(255,255,255,.08);
+
+    border-top-color:
+        var(--gold-300);
+
+    border-radius:50%;
+
+    animation:
+        spin .8s linear infinite;
 }
 
-.panel-title{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-  margin-bottom:15px;
+@keyframes spin{
+
+    to{
+        transform:rotate(360deg);
+    }
+
 }
 
-.panel-title h3{
-  font-size:15px;
+/* =========================================================
+   PAGINATION
+========================================================= */
+
+.pagination{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:6px;
+
+    padding:17px;
+
+    border-top:
+        1px solid
+        rgba(255,255,255,.055);
 }
 
-.panel-title span{
-  color:var(--muted-2);
-  font-size:8px;
+.page-btn{
+
+    min-width:33px;
+
+    height:33px;
+
+    display:grid;
+
+    place-items:center;
+
+    border:
+        1px solid
+        rgba(255,255,255,.08);
+
+    border-radius:8px;
+
+    color:var(--muted-2);
+
+    background:
+        rgba(255,255,255,.025);
+
+    font-size:8px;
+
+    font-weight:850;
 }
 
-.steps{
-  display:grid;
-  gap:9px;
+.page-btn:hover,
+.page-btn.active{
+
+    color:var(--gold-200);
+
+    border-color:
+        rgba(231,199,126,.28);
+
+    background:
+        rgba(231,199,126,.07);
 }
 
-.step{
-  display:flex;
-  gap:11px;
-  padding:11px;
-  border-radius:11px;
-  background:rgba(255,255,255,.025);
+/* =========================================================
+   AI
+========================================================= */
+
+.ai-floating{
+
+    position:fixed;
+
+    right:22px;
+    bottom:22px;
+
+    z-index:900;
+
+    min-height:50px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:9px;
+
+    padding:0 18px;
+
+    border:
+        1px solid
+        rgba(231,199,126,.28);
+
+    border-radius:30px;
+
+    color:#18170f;
+
+    background:
+
+        linear-gradient(
+            135deg,
+            var(--gold-200),
+            var(--gold-400)
+        );
+
+    box-shadow:
+        0 15px 35px
+        rgba(0,0,0,.30);
+
+    font-size:10px;
+
+    font-weight:1000;
+
+    transition:.2s ease;
 }
 
-.step-number{
-  width:29px;
-  height:29px;
-  flex:0 0 29px;
-  display:grid;
-  place-items:center;
-  border-radius:9px;
-  color:#172016;
-  background:var(--gold-300);
-  font-size:9px;
-  font-weight:1000;
+.ai-floating:hover{
+    transform:translateY(-3px);
 }
 
-.step strong{
-  display:block;
-  font-size:9px;
-}
+.ai-icon{
 
-.step span{
-  display:block;
-  margin-top:3px;
-  color:var(--muted-2);
-  font-size:8px;
-  line-height:1.5;
-}
+    width:27px;
+    height:27px;
 
-.ai-panel{
-  position:relative;
-  overflow:hidden;
-  background:
-    radial-gradient(
-      circle at 100% 0%,
-      rgba(229,199,125,.13),
-      transparent 40%
-    ),
-    linear-gradient(
-      145deg,
-      #18382b,
-      #0c1f16
-    );
-}
+    display:grid;
 
-.ai-badge{
-  display:inline-flex;
-  padding:6px 8px;
-  border-radius:7px;
-  color:#182016;
-  background:var(--gold-300);
-  font-size:8px;
-  font-weight:1000;
-}
+    place-items:center;
 
-.ai-panel h3{
-  margin-top:12px;
-  font-size:20px;
-  line-height:1.15;
-}
+    border-radius:50%;
 
-.ai-panel p{
-  margin-top:8px;
-  color:var(--muted);
-  font-size:9px;
-  line-height:1.6;
+    background:
+        rgba(0,0,0,.10);
 }
-
-.ai-button{
-  width:100%;
-  margin-top:15px;
-}
-
 
 /* =========================================================
    FOOTER
 ========================================================= */
 
 .site-footer{
-  margin-top:35px;
-  padding:35px 0 25px;
-  border-top:1px solid rgba(255,255,255,.07);
-  background:rgba(3,12,8,.35);
+
+    position:relative;
+
+    margin-top:55px;
+
+    padding:48px 0 25px;
+
+    border-top:
+        1px solid
+        rgba(231,199,126,.12);
+
+    background:
+
+        linear-gradient(
+            180deg,
+            rgba(3,5,10,.38),
+            rgba(3,5,10,.90)
+        );
+}
+
+.footer-top-line{
+
+    height:1px;
+
+    width:100%;
+
+    margin-bottom:35px;
+
+    background:
+
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(231,199,126,.22),
+            transparent
+        );
 }
 
 .footer-grid{
-  display:grid;
-  grid-template-columns:1.4fr repeat(3,1fr);
-  gap:25px;
+
+    display:grid;
+
+    grid-template-columns:
+        1.6fr
+        repeat(4,1fr);
+
+    gap:30px;
 }
 
 .footer-brand{
-  max-width:300px;
+    max-width:350px;
+}
+
+.footer-brand .brand-logo{
+
+    width:43px;
+    height:43px;
 }
 
 .footer-brand p{
-  margin-top:10px;
-  color:var(--muted-2);
-  font-size:9px;
-  line-height:1.7;
+
+    margin-top:14px;
+
+    color:var(--muted-2);
+
+    font-size:9px;
+
+    line-height:1.85;
+}
+
+.footer-trust{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:6px;
+
+    margin-top:15px;
+}
+
+.trust-pill{
+
+    padding:6px 9px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.07);
+
+    border-radius:7px;
+
+    color:var(--muted-2);
+
+    background:
+        rgba(255,255,255,.025);
+
+    font-size:7px;
+
+    font-weight:800;
 }
 
 .footer-col h4{
-  color:var(--gold-200);
-  font-size:9px;
-  letter-spacing:.1em;
-  text-transform:uppercase;
+
+    color:var(--gold-200);
+
+    font-size:9px;
+
+    letter-spacing:.1em;
+
+    text-transform:uppercase;
 }
 
 .footer-col a{
-  display:block;
-  margin-top:9px;
-  color:var(--muted-2);
-  font-size:9px;
+
+    display:block;
+
+    margin-top:11px;
+
+    color:var(--muted-2);
+
+    font-size:9px;
+
+    transition:.2s ease;
 }
 
 .footer-col a:hover{
-  color:var(--gold-300);
+
+    color:var(--gold-300);
+
+    transform:translateX(2px);
 }
 
 .footer-bottom{
-  display:flex;
-  justify-content:space-between;
-  gap:15px;
-  margin-top:28px;
-  padding-top:17px;
-  border-top:1px solid rgba(255,255,255,.06);
-  color:var(--muted-2);
-  font-size:8px;
-}
 
+    display:flex;
+
+    justify-content:space-between;
+
+    gap:15px;
+
+    margin-top:32px;
+
+    padding-top:19px;
+
+    border-top:
+        1px solid
+        rgba(255,255,255,.06);
+
+    color:var(--muted-2);
+
+    font-size:8px;
+}
 
 /* =========================================================
-   AI FLOATING
+   MOBILE NAV
 ========================================================= */
 
-.ai-floating{
-  position:fixed;
-  right:22px;
-  bottom:22px;
-  z-index:90;
-  min-height:48px;
-  display:flex;
-  align-items:center;
-  gap:8px;
-  padding:0 16px;
-  border:1px solid rgba(229,199,125,.25);
-  border-radius:30px;
-  color:#17170f;
-  background:linear-gradient(
-    135deg,
-    var(--gold-200),
-    var(--gold-400)
-  );
-  box-shadow:0 15px 35px rgba(0,0,0,.3);
-  font-size:10px;
-  font-weight:1000;
+.mobile-nav-panel{
+
+    display:none;
+
+    position:fixed;
+
+    left:14px;
+    right:14px;
+
+    top:78px;
+
+    z-index:999;
+
+    padding:10px;
+
+    border:
+        1px solid
+        rgba(231,199,126,.17);
+
+    border-radius:18px;
+
+    background:
+        rgba(14,18,27,.98);
+
+    box-shadow:
+        0 25px 70px
+        rgba(0,0,0,.50);
+
+    backdrop-filter:blur(22px);
 }
 
+.mobile-nav-panel.open{
+    display:block;
+}
+
+.mobile-nav-panel a{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    padding:13px 12px;
+
+    border-radius:10px;
+
+    color:var(--muted);
+
+    font-size:10px;
+
+    font-weight:750;
+}
+
+.mobile-nav-panel a:hover,
+.mobile-nav-panel a.active{
+
+    color:var(--gold-200);
+
+    background:
+        rgba(231,199,126,.07);
+}
+
+.mobile-profile{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    margin-bottom:8px;
+
+    padding:10px;
+
+    border-bottom:
+        1px solid
+        rgba(255,255,255,.06);
+}
+
+.mobile-profile img{
+
+    width:38px;
+    height:38px;
+
+    border-radius:50%;
+
+    object-fit:cover;
+
+    border:
+        1px solid
+        rgba(231,199,126,.25);
+}
+
+.mobile-profile strong{
+
+    display:block;
+
+    color:var(--cream);
+
+    font-size:10px;
+}
+
+.mobile-profile span{
+
+    display:block;
+
+    margin-top:3px;
+
+    color:var(--muted-2);
+
+    font-size:7px;
+}
 
 /* =========================================================
    RESPONSIVE
 ========================================================= */
 
-@media(max-width:1100px){
+@media(max-width:1250px){
 
-  .desktop-nav{
-    display:none;
-  }
+    .desktop-nav{
+        display:none;
+    }
 
-  .mobile-menu{
-    display:grid;
-  }
+    .mobile-menu{
+        display:grid;
+    }
 
-  .stats-grid{
-    grid-template-columns:repeat(2,1fr);
-  }
+    .stats-grid{
+        grid-template-columns:
+            repeat(3,1fr);
+    }
 
-  .info-grid{
-    grid-template-columns:1fr;
-  }
+    .footer-grid{
+        grid-template-columns:
+            1.5fr
+            repeat(3,1fr);
+    }
+}
+
+@media(max-width:950px){
+
+    .stats-grid{
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+    .toolbar{
+
+        align-items:stretch;
+
+        flex-direction:column;
+    }
+
+    .toolbar-left,
+    .toolbar-right{
+        width:100%;
+    }
+
+    .search-box{
+        flex:1;
+    }
+
+    .profile-info,
+    .profile-arrow{
+        display:none;
+    }
+
+    .profile-menu{
+
+        padding:3px;
+
+        border-radius:50%;
+
+        border-color:transparent;
+
+        background:transparent;
+    }
 }
 
 @media(max-width:800px){
 
-  .container{
-    width:min(
-      calc(100% - 28px),
-      var(--container)
-    );
-  }
+    .container{
 
-  .page-header{
-    padding-top:25px;
-  }
+        width:min(
+            calc(100% - 28px),
+            var(--container)
+        );
+    }
 
-  .page-header-card{
-    padding:27px;
-  }
+    .page-heading{
 
-  .toolbar{
-    align-items:stretch;
-    flex-direction:column;
-  }
+        align-items:flex-start;
 
-  .toolbar-right{
-    width:100%;
-  }
+        flex-direction:column;
+    }
 
-  .search-box{
-    width:100%;
-    flex:1;
-  }
+    .application-hero{
+        padding:19px;
+    }
 
-  .footer-grid{
-    grid-template-columns:1fr 1fr;
-  }
+    .footer-grid{
+        grid-template-columns:
+            1fr 1fr;
+    }
 }
 
 @media(max-width:560px){
 
-  .header-inner{
-    min-height:68px;
-  }
+    .header-inner{
+        min-height:68px;
+    }
 
-  .brand-text span{
-    display:none;
-  }
+    .brand-text span{
+        display:none;
+    }
 
-  .header-actions .icon-btn{
-    display:none;
-  }
+    .header-actions
+    .notification-wrap{
+        display:none;
+    }
 
-  .page-header-card{
-    padding:23px;
-    border-radius:22px;
-  }
+    .brand-logo{
 
-  .page-header h1{
-    font-size:36px;
-  }
+        width:42px;
+        height:42px;
 
-  .stats-grid{
-    gap:9px;
-  }
+        border-radius:12px;
+    }
 
-  .stat-card{
-    padding:15px;
-  }
+    .page{
+        padding-top:28px;
+    }
 
-  .stat-value{
-    font-size:22px;
-  }
+    .stats-grid{
+        grid-template-columns:1fr;
+    }
 
-  .toolbar-right{
-    flex-direction:column;
-  }
+    .toolbar-left,
+    .toolbar-right{
 
-  .search-box,
-  .select{
-    width:100%;
-  }
+        flex-direction:column;
 
-  .footer-grid{
-    grid-template-columns:1fr;
-  }
+        align-items:stretch;
+    }
 
-  .footer-bottom{
-    flex-direction:column;
-  }
+    .search-box{
+        min-width:0;
+    }
 
-  .ai-floating{
-    right:14px;
-    bottom:14px;
-  }
+    .toolbar-right .select{
+        width:100%;
+    }
+
+    .footer-grid{
+        grid-template-columns:1fr;
+    }
+
+    .footer-bottom{
+        flex-direction:column;
+    }
+
+    .ai-floating{
+
+        right:14px;
+        bottom:14px;
+    }
+
+    .ai-floating .ai-text{
+        display:none;
+    }
 }
+
 </style>
+
 </head>
 
 <body>
 
 <div class="page-glow"></div>
 
-
-<!-- =========================================================
+<!-- =======================================================
      HEADER
-========================================================= -->
+======================================================= -->
 
 <header class="site-header">
 
-  <div class="container header-inner">
+<div class="container header-inner">
 
-    <a
-      class="brand"
-      href="/seller/index.html"
-      aria-label="GHAR Seller Home"
-    >
+<a
+    class="brand"
+    href="/seller/index.html"
+    aria-label="GHAR Seller Home"
+>
 
-      <div class="brand-mark">G</div>
+<div class="brand-logo">
 
-      <div class="brand-text">
+<img
+    src="../assets/images/logo/ghar-logo-light.svg"
+    alt="GHAR"
+    onerror="
+        this.style.display='none';
+        this.nextElementSibling.style.display='grid';
+    "
+>
 
-        <strong>GHAR</strong>
+<div
+    class="brand-logo-fallback"
+    style="display:none"
+>
+    G
+</div>
 
-        <span>Seller Experience</span>
+</div>
 
-      </div>
+<div class="brand-text">
 
-    </a>
+<strong>GHAR</strong>
 
+<span>Seller Experience</span>
 
-    <nav
-      class="desktop-nav"
-      aria-label="Seller navigation"
-    >
+</div>
 
-      <a href="/seller/index.html">
-        Home
-      </a>
+</a>
 
-      <a href="/seller/dashboard.html">
-        Dashboard
-      </a>
+<nav
+    class="desktop-nav"
+    aria-label="Seller navigation"
+>
 
-      <a href="/seller/list-property.html">
-        List Property
-      </a>
+<a href="/seller/index.html">
+    Dashboard
+</a>
 
-      <a href="/seller/property-approval.html">
-        Approvals
-      </a>
+<a href="/seller/properties.html">
+    Properties
+</a>
 
-      <a href="/seller/visits.html">
-        Visits
-      </a>
+<a href="/seller/list-property.html">
+    List Property
+</a>
 
-      <a href="/seller/leads.html">
-        Leads
-      </a>
+<a href="/seller/leads.html">
+    Leads
+</a>
 
-      <a href="/seller/offers.html">
-        Offers
-      </a>
+<a href="/seller/visits.html">
+    Visits
+</a>
 
-      <a
-        class="active"
-        href="/seller/applications.html"
-      >
-        Applications
-      </a>
+<a href="/seller/offers.html">
+    Offers
+</a>
 
-    </nav>
+<a
+    class="active"
+    href="/seller/applications.html"
+>
+    Applications
+</a>
 
+<a href="/seller/documents.html">
+    Documents
+</a>
 
-    <div class="header-actions">
+<a href="/seller/payments.html">
+    Payments
+</a>
 
-      <button
-        class="icon-btn"
-        id="notificationButton"
-        type="button"
-        aria-label="Notifications"
-      >
-        ♢
-      </button>
+</nav>
 
-      <a
-        class="avatar"
-        id="profileButton"
-        href="/seller/profile.html"
-        aria-label="Seller profile"
-      >
-        S
-      </a>
+<div class="header-actions">
 
-      <button
-        class="icon-btn mobile-menu"
-        id="menuButton"
-        type="button"
-        aria-label="Open menu"
-      >
-        ☰
-      </button>
+<div class="notification-wrap">
 
-    </div>
+<button
+    class="icon-btn"
+    id="notificationButton"
+    type="button"
+    aria-label="Notifications"
+>
+    ♢
+</button>
 
-  </div>
+<span
+    class="notification-dot"
+    aria-hidden="true"
+></span>
+
+</div>
+
+<a
+    class="profile-menu"
+    href="/seller/profile.html"
+>
+
+<img
+    id="profileImage"
+    src="../assets/images/profile/seller-default.jpg"
+    alt="Seller profile"
+    onerror="
+        this.src='../assets/images/profile/default-avatar.jpg'
+    "
+>
+
+<span class="profile-info">
+
+<strong id="profileName">
+    Seller
+</strong>
+
+<small>
+    Seller account
+</small>
+
+</span>
+
+<span class="profile-arrow">
+    ⌄
+</span>
+
+</a>
+
+<button
+    class="icon-btn mobile-menu"
+    id="menuButton"
+    type="button"
+    aria-label="Open seller menu"
+    aria-expanded="false"
+>
+    ☰
+</button>
+
+</div>
+
+</div>
 
 </header>
 
+<!-- =======================================================
+     MOBILE NAV
+======================================================= -->
+
+<div
+    class="mobile-nav-panel"
+    id="mobileNav"
+>
+
+<div class="mobile-profile">
+
+<img
+    id="mobileProfileImage"
+    src="../assets/images/profile/seller-default.jpg"
+    alt="Seller profile"
+    onerror="
+        this.src='../assets/images/profile/default-avatar.jpg'
+    "
+>
+
+<div>
+
+<strong id="mobileProfileName">
+    Seller
+</strong>
+
+<span>
+    GHAR Seller Account
+</span>
+
+</div>
+
+</div>
+
+<a href="/seller/index.html">
+    Dashboard <span>›</span>
+</a>
+
+<a href="/seller/properties.html">
+    Properties <span>›</span>
+</a>
+
+<a href="/seller/list-property.html">
+    List Property <span>›</span>
+</a>
+
+<a href="/seller/leads.html">
+    Leads <span>›</span>
+</a>
+
+<a href="/seller/visits.html">
+    Visits <span>›</span>
+</a>
+
+<a href="/seller/offers.html">
+    Offers <span>›</span>
+</a>
+
+<a
+    class="active"
+    href="/seller/applications.html"
+>
+    Applications <span>›</span>
+</a>
+
+<a href="/seller/documents.html">
+    Documents <span>›</span>
+</a>
+
+<a href="/seller/payments.html">
+    Payments <span>›</span>
+</a>
+
+<a href="/seller/referrals.html">
+    Referrals <span>›</span>
+</a>
+
+<a href="/seller/messages.html">
+    Messages <span>›</span>
+</a>
+
+<a href="/seller/profile.html">
+    Profile <span>›</span>
+</a>
+
+<a href="/seller/settings.html">
+    Settings <span>›</span>
+</a>
+
+</div>
+
+<!-- =======================================================
+     MAIN
+======================================================= -->
 
 <main>
 
+<section class="page">
 
-<!-- =========================================================
-     PAGE HEADER
-========================================================= -->
+<div class="container">
 
-<section class="page-header">
+<!-- =====================================================
+     PAGE HEADING
+====================================================== -->
 
-  <div class="container">
+<div class="page-heading">
 
-    <div class="page-header-card">
+<div>
 
-      <div class="eyebrow">
-        SELLER APPLICATION MANAGEMENT
-      </div>
+<div class="eyebrow">
+    SELLER WORKSPACE
+</div>
 
-      <h1>
-        Manage buyer
-        <span>applications.</span>
-      </h1>
+<h1>
+    Buyer applications.
+</h1>
 
-      <p>
-        Review applications connected to your properties,
-        monitor buyer progress, check submitted information
-        and move each application through the transaction
-        workflow.
-      </p>
+<p>
+    Review property applications submitted by interested
+    buyers, track their current status and move qualified
+    applications through the GHAR transaction workflow.
+</p>
 
-    </div>
+</div>
 
-  </div>
+<div class="heading-actions">
+
+<a
+    class="btn btn-secondary"
+    href="/seller/properties.html"
+>
+    My properties
+</a>
+
+<a
+    class="btn btn-primary"
+    href="/seller/leads.html"
+>
+    View leads
+</a>
+
+</div>
+
+</div>
+
+<!-- =====================================================
+     HERO
+====================================================== -->
+
+<section class="application-hero">
+
+<div class="hero-content">
+
+<div class="hero-title">
+    Application management
+</div>
+
+<div class="hero-subtitle">
+    Keep track of buyer applications connected to your
+    listed properties. Review the application, verify
+    submitted information and continue the appropriate
+    seller workflow.
+</div>
+
+<div class="stats-grid">
+
+<div class="stat-card">
+
+<div class="stat-label">
+    Total applications
+</div>
+
+<div
+    class="stat-value"
+    id="totalApplications"
+>
+    0
+</div>
+
+<div class="stat-note">
+    All submitted applications
+</div>
+
+</div>
+
+<div class="stat-card">
+
+<div class="stat-label">
+    Pending
+</div>
+
+<div
+    class="stat-value"
+    id="pendingApplications"
+>
+    0
+</div>
+
+<div class="stat-note">
+    Awaiting seller review
+</div>
+
+</div>
+
+<div class="stat-card">
+
+<div class="stat-label">
+    Under review
+</div>
+
+<div
+    class="stat-value"
+    id="reviewApplications"
+>
+    0
+</div>
+
+<div class="stat-note">
+    Currently being evaluated
+</div>
+
+</div>
+
+<div class="stat-card">
+
+<div class="stat-label">
+    Approved
+</div>
+
+<div
+    class="stat-value"
+    id="approvedApplications"
+>
+    0
+</div>
+
+<div class="stat-note">
+    Seller-approved applications
+</div>
+
+</div>
+
+<div class="stat-card">
+
+<div class="stat-label">
+    Rejected
+</div>
+
+<div
+    class="stat-value"
+    id="rejectedApplications"
+>
+    0
+</div>
+
+<div class="stat-note">
+    Applications not approved
+</div>
+
+</div>
+
+</div>
+
+</div>
 
 </section>
 
+<!-- =====================================================
+     TOOLBAR
+====================================================== -->
 
-<!-- =========================================================
-     STATS
-========================================================= -->
+<div class="toolbar">
 
-<section class="section">
+<div class="toolbar-left">
 
-  <div class="container">
+<div class="search-box">
 
-    <div class="stats-grid">
+<span>
+    ⌕
+</span>
 
-      <article class="stat-card">
+<input
+    id="applicationSearch"
+    type="search"
+    placeholder="Search property or application ID..."
+    autocomplete="off"
+>
 
-        <div class="stat-top">
+</div>
 
-          <span class="stat-label">
-            Total
-          </span>
+<select
+    id="statusFilter"
+    class="select"
+>
 
-          <div class="stat-icon">
-            ▣
-          </div>
+<option value="">
+    All statuses
+</option>
 
-        </div>
+<option value="pending">
+    Pending
+</option>
 
-        <div
-          class="stat-value"
-          id="totalApplications"
-        >
-          0
-        </div>
+<option value="review">
+    Under review
+</option>
 
-        <div class="stat-note">
-          Buyer applications
-        </div>
+<option value="approved">
+    Approved
+</option>
 
-      </article>
+<option value="rejected">
+    Rejected
+</option>
 
+<option value="withdrawn">
+    Withdrawn
+</option>
 
-      <article class="stat-card">
+</select>
 
-        <div class="stat-top">
+<select
+    id="propertyFilter"
+    class="select"
+>
 
-          <span class="stat-label">
-            Pending
-          </span>
+<option value="">
+    All properties
+</option>
 
-          <div class="stat-icon">
-            ◷
-          </div>
+</select>
 
-        </div>
+</div>
 
-        <div
-          class="stat-value"
-          id="pendingApplications"
-        >
-          0
-        </div>
+<div class="toolbar-right">
 
-        <div class="stat-note">
-          Awaiting review
-        </div>
+<select
+    id="sortFilter"
+    class="select"
+>
 
-      </article>
+<option value="recent">
+    Newest first
+</option>
 
+<option value="oldest">
+    Oldest first
+</option>
 
-      <article class="stat-card">
+<option value="amount-high">
+    Highest amount
+</option>
 
-        <div class="stat-top">
+<option value="amount-low">
+    Lowest amount
+</option>
 
-          <span class="stat-label">
-            Approved
-          </span>
+</select>
 
-          <div class="stat-icon">
-            ✓
-          </div>
+<button
+    id="refreshButton"
+    class="btn btn-secondary"
+    type="button"
+>
+    ↻ Refresh
+</button>
 
-        </div>
+</div>
 
-        <div
-          class="stat-value"
-          id="approvedApplications"
-        >
-          0
-        </div>
+</div>
 
-        <div class="stat-note">
-          Approved applications
-        </div>
+<!-- =====================================================
+     APPLICATION PANEL
+====================================================== -->
 
-      </article>
+<section class="applications-panel">
 
+<div class="panel-header">
 
-      <article class="stat-card">
+<div>
 
-        <div class="stat-top">
+<h2>
+    Buyer applications
+</h2>
 
-          <span class="stat-label">
-            Offers
-          </span>
+<p>
+    Applications associated with your seller properties.
+</p>
 
-          <div class="stat-icon">
-            ₹
-          </div>
+</div>
 
-        </div>
+<div>
 
-        <div
-          class="stat-value"
-          id="offerApplications"
-        >
-          0
-        </div>
+<span
+    class="results-count"
+    id="resultsCount"
+>
+    0 applications
+</span>
 
-        <div class="stat-note">
-          Applications with offers
-        </div>
+</div>
 
-      </article>
+</div>
 
-    </div>
+<div
+    id="applicationsContainer"
+>
 
-  </div>
+<div class="loading-state">
+
+<div class="loading-spinner"></div>
+
+Loading seller applications...
+
+</div>
+
+</div>
 
 </section>
 
-
-<!-- =========================================================
-     APPLICATIONS
-========================================================= -->
-
-<section class="section">
-
-  <div class="container">
-
-    <div class="toolbar">
-
-      <div class="toolbar-left">
-
-        <h2>
-          Buyer applications
-        </h2>
-
-        <p>
-          Review and manage applications received for your listings.
-        </p>
-
-      </div>
-
-
-      <div class="toolbar-right">
-
-        <input
-          id="applicationSearch"
-          class="search-box"
-          type="search"
-          placeholder="Search buyer or property..."
-          autocomplete="off"
-        >
-
-        <select
-          id="statusFilter"
-          class="select"
-          aria-label="Filter applications"
-        >
-
-          <option value="all">
-            All statuses
-          </option>
-
-          <option value="pending">
-            Pending
-          </option>
-
-          <option value="review">
-            Under review
-          </option>
-
-          <option value="approved">
-            Approved
-          </option>
-
-          <option value="rejected">
-            Rejected
-          </option>
-
-          <option value="withdrawn">
-            Withdrawn
-          </option>
-
-        </select>
-
-      </div>
-
-    </div>
-
-
-    <div class="application-panel">
-
-      <div class="table-wrap">
-
-        <table class="application-table">
-
-          <thead>
-
-            <tr>
-
-              <th>
-                Buyer
-              </th>
-
-              <th>
-                Property
-              </th>
-
-              <th>
-                Application
-              </th>
-
-              <th>
-                Offer
-              </th>
-
-              <th>
-                Submitted
-              </th>
-
-              <th>
-                Status
-              </th>
-
-              <th>
-                Actions
-              </th>
-
-            </tr>
-
-          </thead>
-
-          <tbody id="applicationTableBody">
-
-            <!-- JS -->
-
-          </tbody>
-
-        </table>
-
-      </div>
-
-
-      <div
-        id="emptyState"
-        class="empty-state"
-      >
-
-        <div class="empty-icon">
-          ▣
-        </div>
-
-        <h3>
-          No applications found
-        </h3>
-
-        <p>
-          Applications matching your current search and
-          status filter will appear here.
-        </p>
-
-      </div>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- =========================================================
-     WORKFLOW + AI
-========================================================= -->
-
-<section class="section">
-
-  <div class="container">
-
-    <div class="info-grid">
-
-
-      <div class="panel">
-
-        <div class="panel-title">
-
-          <h3>
-            Application workflow
-          </h3>
-
-          <span>
-            Seller process
-          </span>
-
-        </div>
-
-
-        <div class="steps">
-
-          <div class="step">
-
-            <div class="step-number">
-              01
-            </div>
-
-            <div>
-
-              <strong>
-                Receive application
-              </strong>
-
-              <span>
-                A buyer submits an application for one of
-                your active properties.
-              </span>
-
-            </div>
-
-          </div>
-
-
-          <div class="step">
-
-            <div class="step-number">
-              02
-            </div>
-
-            <div>
-
-              <strong>
-                Review buyer information
-              </strong>
-
-              <span>
-                Review the available buyer information,
-                application details and supporting documents.
-              </span>
-
-            </div>
-
-          </div>
-
-
-          <div class="step">
-
-            <div class="step-number">
-              03
-            </div>
-
-            <div>
-
-              <strong>
-                Evaluate offer
-              </strong>
-
-              <span>
-                Compare the proposed price and transaction
-                terms with your listing requirements.
-              </span>
-
-            </div>
-
-          </div>
-
-
-          <div class="step">
-
-            <div class="step-number">
-              04
-            </div>
-
-            <div>
-
-              <strong>
-                Approve or reject
-              </strong>
-
-              <span>
-                Update the application status and continue
-                the transaction through GHAR.
-              </span>
-
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <aside class="panel ai-panel">
-
-        <div class="ai-badge">
-          ✦ GHAR AI
-        </div>
-
-        <h3>
-          Review applications
-          more efficiently.
-        </h3>
-
-        <p>
-          Use GHAR AI to summarize application information,
-          compare buyers and identify important items that
-          may need your attention.
-        </p>
-
-        <button
-          id="openAI"
-          class="btn btn-primary ai-button"
-          type="button"
-        >
-          ✦ Open Seller AI
-        </button>
-
-      </aside>
-
-    </div>
-
-  </div>
+</div>
 
 </section>
 
 </main>
 
-
-<!-- =========================================================
+<!-- =======================================================
      FOOTER
-========================================================= -->
+======================================================= -->
 
 <footer class="site-footer">
 
-  <div class="container">
+<div class="container">
 
-    <div class="footer-grid">
+<div class="footer-top-line"></div>
 
+<div class="footer-grid">
 
-      <div class="footer-brand">
+<div class="footer-brand">
 
-        <div class="brand">
+<a
+    class="brand"
+    href="/seller/index.html"
+>
 
-          <div class="brand-mark">
-            G
-          </div>
+<div class="brand-logo">
 
-          <div class="brand-text">
+<img
+    src="../assets/images/logo/ghar-logo-light.svg"
+    alt="GHAR"
+    onerror="
+        this.style.display='none';
+        this.nextElementSibling.style.display='grid';
+    "
+>
 
-            <strong>
-              GHAR
-            </strong>
+<div
+    class="brand-logo-fallback"
+    style="display:none"
+>
+    G
+</div>
 
-            <span>
-              Real Estate Platform
-            </span>
+</div>
 
-          </div>
+<div class="brand-text">
 
-        </div>
+<strong>GHAR</strong>
 
-        <p>
-          A connected real estate platform for listing,
-          managing, selling and completing property transactions.
-        </p>
+<span>Real Estate Platform</span>
 
-      </div>
+</div>
 
+</a>
 
-      <div class="footer-col">
+<p>
+    A connected real estate platform for property owners,
+    sellers and buyers to manage listings, applications,
+    transactions and property workflows through one secure
+    digital experience.
+</p>
 
-        <h4>
-          Seller
-        </h4>
+<div class="footer-trust">
 
-        <a href="/seller/dashboard.html">
-          Dashboard
-        </a>
+<span class="trust-pill">
+    Seller Portal
+</span>
 
-        <a href="/seller/list-property.html">
-          List Property
-        </a>
+<span class="trust-pill">
+    Secure Workflows
+</span>
 
-        <a href="/seller/edit-property.html">
-          Edit Property
-        </a>
+<span class="trust-pill">
+    AI Assisted
+</span>
 
-        <a href="/seller/property-approval.html">
-          Approvals
-        </a>
+<span class="trust-pill">
+    Property Intelligence
+</span>
 
-      </div>
+</div>
 
+</div>
 
-      <div class="footer-col">
+<div class="footer-col">
 
-        <h4>
-          Transactions
-        </h4>
+<h4>
+    Seller
+</h4>
 
-        <a href="/seller/visits.html">
-          Visits
-        </a>
+<a href="/seller/index.html">
+    Dashboard
+</a>
 
-        <a href="/seller/leads.html">
-          Leads
-        </a>
+<a href="/seller/properties.html">
+    My Properties
+</a>
 
-        <a href="/seller/offers.html">
-          Offers
-        </a>
+<a href="/seller/list-property.html">
+    List Property
+</a>
 
-        <a href="/seller/payments.html">
-          Payments
-        </a>
+<a href="/seller/leads.html">
+    Leads
+</a>
 
-      </div>
+<a href="/seller/applications.html">
+    Applications
+</a>
 
+</div>
 
-      <div class="footer-col">
+<div class="footer-col">
 
-        <h4>
-          Support
-        </h4>
+<h4>
+    Transactions
+</h4>
 
-        <a href="/seller/profile.html">
-          Profile
-        </a>
+<a href="/seller/visits.html">
+    Visits
+</a>
 
-        <a href="/seller/applications.html">
-          Applications
-        </a>
+<a href="/seller/offers.html">
+    Offers
+</a>
 
-        <a href="/seller/support.html">
-          Support
-        </a>
+<a href="/seller/documents.html">
+    Documents
+</a>
 
-        <a href="/help-centre.html">
-          Help Centre
-        </a>
+<a href="/seller/payments.html">
+    Payments
+</a>
 
-      </div>
+<a href="/seller/referrals.html">
+    Referrals
+</a>
 
-    </div>
+</div>
 
+<div class="footer-col">
 
-    <div class="footer-bottom">
+<h4>
+    Services
+</h4>
 
-      <span>
-        © <span id="footerYear"></span> GHAR.
-        All rights reserved.
-      </span>
+<a href="/ai.html">
+    GHAR AI
+</a>
 
-      <span>
-        Seller Portal · Secure Session
-      </span>
+<a href="/ai-loan-advisor.html">
+    Loan Advisor
+</a>
 
-    </div>
+<a href="/ai-investment-advisor.html">
+    Investment Advisor
+</a>
 
-  </div>
+<a href="/seller/messages.html">
+    Messages
+</a>
+
+<a href="/seller/support.html">
+    Seller Support
+</a>
+
+</div>
+
+<div class="footer-col">
+
+<h4>
+    Account
+</h4>
+
+<a href="/seller/profile.html">
+    Profile
+</a>
+
+<a href="/seller/settings.html">
+    Settings
+</a>
+
+<a href="/help-centre.html">
+    Help Centre
+</a>
+
+<a href="/privacy-policy.html">
+    Privacy
+</a>
+
+<a href="/terms.html">
+    Terms
+</a>
+
+</div>
+
+</div>
+
+<div class="footer-bottom">
+
+<span>
+    ©
+    <span id="footerYear"></span>
+    GHAR. All rights reserved.
+</span>
+
+<span>
+    Seller Portal · Secure Session
+</span>
+
+</div>
+
+</div>
 
 </footer>
 
-
-<!-- =========================================================
-     AI FLOATING
-========================================================= -->
+<!-- =======================================================
+     AI
+======================================================= -->
 
 <button
-  id="aiFloating"
-  class="ai-floating"
-  type="button"
+    id="openAI"
+    class="ai-floating"
+    type="button"
+    aria-label="Ask GHAR AI"
 >
-  ✦ Ask GHAR AI
+
+<span class="ai-icon">
+    ✦
+</span>
+
+<span class="ai-text">
+    Ask GHAR AI
+</span>
+
 </button>
 
-
 <script>
-"use strict";
 
+"use strict";
 
 /* =========================================================
    CONFIG
 ========================================================= */
 
 const API_BASE =
-  window.GHAR_API_BASE ||
-  window.API_BASE ||
-  "/api";
+    window.GHAR_API_BASE ||
+    window.API_BASE ||
+    "/api";
 
+const applicationsContainer =
+    document.getElementById(
+        "applicationsContainer"
+    );
 
-const APPLICATION_API =
-  API_BASE +
-  "/applications";
-
+let applications = [];
 
 /* =========================================================
    HELPERS
 ========================================================= */
 
 function $(selector){
-  return document.querySelector(selector);
+    return document.querySelector(selector);
 }
-
 
 function escapeHTML(value){
 
-  return String(value ?? "")
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
+    return String(value ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
 }
 
+async function apiRequest(
+    url,
+    options={}
+){
+
+    const response =
+        await fetch(
+            url,
+            {
+                credentials:"include",
+
+                headers:{
+                    "Accept":
+                        "application/json",
+
+                    "Content-Type":
+                        "application/json",
+
+                    ...(options.headers || {})
+                },
+
+                ...options
+            }
+        );
+
+    let data=null;
+
+    try{
+
+        data =
+            await response.json();
+
+    }catch{
+
+        data=null;
+
+    }
+
+    if(!response.ok){
+
+        const error =
+            new Error(
+                data?.error?.message ||
+                data?.message ||
+                "Request failed."
+            );
+
+        error.status =
+            response.status;
+
+        error.data =
+            data;
+
+        throw error;
+    }
+
+    return data;
+}
 
 function normalizeCollection(response){
 
-  if(Array.isArray(response)){
-    return response;
-  }
+    if(Array.isArray(response))
+        return response;
 
-  if(Array.isArray(response?.data)){
-    return response.data;
-  }
+    if(Array.isArray(response?.data))
+        return response.data;
 
-  if(Array.isArray(response?.applications)){
-    return response.applications;
-  }
+    if(Array.isArray(response?.applications))
+        return response.applications;
 
-  if(Array.isArray(response?.items)){
-    return response.items;
-  }
+    if(Array.isArray(response?.items))
+        return response.items;
 
-  if(Array.isArray(response?.results)){
-    return response.results;
-  }
+    if(Array.isArray(response?.results))
+        return response.results;
 
-  return [];
+    return [];
 }
 
+/* =========================================================
+   APPLICATION HELPERS
+========================================================= */
 
-async function apiRequest(url,options={}){
+function applicationId(application){
 
-  const response =
-    await fetch(
-      url,
-      {
-        credentials:"include",
-
-        headers:{
-          "Accept":"application/json",
-          "Content-Type":"application/json",
-          ...(options.headers || {})
-        },
-
-        ...options
-      }
+    return String(
+        application.id ||
+        application.applicationId ||
+        application._id ||
+        ""
     );
-
-
-  let data=null;
-
-  try{
-    data=await response.json();
-  }catch{
-    data=null;
-  }
-
-
-  if(!response.ok){
-
-    const error=
-      new Error(
-        data?.error?.message ||
-        data?.message ||
-        "Request failed."
-      );
-
-    error.status=response.status;
-    error.data=data;
-
-    throw error;
-  }
-
-
-  return data;
 }
 
+function applicationStatus(application){
 
-/* =========================================================
-   APPLICATION DATA
-========================================================= */
-
-let applications=[];
-
-
-const fallbackApplications=[
-  {
-    id:"GHAR-APP-1001",
-    buyer:{
-      name:"Aarav Sharma",
-      email:"aarav@example.com"
-    },
-    property:{
-      id:"GHAR-P001",
-      title:"Premium 3 BHK Residence",
-      location:"Noida, Uttar Pradesh"
-    },
-    offerAmount:8500000,
-    submittedAt:"2026-09-29",
-    status:"pending"
-  },
-  {
-    id:"GHAR-APP-1002",
-    buyer:{
-      name:"Priya Verma",
-      email:"priya@example.com"
-    },
-    property:{
-      id:"GHAR-P014",
-      title:"Modern Family Apartment",
-      location:"Greater Noida"
-    },
-    offerAmount:7200000,
-    submittedAt:"2026-09-26",
-    status:"review"
-  },
-  {
-    id:"GHAR-APP-1003",
-    buyer:{
-      name:"Rahul Mehta",
-      email:"rahul@example.com"
-    },
-    property:{
-      id:"GHAR-P021",
-      title:"Luxury Garden Villa",
-      location:"Gurgaon, Haryana"
-    },
-    offerAmount:14500000,
-    submittedAt:"2026-09-21",
-    status:"approved"
-  }
-];
-
-
-/* =========================================================
-   FETCH APPLICATIONS
-========================================================= */
-
-async function loadApplications(){
-
-  try{
-
-    const response=
-      await apiRequest(
-        APPLICATION_API +
-        "?role=seller"
-      );
-
-    applications=
-      normalizeCollection(
-        response
-      );
-
-  }catch(error){
-
-    console.warn(
-      "GHAR applications API:",
-      error
-    );
-
-    /*
-     * UI remains functional while the API
-     * endpoint is being connected.
-     */
-
-    applications=
-      fallbackApplications;
-  }
-
-
-  renderApplications();
-  updateStats();
-}
-
-
-/* =========================================================
-   STATUS
-========================================================= */
-
-function normalizeStatus(status){
-
-  const value=
-    String(
-      status ||
-      "pending"
+    return String(
+        application.status ||
+        application.applicationStatus ||
+        "pending"
     )
     .toLowerCase()
     .replace(/\s+/g,"-");
-
-
-  if(
-    value==="under-review" ||
-    value==="under_review"
-  ){
-    return "review";
-  }
-
-
-  return value;
 }
-
 
 function statusLabel(status){
 
-  const labels={
-    pending:"Pending",
-    review:"Under review",
-    approved:"Approved",
-    rejected:"Rejected",
-    withdrawn:"Withdrawn"
-  };
+    const labels = {
 
-  return (
-    labels[
-      normalizeStatus(status)
-    ] ||
-    "Pending"
-  );
-}
+        pending:"Pending",
 
+        review:"Under review",
 
-/* =========================================================
-   DATE
-========================================================= */
+        "under-review":
+            "Under review",
 
-function formatDate(value){
+        approved:"Approved",
 
-  if(!value){
-    return "--";
-  }
+        rejected:"Rejected",
 
-  const date=
-    new Date(value);
+        withdrawn:"Withdrawn"
 
-  if(
-    Number.isNaN(
-      date.getTime()
-    )
-  ){
-    return String(value);
-  }
+    };
 
-  return date.toLocaleDateString(
-    "en-IN",
-    {
-      day:"2-digit",
-      month:"short",
-      year:"numeric"
-    }
-  );
-}
-
-
-/* =========================================================
-   MONEY
-========================================================= */
-
-function formatMoney(value){
-
-  const amount=
-    Number(value);
-
-  if(
-    !Number.isFinite(amount)
-  ){
-    return "--";
-  }
-
-
-  if(
-    amount>=10000000
-  ){
-
-    return "₹"+
-      (
-        amount/10000000
-      ).toFixed(2)+
-      " Cr";
-  }
-
-
-  if(
-    amount>=100000
-  ){
-
-    return "₹"+
-      (
-        amount/100000
-      ).toFixed(2)+
-      " L";
-  }
-
-
-  return "₹"+
-    amount.toLocaleString(
-      "en-IN"
+    return (
+        labels[status] ||
+        "Pending"
     );
 }
 
+function propertyId(application){
 
-/* =========================================================
-   BUYER INITIAL
-========================================================= */
-
-function buyerInitial(application){
-
-  const name=
-    application?.buyer?.name ||
-    application?.buyerName ||
-    application?.user?.name ||
-    "Buyer";
-
-  return name
-    .trim()
-    .charAt(0)
-    .toUpperCase();
+    return String(
+        application.propertyId ||
+        application.property?.id ||
+        application.property?._id ||
+        ""
+    );
 }
 
+function propertyTitle(application){
 
-/* =========================================================
-   APPLICATION NORMALIZATION
-========================================================= */
-
-function applicationValue(application){
-
-  return {
-
-    id:
-      application.id ||
-      application.applicationId ||
-      application._id ||
-      "--",
-
-    buyerName:
-      application.buyer?.name ||
-      application.buyerName ||
-      application.user?.name ||
-      "Buyer",
-
-    buyerEmail:
-      application.buyer?.email ||
-      application.buyerEmail ||
-      application.user?.email ||
-      "Email unavailable",
-
-    propertyTitle:
-      application.property?.title ||
-      application.propertyTitle ||
-      application.property?.name ||
-      "Property",
-
-    propertyId:
-      application.property?.id ||
-      application.propertyId ||
-      "--",
-
-    offer:
-      application.offerAmount ||
-      application.offer?.amount ||
-      application.amount ||
-      0,
-
-    submitted:
-      application.submittedAt ||
-      application.createdAt ||
-      application.date ||
-      "",
-
-    status:
-      normalizeStatus(
-        application.status
-      )
-
-  };
+    return (
+        application.property?.title ||
+        application.property?.name ||
+        application.propertyTitle ||
+        application.propertyName ||
+        "GHAR Property"
+    );
 }
 
+function propertyLocation(application){
+
+    return (
+        application.property?.location ||
+        application.property?.locality ||
+        application.property?.city ||
+        application.location ||
+        "Location available"
+    );
+}
+
+function propertyImage(application){
+
+    const property =
+        application.property || {};
+
+    const images =
+        Array.isArray(property.images)
+            ? property.images
+            : [];
+
+    return (
+        property.image ||
+        property.coverImage ||
+        property.thumbnail ||
+        application.propertyImage ||
+        images[0] ||
+        "../assets/images/properties/property-placeholder.jpg"
+    );
+}
+
+/*
+ * Buyer private contact details are intentionally
+ * not displayed on the seller application list.
+ */
+
+function applicantName(application){
+
+    const applicant =
+        application.applicant ||
+        application.buyer ||
+        application.user ||
+        {};
+
+    const name =
+        applicant.name ||
+        applicant.fullName ||
+        application.applicantName ||
+        application.buyerName ||
+        "Buyer";
+
+    const parts =
+        String(name)
+            .trim()
+            .split(/\s+/);
+
+    if(parts.length > 1){
+
+        return (
+            parts[0] +
+            " " +
+            parts[1].charAt(0) +
+            "."
+        );
+
+    }
+
+    return parts[0] || "Buyer";
+}
+
+function applicationAmount(application){
+
+    return Number(
+        application.amount ||
+        application.offerAmount ||
+        application.applicationAmount ||
+        application.property?.price ||
+        0
+    );
+}
+
+function formatAmount(value){
+
+    const amount =
+        Number(value);
+
+    if(
+        !Number.isFinite(amount) ||
+        amount<=0
+    ){
+
+        return "Not specified";
+
+    }
+
+    if(amount>=10000000){
+
+        return (
+            "₹"+
+            (amount/10000000)
+                .toFixed(2)+
+            " Cr"
+        );
+
+    }
+
+    if(amount>=100000){
+
+        return (
+            "₹"+
+            (amount/100000)
+                .toFixed(2)+
+            " L"
+        );
+
+    }
+
+    return (
+        "₹"+
+        amount.toLocaleString(
+            "en-IN"
+        )
+    );
+}
+
+function applicationDate(application){
+
+    return (
+        application.createdAt ||
+        application.submittedAt ||
+        application.applicationDate ||
+        application.date ||
+        ""
+    );
+}
+
+function formatDate(value){
+
+    if(!value)
+        return "--";
+
+    const date =
+        new Date(value);
+
+    if(
+        Number.isNaN(
+            date.getTime()
+        )
+    ){
+
+        return String(value);
+
+    }
+
+    return date.toLocaleDateString(
+        "en-IN",
+        {
+            day:"2-digit",
+            month:"short",
+            year:"numeric"
+        }
+    );
+}
+
+/* =========================================================
+   STATUS CLASS
+========================================================= */
+
+function statusClass(status){
+
+    if(
+        status==="approved"
+    )
+        return "approved";
+
+    if(
+        status==="rejected"
+    )
+        return "rejected";
+
+    if(
+        status==="review" ||
+        status==="under-review"
+    )
+        return "review";
+
+    if(
+        status==="withdrawn"
+    )
+        return "withdrawn";
+
+    return "pending";
+}
+
+/* =========================================================
+   STATISTICS
+========================================================= */
+
+function updateStats(){
+
+    const total =
+        applications.length;
+
+    const pending =
+        applications.filter(
+            item =>
+                applicationStatus(item)==="pending"
+        ).length;
+
+    const review =
+        applications.filter(
+            item => {
+
+                const status =
+                    applicationStatus(item);
+
+                return (
+                    status==="review" ||
+                    status==="under-review"
+                );
+
+            }
+        ).length;
+
+    const approved =
+        applications.filter(
+            item =>
+                applicationStatus(item)==="approved"
+        ).length;
+
+    const rejected =
+        applications.filter(
+            item =>
+                applicationStatus(item)==="rejected"
+        ).length;
+
+    $("#totalApplications")
+        .textContent=total;
+
+    $("#pendingApplications")
+        .textContent=pending;
+
+    $("#reviewApplications")
+        .textContent=review;
+
+    $("#approvedApplications")
+        .textContent=approved;
+
+    $("#rejectedApplications")
+        .textContent=rejected;
+}
+
+/* =========================================================
+   PROPERTY FILTER
+========================================================= */
+
+function populatePropertyFilter(){
+
+    const select =
+        $("#propertyFilter");
+
+    if(!select)
+        return;
+
+    const existing =
+        new Map();
+
+    applications.forEach(
+        application => {
+
+            const id =
+                propertyId(application);
+
+            const title =
+                propertyTitle(application);
+
+            if(id)
+                existing.set(
+                    id,
+                    title
+                );
+
+        }
+    );
+
+    select.innerHTML =
+        `
+        <option value="">
+            All properties
+        </option>
+        `;
+
+    existing.forEach(
+        (title,id) => {
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+            option.value=id;
+
+            option.textContent=title;
+
+            select.appendChild(
+                option
+            );
+
+        }
+    );
+}
 
 /* =========================================================
    FILTER
 ========================================================= */
 
-function filteredApplications(){
+function getFilteredApplications(){
 
-  const query=
-    $("#applicationSearch")
-      ?.value
-      .trim()
-      .toLowerCase() ||
-    "";
+    const query =
+        $("#applicationSearch")
+            ?.value
+            .trim()
+            .toLowerCase() || "";
 
-  const status=
-    $("#statusFilter")
-      ?.value ||
-    "all";
+    const status =
+        $("#statusFilter")
+            ?.value
+            .toLowerCase() || "";
 
+    const property =
+        $("#propertyFilter")
+            ?.value || "";
 
-  return applications
-    .map(applicationValue)
-    .filter(application=>{
+    const sort =
+        $("#sortFilter")
+            ?.value || "recent";
 
-      const matchesSearch=
-        !query ||
-        application.buyerName
-          .toLowerCase()
-          .includes(query) ||
-        application.buyerEmail
-          .toLowerCase()
-          .includes(query) ||
-        application.propertyTitle
-          .toLowerCase()
-          .includes(query) ||
-        application.propertyId
-          .toLowerCase()
-          .includes(query) ||
-        application.id
-          .toLowerCase()
-          .includes(query);
+    let result =
+        applications.filter(
+            application => {
 
+                const id =
+                    applicationId(
+                        application
+                    )
+                    .toLowerCase();
 
-      const matchesStatus=
-        status==="all" ||
-        application.status===status;
+                const title =
+                    propertyTitle(
+                        application
+                    )
+                    .toLowerCase();
 
+                const location =
+                    propertyLocation(
+                        application
+                    )
+                    .toLowerCase();
 
-      return (
-        matchesSearch &&
-        matchesStatus
-      );
+                const currentStatus =
+                    applicationStatus(
+                        application
+                    );
 
-    });
+                const currentProperty =
+                    propertyId(
+                        application
+                    );
+
+                const textMatch =
+                    !query ||
+                    id.includes(query) ||
+                    title.includes(query) ||
+                    location.includes(query);
+
+                const statusMatch =
+                    !status ||
+                    currentStatus===status ||
+                    (
+                        status==="review" &&
+                        currentStatus==="under-review"
+                    );
+
+                const propertyMatch =
+                    !property ||
+                    currentProperty===property;
+
+                return (
+                    textMatch &&
+                    statusMatch &&
+                    propertyMatch
+                );
+
+            }
+        );
+
+    result.sort(
+        (a,b) => {
+
+            if(
+                sort==="amount-high"
+            ){
+
+                return (
+                    applicationAmount(b) -
+                    applicationAmount(a)
+                );
+
+            }
+
+            if(
+                sort==="amount-low"
+            ){
+
+                return (
+                    applicationAmount(a) -
+                    applicationAmount(b)
+                );
+
+            }
+
+            const dateA =
+                new Date(
+                    applicationDate(a) || 0
+                ).getTime();
+
+            const dateB =
+                new Date(
+                    applicationDate(b) || 0
+                ).getTime();
+
+            if(sort==="oldest")
+                return dateA-dateB;
+
+            return dateB-dateA;
+
+        }
+    );
+
+    return result;
 }
 
+/* =========================================================
+   APPLICATION ROW
+========================================================= */
+
+function createApplicationRow(
+    application
+){
+
+    const id =
+        applicationId(
+            application
+        );
+
+    const title =
+        propertyTitle(
+            application
+        );
+
+    const location =
+        propertyLocation(
+            application
+        );
+
+    const image =
+        propertyImage(
+            application
+        );
+
+    const applicant =
+        applicantName(
+            application
+        );
+
+    const amount =
+        applicationAmount(
+            application
+        );
+
+    const date =
+        applicationDate(
+            application
+        );
+
+    const status =
+        applicationStatus(
+            application
+        );
+
+    return `
+
+<tr
+    data-application-id="${escapeHTML(id)}"
+>
+
+<td>
+
+<div class="property-cell">
+
+<div class="property-thumb">
+
+<img
+    src="${escapeHTML(image)}"
+    alt="${escapeHTML(title)}"
+    loading="lazy"
+    onerror="
+        this.src='../assets/images/properties/property-placeholder.jpg'
+    "
+>
+
+</div>
+
+<div class="property-info">
+
+<strong>
+    ${escapeHTML(title)}
+</strong>
+
+<span>
+    ${escapeHTML(location)}
+</span>
+
+</div>
+
+</div>
+
+</td>
+
+<td>
+
+<div class="applicant">
+
+<strong>
+    ${escapeHTML(applicant)}
+</strong>
+
+<span>
+    Buyer applicant
+</span>
+
+</div>
+
+</td>
+
+<td>
+
+<strong>
+    ${escapeHTML(id || "Application")}
+</strong>
+
+</td>
+
+<td>
+
+<div class="amount">
+
+    ${escapeHTML(
+        formatAmount(amount)
+    )}
+
+<small>
+    Application / offer amount
+</small>
+
+</div>
+
+</td>
+
+<td>
+
+<span
+    class="
+        status
+        ${statusClass(status)}
+    "
+>
+    ${escapeHTML(
+        statusLabel(status)
+    )}
+</span>
+
+</td>
+
+<td>
+
+<div class="date-cell">
+
+<strong>
+    ${escapeHTML(
+        formatDate(date)
+    )}
+</strong>
+
+<span>
+    Submitted
+</span>
+
+</div>
+
+</td>
+
+<td>
+
+<div class="row-actions">
+
+<a
+    class="table-action primary"
+    href="/seller/application-details.html?id=${encodeURIComponent(id)}"
+>
+    Review
+</a>
+
+<a
+    class="table-action"
+    href="/seller/property-details.html?id=${encodeURIComponent(
+        propertyId(application)
+    )}"
+>
+    Property
+</a>
+
+</div>
+
+</td>
+
+</tr>
+
+`;
+
+}
 
 /* =========================================================
    RENDER
@@ -2305,494 +3813,515 @@ function filteredApplications(){
 
 function renderApplications(){
 
-  const tbody=
-    $("#applicationTableBody");
+    const list =
+        getFilteredApplications();
 
-  const empty=
-    $("#emptyState");
+    $("#resultsCount")
+        .textContent =
+            list.length +
+            (
+                list.length===1
+                ? " application"
+                : " applications"
+            );
 
+    if(!list.length){
 
-  if(!tbody){
-    return;
-  }
+        applicationsContainer.innerHTML = `
 
+<div class="empty-state">
 
-  const list=
-    filteredApplications();
+<div class="empty-icon">
+    ◇
+</div>
 
+<h3>
+    No applications found
+</h3>
 
-  if(!list.length){
+<p>
+    There are no applications matching the
+    current search and filter conditions.
+    Try changing the filters or refresh your
+    seller workspace.
+</p>
 
-    tbody.innerHTML="";
+<button
+    id="clearApplicationFilters"
+    class="btn btn-primary"
+    type="button"
+>
+    Clear filters
+</button>
 
-    empty.style.display="block";
+</div>
 
-    return;
-  }
+`;
 
+        $("#clearApplicationFilters")
+            ?.addEventListener(
+                "click",
+                clearFilters
+            );
 
-  empty.style.display="none";
+        return;
+    }
 
+    applicationsContainer.innerHTML = `
 
-  tbody.innerHTML=
-    list.map(application=>`
+<div class="table-wrap">
 
-      <tr
-        data-application-id="${escapeHTML(application.id)}"
-      >
+<table class="application-table">
 
-        <td>
+<thead>
 
-          <div class="buyer-cell">
+<tr>
 
-            <div class="buyer-avatar">
-              ${escapeHTML(
-                buyerInitial({
-                  buyer:{
-                    name:application.buyerName
-                  }
-                })
-              )}
-            </div>
+<th>
+    Property
+</th>
 
-            <div>
+<th>
+    Applicant
+</th>
 
-              <div class="buyer-name">
-                ${escapeHTML(
-                  application.buyerName
-                )}
-              </div>
+<th>
+    Application ID
+</th>
 
-              <div class="buyer-email">
-                ${escapeHTML(
-                  application.buyerEmail
-                )}
-              </div>
+<th>
+    Amount
+</th>
 
-            </div>
+<th>
+    Status
+</th>
 
-          </div>
+<th>
+    Submitted
+</th>
 
-        </td>
+<th>
+    Actions
+</th>
 
+</tr>
 
-        <td>
+</thead>
 
-          <div class="property-name">
-            ${escapeHTML(
-              application.propertyTitle
-            )}
-          </div>
+<tbody>
 
-          <div class="property-id">
-            ${escapeHTML(
-              application.propertyId
-            )}
-          </div>
-
-        </td>
-
-
-        <td>
-
-          <div class="property-id">
-            ${escapeHTML(
-              application.id
-            )}
-          </div>
-
-        </td>
-
-
-        <td>
-
-          <span class="amount">
-            ${escapeHTML(
-              formatMoney(
-                application.offer
-              )
-            )}
-          </span>
-
-        </td>
-
-
-        <td>
-
-          <span class="date">
-            ${escapeHTML(
-              formatDate(
-                application.submitted
-              )
-            )}
-          </span>
-
-        </td>
-
-
-        <td>
-
-          <span
-            class="status status-${escapeHTML(
-              application.status
-            )}"
-          >
-            ${escapeHTML(
-              statusLabel(
-                application.status
-              )
-            )}
-          </span>
-
-        </td>
-
-
-        <td>
-
-          <div class="row-actions">
-
-            <button
-              class="row-action"
-              type="button"
-              data-view="${escapeHTML(
-                application.id
-              )}"
-            >
-              View
-            </button>
-
-            ${
-              application.status==="pending" ||
-              application.status==="review"
-              ? `
-                <button
-                  class="row-action"
-                  type="button"
-                  data-approve="${escapeHTML(
-                    application.id
-                  )}"
-                >
-                  Approve
-                </button>
-              `
-              :""
-            }
-
-          </div>
-
-        </td>
-
-      </tr>
-
-    `).join("");
+${list
+    .map(
+        createApplicationRow
+    )
+    .join("")
 }
 
+</tbody>
+
+</table>
+
+</div>
+
+`;
+
+}
 
 /* =========================================================
-   STATS
+   LOAD APPLICATIONS
 ========================================================= */
 
-function updateStats(){
+async function loadApplications(){
 
-  const normalized=
-    applications.map(
-      applicationValue
-    );
+    applicationsContainer.innerHTML = `
 
+<div class="loading-state">
 
-  $("#totalApplications")
-    .textContent=
-    normalized.length;
+<div class="loading-spinner"></div>
 
+Loading seller applications...
 
-  $("#pendingApplications")
-    .textContent=
-    normalized.filter(
-      item =>
-        item.status==="pending" ||
-        item.status==="review"
-    ).length;
+</div>
 
+`;
 
-  $("#approvedApplications")
-    .textContent=
-    normalized.filter(
-      item =>
-        item.status==="approved"
-    ).length;
+    try{
 
+        /*
+         * Primary seller-specific endpoint.
+         */
 
-  $("#offerApplications")
-    .textContent=
-    normalized.filter(
-      item =>
-        Number(item.offer)>0
-    ).length;
+        let response;
+
+        try{
+
+            response =
+                await apiRequest(
+                    API_BASE+
+                    "/applications/seller"
+                );
+
+        }catch(primaryError){
+
+            /*
+             * Compatibility fallback for the existing
+             * application route when seller filtering
+             * is performed server-side through auth.
+             */
+
+            response =
+                await apiRequest(
+                    API_BASE+
+                    "/applications"
+                );
+
+        }
+
+        applications =
+            normalizeCollection(
+                response
+            );
+
+    }catch(error){
+
+        console.warn(
+            "GHAR seller applications:",
+            error
+        );
+
+        applications=[];
+
+        applicationsContainer.innerHTML = `
+
+<div class="empty-state">
+
+<div class="empty-icon">
+    !
+</div>
+
+<h3>
+    Applications could not be loaded
+</h3>
+
+<p>
+    The seller application service did not return
+    application data. Check your seller session and
+    application API route, then try again.
+</p>
+
+<button
+    id="retryApplications"
+    class="btn btn-primary"
+    type="button"
+>
+    Try again
+</button>
+
+</div>
+
+`;
+
+        $("#retryApplications")
+            ?.addEventListener(
+                "click",
+                loadApplications
+            );
+
+        updateStats();
+
+        return;
+
+    }
+
+    updateStats();
+
+    populatePropertyFilter();
+
+    renderApplications();
+
 }
 
+/* =========================================================
+   PROFILE
+========================================================= */
+
+async function loadProfile(){
+
+    try{
+
+        const response =
+            await apiRequest(
+                API_BASE+
+                "/users/me"
+            );
+
+        const user =
+            response?.data ||
+            response?.user ||
+            response;
+
+        const name =
+            user?.name ||
+            user?.fullName ||
+            user?.firstName ||
+            user?.email ||
+            "Seller";
+
+        const image =
+            user?.profileImage ||
+            user?.avatar ||
+            user?.photo ||
+            user?.profilePhoto ||
+            "../assets/images/profile/seller-default.jpg";
+
+        const displayName =
+            String(name)
+                .trim()
+                .split(/\s+/)
+                .slice(0,2)
+                .join(" ");
+
+        $("#profileName")
+            .textContent=
+                displayName;
+
+        $("#mobileProfileName")
+            .textContent=
+                displayName;
+
+        $("#profileImage")
+            .src=image;
+
+        $("#mobileProfileImage")
+            .src=image;
+
+    }catch(error){
+
+        console.warn(
+            "GHAR seller profile:",
+            error
+        );
+
+    }
+
+}
 
 /* =========================================================
-   SEARCH / FILTER
+   CLEAR FILTERS
+========================================================= */
+
+function clearFilters(){
+
+    $("#applicationSearch")
+        .value="";
+
+    $("#statusFilter")
+        .value="";
+
+    $("#propertyFilter")
+        .value="";
+
+    $("#sortFilter")
+        .value="recent";
+
+    renderApplications();
+
+}
+
+/* =========================================================
+   FILTER EVENTS
 ========================================================= */
 
 $("#applicationSearch")
-  ?.addEventListener(
-    "input",
-    renderApplications
-  );
+    ?.addEventListener(
+        "input",
+        () => {
 
+            clearTimeout(
+                window.__gharApplicationTimer
+            );
+
+            window.__gharApplicationTimer =
+                setTimeout(
+                    renderApplications,
+                    180
+                );
+
+        }
+    );
 
 $("#statusFilter")
-  ?.addEventListener(
-    "change",
-    renderApplications
-  );
+    ?.addEventListener(
+        "change",
+        renderApplications
+    );
 
+$("#propertyFilter")
+    ?.addEventListener(
+        "change",
+        renderApplications
+    );
 
-/* =========================================================
-   APPLICATION ACTIONS
-========================================================= */
+$("#sortFilter")
+    ?.addEventListener(
+        "change",
+        renderApplications
+    );
 
-document.addEventListener(
-  "click",
-  async event=>{
-
-    const viewButton=
-      event.target.closest(
-        "[data-view]"
-      );
-
-    const approveButton=
-      event.target.closest(
-        "[data-approve]"
-      );
-
-
-    if(viewButton){
-
-      const id=
-        viewButton.dataset.view;
-
-      window.location.href=
-        "/seller/applications.html?id="+
-        encodeURIComponent(id);
-
-      return;
-    }
-
-
-    if(approveButton){
-
-      const id=
-        approveButton.dataset.approve;
-
-
-      try{
-
-        approveButton.disabled=true;
-
-
-        await apiRequest(
-          APPLICATION_API +
-          "/" +
-          encodeURIComponent(id),
-          {
-            method:"PATCH",
-
-            body:JSON.stringify({
-              status:"approved"
-            })
-          }
-        );
-
-
-        const item=
-          applications.find(
-            application =>
-              String(
-                application.id ||
-                application.applicationId ||
-                application._id
-              )===String(id)
-          );
-
-
-        if(item){
-
-          item.status=
-            "approved";
-        }
-
-
-      }catch(error){
-
-        console.warn(
-          "GHAR application approval:",
-          error
-        );
-
-        /*
-         * Keep local UI synchronized for
-         * development environments where
-         * the endpoint is not connected.
-         */
-
-        const item=
-          applications.find(
-            application =>
-              String(
-                application.id ||
-                application.applicationId ||
-                application._id
-              )===String(id)
-          );
-
-        if(item){
-          item.status="approved";
-        }
-
-      }finally{
-
-        approveButton.disabled=false;
-
-        renderApplications();
-        updateStats();
-
-      }
-
-    }
-
-  }
-);
-
+$("#refreshButton")
+    ?.addEventListener(
+        "click",
+        loadApplications
+    );
 
 /* =========================================================
    MOBILE MENU
 ========================================================= */
 
 $("#menuButton")
-  ?.addEventListener(
+    ?.addEventListener(
+        "click",
+        () => {
+
+            const menu =
+                $("#mobileNav");
+
+            const button =
+                $("#menuButton");
+
+            const isOpen =
+                menu.classList
+                    .contains("open");
+
+            menu.classList.toggle(
+                "open"
+            );
+
+            button.setAttribute(
+                "aria-expanded",
+                String(!isOpen)
+            );
+
+            button.textContent =
+                !isOpen
+                ? "×"
+                : "☰";
+
+        }
+    );
+
+document.addEventListener(
     "click",
-    ()=>{
+    event => {
 
-      const nav=
-        document.querySelector(
-          ".desktop-nav"
-        );
+        const menu =
+            $("#mobileNav");
 
+        const button =
+            $("#menuButton");
 
-      if(!nav){
-        return;
-      }
+        if(
+            !menu ||
+            !button
+        )
+            return;
 
+        if(
+            menu.classList.contains("open") &&
+            !menu.contains(event.target) &&
+            !button.contains(event.target)
+        ){
 
-      const open=
-        nav.dataset.mobileOpen===
-        "true";
+            menu.classList.remove(
+                "open"
+            );
 
+            button.textContent="☰";
 
-      if(open){
+            button.setAttribute(
+                "aria-expanded",
+                "false"
+            );
 
-        nav.style.display="";
-        nav.dataset.mobileOpen="false";
+        }
 
-        return;
-      }
-
-
-      nav.dataset.mobileOpen="true";
-
-      nav.style.display="flex";
-      nav.style.position="absolute";
-      nav.style.left="14px";
-      nav.style.right="14px";
-      nav.style.top="66px";
-      nav.style.padding="10px";
-      nav.style.flexDirection="column";
-      nav.style.alignItems="stretch";
-      nav.style.border=
-        "1px solid rgba(229,199,125,.14)";
-      nav.style.borderRadius="16px";
-      nav.style.background="#0b1c14";
-      nav.style.boxShadow=
-        "0 25px 60px rgba(0,0,0,.35)";
     }
-  );
-
+);
 
 /* =========================================================
    NOTIFICATIONS
 ========================================================= */
 
 $("#notificationButton")
-  ?.addEventListener(
-    "click",
-    ()=>{
-      window.location.href=
-        "/seller/notifications.html";
-    }
-  );
+    ?.addEventListener(
+        "click",
+        () => {
 
+            window.location.href =
+                "/seller/notifications.html";
 
-/* =========================================================
-   PROFILE
-========================================================= */
-
-async function loadSellerProfile(){
-
-  try{
-
-    const response=
-      await apiRequest(
-        API_BASE+
-        "/users/me"
-      );
-
-
-    const name=
-      response?.name ||
-      response?.fullName ||
-      response?.email ||
-      "Seller";
-
-
-    $("#profileButton")
-      .textContent=
-      name
-        .trim()
-        .charAt(0)
-        .toUpperCase();
-
-  }catch{
-    /* Seller profile is optional during API setup. */
-  }
-}
-
+        }
+    );
 
 /* =========================================================
    AI
 ========================================================= */
 
-function openSellerAI(){
-
-  window.location.href=
-    "/seller/ai.html";
-}
-
-
 $("#openAI")
-  ?.addEventListener(
-    "click",
-    openSellerAI
-  );
+    ?.addEventListener(
+        "click",
+        () => {
 
+            window.location.href =
+                "/seller/ai.html";
 
-$("#aiFloating")
-  ?.addEventListener(
-    "click",
-    openSellerAI
-  );
+        }
+    );
 
+/* =========================================================
+   IMAGE FALLBACK
+========================================================= */
+
+document.addEventListener(
+    "error",
+    event => {
+
+        const element =
+            event.target;
+
+        if(
+            element.tagName !== "IMG"
+        )
+            return;
+
+        if(
+            element.dataset
+                .fallbackApplied==="true"
+        )
+            return;
+
+        element.dataset
+            .fallbackApplied="true";
+
+        if(
+            element.id==="profileImage" ||
+            element.id==="mobileProfileImage"
+        ){
+
+            element.src =
+                "../assets/images/profile/default-avatar.jpg";
+
+        }else{
+
+            element.src =
+                "../assets/images/properties/property-placeholder.jpg";
+
+        }
+
+    },
+    true
+);
 
 /* =========================================================
    INIT
@@ -2800,36 +4329,35 @@ $("#aiFloating")
 
 async function initialize(){
 
-  $("#footerYear")
-    .textContent=
-    new Date()
-      .getFullYear();
+    $("#footerYear")
+        .textContent =
+            new Date()
+                .getFullYear();
 
-
-  await Promise.all([
-    loadApplications(),
-    loadSellerProfile()
-  ]);
+    await Promise.all([
+        loadProfile(),
+        loadApplications()
+    ]);
 
 }
 
-
 if(
-  document.readyState===
-  "loading"
+    document.readyState==="loading"
 ){
 
-  document.addEventListener(
-    "DOMContentLoaded",
-    initialize
-  );
+    document.addEventListener(
+        "DOMContentLoaded",
+        initialize
+    );
 
 }else{
 
-  initialize();
+    initialize();
 
 }
+
 </script>
 
 </body>
+
 </html>

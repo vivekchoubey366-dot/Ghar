@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
 <meta name="description"
-      content="GHAR Buyer Dashboard -- Manage your property search, saved homes, visits, offers, applications and financing.">
+content="GHAR Buyer Dashboard -- Manage properties, applications, visits, offers, documents, financing and your complete buyer journey.">
 
 <meta name="theme-color" content="#162d25">
 
@@ -15,11 +15,6 @@
 <link rel="icon" href="../assets/images/favicon.svg">
 
 <style>
-/* =========================================================
-   GHAR BUYER DASHBOARD
-   Same premium GHAR Buyer design system
-========================================================= */
-
 *{
   box-sizing:border-box;
   margin:0;
@@ -36,7 +31,7 @@
   --green-700:#214438;
   --green-600:#2b5847;
 
-  --gold-100:#fff7df;
+  --gold-100:#fff9e8;
   --gold-200:#f4dfaa;
   --gold-300:#e5c77d;
   --gold-400:#c9a95c;
@@ -44,27 +39,24 @@
 
   --cream:#fffaf0;
   --cream-2:#f7eedc;
-  --sand:#eee1c8;
 
   --text:#f9f5ea;
-  --text-dark:#17231c;
+  --muted:rgba(255,255,255,.70);
+  --muted-2:rgba(255,255,255,.46);
 
-  --muted:rgba(255,255,255,.68);
-  --muted-2:rgba(255,255,255,.45);
-
-  --border:rgba(229,199,125,.18);
+  --border:rgba(229,199,125,.17);
   --border-light:rgba(255,255,255,.09);
 
   --success:#82c995;
-  --warning:#e7c779;
+  --warning:#e6c477;
   --danger:#e98c8c;
   --blue:#91b9e8;
 
-  --shadow:0 25px 80px rgba(0,0,0,.25);
+  --shadow:0 25px 80px rgba(0,0,0,.28);
 
   --radius-xl:28px;
   --radius-lg:21px;
-  --radius-md:15px;
+  --radius-md:14px;
 
   --container:1440px;
 }
@@ -89,12 +81,12 @@ body{
     radial-gradient(
       circle at 5% 0%,
       rgba(229,199,125,.12),
-      transparent 28%
+      transparent 27%
     ),
     radial-gradient(
-      circle at 100% 10%,
-      rgba(44,91,69,.22),
-      transparent 30%
+      circle at 100% 8%,
+      rgba(44,91,69,.23),
+      transparent 31%
     ),
     linear-gradient(
       135deg,
@@ -121,19 +113,16 @@ button{
   cursor:pointer;
 }
 
-img{
+img,
+video{
   display:block;
   max-width:100%;
 }
 
 .container{
-  width:min(
-    calc(100% - 40px),
-    var(--container)
-  );
+  width:min(calc(100% - 40px),var(--container));
   margin:auto;
 }
-
 
 /* =========================================================
    BACKGROUND
@@ -147,31 +136,30 @@ img{
   overflow:hidden;
 }
 
-.page-glow::before{
+.page-glow:before{
   content:"";
   position:absolute;
-  width:550px;
-  height:550px;
-  top:-300px;
-  right:-220px;
+  width:560px;
+  height:560px;
+  top:-310px;
+  right:-230px;
   border-radius:50%;
-  border:1px solid rgba(229,199,125,.12);
+  border:1px solid rgba(229,199,125,.13);
   box-shadow:
     0 0 0 60px rgba(229,199,125,.025),
     0 0 0 120px rgba(229,199,125,.015);
 }
 
-.page-glow::after{
+.page-glow:after{
   content:"";
   position:absolute;
-  width:500px;
-  height:500px;
-  bottom:-300px;
-  left:-250px;
+  width:520px;
+  height:520px;
+  bottom:-320px;
+  left:-260px;
   border-radius:50%;
   border:1px solid rgba(255,255,255,.06);
 }
-
 
 /* =========================================================
    HEADER
@@ -181,42 +169,53 @@ img{
   position:sticky;
   top:0;
   z-index:100;
-  border-bottom:1px solid rgba(229,199,125,.10);
-  background:rgba(7,19,14,.90);
-  backdrop-filter:blur(22px);
+  border-bottom:1px solid rgba(229,199,125,.11);
+  background:rgba(7,19,14,.88);
+  backdrop-filter:blur(24px);
+  -webkit-backdrop-filter:blur(24px);
 }
 
 .header-inner{
-  min-height:76px;
+  min-height:78px;
   display:flex;
   align-items:center;
-  gap:24px;
+  gap:22px;
 }
 
 .brand{
   display:flex;
   align-items:center;
-  gap:12px;
+  gap:11px;
   flex-shrink:0;
 }
 
 .brand-mark{
-  width:45px;
-  height:45px;
+  width:44px;
+  height:44px;
   display:grid;
   place-items:center;
-  border-radius:14px;
-  color:#152116;
+  overflow:hidden;
+  border-radius:13px;
+  color:#172016;
   font-size:19px;
   font-weight:1000;
-  background:linear-gradient(
-    135deg,
-    #f1dda5,
-    #b98b3d
-  );
+
+  background:
+    linear-gradient(
+      135deg,
+      #f1dda5,
+      #b98b3d
+    );
+
   box-shadow:
     0 10px 25px rgba(0,0,0,.25),
-    inset 0 1px 0 rgba(255,255,255,.5);
+    inset 0 1px 0 rgba(255,255,255,.55);
+}
+
+.brand-mark img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
 }
 
 .brand-text strong{
@@ -231,30 +230,30 @@ img{
   color:var(--muted-2);
   font-size:8px;
   font-weight:800;
-  letter-spacing:.16em;
+  letter-spacing:.15em;
   text-transform:uppercase;
 }
 
 .desktop-nav{
   display:flex;
   align-items:center;
-  gap:5px;
+  gap:3px;
   margin-left:auto;
 }
 
 .desktop-nav a{
-  padding:10px 12px;
+  padding:10px 11px;
   border-radius:10px;
   color:var(--muted);
-  font-size:11px;
-  font-weight:700;
+  font-size:10px;
+  font-weight:750;
   transition:.2s ease;
 }
 
 .desktop-nav a:hover,
 .desktop-nav a.active{
   color:var(--gold-200);
-  background:rgba(229,199,125,.07);
+  background:rgba(229,199,125,.075);
 }
 
 .header-actions{
@@ -264,8 +263,8 @@ img{
 }
 
 .icon-btn{
-  width:41px;
-  height:41px;
+  width:40px;
+  height:40px;
   display:grid;
   place-items:center;
   border:1px solid var(--border-light);
@@ -277,7 +276,23 @@ img{
 
 .icon-btn:hover{
   color:var(--gold-200);
-  border-color:rgba(229,199,125,.25);
+  border-color:rgba(229,199,125,.30);
+  transform:translateY(-1px);
+}
+
+.notification-wrap{
+  position:relative;
+}
+
+.notification-dot{
+  position:absolute;
+  width:7px;
+  height:7px;
+  top:7px;
+  right:7px;
+  border-radius:50%;
+  background:var(--gold-300);
+  box-shadow:0 0 0 3px var(--green-900);
 }
 
 .avatar{
@@ -285,35 +300,44 @@ img{
   height:40px;
   display:grid;
   place-items:center;
+  overflow:hidden;
+  border:1px solid rgba(229,199,125,.20);
   border-radius:50%;
   color:#172016;
   font-size:12px;
   font-weight:1000;
-  background:linear-gradient(
-    135deg,
-    var(--gold-200),
-    var(--gold-500)
-  );
+  background:
+    linear-gradient(
+      135deg,
+      var(--gold-200),
+      var(--gold-500)
+    );
+}
+
+.avatar img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
 }
 
 .mobile-menu{
   display:none;
 }
 
-
 /* =========================================================
-   PAGE HEADER
+   PAGE
 ========================================================= */
 
-.page-header{
-  padding:42px 0 22px;
+.page{
+  padding:43px 0 20px;
 }
 
-.page-header-grid{
+.page-heading{
   display:flex;
   align-items:flex-end;
   justify-content:space-between;
-  gap:20px;
+  gap:25px;
+  margin-bottom:25px;
 }
 
 .eyebrow{
@@ -324,59 +348,54 @@ img{
   text-transform:uppercase;
 }
 
-.page-header h1{
-  margin-top:10px;
-  color:var(--cream);
-  font-size:clamp(34px,5vw,52px);
+.page-heading h1{
+  margin-top:9px;
+  font-size:clamp(35px,5vw,56px);
   line-height:1;
   letter-spacing:-.055em;
 }
 
-.page-header h1 span{
-  color:var(--gold-300);
-}
-
-.page-header p{
-  max-width:680px;
-  margin-top:12px;
+.page-heading p{
+  max-width:760px;
+  margin-top:13px;
   color:var(--muted);
   font-size:12px;
-  line-height:1.7;
+  line-height:1.75;
 }
 
-.header-actions-row{
+.heading-actions{
   display:flex;
+  gap:8px;
   flex-wrap:wrap;
-  gap:9px;
 }
-
 
 /* =========================================================
    BUTTONS
 ========================================================= */
 
 .btn{
-  min-height:45px;
+  min-height:43px;
   display:inline-flex;
   align-items:center;
   justify-content:center;
   gap:8px;
-  padding:0 17px;
-  border-radius:12px;
+  padding:0 16px;
+  border-radius:11px;
   border:1px solid transparent;
-  font-size:11px;
+  font-size:10px;
   font-weight:900;
   transition:.2s ease;
 }
 
 .btn-primary{
   color:#17170f;
-  background:linear-gradient(
-    135deg,
-    #f1dca1,
-    #cda85d
-  );
-  box-shadow:0 10px 25px rgba(0,0,0,.18);
+  background:
+    linear-gradient(
+      135deg,
+      #f1dca1,
+      #cda85d
+    );
+  box-shadow:0 8px 22px rgba(0,0,0,.12);
 }
 
 .btn-primary:hover{
@@ -390,378 +409,495 @@ img{
 }
 
 .btn-secondary:hover{
-  border-color:rgba(229,199,125,.25);
   color:var(--gold-200);
+  border-color:rgba(229,199,125,.30);
 }
 
+.btn-small{
+  min-height:36px;
+  padding:0 12px;
+  font-size:9px;
+}
 
 /* =========================================================
-   DASHBOARD LAYOUT
+   WELCOME PANEL
 ========================================================= */
 
-.dashboard{
-  padding:10px 0 30px;
-}
-
-.dashboard-main{
+.welcome-panel{
+  position:relative;
+  overflow:hidden;
+  min-height:220px;
   display:grid;
-  grid-template-columns:1.55fr .45fr;
-  gap:18px;
+  grid-template-columns:1.5fr .8fr;
+  gap:20px;
+  align-items:center;
+  padding:28px;
+  margin-bottom:22px;
+  border:1px solid rgba(229,199,125,.18);
+  border-radius:var(--radius-xl);
+
+  background:
+    radial-gradient(
+      circle at 90% 10%,
+      rgba(229,199,125,.12),
+      transparent 28%
+    ),
+    linear-gradient(
+      135deg,
+      rgba(28,58,44,.97),
+      rgba(11,28,20,.97)
+    );
+
+  box-shadow:var(--shadow);
 }
 
-.dashboard-left{
-  min-width:0;
+.welcome-panel:after{
+  content:"";
+  position:absolute;
+  width:310px;
+  height:310px;
+  right:-150px;
+  bottom:-190px;
+  border:1px solid rgba(229,199,125,.12);
+  border-radius:50%;
+  box-shadow:
+    0 0 0 40px rgba(229,199,125,.025),
+    0 0 0 80px rgba(229,199,125,.015);
 }
 
-.dashboard-right{
-  min-width:0;
+.welcome-content{
+  position:relative;
+  z-index:2;
 }
 
+.welcome-content h2{
+  margin-top:9px;
+  font-size:clamp(27px,4vw,43px);
+  letter-spacing:-.045em;
+}
+
+.welcome-content p{
+  max-width:680px;
+  margin-top:11px;
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.75;
+}
+
+.welcome-actions{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-top:18px;
+}
+
+.welcome-profile{
+  position:relative;
+  z-index:2;
+  justify-self:end;
+  width:min(100%,280px);
+  padding:18px;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:18px;
+  background:rgba(255,255,255,.035);
+  backdrop-filter:blur(12px);
+}
+
+.profile-image{
+  width:64px;
+  height:64px;
+  overflow:hidden;
+  display:grid;
+  place-items:center;
+  border:2px solid rgba(229,199,125,.35);
+  border-radius:50%;
+  color:#17170f;
+  font-size:18px;
+  font-weight:1000;
+  background:
+    linear-gradient(
+      135deg,
+      var(--gold-200),
+      var(--gold-500)
+    );
+}
+
+.profile-image img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.profile-name{
+  margin-top:12px;
+  font-size:16px;
+  font-weight:950;
+}
+
+.profile-email{
+  margin-top:4px;
+  color:var(--muted-2);
+  font-size:8px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.profile-status{
+  display:inline-flex;
+  margin-top:12px;
+  padding:6px 8px;
+  border-radius:7px;
+  color:var(--success);
+  background:rgba(130,201,149,.09);
+  font-size:7px;
+  font-weight:950;
+  text-transform:uppercase;
+}
 
 /* =========================================================
-   STATS
+   QUICK STATS
 ========================================================= */
 
-.stats-grid{
+.summary-grid{
   display:grid;
-  grid-template-columns:repeat(4,1fr);
+  grid-template-columns:repeat(5,1fr);
   gap:13px;
+  margin-bottom:22px;
 }
 
-.stat-card{
+.summary-card{
   padding:20px;
   border:1px solid var(--border-light);
   border-radius:var(--radius-lg);
   background:
     linear-gradient(
       145deg,
-      rgba(20,45,34,.92),
-      rgba(11,28,20,.92)
+      rgba(20,45,34,.94),
+      rgba(11,28,20,.94)
     );
+  transition:.2s ease;
 }
 
-.stat-top{
+.summary-card:hover{
+  border-color:rgba(229,199,125,.23);
+  transform:translateY(-2px);
+}
+
+.summary-top{
   display:flex;
   align-items:center;
   justify-content:space-between;
 }
 
-.stat-icon{
-  width:36px;
-  height:36px;
+.summary-label{
+  color:var(--muted-2);
+  font-size:9px;
+  font-weight:850;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+
+.summary-icon{
+  width:35px;
+  height:35px;
   display:grid;
   place-items:center;
-  border-radius:11px;
+  border-radius:10px;
   color:var(--gold-300);
   background:rgba(229,199,125,.08);
 }
 
-.stat-label{
-  color:var(--muted-2);
-  font-size:9px;
-  font-weight:800;
-  text-transform:uppercase;
-  letter-spacing:.08em;
-}
-
-.stat-value{
-  margin-top:15px;
+.summary-value{
+  margin-top:14px;
   font-size:27px;
-  font-weight:900;
+  font-weight:950;
   letter-spacing:-.04em;
 }
 
-.stat-note{
+.summary-note{
   margin-top:4px;
   color:var(--muted-2);
   font-size:9px;
 }
 
-
 /* =========================================================
-   PANELS
+   DASHBOARD GRID
 ========================================================= */
 
+.dashboard-grid{
+  display:grid;
+  grid-template-columns:1.35fr .65fr;
+  gap:15px;
+  margin-bottom:22px;
+}
+
 .panel{
-  padding:21px;
+  overflow:hidden;
   border:1px solid var(--border-light);
   border-radius:var(--radius-lg);
   background:
     linear-gradient(
       145deg,
-      rgba(20,45,34,.95),
-      rgba(11,28,20,.95)
+      rgba(20,45,34,.94),
+      rgba(11,28,20,.94)
     );
 }
 
-.panel + .panel{
-  margin-top:16px;
-}
-
-.panel-title{
+.panel-header{
   display:flex;
   align-items:center;
   justify-content:space-between;
-  gap:12px;
-  margin-bottom:16px;
+  gap:15px;
+  padding:17px 18px;
+  border-bottom:1px solid rgba(255,255,255,.06);
 }
 
-.panel-title h2,
-.panel-title h3{
-  font-size:16px;
-  letter-spacing:-.02em;
+.panel-heading{
+  font-size:12px;
+  font-weight:950;
 }
 
-.panel-subtitle{
-  margin-top:4px;
-  color:var(--muted-2);
-  font-size:9px;
-}
-
-.section-link{
-  color:var(--gold-300);
-  font-size:10px;
-  font-weight:900;
-}
-
-
-/* =========================================================
-   QUICK ACTIONS
-========================================================= */
-
-.quick-actions{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:10px;
-}
-
-.quick-action{
-  min-height:96px;
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-  padding:15px;
-  border:1px solid rgba(255,255,255,.07);
-  border-radius:14px;
-  color:var(--cream);
-  background:rgba(255,255,255,.025);
-  transition:.2s ease;
-}
-
-.quick-action:hover{
-  transform:translateY(-2px);
-  border-color:rgba(229,199,125,.24);
-  background:rgba(229,199,125,.045);
-}
-
-.quick-icon{
-  width:33px;
-  height:33px;
-  display:grid;
-  place-items:center;
-  border-radius:10px;
-  color:var(--gold-300);
-  background:rgba(229,199,125,.08);
-}
-
-.quick-action strong{
-  margin-top:11px;
-  font-size:10px;
-}
-
-.quick-action span{
-  margin-top:4px;
-  color:var(--muted-2);
-  font-size:8px;
-}
-
-
-/* =========================================================
-   JOURNEY
-========================================================= */
-
-.journey{
-  display:grid;
-  grid-template-columns:repeat(5,1fr);
-  gap:8px;
-}
-
-.journey-step{
-  position:relative;
-  min-height:110px;
-  padding:14px;
-  border:1px solid rgba(255,255,255,.07);
-  border-radius:13px;
-  background:rgba(255,255,255,.025);
-}
-
-.journey-step.active{
-  border-color:rgba(229,199,125,.25);
-  background:rgba(229,199,125,.045);
-}
-
-.journey-number{
-  width:28px;
-  height:28px;
-  display:grid;
-  place-items:center;
-  border-radius:50%;
-  color:#172016;
-  background:var(--gold-300);
-  font-size:9px;
-  font-weight:1000;
-}
-
-.journey-step:not(.active) .journey-number{
-  color:var(--muted);
-  background:rgba(255,255,255,.07);
-}
-
-.journey-step strong{
-  display:block;
-  margin-top:10px;
-  font-size:9px;
-}
-
-.journey-step span{
-  display:block;
-  margin-top:4px;
-  color:var(--muted-2);
-  font-size:8px;
-  line-height:1.5;
-}
-
-
-/* =========================================================
-   ACTIVITY
-========================================================= */
-
-.activity{
-  display:grid;
-  gap:9px;
-}
-
-.activity-item{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  padding:11px;
-  border-radius:12px;
-  background:rgba(255,255,255,.025);
-}
-
-.activity-icon{
-  width:36px;
-  height:36px;
-  flex:0 0 36px;
-  display:grid;
-  place-items:center;
-  border-radius:10px;
-  color:var(--gold-300);
-  background:rgba(229,199,125,.08);
-}
-
-.activity-text{
-  min-width:0;
-  flex:1;
-}
-
-.activity-text strong{
-  display:block;
-  font-size:10px;
-}
-
-.activity-text span{
-  display:block;
+.panel-description{
   margin-top:3px;
   color:var(--muted-2);
   font-size:8px;
 }
 
-.activity-status{
-  color:var(--success);
+.panel-link{
+  color:var(--gold-300);
   font-size:8px;
   font-weight:900;
 }
 
+.panel-body{
+  padding:15px;
+}
 
 /* =========================================================
-   PROPERTY SHORTLIST
+   APPLICATION LIST
+========================================================= */
+
+.application-list{
+  display:grid;
+  gap:9px;
+}
+
+.application-row{
+  display:grid;
+  grid-template-columns:62px 1fr auto;
+  gap:12px;
+  align-items:center;
+  padding:10px;
+  border:1px solid rgba(255,255,255,.055);
+  border-radius:12px;
+  background:rgba(255,255,255,.018);
+  transition:.2s ease;
+}
+
+.application-row:hover{
+  border-color:rgba(229,199,125,.20);
+  background:rgba(229,199,125,.025);
+}
+
+.application-thumb{
+  width:62px;
+  height:52px;
+  overflow:hidden;
+  border-radius:9px;
+  background:
+    linear-gradient(
+      135deg,
+      #284c3c,
+      #142d22
+    );
+}
+
+.application-thumb img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.application-title{
+  font-size:10px;
+  font-weight:900;
+}
+
+.application-location{
+  margin-top:4px;
+  color:var(--muted-2);
+  font-size:8px;
+}
+
+.application-date{
+  margin-top:4px;
+  color:var(--muted-2);
+  font-size:7px;
+}
+
+.status{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:6px 8px;
+  border-radius:7px;
+  font-size:7px;
+  font-weight:950;
+  text-transform:uppercase;
+  white-space:nowrap;
+}
+
+.status-pending{
+  color:#f4dfaa;
+  background:rgba(229,199,125,.10);
+}
+
+.status-review,
+.status-under-review{
+  color:#91b9e8;
+  background:rgba(145,185,232,.10);
+}
+
+.status-approved{
+  color:#82c995;
+  background:rgba(130,201,149,.10);
+}
+
+.status-rejected{
+  color:#e98c8c;
+  background:rgba(233,140,140,.10);
+}
+
+/* =========================================================
+   VISITS
+========================================================= */
+
+.visit-list{
+  display:grid;
+  gap:9px;
+}
+
+.visit-card{
+  display:grid;
+  grid-template-columns:54px 1fr auto;
+  gap:11px;
+  align-items:center;
+  padding:10px;
+  border:1px solid rgba(255,255,255,.055);
+  border-radius:12px;
+  background:rgba(255,255,255,.018);
+}
+
+.visit-date{
+  width:54px;
+  height:54px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  border-radius:10px;
+  color:var(--gold-200);
+  background:rgba(229,199,125,.08);
+}
+
+.visit-date strong{
+  font-size:17px;
+  line-height:1;
+}
+
+.visit-date span{
+  margin-top:3px;
+  font-size:7px;
+  font-weight:900;
+  text-transform:uppercase;
+}
+
+.visit-title{
+  font-size:9px;
+  font-weight:900;
+}
+
+.visit-info{
+  margin-top:4px;
+  color:var(--muted-2);
+  font-size:7px;
+}
+
+.visit-time{
+  color:var(--gold-300);
+  font-size:8px;
+  font-weight:900;
+}
+
+/* =========================================================
+   PROPERTY CARDS
 ========================================================= */
 
 .property-grid{
   display:grid;
-  grid-template-columns:repeat(2,1fr);
+  grid-template-columns:repeat(3,1fr);
   gap:12px;
 }
 
 .property-card{
   overflow:hidden;
-  border:1px solid var(--border-light);
-  border-radius:16px;
-  background:
-    linear-gradient(
-      145deg,
-      #142d22,
-      #0b1c14
-    );
-  transition:.25s ease;
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:15px;
+  background:rgba(255,255,255,.025);
+  transition:.22s ease;
 }
 
 .property-card:hover{
   transform:translateY(-3px);
-  border-color:rgba(229,199,125,.25);
+  border-color:rgba(229,199,125,.23);
+  box-shadow:0 18px 45px rgba(0,0,0,.18);
 }
 
-.property-image{
-  height:145px;
+.property-media{
   position:relative;
+  height:155px;
   overflow:hidden;
-  background:#142d22;
+  background:
+    linear-gradient(
+      135deg,
+      #284c3c,
+      #142d22
+    );
 }
 
-.property-image img{
+.property-media img{
   width:100%;
   height:100%;
   object-fit:cover;
-  transition:.5s ease;
-}
-
-.property-card:hover .property-image img{
-  transform:scale(1.04);
 }
 
 .property-badge{
   position:absolute;
   top:9px;
   left:9px;
-  padding:5px 7px;
+  padding:6px 8px;
   border-radius:7px;
-  color:#1b2116;
+  color:#17170f;
   background:var(--gold-200);
   font-size:7px;
-  font-weight:1000;
+  font-weight:950;
   text-transform:uppercase;
 }
 
-.save-btn{
+.property-save{
   position:absolute;
-  top:8px;
-  right:8px;
-  width:31px;
-  height:31px;
+  top:9px;
+  right:9px;
+  width:30px;
+  height:30px;
   display:grid;
   place-items:center;
-  border:1px solid rgba(255,255,255,.15);
-  border-radius:9px;
-  color:white;
-  background:rgba(0,0,0,.38);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:8px;
+  color:var(--cream);
+  background:rgba(7,19,14,.70);
   backdrop-filter:blur(8px);
-}
-
-.save-btn.saved{
-  color:#17170f;
-  background:var(--gold-300);
 }
 
 .property-content{
@@ -771,369 +907,387 @@ img{
 .property-type{
   color:var(--gold-300);
   font-size:7px;
-  font-weight:900;
+  font-weight:950;
   letter-spacing:.12em;
   text-transform:uppercase;
 }
 
 .property-title{
-  margin-top:6px;
+  margin-top:5px;
   font-size:12px;
-  font-weight:850;
-  line-height:1.3;
+  font-weight:900;
 }
 
 .property-location{
-  margin-top:6px;
+  margin-top:5px;
   color:var(--muted-2);
   font-size:8px;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
 }
 
 .property-meta{
   display:flex;
-  gap:9px;
-  margin-top:10px;
-  padding-top:10px;
-  border-top:1px solid rgba(255,255,255,.06);
+  flex-wrap:wrap;
+  gap:5px;
+  margin-top:9px;
+}
+
+.meta-chip{
+  padding:5px 6px;
+  border:1px solid rgba(255,255,255,.06);
+  border-radius:6px;
   color:var(--muted);
-  font-size:8px;
+  background:rgba(255,255,255,.025);
+  font-size:7px;
+}
+
+.property-bottom{
+  display:flex;
+  align-items:end;
+  justify-content:space-between;
+  gap:8px;
+  margin-top:12px;
 }
 
 .property-price{
-  margin-top:10px;
-  color:var(--cream);
-  font-size:14px;
+  font-size:13px;
   font-weight:950;
 }
 
-
-/* =========================================================
-   RIGHT COLUMN
-========================================================= */
-
-.ai-card{
-  position:relative;
-  overflow:hidden;
-  padding:23px;
-  border:1px solid rgba(229,199,125,.22);
-  border-radius:var(--radius-lg);
-  background:
-    radial-gradient(
-      circle at 100% 0%,
-      rgba(229,199,125,.13),
-      transparent 38%
-    ),
-    linear-gradient(
-      145deg,
-      #18382b,
-      #0c1f16
-    );
+.property-price small{
+  display:block;
+  margin-top:2px;
+  color:var(--muted-2);
+  font-size:7px;
+  font-weight:500;
 }
 
-.ai-badge{
+.property-view{
+  min-height:31px;
+  padding:0 9px;
   display:inline-flex;
   align-items:center;
-  gap:6px;
-  padding:6px 8px;
-  border-radius:7px;
-  color:#182016;
-  background:var(--gold-300);
-  font-size:8px;
-  font-weight:1000;
-}
-
-.ai-card h2{
-  margin-top:13px;
-  font-size:20px;
-  line-height:1.15;
-}
-
-.ai-card p{
-  margin-top:8px;
-  color:var(--muted);
-  font-size:9px;
-  line-height:1.6;
-}
-
-.ai-actions{
-  display:grid;
-  gap:7px;
-  margin-top:16px;
-}
-
-.ai-action{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  padding:10px;
-  border:1px solid rgba(255,255,255,.07);
-  border-radius:10px;
-  color:var(--muted);
-  background:rgba(255,255,255,.03);
-  font-size:9px;
-  font-weight:700;
-  text-align:left;
-}
-
-.ai-action:hover{
+  justify-content:center;
+  border:1px solid var(--border-light);
+  border-radius:8px;
   color:var(--gold-200);
-  border-color:rgba(229,199,125,.20);
+  font-size:7px;
+  font-weight:900;
 }
-
 
 /* =========================================================
-   FINANCE CARD
+   ACTIONS
 ========================================================= */
 
-.finance-card{
-  padding:21px;
-  border:1px solid rgba(145,185,232,.15);
-  border-radius:var(--radius-lg);
+.action-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
+}
+
+.action-card{
+  position:relative;
+  min-height:125px;
+  padding:16px;
+  overflow:hidden;
+  border:1px solid var(--border-light);
+  border-radius:15px;
   background:
     linear-gradient(
       145deg,
-      rgba(22,48,57,.92),
-      rgba(11,28,20,.96)
+      rgba(20,45,34,.90),
+      rgba(11,28,20,.90)
     );
+  transition:.2s ease;
 }
 
-.finance-icon{
+.action-card:hover{
+  transform:translateY(-2px);
+  border-color:rgba(229,199,125,.25);
+}
+
+.action-icon{
   width:38px;
   height:38px;
   display:grid;
   place-items:center;
-  border-radius:11px;
-  color:var(--blue);
-  background:rgba(145,185,232,.08);
+  border-radius:10px;
+  color:var(--gold-300);
+  background:rgba(229,199,125,.08);
+  font-size:15px;
 }
 
-.finance-card h3{
-  margin-top:13px;
-  font-size:17px;
+.action-card h3{
+  margin-top:12px;
+  font-size:11px;
+  font-weight:900;
 }
 
-.finance-card p{
-  margin-top:7px;
-  color:var(--muted-2);
-  font-size:9px;
-  line-height:1.6;
-}
-
-.finance-value{
-  margin-top:16px;
-  font-size:25px;
-  font-weight:950;
-}
-
-.finance-note{
-  margin-top:4px;
+.action-card p{
+  margin-top:5px;
   color:var(--muted-2);
   font-size:8px;
+  line-height:1.55;
 }
 
+.action-arrow{
+  position:absolute;
+  right:14px;
+  bottom:14px;
+  color:var(--gold-300);
+}
 
 /* =========================================================
-   UPCOMING
+   STATUS / FINANCE
 ========================================================= */
 
-.visit-list{
+.status-grid{
   display:grid;
-  gap:8px;
+  grid-template-columns:1fr 1fr;
+  gap:15px;
+  margin-bottom:22px;
 }
 
-.visit-item{
-  padding:12px;
-  border:1px solid rgba(255,255,255,.06);
-  border-radius:12px;
-  background:rgba(255,255,255,.025);
+.status-box{
+  padding:18px;
+  border:1px solid var(--border-light);
+  border-radius:var(--radius-lg);
+  background:
+    linear-gradient(
+      145deg,
+      rgba(20,45,34,.94),
+      rgba(11,28,20,.94)
+    );
 }
 
-.visit-top{
+.status-box-head{
   display:flex;
   align-items:center;
   justify-content:space-between;
-  gap:8px;
+  gap:10px;
 }
 
-.visit-date{
-  color:var(--gold-300);
-  font-size:8px;
-  font-weight:900;
+.status-box-title{
+  font-size:11px;
+  font-weight:950;
 }
 
-.visit-status{
-  color:var(--success);
-  font-size:7px;
-  font-weight:900;
-  text-transform:uppercase;
-}
-
-.visit-item strong{
-  display:block;
-  margin-top:7px;
-  font-size:10px;
-}
-
-.visit-item span{
-  display:block;
-  margin-top:4px;
+.status-box-label{
   color:var(--muted-2);
   font-size:8px;
 }
 
-
-/* =========================================================
-   OFFER / APPLICATION
-========================================================= */
-
-.mini-list{
-  display:grid;
-  gap:8px;
+.progress-wrap{
+  margin-top:15px;
 }
 
-.mini-item{
+.progress-head{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:7px;
+  color:var(--muted-2);
+  font-size:8px;
+}
+
+.progress-head strong{
+  color:var(--gold-200);
+}
+
+.progress{
+  width:100%;
+  height:6px;
+  overflow:hidden;
+  border-radius:10px;
+  background:rgba(255,255,255,.07);
+}
+
+.progress-bar{
+  height:100%;
+  border-radius:10px;
+  background:
+    linear-gradient(
+      90deg,
+      var(--gold-500),
+      var(--gold-200)
+    );
+}
+
+.status-items{
+  display:grid;
+  gap:8px;
+  margin-top:15px;
+}
+
+.status-item{
   display:flex;
   align-items:center;
+  justify-content:space-between;
   gap:10px;
-  padding:10px;
-  border-radius:11px;
+  padding:9px 10px;
+  border-radius:9px;
   background:rgba(255,255,255,.025);
 }
 
-.mini-icon{
-  width:31px;
-  height:31px;
-  flex:0 0 31px;
+.status-item span{
+  color:var(--muted-2);
+  font-size:8px;
+}
+
+.status-item strong{
+  font-size:8px;
+}
+
+/* =========================================================
+   ACTIVITY
+========================================================= */
+
+.activity-list{
+  display:grid;
+  gap:0;
+}
+
+.activity-item{
+  position:relative;
+  display:grid;
+  grid-template-columns:31px 1fr auto;
+  gap:10px;
+  padding:12px 0;
+  border-bottom:1px solid rgba(255,255,255,.055);
+}
+
+.activity-item:last-child{
+  border-bottom:0;
+}
+
+.activity-dot{
+  width:29px;
+  height:29px;
   display:grid;
   place-items:center;
   border-radius:9px;
   color:var(--gold-300);
   background:rgba(229,199,125,.08);
+  font-size:10px;
 }
 
-.mini-content{
-  min-width:0;
-  flex:1;
-}
-
-.mini-content strong{
-  display:block;
+.activity-title{
   font-size:9px;
+  font-weight:850;
 }
 
-.mini-content span{
-  display:block;
+.activity-text{
   margin-top:3px;
   color:var(--muted-2);
   font-size:7px;
+  line-height:1.5;
 }
 
-.mini-state{
+.activity-time{
+  color:var(--muted-2);
   font-size:7px;
-  font-weight:900;
-  color:var(--success);
+  white-space:nowrap;
 }
-
 
 /* =========================================================
-   LOAN BANNER
-========================================================= */
-
-.loan-banner{
-  margin-top:18px;
-  display:grid;
-  grid-template-columns:1fr auto;
-  align-items:center;
-  gap:20px;
-  padding:27px;
-  border:1px solid rgba(229,199,125,.20);
-  border-radius:var(--radius-xl);
-  background:
-    radial-gradient(
-      circle at 80% 0%,
-      rgba(229,199,125,.14),
-      transparent 30%
-    ),
-    linear-gradient(
-      135deg,
-      #19382b,
-      #0b1d15
-    );
-}
-
-.loan-banner h2{
-  font-size:23px;
-  letter-spacing:-.035em;
-}
-
-.loan-banner p{
-  max-width:700px;
-  margin-top:7px;
-  color:var(--muted);
-  font-size:10px;
-  line-height:1.6;
-}
-
-
-/* =========================================================
-   EMPTY STATE
+   EMPTY / LOADING
 ========================================================= */
 
 .empty-state{
-  padding:30px 20px;
+  padding:45px 20px;
   text-align:center;
-  border:1px dashed rgba(255,255,255,.10);
-  border-radius:15px;
-  background:rgba(255,255,255,.02);
+  color:var(--muted-2);
+  border:1px dashed rgba(229,199,125,.16);
+  border-radius:14px;
+  background:rgba(255,255,255,.018);
 }
 
-.empty-state-icon{
-  font-size:25px;
-}
-
-.empty-state h3{
-  margin-top:9px;
-  font-size:13px;
+.empty-icon{
+  width:45px;
+  height:45px;
+  margin:auto;
+  display:grid;
+  place-items:center;
+  border-radius:13px;
+  color:var(--gold-300);
+  background:rgba(229,199,125,.08);
 }
 
 .empty-state p{
-  max-width:420px;
-  margin:6px auto 0;
-  color:var(--muted-2);
-  font-size:9px;
-  line-height:1.6;
+  margin-top:8px;
+  font-size:8px;
 }
 
+.loading-state{
+  padding:45px;
+  text-align:center;
+  color:var(--muted-2);
+  border:1px solid var(--border-light);
+  border-radius:var(--radius-lg);
+  background:rgba(255,255,255,.025);
+}
+
+.loading-spinner{
+  width:32px;
+  height:32px;
+  margin:0 auto 12px;
+  border:3px solid rgba(255,255,255,.08);
+  border-top-color:var(--gold-300);
+  border-radius:50%;
+  animation:spin .8s linear infinite;
+}
+
+@keyframes spin{
+  to{transform:rotate(360deg)}
+}
 
 /* =========================================================
    FOOTER
 ========================================================= */
 
 .site-footer{
-  margin-top:45px;
-  padding:35px 0 25px;
+  margin-top:50px;
+  padding:42px 0 25px;
   border-top:1px solid rgba(255,255,255,.07);
-  background:rgba(3,12,8,.35);
+  background:
+    linear-gradient(
+      180deg,
+      rgba(3,12,8,.35),
+      rgba(3,12,8,.72)
+    );
 }
 
 .footer-grid{
   display:grid;
-  grid-template-columns:1.4fr repeat(3,1fr);
-  gap:25px;
+  grid-template-columns:1.5fr repeat(4,1fr);
+  gap:30px;
 }
 
 .footer-brand{
-  max-width:300px;
+  max-width:330px;
 }
 
 .footer-brand p{
-  margin-top:10px;
+  margin-top:12px;
   color:var(--muted-2);
   font-size:9px;
-  line-height:1.7;
+  line-height:1.8;
+}
+
+.footer-trust{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  margin-top:14px;
+}
+
+.trust-pill{
+  padding:6px 8px;
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:7px;
+  color:var(--muted-2);
+  background:rgba(255,255,255,.025);
+  font-size:7px;
+  font-weight:800;
 }
 
 .footer-col h4{
@@ -1145,29 +1299,30 @@ img{
 
 .footer-col a{
   display:block;
-  margin-top:9px;
+  margin-top:10px;
   color:var(--muted-2);
   font-size:9px;
+  transition:.2s ease;
 }
 
 .footer-col a:hover{
   color:var(--gold-300);
+  transform:translateX(2px);
 }
 
 .footer-bottom{
   display:flex;
   justify-content:space-between;
   gap:15px;
-  margin-top:28px;
-  padding-top:17px;
+  margin-top:30px;
+  padding-top:18px;
   border-top:1px solid rgba(255,255,255,.06);
   color:var(--muted-2);
   font-size:8px;
 }
 
-
 /* =========================================================
-   FLOATING AI
+   AI
 ========================================================= */
 
 .ai-floating{
@@ -1175,12 +1330,12 @@ img{
   right:22px;
   bottom:22px;
   z-index:90;
-  min-height:48px;
+  min-height:49px;
   display:flex;
   align-items:center;
   gap:8px;
-  padding:0 16px;
-  border:1px solid rgba(229,199,125,.25);
+  padding:0 17px;
+  border:1px solid rgba(229,199,125,.28);
   border-radius:30px;
   color:#17170f;
   background:
@@ -1189,39 +1344,21 @@ img{
       var(--gold-200),
       var(--gold-400)
     );
-  box-shadow:0 15px 35px rgba(0,0,0,.3);
+  box-shadow:0 15px 35px rgba(0,0,0,.30);
   font-size:10px;
   font-weight:1000;
+  transition:.2s ease;
 }
 
+.ai-floating:hover{
+  transform:translateY(-3px);
+}
 
 /* =========================================================
-   MOBILE
+   RESPONSIVE
 ========================================================= */
 
-@media(max-width:1180px){
-
-  .dashboard-main{
-    grid-template-columns:1fr;
-  }
-
-  .dashboard-right{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:16px;
-  }
-
-  .dashboard-right .panel{
-    margin-top:0;
-  }
-
-  .dashboard-right .ai-card{
-    grid-column:span 2;
-  }
-
-}
-
-@media(max-width:1050px){
+@media(max-width:1200px){
 
   .desktop-nav{
     display:none;
@@ -1231,39 +1368,30 @@ img{
     display:grid;
   }
 
-  .stats-grid{
-    grid-template-columns:repeat(2,1fr);
+  .summary-grid{
+    grid-template-columns:repeat(3,1fr);
   }
 
-  .quick-actions{
-    grid-template-columns:repeat(2,1fr);
+  .footer-grid{
+    grid-template-columns:1.5fr repeat(3,1fr);
   }
-
 }
 
-@media(max-width:800px){
+@media(max-width:1000px){
 
-  .container{
-    width:min(
-      calc(100% - 28px),
-      var(--container)
-    );
-  }
-
-  .page-header-grid{
-    align-items:flex-start;
-    flex-direction:column;
-  }
-
-  .dashboard-right{
+  .welcome-panel{
     grid-template-columns:1fr;
   }
 
-  .dashboard-right .ai-card{
-    grid-column:auto;
+  .welcome-profile{
+    justify-self:start;
   }
 
-  .journey{
+  .dashboard-grid{
+    grid-template-columns:1fr;
+  }
+
+  .summary-grid{
     grid-template-columns:repeat(2,1fr);
   }
 
@@ -1271,10 +1399,29 @@ img{
     grid-template-columns:repeat(2,1fr);
   }
 
+  .action-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .status-grid{
+    grid-template-columns:1fr;
+  }
+}
+
+@media(max-width:800px){
+
+  .container{
+    width:min(calc(100% - 28px),var(--container));
+  }
+
+  .page-heading{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+
   .footer-grid{
     grid-template-columns:1fr 1fr;
   }
-
 }
 
 @media(max-width:560px){
@@ -1287,50 +1434,68 @@ img{
     display:none;
   }
 
-  .header-actions .icon-btn{
+  .header-actions .icon-btn:not(.mobile-menu){
     display:none;
   }
 
-  .header-actions .mobile-menu{
-    display:grid;
-  }
-
-  .page-header{
+  .page{
     padding-top:28px;
   }
 
-  .page-header h1{
-    font-size:37px;
+  .welcome-panel{
+    padding:20px;
   }
 
-  .stats-grid{
+  .welcome-profile{
+    width:100%;
+  }
+
+  .summary-grid{
     grid-template-columns:1fr 1fr;
     gap:9px;
   }
 
-  .stat-card{
+  .summary-card{
     padding:15px;
   }
 
-  .stat-value{
+  .summary-value{
     font-size:22px;
   }
 
-  .quick-actions{
-    grid-template-columns:1fr 1fr;
+  .application-row{
+    grid-template-columns:52px 1fr;
   }
 
-  .journey{
-    grid-template-columns:1fr;
+  .application-thumb{
+    width:52px;
+    height:48px;
+  }
+
+  .application-row > .status{
+    grid-column:2;
+    justify-self:start;
+  }
+
+  .visit-card{
+    grid-template-columns:48px 1fr;
+  }
+
+  .visit-date{
+    width:48px;
+    height:48px;
+  }
+
+  .visit-time{
+    grid-column:2;
   }
 
   .property-grid{
     grid-template-columns:1fr;
   }
 
-  .loan-banner{
+  .action-grid{
     grid-template-columns:1fr;
-    padding:22px;
   }
 
   .footer-grid{
@@ -1345,7 +1510,6 @@ img{
     right:14px;
     bottom:14px;
   }
-
 }
 </style>
 </head>
@@ -1354,22 +1518,23 @@ img{
 
 <div class="page-glow"></div>
 
-
-<!-- =========================================================
+<!-- =======================================================
      HEADER
-========================================================= -->
+======================================================= -->
 
 <header class="site-header">
 
   <div class="container header-inner">
 
-    <a
-      class="brand"
-      href="/buyer/index.html"
-      aria-label="GHAR Buyer Home"
-    >
+    <a class="brand" href="/buyer/index.html">
 
-      <div class="brand-mark">G</div>
+      <div class="brand-mark">
+        <img
+          src="../assets/images/favicon.svg"
+          alt="GHAR"
+          onerror="this.style.display='none';this.parentElement.textContent='G'"
+        >
+      </div>
 
       <div class="brand-text">
         <strong>GHAR</strong>
@@ -1378,68 +1543,48 @@ img{
 
     </a>
 
+    <nav class="desktop-nav" id="mainNav">
 
-    <nav
-      class="desktop-nav"
-      id="desktopNav"
-      aria-label="Buyer navigation"
-    >
-
-      <a href="/buyer/index.html">
-        Home
-      </a>
-
-      <a href="/properties.html">
-        Properties
-      </a>
-
-      <a href="/buyer/saved.html">
-        Saved
-      </a>
-
-      <a href="/buyer/visits.html">
-        Visits
-      </a>
-
-      <a href="/buyer/offers.html">
-        Offers
-      </a>
-
-      <a href="/buyer/loans.html">
-        Loans
-      </a>
+      <a href="/buyer/index.html">Home</a>
+      <a href="/buyer/properties.html">Properties</a>
+      <a href="/buyer/search.html">Search</a>
+      <a href="/buyer/saved-properties.html">Saved</a>
+      <a href="/buyer/favourites.html">Favourites</a>
+      <a href="/buyer/visits.html">Visits</a>
+      <a href="/buyer/offers.html">Offers</a>
+      <a href="/buyer/applications.html">Applications</a>
+      <a class="active" href="/buyer/dashboard.html">Dashboard</a>
 
     </nav>
 
-
     <div class="header-actions">
 
-      <button
-        class="icon-btn"
-        id="notificationButton"
-        type="button"
-        aria-label="Notifications"
-      >
-        ♢
-      </button>
+      <div class="notification-wrap">
+
+        <button
+          class="icon-btn"
+          id="notificationButton"
+          type="button"
+          aria-label="Notifications"
+        >♢</button>
+
+        <span class="notification-dot"></span>
+
+      </div>
 
       <a
         class="avatar"
         id="profileButton"
         href="/buyer/profile.html"
-        aria-label="Profile"
-      >
-        U
-      </a>
+        aria-label="Buyer profile"
+      >U</a>
 
       <button
         class="icon-btn mobile-menu"
         id="menuButton"
         type="button"
-        aria-label="Open menu"
-      >
-        ☰
-      </button>
+        aria-label="Open buyer menu"
+      >☰</button>
 
     </div>
 
@@ -1447,844 +1592,788 @@ img{
 
 </header>
 
+<!-- =======================================================
+     MAIN
+======================================================= -->
 
 <main>
 
+<section class="page">
 
-<!-- =========================================================
-     PAGE HEADER
-========================================================= -->
+<div class="container">
 
-<section class="page-header">
+  <!-- =====================================================
+       PAGE HEADING
+  ====================================================== -->
 
-  <div class="container">
+  <div class="page-heading">
 
-    <div class="page-header-grid">
+    <div>
 
-      <div>
-
-        <div class="eyebrow">
-          BUYER COMMAND CENTER
-        </div>
-
-        <h1>
-          Welcome back,
-          <span id="buyerName">Buyer.</span>
-        </h1>
-
-        <p>
-          Manage your property journey from one place --
-          shortlist homes, schedule visits, track offers,
-          review applications and plan your financing.
-        </p>
-
+      <div class="eyebrow">
+        GHAR BUYER DASHBOARD
       </div>
 
+      <h1>
+        Your property journey.
+      </h1>
 
-      <div class="header-actions-row">
+      <p>
+        Manage your saved properties, applications, visits,
+        offers, documents and financing progress from one
+        secure buyer workspace.
+      </p>
+
+    </div>
+
+    <div class="heading-actions">
+
+      <a
+        class="btn btn-secondary"
+        href="/buyer/applications.html"
+      >
+        View applications
+      </a>
+
+      <a
+        class="btn btn-primary"
+        href="/buyer/properties.html"
+      >
+        Find a property
+      </a>
+
+    </div>
+
+  </div>
+
+  <!-- =====================================================
+       WELCOME
+  ====================================================== -->
+
+  <section class="welcome-panel">
+
+    <div class="welcome-content">
+
+      <div class="eyebrow">
+        WELCOME BACK
+      </div>
+
+      <h2 id="welcomeName">
+        Welcome to your GHAR.
+      </h2>
+
+      <p>
+        Continue where you left off. Review your applications,
+        prepare documents, manage upcoming visits, compare
+        properties and move closer to your next property decision.
+      </p>
+
+      <div class="welcome-actions">
 
         <a
           class="btn btn-primary"
-          href="/property-search.html"
+          href="/buyer/search.html"
         >
-          + Find property
+          Search properties
         </a>
 
         <a
           class="btn btn-secondary"
-          href="/buyer/profile.html"
+          href="/buyer/visits.html"
         >
-          Edit profile
+          Upcoming visits
+        </a>
+
+        <a
+          class="btn btn-secondary"
+          href="/buyer/documents.html"
+        >
+          My documents
         </a>
 
       </div>
 
     </div>
 
+    <div class="welcome-profile">
+
+      <div
+        class="profile-image"
+        id="profileImage"
+      >
+        U
+      </div>
+
+      <div
+        class="profile-name"
+        id="profileName"
+      >
+        Buyer
+      </div>
+
+      <div
+        class="profile-email"
+        id="profileEmail"
+      >
+        Loading profile...
+      </div>
+
+      <span class="profile-status">
+        ● Buyer account active
+      </span>
+
+    </div>
+
+  </section>
+
+  <!-- =====================================================
+       SUMMARY
+  ====================================================== -->
+
+  <div class="summary-grid">
+
+    <article class="summary-card">
+
+      <div class="summary-top">
+
+        <span class="summary-label">
+          Applications
+        </span>
+
+        <div class="summary-icon">
+          ▣
+        </div>
+
+      </div>
+
+      <div
+        class="summary-value"
+        id="totalApplications"
+      >0</div>
+
+      <div class="summary-note">
+        Total applications
+      </div>
+
+    </article>
+
+    <article class="summary-card">
+
+      <div class="summary-top">
+
+        <span class="summary-label">
+          Saved
+        </span>
+
+        <div class="summary-icon">
+          ♡
+        </div>
+
+      </div>
+
+      <div
+        class="summary-value"
+        id="savedCount"
+      >0</div>
+
+      <div class="summary-note">
+        Saved properties
+      </div>
+
+    </article>
+
+    <article class="summary-card">
+
+      <div class="summary-top">
+
+        <span class="summary-label">
+          Visits
+        </span>
+
+        <div class="summary-icon">
+          ◷
+        </div>
+
+      </div>
+
+      <div
+        class="summary-value"
+        id="visitCount"
+      >0</div>
+
+      <div class="summary-note">
+        Upcoming visits
+      </div>
+
+    </article>
+
+    <article class="summary-card">
+
+      <div class="summary-top">
+
+        <span class="summary-label">
+          Offers
+        </span>
+
+        <div class="summary-icon">
+          ₹
+        </div>
+
+      </div>
+
+      <div
+        class="summary-value"
+        id="offerCount"
+      >0</div>
+
+      <div class="summary-note">
+        Active offers
+      </div>
+
+    </article>
+
+    <article class="summary-card">
+
+      <div class="summary-top">
+
+        <span class="summary-label">
+          Documents
+        </span>
+
+        <div class="summary-icon">
+          ✓
+        </div>
+
+      </div>
+
+      <div
+        class="summary-value"
+        id="documentCount"
+      >0</div>
+
+      <div class="summary-note">
+        Buyer documents
+      </div>
+
+    </article>
+
   </div>
 
-</section>
+  <!-- =====================================================
+       APPLICATIONS + VISITS
+  ====================================================== -->
 
+  <div class="dashboard-grid">
 
-<!-- =========================================================
-     DASHBOARD
-========================================================= -->
+    <section class="panel">
 
-<section class="dashboard">
+      <div class="panel-header">
 
-  <div class="container">
+        <div>
 
-    <div class="dashboard-main">
-
-
-      <!-- ===================================================
-           LEFT
-      ==================================================== -->
-
-      <div class="dashboard-left">
-
-
-        <!-- STATS -->
-
-        <div class="stats-grid">
-
-          <article class="stat-card">
-
-            <div class="stat-top">
-
-              <span class="stat-label">
-                Saved
-              </span>
-
-              <div class="stat-icon">
-                ♡
-              </div>
-
-            </div>
-
-            <div
-              class="stat-value"
-              id="savedCount"
-            >
-              0
-            </div>
-
-            <div class="stat-note">
-              Saved properties
-            </div>
-
-          </article>
-
-
-          <article class="stat-card">
-
-            <div class="stat-top">
-
-              <span class="stat-label">
-                Visits
-              </span>
-
-              <div class="stat-icon">
-                ◷
-              </div>
-
-            </div>
-
-            <div
-              class="stat-value"
-              id="visitCount"
-            >
-              0
-            </div>
-
-            <div class="stat-note">
-              Upcoming visits
-            </div>
-
-          </article>
-
-
-          <article class="stat-card">
-
-            <div class="stat-top">
-
-              <span class="stat-label">
-                Offers
-              </span>
-
-              <div class="stat-icon">
-                ₹
-              </div>
-
-            </div>
-
-            <div
-              class="stat-value"
-              id="offerCount"
-            >
-              0
-            </div>
-
-            <div class="stat-note">
-              Active offers
-            </div>
-
-          </article>
-
-
-          <article class="stat-card">
-
-            <div class="stat-top">
-
-              <span class="stat-label">
-                Applications
-              </span>
-
-              <div class="stat-icon">
-                ✓
-              </div>
-
-            </div>
-
-            <div
-              class="stat-value"
-              id="applicationCount"
-            >
-              0
-            </div>
-
-            <div class="stat-note">
-              Active applications
-            </div>
-
-          </article>
-
-        </div>
-
-
-        <!-- QUICK ACTIONS -->
-
-        <div class="panel" style="margin-top:16px">
-
-          <div class="panel-title">
-
-            <div>
-              <h2>Quick actions</h2>
-              <div class="panel-subtitle">
-                Continue where you left off.
-              </div>
-            </div>
-
+          <div class="panel-heading">
+            Recent applications
           </div>
 
-
-          <div class="quick-actions">
-
-            <a
-              class="quick-action"
-              href="/property-search.html"
-            >
-
-              <div class="quick-icon">
-                ⌕
-              </div>
-
-              <div>
-                <strong>
-                  Search properties
-                </strong>
-
-                <span>
-                  Discover new listings
-                </span>
-              </div>
-
-            </a>
-
-
-            <a
-              class="quick-action"
-              href="/buyer/saved.html"
-            >
-
-              <div class="quick-icon">
-                ♡
-              </div>
-
-              <div>
-                <strong>
-                  Saved properties
-                </strong>
-
-                <span>
-                  Review your shortlist
-                </span>
-              </div>
-
-            </a>
-
-
-            <a
-              class="quick-action"
-              href="/buyer/visits.html"
-            >
-
-              <div class="quick-icon">
-                ◷
-              </div>
-
-              <div>
-                <strong>
-                  Manage visits
-                </strong>
-
-                <span>
-                  Upcoming property tours
-                </span>
-              </div>
-
-            </a>
-
-
-            <a
-              class="quick-action"
-              href="/buyer/offers.html"
-            >
-
-              <div class="quick-icon">
-                ₹
-              </div>
-
-              <div>
-                <strong>
-                  Manage offers
-                </strong>
-
-                <span>
-                  Track negotiations
-                </span>
-              </div>
-
-            </a>
-
+          <div class="panel-description">
+            Track the latest property applications.
           </div>
 
         </div>
 
+        <a
+          class="panel-link"
+          href="/buyer/applications.html"
+        >
+          View all →
+        </a>
 
-        <!-- JOURNEY -->
+      </div>
 
-        <div class="panel">
+      <div
+        class="panel-body"
+        id="applicationsPanel"
+      >
 
-          <div class="panel-title">
+        <div class="loading-state">
 
-            <div>
-              <h2>Your buying journey</h2>
+          <div class="loading-spinner"></div>
 
-              <div class="panel-subtitle">
-                Follow each stage from discovery to purchase.
-              </div>
-            </div>
-
-          </div>
-
-
-          <div class="journey">
-
-            <div class="journey-step active">
-
-              <div class="journey-number">
-                1
-              </div>
-
-              <strong>
-                Discover
-              </strong>
-
-              <span>
-                Search and shortlist properties.
-              </span>
-
-            </div>
-
-
-            <div class="journey-step">
-
-              <div class="journey-number">
-                2
-              </div>
-
-              <strong>
-                Visit
-              </strong>
-
-              <span>
-                Schedule and attend property visits.
-              </span>
-
-            </div>
-
-
-            <div class="journey-step">
-
-              <div class="journey-number">
-                3
-              </div>
-
-              <strong>
-                Offer
-              </strong>
-
-              <span>
-                Submit and negotiate your offer.
-              </span>
-
-            </div>
-
-
-            <div class="journey-step">
-
-              <div class="journey-number">
-                4
-              </div>
-
-              <strong>
-                Finance
-              </strong>
-
-              <span>
-                Plan your loan and documentation.
-              </span>
-
-            </div>
-
-
-            <div class="journey-step">
-
-              <div class="journey-number">
-                5
-              </div>
-
-              <strong>
-                Purchase
-              </strong>
-
-              <span>
-                Complete verification and transaction.
-              </span>
-
-            </div>
-
-          </div>
-
-        </div>
-
-
-        <!-- SHORTLIST -->
-
-        <div class="panel">
-
-          <div class="panel-title">
-
-            <div>
-              <h2>Your shortlist</h2>
-
-              <div class="panel-subtitle">
-                Recently saved properties.
-              </div>
-            </div>
-
-            <a
-              class="section-link"
-              href="/buyer/saved.html"
-            >
-              View all →
-            </a>
-
-          </div>
-
-
-          <div
-            id="propertyGrid"
-            class="property-grid"
-          >
-
-            <div class="empty-state">
-
-              <div class="empty-state-icon">
-                ♡
-              </div>
-
-              <h3>
-                Your shortlist is empty
-              </h3>
-
-              <p>
-                Save properties while browsing GHAR and
-                they will appear here.
-              </p>
-
-              <a
-                class="btn btn-primary"
-                style="margin-top:14px"
-                href="/property-search.html"
-              >
-                Find properties
-              </a>
-
-            </div>
-
-          </div>
-
-        </div>
-
-
-        <!-- ACTIVITY -->
-
-        <div class="panel">
-
-          <div class="panel-title">
-
-            <div>
-              <h2>Recent activity</h2>
-
-              <div class="panel-subtitle">
-                Your latest actions on GHAR.
-              </div>
-            </div>
-
-            <a
-              class="section-link"
-              href="/buyer/activity.html"
-            >
-              View all →
-            </a>
-
-          </div>
-
-
-          <div
-            id="activityList"
-            class="activity"
-          >
-
-            <div class="activity-item">
-
-              <div class="activity-icon">
-                ✓
-              </div>
-
-              <div class="activity-text">
-
-                <strong>
-                  Welcome to your GHAR dashboard
-                </strong>
-
-                <span>
-                  Start searching for your preferred property.
-                </span>
-
-              </div>
-
-              <span class="activity-status">
-                Ready
-              </span>
-
-            </div>
-
-          </div>
-
-        </div>
-
-
-        <!-- LOAN BANNER -->
-
-        <div class="loan-banner">
-
-          <div>
-
-            <h2>
-              Know your buying power.
-            </h2>
-
-            <p>
-              Estimate affordability, understand your
-              expected repayment and prepare your financing
-              before submitting an offer.
-            </p>
-
-          </div>
-
-          <a
-            class="btn btn-primary"
-            href="/buyer/loans.html"
-          >
-            Plan my loan
-          </a>
+          Loading applications...
 
         </div>
 
       </div>
 
+    </section>
 
-      <!-- =================================================
-           RIGHT
-      ================================================== -->
+    <section class="panel">
 
-      <aside class="dashboard-right">
+      <div class="panel-header">
 
+        <div>
 
-        <!-- AI -->
-
-        <div class="ai-card">
-
-          <div class="ai-badge">
-            ✦ GHAR AI
+          <div class="panel-heading">
+            Upcoming visits
           </div>
 
-          <h2>
-            Your property
-            decision assistant.
-          </h2>
-
-          <p>
-            Get help comparing properties, understanding
-            locations, planning financing and evaluating
-            your shortlist.
-          </p>
-
-
-          <div class="ai-actions">
-
-            <button
-              class="ai-action"
-              type="button"
-              data-ai-prompt="Help me find the best properties according to my budget and preferred location."
-            >
-              ✦ Find properties
-            </button>
-
-            <button
-              class="ai-action"
-              type="button"
-              data-ai-prompt="Compare my shortlisted properties and explain which one may be the better choice."
-            >
-              ◈ Compare shortlist
-            </button>
-
-            <button
-              class="ai-action"
-              type="button"
-              data-ai-prompt="Help me calculate my property buying affordability and financing requirements."
-            >
-              ₹ Check affordability
-            </button>
-
-            <button
-              class="ai-action"
-              type="button"
-              data-ai-prompt="Explain the documents I should review before buying a property."
-            >
-              ✓ Review documents
-            </button>
-
+          <div class="panel-description">
+            Your scheduled property visits.
           </div>
-
-
-          <button
-            id="openAI"
-            class="btn btn-primary"
-            type="button"
-            style="width:100%;margin-top:15px"
-          >
-            Open GHAR AI
-          </button>
 
         </div>
 
+        <a
+          class="panel-link"
+          href="/buyer/visits.html"
+        >
+          View all →
+        </a>
 
-        <!-- FINANCE -->
+      </div>
 
-        <div class="finance-card">
+      <div
+        class="panel-body"
+        id="visitsPanel"
+      >
 
-          <div class="finance-icon">
+        <div class="loading-state">
+
+          <div class="loading-spinner"></div>
+
+          Loading visits...
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </div>
+
+  <!-- =====================================================
+       BUYER STATUS
+  ====================================================== -->
+
+  <div class="status-grid">
+
+    <section class="status-box">
+
+      <div class="status-box-head">
+
+        <div>
+
+          <div class="status-box-title">
+            Document verification
+          </div>
+
+          <div class="status-box-label">
+            Your buyer document readiness
+          </div>
+
+        </div>
+
+        <span
+          class="status status-review"
+          id="documentStatus"
+        >
+          Checking
+        </span>
+
+      </div>
+
+      <div class="progress-wrap">
+
+        <div class="progress-head">
+
+          <span>
+            Verification progress
+          </span>
+
+          <strong id="documentProgressText">
+            0%
+          </strong>
+
+        </div>
+
+        <div class="progress">
+
+          <div
+            class="progress-bar"
+            id="documentProgress"
+            style="width:0%"
+          ></div>
+
+        </div>
+
+      </div>
+
+      <div class="status-items">
+
+        <div class="status-item">
+
+          <span>
+            Identity documents
+          </span>
+
+          <strong id="identityStatus">
+            Checking
+          </strong>
+
+        </div>
+
+        <div class="status-item">
+
+          <span>
+            Address proof
+          </span>
+
+          <strong id="addressStatus">
+            Checking
+          </strong>
+
+        </div>
+
+        <div class="status-item">
+
+          <span>
+            Financial documents
+          </span>
+
+          <strong id="financialStatus">
+            Checking
+          </strong>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <section class="status-box">
+
+      <div class="status-box-head">
+
+        <div>
+
+          <div class="status-box-title">
+            Financing readiness
+          </div>
+
+          <div class="status-box-label">
+            Property financing workspace
+          </div>
+
+        </div>
+
+        <span
+          class="status status-pending"
+          id="loanStatus"
+        >
+          Not started
+        </span>
+
+      </div>
+
+      <div class="progress-wrap">
+
+        <div class="progress-head">
+
+          <span>
+            Financing profile
+          </span>
+
+          <strong id="loanProgressText">
+            0%
+          </strong>
+
+        </div>
+
+        <div class="progress">
+
+          <div
+            class="progress-bar"
+            id="loanProgress"
+            style="width:0%"
+          ></div>
+
+        </div>
+
+      </div>
+
+      <div class="status-items">
+
+        <div class="status-item">
+
+          <span>
+            Loan profile
+          </span>
+
+          <strong id="loanProfileStatus">
+            Not started
+          </strong>
+
+        </div>
+
+        <div class="status-item">
+
+          <span>
+            Eligibility
+          </span>
+
+          <strong id="eligibilityStatus">
+            Pending
+          </strong>
+
+        </div>
+
+        <div class="status-item">
+
+          <span>
+            Advisor
+          </span>
+
+          <strong>
+            GHAR AI
+          </strong>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </div>
+
+  <!-- =====================================================
+       RECOMMENDED PROPERTIES
+  ====================================================== -->
+
+  <section class="panel">
+
+    <div class="panel-header">
+
+      <div>
+
+        <div class="panel-heading">
+          Recommended properties
+        </div>
+
+        <div class="panel-description">
+          Properties selected for your buyer journey.
+        </div>
+
+      </div>
+
+      <a
+        class="panel-link"
+        href="/buyer/properties.html"
+      >
+        Explore all →
+      </a>
+
+    </div>
+
+    <div
+      class="panel-body"
+      id="propertyPanel"
+    >
+
+      <div class="loading-state">
+
+        <div class="loading-spinner"></div>
+
+        Loading properties...
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <br>
+
+  <!-- =====================================================
+       QUICK ACTIONS
+  ====================================================== -->
+
+  <section class="panel">
+
+    <div class="panel-header">
+
+      <div>
+
+        <div class="panel-heading">
+          Buyer tools
+        </div>
+
+        <div class="panel-description">
+          Quickly continue the most important parts of your journey.
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-body">
+
+      <div class="action-grid">
+
+        <a
+          class="action-card"
+          href="/buyer/search.html"
+        >
+
+          <div class="action-icon">
+            ⌕
+          </div>
+
+          <h3>
+            Search properties
+          </h3>
+
+          <p>
+            Search homes, apartments, villas, plots and commercial properties.
+          </p>
+
+          <span class="action-arrow">
+            →
+          </span>
+
+        </a>
+
+        <a
+          class="action-card"
+          href="/buyer/applications.html"
+        >
+
+          <div class="action-icon">
+            ▣
+          </div>
+
+          <h3>
+            Applications
+          </h3>
+
+          <p>
+            Track verification, documents, approval and purchase progress.
+          </p>
+
+          <span class="action-arrow">
+            →
+          </span>
+
+        </a>
+
+        <a
+          class="action-card"
+          href="/buyer/offers.html"
+        >
+
+          <div class="action-icon">
             ₹
           </div>
 
           <h3>
-            Financing overview
+            Manage offers
           </h3>
 
           <p>
-            Keep your estimated purchase budget and
-            financing plan visible while you search.
+            Review submitted offers and follow negotiation progress.
           </p>
 
-          <div
-            class="finance-value"
-            id="budgetValue"
-          >
-            ₹0
+          <span class="action-arrow">
+            →
+          </span>
+
+        </a>
+
+        <a
+          class="action-card"
+          href="/ai-loan-advisor.html"
+        >
+
+          <div class="action-icon">
+            ✦
           </div>
 
-          <div class="finance-note">
-            Estimated purchase budget
-          </div>
+          <h3>
+            Loan advisor
+          </h3>
 
-          <a
-            class="btn btn-secondary"
-            href="/buyer/loans.html"
-            style="width:100%;margin-top:15px"
-          >
-            Open loan planner
-          </a>
+          <p>
+            Explore financing options and prepare your loan profile.
+          </p>
 
-        </div>
+          <span class="action-arrow">
+            →
+          </span>
 
+        </a>
 
-        <!-- UPCOMING VISITS -->
-
-        <div class="panel">
-
-          <div class="panel-title">
-
-            <div>
-              <h3>Upcoming visits</h3>
-              <div class="panel-subtitle">
-                Your scheduled property tours.
-              </div>
-            </div>
-
-            <a
-              class="section-link"
-              href="/buyer/visits.html"
-            >
-              All →
-            </a>
-
-          </div>
-
-
-          <div
-            id="visitList"
-            class="visit-list"
-          >
-
-            <div class="empty-state">
-
-              <div class="empty-state-icon">
-                ◷
-              </div>
-
-              <h3>
-                No upcoming visits
-              </h3>
-
-              <p>
-                Schedule a visit from any property listing.
-              </p>
-
-            </div>
-
-          </div>
-
-        </div>
-
-
-        <!-- OFFERS -->
-
-        <div class="panel">
-
-          <div class="panel-title">
-
-            <div>
-              <h3>Active offers</h3>
-
-              <div class="panel-subtitle">
-                Current offer activity.
-              </div>
-            </div>
-
-            <a
-              class="section-link"
-              href="/buyer/offers.html"
-            >
-              All →
-            </a>
-
-          </div>
-
-
-          <div
-            id="offerList"
-            class="mini-list"
-          >
-
-            <div class="empty-state">
-
-              <div class="empty-state-icon">
-                ₹
-              </div>
-
-              <h3>
-                No active offers
-              </h3>
-
-              <p>
-                Offers you submit will appear here.
-              </p>
-
-            </div>
-
-          </div>
-
-        </div>
-
-
-        <!-- APPLICATIONS -->
-
-        <div class="panel">
-
-          <div class="panel-title">
-
-            <div>
-              <h3>Applications</h3>
-
-              <div class="panel-subtitle">
-                Active property applications.
-              </div>
-            </div>
-
-            <a
-              class="section-link"
-              href="/buyer/applications.html"
-            >
-              All →
-            </a>
-
-          </div>
-
-
-          <div
-            id="applicationList"
-            class="mini-list"
-          >
-
-            <div class="empty-state">
-
-              <div class="empty-state-icon">
-                ✓
-              </div>
-
-              <h3>
-                No active applications
-              </h3>
-
-              <p>
-                Property applications will be tracked here.
-              </p>
-
-            </div>
-
-          </div>
-
-        </div>
-
-
-      </aside>
+      </div>
 
     </div>
 
-  </div>
+  </section>
+
+  <br>
+
+  <!-- =====================================================
+       RECENT ACTIVITY
+  ====================================================== -->
+
+  <section class="panel">
+
+    <div class="panel-header">
+
+      <div>
+
+        <div class="panel-heading">
+          Recent activity
+        </div>
+
+        <div class="panel-description">
+          Latest actions across your GHAR buyer account.
+        </div>
+
+      </div>
+
+      <a
+        class="panel-link"
+        href="/buyer/notifications.html"
+      >
+        Notifications →
+      </a>
+
+    </div>
+
+    <div
+      class="panel-body"
+      id="activityPanel"
+    >
+
+      <div class="loading-state">
+
+        <div class="loading-spinner"></div>
+
+        Loading activity...
+
+      </div>
+
+    </div>
+
+  </section>
+
+</div>
 
 </section>
 
 </main>
 
-
-<!-- =========================================================
+<!-- =======================================================
      FOOTER
-========================================================= -->
+======================================================= -->
 
 <footer class="site-footer">
 
@@ -2292,59 +2381,70 @@ img{
 
     <div class="footer-grid">
 
-
       <div class="footer-brand">
 
         <div class="brand">
 
           <div class="brand-mark">
-            G
+            <img
+              src="../assets/images/favicon.svg"
+              alt="GHAR"
+              onerror="this.style.display='none';this.parentElement.textContent='G'"
+            >
           </div>
 
           <div class="brand-text">
-
-            <strong>
-              GHAR
-            </strong>
-
-            <span>
-              Real Estate Platform
-            </span>
-
+            <strong>GHAR</strong>
+            <span>Real Estate Platform</span>
           </div>
 
         </div>
 
         <p>
           A connected real estate platform for discovering,
-          evaluating, financing and managing property decisions.
+          evaluating, financing and managing property decisions
+          through one secure digital experience.
         </p>
 
-      </div>
+        <div class="footer-trust">
 
+          <span class="trust-pill">
+            Secure Buyer Portal
+          </span>
+
+          <span class="trust-pill">
+            Document Ready
+          </span>
+
+          <span class="trust-pill">
+            AI Assisted
+          </span>
+
+        </div>
+
+      </div>
 
       <div class="footer-col">
 
         <h4>Discover</h4>
 
-        <a href="/properties.html">
+        <a href="/buyer/properties.html">
           Properties
         </a>
 
-        <a href="/property-search.html">
+        <a href="/buyer/search.html">
           Property Search
         </a>
 
-        <a href="/buyer/saved.html">
+        <a href="/buyer/saved-properties.html">
           Saved Properties
         </a>
 
-        <a href="/buyer/visits.html">
-          Visits
+        <a href="/buyer/favourites.html">
+          Favourites
         </a>
 
       </div>
-
 
       <div class="footer-col">
 
@@ -2354,20 +2454,41 @@ img{
           Profile
         </a>
 
+        <a href="/buyer/visits.html">
+          Property Visits
+        </a>
+
         <a href="/buyer/offers.html">
           Offers
         </a>
 
-        <a href="/buyer/loans.html">
-          Loans
-        </a>
-
-        <a href="/buyer/documents.html">
-          Documents
+        <a href="/buyer/applications.html">
+          Applications
         </a>
 
       </div>
 
+      <div class="footer-col">
+
+        <h4>Services</h4>
+
+        <a href="/ai.html">
+          GHAR AI
+        </a>
+
+        <a href="/ai-loan-advisor.html">
+          Loan Advisor
+        </a>
+
+        <a href="/ai-investment-advisor.html">
+          Investment Advisor
+        </a>
+
+        <a href="/map.html">
+          Property Map
+        </a>
+
+      </div>
 
       <div class="footer-col">
 
@@ -2382,10 +2503,10 @@ img{
         </a>
 
         <a href="/buyer/support.html">
-          Support
+          Buyer Support
         </a>
 
-        <a href="/privacy.html">
+        <a href="/privacy-policy.html">
           Privacy
         </a>
 
@@ -2393,12 +2514,11 @@ img{
 
     </div>
 
-
     <div class="footer-bottom">
 
       <span>
-        © <span id="footerYear"></span> GHAR.
-        All rights reserved.
+        © <span id="footerYear"></span>
+        GHAR. All rights reserved.
       </span>
 
       <span>
@@ -2411,6 +2531,17 @@ img{
 
 </footer>
 
+<!-- =======================================================
+     AI
+======================================================= -->
+
+<button
+  id="openAI"
+  class="ai-floating"
+  type="button"
+>
+  ✦ Ask GHAR AI
+</button>
 
 <script>
 "use strict";
@@ -2424,9 +2555,6 @@ const API_BASE =
   window.API_BASE ||
   "/api";
 
-const AI_API =
-  API_BASE + "/ai";
-
 
 /* =========================================================
    HELPERS
@@ -2437,19 +2565,17 @@ function $(selector){
 }
 
 function escapeHTML(value){
+
   return String(value ?? "")
     .replace(/&/g,"&amp;")
     .replace(/</g,"&lt;")
     .replace(/>/g,"&gt;")
     .replace(/"/g,"&quot;")
     .replace(/'/g,"&#039;");
+
 }
 
-
-async function apiRequest(
-  url,
-  options={}
-){
+async function apiRequest(url,options={}){
 
   const response =
     await fetch(
@@ -2467,15 +2593,13 @@ async function apiRequest(
       }
     );
 
-
   let data=null;
 
   try{
     data=await response.json();
-  }catch(error){
+  }catch{
     data=null;
   }
-
 
   if(!response.ok){
 
@@ -2492,10 +2616,8 @@ async function apiRequest(
     throw error;
   }
 
-
   return data;
 }
-
 
 function normalizeCollection(response){
 
@@ -2508,15 +2630,26 @@ function normalizeCollection(response){
   if(Array.isArray(response?.items))
     return response.items;
 
-  if(Array.isArray(response?.results))
-    return response.results;
+  if(Array.isArray(response?.applications))
+    return response.applications;
 
   if(Array.isArray(response?.properties))
     return response.properties;
 
+  if(Array.isArray(response?.visits))
+    return response.visits;
+
+  if(Array.isArray(response?.offers))
+    return response.offers;
+
+  if(Array.isArray(response?.documents))
+    return response.documents;
+
+  if(Array.isArray(response?.results))
+    return response.results;
+
   return [];
 }
-
 
 function formatPrice(value){
 
@@ -2525,620 +2658,701 @@ function formatPrice(value){
   if(!Number.isFinite(amount))
     return "Price on request";
 
-  if(amount>=10000000){
+  if(amount>=10000000)
+    return "₹"+(amount/10000000).toFixed(2)+" Cr";
 
-    return "₹"+
-      (amount/10000000)
-      .toFixed(2)+
-      " Cr";
-  }
+  if(amount>=100000)
+    return "₹"+(amount/100000).toFixed(2)+" L";
 
-  if(amount>=100000){
-
-    return "₹"+
-      (amount/100000)
-      .toFixed(2)+
-      " L";
-  }
-
-  return "₹"+
-    amount.toLocaleString("en-IN");
+  return "₹"+amount.toLocaleString("en-IN");
 }
 
+function formatDate(value){
 
-function propertyImage(property){
+  if(!value)
+    return "Date unavailable";
 
-  return (
-    property.image ||
-    property.coverImage ||
-    property.thumbnail ||
-    property.imageUrl ||
-    property.images?.[0] ||
-    "../assets/images/property-placeholder.jpg"
+  const date=new Date(value);
+
+  if(Number.isNaN(date.getTime()))
+    return "Date unavailable";
+
+  return date.toLocaleDateString(
+    "en-IN",
+    {
+      day:"2-digit",
+      month:"short",
+      year:"numeric"
+    }
   );
 }
 
+function formatShortDate(value){
 
-/* =========================================================
-   PROPERTY CARD
-========================================================= */
+  if(!value)
+    return {
+      day:"--",
+      month:"---"
+    };
 
-function createPropertyCard(property){
+  const date=new Date(value);
 
-  const id=
-    property.id ||
-    property.propertyId ||
-    property._id ||
-    "";
+  if(Number.isNaN(date.getTime()))
+    return {
+      day:"--",
+      month:"---"
+    };
 
-  const title=
-    property.title ||
-    property.name ||
-    "Premium Property";
+  return {
+    day:date.getDate(),
+    month:date.toLocaleDateString(
+      "en-IN",
+      {month:"short"}
+    )
+  };
+}
 
-  const type=
-    property.type ||
-    property.propertyType ||
-    "Property";
+function getStatus(item){
 
-  const location=
-    property.location ||
-    property.city ||
-    "Location available";
+  return String(
+    item?.status ||
+    item?.applicationStatus ||
+    "pending"
+  )
+  .toLowerCase()
+  .replace(/\s+/g,"-");
+}
 
-  const price=
-    formatPrice(
-      property.price ||
-      property.salePrice ||
-      property.amount
-    );
+function getProperty(item){
 
-  const bedrooms=
-    property.bedrooms ??
-    property.bhk ??
-    property.configuration ??
-    "--";
+  return item?.property || {};
+}
 
-  const area=
-    property.area ||
-    property.areaSqFt ||
-    property.size ||
-    "--";
+function getPropertyTitle(item){
 
-  return `
+  const property=getProperty(item);
 
-    <article
-      class="property-card"
-      data-property-id="${escapeHTML(id)}"
-    >
+  return (
+    item?.propertyTitle ||
+    property?.title ||
+    property?.name ||
+    item?.title ||
+    "Property"
+  );
+}
 
-      <div class="property-image">
+function getPropertyLocation(item){
 
-        <img
-          src="${escapeHTML(
-            propertyImage(property)
-          )}"
-          alt="${escapeHTML(title)}"
-          loading="lazy"
-          onerror="
-            this.src='../assets/images/property-placeholder.jpg'
-          "
-        >
+  const property=getProperty(item);
 
-        <span class="property-badge">
-          ${escapeHTML(
-            property.badge ||
-            "Verified"
-          )}
-        </span>
+  return (
+    item?.location ||
+    property?.location ||
+    property?.city ||
+    "Location available"
+  );
+}
 
-        <button
-          class="save-btn"
-          type="button"
-          data-save-property="${escapeHTML(id)}"
-          aria-label="Save property"
-        >
-          ♡
-        </button>
+function getPropertyImage(item){
 
-      </div>
+  const property=getProperty(item);
 
-      <div class="property-content">
+  return (
+    item?.image ||
+    property?.image ||
+    property?.coverImage ||
+    property?.thumbnail ||
+    property?.images?.[0] ||
+    "../assets/images/properties/property-placeholder.jpg"
+  );
+}
 
-        <div class="property-type">
-          ${escapeHTML(type)}
-        </div>
+function getPropertyId(item){
 
-        <h3 class="property-title">
-          ${escapeHTML(title)}
-        </h3>
+  const property=getProperty(item);
 
-        <div class="property-location">
-          ${escapeHTML(location)}
-        </div>
+  return (
+    item?.propertyId ||
+    property?.id ||
+    property?.propertyId ||
+    ""
+  );
+}
 
-        <div class="property-meta">
+function getApplicationId(item){
 
-          <span>
-            🛏 ${escapeHTML(bedrooms)} BHK
-          </span>
+  return (
+    item?.id ||
+    item?.applicationId ||
+    item?._id ||
+    ""
+  );
+}
 
-          <span>
-            ⌂ ${escapeHTML(area)}
-          </span>
+function statusLabel(status){
 
-        </div>
+  const labels={
+    pending:"Pending",
+    review:"Under Review",
+    "under-review":"Under Review",
+    approved:"Approved",
+    rejected:"Rejected"
+  };
 
-        <div class="property-price">
-          ${escapeHTML(price)}
-        </div>
-
-      </div>
-
-    </article>
-  `;
+  return labels[status] || "Pending";
 }
 
 
 /* =========================================================
-   RENDER SHORTLIST
+   PROFILE
 ========================================================= */
 
-function renderProperties(response){
+async function loadProfile(){
 
-  const grid=$("#propertyGrid");
+  try{
 
-  if(!grid)
-    return;
+    const response =
+      await apiRequest(
+        API_BASE+"/users/me"
+      );
 
-  const properties=
-    normalizeCollection(response);
+    const user =
+      response?.data ||
+      response?.user ||
+      response ||
+      {};
+
+    const name =
+      user?.name ||
+      user?.fullName ||
+      user?.firstName ||
+      user?.email ||
+      "Buyer";
+
+    const email =
+      user?.email ||
+      "Buyer account";
+
+    const avatar =
+      user?.avatar ||
+      user?.profileImage ||
+      user?.photo ||
+      "";
+
+    $("#profileName").textContent=name;
+    $("#profileEmail").textContent=email;
+    $("#welcomeName").textContent=
+      "Welcome back, "+name.split(" ")[0]+".";
+
+    const initial =
+      String(name)
+        .trim()
+        .charAt(0)
+        .toUpperCase() || "U";
+
+    $("#profileButton").textContent=initial;
+
+    if(avatar){
+
+      $("#profileImage").innerHTML=
+        `<img src="${escapeHTML(avatar)}"
+              alt="${escapeHTML(name)}">`;
+
+    }else{
+
+      $("#profileImage").textContent=initial;
+
+    }
+
+  }catch(error){
+
+    console.warn(
+      "GHAR profile:",
+      error
+    );
+
+  }
+
+}
 
 
-  if(!properties.length){
+/* =========================================================
+   APPLICATIONS
+========================================================= */
 
-    grid.innerHTML=`
+async function loadApplications(){
 
-      <div class="empty-state"
-           style="grid-column:1/-1">
+  const panel=$("#applicationsPanel");
 
-        <div class="empty-state-icon">
-          ♡
+  try{
+
+    const response =
+      await apiRequest(
+        API_BASE+"/applications?mine=true"
+      );
+
+    const applications =
+      normalizeCollection(response);
+
+    $("#totalApplications").textContent=
+      applications.length;
+
+    if(!applications.length){
+
+      panel.innerHTML=`
+
+        <div class="empty-state">
+
+          <div class="empty-icon">
+            ▣
+          </div>
+
+          <p>
+            No applications yet.
+          </p>
+
+          <br>
+
+          <a
+            class="btn btn-primary btn-small"
+            href="/buyer/properties.html"
+          >
+            Find a property
+          </a>
+
         </div>
 
-        <h3>
-          Your shortlist is empty
-        </h3>
+      `;
+
+      return;
+
+    }
+
+    const recent =
+      applications
+        .sort(
+          (a,b)=>
+            new Date(
+              b.createdAt ||
+              b.submittedAt ||
+              b.date ||
+              0
+            ) -
+            new Date(
+              a.createdAt ||
+              a.submittedAt ||
+              a.date ||
+              0
+            )
+        )
+        .slice(0,5);
+
+    panel.innerHTML=`
+
+      <div class="application-list">
+
+        ${
+          recent.map(item=>{
+
+            const status=
+              getStatus(item);
+
+            const id=
+              getApplicationId(item);
+
+            const propertyId=
+              getPropertyId(item);
+
+            return `
+
+              <a
+                class="application-row"
+                href="/buyer/application-details.html?id=${encodeURIComponent(id)}"
+              >
+
+                <div class="application-thumb">
+
+                  <img
+                    src="${escapeHTML(getPropertyImage(item))}"
+                    alt="${escapeHTML(getPropertyTitle(item))}"
+                    loading="lazy"
+                    onerror="this.src='../assets/images/properties/property-placeholder.jpg'"
+                  >
+
+                </div>
+
+                <div>
+
+                  <div class="application-title">
+                    ${escapeHTML(getPropertyTitle(item))}
+                  </div>
+
+                  <div class="application-location">
+                    ${escapeHTML(getPropertyLocation(item))}
+                  </div>
+
+                  <div class="application-date">
+                    Submitted ${escapeHTML(
+                      formatDate(
+                        item.createdAt ||
+                        item.submittedAt ||
+                        item.date
+                      )
+                    )}
+                  </div>
+
+                </div>
+
+                <span
+                  class="status status-${escapeHTML(status)}"
+                >
+                  ${escapeHTML(statusLabel(status))}
+                </span>
+
+              </a>
+
+            `;
+
+          }).join("")
+        }
+
+      </div>
+
+    `;
+
+  }catch(error){
+
+    console.warn(
+      "GHAR applications:",
+      error
+    );
+
+    $("#totalApplications").textContent="0";
+
+    panel.innerHTML=`
+
+      <div class="empty-state">
+
+        <div class="empty-icon">
+          ▣
+        </div>
 
         <p>
-          Save properties while browsing GHAR
-          and they will appear here.
+          No application information is available yet.
         </p>
 
+        <br>
+
         <a
-          class="btn btn-primary"
-          style="margin-top:14px"
-          href="/property-search.html"
+          class="btn btn-secondary btn-small"
+          href="/buyer/applications.html"
         >
-          Find properties
+          Open applications
         </a>
 
       </div>
 
     `;
 
-    return;
   }
 
-
-  grid.innerHTML=
-    properties
-      .slice(0,4)
-      .map(createPropertyCard)
-      .join("");
 }
 
 
 /* =========================================================
-   RENDER VISITS
+   VISITS
 ========================================================= */
 
-function renderVisits(response){
+async function loadVisits(){
 
-  const list=$("#visitList");
+  const panel=$("#visitsPanel");
 
-  if(!list)
-    return;
+  try{
 
-  const visits=
-    normalizeCollection(response);
+    const response =
+      await apiRequest(
+        API_BASE+"/visits?mine=true"
+      );
 
+    const visits =
+      normalizeCollection(response);
 
-  if(!visits.length){
+    const upcoming =
+      visits
+        .filter(item=>{
 
-    list.innerHTML=`
+          const date =
+            new Date(
+              item.date ||
+              item.visitDate ||
+              item.scheduledAt ||
+              item.startAt ||
+              0
+            );
+
+          return (
+            !Number.isNaN(date.getTime()) &&
+            date.getTime() >= Date.now()
+          );
+
+        })
+        .sort(
+          (a,b)=>
+            new Date(
+              a.date ||
+              a.visitDate ||
+              a.scheduledAt ||
+              a.startAt
+            ) -
+            new Date(
+              b.date ||
+              b.visitDate ||
+              b.scheduledAt ||
+              b.startAt
+            )
+        )
+        .slice(0,4);
+
+    $("#visitCount").textContent=
+      upcoming.length;
+
+    if(!upcoming.length){
+
+      panel.innerHTML=`
+
+        <div class="empty-state">
+
+          <div class="empty-icon">
+            ◷
+          </div>
+
+          <p>
+            No upcoming property visits.
+          </p>
+
+          <br>
+
+          <a
+            class="btn btn-primary btn-small"
+            href="/buyer/properties.html"
+          >
+            Explore properties
+          </a>
+
+        </div>
+
+      `;
+
+      return;
+
+    }
+
+    panel.innerHTML=`
+
+      <div class="visit-list">
+
+        ${
+          upcoming.map(item=>{
+
+            const dateValue =
+              item.date ||
+              item.visitDate ||
+              item.scheduledAt ||
+              item.startAt;
+
+            const date =
+              formatShortDate(dateValue);
+
+            const title =
+              getPropertyTitle(item);
+
+            const location =
+              getPropertyLocation(item);
+
+            const time =
+              item.time ||
+              item.visitTime ||
+              (
+                new Date(dateValue)
+                  .toLocaleTimeString(
+                    "en-IN",
+                    {
+                      hour:"2-digit",
+                      minute:"2-digit"
+                    }
+                  )
+              );
+
+            return `
+
+              <a
+                class="visit-card"
+                href="/buyer/visits.html"
+              >
+
+                <div class="visit-date">
+
+                  <strong>
+                    ${escapeHTML(date.day)}
+                  </strong>
+
+                  <span>
+                    ${escapeHTML(date.month)}
+                  </span>
+
+                </div>
+
+                <div>
+
+                  <div class="visit-title">
+                    ${escapeHTML(title)}
+                  </div>
+
+                  <div class="visit-info">
+                    ${escapeHTML(location)}
+                  </div>
+
+                </div>
+
+                <div class="visit-time">
+                  ${escapeHTML(time)}
+                </div>
+
+              </a>
+
+            `;
+
+          }).join("")
+        }
+
+      </div>
+
+    `;
+
+  }catch(error){
+
+    console.warn(
+      "GHAR visits:",
+      error
+    );
+
+    $("#visitCount").textContent="0";
+
+    panel.innerHTML=`
 
       <div class="empty-state">
 
-        <div class="empty-state-icon">
+        <div class="empty-icon">
           ◷
         </div>
 
-        <h3>
-          No upcoming visits
-        </h3>
-
         <p>
-          Schedule a visit from a property listing.
+          Visit information is not available yet.
         </p>
 
       </div>
 
     `;
 
-    return;
   }
 
-
-  list.innerHTML=
-    visits.slice(0,4)
-      .map(visit=>{
-
-        const property=
-          visit.property?.title ||
-          visit.propertyTitle ||
-          visit.propertyName ||
-          "Property visit";
-
-        const date=
-          visit.date ||
-          visit.scheduledDate ||
-          visit.visitDate ||
-          "Scheduled";
-
-        const time=
-          visit.time ||
-          visit.scheduledTime ||
-          "";
-
-        return `
-
-          <div class="visit-item">
-
-            <div class="visit-top">
-
-              <span class="visit-date">
-                ${escapeHTML(date)}
-                ${time
-                  ? " · "+escapeHTML(time)
-                  : ""}
-              </span>
-
-              <span class="visit-status">
-                ${escapeHTML(
-                  visit.status ||
-                  "Scheduled"
-                )}
-              </span>
-
-            </div>
-
-            <strong>
-              ${escapeHTML(property)}
-            </strong>
-
-            <span>
-              ${escapeHTML(
-                visit.location ||
-                visit.address ||
-                "Property location available"
-              )}
-            </span>
-
-          </div>
-        `;
-
-      })
-      .join("");
 }
 
 
 /* =========================================================
-   RENDER MINI LISTS
+   SAVED
 ========================================================= */
 
-function renderOffers(response){
+async function loadSaved(){
 
-  const list=$("#offerList");
+  try{
 
-  if(!list)
-    return;
+    const response =
+      await apiRequest(
+        API_BASE+"/saved-properties?mine=true"
+      );
 
-  const offers=
-    normalizeCollection(response);
+    const saved =
+      normalizeCollection(response);
 
+    $("#savedCount").textContent=
+      saved.length;
 
-  if(!offers.length){
+  }catch(error){
 
-    list.innerHTML=`
-
-      <div class="empty-state">
-
-        <div class="empty-state-icon">
-          ₹
-        </div>
-
-        <h3>
-          No active offers
-        </h3>
-
-        <p>
-          Offers you submit will appear here.
-        </p>
-
-      </div>
-    `;
-
-    return;
-  }
-
-
-  list.innerHTML=
-    offers.slice(0,4)
-      .map(offer=>`
-
-        <div class="mini-item">
-
-          <div class="mini-icon">
-            ₹
-          </div>
-
-          <div class="mini-content">
-
-            <strong>
-              ${escapeHTML(
-                offer.property?.title ||
-                offer.propertyTitle ||
-                offer.propertyName ||
-                "Property offer"
-              )}
-            </strong>
-
-            <span>
-              ${escapeHTML(
-                formatPrice(
-                  offer.amount ||
-                  offer.offerAmount ||
-                  offer.price
-                )
-              )}
-            </span>
-
-          </div>
-
-          <span class="mini-state">
-            ${escapeHTML(
-              offer.status ||
-              "Active"
-            )}
-          </span>
-
-        </div>
-
-      `)
-      .join("");
-}
-
-
-function renderApplications(response){
-
-  const list=$("#applicationList");
-
-  if(!list)
-    return;
-
-  const applications=
-    normalizeCollection(response);
-
-
-  if(!applications.length){
-
-    list.innerHTML=`
-
-      <div class="empty-state">
-
-        <div class="empty-state-icon">
-          ✓
-        </div>
-
-        <h3>
-          No active applications
-        </h3>
-
-        <p>
-          Property applications will be tracked here.
-        </p>
-
-      </div>
-    `;
-
-    return;
-  }
-
-
-  list.innerHTML=
-    applications.slice(0,4)
-      .map(application=>`
-
-        <div class="mini-item">
-
-          <div class="mini-icon">
-            ✓
-          </div>
-
-          <div class="mini-content">
-
-            <strong>
-              ${escapeHTML(
-                application.property?.title ||
-                application.propertyTitle ||
-                application.propertyName ||
-                "Property application"
-              )}
-            </strong>
-
-            <span>
-              ${escapeHTML(
-                application.updatedAt ||
-                application.createdAt ||
-                "Application submitted"
-              )}
-            </span>
-
-          </div>
-
-          <span class="mini-state">
-            ${escapeHTML(
-              application.status ||
-              "Active"
-            )}
-          </span>
-
-        </div>
-
-      `)
-      .join("");
-}
-
-
-/* =========================================================
-   LOAD DASHBOARD
-========================================================= */
-
-async function loadDashboard(){
-
-  const requests={
-
-    user:
-      apiRequest(
-        API_BASE+"/users/me"
-      ),
-
-    saved:
-      apiRequest(
-        API_BASE+"/users/me/saved-properties"
-      ),
-
-    visits:
-      apiRequest(
-        API_BASE+"/visits?status=upcoming"
-      ),
-
-    offers:
-      apiRequest(
-        API_BASE+"/offers?status=active"
-      ),
-
-    applications:
-      apiRequest(
-        API_BASE+"/applications?status=active"
-      ),
-
-    activity:
-      apiRequest(
-        API_BASE+"/activity?limit=8"
-      ),
-
-    budget:
-      apiRequest(
-        API_BASE+"/users/me/financial-profile"
-      )
-
-  };
-
-
-  const entries=
-    await Promise.allSettled(
-      Object.entries(requests)
-        .map(async([key,promise])=>[
-          key,
-          await promise
-        ])
+    console.warn(
+      "GHAR saved properties:",
+      error
     );
 
+    try{
 
-  const data={};
+      const response =
+        await apiRequest(
+          API_BASE+"/favourites?mine=true"
+        );
 
+      const favourites =
+        normalizeCollection(response);
 
-  entries.forEach(result=>{
+      $("#savedCount").textContent=
+        favourites.length;
 
-    if(result.status==="fulfilled"){
+    }catch{
 
-      data[
-        result.value[0]
-      ]=
-        result.value[1];
+      $("#savedCount").textContent="0";
 
     }
 
-  });
+  }
 
-
-  return data;
 }
 
 
 /* =========================================================
-   UPDATE USER
+   OFFERS
 ========================================================= */
 
-function updateUser(user){
+async function loadOffers(){
 
-  if(!user)
-    return;
+  try{
 
+    const response =
+      await apiRequest(
+        API_BASE+"/offers?mine=true"
+      );
 
-  const fullName=
-    user.name ||
-    user.fullName ||
-    user.firstName ||
-    user.email ||
-    "Buyer";
+    const offers =
+      normalizeCollection(response);
 
+    const active =
+      offers.filter(item=>{
 
-  const firstName=
-    String(fullName)
-      .trim()
-      .split(/\s+/)[0];
+        const status=
+          String(
+            item?.status || "pending"
+          ).toLowerCase();
 
+        return ![
+          "rejected",
+          "cancelled",
+          "closed",
+          "completed"
+        ].includes(status);
 
-  $("#buyerName").textContent=
-    escapeHTML(firstName)+".";
+      });
 
+    $("#offerCount").textContent=
+      active.length;
 
-  const initial=
-    String(fullName)
-      .trim()
-      .charAt(0)
-      .toUpperCase() ||
-    "U";
+  }catch(error){
 
+    console.warn(
+      "GHAR offers:",
+      error
+    );
 
-  $("#profileButton").textContent=
-    initial;
-
-
-  const budget=
-    user.purchaseBudget ??
-    user.budget ??
-    user.maxBudget ??
-    0;
-
-
-  if(budget){
-
-    $("#budgetValue").textContent=
-      formatPrice(budget);
+    $("#offerCount").textContent="0";
 
   }
 
@@ -3146,63 +3360,437 @@ function updateUser(user){
 
 
 /* =========================================================
-   UPDATE STATS
+   DOCUMENTS
 ========================================================= */
 
-function updateStats(data){
+async function loadDocuments(){
 
-  const saved=
-    normalizeCollection(
-      data.saved
-    );
+  try{
 
-  const visits=
-    normalizeCollection(
-      data.visits
-    );
+    const response =
+      await apiRequest(
+        API_BASE+"/documents?mine=true"
+      );
 
-  const offers=
-    normalizeCollection(
-      data.offers
-    );
+    const documents =
+      normalizeCollection(response);
 
-  const applications=
-    normalizeCollection(
-      data.applications
-    );
+    $("#documentCount").textContent=
+      documents.length;
 
+    if(!documents.length){
 
-  $("#savedCount").textContent=
-    data.user?.savedPropertyCount ??
-    saved.length;
+      updateDocumentProgress(
+        0,
+        "Not started",
+        "Pending",
+        "Pending",
+        "Pending"
+      );
 
-
-  $("#visitCount").textContent=
-    visits.length;
-
-
-  $("#offerCount").textContent=
-    offers.length;
-
-
-  $("#applicationCount").textContent=
-    applications.length;
-
-
-  if(data.budget){
-
-    const budget=
-      data.budget.purchaseBudget ??
-      data.budget.budget ??
-      data.budget.maxBudget ??
-      data.budget.estimatedBudget;
-
-    if(budget){
-
-      $("#budgetValue").textContent=
-        formatPrice(budget);
+      return;
 
     }
+
+    const verified =
+      documents.filter(item=>{
+
+        const status=
+          String(
+            item?.status ||
+            item?.verificationStatus ||
+            ""
+          ).toLowerCase();
+
+        return [
+          "verified",
+          "approved",
+          "accepted"
+        ].includes(status);
+
+      }).length;
+
+    const progress =
+      Math.round(
+        (verified/documents.length)*100
+      );
+
+    const status =
+      progress===100
+      ? "Verified"
+      : progress>0
+      ? "In review"
+      : "Pending";
+
+    updateDocumentProgress(
+      progress,
+      status,
+      progress>=100 ? "Verified" : "Pending",
+      progress>=100 ? "Verified" : "Pending",
+      progress>=100 ? "Verified" : "Pending"
+    );
+
+  }catch(error){
+
+    console.warn(
+      "GHAR documents:",
+      error
+    );
+
+    $("#documentCount").textContent="0";
+
+    updateDocumentProgress(
+      0,
+      "Not started",
+      "Pending",
+      "Pending",
+      "Pending"
+    );
+
+  }
+
+}
+
+function updateDocumentProgress(
+  progress,
+  status,
+  identity,
+  address,
+  financial
+){
+
+  $("#documentProgress").style.width=
+    progress+"%";
+
+  $("#documentProgressText").textContent=
+    progress+"%";
+
+  $("#documentStatus").textContent=
+    status;
+
+  $("#identityStatus").textContent=
+    identity;
+
+  $("#addressStatus").textContent=
+    address;
+
+  $("#financialStatus").textContent=
+    financial;
+
+}
+
+
+/* =========================================================
+   FINANCING
+========================================================= */
+
+async function loadFinancing(){
+
+  try{
+
+    const response =
+      await apiRequest(
+        API_BASE+"/loans?mine=true"
+      );
+
+    const loans =
+      normalizeCollection(response);
+
+    if(!loans.length){
+
+      $("#loanProgress").style.width="0%";
+      $("#loanProgressText").textContent="0%";
+      $("#loanStatus").textContent="Not started";
+      $("#loanProfileStatus").textContent="Not started";
+      $("#eligibilityStatus").textContent="Pending";
+
+      return;
+
+    }
+
+    const loan=loans[0];
+
+    const progress =
+      Math.max(
+        0,
+        Math.min(
+          100,
+          Number(
+            loan.progress ||
+            loan.completion ||
+            0
+          )
+        )
+      );
+
+    const status =
+      loan.status ||
+      "In review";
+
+    $("#loanProgress").style.width=
+      progress+"%";
+
+    $("#loanProgressText").textContent=
+      progress+"%";
+
+    $("#loanStatus").textContent=
+      status;
+
+    $("#loanProfileStatus").textContent=
+      loan.profileStatus ||
+      "In progress";
+
+    $("#eligibilityStatus").textContent=
+      loan.eligibilityStatus ||
+      "Pending";
+
+  }catch(error){
+
+    console.warn(
+      "GHAR financing:",
+      error
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   PROPERTIES
+========================================================= */
+
+async function loadProperties(){
+
+  const panel=$("#propertyPanel");
+
+  try{
+
+    const response =
+      await apiRequest(
+        API_BASE+"/properties?limit=6"
+      );
+
+    const properties =
+      normalizeCollection(response)
+        .slice(0,6);
+
+    if(!properties.length){
+
+      panel.innerHTML=`
+
+        <div class="empty-state">
+
+          <div class="empty-icon">
+            ⌂
+          </div>
+
+          <p>
+            No recommended properties are available yet.
+          </p>
+
+          <br>
+
+          <a
+            class="btn btn-primary btn-small"
+            href="/buyer/properties.html"
+          >
+            Explore properties
+          </a>
+
+        </div>
+
+      `;
+
+      return;
+
+    }
+
+    panel.innerHTML=`
+
+      <div class="property-grid">
+
+        ${
+          properties.map(property=>{
+
+            const id =
+              property.id ||
+              property.propertyId ||
+              property._id ||
+              "";
+
+            const title =
+              property.title ||
+              property.name ||
+              "Property";
+
+            const location =
+              property.location ||
+              property.city ||
+              property.address ||
+              "Location available";
+
+            const image =
+              property.image ||
+              property.coverImage ||
+              property.thumbnail ||
+              property.images?.[0] ||
+              "../assets/images/properties/property-placeholder.jpg";
+
+            const type =
+              property.propertyType ||
+              property.type ||
+              "Property";
+
+            const price =
+              property.price ||
+              property.salePrice ||
+              property.amount;
+
+            const configuration =
+              property.configuration ||
+              property.bhk ||
+              property.bedrooms;
+
+            const area =
+              property.area ||
+              property.areaSqFt;
+
+            return `
+
+              <article class="property-card">
+
+                <a
+                  href="/buyer/property-details.html?id=${encodeURIComponent(id)}"
+                >
+
+                  <div class="property-media">
+
+                    <img
+                      src="${escapeHTML(image)}"
+                      alt="${escapeHTML(title)}"
+                      loading="lazy"
+                      onerror="this.src='../assets/images/properties/property-placeholder.jpg'"
+                    >
+
+                    <span class="property-badge">
+                      ${escapeHTML(type)}
+                    </span>
+
+                    <span class="property-save">
+                      ♡
+                    </span>
+
+                  </div>
+
+                  <div class="property-content">
+
+                    <div class="property-type">
+                      GHAR PROPERTY
+                    </div>
+
+                    <div class="property-title">
+                      ${escapeHTML(title)}
+                    </div>
+
+                    <div class="property-location">
+                      ${escapeHTML(location)}
+                    </div>
+
+                    <div class="property-meta">
+
+                      ${
+                        configuration
+                        ?
+                        `
+                        <span class="meta-chip">
+                          ${escapeHTML(configuration)}
+                        </span>
+                        `
+                        :
+                        ""
+                      }
+
+                      ${
+                        area
+                        ?
+                        `
+                        <span class="meta-chip">
+                          ${escapeHTML(area)}
+                        </span>
+                        `
+                        :
+                        ""
+                      }
+
+                    </div>
+
+                    <div class="property-bottom">
+
+                      <div class="property-price">
+
+                        ${escapeHTML(
+                          formatPrice(price)
+                        )}
+
+                        <small>
+                          Property value
+                        </small>
+
+                      </div>
+
+                      <span class="property-view">
+                        View →
+                      </span>
+
+                    </div>
+
+                  </div>
+
+                </a>
+
+              </article>
+
+            `;
+
+          }).join("")
+        }
+
+      </div>
+
+    `;
+
+  }catch(error){
+
+    console.warn(
+      "GHAR properties:",
+      error
+    );
+
+    panel.innerHTML=`
+
+      <div class="empty-state">
+
+        <div class="empty-icon">
+          ⌂
+        </div>
+
+        <p>
+          Property recommendations are unavailable right now.
+        </p>
+
+        <br>
+
+        <a
+          class="btn btn-secondary btn-small"
+          href="/buyer/properties.html"
+        >
+          Browse properties
+        </a>
+
+      </div>
+
+    `;
 
   }
 
@@ -3213,135 +3801,180 @@ function updateStats(data){
    ACTIVITY
 ========================================================= */
 
-function renderActivity(response){
+async function loadActivity(){
 
-  const list=$("#activityList");
+  const panel=$("#activityPanel");
 
-  if(!list)
-    return;
+  try{
 
-  const activity=
-    normalizeCollection(response);
+    const response =
+      await apiRequest(
+        API_BASE+"/notifications?mine=true"
+      );
 
+    const notifications =
+      normalizeCollection(response)
+        .slice(0,7);
 
-  if(!activity.length){
+    if(!notifications.length){
 
-    return;
-  }
+      panel.innerHTML=`
 
+        <div class="empty-state">
 
-  list.innerHTML=
-    activity.slice(0,8)
-      .map(item=>`
-
-        <div class="activity-item">
-
-          <div class="activity-icon">
-            ${escapeHTML(
-              item.icon ||
-              "✓"
-            )}
+          <div class="empty-icon">
+            ✦
           </div>
 
-          <div class="activity-text">
-
-            <strong>
-              ${escapeHTML(
-                item.title ||
-                item.action ||
-                "Buyer activity"
-              )}
-            </strong>
-
-            <span>
-              ${escapeHTML(
-                item.description ||
-                item.message ||
-                item.createdAt ||
-                ""
-              )}
-            </span>
-
-          </div>
-
-          <span class="activity-status">
-            ${escapeHTML(
-              item.status ||
-              "Done"
-            )}
-          </span>
+          <p>
+            No recent account activity.
+          </p>
 
         </div>
 
-      `)
-      .join("");
+      `;
+
+      return;
+
+    }
+
+    panel.innerHTML=`
+
+      <div class="activity-list">
+
+        ${
+          notifications.map(item=>{
+
+            const title =
+              item.title ||
+              item.type ||
+              "GHAR update";
+
+            const text =
+              item.message ||
+              item.description ||
+              "There is an update on your buyer account.";
+
+            const time =
+              item.createdAt ||
+              item.date ||
+              item.updatedAt;
+
+            return `
+
+              <div class="activity-item">
+
+                <div class="activity-dot">
+                  ✦
+                </div>
+
+                <div>
+
+                  <div class="activity-title">
+                    ${escapeHTML(title)}
+                  </div>
+
+                  <div class="activity-text">
+                    ${escapeHTML(text)}
+                  </div>
+
+                </div>
+
+                <div class="activity-time">
+                  ${escapeHTML(formatDate(time))}
+                </div>
+
+              </div>
+
+            `;
+
+          }).join("")
+        }
+
+      </div>
+
+    `;
+
+  }catch(error){
+
+    console.warn(
+      "GHAR activity:",
+      error
+    );
+
+    panel.innerHTML=`
+
+      <div class="empty-state">
+
+        <div class="empty-icon">
+          ✦
+        </div>
+
+        <p>
+          No recent activity is available.
+        </p>
+
+      </div>
+
+    `;
+
+  }
+
 }
 
 
 /* =========================================================
-   SAVE PROPERTY
+   MOBILE MENU
 ========================================================= */
 
-document.addEventListener(
+$("#menuButton")?.addEventListener(
   "click",
-  async event=>{
+  ()=>{
 
-    const button=
-      event.target.closest(
-        "[data-save-property]"
-      );
+    const nav=$("#mainNav");
 
-    if(!button)
+    const open=
+      nav.dataset.mobileOpen==="true";
+
+    if(open){
+
+      nav.style.display="";
+      nav.dataset.mobileOpen="false";
+
       return;
-
-
-    const propertyId=
-      button.dataset.saveProperty;
-
-    if(!propertyId)
-      return;
-
-
-    try{
-
-      button.disabled=true;
-
-      await apiRequest(
-        API_BASE+
-        "/users/me/saved-properties",
-        {
-          method:"POST",
-          body:JSON.stringify({
-            propertyId
-          })
-        }
-      );
-
-
-      button.classList.add("saved");
-      button.textContent="♥";
-
-      const current=
-        Number(
-          $("#savedCount").textContent
-        ) || 0;
-
-      $("#savedCount").textContent=
-        current+1;
-
-    }catch(error){
-
-      console.warn(
-        "GHAR save property:",
-        error
-      );
-
-    }finally{
-
-      button.disabled=false;
 
     }
 
+    nav.dataset.mobileOpen="true";
+
+    nav.style.display="flex";
+    nav.style.position="absolute";
+    nav.style.left="14px";
+    nav.style.right="14px";
+    nav.style.top="68px";
+    nav.style.padding="10px";
+    nav.style.flexDirection="column";
+    nav.style.alignItems="stretch";
+    nav.style.border=
+      "1px solid rgba(229,199,125,.14)";
+    nav.style.borderRadius="16px";
+    nav.style.background="#0b1c14";
+    nav.style.boxShadow=
+      "0 25px 60px rgba(0,0,0,.35)";
+
+  }
+);
+
+
+/* =========================================================
+   NOTIFICATIONS
+========================================================= */
+
+$("#notificationButton")?.addEventListener(
+  "click",
+  ()=>{
+    window.location.href=
+      "/buyer/notifications.html";
   }
 );
 
@@ -3350,144 +3983,17 @@ document.addEventListener(
    AI
 ========================================================= */
 
-async function openAI(prompt=""){
-
-  if(prompt){
-
-    try{
-
-      await apiRequest(
-        AI_API+"/chat",
-        {
-          method:"POST",
-
-          body:JSON.stringify({
-            message:prompt,
-
-            context:{
-              role:"buyer",
-              source:"buyer-dashboard"
-            }
-          })
-        }
-      );
-
-    }catch(error){
-
-      console.warn(
-        "GHAR AI:",
-        error
-      );
-
-    }
-
+$("#openAI")?.addEventListener(
+  "click",
+  ()=>{
+    window.location.href=
+      "/buyer/ai.html";
   }
-
-
-  const url=
-    "/buyer/ai.html"+
-    (
-      prompt
-        ? "?prompt="+
-          encodeURIComponent(prompt)
-        : ""
-    );
-
-
-  window.location.href=url;
-}
-
-
-$("#openAI")
-  ?.addEventListener(
-    "click",
-    ()=>openAI()
-  );
-
-
-document
-  .querySelectorAll(
-    "[data-ai-prompt]"
-  )
-  .forEach(button=>{
-
-    button.addEventListener(
-      "click",
-      ()=>{
-        openAI(
-          button.dataset.aiPrompt
-        );
-      }
-    );
-
-  });
+);
 
 
 /* =========================================================
-   MOBILE MENU
-========================================================= */
-
-$("#menuButton")
-  ?.addEventListener(
-    "click",
-    ()=>{
-
-      const nav=
-        $("#desktopNav");
-
-      if(!nav)
-        return;
-
-
-      const open=
-        nav.dataset.mobileOpen==="true";
-
-
-      if(open){
-
-        nav.style.display="";
-        nav.dataset.mobileOpen="false";
-        return;
-
-      }
-
-
-      nav.dataset.mobileOpen="true";
-
-      nav.style.display="flex";
-      nav.style.position="absolute";
-      nav.style.left="14px";
-      nav.style.right="14px";
-      nav.style.top="66px";
-      nav.style.padding="10px";
-      nav.style.flexDirection="column";
-      nav.style.alignItems="stretch";
-      nav.style.border=
-        "1px solid rgba(229,199,125,.14)";
-      nav.style.borderRadius="16px";
-      nav.style.background="#0b1c14";
-      nav.style.boxShadow=
-        "0 25px 60px rgba(0,0,0,.35)";
-    }
-  );
-
-
-/* =========================================================
-   NOTIFICATIONS
-========================================================= */
-
-$("#notificationButton")
-  ?.addEventListener(
-    "click",
-    ()=>{
-      window.location.href=
-        "/buyer/notifications.html";
-    }
-  );
-
-
-/* =========================================================
-   INITIALIZATION
+   INIT
 ========================================================= */
 
 async function initialize(){
@@ -3495,57 +4001,31 @@ async function initialize(){
   $("#footerYear").textContent=
     new Date().getFullYear();
 
+  await Promise.allSettled([
 
-  try{
+    loadProfile(),
 
-    const data=
-      await loadDashboard();
+    loadApplications(),
 
+    loadVisits(),
 
-    updateUser(
-      data.user
-    );
+    loadSaved(),
 
-    updateStats(
-      data
-    );
+    loadOffers(),
 
-    renderProperties(
-      data.saved
-    );
+    loadDocuments(),
 
-    renderVisits(
-      data.visits
-    );
+    loadFinancing(),
 
-    renderOffers(
-      data.offers
-    );
+    loadProperties(),
 
-    renderApplications(
-      data.applications
-    );
+    loadActivity()
 
-    renderActivity(
-      data.activity
-    );
-
-
-  }catch(error){
-
-    console.error(
-      "GHAR Buyer Dashboard:",
-      error
-    );
-
-  }
+  ]);
 
 }
 
-
-if(
-  document.readyState==="loading"
-){
+if(document.readyState==="loading"){
 
   document.addEventListener(
     "DOMContentLoaded",

@@ -1,1062 +1,1237 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <meta name="theme-color" content="#f4ead9">
-  <meta name="description"
-        content="GHAR AI Investment Advisor -- explore property investment scenarios, rental potential, risks and estimated returns.">
+  <title>GHAR AI Investment Advisor | Smart Property Investment</title>
 
-  <title>AI Investment Advisor -- GHAR</title>
+  <meta
+    name="description"
+    content="GHAR AI Investment Advisor helps you evaluate property investments, compare opportunities, understand rental potential, estimate returns and make better real estate decisions."
+  >
 
-  <!-- LOGO -->
-  <link rel="icon" type="image/png" href="assets/images/logo/ghar-logo.jpg">
+  <meta name="theme-color" content="#031b11">
 
-  <!-- GLOBAL CSS -->
-  <link rel="stylesheet" href="assets/css/variables.css">
-  <link rel="stylesheet" href="assets/css/reset.css">
-  <link rel="stylesheet" href="assets/css/style.css">
-  <link rel="stylesheet" href="assets/css/layout.css">
-  <link rel="stylesheet" href="assets/css/components.css">
-  <link rel="stylesheet" href="assets/css/navigation.css">
-  <link rel="stylesheet" href="assets/css/cards.css">
-  <link rel="stylesheet" href="assets/css/forms.css">
-  <link rel="stylesheet" href="assets/css/property.css">
-  <link rel="stylesheet" href="assets/css/animations.css">
-  <link rel="stylesheet" href="assets/css/responsive.css">
-  <link rel="stylesheet" href="assets/css/utilities.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap"
+    rel="stylesheet"
+  >
+
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+  >
 
   <style>
 
-    :root{
-      --ivory:#f8f1e5;
-      --pearl:#fffaf2;
-      --sand:#eadbc4;
-      --champagne:#d9bd83;
-      --gold:#b18a48;
-      --gold2:#e7d09b;
-      --emerald:#163a2e;
-      --emerald2:#245442;
-      --deep:#10291f;
-      --ink:#17251f;
-      --muted:#737d76;
-      --line:rgba(23,58,46,.12);
-      --shadow:0 30px 80px rgba(30,49,40,.12);
-      --radius:28px;
+    /* =========================================================
+       GHAR AI INVESTMENT ADVISOR
+       PREMIUM ROYAL GREEN + GOLD AI DESIGN SYSTEM
+       ========================================================= */
+
+    :root {
+      --green-950: #031b11;
+      --green-900: #052d1d;
+      --green-850: #073a25;
+      --green-800: #08442a;
+      --green-700: #0c5535;
+      --green-600: #126742;
+
+      --gold-500: #d7ad4d;
+      --gold-400: #e7c76b;
+      --gold-300: #f1d98a;
+      --gold-200: #f6e8b1;
+
+      --cream: #f5efdf;
+      --cream-2: #eee5d0;
+      --white: #ffffff;
+
+      --text-dark: #122118;
+      --text-muted: #657068;
+
+      --border-gold: rgba(215,173,77,.65);
+      --border-light: rgba(255,255,255,.13);
+
+      --shadow: 0 20px 50px rgba(0,0,0,.18);
+
+      --serif: "Playfair Display", Georgia, serif;
+      --sans: "DM Sans", Arial, sans-serif;
+
+      --header-height: 72px;
+
+      --radius-sm: 10px;
+      --radius-md: 16px;
+      --radius-lg: 24px;
+
+      --container: 1380px;
     }
 
-    *{
-      box-sizing:border-box;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
 
-    html{
-      scroll-behavior:smooth;
+    html {
+      scroll-behavior: smooth;
     }
 
-    body{
-      margin:0;
-      background:var(--ivory);
-      color:var(--ink);
-      font-family:Inter,ui-sans-serif,system-ui,-apple-system,
-        BlinkMacSystemFont,"Segoe UI",sans-serif;
-      line-height:1.55;
-      overflow-x:hidden;
+    body {
+      font-family: var(--sans);
+      color: var(--text-dark);
+      background: var(--cream);
+      overflow-x: hidden;
+      line-height: 1.6;
     }
 
-    a{
-      text-decoration:none;
-      color:inherit;
+    img {
+      display: block;
+      width: 100%;
+      object-fit: cover;
     }
 
-    img{
-      display:block;
-      max-width:100%;
+    a {
+      color: inherit;
+      text-decoration: none;
     }
 
     button,
     input,
-    select,
-    textarea{
-      font:inherit;
+    textarea,
+    select {
+      font: inherit;
     }
 
-    /* =========================================================
-       TOP BAR
-    ========================================================= */
-
-    .topbar{
-      background:var(--emerald);
-      color:var(--ivory);
-      text-align:center;
-      font-size:11px;
-      letter-spacing:.1em;
-      padding:8px 16px;
+    button {
+      cursor: pointer;
     }
 
-    .topbar b{
-      color:var(--gold2);
+    .container {
+      width: min(calc(100% - 48px), var(--container));
+      margin: auto;
     }
 
     /* =========================================================
        HEADER
-    ========================================================= */
+       ========================================================= */
 
-    .header{
-      position:sticky;
-      top:0;
-      z-index:1000;
-      padding:12px 3.5vw;
-      background:rgba(248,241,229,.92);
-      backdrop-filter:blur(18px);
-      border-bottom:1px solid var(--line);
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      height: var(--header-height);
+      background: var(--green-950);
+      border-bottom: 1px solid rgba(215,173,77,.45);
     }
 
-    .nav{
-      max-width:1380px;
-      margin:auto;
-      display:flex;
-      align-items:center;
-      gap:26px;
+    .header-inner {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 30px;
     }
 
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:11px;
-      font-weight:900;
-      letter-spacing:.2em;
-      color:var(--emerald);
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      flex-shrink: 0;
     }
 
-    .brand img{
-      width:42px;
-      height:42px;
-      object-fit:contain;
+    .brand-mark {
+      width: 43px;
+      height: 43px;
+      border: 1.5px solid var(--gold-400);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: var(--gold-300);
+      font-size: 19px;
+      position: relative;
     }
 
-    .links{
-      display:flex;
-      gap:5px;
-      margin-left:auto;
+    .brand-mark::after {
+      content: "";
+      position: absolute;
+      inset: 4px;
+      border: 1px solid rgba(231,199,107,.35);
+      border-radius: 50%;
     }
 
-    .links a{
-      font-size:13px;
-      font-weight:700;
-      padding:10px 13px;
-      border-radius:999px;
+    .brand-name {
+      color: var(--gold-300);
+      font-family: var(--serif);
+      font-size: 25px;
+      letter-spacing: 2px;
+      line-height: 1;
     }
 
-    .links a:hover{
-      background:#eee3d2;
+    .brand-tagline {
+      display: block;
+      margin-top: 3px;
+      color: #e9e2d2;
+      font-size: 7px;
+      letter-spacing: 2px;
+      font-weight: 600;
     }
 
-    .nav-actions{
-      display:flex;
-      gap:8px;
-      align-items:center;
+    .main-nav {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 27px;
+      margin-left: auto;
     }
 
-    .pill{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      min-height:44px;
-      padding:0 17px;
-      border-radius:999px;
-      border:1px solid var(--line);
-      font-size:12px;
-      font-weight:800;
+    .main-nav a {
+      position: relative;
+      color: rgba(255,255,255,.82);
+      font-size: 13px;
+      font-weight: 500;
+      padding: 26px 0;
+      transition: .25s ease;
+      white-space: nowrap;
     }
 
-    .pill.gold{
-      background:var(--emerald);
-      border-color:var(--emerald);
-      color:#fff;
+    .main-nav a:hover,
+    .main-nav a.active {
+      color: var(--gold-300);
     }
 
-    .menu{
-      display:none;
-      border:0;
-      background:none;
-      font-size:24px;
-      color:var(--emerald);
-      cursor:pointer;
+    .main-nav a.active::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 15px;
+      height: 2px;
+      background: var(--gold-400);
+      border-radius: 20px;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .header-search {
+      width: 38px;
+      height: 38px;
+      border: 0;
+      background: transparent;
+      color: white;
+      display: grid;
+      place-items: center;
+      font-size: 15px;
+    }
+
+    .login-btn {
+      min-width: 74px;
+      height: 38px;
+      padding: 0 17px;
+      border-radius: 22px;
+      border: 1px solid var(--gold-400);
+      background: transparent;
+      color: white;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .get-started {
+      height: 38px;
+      padding: 0 19px;
+      border-radius: 22px;
+      border: 1px solid var(--gold-400);
+      background: linear-gradient(135deg, var(--gold-300), var(--gold-500));
+      color: var(--green-950);
+      font-weight: 700;
+      font-size: 12px;
+    }
+
+    .mobile-menu {
+      display: none;
+      width: 40px;
+      height: 40px;
+      border: 1px solid var(--border-gold);
+      background: transparent;
+      color: var(--gold-300);
+      border-radius: 10px;
     }
 
     /* =========================================================
-       HERO
-    ========================================================= */
+       AI HERO
+       ========================================================= */
 
-    .hero{
-      position:relative;
-      min-height:650px;
-      display:flex;
-      align-items:center;
-      overflow:hidden;
-
+    .advisor-hero {
       background:
-        linear-gradient(
-          105deg,
-          rgba(17,48,38,.94),
-          rgba(17,48,38,.68) 48%,
-          rgba(17,48,38,.22)
+        radial-gradient(
+          circle at 85% 20%,
+          rgba(215,173,77,.12),
+          transparent 28%
         ),
-        url("assets/images/banners/ghar-hero-evening.webp")
-        center/cover no-repeat;
+        radial-gradient(
+          circle at 10% 90%,
+          rgba(18,103,66,.22),
+          transparent 30%
+        ),
+        var(--green-900);
+
+      color: white;
+      padding: 78px 0 90px;
+      position: relative;
+      overflow: hidden;
     }
 
-    .hero:after{
-      content:"";
-      position:absolute;
-      inset:auto 0 0;
-      height:130px;
-      background:linear-gradient(
-        transparent,
-        var(--ivory)
-      );
-      pointer-events:none;
+    .advisor-hero::before {
+      content: "";
+      position: absolute;
+      width: 620px;
+      height: 620px;
+      border: 1px solid rgba(215,173,77,.09);
+      border-radius: 50%;
+      right: -260px;
+      top: -260px;
     }
 
-    .hero-inner{
-      position:relative;
-      z-index:2;
-      width:min(1320px,90vw);
-      margin:auto;
-      padding:90px 0 120px;
-
-      display:grid;
-      grid-template-columns:1.15fr .85fr;
-      gap:70px;
-      align-items:center;
+    .advisor-hero::after {
+      content: "";
+      position: absolute;
+      width: 360px;
+      height: 360px;
+      border: 1px solid rgba(215,173,77,.06);
+      border-radius: 50%;
+      left: -220px;
+      bottom: -230px;
     }
 
-    .eyebrow{
-      display:inline-flex;
-      align-items:center;
-      gap:9px;
-      color:var(--gold2);
-      font-size:10px;
-      font-weight:900;
-      letter-spacing:.22em;
-      text-transform:uppercase;
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 65px;
+      align-items: center;
+      position: relative;
+      z-index: 2;
     }
 
-    .eyebrow:before{
-      content:"";
-      width:30px;
-      height:1px;
-      background:var(--gold2);
+    .eyebrow {
+      color: var(--gold-300);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2.7px;
+      text-transform: uppercase;
+      margin-bottom: 17px;
     }
 
-    h1{
-      font:500 clamp(55px,7vw,96px)/.92 Georgia,serif;
-      letter-spacing:-.06em;
-      color:#fff;
-      margin:20px 0 25px;
-      max-width:800px;
+    .hero-title {
+      font-family: var(--serif);
+      font-size: clamp(45px, 5.4vw, 76px);
+      line-height: .99;
+      font-weight: 600;
+      letter-spacing: -2px;
+      max-width: 720px;
     }
 
-    h1 em{
-      font-style:normal;
-      color:#e8d19c;
+    .hero-title em {
+      color: var(--gold-300);
+      font-weight: 500;
     }
 
-    .hero-copy{
-      max-width:650px;
-      color:rgba(255,255,255,.76);
-      font-size:15px;
-      line-height:1.8;
+    .hero-description {
+      max-width: 660px;
+      margin-top: 25px;
+      color: rgba(255,255,255,.72);
+      font-size: 15px;
+      line-height: 1.85;
     }
 
-    .actions{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      margin-top:28px;
+    .hero-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 32px;
     }
 
-    .btn{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      min-height:52px;
-      padding:0 22px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,.25);
-      font-size:12px;
-      font-weight:850;
-      transition:.25s;
-      cursor:pointer;
+    .gold-button {
+      min-height: 48px;
+      padding: 0 23px;
+      border: 1px solid var(--gold-400);
+      background: linear-gradient(135deg, var(--gold-300), var(--gold-500));
+      color: var(--green-950);
+      border-radius: 25px;
+      font-size: 13px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
     }
 
-    .btn:hover{
-      transform:translateY(-2px);
-    }
-
-    .btn.gold{
-      background:var(--champagne);
-      color:#14251e;
-      border-color:var(--champagne);
-    }
-
-    .btn.light{
-      color:#fff;
-      background:rgba(255,255,255,.08);
-      backdrop-filter:blur(12px);
-    }
-
-    /* =========================================================
-       HERO INVESTMENT CARD
-    ========================================================= */
-
-    .investment-card{
-      max-width:440px;
-      margin-left:auto;
-      padding:30px;
-
-      border:1px solid rgba(255,255,255,.22);
-      border-radius:30px;
-
-      background:rgba(255,250,242,.11);
-      backdrop-filter:blur(20px);
-
-      color:#fff;
-      box-shadow:0 25px 70px rgba(0,0,0,.16);
-    }
-
-    .investment-card small{
-      color:var(--gold2);
-      font-weight:900;
-      text-transform:uppercase;
-      letter-spacing:.16em;
-    }
-
-    .investment-card h2{
-      font:500 34px/1.08 Georgia,serif;
-      margin:12px 0;
-    }
-
-    .investment-card p{
-      color:rgba(255,255,255,.67);
-      font-size:12px;
-      line-height:1.8;
-    }
-
-    .mini-stats{
-      display:grid;
-      grid-template-columns:repeat(2,1fr);
-      gap:8px;
-      margin-top:20px;
-    }
-
-    .mini-stat{
-      padding:15px;
-      border-radius:16px;
-      background:rgba(255,255,255,.07);
-      border:1px solid rgba(255,255,255,.1);
-    }
-
-    .mini-stat span{
-      display:block;
-      color:rgba(255,255,255,.5);
-      font-size:9px;
-      text-transform:uppercase;
-      letter-spacing:.12em;
-    }
-
-    .mini-stat strong{
-      display:block;
-      margin-top:5px;
-      color:var(--gold2);
-      font-size:17px;
+    .outline-button {
+      min-height: 48px;
+      padding: 0 23px;
+      border: 1px solid rgba(231,199,107,.65);
+      background: transparent;
+      color: white;
+      border-radius: 25px;
+      font-size: 13px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
     }
 
     /* =========================================================
-       MAIN TOOL
-    ========================================================= */
+       AI ADVISOR PANEL
+       ========================================================= */
 
-    .tool-section{
-      padding:100px 4.5vw;
+    .advisor-panel {
+      background: rgba(3,27,17,.78);
+      border: 1px solid rgba(231,199,107,.48);
+      border-radius: 26px;
+      padding: 25px;
+      box-shadow:
+        0 25px 70px rgba(0,0,0,.25),
+        inset 0 1px 0 rgba(255,255,255,.05);
+      backdrop-filter: blur(14px);
     }
 
-    .container{
-      max-width:1280px;
-      margin:auto;
+    .advisor-panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 19px;
+      border-bottom: 1px solid rgba(255,255,255,.09);
     }
 
-    .section-head{
-      display:flex;
-      justify-content:space-between;
-      align-items:end;
-      gap:30px;
-      margin-bottom:38px;
+    .advisor-agent {
+      display: flex;
+      align-items: center;
+      gap: 11px;
     }
 
-    .kicker{
-      font-size:10px;
-      font-weight:900;
-      text-transform:uppercase;
-      letter-spacing:.2em;
-      color:var(--gold);
+    .agent-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 13px;
+      display: grid;
+      place-items: center;
+      background: rgba(215,173,77,.12);
+      border: 1px solid rgba(231,199,107,.5);
+      color: var(--gold-300);
     }
 
-    .section-head h2{
-      font:500 clamp(38px,5vw,65px)/.98 Georgia,serif;
-      letter-spacing:-.045em;
-      color:var(--emerald);
-      margin:12px 0 0;
+    .agent-name {
+      font-family: var(--serif);
+      font-size: 18px;
     }
 
-    .section-head p{
-      max-width:500px;
-      color:var(--muted);
-      font-size:13px;
-      line-height:1.8;
-      margin:0;
+    .agent-status {
+      color: rgba(255,255,255,.48);
+      font-size: 9px;
+      display: block;
+      margin-top: 1px;
     }
 
-    /* =========================================================
-       ADVISOR GRID
-    ========================================================= */
-
-    .advisor-grid{
-      display:grid;
-      grid-template-columns:1.1fr .9fr;
-      gap:20px;
-      align-items:start;
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #78c891;
+      box-shadow: 0 0 12px rgba(120,200,145,.7);
     }
 
-    .advisor-form{
-      background:var(--pearl);
-      border:1px solid rgba(177,138,72,.2);
-      border-radius:30px;
-      padding:30px;
-      box-shadow:var(--shadow);
+    .advisor-message {
+      margin-top: 22px;
+      background: rgba(255,255,255,.045);
+      border: 1px solid rgba(255,255,255,.08);
+      padding: 17px;
+      border-radius: 14px 14px 14px 4px;
+      color: rgba(255,255,255,.78);
+      font-size: 12px;
+      line-height: 1.7;
     }
 
-    .form-title{
-      font:500 31px Georgia,serif;
-      color:var(--emerald);
-      margin:0 0 8px;
+    .advisor-message strong {
+      color: var(--gold-300);
     }
 
-    .form-description{
-      color:var(--muted);
-      font-size:12px;
-      line-height:1.7;
-      margin:0 0 25px;
+    .quick-prompts {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 9px;
+      margin-top: 14px;
     }
 
-    .form-grid{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:13px;
+    .quick-prompt {
+      border: 1px solid rgba(231,199,107,.22);
+      background: rgba(255,255,255,.035);
+      color: rgba(255,255,255,.7);
+      padding: 11px 12px;
+      border-radius: 10px;
+      text-align: left;
+      font-size: 10px;
+      transition: .2s ease;
     }
 
-    .form-field{
-      background:#f2e8d8;
-      border-radius:17px;
-      padding:12px 15px;
-      min-height:68px;
+    .quick-prompt:hover {
+      border-color: var(--gold-400);
+      color: var(--gold-300);
+      background: rgba(215,173,77,.07);
     }
 
-    .form-field.full{
-      grid-column:1/-1;
+    .advisor-input {
+      display: flex;
+      gap: 8px;
+      margin-top: 14px;
+      padding: 7px;
+      border-radius: 13px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.16);
     }
 
-    .form-field label{
-      display:block;
-      color:#7a817c;
-      font-size:9px;
-      text-transform:uppercase;
-      letter-spacing:.15em;
-      font-weight:900;
-      margin-bottom:4px;
+    .advisor-input input {
+      min-width: 0;
+      flex: 1;
+      border: 0;
+      outline: 0;
+      background: transparent;
+      color: white;
+      padding: 8px;
+      font-size: 11px;
     }
 
-    .form-field input,
-    .form-field select{
-      width:100%;
-      border:0;
-      outline:0;
-      background:transparent;
-      color:var(--ink);
-      font-size:13px;
-      font-weight:750;
+    .advisor-input input::placeholder {
+      color: rgba(255,255,255,.35);
     }
 
-    .range-wrap{
-      padding:12px 15px 15px;
-      background:#f2e8d8;
-      border-radius:17px;
-    }
-
-    .range-top{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      margin-bottom:8px;
-    }
-
-    .range-top label{
-      color:#7a817c;
-      font-size:9px;
-      text-transform:uppercase;
-      letter-spacing:.15em;
-      font-weight:900;
-    }
-
-    .range-value{
-      color:var(--emerald);
-      font-size:12px;
-      font-weight:900;
-    }
-
-    input[type="range"]{
-      width:100%;
-      accent-color:var(--emerald);
-    }
-
-    .advisor-submit{
-      width:100%;
-      margin-top:15px;
-      min-height:56px;
-      border:0;
-      border-radius:17px;
-      background:var(--emerald);
-      color:#fff;
-      font-weight:900;
-      cursor:pointer;
+    .send-button {
+      width: 38px;
+      height: 38px;
+      border: 0;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--gold-300), var(--gold-500));
+      color: var(--green-950);
     }
 
     /* =========================================================
-       RESULT PANEL
-    ========================================================= */
+       INVESTMENT SNAPSHOT
+       ========================================================= */
 
-    .result-panel{
-      background:var(--emerald);
-      border-radius:30px;
-      padding:30px;
-      color:#fff;
-      min-height:100%;
-      position:relative;
-      overflow:hidden;
-      box-shadow:var(--shadow);
+    .snapshot-section {
+      background: var(--cream);
+      padding: 35px 0;
+      border-bottom: 1px solid rgba(5,45,29,.12);
     }
 
-    .result-panel:after{
-      content:"✦";
-      position:absolute;
-      right:20px;
-      top:-20px;
-      font-size:150px;
-      color:rgba(231,208,155,.08);
-      pointer-events:none;
+    .snapshot-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
     }
 
-    .result-label{
-      color:var(--gold2);
-      font-size:9px;
-      text-transform:uppercase;
-      letter-spacing:.18em;
-      font-weight:900;
+    .snapshot-card {
+      text-align: center;
+      padding: 12px 25px;
+      border-right: 1px solid rgba(5,45,29,.15);
     }
 
-    .result-panel h3{
-      font:500 34px/1.05 Georgia,serif;
-      margin:10px 0;
+    .snapshot-card:last-child {
+      border-right: 0;
     }
 
-    .result-panel > p{
-      color:rgba(255,255,255,.58);
-      font-size:12px;
-      line-height:1.8;
+    .snapshot-number {
+      font-family: var(--serif);
+      color: var(--green-900);
+      font-size: 29px;
+      font-weight: 600;
     }
 
-    .result-empty{
-      margin-top:25px;
-      padding:25px;
-      border:1px dashed rgba(255,255,255,.2);
-      border-radius:20px;
-      color:rgba(255,255,255,.52);
-      font-size:12px;
-      line-height:1.8;
-    }
-
-    .result-content{
-      display:none;
-    }
-
-    .result-content.active{
-      display:block;
-    }
-
-    .score{
-      margin-top:20px;
-      padding:20px;
-      border-radius:20px;
-      background:rgba(255,255,255,.07);
-      border:1px solid rgba(255,255,255,.1);
-    }
-
-    .score-row{
-      display:flex;
-      align-items:end;
-      justify-content:space-between;
-      gap:15px;
-    }
-
-    .score-number{
-      font:500 48px Georgia,serif;
-      color:var(--gold2);
-    }
-
-    .score-label{
-      font-size:10px;
-      color:rgba(255,255,255,.52);
-    }
-
-    .score-bar{
-      height:8px;
-      background:rgba(255,255,255,.1);
-      border-radius:999px;
-      overflow:hidden;
-      margin-top:12px;
-    }
-
-    .score-bar span{
-      display:block;
-      height:100%;
-      width:0;
-      background:var(--champagne);
-      border-radius:999px;
-      transition:width .8s ease;
-    }
-
-    .result-stats{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:9px;
-      margin-top:12px;
-    }
-
-    .result-stat{
-      padding:16px;
-      border-radius:16px;
-      background:rgba(255,255,255,.06);
-    }
-
-    .result-stat span{
-      display:block;
-      color:rgba(255,255,255,.48);
-      font-size:9px;
-      text-transform:uppercase;
-      letter-spacing:.1em;
-    }
-
-    .result-stat strong{
-      display:block;
-      color:var(--gold2);
-      font-size:16px;
-      margin-top:5px;
+    .snapshot-label {
+      color: var(--text-muted);
+      font-size: 11px;
+      margin-top: 2px;
     }
 
     /* =========================================================
-       INSIGHTS
-    ========================================================= */
+       TOOL SECTION
+       ========================================================= */
 
-    .insights{
-      padding:100px 4.5vw;
-      background:#eee1ce;
+    .tool-section {
+      padding: 105px 0;
+      background: var(--cream);
     }
 
-    .insight-grid{
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:15px;
+    .section-heading {
+      max-width: 720px;
+      margin-bottom: 48px;
     }
 
-    .insight{
-      min-height:235px;
-      padding:28px;
-      border-radius:25px;
-      background:#fffaf2;
-      border:1px solid var(--line);
-      transition:.3s;
+    .section-eyebrow {
+      color: #9c7929;
+      text-transform: uppercase;
+      font-weight: 700;
+      font-size: 11px;
+      letter-spacing: 2.5px;
+      margin-bottom: 14px;
     }
 
-    .insight:hover{
-      transform:translateY(-5px);
-      box-shadow:var(--shadow);
+    .section-title {
+      font-family: var(--serif);
+      color: var(--green-900);
+      font-size: clamp(38px, 4vw, 57px);
+      line-height: 1.05;
+      font-weight: 600;
+      letter-spacing: -1.2px;
     }
 
-    .insight-icon{
-      width:46px;
-      height:46px;
-      display:grid;
-      place-items:center;
-      border-radius:14px;
-      background:var(--emerald);
-      color:var(--gold2);
-      font-size:20px;
+    .section-title em {
+      color: #9d7929;
+      font-weight: 500;
     }
 
-    .insight h3{
-      font:500 25px Georgia,serif;
-      color:var(--emerald);
-      margin:30px 0 7px;
+    .tool-layout {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 25px;
+      align-items: start;
     }
 
-    .insight p{
-      color:var(--muted);
-      font-size:11px;
-      line-height:1.8;
-      margin:0;
+    .investment-form-card,
+    .result-card {
+      background: #f9f4e8;
+      border: 1px solid rgba(5,45,29,.15);
+      border-radius: 20px;
+      padding: 30px;
+    }
+
+    .card-heading {
+      color: var(--green-900);
+      font-family: var(--serif);
+      font-size: 25px;
+      margin-bottom: 5px;
+    }
+
+    .card-subtitle {
+      color: var(--text-muted);
+      font-size: 12px;
+      margin-bottom: 25px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .field.full {
+      grid-column: 1 / -1;
+    }
+
+    .field label {
+      color: var(--green-900);
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .field input,
+    .field select {
+      height: 45px;
+      border: 1px solid rgba(5,45,29,.18);
+      border-radius: 10px;
+      background: #fffaf0;
+      color: var(--text-dark);
+      outline: none;
+      padding: 0 13px;
+      font-size: 12px;
+    }
+
+    .field input:focus,
+    .field select:focus {
+      border-color: var(--gold-500);
+      box-shadow: 0 0 0 3px rgba(215,173,77,.1);
+    }
+
+    .range-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .range-wrap input {
+      flex: 1;
+    }
+
+    .range-value {
+      min-width: 58px;
+      text-align: right;
+      color: var(--green-900);
+      font-weight: 700;
+      font-size: 11px;
+    }
+
+    .analyze-button {
+      width: 100%;
+      height: 50px;
+      margin-top: 19px;
+      border: 1px solid var(--gold-400);
+      border-radius: 25px;
+      background: linear-gradient(135deg, var(--gold-300), var(--gold-500));
+      color: var(--green-950);
+      font-weight: 700;
+      font-size: 13px;
     }
 
     /* =========================================================
-       INVESTMENT CHECKLIST
-    ========================================================= */
+       RESULTS
+       ========================================================= */
 
-    .check-section{
-      padding:105px 4.5vw;
+    .result-card {
+      background: var(--green-900);
+      border-color: rgba(215,173,77,.45);
+      color: white;
+      position: sticky;
+      top: 92px;
     }
 
-    .check-grid{
-      display:grid;
-      grid-template-columns:.85fr 1.15fr;
-      gap:70px;
-      align-items:center;
+    .result-card .card-heading {
+      color: white;
     }
 
-    .check-copy h2{
-      font:500 clamp(40px,5vw,68px)/.98 Georgia,serif;
-      color:var(--emerald);
-      letter-spacing:-.04em;
-      margin:12px 0 20px;
+    .result-card .card-subtitle {
+      color: rgba(255,255,255,.55);
     }
 
-    .check-copy p{
-      color:var(--muted);
-      max-width:550px;
-      font-size:13px;
-      line-height:1.9;
+    .score-box {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      margin: 25px 0;
+      padding: 18px;
+      border-radius: 15px;
+      border: 1px solid rgba(215,173,77,.3);
+      background: rgba(255,255,255,.035);
     }
 
-    .check-list{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:13px;
+    .score-circle {
+      width: 78px;
+      height: 78px;
+      border-radius: 50%;
+      border: 5px solid var(--gold-400);
+      display: grid;
+      place-items: center;
+      flex: 0 0 78px;
     }
 
-    .check-item{
-      padding:24px;
-      border-radius:22px;
-      background:var(--pearl);
-      border:1px solid var(--line);
+    .score-circle strong {
+      color: var(--gold-300);
+      font-family: var(--serif);
+      font-size: 24px;
     }
 
-    .check-item strong{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      color:var(--emerald);
-      font-size:13px;
+    .score-text strong {
+      display: block;
+      font-family: var(--serif);
+      font-size: 21px;
+      margin-bottom: 3px;
     }
 
-    .check-item strong span{
-      width:27px;
-      height:27px;
-      display:grid;
-      place-items:center;
-      border-radius:50%;
-      background:var(--emerald);
-      color:var(--gold2);
-      font-size:11px;
+    .score-text span {
+      color: rgba(255,255,255,.56);
+      font-size: 10px;
     }
 
-    .check-item p{
-      color:var(--muted);
-      font-size:10px;
-      line-height:1.7;
-      margin:10px 0 0;
+    .metric-list {
+      display: grid;
+      gap: 9px;
+    }
+
+    .metric {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 13px;
+      border-radius: 10px;
+      background: rgba(255,255,255,.045);
+      border: 1px solid rgba(255,255,255,.07);
+    }
+
+    .metric-label {
+      color: rgba(255,255,255,.57);
+      font-size: 10px;
+    }
+
+    .metric-value {
+      color: var(--gold-300);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .result-note {
+      margin-top: 16px;
+      color: rgba(255,255,255,.48);
+      font-size: 9px;
+      line-height: 1.6;
+    }
+
+    /* =========================================================
+       FEATURES
+       ========================================================= */
+
+    .features-section {
+      background: var(--green-900);
+      color: white;
+      padding: 105px 0;
+    }
+
+    .features-heading {
+      max-width: 680px;
+      margin-bottom: 50px;
+    }
+
+    .features-heading .section-title {
+      color: white;
+    }
+
+    .features-heading .section-title em {
+      color: var(--gold-300);
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .feature-card {
+      background: var(--green-850);
+      border: 1px solid rgba(215,173,77,.28);
+      border-radius: 18px;
+      padding: 30px;
+      min-height: 230px;
+      transition: .25s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(215,173,77,.6);
+    }
+
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 13px;
+      display: grid;
+      place-items: center;
+      color: var(--gold-300);
+      border: 1px solid rgba(231,199,107,.55);
+      margin-bottom: 22px;
+    }
+
+    .feature-card h3 {
+      font-family: var(--serif);
+      font-size: 23px;
+      margin-bottom: 9px;
+    }
+
+    .feature-card p {
+      color: rgba(255,255,255,.62);
+      font-size: 12px;
+      line-height: 1.75;
     }
 
     /* =========================================================
        DISCLAIMER
-    ========================================================= */
+       ========================================================= */
 
-    .disclaimer{
-      padding:30px 4.5vw;
-      background:var(--sand);
+    .disclaimer-section {
+      background: #e9dfc8;
+      padding: 50px 0;
     }
 
-    .disclaimer-box{
-      max-width:1000px;
-      margin:auto;
-      padding:22px 25px;
-      border:1px solid rgba(177,138,72,.25);
-      border-radius:20px;
-      background:rgba(255,250,242,.55);
+    .disclaimer-box {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      max-width: 950px;
+      margin: auto;
     }
 
-    .disclaimer-box strong{
-      color:var(--emerald);
-      font-size:11px;
+    .disclaimer-icon {
+      width: 42px;
+      height: 42px;
+      flex: 0 0 42px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: var(--gold-500);
+      background: var(--green-900);
     }
 
-    .disclaimer-box p{
-      margin:6px 0 0;
-      color:var(--muted);
-      font-size:10px;
-      line-height:1.7;
+    .disclaimer-box strong {
+      display: block;
+      color: var(--green-900);
+      font-size: 13px;
+      margin-bottom: 4px;
+    }
+
+    .disclaimer-box p {
+      color: var(--text-muted);
+      font-size: 11px;
+      line-height: 1.7;
     }
 
     /* =========================================================
-       FINAL CTA
-    ========================================================= */
+       CTA
+       ========================================================= */
 
-    .final-cta{
-      padding:110px 4.5vw;
-      background:var(--emerald);
-      color:#fff;
-      text-align:center;
+    .cta-section {
+      background: var(--cream);
+      padding: 90px 0;
     }
 
-    .final-cta .kicker{
-      color:var(--gold2);
+    .cta-box {
+      background: var(--green-900);
+      border: 1px solid var(--gold-400);
+      border-radius: 24px;
+      padding: 62px 45px;
+      text-align: center;
+      color: white;
     }
 
-    .final-cta h2{
-      font:500 clamp(48px,7vw,88px)/.95 Georgia,serif;
-      margin:15px auto;
-      max-width:950px;
+    .cta-box h2 {
+      font-family: var(--serif);
+      font-size: clamp(38px, 5vw, 60px);
+      line-height: 1;
+      margin-bottom: 16px;
     }
 
-    .final-cta p{
-      color:rgba(255,255,255,.62);
-      max-width:600px;
-      margin:0 auto;
-      font-size:13px;
+    .cta-box h2 em {
+      color: var(--gold-300);
+      font-weight: 500;
+    }
+
+    .cta-box p {
+      color: rgba(255,255,255,.66);
+      max-width: 620px;
+      margin: auto;
+      font-size: 14px;
+    }
+
+    .cta-buttons {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
     }
 
     /* =========================================================
        FOOTER
-    ========================================================= */
+       ========================================================= */
 
-    footer{
-      background:#10291f;
-      color:#fff;
+    .footer {
+      background: #021b11;
+      color: white;
+      border-top: 1px solid rgba(215,173,77,.45);
     }
 
-    .footer{
-      max-width:1280px;
-      margin:auto;
-      padding:70px 4.5vw;
-      display:grid;
-      grid-template-columns:2fr 1fr 1fr 1fr;
-      gap:45px;
+    .footer-inner {
+      width: min(calc(100% - 48px), var(--container));
+      margin: auto;
+      padding: 65px 0 45px;
+      display: grid;
+      grid-template-columns: 1.7fr 1fr 1fr 1fr;
+      gap: 35px;
     }
 
-    .footer-brand{
-      font-size:25px;
-      font-weight:900;
-      letter-spacing:.2em;
-      color:var(--gold2);
+    .footer-brand strong {
+      display: block;
+      color: var(--gold-300);
+      font-family: var(--serif);
+      font-size: 27px;
+      letter-spacing: 2px;
+      margin-bottom: 15px;
     }
 
-    .footer p{
-      color:rgba(255,255,255,.5);
-      max-width:380px;
-      font-size:12px;
-      line-height:1.8;
+    .footer-brand p {
+      max-width: 330px;
+      color: rgba(255,255,255,.58);
+      font-size: 12px;
+      line-height: 1.8;
     }
 
-    .footer h4{
-      color:var(--gold2);
-      margin:0 0 15px;
-      font-size:11px;
-      text-transform:uppercase;
-      letter-spacing:.15em;
+    .footer-column {
+      display: flex;
+      flex-direction: column;
     }
 
-    .footer a{
-      display:block;
-      color:rgba(255,255,255,.6);
-      font-size:11px;
-      margin:9px 0;
+    .footer-column h4 {
+      color: var(--gold-300);
+      font-size: 11px;
+      letter-spacing: 1.6px;
+      margin-bottom: 18px;
     }
 
-    .footer a:hover{
-      color:#fff;
+    .footer-column a {
+      color: rgba(255,255,255,.66);
+      font-size: 12px;
+      margin-bottom: 10px;
+      transition: .2s ease;
     }
 
-    .bottom{
-      max-width:1280px;
-      margin:auto;
-      padding:18px 4.5vw 25px;
-      border-top:1px solid rgba(255,255,255,.1);
-      display:flex;
-      justify-content:space-between;
-      gap:20px;
-      color:rgba(255,255,255,.4);
-      font-size:10px;
+    .footer-column a:hover {
+      color: var(--gold-300);
     }
 
-    .bottom a{
-      display:inline;
-      margin:0;
+    .footer-bottom {
+      width: min(calc(100% - 48px), var(--container));
+      margin: auto;
+      border-top: 1px solid rgba(255,255,255,.08);
+      padding: 20px 0;
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      color: rgba(255,255,255,.43);
+      font-size: 10px;
     }
 
     /* =========================================================
-       MOBILE DOCK
-    ========================================================= */
+       FLOATING AI
+       ========================================================= */
 
-    .mobile-dock{
-      display:none;
+    .ai-float {
+      position: fixed;
+      right: 24px;
+      bottom: 24px;
+      z-index: 1200;
+    }
+
+    .ai-float-button {
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      border: 2px solid var(--gold-300);
+      background: var(--green-900);
+      color: var(--gold-300);
+      display: grid;
+      place-items: center;
+      font-size: 22px;
+      box-shadow: 0 12px 30px rgba(0,0,0,.25);
+    }
+
+    .ai-tooltip {
+      position: absolute;
+      right: 68px;
+      bottom: 5px;
+      white-space: nowrap;
+      background: var(--green-950);
+      color: white;
+      border: 1px solid rgba(215,173,77,.5);
+      padding: 9px 13px;
+      border-radius: 8px;
+      font-size: 11px;
+      opacity: 0;
+      transform: translateX(5px);
+      pointer-events: none;
+      transition: .2s ease;
+    }
+
+    .ai-float:hover .ai-tooltip {
+      opacity: 1;
+      transform: translateX(0);
     }
 
     /* =========================================================
        RESPONSIVE
-    ========================================================= */
+       ========================================================= */
 
-    @media(max-width:1050px){
+    @media (max-width: 1100px) {
 
-      .links{
-        display:none;
+      .main-nav {
+        gap: 17px;
       }
 
-      .menu{
-        display:block;
+      .main-nav a {
+        font-size: 12px;
       }
 
-      .hero-inner{
-        grid-template-columns:1fr;
+      .hero-grid {
+        gap: 40px;
       }
 
-      .investment-card{
-        margin-left:0;
-      }
-
-      .advisor-grid,
-      .check-grid{
-        grid-template-columns:1fr;
-      }
-
-      .footer{
-        grid-template-columns:1fr 1fr;
+      .features-grid {
+        grid-template-columns: repeat(2, 1fr);
       }
 
     }
 
-    @media(max-width:700px){
+    @media (max-width: 850px) {
 
-      .topbar{
-        font-size:9px;
+      :root {
+        --header-height: 68px;
       }
 
-      .header{
-        padding:9px 5vw;
+      .container,
+      .footer-inner,
+      .footer-bottom {
+        width: min(calc(100% - 32px), var(--container));
       }
 
-      .nav-actions .pill:first-child{
-        display:none;
+      .main-nav,
+      .header-search,
+      .login-btn,
+      .get-started {
+        display: none;
       }
 
-      .hero{
-        min-height:700px;
+      .mobile-menu {
+        display: grid;
+        place-items: center;
       }
 
-      .hero-inner{
-        width:90vw;
-        padding-top:70px;
+      .hero-grid,
+      .tool-layout {
+        grid-template-columns: 1fr;
       }
 
-      h1{
-        font-size:56px;
+      .advisor-hero {
+        padding: 62px 0 70px;
       }
 
-      .investment-card h2{
-        font-size:29px;
+      .snapshot-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .snapshot-card:nth-child(2) {
+        border-right: 0;
+      }
+
+      .snapshot-card:nth-child(-n+2) {
+        border-bottom: 1px solid rgba(5,45,29,.15);
       }
 
       .tool-section,
-      .insights,
-      .check-section{
-        padding:75px 5vw;
+      .features-section {
+        padding: 75px 0;
       }
 
-      .section-head{
-        display:block;
+      .result-card {
+        position: static;
       }
 
-      .section-head p{
-        margin-top:20px;
+      .features-grid {
+        grid-template-columns: 1fr 1fr;
       }
 
-      .form-grid{
-        grid-template-columns:1fr;
+      .footer-inner {
+        grid-template-columns: 1fr 1fr;
       }
 
-      .form-field.full{
-        grid-column:auto;
+      .footer-brand {
+        grid-column: 1 / -1;
       }
 
-      .insight-grid{
-        grid-template-columns:1fr;
+    }
+
+    @media (max-width: 560px) {
+
+      .container,
+      .footer-inner,
+      .footer-bottom {
+        width: min(calc(100% - 24px), var(--container));
       }
 
-      .check-list{
-        grid-template-columns:1fr;
+      .brand-name {
+        font-size: 22px;
       }
 
-      .result-stats{
-        grid-template-columns:1fr 1fr;
+      .brand-mark {
+        width: 39px;
+        height: 39px;
       }
 
-      .footer{
-        grid-template-columns:1fr;
+      .advisor-hero {
+        padding: 50px 0 58px;
       }
 
-      .bottom{
-        flex-direction:column;
+      .hero-title {
+        font-size: 45px;
       }
 
-      .mobile-dock{
-        position:fixed;
-        z-index:9999;
-        left:10px;
-        right:10px;
-        bottom:10px;
-        display:grid;
-        grid-template-columns:repeat(5,1fr);
-        background:rgba(16,41,31,.95);
-        backdrop-filter:blur(18px);
-        border:1px solid rgba(255,255,255,.12);
-        border-radius:20px;
-        padding:8px;
-        box-shadow:0 20px 50px rgba(0,0,0,.2);
+      .hero-description {
+        font-size: 14px;
       }
 
-      .mobile-dock a{
-        text-align:center;
-        color:rgba(255,255,255,.65);
-        font-size:8px;
-        font-weight:800;
+      .quick-prompts {
+        grid-template-columns: 1fr;
       }
 
-      .mobile-dock span{
-        display:block;
-        color:var(--gold2);
-        font-size:18px;
-        line-height:1;
-        margin-bottom:3px;
+      .snapshot-card {
+        padding: 12px 10px;
       }
 
-      body{
-        padding-bottom:80px;
+      .snapshot-number {
+        font-size: 25px;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .field.full {
+        grid-column: auto;
+      }
+
+      .investment-form-card,
+      .result-card {
+        padding: 22px;
+      }
+
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .disclaimer-box {
+        display: block;
+      }
+
+      .disclaimer-icon {
+        margin-bottom: 12px;
+      }
+
+      .cta-box {
+        padding: 45px 22px;
+      }
+
+      .footer-inner {
+        grid-template-columns: 1fr 1fr;
+        gap: 30px 20px;
+      }
+
+      .footer-bottom {
+        display: block;
+      }
+
+      .footer-bottom span:last-child {
+        display: block;
+        margin-top: 10px;
+      }
+
+      .ai-float {
+        right: 15px;
+        bottom: 15px;
       }
 
     }
@@ -1067,137 +1242,109 @@
 <body>
 
   <!-- =======================================================
-       TOP BAR
-  ======================================================== -->
-
-  <div class="topbar">
-    <b>GHAR AI</b>
-    &nbsp; | &nbsp;
-    Intelligent property investment insights
-  </div>
-
-
-  <!-- =======================================================
        HEADER
-  ======================================================== -->
+       ======================================================= -->
 
-  <header class="header">
+  <header class="site-header">
 
-    <nav class="nav">
+    <div class="container header-inner">
 
       <a href="index.html" class="brand">
 
-        <img
-          src="assets/images/logo/ghar-logo.png"
-          alt="GHAR"
-        >
+        <div class="brand-mark">
+          <i class="fa-solid fa-house"></i>
+        </div>
 
-        <span>GHAR</span>
+        <div>
+          <div class="brand-name">GHAR</div>
+          <span class="brand-tagline">BUY | SELL | RENT</span>
+        </div>
 
       </a>
 
+      <nav class="main-nav">
 
-      <div class="links">
+        <a href="index.html">Home</a>
+        <a href="properties.html">Properties</a>
+        <a href="buy.html">Buy</a>
+        <a href="rent.html">Rent</a>
+        <a href="sell.html">Sell</a>
+        <a href="ghar-ai.html" class="active">GHAR AI</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
 
-        <a href="properties.html">
-          Properties
-        </a>
+      </nav>
 
-        <a href="about.html">
-          About
-        </a>
+      <div class="header-actions">
 
-        <a href="property-search.html">
-          Search
-        </a>
-
-        <a href="compare.html">
-          Compare
-        </a>
-
-        <a href="ai.html">
-          AI
-        </a>
-
-        <a href="contact.html">
-          Contact
-        </a>
-
-      </div>
-
-
-      <div class="nav-actions">
-
-        <a
-          href="login.html"
-          class="pill"
+        <button
+          class="header-search"
+          aria-label="Search"
+          onclick="window.location.href='property-search.html'"
         >
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+
+        <a href="login.html" class="login-btn">
           Login
         </a>
 
-        <a
-          href="role-selection.html"
-          class="pill gold"
-        >
+        <a href="register.html" class="get-started">
           Get Started
         </a>
 
-        <button
-          class="menu"
-          type="button"
-          aria-label="Open menu"
-        >
-          ☰
+        <button class="mobile-menu" id="mobileMenu" aria-label="Menu">
+          <i class="fa-solid fa-bars"></i>
         </button>
 
       </div>
 
-    </nav>
+    </div>
 
   </header>
 
 
-  <main>
+  <!-- =======================================================
+       MAIN
+       ======================================================= -->
 
+  <main>
 
     <!-- =====================================================
          HERO
-    ====================================================== -->
+         ===================================================== -->
 
-    <section class="hero">
+    <section class="advisor-hero">
 
-      <div class="hero-inner">
+      <div class="container hero-grid">
 
         <div>
 
           <div class="eyebrow">
-            GHAR intelligence
+            GHAR Intelligence • Investment Advisor
           </div>
 
-          <h1>
-            Invest with
-            <em>more clarity.</em>
+          <h1 class="hero-title">
+            Invest in property
+            with <em>better intelligence.</em>
           </h1>
 
-          <p class="hero-copy">
-            Explore property investment scenarios using your
-            budget, location, expected rental income, holding
-            period and investment preferences.
+          <p class="hero-description">
+            GHAR AI Investment Advisor helps you evaluate property
+            opportunities using purchase price, rental potential,
+            expected appreciation, location, financing and your
+            investment objectives.
           </p>
 
-          <div class="actions">
+          <div class="hero-buttons">
 
-            <a
-              href="#advisor"
-              class="btn gold"
-            >
-              Start Investment Analysis
+            <a href="#advisor" class="gold-button">
+              Start Analysis
+              <i class="fa-solid fa-arrow-right"></i>
             </a>
 
-            <a
-              href="properties.html"
-              class="btn light"
-            >
+            <a href="properties.html" class="outline-button">
+              <i class="fa-solid fa-building"></i>
               Explore Properties
             </a>
 
@@ -1206,71 +1353,96 @@
         </div>
 
 
-        <div class="investment-card">
+        <!-- AI PANEL -->
 
-          <small>
-            Investment perspective
-          </small>
+        <div class="advisor-panel">
 
-          <h2>
-            Property decisions deserve more than a price tag.
-          </h2>
+          <div class="advisor-panel-header">
 
-          <p>
-            GHAR can organize the factors behind a potential
-            property investment and present scenario-based
-            estimates for comparison.
-          </p>
+            <div class="advisor-agent">
 
-          <div class="mini-stats">
+              <div class="agent-icon">
+                <i class="fa-solid fa-chart-line"></i>
+              </div>
 
-            <div class="mini-stat">
+              <div>
+                <div class="agent-name">
+                  GHAR Investment AI
+                </div>
 
-              <span>
-                Rental yield
-              </span>
-
-              <strong>
-                Estimate
-              </strong>
+                <span class="agent-status">
+                  AI property investment assistant
+                </span>
+              </div>
 
             </div>
 
-            <div class="mini-stat">
+            <span class="status-dot"></span>
 
-              <span>
-                Appreciation
-              </span>
+          </div>
 
-              <strong>
-                Scenario
-              </strong>
 
-            </div>
+          <div class="advisor-message">
 
-            <div class="mini-stat">
+            <strong>Investment insight:</strong><br>
 
-              <span>
-                Holding period
-              </span>
+            Tell me your budget, preferred location,
+            investment horizon and whether your priority is
+            rental income, capital appreciation or a balance
+            between both.
 
-              <strong>
-                5–10 yrs
-              </strong>
+          </div>
 
-            </div>
 
-            <div class="mini-stat">
+          <div class="quick-prompts">
 
-              <span>
-                Risk
-              </span>
+            <button
+              class="quick-prompt"
+              onclick="setPrompt('I have ₹1 crore to invest in property.')"
+            >
+              ₹1 Cr investment
+            </button>
 
-              <strong>
-                Profile
-              </strong>
+            <button
+              class="quick-prompt"
+              onclick="setPrompt('Find properties with strong rental potential.')"
+            >
+              Rental income
+            </button>
 
-            </div>
+            <button
+              class="quick-prompt"
+              onclick="setPrompt('I want long-term appreciation.')"
+            >
+              Long-term growth
+            </button>
+
+            <button
+              class="quick-prompt"
+              onclick="setPrompt('Compare two property investments.')"
+            >
+              Compare investments
+            </button>
+
+          </div>
+
+
+          <div class="advisor-input">
+
+            <input
+              type="text"
+              id="heroPrompt"
+              placeholder="Ask about a property investment..."
+              aria-label="Ask GHAR Investment AI"
+            >
+
+            <button
+              class="send-button"
+              onclick="sendAdvisorQuestion()"
+              aria-label="Send"
+            >
+              <i class="fa-solid fa-arrow-up"></i>
+            </button>
 
           </div>
 
@@ -1282,305 +1454,282 @@
 
 
     <!-- =====================================================
-         ADVISOR
-    ====================================================== -->
+         SNAPSHOT
+         ===================================================== -->
 
-    <section
-      class="tool-section"
-      id="advisor"
-    >
+    <section class="snapshot-section">
 
-      <div class="container">
+      <div class="container snapshot-grid">
 
-        <div class="section-head">
+        <div class="snapshot-card">
 
-          <div>
-
-            <div class="kicker">
-              AI investment advisor
-            </div>
-
-            <h2>
-              Build your
-              <br>
-              investment scenario.
-            </h2>
-
+          <div class="snapshot-number">
+            ROI
           </div>
 
-          <p>
-            Enter the assumptions you want GHAR to consider.
-            The result is an educational scenario, not a
-            guaranteed return or financial recommendation.
-          </p>
+          <div class="snapshot-label">
+            Return Analysis
+          </div>
 
         </div>
 
 
-        <div class="advisor-grid">
+        <div class="snapshot-card">
 
+          <div class="snapshot-number">
+            RENT
+          </div>
+
+          <div class="snapshot-label">
+            Rental Potential
+          </div>
+
+        </div>
+
+
+        <div class="snapshot-card">
+
+          <div class="snapshot-number">
+            GROWTH
+          </div>
+
+          <div class="snapshot-label">
+            Appreciation Potential
+          </div>
+
+        </div>
+
+
+        <div class="snapshot-card">
+
+          <div class="snapshot-number">
+            RISK
+          </div>
+
+          <div class="snapshot-label">
+            Risk Assessment
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         INVESTMENT ANALYZER
+         ===================================================== -->
+
+    <section class="tool-section" id="advisor">
+
+      <div class="container">
+
+        <div class="section-heading">
+
+          <div class="section-eyebrow">
+            Investment Analyzer
+          </div>
+
+          <h2 class="section-title">
+            Turn property numbers into
+            <em>investment insight.</em>
+          </h2>
+
+        </div>
+
+
+        <div class="tool-layout">
 
           <!-- FORM -->
 
-          <form
-            class="advisor-form"
-            id="investmentForm"
-          >
+          <div class="investment-form-card">
 
-            <h3 class="form-title">
-              Investment profile
+            <h3 class="card-heading">
+              Investment Profile
             </h3>
 
-            <p class="form-description">
-              Give us a starting point for your property
+            <p class="card-subtitle">
+              Enter approximate figures to generate an indicative
               investment analysis.
             </p>
 
 
             <div class="form-grid">
 
+              <div class="field">
 
-              <div class="form-field">
+                <label for="propertyType">
+                  Property Type
+                </label>
 
-                <label>
+                <select id="propertyType">
+
+                  <option value="apartment">
+                    Apartment
+                  </option>
+
+                  <option value="villa">
+                    Villa
+                  </option>
+
+                  <option value="commercial">
+                    Commercial
+                  </option>
+
+                  <option value="land">
+                    Land
+                  </option>
+
+                  <option value="office">
+                    Office
+                  </option>
+
+                </select>
+
+              </div>
+
+
+              <div class="field">
+
+                <label for="location">
                   Location
                 </label>
 
                 <input
                   id="location"
-                  name="location"
+                  type="text"
                   placeholder="e.g. Noida"
-                  required
+                  value="Noida"
                 >
 
               </div>
 
 
-              <div class="form-field">
+              <div class="field">
 
-                <label>
-                  Property type
-                </label>
-
-                <select
-                  id="propertyType"
-                  name="propertyType"
-                >
-
-                  <option value="Apartment">
-                    Apartment
-                  </option>
-
-                  <option value="Villa">
-                    Villa
-                  </option>
-
-                  <option value="House">
-                    Independent House
-                  </option>
-
-                  <option value="Commercial">
-                    Commercial
-                  </option>
-
-                  <option value="Land">
-                    Land
-                  </option>
-
-                </select>
-
-              </div>
-
-
-              <div class="form-field">
-
-                <label>
-                  Purchase price
+                <label for="price">
+                  Purchase Price
                 </label>
 
                 <input
-                  id="purchasePrice"
-                  name="purchasePrice"
+                  id="price"
                   type="number"
                   min="0"
+                  value="10000000"
                   placeholder="₹"
-                  required
                 >
 
               </div>
 
 
-              <div class="form-field">
+              <div class="field">
 
-                <label>
-                  Down payment
+                <label for="downPayment">
+                  Down Payment
                 </label>
 
                 <input
                   id="downPayment"
-                  name="downPayment"
                   type="number"
                   min="0"
+                  value="3000000"
                   placeholder="₹"
                 >
 
               </div>
 
 
-              <div class="form-field">
+              <div class="field">
 
-                <label>
-                  Expected monthly rent
+                <label for="rent">
+                  Monthly Rent
                 </label>
 
                 <input
-                  id="monthlyRent"
-                  name="monthlyRent"
+                  id="rent"
                   type="number"
                   min="0"
+                  value="35000"
                   placeholder="₹"
                 >
 
               </div>
 
 
-              <div class="form-field">
+              <div class="field">
 
-                <label>
-                  Annual expenses
+                <label for="expenses">
+                  Monthly Expenses
                 </label>
 
                 <input
-                  id="annualExpenses"
-                  name="annualExpenses"
+                  id="expenses"
                   type="number"
                   min="0"
+                  value="5000"
                   placeholder="₹"
                 >
 
               </div>
 
 
-              <div class="form-field full">
+              <div class="field full">
+
+                <label for="appreciation">
+                  Expected Annual Appreciation
+                </label>
 
                 <div class="range-wrap">
-
-                  <div class="range-top">
-
-                    <label>
-                      Expected annual appreciation
-                    </label>
-
-                    <span
-                      class="range-value"
-                      id="appreciationValue"
-                    >
-                      7%
-                    </span>
-
-                  </div>
 
                   <input
                     id="appreciation"
-                    name="appreciation"
                     type="range"
                     min="0"
-                    max="15"
-                    value="7"
-                    step=".5"
-                  >
-
-                </div>
-
-              </div>
-
-
-              <div class="form-field full">
-
-                <div class="range-wrap">
-
-                  <div class="range-top">
-
-                    <label>
-                      Investment horizon
-                    </label>
-
-                    <span
-                      class="range-value"
-                      id="horizonValue"
-                    >
-                      10 years
-                    </span>
-
-                  </div>
-
-                  <input
-                    id="horizon"
-                    name="horizon"
-                    type="range"
-                    min="1"
                     max="20"
-                    value="10"
+                    step=".5"
+                    value="7"
+                    oninput="updateRange()"
                   >
+
+                  <span
+                    class="range-value"
+                    id="appreciationValue"
+                  >
+                    7%
+                  </span>
 
                 </div>
 
               </div>
 
 
-              <div class="form-field">
+              <div class="field full">
 
-                <label>
-                  Investment goal
+                <label for="horizon">
+                  Investment Horizon
                 </label>
 
-                <select
-                  id="goal"
-                  name="goal"
-                >
+                <select id="horizon">
 
-                  <option value="Rental income">
-                    Rental income
+                  <option value="3">
+                    3 Years
                   </option>
 
-                  <option value="Capital appreciation">
-                    Capital appreciation
+                  <option value="5" selected>
+                    5 Years
                   </option>
 
-                  <option value="Balanced">
-                    Balanced
+                  <option value="7">
+                    7 Years
                   </option>
 
-                  <option value="Long-term wealth">
-                    Long-term wealth
+                  <option value="10">
+                    10 Years
                   </option>
 
-                </select>
-
-              </div>
-
-
-              <div class="form-field">
-
-                <label>
-                  Risk preference
-                </label>
-
-                <select
-                  id="risk"
-                  name="risk"
-                >
-
-                  <option value="Conservative">
-                    Conservative
-                  </option>
-
-                  <option value="Moderate" selected>
-                    Moderate
-                  </option>
-
-                  <option value="Growth">
-                    Growth
+                  <option value="15">
+                    15 Years
                   </option>
 
                 </select>
@@ -1591,144 +1740,146 @@
 
 
             <button
-              class="advisor-submit"
-              type="submit"
+              class="analyze-button"
+              onclick="analyzeInvestment()"
             >
-              Generate Investment Analysis
+              <i class="fa-solid fa-wand-magic-sparkles"></i>
+              Analyze Investment
             </button>
 
-          </form>
+          </div>
 
 
-          <!-- RESULT -->
+          <!-- RESULTS -->
 
-          <aside class="result-panel">
+          <div class="result-card">
 
-            <div class="result-label">
-              GHAR scenario engine
-            </div>
-
-            <h3>
-              Your investment outlook
+            <h3 class="card-heading">
+              AI Investment Snapshot
             </h3>
 
-            <p>
-              Generate an analysis to see estimated rental
-              yield, projected property value and a simple
-              scenario score.
+            <p class="card-subtitle">
+              Indicative analysis based on the information entered.
             </p>
 
 
-            <div
-              class="result-empty"
-              id="resultEmpty"
-            >
-              Enter your property assumptions and select
-              <strong>Generate Investment Analysis</strong>
-              to calculate the illustrative scenario.
-            </div>
+            <div class="score-box">
 
+              <div class="score-circle">
 
-            <div
-              class="result-content"
-              id="resultContent"
-            >
-
-              <div class="score">
-
-                <div class="score-row">
-
-                  <div>
-
-                    <div class="score-number"
-                         id="scoreNumber">
-                      0
-                    </div>
-
-                    <div class="score-label">
-                      Scenario score / 100
-                    </div>
-
-                  </div>
-
-                  <div
-                    id="scoreText"
-                    class="score-label"
-                  >
-                    Moderate
-                  </div>
-
-                </div>
-
-                <div class="score-bar">
-
-                  <span
-                    id="scoreBar"
-                  ></span>
-
-                </div>
+                <strong id="score">
+                  78
+                </strong>
 
               </div>
 
+              <div class="score-text">
 
-              <div class="result-stats">
+                <strong id="rating">
+                  Attractive
+                </strong>
 
-                <div class="result-stat">
-
-                  <span>
-                    Gross rental yield
-                  </span>
-
-                  <strong id="yieldResult">
-                    --
-                  </strong>
-
-                </div>
-
-
-                <div class="result-stat">
-
-                  <span>
-                    Annual net rent
-                  </span>
-
-                  <strong id="netRentResult">
-                    --
-                  </strong>
-
-                </div>
-
-
-                <div class="result-stat">
-
-                  <span>
-                    Projected value
-                  </span>
-
-                  <strong id="futureValueResult">
-                    --
-                  </strong>
-
-                </div>
-
-
-                <div class="result-stat">
-
-                  <span>
-                    Estimated gain
-                  </span>
-
-                  <strong id="gainResult">
-                    --
-                  </strong>
-
-                </div>
+                <span>
+                  Indicative investment profile
+                </span>
 
               </div>
 
             </div>
 
-          </aside>
+
+            <div class="metric-list">
+
+              <div class="metric">
+
+                <span class="metric-label">
+                  Gross Rental Yield
+                </span>
+
+                <span
+                  class="metric-value"
+                  id="yieldResult"
+                >
+                  4.20%
+                </span>
+
+              </div>
+
+
+              <div class="metric">
+
+                <span class="metric-label">
+                  Annual Net Rent
+                </span>
+
+                <span
+                  class="metric-value"
+                  id="annualRentResult"
+                >
+                  ₹3.60L
+                </span>
+
+              </div>
+
+
+              <div class="metric">
+
+                <span class="metric-label">
+                  Estimated Future Value
+                </span>
+
+                <span
+                  class="metric-value"
+                  id="futureValueResult"
+                >
+                  ₹14.03Cr
+                </span>
+
+              </div>
+
+
+              <div class="metric">
+
+                <span class="metric-label">
+                  Estimated Capital Gain
+                </span>
+
+                <span
+                  class="metric-value"
+                  id="capitalGainResult"
+                >
+                  ₹4.03Cr
+                </span>
+
+              </div>
+
+
+              <div class="metric">
+
+                <span class="metric-label">
+                  Investment Horizon
+                </span>
+
+                <span
+                  class="metric-value"
+                  id="horizonResult"
+                >
+                  5 Years
+                </span>
+
+              </div>
+
+            </div>
+
+
+            <p class="result-note">
+              This tool provides educational and indicative estimates.
+              Actual property returns depend on purchase price,
+              taxes, financing, vacancy, maintenance, transaction
+              costs, market conditions and other factors.
+            </p>
+
+          </div>
 
         </div>
 
@@ -1738,298 +1889,124 @@
 
 
     <!-- =====================================================
-         INSIGHTS
-    ====================================================== -->
+         AI CAPABILITIES
+         ===================================================== -->
 
-    <section class="insights">
+    <section class="features-section">
 
       <div class="container">
 
-        <div class="section-head">
+        <div class="features-heading">
 
-          <div>
-
-            <div class="kicker">
-              What GHAR evaluates
-            </div>
-
-            <h2>
-              Look beyond
-              <br>
-              the purchase price.
-            </h2>
-
+          <div class="section-eyebrow">
+            GHAR Intelligence
           </div>
 
-          <p>
-            A property investment can involve income,
-            appreciation, expenses, financing, liquidity,
-            location and time horizon.
-          </p>
-
-        </div>
-
-
-        <div class="insight-grid">
-
-
-          <article class="insight">
-
-            <div class="insight-icon">
-              ₹
-            </div>
-
-            <h3>
-              Rental potential
-            </h3>
-
-            <p>
-              Compare expected rental income against the
-              purchase price to understand an indicative
-              gross rental yield.
-            </p>
-
-          </article>
-
-
-          <article class="insight">
-
-            <div class="insight-icon">
-              ↗
-            </div>
-
-            <h3>
-              Capital growth
-            </h3>
-
-            <p>
-              Model a hypothetical annual appreciation rate
-              over your selected investment horizon.
-            </p>
-
-          </article>
-
-
-          <article class="insight">
-
-            <div class="insight-icon">
-              ◈
-            </div>
-
-            <h3>
-              Risk perspective
-            </h3>
-
-            <p>
-              Consider concentration, liquidity, assumptions
-              and the relationship between income and
-              expected appreciation.
-            </p>
-
-          </article>
-
-
-          <article class="insight">
-
-            <div class="insight-icon">
-              ◫
-            </div>
-
-            <h3>
-              Location
-            </h3>
-
-            <p>
-              Location can influence rental demand,
-              infrastructure, connectivity and future
-              market conditions.
-            </p>
-
-          </article>
-
-
-          <article class="insight">
-
-            <div class="insight-icon">
-              ◌
-            </div>
-
-            <h3>
-              Holding period
-            </h3>
-
-            <p>
-              Longer horizons can materially change
-              hypothetical appreciation outcomes and
-              should be tested using multiple scenarios.
-            </p>
-
-          </article>
-
-
-          <article class="insight">
-
-            <div class="insight-icon">
-              ▣
-            </div>
-
-            <h3>
-              Expenses
-            </h3>
-
-            <p>
-              Maintenance, vacancy, taxes, transaction costs
-              and financing can materially affect actual
-              investment performance.
-            </p>
-
-          </article>
-
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- =====================================================
-         CHECKLIST
-    ====================================================== -->
-
-    <section class="check-section">
-
-      <div class="container check-grid">
-
-
-        <div class="check-copy">
-
-          <div class="kicker">
-            Before you invest
-          </div>
-
-          <h2>
-            A better property
-            decision starts with
-            better questions.
+          <h2 class="section-title">
+            More than a calculator.
+            <em>A property investment copilot.</em>
           </h2>
 
-          <p>
-            Use GHAR's analysis as a starting framework.
-            Before committing capital, independently verify
-            property documents, title, approvals, market
-            comparables, financing terms, taxes and all
-            transaction costs.
-          </p>
-
-          <a
-            href="ai-property-advisor.html"
-            class="btn"
-            style="
-              background:var(--emerald);
-              color:#fff;
-              border-color:var(--emerald);
-              margin-top:15px;
-            "
-          >
-            Ask Property Advisor →
-          </a>
-
         </div>
 
 
-        <div class="check-list">
+        <div class="features-grid">
 
+          <article class="feature-card">
 
-          <div class="check-item">
+            <div class="feature-icon">
+              <i class="fa-solid fa-chart-line"></i>
+            </div>
 
-            <strong>
-              <span>01</span>
-              Verify title
-            </strong>
-
-            <p>
-              Review ownership and title-related documents
-              through appropriate professional channels.
-            </p>
-
-          </div>
-
-
-          <div class="check-item">
-
-            <strong>
-              <span>02</span>
-              Check approvals
-            </strong>
+            <h3>ROI Analysis</h3>
 
             <p>
-              Verify relevant building, development and
-              regulatory approvals where applicable.
+              Evaluate indicative rental yield, capital appreciation,
+              annual income and potential investment returns.
             </p>
 
-          </div>
+          </article>
 
 
-          <div class="check-item">
+          <article class="feature-card">
 
-            <strong>
-              <span>03</span>
-              Compare the market
-            </strong>
+            <div class="feature-icon">
+              <i class="fa-solid fa-building"></i>
+            </div>
+
+            <h3>Property Comparison</h3>
 
             <p>
-              Compare similar properties and recent
-              transaction evidence rather than relying on
-              one asking price.
+              Compare properties using price, location, rental
+              potential, estimated appreciation and investment
+              objectives.
             </p>
 
-          </div>
+          </article>
 
 
-          <div class="check-item">
+          <article class="feature-card">
 
-            <strong>
-              <span>04</span>
-              Calculate total cost
-            </strong>
+            <div class="feature-icon">
+              <i class="fa-solid fa-location-dot"></i>
+            </div>
+
+            <h3>Location Intelligence</h3>
 
             <p>
-              Consider registration, taxes, maintenance,
-              brokerage, financing and other applicable costs.
+              Organise location-related factors such as connectivity,
+              amenities, development and surrounding infrastructure.
             </p>
 
-          </div>
+          </article>
 
 
-          <div class="check-item">
+          <article class="feature-card">
 
-            <strong>
-              <span>05</span>
-              Stress-test rent
-            </strong>
+            <div class="feature-icon">
+              <i class="fa-solid fa-house-circle-check"></i>
+            </div>
+
+            <h3>Rental Potential</h3>
 
             <p>
-              Test scenarios with vacancy, lower rent and
-              higher expenses instead of assuming perfect
-              occupancy.
+              Estimate indicative rental yield and assess how rental
+              income may contribute to the investment strategy.
             </p>
 
-          </div>
+          </article>
 
 
-          <div class="check-item">
+          <article class="feature-card">
 
-            <strong>
-              <span>06</span>
-              Check liquidity
-            </strong>
+            <div class="feature-icon">
+              <i class="fa-solid fa-scale-balanced"></i>
+            </div>
+
+            <h3>Risk Factors</h3>
 
             <p>
-              Consider how quickly and at what cost the
-              property could potentially be sold.
+              Identify important variables including vacancy,
+              financing, maintenance, liquidity and market uncertainty.
             </p>
 
-          </div>
+          </article>
+
+
+          <article class="feature-card">
+
+            <div class="feature-icon">
+              <i class="fa-solid fa-comments"></i>
+            </div>
+
+            <h3>Conversational Advice</h3>
+
+            <p>
+              Ask GHAR AI questions naturally and receive structured
+              explanations based on the information you provide.
+            </p>
+
+          </article>
 
         </div>
 
@@ -2040,26 +2017,37 @@
 
     <!-- =====================================================
          DISCLAIMER
-    ====================================================== -->
+         ===================================================== -->
 
-    <section class="disclaimer">
+    <section class="disclaimer-section">
 
-      <div class="disclaimer-box">
+      <div class="container">
 
-        <strong>
-          Important investment information
-        </strong>
+        <div class="disclaimer-box">
 
-        <p>
-          GHAR AI investment outputs are illustrative,
-          assumption-based scenarios for informational and
-          educational purposes only. They are not guaranteed
-          returns, financial advice, investment advice,
-          valuation certificates, lending decisions or a
-          substitute for advice from a qualified financial,
-          legal, tax or real-estate professional. Actual
-          property performance may differ materially.
-        </p>
+          <div class="disclaimer-icon">
+            <i class="fa-solid fa-circle-info"></i>
+          </div>
+
+          <div>
+
+            <strong>
+              Important Investment Information
+            </strong>
+
+            <p>
+              GHAR AI Investment Advisor is intended to provide
+              educational and informational analysis. It does not
+              constitute financial, investment, legal, tax or real
+              estate advice, and it does not guarantee investment
+              returns. Users should independently verify property
+              information and consult appropriately qualified
+              professionals before making financial decisions.
+            </p>
+
+          </div>
+
+        </div>
 
       </div>
 
@@ -2067,51 +2055,49 @@
 
 
     <!-- =====================================================
-         FINAL CTA
-    ====================================================== -->
+         CTA
+         ===================================================== -->
 
-    <section class="final-cta">
+    <section class="cta-section">
 
       <div class="container">
 
-        <div class="kicker">
-          Continue with GHAR
-        </div>
+        <div class="cta-box">
 
-        <h2>
-          Find the property behind the opportunity.
-        </h2>
+          <div class="section-eyebrow">
+            Your Investment Journey
+          </div>
 
-        <p>
-          Explore properties, compare opportunities or
-          continue your property journey with GHAR AI.
-        </p>
+          <h2>
+            Find an opportunity
+            <em>worth exploring.</em>
+          </h2>
 
-        <div
-          class="actions"
-          style="justify-content:center"
-        >
+          <p>
+            Explore GHAR properties, compare opportunities and use
+            GHAR AI to build a clearer picture of your next property
+            investment.
+          </p>
 
-          <a
-            href="properties.html"
-            class="btn gold"
-          >
-            Explore Properties
-          </a>
+          <div class="cta-buttons">
 
-          <a
-            href="compare.html"
-            class="btn light"
-          >
-            Compare Properties
-          </a>
+            <a
+              href="properties.html"
+              class="gold-button"
+            >
+              Explore Properties
+              <i class="fa-solid fa-arrow-right"></i>
+            </a>
 
-          <a
-            href="ai.html"
-            class="btn light"
-          >
-            Explore GHAR AI
-          </a>
+            <a
+              href="ai-chat.html"
+              class="outline-button"
+            >
+              Ask GHAR AI
+              <i class="fa-solid fa-sparkles"></i>
+            </a>
+
+          </div>
 
         </div>
 
@@ -2124,153 +2110,71 @@
 
   <!-- =======================================================
        FOOTER
-  ======================================================== -->
+       ======================================================= -->
 
-  <footer>
+  <footer class="footer">
 
-    <div class="footer">
+    <div class="footer-inner">
 
+      <div class="footer-brand">
 
-      <div>
-
-        <div class="footer-brand">
-          GHAR
-        </div>
+        <strong>GHAR</strong>
 
         <p>
-          A structured real-estate ecosystem connecting
-          buyers, sellers, renters and property transactions
-          through one premium digital experience.
+          A premium real estate experience built around
+          intelligent discovery, transparent transactions
+          and exceptional property journeys.
         </p>
 
       </div>
 
 
-      <div>
+      <div class="footer-column">
 
-        <h4>
-          Properties
-        </h4>
+        <h4>EXPLORE</h4>
 
-        <a href="properties.html">
-          Buy
-        </a>
-
-        <a href="properties.html?listing=rent">
-          Rent
-        </a>
-
-        <a href="properties.html?listing=lease">
-          Lease
-        </a>
-
-        <a href="properties.html?type=commercial">
-          Commercial
-        </a>
-
-        <a href="properties.html?type=land">
-          Land
-        </a>
+        <a href="properties.html">Properties</a>
+        <a href="property-search.html">Search</a>
+        <a href="buyer/saved-properties.html">Saved Properties</a>
+        <a href="buyer/visits.html">Visits</a>
 
       </div>
 
 
-      <div>
+      <div class="footer-column">
 
-        <h4>
-          AI
-        </h4>
+        <h4>ACCOUNT</h4>
 
-        <a href="ai.html">
-          GHAR AI
-        </a>
-
-        <a href="ai-property-advisor.html">
-          Property Advisor
-        </a>
-
-        <a href="ai-price-estimator.html">
-          Price Estimator
-        </a>
-
-        <a href="ai-loan-advisor.html">
-          Loan Advisor
-        </a>
-
-        <a href="ai-document-assistant.html">
-          Document Assistant
-        </a>
+        <a href="profile.html">Profile</a>
+        <a href="settings.html">Settings</a>
+        <a href="buyer/documents.html">Documents</a>
+        <a href="buyer/payments.html">Payments</a>
 
       </div>
 
 
-      <div>
+      <div class="footer-column">
 
-        <h4>
-          Account
-        </h4>
+        <h4>SUPPORT</h4>
 
-        <a href="dashboard.html">
-          Dashboard
-        </a>
-
-        <a href="profile.html">
-          My Profile
-        </a>
-
-        <a href="buyer/saved-properties.html">
-          Saved Properties
-        </a>
-
-        <a href="buyer/enquiries.html">
-          My Enquiries
-        </a>
-
-        <a href="buyer/offers.html">
-          My Offers
-        </a>
+        <a href="help-centre.html">Help Centre</a>
+        <a href="faqs.html">FAQs</a>
+        <a href="contact.html">Contact</a>
+        <a href="privacy-policy.html">Privacy Policy</a>
 
       </div>
 
     </div>
 
 
-    <div class="bottom">
+    <div class="footer-bottom">
 
       <span>
         © 2026 GHAR. All rights reserved.
       </span>
 
       <span>
-
-        <a href="about.html">
-          About
-        </a>
-
-        ·
-
-        <a href="contact.html">
-          Contact
-        </a>
-
-        ·
-
-        <a href="help-centre.html">
-          Help & Support
-        </a>
-
-        ·
-
-        <a href="terms.html">
-          Terms
-        </a>
-
-        ·
-
-        <a href="privacy.html">
-          Privacy
-        </a>
-
+        BUY • SELL • RENT • INVEST
       </span>
 
     </div>
@@ -2279,514 +2183,358 @@
 
 
   <!-- =======================================================
-       MOBILE NAVIGATION
-  ======================================================== -->
+       FLOATING GHAR AI
+       ======================================================= -->
 
-  <nav
-    class="mobile-dock"
-    aria-label="Mobile navigation"
-  >
+  <div class="ai-float">
 
-    <a href="index.html">
-      <span>⌂</span>
-      Home
-    </a>
+    <div class="ai-tooltip">
+      Ask GHAR AI
+    </div>
 
-    <a href="properties.html">
-      <span>⌕</span>
-      Search
-    </a>
+    <button
+      class="ai-float-button"
+      onclick="window.location.href='ai-chat.html'"
+      aria-label="Open GHAR AI"
+    >
+      <i class="fa-solid fa-wand-magic-sparkles"></i>
+    </button>
 
-    <a href="buyer/saved-properties.html">
-      <span>♡</span>
-      Saved
-    </a>
-
-    <a href="profile.html">
-      <span>◉</span>
-      Account
-    </a>
-
-    <a href="ai.html">
-      <span>✦</span>
-      AI
-    </a>
-
-  </nav>
+  </div>
 
 
   <!-- =======================================================
-       CORE JAVASCRIPT
-  ======================================================== -->
-
-  <script
-    src="assets/js/constants.js"
-    defer
-  ></script>
-
-  <script
-    src="assets/js/config.js"
-    defer
-  ></script>
-
-  <script
-    src="assets/js/storage.js"
-    defer
-  ></script>
-
-  <script
-    src="assets/js/api.js"
-    defer
-  ></script>
-
-  <script
-    src="assets/js/auth.js"
-    defer
-  ></script>
-
-  <script
-    src="assets/js/core.js"
-    defer
-  ></script>
-
-  <script
-    src="assets/js/components.js"
-    defer
-  ></script>
-
-  <script
-    src="assets/js/navigation.js"
-    defer
-  ></script>
-
-
-  <!-- =======================================================
-       PAGE JAVASCRIPT
-  ======================================================== -->
+       JAVASCRIPT
+       ======================================================= -->
 
   <script>
 
-    document.addEventListener(
-      "DOMContentLoaded",
-      () => {
+    /* =========================================================
+       MOBILE MENU
+       ========================================================= */
 
-        /* ===================================================
-           RANGE CONTROLS
-        =================================================== */
+    const mobileMenu =
+      document.getElementById("mobileMenu");
 
-        const appreciation =
-          document.getElementById(
-            "appreciation"
-          );
+    mobileMenu.addEventListener("click", function () {
 
-        const appreciationValue =
-          document.getElementById(
-            "appreciationValue"
-          );
+      const nav =
+        document.querySelector(".main-nav");
 
-        appreciation?.addEventListener(
-          "input",
-          () => {
+      const isOpen =
+        nav.classList.toggle("mobile-open");
 
-            appreciationValue.textContent =
-              appreciation.value + "%";
+      if (isOpen) {
 
-          }
-        );
+        nav.style.display = "flex";
+        nav.style.position = "absolute";
+        nav.style.top = "68px";
+        nav.style.left = "0";
+        nav.style.right = "0";
+        nav.style.padding = "18px";
+        nav.style.background = "#031b11";
+        nav.style.borderBottom =
+          "1px solid rgba(215,173,77,.45)";
+        nav.style.flexDirection = "column";
+        nav.style.alignItems = "stretch";
+        nav.style.gap = "0";
 
+        nav.querySelectorAll("a").forEach(function(link) {
 
-        const horizon =
-          document.getElementById(
-            "horizon"
-          );
+          link.style.padding = "13px 10px";
 
-        const horizonValue =
-          document.getElementById(
-            "horizonValue"
-          );
+        });
 
-        horizon?.addEventListener(
-          "input",
-          () => {
+      } else {
 
-            horizonValue.textContent =
-              horizon.value +
-              (
-                Number(horizon.value) === 1
-                ? " year"
-                : " years"
-              );
-
-          }
-        );
-
-
-        /* ===================================================
-           CURRENCY FORMAT
-        =================================================== */
-
-        function formatCurrency(value){
-
-          if(
-            !Number.isFinite(value)
-            ||
-            value < 0
-          ){
-            return "--";
-          }
-
-          if(value >= 10000000){
-
-            return (
-              "₹" +
-              (
-                value / 10000000
-              ).toFixed(2) +
-              " Cr"
-            );
-
-          }
-
-          if(value >= 100000){
-
-            return (
-              "₹" +
-              (
-                value / 100000
-              ).toFixed(2) +
-              " L"
-            );
-
-          }
-
-          return (
-            "₹" +
-            Math.round(value)
-              .toLocaleString("en-IN")
-          );
-
-        }
-
-
-        /* ===================================================
-           INVESTMENT CALCULATION
-        =================================================== */
-
-        const form =
-          document.getElementById(
-            "investmentForm"
-          );
-
-        form?.addEventListener(
-          "submit",
-          event => {
-
-            event.preventDefault();
-
-
-            const purchasePrice =
-              Number(
-                document.getElementById(
-                  "purchasePrice"
-                ).value
-              ) || 0;
-
-
-            const monthlyRent =
-              Number(
-                document.getElementById(
-                  "monthlyRent"
-                ).value
-              ) || 0;
-
-
-            const annualExpenses =
-              Number(
-                document.getElementById(
-                  "annualExpenses"
-                ).value
-              ) || 0;
-
-
-            const appreciationRate =
-              Number(
-                document.getElementById(
-                  "appreciation"
-                ).value
-              ) || 0;
-
-
-            const years =
-              Number(
-                document.getElementById(
-                  "horizon"
-                ).value
-              ) || 1;
-
-
-            if(purchasePrice <= 0){
-
-              alert(
-                "Please enter a valid purchase price."
-              );
-
-              return;
-
-            }
-
-
-            /* Annual gross rent */
-
-            const annualGrossRent =
-              monthlyRent * 12;
-
-
-            /* Annual net rent */
-
-            const annualNetRent =
-              Math.max(
-                0,
-                annualGrossRent -
-                annualExpenses
-              );
-
-
-            /* Gross rental yield */
-
-            const grossYield =
-              purchasePrice > 0
-              ? (
-                  annualGrossRent /
-                  purchasePrice
-                ) * 100
-              : 0;
-
-
-            /*
-              Illustrative future value.
-
-              This is deliberately presented as a
-              scenario rather than a prediction.
-            */
-
-            const futureValue =
-              purchasePrice *
-              Math.pow(
-                1 + appreciationRate / 100,
-                years
-              );
-
-
-            const estimatedGain =
-              Math.max(
-                0,
-                futureValue -
-                purchasePrice
-              );
-
-
-            /*
-              Simple scenario score.
-
-              It combines:
-              - rental yield
-              - appreciation assumption
-              - investment horizon
-
-              It is NOT a financial rating.
-            */
-
-            let score = 45;
-
-            score +=
-              Math.min(
-                20,
-                grossYield * 4
-              );
-
-            score +=
-              Math.min(
-                20,
-                appreciationRate * 1.4
-              );
-
-            score +=
-              Math.min(
-                15,
-                years * .8
-              );
-
-            score =
-              Math.max(
-                0,
-                Math.min(
-                  100,
-                  Math.round(score)
-                )
-              );
-
-
-            let scoreText =
-              "Moderate";
-
-
-            if(score >= 75){
-
-              scoreText =
-                "Higher scenario";
-
-            }else if(score < 50){
-
-              scoreText =
-                "Needs review";
-
-            }
-
-
-            document.getElementById(
-              "resultEmpty"
-            ).style.display =
-              "none";
-
-
-            document.getElementById(
-              "resultContent"
-            ).classList.add(
-              "active"
-            );
-
-
-            document.getElementById(
-              "scoreNumber"
-            ).textContent =
-              score;
-
-
-            document.getElementById(
-              "scoreText"
-            ).textContent =
-              scoreText;
-
-
-            document.getElementById(
-              "scoreBar"
-            ).style.width =
-              score + "%";
-
-
-            document.getElementById(
-              "yieldResult"
-            ).textContent =
-              grossYield.toFixed(2) +
-              "%";
-
-
-            document.getElementById(
-              "netRentResult"
-            ).textContent =
-              formatCurrency(
-                annualNetRent
-              );
-
-
-            document.getElementById(
-              "futureValueResult"
-            ).textContent =
-              formatCurrency(
-                futureValue
-              );
-
-
-            document.getElementById(
-              "gainResult"
-            ).textContent =
-              formatCurrency(
-                estimatedGain
-              );
-
-
-            document
-              .getElementById(
-                "resultContent"
-              )
-              .scrollIntoView({
-                behavior:"smooth",
-                block:"nearest"
-              });
-
-          }
-        );
-
-
-        /* ===================================================
-           MOBILE MENU
-        =================================================== */
-
-        const menu =
-          document.querySelector(
-            ".menu"
-          );
-
-        const links =
-          document.querySelector(
-            ".links"
-          );
-
-        menu?.addEventListener(
-          "click",
-          () => {
-
-            const visible =
-              links.style.display ===
-              "flex";
-
-
-            links.style.display =
-              visible
-              ? ""
-              : "flex";
-
-
-            if(!visible){
-
-              links.style.position =
-                "absolute";
-
-              links.style.top =
-                "68px";
-
-              links.style.left =
-                "4vw";
-
-              links.style.right =
-                "4vw";
-
-              links.style.padding =
-                "12px";
-
-              links.style.flexDirection =
-                "column";
-
-              links.style.background =
-                "rgba(255,250,242,.98)";
-
-              links.style.border =
-                "1px solid var(--line)";
-
-              links.style.borderRadius =
-                "20px";
-
-              links.style.boxShadow =
-                "var(--shadow)";
-
-            }
-
-          }
-        );
+        nav.removeAttribute("style");
 
       }
 
-    );
+    });
+
+
+    /* =========================================================
+       RANGE DISPLAY
+       ========================================================= */
+
+    function updateRange() {
+
+      const range =
+        document.getElementById("appreciation");
+
+      const output =
+        document.getElementById("appreciationValue");
+
+      output.textContent =
+        Number(range.value).toFixed(1) + "%";
+
+    }
+
+
+    /* =========================================================
+       CURRENCY FORMATTER
+       ========================================================= */
+
+    function formatCurrency(value) {
+
+      if (!Number.isFinite(value)) {
+        return "₹0";
+      }
+
+      if (Math.abs(value) >= 10000000) {
+
+        return "₹" +
+          (value / 10000000).toFixed(2) +
+          "Cr";
+
+      }
+
+      if (Math.abs(value) >= 100000) {
+
+        return "₹" +
+          (value / 100000).toFixed(2) +
+          "L";
+
+      }
+
+      if (Math.abs(value) >= 1000) {
+
+        return "₹" +
+          (value / 1000).toFixed(1) +
+          "K";
+
+      }
+
+      return "₹" + Math.round(value);
+
+    }
+
+
+    /* =========================================================
+       INVESTMENT ANALYSIS
+       ========================================================= */
+
+    function analyzeInvestment() {
+
+      const price =
+        Number(document.getElementById("price").value) || 0;
+
+      const rent =
+        Number(document.getElementById("rent").value) || 0;
+
+      const expenses =
+        Number(document.getElementById("expenses").value) || 0;
+
+      const appreciation =
+        Number(document.getElementById("appreciation").value) || 0;
+
+      const horizon =
+        Number(document.getElementById("horizon").value) || 5;
+
+
+      if (price <= 0) {
+
+        alert(
+          "Please enter a valid purchase price."
+        );
+
+        return;
+
+      }
+
+
+      const annualGrossRent =
+        rent * 12;
+
+      const annualExpenses =
+        expenses * 12;
+
+      const annualNetRent =
+        Math.max(
+          0,
+          annualGrossRent - annualExpenses
+        );
+
+
+      const grossYield =
+        (annualGrossRent / price) * 100;
+
+
+      const futureValue =
+        price *
+        Math.pow(
+          1 + appreciation / 100,
+          horizon
+        );
+
+
+      const capitalGain =
+        futureValue - price;
+
+
+      /*
+       * Indicative score.
+       * This is intentionally a simple UI-side heuristic.
+       * Production GHAR should calculate the score server-side
+       * using verified property and market data.
+       */
+
+      let score = 50;
+
+      score += Math.min(
+        20,
+        grossYield * 4
+      );
+
+      score += Math.min(
+        20,
+        appreciation * 1.5
+      );
+
+      score += horizon >= 5 ? 8 : 3;
+
+      score = Math.round(
+        Math.min(95, Math.max(35, score))
+      );
+
+
+      let rating = "Moderate";
+
+      if (score >= 80) {
+        rating = "Strong";
+      } else if (score >= 70) {
+        rating = "Attractive";
+      } else if (score < 50) {
+        rating = "Cautious";
+      }
+
+
+      document.getElementById("score")
+        .textContent = score;
+
+      document.getElementById("rating")
+        .textContent = rating;
+
+      document.getElementById("yieldResult")
+        .textContent =
+        grossYield.toFixed(2) + "%";
+
+      document.getElementById("annualRentResult")
+        .textContent =
+        formatCurrency(annualNetRent);
+
+      document.getElementById("futureValueResult")
+        .textContent =
+        formatCurrency(futureValue);
+
+      document.getElementById("capitalGainResult")
+        .textContent =
+        formatCurrency(capitalGain);
+
+      document.getElementById("horizonResult")
+        .textContent =
+        horizon + " Years";
+
+    }
+
+
+    /* =========================================================
+       HERO PROMPT
+       ========================================================= */
+
+    function setPrompt(text) {
+
+      const input =
+        document.getElementById("heroPrompt");
+
+      input.value = text;
+
+      input.focus();
+
+    }
+
+
+    function sendAdvisorQuestion() {
+
+      const input =
+        document.getElementById("heroPrompt");
+
+      const question =
+        input.value.trim();
+
+      if (!question) {
+
+        input.focus();
+
+        return;
+
+      }
+
+      /*
+       * Connect this action to the production GHAR AI endpoint.
+       * Example future endpoint:
+       *
+       * POST /api/ai/investment-advisor
+       */
+
+      window.location.href =
+        "ai-chat.html?prompt=" +
+        encodeURIComponent(question);
+
+    }
+
+
+    /* =========================================================
+       IMAGE ERROR HANDLING
+       ========================================================= */
+
+    document.querySelectorAll("img").forEach(function(img) {
+
+      img.addEventListener("error", function() {
+
+        this.style.background = "#123b29";
+        this.style.minHeight = "150px";
+        this.style.objectFit = "cover";
+
+      });
+
+    });
+
+
+    /* =========================================================
+       HEADER SHADOW
+       ========================================================= */
+
+    window.addEventListener("scroll", function() {
+
+      const header =
+        document.querySelector(".site-header");
+
+      if (window.scrollY > 20) {
+
+        header.style.boxShadow =
+          "0 10px 30px rgba(0,0,0,.22)";
+
+      } else {
+
+        header.style.boxShadow = "none";
+
+      }
+
+    });
+
+
+    /* =========================================================
+       INITIAL CALCULATION
+       ========================================================= */
+
+    document.addEventListener("DOMContentLoaded", function() {
+
+      updateRange();
+      analyzeInvestment();
+
+    });
 
   </script>
 

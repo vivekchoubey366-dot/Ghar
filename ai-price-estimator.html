@@ -1,2670 +1,2361 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-
-<meta name="theme-color" content="#f4ead9">
-<meta name="description"
-      content="GHAR AI Price Estimator -- get an indicative property price estimate using location, property type, size and features.">
-
-<title>AI Price Estimator -- GHAR</title>
-
-<link rel="icon"
-      type="image/png"
-      href="assets/images/logo/ghar-logo.jpg">
-
-<!-- GLOBAL CSS -->
-<link rel="stylesheet" href="assets/css/variables.css">
-<link rel="stylesheet" href="assets/css/reset.css">
-<link rel="stylesheet" href="assets/css/style.css">
-<link rel="stylesheet" href="assets/css/layout.css">
-<link rel="stylesheet" href="assets/css/components.css">
-<link rel="stylesheet" href="assets/css/navigation.css">
-<link rel="stylesheet" href="assets/css/cards.css">
-<link rel="stylesheet" href="assets/css/forms.css">
-<link rel="stylesheet" href="assets/css/home.css">
-<link rel="stylesheet" href="assets/css/property.css">
-<link rel="stylesheet" href="assets/css/animations.css">
-<link rel="stylesheet" href="assets/css/responsive.css">
-<link rel="stylesheet" href="assets/css/utilities.css">
-
-<style>
-
-:root{
-  --ivory:#f8f1e5;
-  --pearl:#fffaf2;
-  --sand:#eadbc4;
-  --champagne:#d9bd83;
-  --gold:#b18a48;
-  --gold2:#e7d09b;
-  --emerald:#163a2e;
-  --emerald2:#245442;
-  --ink:#17251f;
-  --muted:#737d76;
-  --line:rgba(23,58,46,.12);
-  --shadow:0 30px 80px rgba(30,49,40,.12);
-  --radius:28px;
-}
-
-*{
-  box-sizing:border-box;
-}
-
-html{
-  scroll-behavior:smooth;
-}
-
-body{
-  margin:0;
-  background:var(--ivory);
-  color:var(--ink);
-  font-family:
-    Inter,
-    ui-sans-serif,
-    system-ui,
-    -apple-system,
-    "Segoe UI",
-    sans-serif;
-  line-height:1.55;
-  overflow-x:hidden;
-}
-
-a{
-  text-decoration:none;
-  color:inherit;
-}
-
-img{
-  display:block;
-  max-width:100%;
-}
-
-button,
-input,
-select,
-textarea{
-  font:inherit;
-}
-
-/* =========================================================
-   TOP BAR
-========================================================= */
-
-.topbar{
-  background:var(--emerald);
-  color:#f8f1e5;
-  text-align:center;
-  font-size:11px;
-  letter-spacing:.1em;
-  padding:8px 16px;
-}
-
-.topbar b{
-  color:var(--gold2);
-}
-
-/* =========================================================
-   HEADER
-========================================================= */
-
-.header{
-  position:sticky;
-  top:0;
-  z-index:1000;
-  padding:12px 3.5vw;
-  background:rgba(248,241,229,.92);
-  backdrop-filter:blur(18px);
-  border-bottom:1px solid var(--line);
-}
-
-.nav{
-  max-width:1380px;
-  margin:auto;
-  display:flex;
-  align-items:center;
-  gap:26px;
-}
-
-.brand{
-  display:flex;
-  align-items:center;
-  gap:11px;
-  font-weight:900;
-  letter-spacing:.2em;
-  color:var(--emerald);
-}
-
-.brand img{
-  width:42px;
-  height:42px;
-  object-fit:contain;
-}
-
-.links{
-  display:flex;
-  gap:5px;
-  margin-left:auto;
-}
-
-.links a{
-  font-size:13px;
-  font-weight:700;
-  padding:10px 13px;
-  border-radius:999px;
-}
-
-.links a:hover{
-  background:#eee3d2;
-}
-
-.nav-actions{
-  display:flex;
-  gap:8px;
-  align-items:center;
-}
-
-.pill{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  min-height:44px;
-  padding:0 17px;
-  border-radius:999px;
-  border:1px solid var(--line);
-  font-size:12px;
-  font-weight:800;
-}
-
-.pill.gold{
-  background:var(--emerald);
-  border-color:var(--emerald);
-  color:#fff;
-}
-
-.menu{
-  display:none;
-  border:0;
-  background:none;
-  font-size:24px;
-  color:var(--emerald);
-}
-
-/* =========================================================
-   HERO
-========================================================= */
-
-.hero{
-  position:relative;
-  min-height:560px;
-  display:flex;
-  align-items:center;
-  overflow:hidden;
-
-  background:
-    linear-gradient(
-      105deg,
-      rgba(17,48,38,.94),
-      rgba(17,48,38,.62) 50%,
-      rgba(17,48,38,.24)
-    ),
-    url("assets/images/banners/ghar-hero-evening.webp")
-    center/cover no-repeat;
-}
-
-.hero:after{
-  content:"";
-  position:absolute;
-  inset:auto 0 0;
-  height:130px;
-  background:linear-gradient(
-    transparent,
-    var(--ivory)
-  );
-  pointer-events:none;
-}
-
-.hero-inner{
-  position:relative;
-  z-index:2;
-  width:min(1280px,90vw);
-  margin:auto;
-  padding:90px 0 110px;
-}
-
-.eyebrow{
-  display:inline-flex;
-  align-items:center;
-  gap:9px;
-  color:var(--gold2);
-  font-size:10px;
-  font-weight:900;
-  letter-spacing:.22em;
-  text-transform:uppercase;
-}
-
-.eyebrow:before{
-  content:"";
-  width:30px;
-  height:1px;
-  background:var(--gold2);
-}
-
-.hero h1{
-  font:
-    500
-    clamp(52px,7vw,92px)
-    /.92
-    Georgia,
-    serif;
-
-  letter-spacing:-.06em;
-  color:#fff;
-  margin:20px 0 25px;
-  max-width:900px;
-}
-
-.hero h1 em{
-  font-style:normal;
-  color:#e8d19c;
-}
-
-.hero-copy{
-  max-width:690px;
-  color:rgba(255,255,255,.76);
-  font-size:15px;
-  line-height:1.8;
-}
-
-.hero-actions{
-  display:flex;
-  flex-wrap:wrap;
-  gap:10px;
-  margin-top:28px;
-}
-
-.btn{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  min-height:52px;
-  padding:0 22px;
-  border-radius:999px;
-  border:1px solid rgba(255,255,255,.25);
-  font-size:12px;
-  font-weight:850;
-  transition:.25s;
-  cursor:pointer;
-}
-
-.btn:hover{
-  transform:translateY(-2px);
-}
-
-.btn.gold{
-  background:var(--champagne);
-  color:#14251e;
-  border-color:var(--champagne);
-}
-
-.btn.light{
-  color:#fff;
-  background:rgba(255,255,255,.08);
-  backdrop-filter:blur(12px);
-}
-
-/* =========================================================
-   MAIN ESTIMATOR
-========================================================= */
-
-.estimator-wrap{
-  position:relative;
-  z-index:5;
-  width:min(1180px,90vw);
-  margin:-65px auto 0;
-}
-
-.estimator-card{
-  background:var(--pearl);
-  border:1px solid rgba(177,138,72,.25);
-  border-radius:32px;
-  box-shadow:var(--shadow);
-  overflow:hidden;
-}
-
-.estimator-head{
-  padding:32px 34px 25px;
-  border-bottom:1px solid var(--line);
-  display:flex;
-  justify-content:space-between;
-  gap:25px;
-  align-items:end;
-}
-
-.estimator-head h2{
-  margin:8px 0 0;
-  font:500 35px/1.05 Georgia,serif;
-  color:var(--emerald);
-}
-
-.estimator-head p{
-  max-width:440px;
-  margin:0;
-  color:var(--muted);
-  font-size:12px;
-}
-
-.kicker{
-  color:var(--gold);
-  font-size:10px;
-  font-weight:900;
-  text-transform:uppercase;
-  letter-spacing:.2em;
-}
-
-/* =========================================================
-   FORM
-========================================================= */
-
-.estimator-form{
-  padding:32px 34px 36px;
-}
-
-.form-grid{
-  display:grid;
-  grid-template-columns:
-    repeat(2,1fr);
-  gap:16px;
-}
-
-.form-field{
-  background:#f2e8d8;
-  border:1px solid transparent;
-  border-radius:18px;
-  padding:13px 16px;
-  min-height:76px;
-  transition:.2s;
-}
-
-.form-field:focus-within{
-  border-color:rgba(177,138,72,.55);
-  box-shadow:0 0 0 3px rgba(177,138,72,.08);
-}
-
-.form-field.full{
-  grid-column:1/-1;
-}
-
-.form-field label{
-  display:block;
-  color:#7a817c;
-  font-size:9px;
-  text-transform:uppercase;
-  letter-spacing:.15em;
-  font-weight:900;
-}
-
-.form-field input,
-.form-field select{
-  width:100%;
-  border:0;
-  outline:0;
-  background:transparent;
-  color:var(--ink);
-  font-size:14px;
-  font-weight:750;
-  margin-top:6px;
-}
-
-.form-field input::placeholder{
-  color:#929791;
-  font-weight:500;
-}
-
-.form-help{
-  margin-top:5px;
-  font-size:9px;
-  color:#8a918b;
-}
-
-.form-actions{
-  display:flex;
-  justify-content:flex-end;
-  gap:10px;
-  margin-top:22px;
-}
-
-.form-btn{
-  min-height:54px;
-  border:0;
-  border-radius:16px;
-  padding:0 25px;
-  background:var(--emerald);
-  color:#fff;
-  font-size:12px;
-  font-weight:900;
-  cursor:pointer;
-  transition:.25s;
-}
-
-.form-btn:hover{
-  transform:translateY(-2px);
-  box-shadow:0 12px 25px rgba(22,58,46,.18);
-}
-
-/* =========================================================
-   RESULT
-========================================================= */
-
-.result{
-  display:none;
-  margin-top:25px;
-  padding:30px;
-  border-radius:25px;
-  background:
-    linear-gradient(
-      135deg,
-      #163a2e,
-      #245442
-    );
-  color:#fff;
-  position:relative;
-  overflow:hidden;
-}
-
-.result.show{
-  display:block;
-  animation:resultIn .45s ease both;
-}
-
-@keyframes resultIn{
-  from{
-    opacity:0;
-    transform:translateY(15px);
-  }
-
-  to{
-    opacity:1;
-    transform:translateY(0);
-  }
-}
-
-.result:after{
-  content:"✦";
-  position:absolute;
-  right:20px;
-  top:-35px;
-  font-size:150px;
-  color:rgba(231,208,155,.08);
-}
-
-.result-label{
-  color:var(--gold2);
-  font-size:9px;
-  text-transform:uppercase;
-  letter-spacing:.18em;
-  font-weight:900;
-}
-
-.result-price{
-  margin:8px 0;
-  font:
-    500
-    clamp(38px,5vw,62px)
-    1
-    Georgia,
-    serif;
-}
-
-.result-range{
-  color:rgba(255,255,255,.65);
-  font-size:12px;
-}
-
-.result-meta{
-  display:grid;
-  grid-template-columns:
-    repeat(3,1fr);
-  gap:10px;
-  margin-top:25px;
-}
-
-.result-item{
-  padding:15px;
-  background:rgba(255,255,255,.07);
-  border:1px solid rgba(255,255,255,.09);
-  border-radius:15px;
-}
-
-.result-item small{
-  display:block;
-  color:rgba(255,255,255,.5);
-  font-size:8px;
-  text-transform:uppercase;
-  letter-spacing:.13em;
-}
-
-.result-item strong{
-  display:block;
-  margin-top:4px;
-  color:var(--gold2);
-  font-size:13px;
-}
-
-.result-note{
-  margin-top:20px;
-  color:rgba(255,255,255,.48);
-  font-size:10px;
-  line-height:1.7;
-  max-width:800px;
-}
-
-/* =========================================================
-   INFO SECTION
-========================================================= */
-
-.section{
-  padding:105px 4.5vw;
-}
-
-.container{
-  max-width:1280px;
-  margin:auto;
-}
-
-.info-grid{
-  display:grid;
-  grid-template-columns:
-    1fr 1fr;
-  gap:55px;
-  align-items:start;
-}
-
-.section h2{
-  font:
-    500
-    clamp(40px,5vw,66px)
-    /.98
-    Georgia,
-    serif;
-
-  letter-spacing:-.045em;
-  color:var(--emerald);
-  margin:12px 0 20px;
-}
-
-.section-copy{
-  color:var(--muted);
-  font-size:13px;
-  line-height:1.9;
-  max-width:570px;
-}
-
-.points{
-  display:grid;
-  gap:13px;
-}
-
-.point{
-  display:flex;
-  gap:17px;
-  padding:21px;
-  background:#fffaf2;
-  border:1px solid var(--line);
-  border-radius:20px;
-}
-
-.point-icon{
-  flex:0 0 43px;
-  height:43px;
-  display:grid;
-  place-items:center;
-  border-radius:14px;
-  background:var(--emerald);
-  color:var(--gold2);
-  font-size:18px;
-}
-
-.point h3{
-  margin:0 0 5px;
-  font-size:14px;
-}
-
-.point p{
-  margin:0;
-  color:var(--muted);
-  font-size:11px;
-}
-
-/* =========================================================
-   HOW IT WORKS
-========================================================= */
-
-.how{
-  background:
-    linear-gradient(
-      135deg,
-      #eee1ce,
-      #f8f0e2
-    );
-}
-
-.how-grid{
-  display:grid;
-  grid-template-columns:
-    repeat(3,1fr);
-  gap:15px;
-}
-
-.how-card{
-  min-height:240px;
-  padding:28px;
-  background:#fffaf2;
-  border:1px solid var(--line);
-  border-radius:25px;
-  transition:.25s;
-}
-
-.how-card:hover{
-  transform:translateY(-5px);
-  box-shadow:var(--shadow);
-}
-
-.step{
-  color:var(--gold);
-  font-size:10px;
-  font-weight:900;
-  letter-spacing:.2em;
-}
-
-.how-card h3{
-  font:500 27px Georgia,serif;
-  color:var(--emerald);
-  margin:55px 0 8px;
-}
-
-.how-card p{
-  margin:0;
-  color:var(--muted);
-  font-size:11px;
-  line-height:1.7;
-}
-
-/* =========================================================
-   DISCLAIMER
-========================================================= */
-
-.disclaimer{
-  margin-top:18px;
-  padding:18px 20px;
-  background:#eee2d0;
-  border:1px solid rgba(177,138,72,.2);
-  border-radius:17px;
-  color:#696f6a;
-  font-size:10px;
-  line-height:1.7;
-}
-
-/* =========================================================
-   CTA
-========================================================= */
-
-.final-cta{
-  padding:105px 4.5vw;
-  background:var(--emerald);
-  color:#fff;
-  text-align:center;
-}
-
-.final-cta .kicker{
-  color:var(--gold2);
-}
-
-.final-cta h2{
-  font:
-    500
-    clamp(45px,7vw,82px)
-    /.95
-    Georgia,
-    serif;
-
-  margin:15px auto;
-  max-width:950px;
-}
-
-.final-cta p{
-  color:rgba(255,255,255,.62);
-  max-width:620px;
-  margin:0 auto;
-  font-size:13px;
-}
-
-.final-actions{
-  display:flex;
-  justify-content:center;
-  flex-wrap:wrap;
-  gap:10px;
-  margin-top:28px;
-}
-
-/* =========================================================
-   FOOTER
-========================================================= */
-
-footer{
-  background:#10291f;
-  color:#fff;
-}
-
-.footer{
-  max-width:1280px;
-  margin:auto;
-  padding:70px 4.5vw;
-  display:grid;
-  grid-template-columns:
-    2fr 1fr 1fr 1fr;
-  gap:45px;
-}
-
-.footer-brand{
-  font-size:25px;
-  font-weight:900;
-  letter-spacing:.2em;
-  color:var(--gold2);
-}
-
-.footer p{
-  color:rgba(255,255,255,.5);
-  max-width:380px;
-  font-size:12px;
-  line-height:1.8;
-}
-
-.footer h4{
-  color:var(--gold2);
-  margin:0 0 15px;
-  font-size:11px;
-  text-transform:uppercase;
-  letter-spacing:.15em;
-}
-
-.footer a{
-  display:block;
-  color:rgba(255,255,255,.6);
-  font-size:11px;
-  margin:9px 0;
-}
-
-.footer a:hover{
-  color:#fff;
-}
-
-.bottom{
-  max-width:1280px;
-  margin:auto;
-  padding:18px 4.5vw 25px;
-  border-top:1px solid rgba(255,255,255,.1);
-  display:flex;
-  justify-content:space-between;
-  gap:20px;
-  color:rgba(255,255,255,.4);
-  font-size:10px;
-}
-
-/* =========================================================
-   MOBILE DOCK
-========================================================= */
-
-.mobile-dock{
-  display:none;
-}
-
-/* =========================================================
-   RESPONSIVE
-========================================================= */
-
-@media(max-width:1050px){
-
-  .links{
-    display:none;
-  }
-
-  .menu{
-    display:block;
-  }
-
-  .info-grid{
-    grid-template-columns:1fr;
-  }
-
-  .how-grid{
-    grid-template-columns:1fr 1fr;
-  }
-
-  .footer{
-    grid-template-columns:1fr 1fr;
-  }
-}
-
-@media(max-width:700px){
-
-  .topbar{
-    font-size:9px;
-  }
-
-  .header{
-    padding:9px 5vw;
-  }
-
-  .nav-actions .pill:first-child{
-    display:none;
-  }
-
-  .hero{
-    min-height:650px;
-  }
-
-  .hero-inner{
-    width:90vw;
-    padding-top:70px;
-  }
-
-  .hero h1{
-    font-size:55px;
-  }
-
-  .estimator-wrap{
-    width:90vw;
-    margin-top:-45px;
-  }
-
-  .estimator-head{
-    display:block;
-    padding:25px;
-  }
-
-  .estimator-head h2{
-    font-size:30px;
-  }
-
-  .estimator-head p{
-    margin-top:12px;
-  }
-
-  .estimator-form{
-    padding:25px;
-  }
-
-  .form-grid{
-    grid-template-columns:1fr;
-  }
-
-  .form-field.full{
-    grid-column:auto;
-  }
-
-  .form-actions{
-    display:grid;
-    grid-template-columns:1fr;
-  }
-
-  .form-btn{
-    width:100%;
-  }
-
-  .result{
-    padding:24px;
-  }
-
-  .result-meta{
-    grid-template-columns:1fr;
-  }
-
-  .how-grid{
-    grid-template-columns:1fr;
-  }
-
-  .footer{
-    grid-template-columns:1fr;
-  }
-
-  .bottom{
-    flex-direction:column;
-  }
-
-  .mobile-dock{
-    position:fixed;
-    z-index:9999;
-    left:10px;
-    right:10px;
-    bottom:10px;
-    display:grid;
-    grid-template-columns:repeat(5,1fr);
-    background:rgba(16,41,31,.95);
-    backdrop-filter:blur(18px);
-    border:1px solid rgba(255,255,255,.12);
-    border-radius:20px;
-    padding:8px;
-    box-shadow:0 20px 50px rgba(0,0,0,.2);
-  }
-
-  .mobile-dock a{
-    text-align:center;
-    color:rgba(255,255,255,.65);
-    font-size:8px;
-    font-weight:800;
-  }
-
-  .mobile-dock span{
-    display:block;
-    color:var(--gold2);
-    font-size:18px;
-    line-height:1;
-    margin-bottom:3px;
-  }
-
-  body{
-    padding-bottom:80px;
-  }
-}
-
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>AI Price Estimator | GHAR</title>
+
+  <meta
+    name="description"
+    content="GHAR AI Price Estimator helps estimate property values using location, property type, size, amenities and market factors."
+  >
+
+  <meta name="theme-color" content="#052d1d">
+
+  <!-- =======================================================
+       FONTS
+       ======================================================= -->
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap"
+    rel="stylesheet"
+  >
+
+  <!-- =======================================================
+       ICONS
+       ======================================================= -->
+
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+  >
+
+  <style>
+
+    /* =========================================================
+       GHAR AI PRICE ESTIMATOR
+       ROYAL GREEN + GOLD DESIGN SYSTEM
+       ========================================================= */
+
+    :root {
+      --green-950: #031b11;
+      --green-900: #052d1d;
+      --green-850: #073a25;
+      --green-800: #08442a;
+      --green-700: #0c5535;
+      --green-600: #126742;
+
+      --gold-500: #d7ad4d;
+      --gold-400: #e7c76b;
+      --gold-300: #f1d98a;
+      --gold-200: #f6e8b1;
+
+      --cream: #f5efdf;
+      --cream-2: #eee5d0;
+      --white: #ffffff;
+
+      --text-dark: #122118;
+      --text-muted: #657068;
+
+      --border-gold: rgba(215,173,77,.65);
+      --border-light: rgba(255,255,255,.13);
+
+      --shadow: 0 20px 50px rgba(0,0,0,.18);
+
+      --serif: "Playfair Display", Georgia, serif;
+      --sans: "DM Sans", Arial, sans-serif;
+
+      --header-height: 72px;
+
+      --radius-sm: 10px;
+      --radius-md: 16px;
+      --radius-lg: 24px;
+
+      --container: 1380px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--sans);
+      color: var(--text-dark);
+      background: var(--cream);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      object-fit: cover;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    input,
+    textarea,
+    select {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .container {
+      width: min(calc(100% - 48px), var(--container));
+      margin: auto;
+    }
+
+
+    /* =========================================================
+       HEADER
+       ========================================================= */
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      height: var(--header-height);
+      background: var(--green-950);
+      border-bottom: 1px solid rgba(215,173,77,.45);
+    }
+
+    .header-inner {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 30px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      flex-shrink: 0;
+    }
+
+    .brand-mark {
+      width: 43px;
+      height: 43px;
+      border: 1.5px solid var(--gold-400);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: var(--gold-300);
+      font-size: 19px;
+      position: relative;
+    }
+
+    .brand-mark::after {
+      content: "";
+      position: absolute;
+      inset: 4px;
+      border: 1px solid rgba(231,199,107,.35);
+      border-radius: 50%;
+    }
+
+    .brand-name {
+      color: var(--gold-300);
+      font-family: var(--serif);
+      font-size: 25px;
+      letter-spacing: 2px;
+      line-height: 1;
+    }
+
+    .brand-tagline {
+      display: block;
+      margin-top: 3px;
+      color: #e9e2d2;
+      font-size: 7px;
+      letter-spacing: 2px;
+      font-weight: 600;
+    }
+
+    .main-nav {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 27px;
+      margin-left: auto;
+    }
+
+    .main-nav a {
+      position: relative;
+      color: rgba(255,255,255,.82);
+      font-size: 13px;
+      font-weight: 500;
+      padding: 26px 0;
+      transition: .25s ease;
+      white-space: nowrap;
+    }
+
+    .main-nav a:hover,
+    .main-nav a.active {
+      color: var(--gold-300);
+    }
+
+    .main-nav a.active::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 15px;
+      height: 2px;
+      background: var(--gold-400);
+      border-radius: 20px;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .header-search {
+      width: 38px;
+      height: 38px;
+      border: 0;
+      background: transparent;
+      color: white;
+      display: grid;
+      place-items: center;
+      font-size: 15px;
+    }
+
+    .login-btn {
+      min-width: 74px;
+      height: 38px;
+      padding: 0 17px;
+      border-radius: 22px;
+      border: 1px solid var(--gold-400);
+      background: transparent;
+      color: white;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .get-started {
+      height: 38px;
+      padding: 0 19px;
+      border-radius: 22px;
+      border: 1px solid var(--gold-400);
+      background: linear-gradient(135deg, var(--gold-300), var(--gold-500));
+      color: var(--green-950);
+      font-weight: 700;
+      font-size: 12px;
+      box-shadow: 0 6px 18px rgba(215,173,77,.18);
+    }
+
+    .mobile-menu {
+      display: none;
+      width: 40px;
+      height: 40px;
+      border: 1px solid var(--border-gold);
+      background: transparent;
+      color: var(--gold-300);
+      border-radius: 10px;
+    }
+
+
+    /* =========================================================
+       AI HERO
+       ========================================================= */
+
+    .ai-hero {
+      background:
+        radial-gradient(
+          circle at 80% 30%,
+          rgba(215,173,77,.12),
+          transparent 28%
+        ),
+        var(--green-900);
+
+      color: white;
+      padding: 85px 0 90px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .ai-hero::before {
+      content: "";
+      position: absolute;
+      width: 520px;
+      height: 520px;
+      border-radius: 50%;
+      border: 1px solid rgba(215,173,77,.09);
+      right: -190px;
+      top: -210px;
+    }
+
+    .ai-hero::after {
+      content: "";
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      border: 1px solid rgba(215,173,77,.06);
+      left: -160px;
+      bottom: -170px;
+    }
+
+    .ai-hero-grid {
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 70px;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .eyebrow {
+      color: var(--gold-300);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2.7px;
+      text-transform: uppercase;
+      margin-bottom: 17px;
+    }
+
+    .hero-title {
+      font-family: var(--serif);
+      font-size: clamp(46px, 5.5vw, 76px);
+      line-height: .98;
+      font-weight: 600;
+      letter-spacing: -2px;
+    }
+
+    .hero-title em {
+      color: var(--gold-300);
+      font-weight: 500;
+    }
+
+    .hero-description {
+      max-width: 650px;
+      margin-top: 26px;
+      color: rgba(255,255,255,.72);
+      font-size: 16px;
+      line-height: 1.8;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 32px;
+    }
+
+    .gold-button {
+      min-height: 48px;
+      padding: 0 23px;
+      border: 1px solid var(--gold-400);
+      background: linear-gradient(135deg, var(--gold-300), var(--gold-500));
+      color: var(--green-950);
+      border-radius: 25px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .outline-button {
+      min-height: 48px;
+      padding: 0 23px;
+      border: 1px solid rgba(231,199,107,.65);
+      background: transparent;
+      color: white;
+      border-radius: 25px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+
+    /* =========================================================
+       AI PRICE PANEL
+       ========================================================= */
+
+    .estimator-panel {
+      background: rgba(3,27,17,.72);
+      border: 1px solid rgba(215,173,77,.55);
+      border-radius: 25px;
+      padding: 30px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+    }
+
+    .panel-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+
+    .panel-heading h2 {
+      font-family: var(--serif);
+      font-size: 26px;
+    }
+
+    .ai-status {
+      color: var(--gold-300);
+      border: 1px solid rgba(215,173,77,.4);
+      padding: 6px 9px;
+      border-radius: 20px;
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .field.full {
+      grid-column: 1 / -1;
+    }
+
+    .field label {
+      color: rgba(255,255,255,.65);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 600;
+    }
+
+    .field input,
+    .field select {
+      width: 100%;
+      height: 45px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color: white;
+      border-radius: 9px;
+      padding: 0 13px;
+      outline: none;
+    }
+
+    .field input::placeholder {
+      color: rgba(255,255,255,.35);
+    }
+
+    .field input:focus,
+    .field select:focus {
+      border-color: var(--gold-400);
+    }
+
+    .field select option {
+      color: var(--text-dark);
+      background: white;
+    }
+
+    .estimate-button {
+      width: 100%;
+      min-height: 49px;
+      margin-top: 19px;
+      border: 1px solid var(--gold-400);
+      border-radius: 25px;
+      background: linear-gradient(135deg,var(--gold-300),var(--gold-500));
+      color: var(--green-950);
+      font-weight: 700;
+      font-size: 13px;
+    }
+
+    .estimate-button i {
+      margin-right: 7px;
+    }
+
+    .panel-note {
+      color: rgba(255,255,255,.4);
+      font-size: 10px;
+      margin-top: 13px;
+      text-align: center;
+    }
+
+
+    /* =========================================================
+       RESULT
+       ========================================================= */
+
+    .result-section {
+      background: var(--cream);
+      padding: 85px 0;
+    }
+
+    .result-heading {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto 45px;
+    }
+
+    .section-eyebrow {
+      color: #9c7929;
+      text-transform: uppercase;
+      font-weight: 700;
+      font-size: 11px;
+      letter-spacing: 2.5px;
+      margin-bottom: 14px;
+    }
+
+    .section-title {
+      font-family: var(--serif);
+      color: var(--green-900);
+      font-size: clamp(38px, 4vw, 55px);
+      line-height: 1.05;
+      font-weight: 600;
+      letter-spacing: -1.2px;
+    }
+
+    .section-title em {
+      color: #9d7929;
+      font-weight: 500;
+    }
+
+    .result-card {
+      max-width: 1050px;
+      margin: auto;
+      background: #f9f4e8;
+      border: 1px solid rgba(5,45,29,.15);
+      border-radius: 22px;
+      padding: 35px;
+      box-shadow: 0 18px 45px rgba(0,0,0,.08);
+    }
+
+    .result-top {
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 30px;
+      align-items: center;
+    }
+
+    .estimated-label {
+      color: var(--text-muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1.7px;
+      font-weight: 700;
+    }
+
+    .estimated-price {
+      color: var(--green-900);
+      font-family: var(--serif);
+      font-size: clamp(40px,5vw,65px);
+      line-height: 1;
+      margin-top: 8px;
+    }
+
+    .price-range {
+      color: var(--text-muted);
+      font-size: 12px;
+      margin-top: 10px;
+    }
+
+    .confidence {
+      text-align: right;
+    }
+
+    .confidence-label {
+      color: var(--text-muted);
+      font-size: 11px;
+      margin-bottom: 8px;
+    }
+
+    .confidence-value {
+      color: var(--green-900);
+      font-family: var(--serif);
+      font-size: 30px;
+    }
+
+    .confidence-bar {
+      height: 7px;
+      border-radius: 10px;
+      background: #ddd4bd;
+      overflow: hidden;
+      margin-top: 9px;
+    }
+
+    .confidence-bar span {
+      display: block;
+      width: 87%;
+      height: 100%;
+      background: var(--green-700);
+      border-radius: inherit;
+    }
+
+    .result-divider {
+      height: 1px;
+      background: rgba(5,45,29,.12);
+      margin: 30px 0;
+    }
+
+    .result-metrics {
+      display: grid;
+      grid-template-columns: repeat(4,1fr);
+      gap: 15px;
+    }
+
+    .metric {
+      border: 1px solid rgba(5,45,29,.12);
+      border-radius: 12px;
+      padding: 18px;
+      background: rgba(255,255,255,.28);
+    }
+
+    .metric-label {
+      color: var(--text-muted);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .metric-value {
+      color: var(--green-900);
+      font-family: var(--serif);
+      font-size: 23px;
+      margin-top: 5px;
+    }
+
+
+    /* =========================================================
+       FACTORS
+       ========================================================= */
+
+    .factors-section {
+      background: #e9dfc8;
+      padding: 95px 0;
+    }
+
+    .center-heading {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto 50px;
+    }
+
+    .factors-grid {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 17px;
+    }
+
+    .factor-card {
+      background: var(--green-900);
+      color: white;
+      border: 1px solid rgba(215,173,77,.35);
+      border-radius: 18px;
+      padding: 30px 26px;
+      min-height: 230px;
+    }
+
+    .factor-icon {
+      width: 49px;
+      height: 49px;
+      border: 1px solid var(--gold-400);
+      color: var(--gold-300);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      margin-bottom: 20px;
+    }
+
+    .factor-card h3 {
+      font-family: var(--serif);
+      font-size: 23px;
+      margin-bottom: 8px;
+    }
+
+    .factor-card p {
+      color: rgba(255,255,255,.63);
+      font-size: 12px;
+      line-height: 1.75;
+    }
+
+
+    /* =========================================================
+       HOW IT WORKS
+       ========================================================= */
+
+    .how-section {
+      background: var(--cream);
+      padding: 100px 0;
+    }
+
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(4,1fr);
+      gap: 16px;
+      margin-top: 50px;
+    }
+
+    .step-card {
+      background: #f9f4e8;
+      border: 1px solid rgba(5,45,29,.14);
+      border-radius: 18px;
+      padding: 29px;
+      min-height: 230px;
+    }
+
+    .step-number {
+      color: #a47d27;
+      font-family: var(--serif);
+      font-size: 30px;
+      margin-bottom: 18px;
+    }
+
+    .step-card h3 {
+      color: var(--green-900);
+      font-family: var(--serif);
+      font-size: 22px;
+      margin-bottom: 9px;
+    }
+
+    .step-card p {
+      color: var(--text-muted);
+      font-size: 12px;
+      line-height: 1.75;
+    }
+
+
+    /* =========================================================
+       DISCLAIMER
+       ========================================================= */
+
+    .disclaimer-section {
+      background: var(--green-900);
+      color: white;
+      padding: 75px 0;
+    }
+
+    .disclaimer-box {
+      border: 1px solid rgba(215,173,77,.35);
+      border-radius: 18px;
+      padding: 30px;
+      background: var(--green-850);
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    .disclaimer-icon {
+      width: 45px;
+      height: 45px;
+      flex: 0 0 45px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--gold-400);
+      border-radius: 50%;
+      color: var(--gold-300);
+    }
+
+    .disclaimer-box h3 {
+      font-family: var(--serif);
+      font-size: 22px;
+      margin-bottom: 7px;
+    }
+
+    .disclaimer-box p {
+      color: rgba(255,255,255,.63);
+      font-size: 12px;
+      line-height: 1.8;
+    }
+
+
+    /* =========================================================
+       CTA
+       ========================================================= */
+
+    .cta-section {
+      background: var(--cream);
+      padding: 95px 0;
+    }
+
+    .cta-box {
+      background: var(--green-900);
+      border: 1px solid var(--gold-400);
+      border-radius: 24px;
+      padding: 65px 50px;
+      text-align: center;
+      color: white;
+    }
+
+    .cta-box h2 {
+      font-family: var(--serif);
+      font-size: clamp(38px,5vw,60px);
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+
+    .cta-box h2 em {
+      color: var(--gold-300);
+      font-weight: 500;
+    }
+
+    .cta-box p {
+      color: rgba(255,255,255,.68);
+      max-width: 620px;
+      margin: auto;
+      font-size: 14px;
+    }
+
+    .cta-buttons {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+
+    /* =========================================================
+       FOOTER
+       EXACT GHAR BASE FOOTER
+       ========================================================= */
+
+    .footer {
+      background: #021b11;
+      color: white;
+      border-top: 1px solid rgba(215,173,77,.45);
+    }
+
+    .footer-inner {
+      width: min(calc(100% - 48px), var(--container));
+      margin: auto;
+      padding: 65px 0 45px;
+
+      display: grid;
+      grid-template-columns: 1.7fr 1fr 1fr 1fr;
+      gap: 35px;
+    }
+
+    .footer-brand strong {
+      color: var(--gold-300);
+      font-family: var(--serif);
+      font-size: 30px;
+      letter-spacing: 2px;
+    }
+
+    .footer-brand p {
+      max-width: 330px;
+      color: rgba(255,255,255,.58);
+      font-size: 12px;
+      line-height: 1.8;
+      margin-top: 17px;
+    }
+
+    .footer-column {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .footer-column h4 {
+      color: var(--gold-300);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1.6px;
+      margin-bottom: 18px;
+    }
+
+    .footer-column a {
+      color: rgba(255,255,255,.66);
+      font-size: 12px;
+      margin-bottom: 10px;
+      transition: .2s ease;
+    }
+
+    .footer-column a:hover {
+      color: var(--gold-300);
+    }
+
+    .footer-bottom {
+      width: min(calc(100% - 48px), var(--container));
+      margin: auto;
+
+      border-top: 1px solid rgba(255,255,255,.08);
+      padding: 20px 0;
+
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+
+      color: rgba(255,255,255,.43);
+      font-size: 10px;
+    }
+
+
+    /* =========================================================
+       FLOATING AI
+       ========================================================= */
+
+    .ai-float {
+      position: fixed;
+      right: 24px;
+      bottom: 24px;
+      z-index: 1200;
+    }
+
+    .ai-float-button {
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      border: 2px solid var(--gold-300);
+      background: var(--green-900);
+      color: var(--gold-300);
+      display: grid;
+      place-items: center;
+      font-size: 22px;
+      box-shadow: 0 12px 30px rgba(0,0,0,.25);
+    }
+
+    .ai-tooltip {
+      position: absolute;
+      right: 68px;
+      bottom: 5px;
+      white-space: nowrap;
+      background: var(--green-950);
+      color: white;
+      border: 1px solid rgba(215,173,77,.5);
+      padding: 9px 13px;
+      border-radius: 8px;
+      font-size: 11px;
+      opacity: 0;
+      transform: translateX(5px);
+      pointer-events: none;
+      transition: .2s ease;
+    }
+
+    .ai-float:hover .ai-tooltip {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+
+    /* =========================================================
+       RESPONSIVE
+       ========================================================= */
+
+    @media (max-width:1100px) {
+
+      .main-nav {
+        gap: 17px;
+      }
+
+      .main-nav a {
+        font-size: 12px;
+      }
+
+      .ai-hero-grid {
+        gap: 40px;
+      }
+
+      .steps-grid {
+        grid-template-columns: repeat(2,1fr);
+      }
+
+    }
+
+    @media (max-width:850px) {
+
+      :root {
+        --header-height: 68px;
+      }
+
+      .container {
+        width: min(calc(100% - 32px), var(--container));
+      }
+
+      .main-nav,
+      .header-search,
+      .login-btn,
+      .get-started {
+        display: none;
+      }
+
+      .mobile-menu {
+        display: grid;
+        place-items: center;
+      }
+
+      .ai-hero-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .ai-hero {
+        padding: 65px 0;
+      }
+
+      .result-top {
+        grid-template-columns: 1fr;
+      }
+
+      .confidence {
+        text-align: left;
+      }
+
+      .result-metrics {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .factors-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .footer-inner {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .footer-brand {
+        grid-column: 1 / -1;
+      }
+
+    }
+
+    @media (max-width:560px) {
+
+      .container {
+        width: min(calc(100% - 24px), var(--container));
+      }
+
+      .brand-name {
+        font-size: 22px;
+      }
+
+      .brand-mark {
+        width: 39px;
+        height: 39px;
+      }
+
+      .ai-hero {
+        padding: 52px 0 58px;
+      }
+
+      .hero-title {
+        font-size: 46px;
+      }
+
+      .hero-description {
+        font-size: 14px;
+      }
+
+      .estimator-panel {
+        padding: 22px;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .field.full {
+        grid-column: auto;
+      }
+
+      .result-section,
+      .factors-section,
+      .how-section {
+        padding: 70px 0;
+      }
+
+      .result-card {
+        padding: 23px;
+      }
+
+      .result-metrics {
+        grid-template-columns: 1fr;
+      }
+
+      .factors-grid,
+      .steps-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .disclaimer-box {
+        display: block;
+      }
+
+      .disclaimer-icon {
+        margin-bottom: 15px;
+      }
+
+      .cta-box {
+        padding: 45px 22px;
+      }
+
+      .footer-inner {
+        grid-template-columns: 1fr 1fr;
+        width: min(calc(100% - 24px), var(--container));
+      }
+
+      .footer-bottom {
+        width: min(calc(100% - 24px), var(--container));
+        display: block;
+      }
+
+      .footer-bottom span:last-child {
+        display: block;
+        margin-top: 10px;
+      }
+
+      .ai-float {
+        right: 15px;
+        bottom: 15px;
+      }
+
+    }
+
+  </style>
 </head>
 
 <body>
 
-<!-- =========================================================
-     TOP BAR
-========================================================= -->
 
-<div class="topbar">
-  <b>GHAR</b>
-  &nbsp; | &nbsp;
-  AI-powered property intelligence for smarter decisions
-</div>
+  <!-- =======================================================
+       HEADER
+       ======================================================= -->
 
+  <header class="site-header">
 
-<!-- =========================================================
-     HEADER
-========================================================= -->
+    <div class="container header-inner">
 
-<header class="header">
+      <a href="index.html" class="brand">
 
-  <nav class="nav">
+        <div class="brand-mark">
+          <i class="fa-solid fa-house"></i>
+        </div>
 
-    <a href="index.html" class="brand">
+        <div>
+          <div class="brand-name">GHAR</div>
+          <span class="brand-tagline">BUY | SELL | RENT</span>
+        </div>
 
-      <img
-        src="assets/images/logo/ghar-logo.png"
-        alt="GHAR"
-      >
-
-      <span>GHAR</span>
-
-    </a>
-
-
-    <div class="links">
-
-      <a href="properties.html">
-        Properties
       </a>
 
-      <a href="about.html">
-        About
-      </a>
 
-      <a href="property-search.html">
-        Search
-      </a>
+      <nav class="main-nav">
 
-      <a href="compare.html">
-        Compare
-      </a>
+        <a href="index.html">Home</a>
 
-      <a href="ai.html">
-        AI
-      </a>
+        <a href="properties.html">Properties</a>
 
-      <a href="contact.html">
-        Contact
-      </a>
+        <a href="buy.html">Buy</a>
 
-    </div>
+        <a href="rent.html">Rent</a>
 
+        <a href="sell.html">Sell</a>
 
-    <div class="nav-actions">
+        <a href="ghar-ai.html" class="active">GHAR AI</a>
 
-      <a
-        href="login.html"
-        class="pill"
-      >
-        Login
-      </a>
+        <a href="about.html">About</a>
 
-      <a
-        href="role-selection.html"
-        class="pill gold"
-      >
-        Get Started
-      </a>
+        <a href="contact.html">Contact</a>
 
-      <button
-        class="menu"
-        type="button"
-        aria-label="Open menu"
-      >
-        ☰
-      </button>
+      </nav>
 
-    </div>
 
-  </nav>
-
-</header>
-
-
-<main>
-
-
-<!-- =========================================================
-     HERO
-========================================================= -->
-
-<section class="hero">
-
-  <div class="hero-inner">
-
-    <div>
-
-      <div class="eyebrow">
-        GHAR intelligence
-      </div>
-
-      <h1>
-        Know what your
-        <em>property may be worth.</em>
-      </h1>
-
-      <p class="hero-copy">
-        Enter the basic details of a property and GHAR
-        can generate an indicative price estimate using
-        location, property type, size, configuration and
-        selected features.
-      </p>
-
-      <div class="hero-actions">
-
-        <a
-          href="#estimator"
-          class="btn gold"
-        >
-          Estimate Property
-        </a>
-
-        <a
-          href="ai.html"
-          class="btn light"
-        >
-          Explore GHAR AI
-        </a>
-
-      </div>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- =========================================================
-     ESTIMATOR
-========================================================= -->
-
-<section
-  class="estimator-wrap"
-  id="estimator"
->
-
-  <div class="estimator-card">
-
-
-    <div class="estimator-head">
-
-      <div>
-
-        <div class="kicker">
-          AI price estimator
-        </div>
-
-        <h2>
-          Estimate your property value.
-        </h2>
-
-      </div>
-
-      <p>
-        Provide accurate property information for a
-        more useful indicative estimate.
-      </p>
-
-    </div>
-
-
-    <form
-      class="estimator-form"
-      id="priceEstimatorForm"
-    >
-
-      <div class="form-grid">
-
-
-        <!-- LOCATION -->
-
-        <div class="form-field">
-
-          <label for="location">
-            Location
-          </label>
-
-          <input
-            id="location"
-            name="location"
-            required
-            placeholder="e.g. Sector 150, Noida"
-          >
-
-        </div>
-
-
-        <!-- PROPERTY TYPE -->
-
-        <div class="form-field">
-
-          <label for="propertyType">
-            Property type
-          </label>
-
-          <select
-            id="propertyType"
-            name="propertyType"
-            required
-          >
-
-            <option value="">
-              Select property type
-            </option>
-
-            <option value="apartment">
-              Apartment
-            </option>
-
-            <option value="villa">
-              Villa
-            </option>
-
-            <option value="house">
-              Independent House
-            </option>
-
-            <option value="plot">
-              Residential Plot
-            </option>
-
-            <option value="commercial">
-              Commercial Property
-            </option>
-
-          </select>
-
-        </div>
-
-
-        <!-- BHK -->
-
-        <div class="form-field">
-
-          <label for="bhk">
-            Configuration
-          </label>
-
-          <select
-            id="bhk"
-            name="bhk"
-            required
-          >
-
-            <option value="">
-              Select configuration
-            </option>
-
-            <option value="1">
-              1 BHK
-            </option>
-
-            <option value="2">
-              2 BHK
-            </option>
-
-            <option value="3">
-              3 BHK
-            </option>
-
-            <option value="4">
-              4 BHK
-            </option>
-
-            <option value="5">
-              5+ BHK
-            </option>
-
-            <option value="studio">
-              Studio / 1 RK
-            </option>
-
-            <option value="na">
-              Not applicable
-            </option>
-
-          </select>
-
-        </div>
-
-
-        <!-- AREA -->
-
-        <div class="form-field">
-
-          <label for="area">
-            Built-up / usable area
-          </label>
-
-          <input
-            id="area"
-            name="area"
-            type="number"
-            min="50"
-            step="1"
-            required
-            placeholder="e.g. 1450"
-          >
-
-          <div class="form-help">
-            Enter area in square feet.
-          </div>
-
-        </div>
-
-
-        <!-- AGE -->
-
-        <div class="form-field">
-
-          <label for="age">
-            Property age
-          </label>
-
-          <select
-            id="age"
-            name="age"
-          >
-
-            <option value="new">
-              New / under construction
-            </option>
-
-            <option value="0-5">
-              0–5 years
-            </option>
-
-            <option value="5-10">
-              5–10 years
-            </option>
-
-            <option value="10-20">
-              10–20 years
-            </option>
-
-            <option value="20+">
-              20+ years
-            </option>
-
-          </select>
-
-        </div>
-
-
-        <!-- FLOOR -->
-
-        <div class="form-field">
-
-          <label for="floor">
-            Floor / position
-          </label>
-
-          <select
-            id="floor"
-            name="floor"
-          >
-
-            <option value="ground">
-              Ground floor
-            </option>
-
-            <option value="middle">
-              Middle floor
-            </option>
-
-            <option value="high">
-              Higher floor
-            </option>
-
-            <option value="top">
-              Top floor
-            </option>
-
-            <option value="na">
-              Not applicable
-            </option>
-
-          </select>
-
-        </div>
-
-
-        <!-- PARKING -->
-
-        <div class="form-field">
-
-          <label for="parking">
-            Parking
-          </label>
-
-          <select
-            id="parking"
-            name="parking"
-          >
-
-            <option value="0">
-              No dedicated parking
-            </option>
-
-            <option value="1">
-              1 parking
-            </option>
-
-            <option value="2">
-              2 parking
-            </option>
-
-            <option value="3">
-              3+ parking
-            </option>
-
-          </select>
-
-        </div>
-
-
-        <!-- CONDITION -->
-
-        <div class="form-field">
-
-          <label for="condition">
-            Property condition
-          </label>
-
-          <select
-            id="condition"
-            name="condition"
-          >
-
-            <option value="excellent">
-              Excellent
-            </option>
-
-            <option value="good">
-              Good
-            </option>
-
-            <option value="average">
-              Average
-            </option>
-
-            <option value="needs-work">
-              Needs renovation
-            </option>
-
-          </select>
-
-        </div>
-
-
-        <!-- AMENITIES -->
-
-        <div class="form-field full">
-
-          <label for="amenities">
-            Key features / amenities
-          </label>
-
-          <input
-            id="amenities"
-            name="amenities"
-            placeholder="e.g. clubhouse, metro nearby, park view, swimming pool"
-          >
-
-        </div>
-
-
-      </div>
-
-
-      <div class="form-actions">
+      <div class="header-actions">
 
         <button
-          type="reset"
-          class="btn"
-          style="
-            color:var(--emerald);
-            border-color:var(--line);
-            background:#f2e8d8;
-          "
+          class="header-search"
+          aria-label="Search"
+          onclick="window.location.href='property-search.html'"
         >
-          Clear
+          <i class="fa-solid fa-magnifying-glass"></i>
         </button>
 
+        <a href="login.html" class="login-btn">
+          Login
+        </a>
+
+        <a href="register.html" class="get-started">
+          Get Started
+        </a>
+
         <button
-          type="submit"
-          class="form-btn"
+          class="mobile-menu"
+          id="mobileMenu"
+          aria-label="Menu"
         >
-          Generate Estimate →
+          <i class="fa-solid fa-bars"></i>
         </button>
 
       </div>
 
+    </div>
 
-      <!-- RESULT -->
-
-      <div
-        class="result"
-        id="estimateResult"
-      >
-
-        <div class="result-label">
-          Indicative estimated value
-        </div>
-
-        <div
-          class="result-price"
-          id="resultPrice"
-        >
-          ₹0
-        </div>
-
-        <div
-          class="result-range"
-          id="resultRange"
-        >
-          Estimated range
-        </div>
+  </header>
 
 
-        <div class="result-meta">
+  <!-- =======================================================
+       MAIN
+       ======================================================= -->
 
-          <div class="result-item">
+  <main>
 
-            <small>
-              Approx. price / sq.ft.
-            </small>
 
-            <strong id="resultPsf">
-              ₹0
-            </strong>
+    <!-- =====================================================
+         AI HERO + ESTIMATOR
+         ===================================================== -->
 
+    <section class="ai-hero">
+
+      <div class="container ai-hero-grid">
+
+
+        <div>
+
+          <div class="eyebrow">
+            GHAR Intelligence
           </div>
 
+          <h1 class="hero-title">
+            Know what your
+            <em>property is worth.</em>
+          </h1>
 
-          <div class="result-item">
+          <p class="hero-description">
+            GHAR AI Price Estimator analyses property characteristics,
+            location signals, size, amenities and market information
+            to provide an indicative property valuation.
+          </p>
 
-            <small>
-              Property type
-            </small>
+          <div class="hero-actions">
 
-            <strong id="resultType">
-              --
-            </strong>
+            <a href="#estimator" class="gold-button">
+              Estimate My Property
+              <i class="fa-solid fa-arrow-down"></i>
+            </a>
 
-          </div>
-
-
-          <div class="result-item">
-
-            <small>
-              Area
-            </small>
-
-            <strong id="resultArea">
-              --
-            </strong>
+            <a href="ai.html" class="outline-button">
+              <i class="fa-solid fa-wand-magic-sparkles"></i>
+              Explore GHAR AI
+            </a>
 
           </div>
 
         </div>
 
 
-        <div class="result-note">
-          This is an illustrative estimate generated from
-          the information entered on this page. It is not
-          a guaranteed market valuation, appraisal, offer,
-          lending decision or professional property valuation.
-          Actual prices can vary substantially by locality,
-          project, condition, title, amenities, market demand
-          and transaction conditions.
+        <!-- ESTIMATOR -->
+
+        <div class="estimator-panel" id="estimator">
+
+          <div class="panel-heading">
+
+            <h2>
+              AI Property Estimate
+            </h2>
+
+            <span class="ai-status">
+              <i class="fa-solid fa-circle"></i>
+              AI Ready
+            </span>
+
+          </div>
+
+
+          <form id="estimatorForm">
+
+            <div class="form-grid">
+
+
+              <div class="field full">
+
+                <label for="location">
+                  Property Location
+                </label>
+
+                <input
+                  type="text"
+                  id="location"
+                  placeholder="e.g. Sector 18, Noida"
+                  required
+                >
+
+              </div>
+
+
+              <div class="field">
+
+                <label for="propertyType">
+                  Property Type
+                </label>
+
+                <select id="propertyType" required>
+
+                  <option value="">
+                    Select type
+                  </option>
+
+                  <option value="Apartment">
+                    Apartment
+                  </option>
+
+                  <option value="Villa">
+                    Villa
+                  </option>
+
+                  <option value="Independent House">
+                    Independent House
+                  </option>
+
+                  <option value="Plot">
+                    Plot
+                  </option>
+
+                  <option value="Commercial">
+                    Commercial
+                  </option>
+
+                </select>
+
+              </div>
+
+
+              <div class="field">
+
+                <label for="bhk">
+                  Configuration
+                </label>
+
+                <select id="bhk">
+
+                  <option value="1">1 BHK</option>
+                  <option value="2">2 BHK</option>
+                  <option value="3">3 BHK</option>
+                  <option value="4">4 BHK</option>
+                  <option value="5">5+ BHK</option>
+
+                </select>
+
+              </div>
+
+
+              <div class="field">
+
+                <label for="area">
+                  Area (sq ft)
+                </label>
+
+                <input
+                  type="number"
+                  id="area"
+                  min="100"
+                  placeholder="e.g. 1500"
+                  required
+                >
+
+              </div>
+
+
+              <div class="field">
+
+                <label for="age">
+                  Property Age
+                </label>
+
+                <select id="age">
+
+                  <option value="new">
+                    New / Under Construction
+                  </option>
+
+                  <option value="0-5">
+                    0–5 Years
+                  </option>
+
+                  <option value="5-10">
+                    5–10 Years
+                  </option>
+
+                  <option value="10-20">
+                    10–20 Years
+                  </option>
+
+                  <option value="20+">
+                    20+ Years
+                  </option>
+
+                </select>
+
+              </div>
+
+
+              <div class="field">
+
+                <label for="condition">
+                  Condition
+                </label>
+
+                <select id="condition">
+
+                  <option value="excellent">
+                    Excellent
+                  </option>
+
+                  <option value="good">
+                    Good
+                  </option>
+
+                  <option value="average">
+                    Average
+                  </option>
+
+                  <option value="renovation">
+                    Needs Renovation
+                  </option>
+
+                </select>
+
+              </div>
+
+
+              <div class="field">
+
+                <label for="parking">
+                  Parking
+                </label>
+
+                <select id="parking">
+
+                  <option value="yes">
+                    Available
+                  </option>
+
+                  <option value="no">
+                    Not Available
+                  </option>
+
+                </select>
+
+              </div>
+
+
+              <div class="field">
+
+                <label for="floor">
+                  Floor
+                </label>
+
+                <select id="floor">
+
+                  <option value="low">
+                    Lower Floor
+                  </option>
+
+                  <option value="mid">
+                    Middle Floor
+                  </option>
+
+                  <option value="high">
+                    Higher Floor
+                  </option>
+
+                  <option value="top">
+                    Top Floor
+                  </option>
+
+                </select>
+
+              </div>
+
+            </div>
+
+
+            <button
+              type="submit"
+              class="estimate-button"
+            >
+              <i class="fa-solid fa-wand-magic-sparkles"></i>
+              Generate AI Estimate
+            </button>
+
+            <div class="panel-note">
+              This is an indicative estimate, not a formal valuation.
+            </div>
+
+          </form>
+
         </div>
 
       </div>
 
-
-      <div class="disclaimer">
-        <strong>Important:</strong>
-        AI estimates are indicative only. For an official
-        valuation, legal assessment, taxation matter or
-        lending decision, consult the relevant qualified
-        professional or institution.
-      </div>
-
-    </form>
-
-  </div>
-
-</section>
+    </section>
 
 
-<!-- =========================================================
-     INFORMATION
-========================================================= -->
+    <!-- =====================================================
+         RESULT
+         ===================================================== -->
 
-<section class="section">
+    <section class="result-section">
 
-  <div class="container info-grid">
+      <div class="container">
 
+        <div class="result-heading">
 
-    <div>
+          <div class="section-eyebrow">
+            Estimated Market Value
+          </div>
 
-      <div class="kicker">
-        How GHAR estimates
-      </div>
+          <h2 class="section-title">
+            A smarter view of your
+            <em>property value.</em>
+          </h2>
 
-      <h2>
-        More context.
-        Better estimates.
-      </h2>
-
-      <p class="section-copy">
-        Property value is influenced by much more than
-        the number of bedrooms. GHAR's estimator is designed
-        around multiple property attributes so users can
-        understand the factors that may influence an
-        indicative estimate.
-      </p>
-
-      <a
-        href="ai-property-advisor.html"
-        class="btn"
-        style="
-          margin-top:25px;
-          background:var(--emerald);
-          color:#fff;
-          border-color:var(--emerald);
-        "
-      >
-        Ask Property Advisor →
-      </a>
-
-    </div>
-
-
-    <div class="points">
-
-
-      <div class="point">
-
-        <div class="point-icon">
-          ⌖
         </div>
 
-        <div>
 
-          <h3>
-            Location
-          </h3>
+        <div class="result-card">
+
+          <div class="result-top">
+
+            <div>
+
+              <div class="estimated-label">
+                Indicative AI Valuation
+              </div>
+
+              <div
+                class="estimated-price"
+                id="estimatedPrice"
+              >
+                ₹1.00 Cr
+              </div>
+
+              <div
+                class="price-range"
+                id="priceRange"
+              >
+                Estimated range: ₹90 L – ₹1.10 Cr
+              </div>
+
+            </div>
+
+
+            <div class="confidence">
+
+              <div class="confidence-label">
+                AI confidence
+              </div>
+
+              <div class="confidence-value">
+                87%
+              </div>
+
+              <div class="confidence-bar">
+                <span></span>
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <div class="result-divider"></div>
+
+
+          <div class="result-metrics">
+
+            <div class="metric">
+
+              <div class="metric-label">
+                Estimated / Sq Ft
+              </div>
+
+              <div
+                class="metric-value"
+                id="perSqft"
+              >
+                ₹6,667
+              </div>
+
+            </div>
+
+
+            <div class="metric">
+
+              <div class="metric-label">
+                Location Impact
+              </div>
+
+              <div class="metric-value">
+                High
+              </div>
+
+            </div>
+
+
+            <div class="metric">
+
+              <div class="metric-label">
+                Demand
+              </div>
+
+              <div class="metric-value">
+                Strong
+              </div>
+
+            </div>
+
+
+            <div class="metric">
+
+              <div class="metric-label">
+                Market Trend
+              </div>
+
+              <div class="metric-value">
+                Positive
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         FACTORS
+         ===================================================== -->
+
+    <section class="factors-section">
+
+      <div class="container">
+
+        <div class="center-heading">
+
+          <div class="section-eyebrow">
+            What GHAR AI Considers
+          </div>
+
+          <h2 class="section-title" style="color:white;">
+            More than just
+            <em>square feet.</em>
+          </h2>
+
+        </div>
+
+
+        <div class="factors-grid">
+
+
+          <article class="factor-card">
+
+            <div class="factor-icon">
+              <i class="fa-solid fa-location-dot"></i>
+            </div>
+
+            <h3>Location</h3>
+
+            <p>
+              Micro-market characteristics, connectivity,
+              neighbourhood quality, nearby infrastructure
+              and location demand can influence property value.
+            </p>
+
+          </article>
+
+
+          <article class="factor-card">
+
+            <div class="factor-icon">
+              <i class="fa-solid fa-ruler-combined"></i>
+            </div>
+
+            <h3>Property Size</h3>
+
+            <p>
+              Built-up area, carpet area, plot dimensions and
+              configuration can materially affect an indicative
+              valuation.
+            </p>
+
+          </article>
+
+
+          <article class="factor-card">
+
+            <div class="factor-icon">
+              <i class="fa-solid fa-building"></i>
+            </div>
+
+            <h3>Property Type</h3>
+
+            <p>
+              Apartments, villas, independent houses, plots and
+              commercial properties may have different valuation
+              characteristics.
+            </p>
+
+          </article>
+
+
+          <article class="factor-card">
+
+            <div class="factor-icon">
+              <i class="fa-solid fa-calendar"></i>
+            </div>
+
+            <h3>Property Age</h3>
+
+            <p>
+              Construction age, maintenance, renovation history
+              and remaining useful life can affect the estimated
+              market position.
+            </p>
+
+          </article>
+
+
+          <article class="factor-card">
+
+            <div class="factor-icon">
+              <i class="fa-solid fa-car"></i>
+            </div>
+
+            <h3>Amenities</h3>
+
+            <p>
+              Parking, lifts, security, clubhouse, open areas,
+              furnishing and other amenities can influence buyer
+              preferences.
+            </p>
+
+          </article>
+
+
+          <article class="factor-card">
+
+            <div class="factor-icon">
+              <i class="fa-solid fa-chart-line"></i>
+            </div>
+
+            <h3>Market Signals</h3>
+
+            <p>
+              Indicative demand, comparable properties and
+              available market information can help produce a
+              more useful estimate.
+            </p>
+
+          </article>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         HOW IT WORKS
+         ===================================================== -->
+
+    <section class="how-section">
+
+      <div class="container">
+
+        <div class="center-heading">
+
+          <div class="section-eyebrow">
+            How It Works
+          </div>
+
+          <h2 class="section-title">
+            Estimate in
+            <em>four steps.</em>
+          </h2>
+
+        </div>
+
+
+        <div class="steps-grid">
+
+
+          <article class="step-card">
+
+            <div class="step-number">
+              01
+            </div>
+
+            <h3>
+              Tell GHAR
+            </h3>
+
+            <p>
+              Enter your property location, type, size,
+              configuration and other basic details.
+            </p>
+
+          </article>
+
+
+          <article class="step-card">
+
+            <div class="step-number">
+              02
+            </div>
+
+            <h3>
+              AI Analysis
+            </h3>
+
+            <p>
+              GHAR AI processes the available property
+              characteristics and relevant market signals.
+            </p>
+
+          </article>
+
+
+          <article class="step-card">
+
+            <div class="step-number">
+              03
+            </div>
+
+            <h3>
+              View Estimate
+            </h3>
+
+            <p>
+              Receive an indicative property value together
+              with an estimated range and supporting metrics.
+            </p>
+
+          </article>
+
+
+          <article class="step-card">
+
+            <div class="step-number">
+              04
+            </div>
+
+            <h3>
+              Take Action
+            </h3>
+
+            <p>
+              Use the estimate as one input when deciding
+              whether to sell, buy, rent or explore financing.
+            </p>
+
+          </article>
+
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         DISCLAIMER
+         ===================================================== -->
+
+    <section class="disclaimer-section">
+
+      <div class="container">
+
+        <div class="disclaimer-box">
+
+          <div class="disclaimer-icon">
+            <i class="fa-solid fa-circle-info"></i>
+          </div>
+
+          <div>
+
+            <h3>
+              Important valuation information
+            </h3>
+
+            <p>
+              GHAR AI Price Estimator provides an indicative
+              estimate for informational and planning purposes.
+              It should not be treated as a certified valuation,
+              appraisal, legal opinion, tax assessment, lending
+              decision or guaranteed selling price. Actual
+              property value can vary based on inspection,
+              documentation, title, market conditions, negotiation,
+              locality-specific factors and other circumstances.
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         CTA
+         ===================================================== -->
+
+    <section class="cta-section">
+
+      <div class="container">
+
+        <div class="cta-box">
+
+          <div class="section-eyebrow">
+            GHAR Intelligence
+          </div>
+
+          <h2>
+            Want a more complete
+            <em>property analysis?</em>
+          </h2>
 
           <p>
-            Locality, connectivity, surrounding
-            infrastructure and project positioning
-            can materially influence property prices.
+            Explore GHAR AI for property comparisons, investment
+            insights, location discovery, loan guidance and
+            intelligent property search.
           </p>
 
-        </div>
+          <div class="cta-buttons">
 
-      </div>
+            <a
+              href="ai.html"
+              class="gold-button"
+            >
+              Explore GHAR AI
+              <i class="fa-solid fa-arrow-right"></i>
+            </a>
 
+            <a
+              href="properties.html"
+              class="outline-button"
+            >
+              Browse Properties
+            </a>
 
-      <div class="point">
-
-        <div class="point-icon">
-          ◫
-        </div>
-
-        <div>
-
-          <h3>
-            Property characteristics
-          </h3>
-
-          <p>
-            Type, configuration, size, floor,
-            age and condition provide important
-            valuation context.
-          </p>
+          </div>
 
         </div>
 
       </div>
 
+    </section>
 
-      <div class="point">
+  </main>
 
-        <div class="point-icon">
-          ◇
-        </div>
 
-        <div>
+  <!-- =======================================================
+       FOOTER
+       ======================================================= -->
 
-          <h3>
-            Features & amenities
-          </h3>
+  <footer class="footer">
 
-          <p>
-            Parking, views, facilities, access
-            and other features may affect buyer
-            demand and market positioning.
-          </p>
-
-        </div>
-
-      </div>
-
-
-      <div class="point">
-
-        <div class="point-icon">
-          ✦
-        </div>
-
-        <div>
-
-          <h3>
-            Market context
-          </h3>
-
-          <p>
-            Actual transaction values depend on
-            current supply, demand, comparable sales
-            and negotiations.
-          </p>
-
-        </div>
-
-      </div>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- =========================================================
-     HOW IT WORKS
-========================================================= -->
-
-<section class="section how">
-
-  <div class="container">
-
-    <div style="margin-bottom:42px;">
-
-      <div class="kicker">
-        Simple process
-      </div>
-
-      <h2>
-        Estimate in three steps.
-      </h2>
-
-    </div>
-
-
-    <div class="how-grid">
-
-
-      <div class="how-card">
-
-        <div class="step">
-          01 -- DETAILS
-        </div>
-
-        <h3>
-          Enter property data
-        </h3>
-
-        <p>
-          Add the location, property type,
-          configuration, area and other
-          available details.
-        </p>
-
-      </div>
-
-
-      <div class="how-card">
-
-        <div class="step">
-          02 -- ANALYSIS
-        </div>
-
-        <h3>
-          GHAR evaluates
-        </h3>
-
-        <p>
-          The estimator processes the information
-          using its configured estimation logic and
-          produces an indicative value.
-        </p>
-
-      </div>
-
-
-      <div class="how-card">
-
-        <div class="step">
-          03 -- DECISION
-        </div>
-
-        <h3>
-          Plan your next move
-        </h3>
-
-        <p>
-          Compare the estimate with listings,
-          comparable properties and professional
-          advice before making a decision.
-        </p>
-
-      </div>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- =========================================================
-     RELATED AI TOOLS
-========================================================= -->
-
-<section class="section">
-
-  <div class="container">
-
-    <div class="kicker">
-      Continue with GHAR AI
-    </div>
-
-    <h2>
-      More intelligent property tools.
-    </h2>
-
-
-    <div
-      class="how-grid"
-      style="margin-top:42px;"
-    >
-
-
-      <a
-        class="how-card"
-        href="ai-property-advisor.html"
-      >
-
-        <div class="step">
-          PROPERTY
-        </div>
-
-        <h3>
-          Property Advisor
-        </h3>
-
-        <p>
-          Ask questions about a property,
-          location, configuration and your
-          property requirements.
-        </p>
-
-      </a>
-
-
-      <a
-        class="how-card"
-        href="ai-investment-advisor.html"
-      >
-
-        <div class="step">
-          INVESTMENT
-        </div>
-
-        <h3>
-          Investment Advisor
-        </h3>
-
-        <p>
-          Explore investment considerations,
-          scenarios, risks and property
-          comparison factors.
-        </p>
-
-      </a>
-
-
-      <a
-        class="how-card"
-        href="ai-loan-advisor.html"
-      >
-
-        <div class="step">
-          FINANCE
-        </div>
-
-        <h3>
-          Loan Advisor
-        </h3>
-
-        <p>
-          Explore illustrative loan scenarios,
-          affordability considerations and
-          documentation requirements.
-        </p>
-
-      </a>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- =========================================================
-     FINAL CTA
-========================================================= -->
-
-<section class="final-cta">
-
-  <div class="container">
-
-    <div class="kicker">
-      Your property journey
-    </div>
-
-    <h2>
-      Estimate it. Compare it. Understand it.
-    </h2>
-
-    <p>
-      Continue exploring properties and use GHAR's
-      connected tools to organize your next step.
-    </p>
-
-
-    <div class="final-actions">
-
-      <a
-        href="properties.html"
-        class="btn gold"
-      >
-        Explore Properties
-      </a>
-
-      <a
-        href="compare.html"
-        class="btn light"
-      >
-        Compare Properties
-      </a>
-
-      <a
-        href="ai.html"
-        class="btn light"
-      >
-        Explore AI
-      </a>
-
-    </div>
-
-  </div>
-
-</section>
-
-</main>
-
-
-<!-- =========================================================
-     FOOTER
-========================================================= -->
-
-<footer>
-
-  <div class="footer">
-
-
-    <div>
+    <div class="footer-inner">
 
       <div class="footer-brand">
-        GHAR
+
+        <strong>GHAR</strong>
+
+        <p>
+          A premium real estate experience built around
+          intelligent discovery, transparent transactions
+          and exceptional property journeys.
+        </p>
+
       </div>
 
-      <p>
-        A structured real-estate ecosystem connecting
-        buyers, sellers, renters and property transactions
-        through one premium digital experience.
-      </p>
+
+      <div class="footer-column">
+
+        <h4>EXPLORE</h4>
+
+        <a href="properties.html">Properties</a>
+        <a href="property-search.html">Search</a>
+        <a href="buyer/saved-properties.html">Saved Properties</a>
+        <a href="buyer/visits.html">Visits</a>
+
+      </div>
+
+
+      <div class="footer-column">
+
+        <h4>ACCOUNT</h4>
+
+        <a href="profile.html">Profile</a>
+        <a href="settings.html">Settings</a>
+        <a href="buyer/documents.html">Documents</a>
+        <a href="buyer/payments.html">Payments</a>
+
+      </div>
+
+
+      <div class="footer-column">
+
+        <h4>SUPPORT</h4>
+
+        <a href="help-centre.html">Help Centre</a>
+        <a href="faqs.html">FAQs</a>
+        <a href="contact.html">Contact</a>
+        <a href="privacy-policy.html">Privacy Policy</a>
+
+      </div>
 
     </div>
 
 
-    <div>
+    <div class="footer-bottom">
 
-      <h4>
-        Properties
-      </h4>
+      <span>
+        © 2026 GHAR. All rights reserved.
+      </span>
 
-      <a href="properties.html">
-        Buy
-      </a>
-
-      <a href="properties.html?listing=rent">
-        Rent
-      </a>
-
-      <a href="properties.html?listing=lease">
-        Lease
-      </a>
-
-      <a href="properties.html?type=commercial">
-        Commercial
-      </a>
-
-      <a href="properties.html?type=land">
-        Land
-      </a>
+      <span>
+        BUY • SELL • RENT • INVEST
+      </span>
 
     </div>
 
+  </footer>
 
-    <div>
 
-      <h4>
-        AI
-      </h4>
+  <!-- =======================================================
+       FLOATING GHAR AI
+       ======================================================= -->
 
-      <a href="ai.html">
-        GHAR AI
-      </a>
+  <div class="ai-float">
 
-      <a href="ai-property-advisor.html">
-        Property Advisor
-      </a>
-
-      <a href="ai-property-search.html">
-        AI Search
-      </a>
-
-      <a href="ai-price-estimator.html">
-        Price Estimator
-      </a>
-
-      <a href="ai-investment-advisor.html">
-        Investment Advisor
-      </a>
-
+    <div class="ai-tooltip">
+      Ask GHAR AI
     </div>
 
-
-    <div>
-
-      <h4>
-        Account
-      </h4>
-
-      <a href="dashboard.html">
-        Dashboard
-      </a>
-
-      <a href="profile.html">
-        My Profile
-      </a>
-
-      <a href="buyer/saved-properties.html">
-        Saved Properties
-      </a>
-
-      <a href="buyer/enquiries.html">
-        My Enquiries
-      </a>
-
-      <a href="buyer/offers.html">
-        My Offers
-      </a>
-
-    </div>
+    <button
+      class="ai-float-button"
+      onclick="window.location.href='ai-chat.html'"
+      aria-label="Open GHAR AI"
+    >
+      <i class="fa-solid fa-wand-magic-sparkles"></i>
+    </button>
 
   </div>
 
 
-  <div class="bottom">
+  <!-- =======================================================
+       JAVASCRIPT
+       ======================================================= -->
 
-    <span>
-      © 2026 GHAR. All rights reserved.
-    </span>
+  <script>
 
-    <span>
+    /* =======================================================
+       MOBILE MENU
+       ======================================================= */
 
-      <a href="about.html">
-        About
-      </a>
+    const mobileMenu =
+      document.getElementById("mobileMenu");
 
-      ·
+    mobileMenu.addEventListener("click", function () {
 
-      <a href="contact.html">
-        Contact
-      </a>
+      const nav =
+        document.querySelector(".main-nav");
 
-      ·
+      const isOpen =
+        nav.classList.toggle("mobile-open");
 
-      <a href="help-centre.html">
-        Help & Support
-      </a>
+      if (isOpen) {
 
-      ·
+        nav.style.display = "flex";
+        nav.style.position = "absolute";
+        nav.style.top = "68px";
+        nav.style.left = "0";
+        nav.style.right = "0";
+        nav.style.padding = "18px";
+        nav.style.background = "#031b11";
+        nav.style.borderBottom =
+          "1px solid rgba(215,173,77,.45)";
+        nav.style.flexDirection = "column";
+        nav.style.alignItems = "stretch";
+        nav.style.gap = "0";
 
-      <a href="terms.html">
-        Terms
-      </a>
+        nav.querySelectorAll("a").forEach(function(link) {
 
-      ·
+          link.style.padding = "13px 10px";
 
-      <a href="privacy.html">
-        Privacy
-      </a>
+        });
 
-    </span>
+      } else {
 
-  </div>
-
-</footer>
-
-
-<!-- =========================================================
-     MOBILE NAVIGATION
-========================================================= -->
-
-<nav
-  class="mobile-dock"
-  aria-label="Mobile navigation"
->
-
-  <a href="index.html">
-    <span>⌂</span>
-    Home
-  </a>
-
-  <a href="properties.html">
-    <span>⌕</span>
-    Search
-  </a>
-
-  <a href="compare.html">
-    <span>⇄</span>
-    Compare
-  </a>
-
-  <a href="profile.html">
-    <span>◉</span>
-    Account
-  </a>
-
-  <a href="ai.html">
-    <span>✦</span>
-    AI
-  </a>
-
-</nav>
-
-
-<!-- =========================================================
-     CORE JAVASCRIPT
-========================================================= -->
-
-<script
-  src="assets/js/constants.js"
-  defer
-></script>
-
-<script
-  src="assets/js/config.js"
-  defer
-></script>
-
-<script
-  src="assets/js/storage.js"
-  defer
-></script>
-
-<script
-  src="assets/js/api.js"
-  defer
-></script>
-
-<script
-  src="assets/js/auth.js"
-  defer
-></script>
-
-<script
-  src="assets/js/core.js"
-  defer
-></script>
-
-<script
-  src="assets/js/components.js"
-  defer
-></script>
-
-<script
-  src="assets/js/navigation.js"
-  defer
-></script>
-
-
-<!-- =========================================================
-     PAGE JAVASCRIPT
-========================================================= -->
-
-<script>
-
-document.addEventListener(
-  "DOMContentLoaded",
-  () => {
-
-    const form =
-      document.getElementById(
-        "priceEstimatorForm"
-      );
-
-    const result =
-      document.getElementById(
-        "estimateResult"
-      );
-
-    const resultPrice =
-      document.getElementById(
-        "resultPrice"
-      );
-
-    const resultRange =
-      document.getElementById(
-        "resultRange"
-      );
-
-    const resultPsf =
-      document.getElementById(
-        "resultPsf"
-      );
-
-    const resultType =
-      document.getElementById(
-        "resultType"
-      );
-
-    const resultArea =
-      document.getElementById(
-        "resultArea"
-      );
-
-
-    /*
-      ---------------------------------------------------------
-      LOCATION MULTIPLIERS
-
-      This is intentionally an illustrative client-side
-      estimator. Replace this section with your backend/
-      AI valuation API when the real GHAR valuation engine
-      is connected.
-      ---------------------------------------------------------
-    */
-
-    const locationRates = {
-
-      noida: 11000,
-
-      "sector 150": 12500,
-
-      "sector 79": 11500,
-
-      "sector 137": 10500,
-
-      "greater noida": 8500,
-
-      "greater noida west": 9000,
-
-      delhi: 15000,
-
-      gurgaon: 16500,
-
-      gurugram: 16500,
-
-      mumbai: 28000,
-
-      pune: 11500,
-
-      bangalore: 10500,
-
-      bengaluru: 10500,
-
-      hyderabad: 9000,
-
-      chennai: 8500,
-
-      kolkata: 7500,
-
-      lucknow: 6000,
-
-      jaipur: 6500,
-
-      default: 7000
-
-    };
-
-
-    function getLocationRate(location){
-
-      const value =
-        location
-          .toLowerCase()
-          .trim();
-
-      for(
-        const key
-        of Object.keys(locationRates)
-      ){
-
-        if(
-          key !== "default" &&
-          value.includes(key)
-        ){
-
-          return locationRates[key];
-
-        }
+        nav.removeAttribute("style");
 
       }
 
-      return locationRates.default;
+    });
 
-    }
 
+    /* =======================================================
+       PRICE ESTIMATION DEMO
+       ======================================================= */
 
-    function propertyMultiplier(type){
+    const estimatorForm =
+      document.getElementById("estimatorForm");
 
-      const values = {
-
-        apartment:1,
-
-        villa:1.35,
-
-        house:1.18,
-
-        plot:0.72,
-
-        commercial:1.28
-
-      };
-
-      return values[type] || 1;
-
-    }
-
-
-    function ageMultiplier(age){
-
-      const values = {
-
-        new:1.08,
-
-        "0-5":1.03,
-
-        "5-10":.97,
-
-        "10-20":.9,
-
-        "20+":.82
-
-      };
-
-      return values[age] || 1;
-
-    }
-
-
-    function floorMultiplier(floor){
-
-      const values = {
-
-        ground:.98,
-
-        middle:1,
-
-        high:1.025,
-
-        top:1.04,
-
-        na:1
-
-      };
-
-      return values[floor] || 1;
-
-    }
-
-
-    function conditionMultiplier(condition){
-
-      const values = {
-
-        excellent:1.07,
-
-        good:1,
-
-        average:.93,
-
-        "needs-work":.82
-
-      };
-
-      return values[condition] || 1;
-
-    }
-
-
-    function parkingMultiplier(parking){
-
-      const values = {
-
-        0:1,
-
-        1:1.025,
-
-        2:1.045,
-
-        3:1.06
-
-      };
-
-      return values[parking] || 1;
-
-    }
-
-
-    function formatINR(value){
-
-      return new Intl.NumberFormat(
-        "en-IN",
-        {
-          style:"currency",
-          currency:"INR",
-          maximumFractionDigits:0
-        }
-      ).format(value);
-
-    }
-
-
-    function formatCrore(value){
-
-      if(value >= 10000000){
-
-        return (
-          "₹" +
-          (
-            value / 10000000
-          ).toFixed(2) +
-          " Cr"
-        );
-
-      }
-
-      if(value >= 100000){
-
-        return (
-          "₹" +
-          (
-            value / 100000
-          ).toFixed(2) +
-          " L"
-        );
-
-      }
-
-      return formatINR(value);
-
-    }
-
-
-    form?.addEventListener(
+    estimatorForm.addEventListener(
       "submit",
-      event => {
+      function(event) {
 
         event.preventDefault();
 
-
-        const data =
-          new FormData(form);
-
-
-        const location =
-          String(
-            data.get("location") || ""
-          );
-
-        const type =
-          String(
-            data.get("propertyType") || ""
-          );
-
         const area =
           Number(
-            data.get("area") || 0
+            document.getElementById("area").value
           );
 
-        const age =
-          String(
-            data.get("age") || "new"
+        const propertyType =
+          document.getElementById("propertyType").value;
+
+        if (!area || !propertyType) {
+
+          alert(
+            "Please enter the property type and area."
           );
-
-        const floor =
-          String(
-            data.get("floor") || "middle"
-          );
-
-        const parking =
-          String(
-            data.get("parking") || "0"
-          );
-
-        const condition =
-          String(
-            data.get("condition") || "good"
-          );
-
-
-        if(
-          !location ||
-          !type ||
-          !area
-        ){
 
           return;
 
         }
 
 
-        const baseRate =
-          getLocationRate(location);
+        /*
+         * Front-end demonstration calculation.
+         *
+         * Replace this section with your backend
+         * GHAR AI valuation API when available.
+         */
+
+        let baseRate = 6500;
 
 
-        const rate =
-          baseRate
-          *
-          propertyMultiplier(type)
-          *
-          ageMultiplier(age)
-          *
-          floorMultiplier(floor)
-          *
-          parkingMultiplier(parking)
-          *
-          conditionMultiplier(condition);
+        if (propertyType === "Villa") {
+          baseRate = 8500;
+        }
+
+        if (propertyType === "Independent House") {
+          baseRate = 7800;
+        }
+
+        if (propertyType === "Plot") {
+          baseRate = 6000;
+        }
+
+        if (propertyType === "Commercial") {
+          baseRate = 9500;
+        }
 
 
-        const estimated =
-          area * rate;
-
-
-        const low =
-          estimated * .90;
-
-        const high =
-          estimated * 1.10;
-
-
-        resultPrice.textContent =
-          formatCrore(estimated);
-
-
-        resultRange.textContent =
-          "Indicative range: " +
-          formatCrore(low) +
-          " -- " +
-          formatCrore(high);
-
-
-        resultPsf.textContent =
-          formatINR(rate);
-
-
-        const typeNames = {
-
-          apartment:"Apartment",
-
-          villa:"Villa",
-
-          house:"Independent House",
-
-          plot:"Residential Plot",
-
-          commercial:"Commercial"
-
-        };
-
-
-        resultType.textContent =
-          typeNames[type] ||
-          type;
-
-
-        resultArea.textContent =
-          Number(area).toLocaleString(
-            "en-IN"
-          ) +
-          " sq.ft.";
-
-
-        result.classList.add(
-          "show"
-        );
-
-
-        result.scrollIntoView({
-          behavior:"smooth",
-          block:"nearest"
-        });
+        const location =
+          document.getElementById("location").value
+          .toLowerCase();
 
 
         /*
-          -----------------------------------------------------
-          OPTIONAL API HOOK
+         * Demo location multiplier.
+         */
 
-          When your backend valuation API is ready,
-          replace the local calculation with something
-          similar to:
+        if (
+          location.includes("noida") ||
+          location.includes("gurgaon") ||
+          location.includes("gurugram")
+        ) {
 
-          fetch("/api/ai/price-estimate", {
-            method:"POST",
-            headers:{
-              "Content-Type":"application/json"
-            },
-            credentials:"include",
-            body:JSON.stringify(
-              Object.fromEntries(data)
-            )
-          })
+          baseRate *= 1.15;
 
-          Never expose private API keys in this HTML file.
-          -----------------------------------------------------
-        */
+        }
+
+
+        const condition =
+          document.getElementById("condition").value;
+
+        if (condition === "excellent") {
+
+          baseRate *= 1.08;
+
+        }
+
+        if (condition === "renovation") {
+
+          baseRate *= .88;
+
+        }
+
+
+        const parking =
+          document.getElementById("parking").value;
+
+        if (parking === "yes") {
+
+          baseRate *= 1.03;
+
+        }
+
+
+        const estimatedValue =
+          area * baseRate;
+
+
+        const lower =
+          estimatedValue * .90;
+
+        const upper =
+          estimatedValue * 1.10;
+
+
+        document.getElementById(
+          "estimatedPrice"
+        ).textContent =
+          formatIndianPrice(estimatedValue);
+
+
+        document.getElementById(
+          "priceRange"
+        ).textContent =
+          "Estimated range: " +
+          formatIndianPrice(lower) +
+          " – " +
+          formatIndianPrice(upper);
+
+
+        document.getElementById(
+          "perSqft"
+        ).textContent =
+          "₹" +
+          Math.round(baseRate).toLocaleString(
+            "en-IN"
+          );
+
+
+        document.querySelector(
+          ".result-section"
+        ).scrollIntoView({
+          behavior: "smooth"
+        });
 
       }
     );
 
 
-    form?.addEventListener(
-      "reset",
-      () => {
+    /* =======================================================
+       INDIAN CURRENCY FORMAT
+       ======================================================= */
 
-        setTimeout(
-          () => {
+    function formatIndianPrice(value) {
 
-            result.classList.remove(
-              "show"
-            );
+      if (value >= 10000000) {
 
-          },
-          0
+        return "₹" +
+          (value / 10000000)
+            .toFixed(2)
+            .replace(/\.00$/, "") +
+          " Cr";
+
+      }
+
+
+      if (value >= 100000) {
+
+        return "₹" +
+          (value / 100000)
+            .toFixed(2)
+            .replace(/\.00$/, "") +
+          " L";
+
+      }
+
+
+      return "₹" +
+        Math.round(value).toLocaleString(
+          "en-IN"
         );
 
+    }
+
+
+    /* =======================================================
+       BROKEN IMAGE FALLBACK
+       ======================================================= */
+
+    document
+      .querySelectorAll("img")
+      .forEach(function(img) {
+
+        img.addEventListener(
+          "error",
+          function() {
+
+            this.style.background =
+              "#123b29";
+
+            this.style.minHeight =
+              "150px";
+
+            this.style.objectFit =
+              "cover";
+
+          }
+        );
+
+      });
+
+
+    /* =======================================================
+       HEADER SHADOW
+       ======================================================= */
+
+    window.addEventListener(
+      "scroll",
+      function() {
+
+        const header =
+          document.querySelector(
+            ".site-header"
+          );
+
+        if (window.scrollY > 20) {
+
+          header.style.boxShadow =
+            "0 10px 30px rgba(0,0,0,.22)";
+
+        } else {
+
+          header.style.boxShadow =
+            "none";
+
+        }
+
       }
     );
 
-  }
-
-);
-
-</script>
+  </script>
 
 </body>
 </html>

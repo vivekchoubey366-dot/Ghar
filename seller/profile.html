@@ -1,2658 +1,4091 @@
+<!-- /seller/profile.html -->
 <!doctype html>
 <html lang="en">
 <head>
+
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
 <meta name="description"
-      content="GHAR Seller Profile -- Manage your seller account, contact details, verification and preferences.">
+content="GHAR Seller Profile -- Manage your seller identity, contact information, verification, preferences and account security.">
 
-<meta name="theme-color" content="#162d25">
+<meta name="theme-color" content="#241b2f">
 
 <title>GHAR · Seller Profile</title>
 
-<link rel="icon" href="../assets/images/favicon.svg">
+<link rel="icon" href="../assets/images/logo/favicon.svg">
 
 <style>
 
 /* =========================================================
-   GHAR SELLER PROFILE
-   Premium Seller Experience
+   RESET
 ========================================================= */
 
 *{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
 }
 
 :root{
-  --green-950:#07130e;
-  --green-925:#0a1912;
-  --green-900:#0b1c14;
-  --green-850:#10261c;
-  --green-800:#162d25;
-  --green-750:#1a382c;
-  --green-700:#214438;
 
-  --gold-100:#fff7df;
-  --gold-200:#f4dfaa;
-  --gold-300:#e5c77d;
-  --gold-400:#c9a95c;
-  --gold-500:#a98238;
+    /* =====================================================
+       PREMIUM PLUM / CHAMPAGNE SYSTEM
+    ===================================================== */
 
-  --cream:#fffaf0;
-  --muted:rgba(255,255,255,.68);
-  --muted-2:rgba(255,255,255,.45);
+    --plum-950:#100b16;
+    --plum-925:#15101d;
+    --plum-900:#1b1424;
+    --plum-875:#21182d;
+    --plum-850:#281e35;
+    --plum-825:#30233d;
+    --plum-800:#382a46;
+    --plum-750:#453252;
+    --plum-700:#533c60;
 
-  --border:rgba(229,199,125,.18);
-  --border-light:rgba(255,255,255,.09);
+    --champagne-100:#fffdf7;
+    --champagne-200:#f7e8bf;
+    --champagne-300:#e8cf91;
+    --champagne-400:#cfad60;
+    --champagne-500:#aa843c;
 
-  --success:#82c995;
-  --danger:#e98c8c;
-  --blue:#91b9e8;
+    --cream:#fffaf0;
+    --cream-2:#f5ead8;
 
-  --shadow:0 25px 80px rgba(0,0,0,.25);
+    --text:#fbf7ed;
+    --muted:rgba(255,255,255,.72);
+    --muted-2:rgba(255,255,255,.46);
 
-  --radius-xl:28px;
-  --radius-lg:21px;
-  --radius-md:15px;
+    --border:rgba(232,207,145,.17);
+    --border-strong:rgba(232,207,145,.30);
+    --border-light:rgba(255,255,255,.09);
 
-  --container:1440px;
+    --success:#91d0a2;
+    --warning:#e7ca83;
+    --danger:#ec9696;
+    --blue:#9ebce6;
+
+    --shadow:0 25px 80px rgba(0,0,0,.30);
+
+    --radius-xl:28px;
+    --radius-lg:21px;
+    --radius-md:14px;
+
+    --container:1440px;
 }
 
 html{
-  scroll-behavior:smooth;
+    scroll-behavior:smooth;
 }
 
 body{
-  min-height:100vh;
-  color:#f9f5ea;
 
-  font-family:
-    Inter,
-    ui-sans-serif,
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    sans-serif;
+    min-height:100vh;
 
-  background:
-    radial-gradient(
-      circle at 5% 0%,
-      rgba(229,199,125,.12),
-      transparent 28%
-    ),
-    radial-gradient(
-      circle at 100% 10%,
-      rgba(44,91,69,.22),
-      transparent 30%
-    ),
-    linear-gradient(
-      135deg,
-      #07130e,
-      #0b1c14 48%,
-      #10261c
-    );
+    color:var(--text);
 
-  overflow-x:hidden;
+    font-family:
+        Inter,
+        ui-sans-serif,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    background:
+
+        radial-gradient(
+            circle at 4% 0%,
+            rgba(232,207,145,.10),
+            transparent 27%
+        ),
+
+        radial-gradient(
+            circle at 100% 8%,
+            rgba(101,70,118,.22),
+            transparent 31%
+        ),
+
+        radial-gradient(
+            circle at 50% 100%,
+            rgba(82,57,96,.19),
+            transparent 34%
+        ),
+
+        linear-gradient(
+            135deg,
+            #100b16,
+            #1b1424 48%,
+            #281e35
+        );
+
+    overflow-x:hidden;
 }
 
 a{
-  color:inherit;
-  text-decoration:none;
+    color:inherit;
+    text-decoration:none;
 }
 
 button,
 input,
 select,
 textarea{
-  font:inherit;
+    font:inherit;
 }
 
 button{
-  cursor:pointer;
+    cursor:pointer;
 }
 
 img{
-  display:block;
-  max-width:100%;
+    display:block;
+    max-width:100%;
 }
 
 .container{
-  width:min(
-    calc(100% - 40px),
-    var(--container)
-  );
-  margin:auto;
-}
 
+    width:min(
+        calc(100% - 40px),
+        var(--container)
+    );
+
+    margin:auto;
+}
 
 /* =========================================================
    BACKGROUND
 ========================================================= */
 
 .page-glow{
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  z-index:-1;
-  overflow:hidden;
+
+    position:fixed;
+    inset:0;
+
+    pointer-events:none;
+
+    z-index:-1;
+
+    overflow:hidden;
 }
 
-.page-glow::before{
-  content:"";
-  position:absolute;
-  width:550px;
-  height:550px;
-  top:-300px;
-  right:-220px;
-  border-radius:50%;
-  border:1px solid rgba(229,199,125,.12);
-  box-shadow:
-    0 0 0 60px rgba(229,199,125,.025),
-    0 0 0 120px rgba(229,199,125,.015);
+.page-glow:before{
+
+    content:"";
+
+    position:absolute;
+
+    width:560px;
+    height:560px;
+
+    top:-310px;
+    right:-230px;
+
+    border-radius:50%;
+
+    border:
+        1px solid
+        rgba(232,207,145,.13);
+
+    box-shadow:
+        0 0 0 60px rgba(232,207,145,.025),
+        0 0 0 120px rgba(232,207,145,.014),
+        0 0 0 180px rgba(232,207,145,.008);
 }
 
-.page-glow::after{
-  content:"";
-  position:absolute;
-  width:500px;
-  height:500px;
-  bottom:-300px;
-  left:-250px;
-  border-radius:50%;
-  border:1px solid rgba(255,255,255,.06);
-}
+.page-glow:after{
 
+    content:"";
+
+    position:absolute;
+
+    width:520px;
+    height:520px;
+
+    bottom:-320px;
+    left:-260px;
+
+    border-radius:50%;
+
+    border:
+        1px solid
+        rgba(255,255,255,.06);
+
+    box-shadow:
+        0 0 0 70px rgba(255,255,255,.012);
+}
 
 /* =========================================================
    HEADER
 ========================================================= */
 
 .site-header{
-  position:sticky;
-  top:0;
-  z-index:100;
 
-  border-bottom:
-    1px solid
-    rgba(229,199,125,.10);
+    position:sticky;
+    top:0;
 
-  background:
-    rgba(7,19,14,.90);
+    z-index:1000;
 
-  backdrop-filter:blur(22px);
+    border-bottom:
+        1px solid
+        rgba(232,207,145,.13);
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(16,11,22,.97),
+            rgba(16,11,22,.87)
+        );
+
+    backdrop-filter:blur(24px);
+    -webkit-backdrop-filter:blur(24px);
 }
 
 .header-inner{
-  min-height:76px;
 
-  display:flex;
-  align-items:center;
-  gap:24px;
+    min-height:82px;
+
+    display:flex;
+    align-items:center;
+
+    gap:20px;
 }
+
+/* =========================================================
+   BRAND
+========================================================= */
 
 .brand{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  flex-shrink:0;
+
+    display:flex;
+    align-items:center;
+
+    gap:12px;
+
+    flex-shrink:0;
 }
 
-.brand-mark{
-  width:45px;
-  height:45px;
+.brand-logo{
 
-  display:grid;
-  place-items:center;
+    width:47px;
+    height:47px;
 
-  border-radius:14px;
+    display:grid;
+    place-items:center;
 
-  color:#152116;
-  font-size:19px;
-  font-weight:1000;
+    overflow:hidden;
 
-  background:
-    linear-gradient(
-      135deg,
-      #f1dda5,
-      #b98b3d
-    );
+    border-radius:14px;
 
-  box-shadow:
-    0 10px 25px rgba(0,0,0,.25),
-    inset 0 1px 0 rgba(255,255,255,.5);
+    border:
+        1px solid
+        rgba(232,207,145,.28);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(232,207,145,.14),
+            rgba(255,255,255,.04)
+        );
+
+    box-shadow:
+        0 10px 28px rgba(0,0,0,.25),
+        inset 0 1px 0 rgba(255,255,255,.08);
+}
+
+.brand-logo img{
+
+    width:100%;
+    height:100%;
+
+    object-fit:contain;
+
+    padding:5px;
+}
+
+.brand-logo-fallback{
+
+    width:100%;
+    height:100%;
+
+    display:grid;
+    place-items:center;
+
+    color:#211827;
+
+    font-size:20px;
+    font-weight:1000;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f4dfa9,
+            #b48d43
+        );
 }
 
 .brand-text strong{
-  display:block;
-  font-size:17px;
-  letter-spacing:.17em;
+
+    display:block;
+
+    color:var(--cream);
+
+    font-size:17px;
+    font-weight:950;
+
+    letter-spacing:.17em;
 }
 
 .brand-text span{
-  display:block;
-  margin-top:2px;
-  color:var(--muted-2);
-  font-size:8px;
-  font-weight:800;
-  letter-spacing:.16em;
-  text-transform:uppercase;
+
+    display:block;
+
+    margin-top:3px;
+
+    color:var(--muted-2);
+
+    font-size:8px;
+    font-weight:800;
+
+    letter-spacing:.15em;
+
+    text-transform:uppercase;
 }
 
+/* =========================================================
+   NAV
+========================================================= */
+
 .desktop-nav{
-  display:flex;
-  align-items:center;
-  gap:5px;
-  margin-left:auto;
+
+    display:flex;
+    align-items:center;
+
+    gap:2px;
+
+    margin-left:auto;
 }
 
 .desktop-nav a{
-  padding:10px 12px;
-  border-radius:10px;
-  color:var(--muted);
-  font-size:11px;
-  font-weight:700;
-  transition:.2s ease;
+
+    position:relative;
+
+    padding:11px 10px;
+
+    border-radius:10px;
+
+    color:var(--muted);
+
+    font-size:10px;
+    font-weight:750;
+
+    transition:.2s ease;
 }
 
-.desktop-nav a:hover,
-.desktop-nav a.active{
-  color:var(--gold-200);
-  background:rgba(229,199,125,.07);
+.desktop-nav a:hover{
+
+    color:var(--champagne-200);
+
+    background:
+        rgba(232,207,145,.07);
 }
+
+.desktop-nav a.active{
+
+    color:var(--champagne-200);
+
+    background:
+        rgba(232,207,145,.09);
+}
+
+.desktop-nav a.active:after{
+
+    content:"";
+
+    position:absolute;
+
+    left:12px;
+    right:12px;
+
+    bottom:3px;
+
+    height:2px;
+
+    border-radius:10px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            var(--champagne-300),
+            transparent
+        );
+}
+
+/* =========================================================
+   HEADER ACTIONS
+========================================================= */
 
 .header-actions{
-  display:flex;
-  align-items:center;
-  gap:8px;
+
+    display:flex;
+    align-items:center;
+
+    gap:8px;
+
+    margin-left:4px;
 }
 
 .icon-btn{
-  width:41px;
-  height:41px;
 
-  display:grid;
-  place-items:center;
+    width:41px;
+    height:41px;
 
-  border:1px solid var(--border-light);
-  border-radius:12px;
+    display:grid;
+    place-items:center;
 
-  color:var(--muted);
-  background:rgba(255,255,255,.035);
+    border:
+        1px solid
+        var(--border-light);
 
-  transition:.2s ease;
+    border-radius:12px;
+
+    color:var(--muted);
+
+    background:
+        rgba(255,255,255,.035);
+
+    transition:.2s ease;
 }
 
 .icon-btn:hover{
-  color:var(--gold-200);
-  border-color:rgba(229,199,125,.25);
+
+    color:var(--champagne-200);
+
+    border-color:
+        rgba(232,207,145,.30);
+
+    background:
+        rgba(232,207,145,.06);
+
+    transform:translateY(-1px);
 }
 
-.avatar{
-  width:40px;
-  height:40px;
+.notification-wrap{
+    position:relative;
+}
 
-  display:grid;
-  place-items:center;
+.notification-dot{
 
-  border-radius:50%;
+    position:absolute;
 
-  color:#172016;
-  font-size:12px;
-  font-weight:1000;
+    width:7px;
+    height:7px;
 
-  background:
-    linear-gradient(
-      135deg,
-      var(--gold-200),
-      var(--gold-500)
-    );
+    top:7px;
+    right:7px;
+
+    border-radius:50%;
+
+    background:var(--champagne-300);
+
+    box-shadow:
+        0 0 0 3px var(--plum-900);
+}
+
+/* =========================================================
+   PROFILE MENU
+========================================================= */
+
+.profile-menu{
+
+    min-height:43px;
+
+    display:flex;
+    align-items:center;
+
+    gap:9px;
+
+    padding:3px 8px 3px 4px;
+
+    border:
+        1px solid
+        var(--border-light);
+
+    border-radius:25px;
+
+    background:
+        rgba(255,255,255,.035);
+
+    transition:.2s ease;
+}
+
+.profile-menu:hover{
+
+    border-color:
+        rgba(232,207,145,.28);
+
+    background:
+        rgba(232,207,145,.055);
+}
+
+.profile-menu img{
+
+    width:35px;
+    height:35px;
+
+    object-fit:cover;
+
+    border-radius:50%;
+
+    border:
+        1px solid
+        rgba(232,207,145,.32);
+}
+
+.profile-info{
+    min-width:65px;
+}
+
+.profile-info strong{
+
+    display:block;
+
+    max-width:100px;
+
+    overflow:hidden;
+
+    color:var(--cream);
+
+    font-size:9px;
+    font-weight:900;
+
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
+
+.profile-info small{
+
+    display:block;
+
+    margin-top:2px;
+
+    color:var(--muted-2);
+
+    font-size:7px;
+}
+
+.profile-arrow{
+    color:var(--muted-2);
+    font-size:12px;
 }
 
 .mobile-menu{
-  display:none;
+    display:none;
 }
-
 
 /* =========================================================
-   PAGE HERO
+   PAGE
 ========================================================= */
 
-.page-hero{
-  padding:44px 0 24px;
+.page{
+    padding:43px 0 30px;
 }
 
-.page-hero-card{
-  position:relative;
-  overflow:hidden;
+.page-heading{
 
-  padding:38px;
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
 
-  border:1px solid var(--border);
-  border-radius:var(--radius-xl);
+    gap:25px;
 
-  background:
-    radial-gradient(
-      circle at 90% 0%,
-      rgba(229,199,125,.13),
-      transparent 30%
-    ),
-    radial-gradient(
-      circle at 0% 100%,
-      rgba(44,91,69,.30),
-      transparent 38%
-    ),
-    linear-gradient(
-      145deg,
-      #0a1a12,
-      #10251b 55%,
-      #142d22
-    );
-
-  box-shadow:var(--shadow);
-}
-
-.page-hero-card::after{
-  content:"";
-
-  position:absolute;
-
-  width:300px;
-  height:300px;
-
-  right:-170px;
-  bottom:-180px;
-
-  border-radius:50%;
-
-  border:1px solid rgba(229,199,125,.12);
-
-  box-shadow:
-    0 0 0 40px rgba(229,199,125,.02),
-    0 0 0 80px rgba(229,199,125,.015);
+    margin-bottom:25px;
 }
 
 .eyebrow{
-  color:var(--gold-300);
-  font-size:10px;
-  font-weight:950;
-  letter-spacing:.18em;
-  text-transform:uppercase;
+
+    color:var(--champagne-300);
+
+    font-size:10px;
+    font-weight:950;
+
+    letter-spacing:.18em;
+
+    text-transform:uppercase;
 }
 
-.page-hero h1{
-  margin-top:10px;
+.page-heading h1{
 
-  font-size:
-    clamp(34px,5vw,56px);
+    margin-top:9px;
 
-  line-height:1;
-  letter-spacing:-.055em;
+    font-size:
+        clamp(35px,5vw,58px);
+
+    line-height:1;
+
+    letter-spacing:-.055em;
 }
 
-.page-hero h1 span{
-  color:var(--gold-300);
+.page-heading p{
+
+    max-width:720px;
+
+    margin-top:13px;
+
+    color:var(--muted);
+
+    font-size:12px;
+
+    line-height:1.75;
 }
 
-.page-hero p{
-  max-width:680px;
+.heading-actions{
 
-  margin-top:14px;
-
-  color:var(--muted);
-  font-size:12px;
-  line-height:1.75;
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
 }
-
-
-/* =========================================================
-   PROFILE LAYOUT
-========================================================= */
-
-.profile-layout{
-  display:grid;
-
-  grid-template-columns:
-    .72fr 1.28fr;
-
-  gap:18px;
-
-  padding:20px 0 35px;
-}
-
-
-/* =========================================================
-   PANEL
-========================================================= */
-
-.panel{
-  padding:24px;
-
-  border:1px solid var(--border-light);
-  border-radius:var(--radius-lg);
-
-  background:
-    linear-gradient(
-      145deg,
-      rgba(20,45,34,.95),
-      rgba(11,28,20,.95)
-    );
-
-  box-shadow:
-    0 18px 50px rgba(0,0,0,.12);
-}
-
-.panel-title{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-
-  gap:15px;
-
-  margin-bottom:20px;
-}
-
-.panel-title h2,
-.panel-title h3{
-  font-size:17px;
-  letter-spacing:-.025em;
-}
-
-.panel-title p{
-  margin-top:4px;
-
-  color:var(--muted-2);
-  font-size:9px;
-}
-
-
-/* =========================================================
-   PROFILE SUMMARY
-========================================================= */
-
-.profile-summary{
-  position:relative;
-  overflow:hidden;
-}
-
-.profile-summary::before{
-  content:"";
-
-  position:absolute;
-
-  width:220px;
-  height:220px;
-
-  right:-110px;
-  top:-110px;
-
-  border-radius:50%;
-
-  border:1px solid rgba(229,199,125,.12);
-}
-
-.profile-avatar{
-  width:104px;
-  height:104px;
-
-  display:grid;
-  place-items:center;
-
-  margin-bottom:18px;
-
-  border-radius:30px;
-
-  color:#172016;
-
-  font-size:34px;
-  font-weight:1000;
-
-  background:
-    linear-gradient(
-      135deg,
-      #f4dfaa,
-      #b98b3d
-    );
-
-  box-shadow:
-    0 18px 40px rgba(0,0,0,.25);
-}
-
-.profile-name{
-  font-size:25px;
-  font-weight:900;
-  letter-spacing:-.04em;
-}
-
-.profile-email{
-  margin-top:5px;
-
-  color:var(--muted-2);
-  font-size:10px;
-}
-
-.verification{
-  display:inline-flex;
-
-  align-items:center;
-  gap:7px;
-
-  margin-top:14px;
-  padding:7px 10px;
-
-  border:1px solid rgba(130,201,149,.18);
-  border-radius:9px;
-
-  color:var(--success);
-  background:rgba(130,201,149,.07);
-
-  font-size:8px;
-  font-weight:900;
-  text-transform:uppercase;
-}
-
-.profile-meta{
-  display:grid;
-  gap:10px;
-
-  margin-top:23px;
-}
-
-.meta-item{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-
-  gap:15px;
-
-  padding:12px;
-
-  border-radius:11px;
-
-  background:rgba(255,255,255,.025);
-}
-
-.meta-item span:first-child{
-  color:var(--muted-2);
-  font-size:9px;
-}
-
-.meta-item span:last-child{
-  color:var(--cream);
-  font-size:9px;
-  font-weight:800;
-  text-align:right;
-}
-
-
-/* =========================================================
-   QUICK ACTIONS
-========================================================= */
-
-.quick-actions{
-  display:grid;
-  gap:9px;
-
-  margin-top:20px;
-}
-
-.quick-action{
-  display:flex;
-  align-items:center;
-  gap:10px;
-
-  padding:12px;
-
-  border:1px solid rgba(255,255,255,.07);
-  border-radius:11px;
-
-  color:var(--muted);
-
-  background:rgba(255,255,255,.025);
-
-  font-size:9px;
-  font-weight:800;
-
-  transition:.2s ease;
-}
-
-.quick-action:hover{
-  color:var(--gold-200);
-
-  border-color:
-    rgba(229,199,125,.22);
-
-  transform:translateX(2px);
-}
-
-.quick-action-icon{
-  width:32px;
-  height:32px;
-
-  display:grid;
-  place-items:center;
-
-  flex:0 0 32px;
-
-  border-radius:9px;
-
-  color:var(--gold-300);
-  background:rgba(229,199,125,.08);
-}
-
-
-/* =========================================================
-   FORM
-========================================================= */
-
-.form-grid{
-  display:grid;
-
-  grid-template-columns:
-    1fr 1fr;
-
-  gap:15px;
-}
-
-.form-group{
-  display:flex;
-  flex-direction:column;
-  gap:7px;
-}
-
-.form-group.full{
-  grid-column:1 / -1;
-}
-
-.form-group label{
-  color:var(--muted);
-
-  font-size:9px;
-  font-weight:850;
-
-  letter-spacing:.04em;
-}
-
-.form-control{
-  width:100%;
-  min-height:45px;
-
-  padding:0 13px;
-
-  outline:none;
-
-  border:1px solid rgba(255,255,255,.09);
-  border-radius:11px;
-
-  color:var(--cream);
-
-  background:
-    rgba(255,255,255,.045);
-
-  transition:.2s ease;
-}
-
-textarea.form-control{
-  min-height:100px;
-  padding:12px 13px;
-  resize:vertical;
-}
-
-.form-control:focus{
-  border-color:rgba(229,199,125,.5);
-
-  box-shadow:
-    0 0 0 3px
-    rgba(229,199,125,.06);
-}
-
-.form-control::placeholder{
-  color:rgba(255,255,255,.32);
-}
-
-.form-control:disabled{
-  opacity:.65;
-  cursor:not-allowed;
-}
-
-.form-help{
-  color:var(--muted-2);
-  font-size:8px;
-  line-height:1.5;
-}
-
-.form-actions{
-  display:flex;
-  justify-content:flex-end;
-
-  gap:9px;
-
-  margin-top:20px;
-  padding-top:18px;
-
-  border-top:1px solid rgba(255,255,255,.06);
-}
-
 
 /* =========================================================
    BUTTONS
 ========================================================= */
 
 .btn{
-  min-height:43px;
 
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap:8px;
+    min-height:43px;
 
-  padding:0 16px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
 
-  border:1px solid transparent;
-  border-radius:11px;
+    gap:8px;
 
-  font-size:10px;
-  font-weight:900;
+    padding:0 16px;
 
-  transition:.2s ease;
+    border:
+        1px solid
+        transparent;
+
+    border-radius:11px;
+
+    font-size:10px;
+    font-weight:900;
+
+    transition:.2s ease;
 }
 
 .btn-primary{
-  color:#17170f;
 
-  background:
-    linear-gradient(
-      135deg,
-      #f1dca1,
-      #cda85d
-    );
+    color:#211827;
 
-  box-shadow:
-    0 10px 25px rgba(0,0,0,.18);
+    background:
+        linear-gradient(
+            135deg,
+            #f3dfa7,
+            #cfad60
+        );
+
+    box-shadow:
+        0 8px 22px rgba(0,0,0,.15);
 }
 
 .btn-primary:hover{
-  transform:translateY(-2px);
+    transform:translateY(-2px);
 }
 
 .btn-secondary{
-  color:var(--cream);
 
-  border-color:var(--border-light);
+    color:var(--cream);
 
-  background:rgba(255,255,255,.045);
+    border-color:
+        var(--border-light);
+
+    background:
+        rgba(255,255,255,.045);
 }
 
 .btn-secondary:hover{
-  color:var(--gold-200);
 
-  border-color:
-    rgba(229,199,125,.25);
+    color:var(--champagne-200);
+
+    border-color:
+        rgba(232,207,145,.30);
 }
 
 .btn-danger{
-  color:#ffdede;
 
-  border-color:
-    rgba(233,140,140,.20);
+    color:#ffd8d8;
 
-  background:
-    rgba(233,140,140,.07);
+    border-color:
+        rgba(236,150,150,.22);
+
+    background:
+        rgba(236,150,150,.07);
 }
 
-.btn-danger:hover{
-  border-color:
-    rgba(233,140,140,.35);
+/* =========================================================
+   PROFILE HERO
+========================================================= */
+
+.profile-hero{
+
+    position:relative;
+
+    overflow:hidden;
+
+    padding:25px;
+
+    border:
+        1px solid
+        rgba(232,207,145,.19);
+
+    border-radius:var(--radius-xl);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(64,46,76,.97),
+            rgba(27,20,36,.98)
+        );
+
+    box-shadow:
+        0 18px 55px rgba(0,0,0,.18);
 }
 
+.profile-hero:before{
+
+    content:"";
+
+    position:absolute;
+
+    width:380px;
+    height:380px;
+
+    right:-180px;
+    top:-210px;
+
+    border-radius:50%;
+
+    border:
+        1px solid
+        rgba(232,207,145,.15);
+
+    box-shadow:
+        0 0 0 60px rgba(232,207,145,.022),
+        0 0 0 120px rgba(232,207,145,.012);
+}
+
+.profile-hero-content{
+
+    position:relative;
+    z-index:1;
+
+    display:grid;
+
+    grid-template-columns:
+        auto minmax(0,1fr) auto;
+
+    align-items:center;
+
+    gap:20px;
+}
+
+.avatar-wrap{
+    position:relative;
+}
+
+.profile-avatar{
+
+    width:106px;
+    height:106px;
+
+    display:block;
+
+    object-fit:cover;
+
+    border-radius:28px;
+
+    border:
+        1px solid
+        rgba(232,207,145,.35);
+
+    background:
+        linear-gradient(
+            135deg,
+            #3c2a49,
+            #1b1424
+        );
+
+    box-shadow:
+        0 15px 35px rgba(0,0,0,.25);
+}
+
+.avatar-edit{
+
+    position:absolute;
+
+    right:-7px;
+    bottom:-7px;
+
+    width:34px;
+    height:34px;
+
+    display:grid;
+    place-items:center;
+
+    border:
+        1px solid
+        rgba(232,207,145,.35);
+
+    border-radius:50%;
+
+    color:#211827;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f3dfa7,
+            #cfad60
+        );
+
+    font-size:12px;
+}
+
+.profile-identity .profile-label{
+
+    color:var(--champagne-300);
+
+    font-size:8px;
+    font-weight:950;
+
+    letter-spacing:.15em;
+
+    text-transform:uppercase;
+}
+
+.profile-identity h2{
+
+    margin-top:6px;
+
+    color:var(--cream);
+
+    font-size:27px;
+    font-weight:950;
+
+    letter-spacing:-.035em;
+}
+
+.profile-identity p{
+
+    margin-top:5px;
+
+    color:var(--muted);
+
+    font-size:10px;
+}
+
+.profile-badges{
+
+    display:flex;
+    flex-wrap:wrap;
+
+    gap:7px;
+
+    margin-top:12px;
+}
+
+.badge{
+
+    padding:7px 9px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.08);
+
+    border-radius:8px;
+
+    color:var(--muted);
+
+    background:
+        rgba(255,255,255,.035);
+
+    font-size:7px;
+    font-weight:850;
+}
+
+.badge.verified{
+
+    color:#d8f1df;
+
+    border-color:
+        rgba(145,208,162,.20);
+
+    background:
+        rgba(145,208,162,.08);
+}
+
+.profile-hero-actions{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:stretch;
+
+    gap:8px;
+
+    min-width:160px;
+}
+
+/* =========================================================
+   MAIN PROFILE GRID
+========================================================= */
+
+.profile-layout{
+
+    display:grid;
+
+    grid-template-columns:
+        minmax(0,1.5fr)
+        minmax(280px,.7fr);
+
+    gap:16px;
+
+    margin-top:18px;
+
+    align-items:start;
+}
+
+.main-column,
+.side-column{
+
+    display:grid;
+
+    gap:16px;
+}
+
+/* =========================================================
+   PANELS
+========================================================= */
+
+.panel{
+
+    padding:20px;
+
+    border:
+        1px solid
+        var(--border-light);
+
+    border-radius:var(--radius-lg);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(40,30,53,.95),
+            rgba(27,20,36,.96)
+        );
+
+    box-shadow:
+        0 12px 38px rgba(0,0,0,.10);
+}
+
+.panel-header{
+
+    display:flex;
+
+    align-items:flex-start;
+    justify-content:space-between;
+
+    gap:15px;
+
+    margin-bottom:17px;
+}
+
+.panel-title{
+
+    color:var(--cream);
+
+    font-size:14px;
+    font-weight:950;
+}
+
+.panel-subtitle{
+
+    margin-top:5px;
+
+    color:var(--muted-2);
+
+    font-size:8px;
+
+    line-height:1.55;
+}
+
+.panel-action{
+
+    color:var(--champagne-300);
+
+    font-size:8px;
+    font-weight:900;
+}
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.form-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(2,minmax(0,1fr));
+
+    gap:13px;
+}
+
+.form-group.full{
+    grid-column:1/-1;
+}
+
+.form-label{
+
+    display:block;
+
+    margin-bottom:7px;
+
+    color:var(--muted-2);
+
+    font-size:7px;
+    font-weight:850;
+
+    letter-spacing:.08em;
+
+    text-transform:uppercase;
+}
+
+.input,
+.select,
+.textarea{
+
+    width:100%;
+
+    outline:none;
+
+    color:var(--cream);
+
+    border:
+        1px solid
+        rgba(255,255,255,.09);
+
+    border-radius:10px;
+
+    background:
+        rgba(255,255,255,.035);
+
+    transition:.2s ease;
+}
+
+.input,
+.select{
+
+    height:43px;
+
+    padding:0 12px;
+
+    font-size:9px;
+}
+
+.textarea{
+
+    min-height:100px;
+
+    resize:vertical;
+
+    padding:11px 12px;
+
+    font-size:9px;
+
+    line-height:1.65;
+}
+
+.input::placeholder,
+.textarea::placeholder{
+    color:rgba(255,255,255,.35);
+}
+
+.input:focus,
+.select:focus,
+.textarea:focus{
+
+    border-color:
+        rgba(232,207,145,.46);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(232,207,145,.045);
+}
+
+.select option{
+    color:#211827;
+}
+
+.form-hint{
+
+    margin-top:5px;
+
+    color:var(--muted-2);
+
+    font-size:7px;
+
+    line-height:1.5;
+}
+
+.form-actions{
+
+    display:flex;
+
+    justify-content:flex-end;
+
+    gap:8px;
+
+    margin-top:17px;
+
+    padding-top:15px;
+
+    border-top:
+        1px solid
+        rgba(255,255,255,.06);
+}
+
+/* =========================================================
+   PROFILE STATS
+========================================================= */
+
+.stats-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:9px;
+}
+
+.stat-card{
+
+    padding:15px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.07);
+
+    border-radius:13px;
+
+    background:
+        rgba(255,255,255,.025);
+}
+
+.stat-icon{
+
+    width:32px;
+    height:32px;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:10px;
+
+    color:var(--champagne-300);
+
+    background:
+        rgba(232,207,145,.075);
+
+    font-size:13px;
+}
+
+.stat-value{
+
+    margin-top:11px;
+
+    color:var(--cream);
+
+    font-size:20px;
+    font-weight:950;
+}
+
+.stat-label{
+
+    margin-top:3px;
+
+    color:var(--muted-2);
+
+    font-size:7px;
+}
 
 /* =========================================================
    VERIFICATION
 ========================================================= */
 
-.verification-grid{
-  display:grid;
+.verification-list{
 
-  grid-template-columns:
-    repeat(3,1fr);
+    display:grid;
 
-  gap:10px;
+    gap:9px;
 }
 
-.verification-card{
-  padding:15px;
+.verification-row{
 
-  border:1px solid rgba(255,255,255,.07);
-  border-radius:13px;
+    display:flex;
 
-  background:rgba(255,255,255,.025);
+    align-items:center;
+
+    gap:11px;
+
+    padding:11px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.06);
+
+    border-radius:11px;
+
+    background:
+        rgba(255,255,255,.025);
 }
 
 .verification-icon{
-  width:34px;
-  height:34px;
 
-  display:grid;
-  place-items:center;
+    width:34px;
+    height:34px;
 
-  border-radius:10px;
+    flex-shrink:0;
 
-  color:var(--success);
-  background:rgba(130,201,149,.07);
+    display:grid;
+    place-items:center;
+
+    border-radius:10px;
+
+    font-size:12px;
 }
 
-.verification-card strong{
-  display:block;
+.verification-icon.ok{
 
-  margin-top:10px;
+    color:#d7f1de;
 
-  font-size:10px;
+    background:
+        rgba(145,208,162,.09);
 }
 
-.verification-card span{
-  display:block;
+.verification-icon.pending{
 
-  margin-top:4px;
+    color:#f5dda0;
 
-  color:var(--muted-2);
-  font-size:8px;
+    background:
+        rgba(232,207,145,.09);
 }
 
+.verification-info{
+
+    min-width:0;
+    flex:1;
+}
+
+.verification-info strong{
+
+    display:block;
+
+    color:var(--cream);
+
+    font-size:9px;
+}
+
+.verification-info span{
+
+    display:block;
+
+    margin-top:3px;
+
+    color:var(--muted-2);
+
+    font-size:7px;
+}
+
+.verification-status{
+
+    padding:6px 8px;
+
+    border-radius:7px;
+
+    font-size:7px;
+    font-weight:900;
+}
+
+.verification-status.ok{
+
+    color:#d7f1de;
+
+    background:
+        rgba(145,208,162,.08);
+}
+
+.verification-status.pending{
+
+    color:#f5dda0;
+
+    background:
+        rgba(232,207,145,.08);
+}
 
 /* =========================================================
-   PREFERENCES
+   SELLER PREFERENCES
 ========================================================= */
 
 .preference-list{
-  display:grid;
-  gap:10px;
+
+    display:grid;
+
+    gap:9px;
 }
 
-.preference-item{
-  display:flex;
+.preference-row{
 
-  align-items:center;
-  justify-content:space-between;
+    display:flex;
 
-  gap:20px;
+    align-items:center;
+    justify-content:space-between;
 
-  padding:13px;
+    gap:12px;
 
-  border-radius:12px;
+    padding:12px;
 
-  background:rgba(255,255,255,.025);
+    border:
+        1px solid
+        rgba(255,255,255,.06);
+
+    border-radius:11px;
+
+    background:
+        rgba(255,255,255,.025);
 }
 
 .preference-info strong{
-  display:block;
 
-  font-size:10px;
+    display:block;
+
+    color:var(--cream);
+
+    font-size:9px;
 }
 
 .preference-info span{
-  display:block;
 
-  margin-top:4px;
+    display:block;
 
-  color:var(--muted-2);
+    margin-top:3px;
 
-  font-size:8px;
+    color:var(--muted-2);
+
+    font-size:7px;
+
+    line-height:1.45;
 }
-
-.switch{
-  position:relative;
-
-  width:42px;
-  height:23px;
-
-  flex:0 0 42px;
-}
-
-.switch input{
-  display:none;
-}
-
-.slider{
-  position:absolute;
-  inset:0;
-
-  border-radius:30px;
-
-  background:
-    rgba(255,255,255,.12);
-
-  transition:.2s;
-}
-
-.slider::before{
-  content:"";
-
-  position:absolute;
-
-  width:17px;
-  height:17px;
-
-  left:3px;
-  top:3px;
-
-  border-radius:50%;
-
-  background:#fff;
-
-  transition:.2s;
-}
-
-.switch input:checked + .slider{
-  background:var(--gold-400);
-}
-
-.switch input:checked + .slider::before{
-  transform:translateX(19px);
-  background:#172016;
-}
-
 
 /* =========================================================
-   ALERT
+   TOGGLE
 ========================================================= */
 
-.alert{
-  display:none;
+.toggle{
 
-  margin-bottom:15px;
+    position:relative;
 
-  padding:12px 14px;
+    width:43px;
+    height:24px;
 
-  border-radius:11px;
+    flex-shrink:0;
 
-  font-size:9px;
-  line-height:1.5;
+    border:0;
+
+    border-radius:30px;
+
+    background:
+        rgba(255,255,255,.12);
 }
 
-.alert.show{
-  display:block;
+.toggle:after{
+
+    content:"";
+
+    position:absolute;
+
+    width:18px;
+    height:18px;
+
+    top:3px;
+    left:3px;
+
+    border-radius:50%;
+
+    background:
+        rgba(255,255,255,.72);
+
+    transition:.2s ease;
 }
 
-.alert.success{
-  color:#bce6c8;
+.toggle.active{
 
-  border:1px solid rgba(130,201,149,.18);
-  background:rgba(130,201,149,.07);
+    background:
+        linear-gradient(
+            135deg,
+            #e8cf91,
+            #b38c43
+        );
 }
 
-.alert.error{
-  color:#ffd0d0;
+.toggle.active:after{
 
-  border:1px solid rgba(233,140,140,.18);
-  background:rgba(233,140,140,.07);
+    left:22px;
+
+    background:#241b2f;
 }
 
+/* =========================================================
+   ACCOUNT SECURITY
+========================================================= */
+
+.security-list{
+
+    display:grid;
+
+    gap:8px;
+}
+
+.security-item{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    padding:10px 0;
+
+    border-bottom:
+        1px solid
+        rgba(255,255,255,.055);
+}
+
+.security-item:last-child{
+    border-bottom:0;
+}
+
+.security-symbol{
+
+    width:32px;
+    height:32px;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:9px;
+
+    color:var(--champagne-300);
+
+    background:
+        rgba(232,207,145,.065);
+}
+
+.security-copy{
+    flex:1;
+}
+
+.security-copy strong{
+
+    display:block;
+
+    color:var(--cream);
+
+    font-size:8px;
+}
+
+.security-copy span{
+
+    display:block;
+
+    margin-top:3px;
+
+    color:var(--muted-2);
+
+    font-size:7px;
+}
+
+.security-action{
+
+    color:var(--champagne-300);
+
+    font-size:7px;
+    font-weight:900;
+}
+
+/* =========================================================
+   SELLER SUMMARY
+========================================================= */
+
+.summary-card{
+
+    padding:18px;
+
+    border:
+        1px solid
+        rgba(232,207,145,.17);
+
+    border-radius:var(--radius-lg);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(69,49,82,.85),
+            rgba(27,20,36,.95)
+        );
+}
+
+.summary-label{
+
+    color:var(--champagne-300);
+
+    font-size:7px;
+    font-weight:950;
+
+    letter-spacing:.13em;
+
+    text-transform:uppercase;
+}
+
+.summary-title{
+
+    margin-top:7px;
+
+    color:var(--cream);
+
+    font-size:17px;
+    font-weight:950;
+}
+
+.summary-text{
+
+    margin-top:7px;
+
+    color:var(--muted);
+
+    font-size:8px;
+
+    line-height:1.7;
+}
+
+.progress-wrap{
+    margin-top:16px;
+}
+
+.progress-header{
+
+    display:flex;
+    justify-content:space-between;
+
+    color:var(--muted-2);
+
+    font-size:7px;
+}
+
+.progress{
+
+    height:7px;
+
+    margin-top:7px;
+
+    overflow:hidden;
+
+    border-radius:20px;
+
+    background:
+        rgba(255,255,255,.07);
+}
+
+.progress-bar{
+
+    width:78%;
+    height:100%;
+
+    border-radius:20px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #b8914c,
+            #f1dca1
+        );
+}
+
+/* =========================================================
+   DANGER ZONE
+========================================================= */
+
+.danger-panel{
+
+    border-color:
+        rgba(236,150,150,.14);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(64,34,42,.45),
+            rgba(27,20,36,.94)
+        );
+}
+
+.danger-panel .panel-title{
+    color:#ffdede;
+}
+
+.danger-copy{
+
+    color:var(--muted-2);
+
+    font-size:8px;
+
+    line-height:1.65;
+}
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+.toast{
+
+    position:fixed;
+
+    left:50%;
+    bottom:25px;
+
+    z-index:3000;
+
+    min-width:260px;
+
+    max-width:calc(100% - 30px);
+
+    padding:13px 16px;
+
+    transform:
+        translate(-50%,20px);
+
+    opacity:0;
+
+    pointer-events:none;
+
+    border:
+        1px solid
+        rgba(232,207,145,.25);
+
+    border-radius:12px;
+
+    color:var(--cream);
+
+    background:
+        rgba(27,20,36,.97);
+
+    box-shadow:
+        0 18px 45px rgba(0,0,0,.35);
+
+    font-size:9px;
+
+    transition:.25s ease;
+}
+
+.toast.show{
+
+    opacity:1;
+
+    transform:
+        translate(-50%,0);
+}
 
 /* =========================================================
    FOOTER
 ========================================================= */
 
 .site-footer{
-  margin-top:25px;
 
-  padding:35px 0 25px;
+    position:relative;
 
-  border-top:1px solid rgba(255,255,255,.07);
+    margin-top:55px;
 
-  background:rgba(3,12,8,.35);
+    padding:48px 0 25px;
+
+    border-top:
+        1px solid
+        rgba(232,207,145,.12);
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(9,6,13,.38),
+            rgba(9,6,13,.86)
+        );
+}
+
+.footer-top-line{
+
+    height:1px;
+
+    width:100%;
+
+    margin-bottom:35px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(232,207,145,.22),
+            transparent
+        );
 }
 
 .footer-grid{
-  display:grid;
 
-  grid-template-columns:
-    1.4fr repeat(3,1fr);
+    display:grid;
 
-  gap:25px;
+    grid-template-columns:
+        1.6fr
+        repeat(4,1fr);
+
+    gap:30px;
 }
 
 .footer-brand{
-  max-width:300px;
+    max-width:350px;
+}
+
+.footer-brand .brand-logo{
+
+    width:43px;
+    height:43px;
 }
 
 .footer-brand p{
-  margin-top:10px;
 
-  color:var(--muted-2);
-  font-size:9px;
-  line-height:1.7;
+    margin-top:14px;
+
+    color:var(--muted-2);
+
+    font-size:9px;
+
+    line-height:1.85;
+}
+
+.footer-trust{
+
+    display:flex;
+    flex-wrap:wrap;
+
+    gap:6px;
+
+    margin-top:15px;
+}
+
+.trust-pill{
+
+    padding:6px 9px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.07);
+
+    border-radius:7px;
+
+    color:var(--muted-2);
+
+    background:
+        rgba(255,255,255,.025);
+
+    font-size:7px;
+    font-weight:800;
 }
 
 .footer-col h4{
-  color:var(--gold-200);
-  font-size:9px;
-  letter-spacing:.1em;
-  text-transform:uppercase;
+
+    color:var(--champagne-200);
+
+    font-size:9px;
+
+    letter-spacing:.1em;
+
+    text-transform:uppercase;
 }
 
 .footer-col a{
-  display:block;
 
-  margin-top:9px;
+    display:block;
 
-  color:var(--muted-2);
-  font-size:9px;
+    margin-top:11px;
+
+    color:var(--muted-2);
+
+    font-size:9px;
+
+    transition:.2s ease;
 }
 
 .footer-col a:hover{
-  color:var(--gold-300);
+
+    color:var(--champagne-300);
+
+    transform:translateX(2px);
+}
+
+.footer-contact{
+
+    display:flex;
+    align-items:center;
+
+    gap:8px;
+
+    margin-top:18px;
+    padding-top:14px;
+
+    border-top:
+        1px solid
+        rgba(255,255,255,.06);
+}
+
+.footer-contact-icon{
+
+    width:30px;
+    height:30px;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:9px;
+
+    color:var(--champagne-300);
+
+    background:
+        rgba(232,207,145,.07);
+}
+
+.footer-contact-text span{
+
+    display:block;
+
+    color:var(--muted-2);
+
+    font-size:7px;
+}
+
+.footer-contact-text strong{
+
+    display:block;
+
+    margin-top:2px;
+
+    color:var(--cream);
+
+    font-size:8px;
 }
 
 .footer-bottom{
-  display:flex;
-  justify-content:space-between;
 
-  gap:15px;
+    display:flex;
 
-  margin-top:28px;
-  padding-top:17px;
+    justify-content:space-between;
 
-  border-top:1px solid rgba(255,255,255,.06);
+    gap:15px;
 
-  color:var(--muted-2);
-  font-size:8px;
+    margin-top:32px;
+    padding-top:19px;
+
+    border-top:
+        1px solid
+        rgba(255,255,255,.06);
+
+    color:var(--muted-2);
+
+    font-size:8px;
 }
 
-
 /* =========================================================
-   AI BUTTON
+   AI
 ========================================================= */
 
 .ai-floating{
-  position:fixed;
 
-  right:22px;
-  bottom:22px;
+    position:fixed;
 
-  z-index:90;
+    right:22px;
+    bottom:22px;
 
-  min-height:48px;
+    z-index:900;
 
-  display:flex;
-  align-items:center;
-  gap:8px;
+    min-height:50px;
 
-  padding:0 16px;
+    display:flex;
+    align-items:center;
 
-  border:1px solid rgba(229,199,125,.25);
-  border-radius:30px;
+    gap:9px;
 
-  color:#17170f;
+    padding:0 18px;
 
-  background:
-    linear-gradient(
-      135deg,
-      var(--gold-200),
-      var(--gold-400)
-    );
+    border:
+        1px solid
+        rgba(232,207,145,.28);
 
-  box-shadow:
-    0 15px 35px rgba(0,0,0,.3);
+    border-radius:30px;
 
-  font-size:10px;
-  font-weight:1000;
+    color:#211827;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--champagne-200),
+            var(--champagne-400)
+        );
+
+    box-shadow:
+        0 15px 35px rgba(0,0,0,.30);
+
+    font-size:10px;
+    font-weight:1000;
+
+    transition:.2s ease;
 }
 
+.ai-floating:hover{
+    transform:translateY(-3px);
+}
+
+.ai-icon{
+
+    width:27px;
+    height:27px;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:50%;
+
+    background:
+        rgba(0,0,0,.10);
+}
+
+/* =========================================================
+   MOBILE NAV
+========================================================= */
+
+.mobile-nav-panel{
+
+    display:none;
+
+    position:fixed;
+
+    left:14px;
+    right:14px;
+    top:78px;
+
+    z-index:999;
+
+    padding:10px;
+
+    border:
+        1px solid
+        rgba(232,207,145,.17);
+
+    border-radius:18px;
+
+    background:
+        rgba(27,20,36,.98);
+
+    box-shadow:
+        0 25px 70px rgba(0,0,0,.45);
+
+    backdrop-filter:blur(22px);
+}
+
+.mobile-nav-panel.open{
+    display:block;
+}
+
+.mobile-nav-panel a{
+
+    display:flex;
+
+    align-items:center;
+    justify-content:space-between;
+
+    padding:13px 12px;
+
+    border-radius:10px;
+
+    color:var(--muted);
+
+    font-size:10px;
+    font-weight:750;
+}
+
+.mobile-nav-panel a:hover,
+.mobile-nav-panel a.active{
+
+    color:var(--champagne-200);
+
+    background:
+        rgba(232,207,145,.07);
+}
+
+.mobile-profile{
+
+    display:flex;
+    align-items:center;
+
+    gap:10px;
+
+    margin-bottom:8px;
+    padding:10px;
+
+    border-bottom:
+        1px solid
+        rgba(255,255,255,.06);
+}
+
+.mobile-profile img{
+
+    width:38px;
+    height:38px;
+
+    border-radius:50%;
+
+    object-fit:cover;
+
+    border:
+        1px solid
+        rgba(232,207,145,.25);
+}
+
+.mobile-profile strong{
+
+    display:block;
+
+    color:var(--cream);
+
+    font-size:10px;
+}
+
+.mobile-profile span{
+
+    display:block;
+
+    margin-top:3px;
+
+    color:var(--muted-2);
+
+    font-size:7px;
+}
 
 /* =========================================================
    RESPONSIVE
 ========================================================= */
 
-@media(max-width:1100px){
+@media(max-width:1240px){
 
-  .desktop-nav{
-    display:none;
-  }
+    .desktop-nav{
+        display:none;
+    }
 
-  .mobile-menu{
-    display:grid;
-  }
+    .mobile-menu{
+        display:grid;
+    }
 
-  .profile-layout{
-    grid-template-columns:1fr;
-  }
+    .footer-grid{
+        grid-template-columns:
+            1.5fr
+            repeat(3,1fr);
+    }
+}
 
+@media(max-width:1050px){
+
+    .profile-layout{
+        grid-template-columns:1fr;
+    }
+
+    .profile-hero-content{
+        grid-template-columns:
+            auto minmax(0,1fr);
+    }
+
+    .profile-hero-actions{
+
+        grid-column:1/-1;
+
+        flex-direction:row;
+
+        min-width:0;
+    }
+
+    .profile-hero-actions .btn{
+        flex:1;
+    }
+
+    .profile-info,
+    .profile-arrow{
+        display:none;
+    }
+
+    .profile-menu{
+        padding:3px;
+
+        border-radius:50%;
+
+        border-color:transparent;
+
+        background:transparent;
+    }
 }
 
 @media(max-width:800px){
 
-  .container{
-    width:min(
-      calc(100% - 28px),
-      var(--container)
-    );
-  }
+    .container{
 
-  .page-hero-card{
-    padding:28px;
-  }
+        width:min(
+            calc(100% - 28px),
+            var(--container)
+        );
+    }
 
-  .form-grid{
-    grid-template-columns:1fr;
-  }
+    .page-heading{
 
-  .form-group.full{
-    grid-column:auto;
-  }
+        align-items:flex-start;
 
-  .verification-grid{
-    grid-template-columns:1fr;
-  }
+        flex-direction:column;
+    }
 
-  .footer-grid{
-    grid-template-columns:1fr 1fr;
-  }
+    .form-grid{
+        grid-template-columns:1fr;
+    }
 
+    .form-group.full{
+        grid-column:auto;
+    }
+
+    .stats-grid{
+        grid-template-columns:
+            repeat(3,1fr);
+    }
+
+    .footer-grid{
+        grid-template-columns:1fr 1fr;
+    }
 }
 
-@media(max-width:560px){
+@media(max-width:600px){
 
-  .header-inner{
-    min-height:68px;
-  }
+    .header-inner{
+        min-height:68px;
+    }
 
-  .brand-text span{
-    display:none;
-  }
+    .brand-text span{
+        display:none;
+    }
 
-  .header-actions .icon-btn{
-    display:none;
-  }
+    .header-actions .notification-wrap{
+        display:none;
+    }
 
-  .page-hero{
-    padding-top:25px;
-  }
+    .brand-logo{
 
-  .page-hero-card{
-    padding:24px;
-    border-radius:22px;
-  }
+        width:42px;
+        height:42px;
 
-  .page-hero h1{
-    font-size:37px;
-  }
+        border-radius:12px;
+    }
 
-  .panel{
-    padding:18px;
-  }
+    .page{
+        padding-top:28px;
+    }
 
-  .form-actions{
-    flex-direction:column;
-  }
+    .profile-hero{
+        padding:18px;
+    }
 
-  .form-actions .btn{
-    width:100%;
-  }
+    .profile-hero-content{
+        grid-template-columns:1fr;
+        text-align:center;
+    }
 
-  .footer-grid{
-    grid-template-columns:1fr;
-  }
+    .avatar-wrap{
+        margin:auto;
+    }
 
-  .footer-bottom{
-    flex-direction:column;
-  }
+    .profile-badges{
+        justify-content:center;
+    }
 
-  .ai-floating{
-    right:14px;
-    bottom:14px;
-  }
+    .profile-hero-actions{
+        width:100%;
+    }
 
+    .stats-grid{
+        grid-template-columns:1fr;
+    }
+
+    .form-actions{
+        flex-direction:column;
+    }
+
+    .form-actions .btn{
+        width:100%;
+    }
+
+    .footer-grid{
+        grid-template-columns:1fr;
+    }
+
+    .footer-bottom{
+        flex-direction:column;
+    }
+
+    .ai-floating{
+
+        right:14px;
+        bottom:14px;
+    }
+
+    .ai-floating .ai-text{
+        display:none;
+    }
 }
 
 </style>
+
 </head>
 
 <body>
 
 <div class="page-glow"></div>
 
-
-<!-- =========================================================
+<!-- =======================================================
      HEADER
-========================================================= -->
+======================================================= -->
 
 <header class="site-header">
 
-  <div class="container header-inner">
+<div class="container header-inner">
 
-    <a
-      class="brand"
-      href="/seller/index.html"
-      aria-label="GHAR Seller Home"
-    >
+<a
+    class="brand"
+    href="/seller/index.html"
+    aria-label="GHAR Seller Home"
+>
 
-      <div class="brand-mark">
-        G
-      </div>
+<div class="brand-logo">
 
-      <div class="brand-text">
+<img
+    src="../assets/images/logo/ghar-logo-light.svg"
+    alt="GHAR"
+    onerror="
+        this.style.display='none';
+        this.nextElementSibling.style.display='grid';
+    "
+>
 
-        <strong>GHAR</strong>
+<div
+    class="brand-logo-fallback"
+    style="display:none"
+>
+    G
+</div>
 
-        <span>
-          Seller Experience
-        </span>
+</div>
 
-      </div>
+<div class="brand-text">
 
-    </a>
+<strong>GHAR</strong>
 
+<span>Seller Experience</span>
 
-    <nav
-      class="desktop-nav"
-      aria-label="Seller navigation"
-    >
+</div>
 
-      <a href="/seller/index.html">
-        Home
-      </a>
+</a>
 
-      <a href="/seller/dashboard.html">
-        Dashboard
-      </a>
+<nav
+    class="desktop-nav"
+    aria-label="Seller navigation"
+>
 
-      <a href="/seller/list-property.html">
-        List Property
-      </a>
+<a href="/seller/index.html">
+    Dashboard
+</a>
 
-      <a href="/seller/visits.html">
-        Visits
-      </a>
+<a href="/seller/about.html">
+    About
+</a>
 
-      <a href="/seller/leads.html">
-        Leads
-      </a>
+<a href="/seller/list-property.html">
+    List Property
+</a>
 
-      <a href="/seller/offers.html">
-        Offers
-      </a>
+<a href="/seller/applications.html">
+    Applications
+</a>
 
-      <a href="/seller/payments.html">
-        Payments
-      </a>
+<a href="/seller/leads.html">
+    Leads
+</a>
 
-      <a
-        class="active"
-        href="/seller/profile.html"
-      >
-        Profile
-      </a>
+<a href="/seller/messages.html">
+    Messages
+</a>
 
-    </nav>
+<a href="/seller/offers.html">
+    Offers
+</a>
 
+<a href="/seller/payments.html">
+    Payments
+</a>
 
-    <div class="header-actions">
+<a
+    class="active"
+    href="/seller/profile.html"
+>
+    Profile
+</a>
 
-      <button
-        class="icon-btn"
-        id="notificationButton"
-        type="button"
-        aria-label="Notifications"
-      >
-        ♢
-      </button>
+</nav>
 
-      <div
-        class="avatar"
-        id="headerAvatar"
-      >
-        S
-      </div>
+<div class="header-actions">
 
-      <button
-        class="icon-btn mobile-menu"
-        id="menuButton"
-        type="button"
-        aria-label="Open menu"
-      >
-        ☰
-      </button>
+<div class="notification-wrap">
 
-    </div>
+<button
+    class="icon-btn"
+    id="notificationButton"
+    type="button"
+    aria-label="Notifications"
+>
+    ♢
+</button>
 
-  </div>
+<span
+    class="notification-dot"
+    aria-hidden="true"
+></span>
+
+</div>
+
+<a
+    class="profile-menu"
+    href="/seller/profile.html"
+>
+
+<img
+    id="profileImage"
+    src="../assets/images/profile/seller-default.jpg"
+    alt="Seller profile"
+    onerror="
+        this.src='../assets/images/profile/default-avatar.jpg'
+    "
+>
+
+<span class="profile-info">
+
+<strong id="profileName">
+    Seller
+</strong>
+
+<small>
+    My account
+</small>
+
+</span>
+
+<span class="profile-arrow">
+    ⌄
+</span>
+
+</a>
+
+<button
+    class="icon-btn mobile-menu"
+    id="menuButton"
+    type="button"
+    aria-label="Open seller menu"
+    aria-expanded="false"
+>
+    ☰
+</button>
+
+</div>
+
+</div>
 
 </header>
 
+<!-- =======================================================
+     MOBILE NAV
+======================================================= -->
+
+<div
+    class="mobile-nav-panel"
+    id="mobileNav"
+>
+
+<div class="mobile-profile">
+
+<img
+    id="mobileProfileImage"
+    src="../assets/images/profile/seller-default.jpg"
+    alt="Seller profile"
+    onerror="
+        this.src='../assets/images/profile/default-avatar.jpg'
+    "
+>
+
+<div>
+
+<strong id="mobileProfileName">
+    Seller
+</strong>
+
+<span>
+    GHAR Seller Account
+</span>
+
+</div>
+
+</div>
+
+<a href="/seller/index.html">
+    Dashboard <span>›</span>
+</a>
+
+<a href="/seller/about.html">
+    About <span>›</span>
+</a>
+
+<a href="/seller/list-property.html">
+    List Property <span>›</span>
+</a>
+
+<a href="/seller/applications.html">
+    Applications <span>›</span>
+</a>
+
+<a href="/seller/leads.html">
+    Leads <span>›</span>
+</a>
+
+<a href="/seller/messages.html">
+    Messages <span>›</span>
+</a>
+
+<a href="/seller/notifications.html">
+    Notifications <span>›</span>
+</a>
+
+<a href="/seller/offers.html">
+    Offers <span>›</span>
+</a>
+
+<a href="/seller/payments.html">
+    Payments <span>›</span>
+</a>
+
+<a
+    class="active"
+    href="/seller/profile.html"
+>
+    Profile <span>›</span>
+</a>
+
+<a href="/seller/settings.html">
+    Settings <span>›</span>
+</a>
+
+</div>
+
+<!-- =======================================================
+     MAIN
+======================================================= -->
 
 <main>
 
+<section class="page">
 
-<!-- =========================================================
-     PAGE HERO
-========================================================= -->
+<div class="container">
 
-<section class="page-hero">
+<!-- =====================================================
+     PAGE HEADING
+====================================================== -->
 
-  <div class="container">
+<div class="page-heading">
 
-    <div class="page-hero-card">
+<div>
 
-      <div class="eyebrow">
-        SELLER ACCOUNT
-      </div>
+<div class="eyebrow">
+    SELLER ACCOUNT
+</div>
 
-      <h1>
-        Manage your
-        <span>seller profile.</span>
-      </h1>
+<h1>
+    Your seller profile.
+</h1>
 
-      <p>
-        Keep your personal information, contact details,
-        verification status and seller preferences up to date
-        so GHAR can provide a smoother property-selling
-        experience.
-      </p>
+<p>
+    Manage your seller identity, contact information,
+    verification status, communication preferences and
+    account security from one connected GHAR profile.
+</p>
 
-    </div>
+</div>
 
-  </div>
+<div class="heading-actions">
+
+<a
+    class="btn btn-secondary"
+    href="/seller/settings.html"
+>
+    Account settings
+</a>
+
+<a
+    class="btn btn-primary"
+    href="/seller/list-property.html"
+>
+    + List a property
+</a>
+
+</div>
+
+</div>
+
+<!-- =====================================================
+     PROFILE HERO
+====================================================== -->
+
+<section class="profile-hero">
+
+<div class="profile-hero-content">
+
+<div class="avatar-wrap">
+
+<img
+    id="heroProfileImage"
+    class="profile-avatar"
+    src="../assets/images/profile/seller-default.jpg"
+    alt="Seller profile"
+    onerror="
+        this.src='../assets/images/profile/default-avatar.jpg'
+    "
+>
+
+<button
+    id="avatarButton"
+    class="avatar-edit"
+    type="button"
+    title="Change profile photo"
+    aria-label="Change profile photo"
+>
+    ✎
+</button>
+
+</div>
+
+<div class="profile-identity">
+
+<div class="profile-label">
+    GHAR SELLER
+</div>
+
+<h2 id="heroProfileName">
+    Seller
+</h2>
+
+<p id="heroProfileContact">
+    Manage your seller account and property portfolio.
+</p>
+
+<div class="profile-badges">
+
+<span
+    id="verificationBadge"
+    class="badge verified"
+>
+    ✓ Profile active
+</span>
+
+<span class="badge">
+    Property Seller
+</span>
+
+<span
+    id="memberSinceBadge"
+    class="badge"
+>
+    GHAR Member
+</span>
+
+</div>
+
+</div>
+
+<div class="profile-hero-actions">
+
+<button
+    id="saveTopButton"
+    class="btn btn-primary"
+    type="button"
+>
+    Save profile
+</button>
+
+<a
+    class="btn btn-secondary"
+    href="/seller/settings.html"
+>
+    Security & settings
+</a>
+
+</div>
+
+</div>
 
 </section>
 
+<!-- =====================================================
+     PROFILE CONTENT
+====================================================== -->
 
-<!-- =========================================================
-     PROFILE
-========================================================= -->
+<div class="profile-layout">
 
-<section>
+<div class="main-column">
 
-  <div class="container">
+<!-- ===================================================
+     PERSONAL INFORMATION
+==================================================== -->
 
-    <div
-      id="alertBox"
-      class="alert"
-      role="alert"
-    ></div>
+<section class="panel">
 
+<div class="panel-header">
 
-    <div class="profile-layout">
+<div>
 
+<div class="panel-title">
+    Personal information
+</div>
 
-      <!-- ===================================================
-           LEFT
-      ==================================================== -->
+<div class="panel-subtitle">
+    Keep your identity and contact details current
+    for buyers, verification and GHAR communications.
+</div>
 
-      <aside>
+</div>
 
+<span class="panel-action">
+    EDITABLE
+</span>
 
-        <!-- PROFILE SUMMARY -->
+</div>
 
-        <div class="panel profile-summary">
+<form id="profileForm">
 
-          <div
-            class="profile-avatar"
-            id="profileAvatar"
-          >
-            S
-          </div>
+<div class="form-grid">
 
-          <div
-            class="profile-name"
-            id="profileName"
-          >
-            Seller
-          </div>
+<div class="form-group">
 
-          <div
-            class="profile-email"
-            id="profileEmail"
-          >
-            seller@ghar.in
-          </div>
+<label
+    class="form-label"
+    for="fullName"
+>
+    Full name
+</label>
 
-          <div
-            class="verification"
-            id="verificationStatus"
-          >
-            ✓ Verified Seller
-          </div>
+<input
+    id="fullName"
+    class="input"
+    type="text"
+    autocomplete="name"
+    placeholder="Enter your full name"
+>
 
+</div>
 
-          <div class="profile-meta">
+<div class="form-group">
 
-            <div class="meta-item">
+<label
+    class="form-label"
+    for="displayName"
+>
+    Display name
+</label>
 
-              <span>
-                Account type
-              </span>
+<input
+    id="displayName"
+    class="input"
+    type="text"
+    autocomplete="nickname"
+    placeholder="Name shown on GHAR"
+>
 
-              <span id="accountType">
-                Seller
-              </span>
+</div>
 
-            </div>
+<div class="form-group">
 
-            <div class="meta-item">
+<label
+    class="form-label"
+    for="email"
+>
+    Email address
+</label>
 
-              <span>
-                Seller ID
-              </span>
+<input
+    id="email"
+    class="input"
+    type="email"
+    autocomplete="email"
+    placeholder="you@example.com"
+>
+
+<div class="form-hint">
+    Used for account communication and important notifications.
+</div>
+
+</div>
 
-              <span id="sellerId">
-                GHAR-SELLER
-              </span>
+<div class="form-group">
+
+<label
+    class="form-label"
+    for="phone"
+>
+    Phone number
+</label>
+
+<input
+    id="phone"
+    class="input"
+    type="tel"
+    autocomplete="tel"
+    placeholder="+91 XXXXX XXXXX"
+>
+
+</div>
+
+<div class="form-group">
+
+<label
+    class="form-label"
+    for="sellerType"
+>
+    Seller type
+</label>
+
+<select
+    id="sellerType"
+    class="select"
+>
+
+<option value="individual">
+    Individual seller
+</option>
+
+<option value="owner">
+    Property owner
+</option>
+
+<option value="investor">
+    Investor
+</option>
+
+<option value="broker">
+    Broker / Agent
+</option>
+
+<option value="developer">
+    Developer / Builder
+</option>
+
+<option value="company">
+    Company / Organization
+</option>
+
+</select>
+
+</div>
+
+<div class="form-group">
+
+<label
+    class="form-label"
+    for="city"
+>
+    City
+</label>
+
+<input
+    id="city"
+    class="input"
+    type="text"
+    autocomplete="address-level2"
+    placeholder="City"
+>
+
+</div>
+
+<div class="form-group">
+
+<label
+    class="form-label"
+    for="state"
+>
+    State
+</label>
+
+<input
+    id="state"
+    class="input"
+    type="text"
+    autocomplete="address-level1"
+    placeholder="State"
+>
 
-            </div>
+</div>
 
-            <div class="meta-item">
+<div class="form-group">
 
-              <span>
-                Member since
-              </span>
+<label
+    class="form-label"
+    for="pincode"
+>
+    Pincode
+</label>
+
+<input
+    id="pincode"
+    class="input"
+    inputmode="numeric"
+    autocomplete="postal-code"
+    placeholder="Pincode"
+>
 
-              <span id="memberSince">
-                --
-              </span>
+</div>
 
-            </div>
+<div class="form-group full">
 
-            <div class="meta-item">
+<label
+    class="form-label"
+    for="address"
+>
+    Address
+</label>
+
+<textarea
+    id="address"
+    class="textarea"
+    autocomplete="street-address"
+    placeholder="Enter your correspondence address"
+></textarea>
 
-              <span>
-                Properties listed
-              </span>
+</div>
 
-              <span id="propertyCount">
-                0
-              </span>
+</div>
 
-            </div>
+<div class="form-actions">
 
-          </div>
+<button
+    id="resetProfile"
+    class="btn btn-secondary"
+    type="button"
+>
+    Reset
+</button>
 
+<button
+    class="btn btn-primary"
+    type="submit"
+>
+    Save changes
+</button>
 
-          <div class="quick-actions">
+</div>
 
-            <a
-              class="quick-action"
-              href="/seller/list-property.html"
-            >
+</form>
 
-              <span class="quick-action-icon">
-                +
-              </span>
+</section>
 
-              List a new property
+<!-- ===================================================
+     SELLER STATS
+==================================================== -->
 
-            </a>
+<section class="panel">
 
+<div class="panel-header">
 
-            <a
-              class="quick-action"
-              href="/seller/dashboard.html"
-            >
+<div>
 
-              <span class="quick-action-icon">
-                ◈
-              </span>
+<div class="panel-title">
+    Seller performance
+</div>
 
-              Open seller dashboard
+<div class="panel-subtitle">
+    A quick overview of your GHAR marketplace activity.
+</div>
 
-            </a>
+</div>
 
+<a
+    class="panel-action"
+    href="/seller/index.html"
+>
+    VIEW DASHBOARD →
+</a>
 
-            <a
-              class="quick-action"
-              href="/seller/property-approval.html"
-            >
+</div>
 
-              <span class="quick-action-icon">
-                ✓
-              </span>
+<div class="stats-grid">
 
-              Property approvals
+<div class="stat-card">
 
-            </a>
+<div class="stat-icon">
+    ◈
+</div>
 
+<div
+    id="statProperties"
+    class="stat-value"
+>
+    0
+</div>
 
-            <a
-              class="quick-action"
-              href="/seller/support.html"
-            >
+<div class="stat-label">
+    Properties listed
+</div>
 
-              <span class="quick-action-icon">
-                ?
-              </span>
+</div>
 
-              Contact GHAR support
+<div class="stat-card">
 
-            </a>
+<div class="stat-icon">
+    ◇
+</div>
 
-          </div>
+<div
+    id="statLeads"
+    class="stat-value"
+>
+    0
+</div>
 
-        </div>
+<div class="stat-label">
+    Buyer leads
+</div>
 
+</div>
 
-        <!-- VERIFICATION -->
+<div class="stat-card">
 
-        <div
-          class="panel"
-          style="margin-top:16px"
-        >
+<div class="stat-icon">
+    ✓
+</div>
 
-          <div class="panel-title">
+<div
+    id="statOffers"
+    class="stat-value"
+>
+    0
+</div>
 
-            <div>
+<div class="stat-label">
+    Offers received
+</div>
 
-              <h3>
-                Verification
-              </h3>
+</div>
 
-              <p>
-                Your seller verification status.
-              </p>
+</div>
 
-            </div>
+</section>
 
-          </div>
+<!-- ===================================================
+     PREFERENCES
+==================================================== -->
 
+<section class="panel">
 
-          <div class="verification-grid">
+<div class="panel-header">
 
-            <div class="verification-card">
+<div>
 
-              <div class="verification-icon">
-                ✓
-              </div>
+<div class="panel-title">
+    Communication preferences
+</div>
 
-              <strong>
-                Identity
-              </strong>
+<div class="panel-subtitle">
+    Control how GHAR contacts you about your seller activity.
+</div>
 
-              <span id="identityStatus">
-                Verified
-              </span>
+</div>
 
-            </div>
+</div>
 
+<div class="preference-list">
 
-            <div class="verification-card">
+<div class="preference-row">
 
-              <div class="verification-icon">
-                ✓
-              </div>
+<div class="preference-info">
 
-              <strong>
-                Contact
-              </strong>
+<strong>
+    Email notifications
+</strong>
 
-              <span id="contactStatus">
-                Verified
-              </span>
+<span>
+    Receive property, lead, offer and account updates by email.
+</span>
 
-            </div>
+</div>
 
+<button
+    class="toggle active"
+    type="button"
+    data-setting="emailNotifications"
+    aria-label="Toggle email notifications"
+    aria-pressed="true"
+></button>
 
-            <div class="verification-card">
+</div>
 
-              <div class="verification-icon">
-                ✓
-              </div>
+<div class="preference-row">
 
-              <strong>
-                Account
-              </strong>
+<div class="preference-info">
 
-              <span id="accountStatus">
-                Active
-              </span>
+<strong>
+    SMS notifications
+</strong>
 
-            </div>
+<span>
+    Receive important seller alerts and verification updates.
+</span>
 
-          </div>
+</div>
 
-        </div>
+<button
+    class="toggle active"
+    type="button"
+    data-setting="smsNotifications"
+    aria-label="Toggle SMS notifications"
+    aria-pressed="true"
+></button>
 
-      </aside>
+</div>
 
+<div class="preference-row">
 
-      <!-- ===================================================
-           RIGHT
-      ==================================================== -->
+<div class="preference-info">
 
-      <div>
+<strong>
+    Buyer lead alerts
+</strong>
 
+<span>
+    Get notified when a buyer expresses interest in your listings.
+</span>
 
-        <!-- PERSONAL DETAILS -->
+</div>
 
-        <div class="panel">
+<button
+    class="toggle active"
+    type="button"
+    data-setting="leadAlerts"
+    aria-label="Toggle buyer lead alerts"
+    aria-pressed="true"
+></button>
 
-          <div class="panel-title">
+</div>
 
-            <div>
+<div class="preference-row">
 
-              <h2>
-                Personal information
-              </h2>
+<div class="preference-info">
 
-              <p>
-                Update the information associated with your GHAR account.
-              </p>
+<strong>
+    Offer alerts
+</strong>
 
-            </div>
+<span>
+    Receive immediate notifications for new property offers.
+</span>
 
-          </div>
+</div>
 
+<button
+    class="toggle active"
+    type="button"
+    data-setting="offerAlerts"
+    aria-label="Toggle offer alerts"
+    aria-pressed="true"
+></button>
 
-          <form
-            id="profileForm"
-            novalidate
-          >
+</div>
 
-            <div class="form-grid">
+</div>
 
+</section>
 
-              <div class="form-group">
+</div>
 
-                <label for="firstName">
-                  First name
-                </label>
+<!-- =====================================================
+     SIDE COLUMN
+====================================================== -->
 
-                <input
-                  id="firstName"
-                  class="form-control"
-                  name="firstName"
-                  type="text"
-                  placeholder="First name"
-                  autocomplete="given-name"
-                  required
-                >
+<aside class="side-column">
 
-              </div>
+<!-- ===================================================
+     ACCOUNT COMPLETION
+==================================================== -->
 
+<section class="summary-card">
 
-              <div class="form-group">
+<div class="summary-label">
+    PROFILE HEALTH
+</div>
 
-                <label for="lastName">
-                  Last name
-                </label>
+<div class="summary-title">
+    Complete your seller profile.
+</div>
 
-                <input
-                  id="lastName"
-                  class="form-control"
-                  name="lastName"
-                  type="text"
-                  placeholder="Last name"
-                  autocomplete="family-name"
-                >
+<div class="summary-text">
+    A complete seller profile can make your account
+    easier to verify and helps keep property workflows
+    connected to accurate information.
+</div>
 
-              </div>
+<div class="progress-wrap">
 
+<div class="progress-header">
 
-              <div class="form-group">
+<span>
+    Profile completion
+</span>
 
-                <label for="email">
-                  Email address
-                </label>
+<strong id="profileCompletion">
+    78%
+</strong>
 
-                <input
-                  id="email"
-                  class="form-control"
-                  name="email"
-                  type="email"
-                  placeholder="you@example.com"
-                  autocomplete="email"
-                  required
-                >
+</div>
 
-              </div>
+<div class="progress">
 
+<div
+    id="profileProgress"
+    class="progress-bar"
+></div>
 
-              <div class="form-group">
+</div>
 
-                <label for="phone">
-                  Phone number
-                </label>
+</div>
 
-                <input
-                  id="phone"
-                  class="form-control"
-                  name="phone"
-                  type="tel"
-                  placeholder="+91 XXXXX XXXXX"
-                  autocomplete="tel"
-                >
+</section>
 
-              </div>
+<!-- ===================================================
+     VERIFICATION
+==================================================== -->
 
+<section class="panel">
 
-              <div class="form-group">
+<div class="panel-header">
 
-                <label for="sellerType">
-                  Seller type
-                </label>
+<div>
 
-                <select
-                  id="sellerType"
-                  class="form-control"
-                  name="sellerType"
-                >
+<div class="panel-title">
+    Verification
+</div>
 
-                  <option value="individual">
-                    Individual Seller
-                  </option>
+<div class="panel-subtitle">
+    Seller identity and account verification status.
+</div>
 
-                  <option value="owner">
-                    Property Owner
-                  </option>
+</div>
 
-                  <option value="investor">
-                    Investor
-                  </option>
+<a
+    class="panel-action"
+    href="/seller/documents.html"
+>
+    DOCUMENTS →
+</a>
 
-                  <option value="builder">
-                    Builder / Developer
-                  </option>
+</div>
 
-                  <option value="agent">
-                    Real Estate Agent
-                  </option>
+<div class="verification-list">
 
-                  <option value="company">
-                    Company
-                  </option>
+<div class="verification-row">
 
-                </select>
+<div class="verification-icon ok">
+    ✓
+</div>
 
-              </div>
+<div class="verification-info">
 
+<strong>
+    Email verification
+</strong>
 
-              <div class="form-group">
+<span id="emailVerificationText">
+    Account email status
+</span>
 
-                <label for="city">
-                  City
-                </label>
+</div>
 
-                <input
-                  id="city"
-                  class="form-control"
-                  name="city"
-                  type="text"
-                  placeholder="Noida"
-                  autocomplete="address-level2"
-                >
+<span
+    id="emailVerificationStatus"
+    class="verification-status ok"
+>
+    Active
+</span>
 
-              </div>
+</div>
 
+<div class="verification-row">
 
-              <div class="form-group full">
+<div class="verification-icon ok">
+    ✓
+</div>
 
-                <label for="address">
-                  Address
-                </label>
+<div class="verification-info">
 
-                <textarea
-                  id="address"
-                  class="form-control"
-                  name="address"
-                  placeholder="Enter your correspondence address"
-                  autocomplete="street-address"
-                ></textarea>
+<strong>
+    Phone verification
+</strong>
 
-              </div>
+<span id="phoneVerificationText">
+    Account phone status
+</span>
 
+</div>
 
-              <div class="form-group">
+<span
+    id="phoneVerificationStatus"
+    class="verification-status ok"
+>
+    Active
+</span>
 
-                <label for="state">
-                  State
-                </label>
+</div>
 
-                <input
-                  id="state"
-                  class="form-control"
-                  name="state"
-                  type="text"
-                  placeholder="Uttar Pradesh"
-                  autocomplete="address-level1"
-                >
+<div class="verification-row">
 
-              </div>
+<div class="verification-icon pending">
+    ◌
+</div>
 
+<div class="verification-info">
 
-              <div class="form-group">
+<strong>
+    Identity documents
+</strong>
 
-                <label for="pincode">
-                  Pincode
-                </label>
+<span>
+    Upload and manage seller verification documents.
+</span>
 
-                <input
-                  id="pincode"
-                  class="form-control"
-                  name="pincode"
-                  type="text"
-                  inputmode="numeric"
-                  placeholder="201301"
-                  autocomplete="postal-code"
-                >
+</div>
 
-              </div>
+<a
+    class="verification-status pending"
+    href="/seller/documents.html"
+>
+    Review
+</a>
 
+</div>
 
-              <div class="form-group full">
+</div>
 
-                <label for="bio">
-                  Seller description
-                </label>
+</section>
 
-                <textarea
-                  id="bio"
-                  class="form-control"
-                  name="bio"
-                  placeholder="Tell buyers a little about yourself or your business."
-                ></textarea>
+<!-- ===================================================
+     SECURITY
+==================================================== -->
 
-                <span class="form-help">
-                  This information may be used in seller-facing
-                  communications and verification workflows.
-                </span>
+<section class="panel">
 
-              </div>
+<div class="panel-header">
 
-            </div>
+<div>
 
+<div class="panel-title">
+    Account security
+</div>
 
-            <div class="form-actions">
+<div class="panel-subtitle">
+    Review important security controls.
+</div>
 
-              <button
-                class="btn btn-secondary"
-                id="resetButton"
-                type="button"
-              >
-                Reset
-              </button>
+</div>
 
-              <button
-                class="btn btn-primary"
-                id="saveButton"
-                type="submit"
-              >
-                Save changes
-              </button>
+</div>
 
-            </div>
+<div class="security-list">
 
-          </form>
+<div class="security-item">
 
-        </div>
+<div class="security-symbol">
+    ◉
+</div>
 
+<div class="security-copy">
 
-        <!-- PREFERENCES -->
+<strong>
+    Password
+</strong>
 
-        <div
-          class="panel"
-          style="margin-top:16px"
-        >
+<span>
+    Keep your account password updated.
+</span>
 
-          <div class="panel-title">
+</div>
 
-            <div>
+<a
+    class="security-action"
+    href="/seller/settings.html#password"
+>
+    CHANGE
+</a>
 
-              <h3>
-                Seller preferences
-              </h3>
+</div>
 
-              <p>
-                Control how GHAR communicates with you.
-              </p>
+<div class="security-item">
 
-            </div>
+<div class="security-symbol">
+    ◇
+</div>
 
-          </div>
+<div class="security-copy">
 
+<strong>
+    Two-factor authentication
+</strong>
 
-          <div class="preference-list">
+<span>
+    Add an additional account protection layer.
+</span>
 
+</div>
 
-            <div class="preference-item">
+<a
+    class="security-action"
+    href="/seller/settings.html#security"
+>
+    MANAGE
+</a>
 
-              <div class="preference-info">
+</div>
 
-                <strong>
-                  Property enquiries
-                </strong>
+<div class="security-item">
 
-                <span>
-                  Receive notifications when buyers enquire
-                  about your properties.
-                </span>
+<div class="security-symbol">
+    ◌
+</div>
 
-              </div>
+<div class="security-copy">
 
-              <label class="switch">
+<strong>
+    Active sessions
+</strong>
 
-                <input
-                  id="prefEnquiries"
-                  type="checkbox"
-                  checked
-                >
+<span>
+    Review devices currently connected to your account.
+</span>
 
-                <span class="slider"></span>
+</div>
 
-              </label>
+<a
+    class="security-action"
+    href="/seller/settings.html#sessions"
+>
+    REVIEW
+</a>
 
-            </div>
+</div>
 
+</div>
 
-            <div class="preference-item">
+</section>
 
-              <div class="preference-info">
+<!-- ===================================================
+     SUPPORT
+==================================================== -->
 
-                <strong>
-                  Visit notifications
-                </strong>
+<section class="panel">
 
-                <span>
-                  Receive updates about property visits.
-                </span>
+<div class="panel-header">
 
-              </div>
+<div>
 
-              <label class="switch">
+<div class="panel-title">
+    Need assistance?
+</div>
 
-                <input
-                  id="prefVisits"
-                  type="checkbox"
-                  checked
-                >
+<div class="panel-subtitle">
+    GHAR support can help with verification,
+    listings, leads, payments and account issues.
+</div>
 
-                <span class="slider"></span>
+</div>
 
-              </label>
+</div>
 
-            </div>
+<a
+    class="btn btn-secondary"
+    href="/seller/support.html"
+    style="width:100%;"
+>
+    Open seller support
+</a>
 
+</section>
 
-            <div class="preference-item">
+<!-- ===================================================
+     DANGER
+==================================================== -->
 
-              <div class="preference-info">
+<section class="panel danger-panel">
 
-                <strong>
-                  Offer notifications
-                </strong>
+<div class="panel-header">
 
-                <span>
-                  Get notified when buyers submit or update offers.
-                </span>
+<div>
 
-              </div>
+<div class="panel-title">
+    Account controls
+</div>
 
-              <label class="switch">
+<div class="panel-subtitle">
+    Sensitive account actions.
+</div>
 
-                <input
-                  id="prefOffers"
-                  type="checkbox"
-                  checked
-                >
+</div>
 
-                <span class="slider"></span>
+</div>
 
-              </label>
+<div class="danger-copy">
+    Account deactivation and deletion can affect active
+    listings, leads, applications and transactions.
+    Contact GHAR support before taking a permanent action.
+</div>
 
-            </div>
+<div style="margin-top:14px;">
 
+<button
+    id="deactivateButton"
+    class="btn btn-danger"
+    type="button"
+>
+    Request account deactivation
+</button>
 
-            <div class="preference-item">
+</div>
 
-              <div class="preference-info">
+</section>
 
-                <strong>
-                  GHAR recommendations
-                </strong>
+</aside>
 
-                <span>
-                  Receive relevant seller tips and platform recommendations.
-                </span>
+</div>
 
-              </div>
-
-              <label class="switch">
-
-                <input
-                  id="prefRecommendations"
-                  type="checkbox"
-                  checked
-                >
-
-                <span class="slider"></span>
-
-              </label>
-
-            </div>
-
-          </div>
-
-        </div>
-
-
-        <!-- SECURITY -->
-
-        <div
-          class="panel"
-          style="margin-top:16px"
-        >
-
-          <div class="panel-title">
-
-            <div>
-
-              <h3>
-                Account security
-              </h3>
-
-              <p>
-                Manage your account security and session.
-              </p>
-
-            </div>
-
-          </div>
-
-
-          <div class="quick-actions">
-
-            <a
-              class="quick-action"
-              href="/seller/settings.html"
-            >
-
-              <span class="quick-action-icon">
-                ⚙
-              </span>
-
-              Open account settings
-
-            </a>
-
-
-            <button
-              class="quick-action"
-              id="logoutButton"
-              type="button"
-            >
-
-              <span class="quick-action-icon">
-                ↪
-              </span>
-
-              Sign out of GHAR
-
-            </button>
-
-          </div>
-
-        </div>
-
-      </div>
-
-    </div>
-
-  </div>
+</div>
 
 </section>
 
 </main>
 
-
-<!-- =========================================================
+<!-- =======================================================
      FOOTER
-========================================================= -->
+======================================================= -->
 
 <footer class="site-footer">
 
-  <div class="container">
+<div class="container">
 
-    <div class="footer-grid">
+<div class="footer-top-line"></div>
 
+<div class="footer-grid">
 
-      <div class="footer-brand">
+<div class="footer-brand">
 
-        <div class="brand">
+<a
+    class="brand"
+    href="/seller/index.html"
+>
 
-          <div class="brand-mark">
-            G
-          </div>
+<div class="brand-logo">
 
-          <div class="brand-text">
+<img
+    src="../assets/images/logo/ghar-logo-light.svg"
+    alt="GHAR"
+    onerror="
+        this.style.display='none';
+        this.nextElementSibling.style.display='grid';
+    "
+>
 
-            <strong>
-              GHAR
-            </strong>
+<div
+    class="brand-logo-fallback"
+    style="display:none"
+>
+    G
+</div>
 
-            <span>
-              Real Estate Platform
-            </span>
+</div>
 
-          </div>
+<div class="brand-text">
 
-        </div>
+<strong>GHAR</strong>
 
-        <p>
-          A connected real estate platform for listing,
-          managing, marketing and completing property
-          transactions.
-        </p>
+<span>Real Estate Platform</span>
 
-      </div>
+</div>
 
+</a>
 
-      <div class="footer-col">
+<p>
+    A connected real estate platform for listing,
+    marketing, communicating and managing property
+    transactions through one secure digital experience.
+</p>
 
-        <h4>
-          Seller
-        </h4>
+<div class="footer-trust">
 
-        <a href="/seller/dashboard.html">
-          Dashboard
-        </a>
+<span class="trust-pill">
+    Secure Seller Portal
+</span>
 
-        <a href="/seller/list-property.html">
-          List Property
-        </a>
+<span class="trust-pill">
+    Property Management
+</span>
 
-        <a href="/seller/visits.html">
-          Visits
-        </a>
+<span class="trust-pill">
+    AI Assisted
+</span>
 
-        <a href="/seller/leads.html">
-          Leads
-        </a>
+<span class="trust-pill">
+    Verified Workflows
+</span>
 
-      </div>
+</div>
 
+<div class="footer-contact">
 
-      <div class="footer-col">
+<div class="footer-contact-icon">
+    ✦
+</div>
 
-        <h4>
-          Manage
-        </h4>
+<div class="footer-contact-text">
 
-        <a href="/seller/offers.html">
-          Offers
-        </a>
+<span>
+    GHAR SELLER ASSISTANCE
+</span>
 
-        <a href="/seller/payments.html">
-          Payments
-        </a>
+<strong>
+    Your property business, connected.
+</strong>
 
-        <a href="/seller/property-approval.html">
-          Approvals
-        </a>
+</div>
 
-        <a href="/seller/profile.html">
-          Profile
-        </a>
+</div>
 
-      </div>
+</div>
 
+<div class="footer-col">
 
-      <div class="footer-col">
+<h4>Seller</h4>
 
-        <h4>
-          Support
-        </h4>
+<a href="/seller/index.html">
+    Dashboard
+</a>
 
-        <a href="/help-centre.html">
-          Help Centre
-        </a>
+<a href="/seller/list-property.html">
+    List Property
+</a>
 
-        <a href="/contact.html">
-          Contact
-        </a>
+<a href="/seller/applications.html">
+    Applications
+</a>
 
-        <a href="/seller/support.html">
-          Seller Support
-        </a>
+<a href="/seller/leads.html">
+    Leads
+</a>
 
-        <a href="/privacy.html">
-          Privacy
-        </a>
+<a href="/seller/offers.html">
+    Offers
+</a>
 
-      </div>
+</div>
 
-    </div>
+<div class="footer-col">
 
+<h4>Manage</h4>
 
-    <div class="footer-bottom">
+<a href="/seller/messages.html">
+    Messages
+</a>
 
-      <span>
-        © <span id="footerYear"></span> GHAR.
-        All rights reserved.
-      </span>
+<a href="/seller/notifications.html">
+    Notifications
+</a>
 
-      <span>
-        Seller Portal · Secure Session
-      </span>
+<a href="/seller/payments.html">
+    Payments
+</a>
 
-    </div>
+<a href="/seller/profile.html">
+    Profile
+</a>
 
-  </div>
+<a href="/seller/settings.html">
+    Settings
+</a>
+
+</div>
+
+<div class="footer-col">
+
+<h4>Services</h4>
+
+<a href="/ai.html">
+    GHAR AI
+</a>
+
+<a href="/ai-property-advisor.html">
+    Property Advisor
+</a>
+
+<a href="/seller/analytics.html">
+    Seller Analytics
+</a>
+
+<a href="/seller/verification.html">
+    Verification
+</a>
+
+<a href="/seller/documents.html">
+    Documents
+</a>
+
+</div>
+
+<div class="footer-col">
+
+<h4>Support</h4>
+
+<a href="/help-centre.html">
+    Help Centre
+</a>
+
+<a href="/contact.html">
+    Contact
+</a>
+
+<a href="/seller/support.html">
+    Seller Support
+</a>
+
+<a href="/privacy-policy.html">
+    Privacy
+</a>
+
+<a href="/terms.html">
+    Terms
+</a>
+
+</div>
+
+</div>
+
+<div class="footer-bottom">
+
+<span>
+    ©
+    <span id="footerYear"></span>
+    GHAR. All rights reserved.
+</span>
+
+<span>
+    Seller Portal · Secure Session
+</span>
+
+</div>
+
+</div>
 
 </footer>
 
-
-<!-- =========================================================
-     AI BUTTON
-========================================================= -->
+<!-- =======================================================
+     AI
+======================================================= -->
 
 <button
-  id="openAI"
-  class="ai-floating"
-  type="button"
+    id="openAI"
+    class="ai-floating"
+    type="button"
+    aria-label="Ask GHAR AI"
 >
-  ✦ Ask GHAR AI
+
+<span class="ai-icon">
+    ✦
+</span>
+
+<span class="ai-text">
+    Ask GHAR AI
+</span>
+
 </button>
 
+<!-- =======================================================
+     TOAST
+======================================================= -->
+
+<div
+    id="toast"
+    class="toast"
+    role="status"
+    aria-live="polite"
+>
+    Profile updated.
+</div>
+
+<!-- =======================================================
+     SCRIPT
+======================================================= -->
 
 <script>
-
 "use strict";
-
 
 /* =========================================================
    CONFIG
 ========================================================= */
 
 const API_BASE =
-  window.GHAR_API_BASE ||
-  window.API_BASE ||
-  "/api";
-
+    window.GHAR_API_BASE ||
+    window.API_BASE ||
+    "/api";
 
 /* =========================================================
    HELPERS
 ========================================================= */
 
 function $(selector){
-  return document.querySelector(selector);
+    return document.querySelector(selector);
 }
-
 
 function escapeHTML(value){
 
-  return String(value ?? "")
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
-
+    return String(value ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
 }
-
-
-function showAlert(
-  message,
-  type="success"
-){
-
-  const box =
-    $("#alertBox");
-
-  box.textContent =
-    message;
-
-  box.className =
-    "alert show " +
-    type;
-
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
-
-  setTimeout(
-    () => {
-      box.className =
-        "alert";
-    },
-    5000
-  );
-
-}
-
-
-/* =========================================================
-   API
-========================================================= */
 
 async function apiRequest(
-  url,
-  options={}
+    url,
+    options={}
 ){
 
-  const response =
-    await fetch(
-      url,
-      {
-        credentials:"include",
-
-        headers:{
-          "Accept":
-            "application/json",
-
-          "Content-Type":
-            "application/json",
-
-          ...(options.headers || {})
-        },
-
-        ...options
-      }
-    );
-
-
-  let data=null;
-
-  try{
-    data=await response.json();
-  }catch{
-    data=null;
-  }
-
-
-  if(!response.ok){
-
-    const message =
-      data?.error?.message ||
-      data?.message ||
-      "Request failed.";
-
-    const error =
-      new Error(message);
-
-    error.status =
-      response.status;
-
-    error.data =
-      data;
-
-    throw error;
-  }
-
-
-  return data;
-
-}
-
-
-/* =========================================================
-   PROFILE DATA
-========================================================= */
-
-let originalProfile = null;
-
-
-function normalizeUser(
-  response
-){
-
-  return (
-    response?.user ||
-    response?.data ||
-    response ||
-    {}
-  );
-
-}
-
-
-function splitName(
-  fullName=""
-){
-
-  const parts =
-    String(fullName)
-      .trim()
-      .split(/\s+/)
-      .filter(Boolean);
-
-
-  return {
-    firstName:
-      parts.shift() || "",
-
-    lastName:
-      parts.join(" ")
-  };
-
-}
-
-
-/* =========================================================
-   FILL PROFILE
-========================================================= */
-
-function populateProfile(
-  response
-){
-
-  const user =
-    normalizeUser(
-      response
-    );
-
-
-  originalProfile =
-    user;
-
-
-  const name =
-    user.name ||
-    user.fullName ||
-    user.displayName ||
-    "";
-
-
-  const split =
-    splitName(name);
-
-
-  $("#firstName").value =
-    user.firstName ||
-    split.firstName ||
-    "";
-
-
-  $("#lastName").value =
-    user.lastName ||
-    split.lastName ||
-    "";
-
-
-  $("#email").value =
-    user.email ||
-    "";
-
-
-  $("#phone").value =
-    user.phone ||
-    user.mobile ||
-    user.phoneNumber ||
-    "";
-
-
-  $("#sellerType").value =
-    user.sellerType ||
-    user.roleType ||
-    "individual";
-
-
-  $("#city").value =
-    user.city ||
-    "";
-
-
-  $("#state").value =
-    user.state ||
-    "";
-
-
-  $("#pincode").value =
-    user.pincode ||
-    user.postalCode ||
-    "";
-
-
-  $("#address").value =
-    user.address ||
-    "";
-
-
-  $("#bio").value =
-    user.bio ||
-    user.description ||
-    "";
-
-
-  const displayName =
-    name ||
-    [
-      user.firstName,
-      user.lastName
-    ]
-    .filter(Boolean)
-    .join(" ") ||
-    "Seller";
-
-
-  $("#profileName").textContent =
-    displayName;
-
-
-  $("#profileEmail").textContent =
-    user.email ||
-    "Seller account";
-
-
-  const initial =
-    displayName
-      .trim()
-      .charAt(0)
-      .toUpperCase() ||
-    "S";
-
-
-  $("#profileAvatar").textContent =
-    initial;
-
-  $("#headerAvatar").textContent =
-    initial;
-
-
-  $("#sellerId").textContent =
-    user.sellerId ||
-    user.id ||
-    user._id ||
-    "GHAR-SELLER";
-
-
-  $("#accountType").textContent =
-    user.sellerTypeLabel ||
-    user.sellerType ||
-    "Seller";
-
-
-  $("#memberSince").textContent =
-    formatDate(
-      user.createdAt ||
-      user.joinedAt
-    );
-
-
-  $("#propertyCount").textContent =
-    user.propertyCount ??
-    user.listedPropertyCount ??
-    0;
-
-
-  const verified =
-    user.verified === true ||
-    user.isVerified === true ||
-    user.verificationStatus === "verified";
-
-
-  if(verified){
-
-    $("#verificationStatus").textContent =
-      "✓ Verified Seller";
-
-    $("#identityStatus").textContent =
-      "Verified";
-
-    $("#contactStatus").textContent =
-      "Verified";
-
-  }else{
-
-    $("#verificationStatus").textContent =
-      "◷ Verification pending";
-
-    $("#verificationStatus").style.color =
-      "var(--gold-300)";
-
-    $("#identityStatus").textContent =
-      "Pending";
-
-  }
-
-
-  if(user.preferences){
-
-    $("#prefEnquiries").checked =
-      user.preferences.enquiries !== false;
-
-    $("#prefVisits").checked =
-      user.preferences.visits !== false;
-
-    $("#prefOffers").checked =
-      user.preferences.offers !== false;
-
-    $("#prefRecommendations").checked =
-      user.preferences.recommendations !== false;
-
-  }
-
-}
-
-
-function formatDate(
-value
-){
-
-  if(!value){
-    return "--";
-  }
-
-  const date =
-    new Date(value);
-
-  if(
-    Number.isNaN(
-      date.getTime()
-    )
-  ){
-    return "--";
-  }
-
-  return date.toLocaleDateString(
-    "en-IN",
-    {
-      month:"short",
-      year:"numeric"
+    const response =
+        await fetch(
+            url,
+            {
+                credentials:"include",
+
+                headers:{
+                    "Accept":
+                        "application/json",
+
+                    "Content-Type":
+                        "application/json",
+
+                    ...(options.headers || {})
+                },
+
+                ...options
+            }
+        );
+
+    let data=null;
+
+    try{
+        data=await response.json();
+    }catch{
+        data=null;
     }
-  );
 
+    if(!response.ok){
+
+        const error =
+            new Error(
+                data?.error?.message ||
+                data?.message ||
+                "Request failed."
+            );
+
+        error.status=response.status;
+        error.data=data;
+
+        throw error;
+    }
+
+    return data;
 }
 
+function showToast(message){
+
+    const toast=$("#toast");
+
+    if(!toast)
+        return;
+
+    toast.textContent=message;
+
+    toast.classList.add("show");
+
+    clearTimeout(
+        window._gharToastTimer
+    );
+
+    window._gharToastTimer =
+        setTimeout(
+            () => {
+                toast.classList.remove("show");
+            },
+            2800
+        );
+}
+
+/* =========================================================
+   PROFILE NORMALIZATION
+========================================================= */
+
+let originalProfile={};
+
+function normalizeUser(response){
+
+    return (
+        response?.data ||
+        response?.user ||
+        response
+    ) || {};
+}
+
+function getUserName(user){
+
+    return (
+        user.name ||
+        user.fullName ||
+        [
+            user.firstName,
+            user.lastName
+        ]
+        .filter(Boolean)
+        .join(" ") ||
+        user.email ||
+        "Seller"
+    );
+}
+
+function getProfileImage(user){
+
+    return (
+        user.profileImage ||
+        user.avatar ||
+        user.photo ||
+        user.profilePhoto ||
+        "../assets/images/profile/seller-default.jpg"
+    );
+}
+
+/* =========================================================
+   SET PROFILE UI
+========================================================= */
+
+function setProfileUI(user){
+
+    const name =
+        getUserName(user);
+
+    const displayName =
+        user.displayName ||
+        name;
+
+    const email =
+        user.email || "";
+
+    const phone =
+        user.phone ||
+        user.mobile ||
+        user.phoneNumber ||
+        "";
+
+    const image =
+        getProfileImage(user);
+
+    $("#fullName").value=name;
+
+    $("#displayName").value=displayName;
+
+    $("#email").value=email;
+
+    $("#phone").value=phone;
+
+    $("#sellerType").value =
+        user.sellerType ||
+        user.roleType ||
+        "individual";
+
+    $("#city").value =
+        user.city ||
+        user.locationCity ||
+        "";
+
+    $("#state").value =
+        user.state ||
+        user.locationState ||
+        "";
+
+    $("#pincode").value =
+        user.pincode ||
+        user.postalCode ||
+        "";
+
+    $("#address").value =
+        user.address ||
+        user.fullAddress ||
+        "";
+
+    $("#profileName").textContent=
+        name;
+
+    $("#mobileProfileName").textContent=
+        name;
+
+    $("#heroProfileName").textContent=
+        name;
+
+    $("#heroProfileContact").textContent =
+        email ||
+        phone ||
+        "Manage your seller account and property portfolio.";
+
+    $("#profileImage").src=image;
+
+    $("#mobileProfileImage").src=image;
+
+    $("#heroProfileImage").src=image;
+
+    const verified =
+        Boolean(
+            user.emailVerified ||
+            user.phoneVerified ||
+            user.isVerified ||
+            user.verified
+        );
+
+    const badge=
+        $("#verificationBadge");
+
+    if(badge){
+
+        badge.textContent =
+            verified
+            ? "✓ Verified seller"
+            : "• Profile active";
+
+        badge.classList.toggle(
+            "verified",
+            verified
+        );
+    }
+
+    if(user.createdAt){
+
+        const date =
+            new Date(
+                user.createdAt
+            );
+
+        if(!Number.isNaN(date.getTime())){
+
+            $("#memberSinceBadge").textContent =
+                "Member since "+
+                date.toLocaleDateString(
+                    "en-IN",
+                    {
+                        month:"short",
+                        year:"numeric"
+                    }
+                );
+        }
+    }
+
+    originalProfile={
+        ...user
+    };
+
+    calculateCompletion();
+}
+
+/* =========================================================
+   PROFILE COMPLETION
+========================================================= */
+
+function calculateCompletion(){
+
+    const fields=[
+        $("#fullName")?.value,
+        $("#displayName")?.value,
+        $("#email")?.value,
+        $("#phone")?.value,
+        $("#sellerType")?.value,
+        $("#city")?.value,
+        $("#state")?.value,
+        $("#pincode")?.value,
+        $("#address")?.value
+    ];
+
+    const completed =
+        fields.filter(
+            value =>
+                String(value || "")
+                    .trim()
+                    .length>0
+        ).length;
+
+    const percentage =
+        Math.round(
+            completed /
+            fields.length *
+            100
+        );
+
+    const value =
+        Math.max(
+            0,
+            Math.min(
+                100,
+                percentage
+            )
+        );
+
+    $("#profileCompletion")
+        .textContent=
+        value+"%";
+
+    $("#profileProgress")
+        .style.width=
+        value+"%";
+}
 
 /* =========================================================
    LOAD PROFILE
@@ -2660,519 +4093,701 @@ value
 
 async function loadProfile(){
 
-  try{
+    try{
 
-    const response =
-      await apiRequest(
-        API_BASE +
-        "/users/me"
-      );
+        const response =
+            await apiRequest(
+                API_BASE+
+                "/users/me"
+            );
 
+        const user=
+            normalizeUser(
+                response
+            );
 
-    populateProfile(
-      response
-    );
+        setProfileUI(user);
 
-  }catch(error){
+    }catch(error){
 
-    console.warn(
-      "GHAR seller profile load:",
-      error
-    );
+        console.warn(
+            "GHAR profile:",
+            error
+        );
 
-    /*
-     * Keep the form usable even while
-     * the API is being developed.
-     */
+        /*
+         * Keep the page functional even when
+         * the profile endpoint is not currently
+         * available.
+         */
 
-  }
+        setProfileUI({
+            name:"Seller",
+            sellerType:"individual"
+        });
 
-}
-
-
-/* =========================================================
-   COLLECT FORM
-========================================================= */
-
-function getFormData(){
-
-  const firstName =
-    $("#firstName")
-      .value
-      .trim();
-
-  const lastName =
-    $("#lastName")
-      .value
-      .trim();
-
-
-  const preferences = {
-
-    enquiries:
-      $("#prefEnquiries")
-        .checked,
-
-    visits:
-      $("#prefVisits")
-        .checked,
-
-    offers:
-      $("#prefOffers")
-        .checked,
-
-    recommendations:
-      $("#prefRecommendations")
-        .checked
-
-  };
-
-
-  return {
-
-    firstName,
-
-    lastName,
-
-    name:
-      [firstName,lastName]
-        .filter(Boolean)
-        .join(" "),
-
-    email:
-      $("#email")
-        .value
-        .trim(),
-
-    phone:
-      $("#phone")
-        .value
-        .trim(),
-
-    sellerType:
-      $("#sellerType")
-        .value,
-
-    city:
-      $("#city")
-        .value
-        .trim(),
-
-    state:
-      $("#state")
-        .value
-        .trim(),
-
-    pincode:
-      $("#pincode")
-        .value
-        .trim(),
-
-    address:
-      $("#address")
-        .value
-        .trim(),
-
-    bio:
-      $("#bio")
-        .value
-        .trim(),
-
-    preferences
-
-  };
+    }
 
 }
-
 
 /* =========================================================
    SAVE PROFILE
 ========================================================= */
 
-$("#profileForm")
-  .addEventListener(
-    "submit",
-    async event => {
+function collectProfile(){
 
-      event.preventDefault();
+    return {
 
+        name:
+            $("#fullName").value.trim(),
 
-      const payload =
-        getFormData();
+        fullName:
+            $("#fullName").value.trim(),
 
+        displayName:
+            $("#displayName").value.trim(),
 
-      if(
-        !payload.firstName
-      ){
+        email:
+            $("#email").value.trim(),
 
-        showAlert(
-          "Please enter your first name.",
-          "error"
+        phone:
+            $("#phone").value.trim(),
+
+        sellerType:
+            $("#sellerType").value,
+
+        city:
+            $("#city").value.trim(),
+
+        state:
+            $("#state").value.trim(),
+
+        pincode:
+            $("#pincode").value.trim(),
+
+        address:
+            $("#address").value.trim()
+
+    };
+
+}
+
+async function saveProfile(){
+
+    const payload=
+        collectProfile();
+
+    const button=
+        $("#saveTopButton");
+
+    if(button)
+        button.disabled=true;
+
+    try{
+
+        let response;
+
+        try{
+
+            response =
+                await apiRequest(
+                    API_BASE+
+                    "/users/me",
+                    {
+                        method:"PUT",
+                        body:
+                            JSON.stringify(
+                                payload
+                            )
+                    }
+                );
+
+        }catch(firstError){
+
+            /*
+             * Compatibility fallback for APIs
+             * exposing PATCH rather than PUT.
+             */
+
+            if(
+                firstError.status===405 ||
+                firstError.status===404
+            ){
+
+                response =
+                    await apiRequest(
+                        API_BASE+
+                        "/users/me",
+                        {
+                            method:"PATCH",
+                            body:
+                                JSON.stringify(
+                                    payload
+                                )
+                        }
+                    );
+
+            }else{
+
+                throw firstError;
+            }
+
+        }
+
+        const updated=
+            normalizeUser(
+                response
+            );
+
+        setProfileUI({
+            ...originalProfile,
+            ...payload,
+            ...updated
+        });
+
+        showToast(
+            "Seller profile updated successfully."
         );
 
-        $("#firstName")
-          .focus();
+    }catch(error){
 
-        return;
-
-      }
-
-
-      if(
-        !payload.email
-      ){
-
-        showAlert(
-          "Please enter your email address.",
-          "error"
+        console.warn(
+            "GHAR save profile:",
+            error
         );
 
-        $("#email")
-          .focus();
-
-        return;
-
-      }
-
-
-      const button =
-        $("#saveButton");
-
-
-      const originalText =
-        button.textContent;
-
-
-      button.disabled =
-        true;
-
-      button.textContent =
-        "Saving...";
-
-
-      try{
-
-        await apiRequest(
-          API_BASE +
-          "/users/me",
-          {
-            method:"PATCH",
-
-            body:
-              JSON.stringify(
-                payload
-              )
-          }
+        showToast(
+            error?.data?.message ||
+            error?.message ||
+            "Unable to save profile right now."
         );
 
+    }finally{
 
-        showAlert(
-          "Your seller profile has been updated successfully.",
-          "success"
-        );
-
-
-        await loadProfile();
-
-
-      }catch(error){
-
-        console.error(
-          "GHAR profile update:",
-          error
-        );
-
-
-        showAlert(
-          error.message ||
-          "Unable to update your profile. Please try again.",
-          "error"
-        );
-
-      }finally{
-
-        button.disabled =
-          false;
-
-        button.textContent =
-          originalText;
-
-      }
+        if(button)
+            button.disabled=false;
 
     }
-  );
 
+}
 
 /* =========================================================
-   RESET
+   FORM EVENTS
 ========================================================= */
 
-$("#resetButton")
-  .addEventListener(
-    "click",
-    () => {
+$("#profileForm")
+    ?.addEventListener(
+        "submit",
+        event => {
 
-      if(
-        originalProfile
-      ){
+            event.preventDefault();
 
-        populateProfile(
-          originalProfile
-        );
+            saveProfile();
 
-        showAlert(
-          "Your unsaved changes were reset.",
-          "success"
-        );
+        }
+    );
 
-        return;
+$("#saveTopButton")
+    ?.addEventListener(
+        "click",
+        saveProfile
+    );
 
-      }
+$("#resetProfile")
+    ?.addEventListener(
+        "click",
+        () => {
 
+            setProfileUI(
+                originalProfile
+            );
 
-      $("#profileForm").reset();
+            showToast(
+                "Changes reset."
+            );
+
+        }
+    );
+
+[
+    "#fullName",
+    "#displayName",
+    "#email",
+    "#phone",
+    "#sellerType",
+    "#city",
+    "#state",
+    "#pincode",
+    "#address"
+].forEach(
+    selector => {
+
+        $(selector)
+            ?.addEventListener(
+                "input",
+                calculateCompletion
+            );
+
+        $(selector)
+            ?.addEventListener(
+                "change",
+                calculateCompletion
+            );
 
     }
-  );
-
+);
 
 /* =========================================================
    PREFERENCES
 ========================================================= */
 
 document
-  .querySelectorAll(
-    ".switch input"
-  )
-  .forEach(
-    input => {
+    .querySelectorAll(".toggle")
+    .forEach(
+        toggle => {
 
-      input.addEventListener(
-        "change",
-        async () => {
+            toggle.addEventListener(
+                "click",
+                async () => {
 
-          try{
+                    const active =
+                        toggle.classList
+                            .toggle("active");
 
-            await apiRequest(
-              API_BASE +
-              "/users/me/preferences",
-              {
-                method:"PATCH",
+                    toggle.setAttribute(
+                        "aria-pressed",
+                        String(active)
+                    );
 
-                body:
-                  JSON.stringify({
+                    const setting =
+                        toggle.dataset.setting;
 
-                    [input.id.replace(
-                      "pref",
-                      ""
-                    ).toLowerCase()]:
-                      input.checked
+                    try{
 
-                  })
-              }
+                        await apiRequest(
+                            API_BASE+
+                            "/users/me/preferences",
+                            {
+                                method:"PATCH",
+
+                                body:
+                                    JSON.stringify({
+                                        [setting]:
+                                            active
+                                    })
+                            }
+                        );
+
+                        showToast(
+                            "Preference updated."
+                        );
+
+                    }catch(error){
+
+                        console.warn(
+                            "GHAR preference:",
+                            error
+                        );
+
+                        /*
+                         * UI remains usable if the
+                         * optional preference API
+                         * is not implemented yet.
+                         */
+
+                        showToast(
+                            "Preference changed for this session."
+                        );
+
+                    }
+
+                }
             );
-
-
-          }catch(error){
-
-            console.warn(
-              "Preference update:",
-              error
-            );
-
-          }
 
         }
-      );
+    );
+
+/* =========================================================
+   LOAD PREFERENCES
+========================================================= */
+
+async function loadPreferences(){
+
+    try{
+
+        const response =
+            await apiRequest(
+                API_BASE+
+                "/users/me/preferences"
+            );
+
+        const preferences =
+            response?.data ||
+            response?.preferences ||
+            response ||
+            {};
+
+        document
+            .querySelectorAll(".toggle")
+            .forEach(
+                toggle => {
+
+                    const key =
+                        toggle.dataset.setting;
+
+                    if(
+                        typeof preferences[key] !==
+                        "boolean"
+                    )
+                        return;
+
+                    toggle.classList.toggle(
+                        "active",
+                        preferences[key]
+                    );
+
+                    toggle.setAttribute(
+                        "aria-pressed",
+                        String(
+                            preferences[key]
+                        )
+                    );
+
+                }
+            );
+
+    }catch(error){
+
+        console.warn(
+            "GHAR preferences:",
+            error
+        );
 
     }
-  );
 
+}
+
+/* =========================================================
+   SELLER STATISTICS
+========================================================= */
+
+function collectionLength(response){
+
+    if(Array.isArray(response))
+        return response.length;
+
+    if(Array.isArray(response?.data))
+        return response.data.length;
+
+    if(Array.isArray(response?.items))
+        return response.items.length;
+
+    if(Array.isArray(response?.properties))
+        return response.properties.length;
+
+    if(Array.isArray(response?.leads))
+        return response.leads.length;
+
+    if(Array.isArray(response?.offers))
+        return response.offers.length;
+
+    return Number(
+        response?.count ||
+        response?.total ||
+        0
+    );
+}
+
+async function loadSellerStats(){
+
+    const requests=[
+        {
+            endpoint:
+                "/properties?owner=me",
+            target:
+                "#statProperties"
+        },
+        {
+            endpoint:
+                "/leads?owner=me",
+            target:
+                "#statLeads"
+        },
+        {
+            endpoint:
+                "/offers?owner=me",
+            target:
+                "#statOffers"
+        }
+    ];
+
+    await Promise.all(
+        requests.map(
+            async item => {
+
+                try{
+
+                    const response =
+                        await apiRequest(
+                            API_BASE+
+                            item.endpoint
+                        );
+
+                    $(item.target)
+                        .textContent =
+                        collectionLength(
+                            response
+                        );
+
+                }catch(error){
+
+                    console.warn(
+                        "GHAR stats:",
+                        item.endpoint,
+                        error
+                    );
+
+                }
+
+            }
+        )
+    );
+
+}
+
+/* =========================================================
+   AVATAR
+========================================================= */
+
+$("#avatarButton")
+    ?.addEventListener(
+        "click",
+        () => {
+
+            showToast(
+                "Profile photo upload can be connected to your media API."
+            );
+
+        }
+    );
 
 /* =========================================================
    NOTIFICATIONS
 ========================================================= */
 
 $("#notificationButton")
-  .addEventListener(
-    "click",
-    () => {
+    ?.addEventListener(
+        "click",
+        () => {
 
-      window.location.href =
-        "/seller/notifications.html";
+            window.location.href =
+                "/seller/notifications.html";
 
-    }
-  );
-
-
-/* =========================================================
-   MOBILE MENU
-========================================================= */
-
-$("#menuButton")
-  .addEventListener(
-    "click",
-    () => {
-
-      const nav =
-        document.querySelector(
-          ".desktop-nav"
-        );
-
-
-      const open =
-        nav.dataset.mobileOpen ===
-        "true";
-
-
-      if(open){
-
-        nav.style.display =
-          "";
-
-        nav.dataset.mobileOpen =
-          "false";
-
-        return;
-
-      }
-
-
-      nav.dataset.mobileOpen =
-        "true";
-
-      nav.style.display =
-        "flex";
-
-      nav.style.position =
-        "absolute";
-
-      nav.style.left =
-        "14px";
-
-      nav.style.right =
-        "14px";
-
-      nav.style.top =
-        "66px";
-
-      nav.style.padding =
-        "10px";
-
-      nav.style.flexDirection =
-        "column";
-
-      nav.style.alignItems =
-        "stretch";
-
-      nav.style.border =
-        "1px solid rgba(229,199,125,.14)";
-
-      nav.style.borderRadius =
-        "16px";
-
-      nav.style.background =
-        "#0b1c14";
-
-      nav.style.boxShadow =
-        "0 25px 60px rgba(0,0,0,.35)";
-
-    }
-  );
-
-
-/* =========================================================
-   LOGOUT
-========================================================= */
-
-$("#logoutButton")
-  .addEventListener(
-    "click",
-    async () => {
-
-      const confirmed =
-        window.confirm(
-          "Sign out of your GHAR seller account?"
-        );
-
-
-      if(!confirmed){
-        return;
-      }
-
-
-      try{
-
-        await apiRequest(
-          API_BASE +
-          "/auth/logout",
-          {
-            method:"POST"
-          }
-        );
-
-      }catch(error){
-
-        console.warn(
-          "GHAR logout:",
-          error
-        );
-
-      }
-
-
-      window.location.href =
-        "/login.html";
-
-    }
-  );
-
+        }
+    );
 
 /* =========================================================
    AI
 ========================================================= */
 
 $("#openAI")
-  .addEventListener(
-    "click",
-    () => {
+    ?.addEventListener(
+        "click",
+        () => {
 
-      window.location.href =
-        "/seller/ai.html";
+            window.location.href =
+                "/seller/ai.html";
 
-    }
-  );
-
+        }
+    );
 
 /* =========================================================
-   INITIALIZE
+   DEACTIVATE
+========================================================= */
+
+$("#deactivateButton")
+    ?.addEventListener(
+        "click",
+        async () => {
+
+            const confirmed =
+                window.confirm(
+                    "Request seller account deactivation? Your active listings and seller workflows may be affected."
+                );
+
+            if(!confirmed)
+                return;
+
+            try{
+
+                await apiRequest(
+                    API_BASE+
+                    "/users/me/deactivation-request",
+                    {
+                        method:"POST"
+                    }
+                );
+
+                showToast(
+                    "Deactivation request submitted to GHAR support."
+                );
+
+            }catch(error){
+
+                console.warn(
+                    "GHAR deactivation:",
+                    error
+                );
+
+                showToast(
+                    "Please contact GHAR support to request account deactivation."
+                );
+
+            }
+
+        }
+    );
+
+/* =========================================================
+   MOBILE MENU
+========================================================= */
+
+$("#menuButton")
+    ?.addEventListener(
+        "click",
+        () => {
+
+            const menu=
+                $("#mobileNav");
+
+            const button=
+                $("#menuButton");
+
+            const isOpen =
+                menu.classList
+                    .contains("open");
+
+            menu.classList.toggle(
+                "open"
+            );
+
+            button.setAttribute(
+                "aria-expanded",
+                String(!isOpen)
+            );
+
+            button.textContent =
+                !isOpen
+                ? "×"
+                : "☰";
+
+        }
+    );
+
+document.addEventListener(
+    "click",
+    event => {
+
+        const menu=
+            $("#mobileNav");
+
+        const button=
+            $("#menuButton");
+
+        if(
+            !menu ||
+            !button
+        )
+            return;
+
+        if(
+            menu.classList.contains("open") &&
+            !menu.contains(event.target) &&
+            !button.contains(event.target)
+        ){
+
+            menu.classList.remove(
+                "open"
+            );
+
+            button.textContent="☰";
+
+            button.setAttribute(
+                "aria-expanded",
+                "false"
+            );
+
+        }
+
+    }
+);
+
+/* =========================================================
+   IMAGE FALLBACK
+========================================================= */
+
+document.addEventListener(
+    "error",
+    event => {
+
+        const element=
+            event.target;
+
+        if(
+            element.tagName==="IMG" &&
+            element.dataset.fallbackApplied!=="true"
+        ){
+
+            element.dataset.fallbackApplied="true";
+
+            if(
+                element.id==="profileImage" ||
+                element.id==="mobileProfileImage" ||
+                element.id==="heroProfileImage"
+            ){
+
+                element.src=
+                    "../assets/images/profile/default-avatar.jpg";
+
+            }
+
+        }
+
+    },
+    true
+);
+
+/* =========================================================
+   INIT
 ========================================================= */
 
 async function initialize(){
 
-  $("#footerYear").textContent =
-    new Date()
-      .getFullYear();
+    $("#footerYear")
+        .textContent=
+        new Date()
+            .getFullYear();
 
-
-  await loadProfile();
+    await Promise.all([
+        loadProfile(),
+        loadPreferences(),
+        loadSellerStats()
+    ]);
 
 }
 
-
 if(
-  document.readyState ===
-  "loading"
+    document.readyState==="loading"
 ){
 
-  document.addEventListener(
-    "DOMContentLoaded",
-    initialize
-  );
+    document.addEventListener(
+        "DOMContentLoaded",
+        initialize
+    );
 
 }else{
 
-  initialize();
+    initialize();
 
 }
 
