@@ -3631,7 +3631,8 @@ dashboard.html
 user.routes.js / property.routes.js / application.routes.js
       ↓
 corresponding controllers
-----------------------------
+--------------------------------------------
+--------------------------------------------
 
 GHAR/
 │
@@ -3640,30 +3641,16 @@ GHAR/
 ├── .env
 ├── .gitignore
 │
-├── routes/
-│   ├── admin-ai.routes.js
-│   ├── admin.routes.js
-│   ├── ai.routes.js
-│   ├── application.routes.js
-│   ├── auth.routes.js
-│   ├── compare.routes.js
-│   ├── document.routes.js
-│   ├── favourites.routes.js
-│   ├── loan.routes.js
-│   ├── map.routes.js
-│   ├── marketplace.routes.js
-│   ├── message.routes.js
-│   ├── offer.routes.js
-│   ├── payment.routes.js
-│   ├── property.routes.js
-│   ├── referral.routes.js
-│   ├── search.routes.js
-│   ├── services.routes.js
-│   ├── subscription.routes.js
-│   ├── support.routes.js
-│   ├── user.routes.js
-│   ├── verification.routes.js
-│   └── visit.routes.js
+├── config/
+│   ├── ai.js
+│   ├── cors.js
+│   ├── database.js
+│   ├── email.js
+│   ├── env.js 
+│   ├── payments.js 
+│   ├── security.js
+|   ├── storage.js
+│   └── upload.js
 │
 ├── controllers/
 │   ├── admin-ai.controller.js
@@ -3685,120 +3672,447 @@ GHAR/
 │   ├── search.controller.js
 │   ├── services.controller.js
 │   ├── subscription.controller.js
-│   ├── support.controller.js
+│   ├── support.controller.js 
 │   ├── user.controller.js
 │   ├── verification.controller.js
 │   └── visit.controller.js
 │
+├── routes/
+│   ├── admin-ai.routes.js
+│   ├── admin.routes.js
+│   ├── ai.routes.js
+│   ├── application.routes.js
+│   ├── auth.routes.js
+│   ├── compare.routes.js
+│   ├── document.routes.js
+│   ├── favourites.routes.js
+│   ├── loan.routes.js
+│   ├── map.routes.js
+│   ├── marketplace.routes.js
+│   ├── message.routes.js
+│   ├── offer.routes.js
+│   ├── offline.routes.js
+│   ├── payment.routes.js
+│   ├── property.routes.js
+│   ├── referral.routes.js
+│   ├── search.routes.js
+│   ├── services.routes.js
+│   ├── subscription.routes.js
+│   ├── user.routes.js
+│   ├── verification.routes.js
+│   └── visit.routes.js
+│
 ├── middleware/
-│   ├── auth.middleware.js
 │   ├── admin.middleware.js
-│   ├── role.middleware.js
-│   ├── validation.middleware.js
-│   ├── upload.middleware.js
-│   ├── ownership.middleware.js
-│   ├── verification.middleware.js
-│   ├── subscription.middleware.js
-│   ├── payment.middleware.js
 │   ├── ai.middleware.js
 │   ├── audit.middleware.js
-│   ├── rate-limit.middleware.js
-│   ├── security.middleware.js
+│   ├── auth.middleware.js
+│   ├── error.middleware.js
 │   ├── not-found.middleware.js
-│   └── error.middleware.js
+│   ├── ownership.middleware.js
+│   ├── payment.middleware.js
+│   ├── rate-limit.middleware.js
+│   ├── request-id.middleware.js
+│   ├── role-middleware.js
+│   ├── security.middleware.js
+│   ├── upload.middleware.js
+│   ├── validation.middleware.js
+│   └── verifications.middleware.js
 │
-├── services/
-│   │
-│   ├── ai/
-│   │   ├── ai.service.js
-│   │   ├── ai.memory.service.js
-│   │   ├── ai.advisor.service.js
-│   │   ├── ai.affordability.service.js
-│   │   ├── ai.applications.service.js
-│   │   ├── ai.chat.service.js
-│   │   ├── ai.dashboard.service.js
-│   │   ├── ai.documents.service.js
-│   │   ├── ai.fraud-detection.service.js
-│   │   ├── ai.investment.service.js
-│   │   ├── ai.loans.service.js
-│   │   ├── ai.maintenance.service.js
-│   │   ├── ai.property-content.service.js
-│   │   ├── ai.property-details.service.js
-│   │   ├── ai.recommendations.service.js
-│   │   ├── ai.rental-agreements.service.js
-|   |   ├── ai.logs.service.js
-│   │   ├── ai.rental.service.js
-│   │   ├── ai.rent-estimator.service.js
-|   |   ├── ai.services.service.js
-│   │   ├── ai.search.service.js
-│   │   ├── ai.settings.service.js
-│   │   ├── ai.usage.service.js
-│   │   ├── ai.visits.service.js
-│   │   └── index.js
-│   │
-│   ├── realtime/
-│   │   ├── realtime.service.js
-│   │   ├── notification.service.js
-│   │   ├── event-bus.js
-│   │   ├── messages.js
-│   │   ├── notifications.js
-|   |   ├── index.js 
-│   │   ├── offers.js
-│   │   ├── payments.js
-│   │   └── visits.js
-│   │
-│   ├── auth.service.js
-│   ├── document.service.js
-│   ├── loan.service.js
-│   ├── payment.service.js
-│   ├── property.service.js
-│   ├── services.service.js
-│   ├── subscription.service.js
-│   └── user.service.js
+│
+├── models/
+│   ├── AIConversation.model.js
+│   ├── AIMessage.model.js
+│   ├── AIModel.model.js
+│   ├── AIPrediction.model.js
+│   ├── AIRecommendation.mode.js
+│   ├── AIRequest.model.js
+│   ├── AIUsage.model.js
+│   ├── Application.model.js
+│   ├── AuditLog.model.js
+│   ├── base.js
+│   ├── Conversation.model.js
+│   ├── Document.model.js
+│   ├── Favourite.model.js
+│   ├── index.js
+│   ├── Invoice.model.js
+│   ├── Lead.model.js
+│   ├── LoanApplication.model.js 
+│   ├── Message.model.js
+│   ├── Notification.model.js
+│   ├── Offer.model.js
+│   ├── Payment.model.js
+│   ├── Permission.model.js
+│   ├── Property.model.js
+│   ├── PropertyDocument.model.js
+│   ├── PropertyImage.model.js
+│   ├── Referral.model.js
+│   ├── RefreshToken.model.js
+│   ├── Role.model.js
+│   ├── SavedSearch.model.js
+│   ├── SearchHistory.model.js
+│   ├── Service.model.js
+│   ├── Subscription.model.js
+│   ├── SupportTicket.model.js
+│   ├── User.model.js   
+│   ├── Verification.model.js
+│   └── Visit.model.js
+│
+├──services/
+|   ├── ai/
+│   ├── ai.advisor.service.js
+│   ├── ai.affordability.service.js
+│   ├── ai.applications.service.js
+│   ├── ai.chat.service.js
+│   ├── ai.dashboard.service.js
+│   ├── ai.documents.service.js
+│   ├── ai.fraud-detection.service.js
+│   ├── ai.investment.service.js
+│   ├── ai.loans.service.js
+│   ├── ai.logs.service.js
+│   ├── ai.maintenance.service.js
+│   ├── ai.memory.service.js
+│   ├── ai.properties.service.js
+│   ├── ai.property-content.service.js
+│   ├── ai.property-details.service.js
+│   ├── ai.recommendations.service.js
+│   ├── ai.rent-estimator.service.js
+│   ├── ai.rental-agreements.service.js
+│   ├── ai.rental.service.js
+│   ├── ai.search.service.js
+│   ├── ai.service.js
+│   ├── ai.settings.service.js
+│   ├── ai.usage.service.js
+│   ├── ai.visits.service.js
+│   └── index.js
+│
+├── realtime/
+│   ├── event-bus.js
+│   ├── index.js
+│   ├── messages.js
+│   ├── notification.service.js
+│   ├── offers.js
+│   ├── payments.js
+│   ├── realtime.service.js
+│   └── visits.js
 │
 ├── utils/
+│   ├── asyncHandler.js
+│   ├── constants.js
+│   ├── crypto.js
+│   ├── errors.js
 │   ├── jwt.js
-│   ├── validators.js
-│   ├── response.js
 │   ├── logger.js
-│   └── errors.js
+│   ├── pagination.js
+│   ├── permissions.js
+│   ├── response.js
+│   ├── sanitize.js
+│   ├── slug.js
+│   ├── upload.js
+│   ├── validators.js
+│   └── index.js
 │
-└── uploads/
-    ├── documents/
-    ├── properties/
-    └── temp/
-    
-----------------------------------------
+├── db/
+│   ├── migrations/
+│   ├── seeds/
+│   └── queries/
+│
+├── uploads/
+│   ├── documents/
+│   ├── properties/
+│   └── temp/
+│
+├── logs/
+│
+└── tests/
+    ├── unit/
+    ├── integration/
+    └── e2e/
 
-services/ai/
-services/ai/ai.memory.service.js
-services/ai/ai.service.js
-services/ai/index.js
-
-services/ai/ai.advisor.service.js
-services/ai/ai.affordability.service.js
-services/ai/ai.applications.service.js
-services/ai/ai.chat.service.js
-services/ai/ai.dashboard.service.js
-services/ai/ai.documents.service.js
-services/ai/ai.fraud-detection.service.js
-services/ai/ai.investment.service.js
-services/ai/ai.loans.service.js
-services/ai/ai.maintenance.service.js
-services/ai/ai.property-content.service.js
-services/ai/ai.property-details.service.js
-services/ai/ai.recommendations.service.js  
-services/ai/ai.rental-agreements.service.js
-services/ai/ai.rental.service.js
-services/ai/ai.rent-estimator.service.js
-services/ai/ai.search.service.js
-services/ai/ai.settings.service.js
-services/ai/ai.usage.service.js
-services/ai/ai.visits.service.js
-services/ai/ai.logs.service.js
-services/ai/ai.services.service.js
-
+-------------------------------------------
+///////////////////////////////////////////
 -------------------------------------------
 
 
 
+
+
+
+
+
+
+
+
+
+            _____________________
+            ** UPDATED AGAIN **
+            ---------------------
+            
+ GHAR/
+│
+├── server.js
+├── package.json
+├── package-lock.json
+├── .env
+├── .env.example
+├── .gitignore
+├── README.md
+│
+├──config/
+│   ├── ai.js
+│   ├── cors.js
+│   ├── database.js
+│   ├── email.js
+│   ├── env.js 
+│   ├── payments.js 
+│   ├── security.js
+|   ├── storage.js
+│   └── upload.js
+│
+├── controllers/
+│   ├── admin-ai.controller.js
+│   ├── admin.controller.js
+│   ├── ai.controller.js
+│   ├── application.controller.js
+│   ├── auth.controller.js
+│   ├── compare.controller.js
+│   ├── document.controller.js
+│   ├── favourites.controller.js
+│   ├── loan.controller.js
+│   ├── map.controller.js
+│   ├── marketplace.controller.js
+│   ├── message.controller.js
+│   ├── offer.controller.js
+│   ├── payment.controller.js
+│   ├── property.controller.js
+│   ├── referral.controller.js
+│   ├── search.controller.js
+│   ├── services.controller.js
+│   ├── subscription.controller.js
+│   ├── support.controller.js 
+│   ├── user.controller.js
+│   ├── verification.controller.js
+│   └── visit.controller.js
+│
+├── routes/
+│   ├── admin-ai.routes.js
+│   ├── admin.routes.js
+│   ├── ai.routes.js
+│   ├── application.routes.js
+│   ├── auth.routes.js
+│   ├── compare.routes.js
+│   ├── document.routes.js
+│   ├── favourites.routes.js
+│   ├── loan.routes.js
+│   ├── map.routes.js
+│   ├── marketplace.routes.js
+│   ├── message.routes.js
+│   ├── offer.routes.js
+│   ├── offline.routes.js
+│   ├── payment.routes.js
+│   ├── property.routes.js
+│   ├── referral.routes.js
+│   ├── search.routes.js
+│   ├── services.routes.js
+│   ├── subscription.routes.js
+│   ├── user.routes.js
+│   ├── verification.routes.js
+│   └── visit.routes.js
+│
+├── middleware/
+│   ├── admin.middleware.js
+│   ├── ai.middleware.js
+│   ├── audit.middleware.js
+│   ├── auth.middleware.js
+│   ├── error.middleware.js
+│   ├── not-found.middleware.js
+│   ├── ownership.middleware.js
+│   ├── payment.middleware.js
+│   ├── rate-limit.middleware.js
+│   ├── request-id.middleware.js
+│   ├── role-middleware.js
+│   ├── security.middleware.js
+│   ├── upload.middleware.js
+│   ├── validation.middleware.js
+│   └── verifications.middleware.js
+│
+├── models/
+│   ├── AIConversation.model.js
+│   ├── AIMessage.model.js
+│   ├── AIModel.model.js
+│   ├── AIPrediction.model.js
+│   ├── AIRecommendation.mode.js
+│   ├── AIRequest.model.js
+│   ├── AIUsage.model.js
+│   ├── Application.model.js
+│   ├── AuditLog.model.js
+│   ├── base.js
+│   ├── Conversation.model.js
+│   ├── Document.model.js
+│   ├── Favourite.model.js
+│   ├── index.js
+│   ├── Invoice.model.js
+│   ├── Lead.model.js
+│   ├── LoanApplication.model.js 
+│   ├── Message.model.js
+│   ├── Notification.model.js
+│   ├── Offer.model.js
+│   ├── Payment.model.js
+│   ├── Permission.model.js
+│   ├── Property.model.js
+│   ├── PropertyDocument.model.js
+│   ├── PropertyImage.model.js
+│   ├── Referral.model.js
+│   ├── RefreshToken.model.js
+│   ├── Role.model.js
+│   ├── SavedSearch.model.js
+│   ├── SearchHistory.model.js
+│   ├── Service.model.js
+│   ├── Subscription.model.js
+│   ├── SupportTicket.model.js
+│   ├── User.model.js   
+│   ├── Verification.model.js
+│   └── Visit.model.js
+|
+├── services/
+│   ├── admin.service.js
+|   ├── application.service.js
+│   ├── auth.service.js
+│   ├── document.service.js
+│   ├── loan.service.js
+│   ├── message.service.js 
+|   ├── offer.service.js
+│   ├── payment.service.js
+│   ├── property.service.js
+│   ├── referral.service.js
+│   ├── search.service.js
+│   ├── services.service.js
+│   ├── subscription.service.js
+│   ├── user.service.js
+│   ├── visit.service.js
+│   │
+│   └── ai/
+│   |    ├── ai.advisor.service.js
+│   |    ├── ai.affordability.service.js
+|   |    ├── ai.applications.service.js
+│   |    ├── ai.chat.service.js
+│   |    ├── ai.dashboard.service.js
+│   |    ├── ai.documents.service.js
+│   |    ├── ai.fraud-detection.service.js
+│   |    ├── ai.investment.service.js
+│   |    ├── ai.loans.service.js
+│   |    ├── ai.logs.service.js
+│   |    ├── ai.maintenance.service.js
+│   |    ├── ai.memory.service.js
+│   |    ├── ai.properties.service.js
+│   |    ├── ai.property-content.service.js
+│   |    ├── ai.property-details.service.js
+│   |    ├── ai.recommendations.service.js
+│   |    ├── ai.rent-estimator.service.js
+│   |    ├── ai.rental-agreements.service.js
+│   |    ├── ai.rental.service.js
+│   |    ├── ai.search.service.js
+│   |    ├── ai.service.js
+│   |    ├── ai.settings.service.js
+│   |    ├── ai.usage.service.js
+│   |    ├── ai.visits.service.js
+│   |    └── index.js
+│   |
+|   └── realtime/
+│        ├── event-bus.js
+│        ├── index.js
+│        ├── messages.js
+│        ├── notification.service.js
+│        ├── notifications.js
+│        ├── offers.js        
+│        ├── payments.js
+│        ├── realtime.service.js
+│        └── visits.js
+│
+│
+├── utils/
+│   ├── asyncHandler.js
+│   ├── constants.js
+│   ├── crypto.js
+│   ├── email.js
+│   ├── errors.js
+│   ├── file.js
+│   ├── formatter.js
+│   ├── image.js
+│   ├── index.js
+│   ├── jwt.js
+│   ├── logger.js
+│   ├── otp.js
+│   ├── pagination.js
+│   ├── password.js
+│   ├── permissions.js
+│   ├── response.js
+│   ├── sanitize.js
+│   ├── slug.js
+│   ├── subscription.js
+│   ├── validators.js
+│   └── verification.js
+│
+├── db/
+│   ├── schema.sql
+│   ├── seed.sql
+│   ├── migrations/
+│   │   ├── 001_initial_schema.sql
+│   │   ├── 002_add_indexes.sql
+│   │   ├── 003_add_auth_security.sql
+│   │   ├── 004_add_property_features.sql
+│   │   ├── 005_add_documents.sql
+│   │   ├── 006_add_loans.sql
+│   │   ├── 007_add_payments.sql
+│   │   ├── 008_add_offers_and_visits.sql
+│   │   ├── 009_add_services.sql
+│   │   ├── 010_add_subscriptions.sql
+│   │   ├── 011_add_notifications.sql
+│   │   ├── 012_add_messages.sql
+│   │   ├── 013_add_ai_features.sql
+│   │   └── 014_add_audit_logs.sq
+│   │
+│   └── queries/
+│         ├── admin.sql
+|         ├── applications.sql
+│         ├── auth.sql
+|         ├── documents.sql
+│         ├── loans.sql
+│         ├── messages.sql
+│         ├── offers.sql
+│         ├── payments.sql
+│         ├── properties.sql
+│         ├── referrals.sql
+|         ├── search.sql
+│         ├── subscriptions.sql
+│         ├── user.sql
+│         └── visits.sql 
+│      
+│      
+│       
+│
+├── uploads/
+│   ├── agreements/
+│   ├── documents/
+│   ├── floor-plans/
+│   ├── profiles/
+│   ├── profile-images/
+│   ├── properties/
+│   ├── property-images/
+│   ├── property-videos/
+│   ├── verifications/
+│   └── temp/
+│
+├── logs/
+│
+└── tests/
+    ├── admin/
+    ├── ai/
+    ├── auth/
+    ├── e2e/
+    ├── integration/
+    ├── payments/
+    ├── properties/
+    └── unit/
+    
+ 
