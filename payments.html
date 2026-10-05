@@ -1,0 +1,2440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Payments | GHAR</title>
+
+  <meta
+    name="description"
+    content="Manage your GHAR payments, transactions, invoices and payment methods."
+  >
+
+  <meta name="theme-color" content="#052d1d">
+
+  <!-- =======================================================
+       FONTS
+       ======================================================= -->
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap"
+    rel="stylesheet"
+  >
+
+  <!-- =======================================================
+       ICONS
+       ======================================================= -->
+
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+  >
+
+  <style>
+
+    /* =========================================================
+       GHAR PAYMENTS PAGE
+       PREMIUM ROYAL GREEN + GOLD DESIGN SYSTEM
+       ========================================================= */
+
+    :root {
+      --green-950: #031b11;
+      --green-900: #052d1d;
+      --green-850: #073a25;
+      --green-800: #08442a;
+      --green-700: #0c5535;
+      --green-600: #126742;
+
+      --gold-500: #d7ad4d;
+      --gold-400: #e7c76b;
+      --gold-300: #f1d98a;
+      --gold-200: #f6e8b1;
+
+      --cream: #f5efdf;
+      --cream-2: #eee5d0;
+      --white: #ffffff;
+
+      --text-dark: #122118;
+      --text-muted: #657068;
+
+      --border-gold: rgba(215,173,77,.65);
+      --border-light: rgba(255,255,255,.13);
+
+      --shadow: 0 20px 50px rgba(0,0,0,.18);
+
+      --serif: "Playfair Display", Georgia, serif;
+      --sans: "DM Sans", Arial, sans-serif;
+
+      --header-height: 72px;
+
+      --radius-sm: 10px;
+      --radius-md: 16px;
+      --radius-lg: 24px;
+
+      --container: 1380px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--sans);
+      color: var(--text-dark);
+      background: var(--cream);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      object-fit: cover;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .container {
+      width: min(calc(100% - 48px), var(--container));
+      margin: auto;
+    }
+
+    /* =========================================================
+       HEADER
+       ========================================================= */
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      height: var(--header-height);
+      background: var(--green-950);
+      border-bottom: 1px solid rgba(215,173,77,.45);
+    }
+
+    .header-inner {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 30px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      flex-shrink: 0;
+    }
+
+    .brand-mark {
+      width: 43px;
+      height: 43px;
+      border: 1.5px solid var(--gold-400);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: var(--gold-300);
+      font-size: 19px;
+      position: relative;
+    }
+
+    .brand-mark::after {
+      content: "";
+      position: absolute;
+      inset: 4px;
+      border: 1px solid rgba(231,199,107,.35);
+      border-radius: 50%;
+    }
+
+    .brand-name {
+      color: var(--gold-300);
+      font-family: var(--serif);
+      font-size: 25px;
+      letter-spacing: 2px;
+      line-height: 1;
+    }
+
+    .brand-tagline {
+      display: block;
+      margin-top: 3px;
+      color: #e9e2d2;
+      font-size: 7px;
+      letter-spacing: 2px;
+      font-weight: 600;
+    }
+
+    .main-nav {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 27px;
+      margin-left: auto;
+    }
+
+    .main-nav a {
+      position: relative;
+      color: rgba(255,255,255,.82);
+      font-size: 13px;
+      font-weight: 500;
+      padding: 26px 0;
+      transition: .25s ease;
+      white-space: nowrap;
+    }
+
+    .main-nav a:hover,
+    .main-nav a.active {
+      color: var(--gold-300);
+    }
+
+    .main-nav a.active::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 15px;
+      height: 2px;
+      background: var(--gold-400);
+      border-radius: 20px;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .header-search {
+      width: 38px;
+      height: 38px;
+      border: 0;
+      background: transparent;
+      color: white;
+      display: grid;
+      place-items: center;
+      font-size: 15px;
+    }
+
+    .login-btn {
+      min-width: 74px;
+      height: 38px;
+      padding: 0 17px;
+      border-radius: 22px;
+      border: 1px solid var(--gold-400);
+      background: transparent;
+      color: white;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .get-started {
+      height: 38px;
+      padding: 0 19px;
+      border-radius: 22px;
+      border: 1px solid var(--gold-400);
+      background: linear-gradient(135deg, var(--gold-300), var(--gold-500));
+      color: var(--green-950);
+      font-weight: 700;
+      font-size: 12px;
+      box-shadow: 0 6px 18px rgba(215,173,77,.18);
+    }
+
+    .mobile-menu {
+      display: none;
+      width: 40px;
+      height: 40px;
+      border: 1px solid var(--border-gold);
+      background: transparent;
+      color: var(--gold-300);
+      border-radius: 10px;
+    }
+
+    /* =========================================================
+       HERO
+       ========================================================= */
+
+    .payments-hero {
+      background: var(--green-900);
+      color: white;
+      padding: 65px 0 70px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .payments-hero::before {
+      content: "";
+      position: absolute;
+      width: 540px;
+      height: 540px;
+      border: 1px solid rgba(215,173,77,.12);
+      border-radius: 50%;
+      right: -210px;
+      top: -280px;
+    }
+
+    .payments-hero::after {
+      content: "";
+      position: absolute;
+      width: 320px;
+      height: 320px;
+      border: 1px solid rgba(215,173,77,.08);
+      border-radius: 50%;
+      left: -190px;
+      bottom: -210px;
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+    }
+
+    .eyebrow {
+      color: var(--gold-300);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2.7px;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    .hero-title {
+      font-family: var(--serif);
+      font-size: clamp(42px, 5vw, 67px);
+      line-height: 1;
+      font-weight: 600;
+      letter-spacing: -1.8px;
+    }
+
+    .hero-title em {
+      color: var(--gold-300);
+      font-weight: 500;
+    }
+
+    .hero-description {
+      max-width: 680px;
+      margin-top: 19px;
+      color: rgba(255,255,255,.70);
+      font-size: 15px;
+      line-height: 1.8;
+    }
+
+    /* =========================================================
+       MAIN
+       ========================================================= */
+
+    .payments-section {
+      background: var(--cream);
+      padding: 65px 0 100px;
+    }
+
+    .payments-layout {
+      display: grid;
+      grid-template-columns: 275px 1fr;
+      gap: 25px;
+      align-items: start;
+    }
+
+    /* =========================================================
+       SIDEBAR
+       ========================================================= */
+
+    .payments-sidebar {
+      background: var(--green-900);
+      border: 1px solid var(--border-gold);
+      border-radius: 20px;
+      overflow: hidden;
+      position: sticky;
+      top: 95px;
+    }
+
+    .side-profile {
+      padding: 27px 22px;
+      text-align: center;
+      border-bottom: 1px solid rgba(255,255,255,.10);
+    }
+
+    .side-avatar {
+      width: 78px;
+      height: 78px;
+      margin: 0 auto 13px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      border: 2px solid var(--gold-400);
+      background: linear-gradient(
+        135deg,
+        var(--green-700),
+        var(--green-950)
+      );
+      color: var(--gold-300);
+      font-family: var(--serif);
+      font-size: 29px;
+    }
+
+    .side-profile strong {
+      display: block;
+      color: white;
+      font-family: var(--serif);
+      font-size: 21px;
+    }
+
+    .side-profile span {
+      display: block;
+      color: var(--gold-300);
+      font-size: 9px;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+      margin-top: 3px;
+    }
+
+    .side-nav {
+      padding: 12px;
+    }
+
+    .side-nav a,
+    .side-nav button {
+      width: 100%;
+      min-height: 45px;
+      padding: 0 13px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border: 0;
+      border-radius: 10px;
+      background: transparent;
+      color: rgba(255,255,255,.67);
+      font-size: 12px;
+      text-align: left;
+      transition: .2s ease;
+    }
+
+    .side-nav a i,
+    .side-nav button i {
+      width: 18px;
+      text-align: center;
+      color: var(--gold-300);
+    }
+
+    .side-nav a:hover,
+    .side-nav a.active,
+    .side-nav button:hover {
+      background: rgba(215,173,77,.10);
+      color: var(--gold-300);
+    }
+
+    .side-nav .logout {
+      color: #e8b3a9;
+      margin-top: 5px;
+    }
+
+    .side-nav .logout i {
+      color: #e8b3a9;
+    }
+
+    /* =========================================================
+       CONTENT
+       ========================================================= */
+
+    .payments-content {
+      min-width: 0;
+    }
+
+    .content-card {
+      background: #f9f4e8;
+      border: 1px solid rgba(5,45,29,.15);
+      border-radius: 20px;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+
+    .content-card:last-child {
+      margin-bottom: 0;
+    }
+
+    .card-header {
+      padding: 26px 29px 21px;
+      border-bottom: 1px solid rgba(5,45,29,.11);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .card-header h2 {
+      color: var(--green-900);
+      font-family: var(--serif);
+      font-size: 26px;
+      font-weight: 600;
+    }
+
+    .card-header p {
+      color: var(--text-muted);
+      font-size: 11px;
+      margin-top: 3px;
+    }
+
+    /* =========================================================
+       PAYMENT SUMMARY
+       ========================================================= */
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 13px;
+      padding: 24px 29px 29px;
+    }
+
+    .summary-card {
+      position: relative;
+      overflow: hidden;
+      min-height: 145px;
+      padding: 21px;
+      border-radius: 15px;
+      background: var(--green-900);
+      color: white;
+      border: 1px solid rgba(215,173,77,.38);
+    }
+
+    .summary-card::after {
+      content: "";
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      border: 1px solid rgba(215,173,77,.10);
+      border-radius: 50%;
+      right: -50px;
+      bottom: -65px;
+    }
+
+    .summary-icon {
+      width: 37px;
+      height: 37px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: rgba(215,173,77,.13);
+      color: var(--gold-300);
+      font-size: 13px;
+      margin-bottom: 14px;
+    }
+
+    .summary-label {
+      color: rgba(255,255,255,.60);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .summary-value {
+      display: block;
+      color: var(--gold-300);
+      font-family: var(--serif);
+      font-size: 25px;
+      margin-top: 3px;
+    }
+
+    .summary-note {
+      color: rgba(255,255,255,.48);
+      font-size: 9px;
+      margin-top: 3px;
+    }
+
+    /* =========================================================
+       TRANSACTIONS
+       ========================================================= */
+
+    .transaction-tools {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .filter-select {
+      height: 36px;
+      padding: 0 11px;
+      border: 1px solid rgba(5,45,29,.20);
+      border-radius: 18px;
+      background: #fffaf0;
+      color: var(--green-900);
+      outline: none;
+      font-size: 10px;
+    }
+
+    .transactions {
+      padding: 7px 29px 25px;
+    }
+
+    .transaction {
+      display: grid;
+      grid-template-columns: 43px 1fr auto auto;
+      gap: 15px;
+      align-items: center;
+      padding: 17px 4px;
+      border-bottom: 1px solid rgba(5,45,29,.09);
+    }
+
+    .transaction:last-child {
+      border-bottom: 0;
+    }
+
+    .transaction-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: rgba(5,45,29,.08);
+      color: var(--green-900);
+      font-size: 14px;
+    }
+
+    .transaction-info strong {
+      display: block;
+      color: var(--green-900);
+      font-size: 12px;
+    }
+
+    .transaction-info span {
+      display: block;
+      color: var(--text-muted);
+      font-size: 9px;
+      margin-top: 2px;
+    }
+
+    .transaction-date {
+      color: var(--text-muted);
+      font-size: 10px;
+      white-space: nowrap;
+    }
+
+    .transaction-amount {
+      color: var(--green-900);
+      font-size: 12px;
+      font-weight: 700;
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .transaction-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 3px;
+      color: #39714e;
+      font-size: 9px;
+      font-weight: 700;
+    }
+
+    .transaction-status.pending {
+      color: #9a7226;
+    }
+
+    .transaction-status.failed {
+      color: #984b43;
+    }
+
+    .view-all {
+      margin: 0 29px 27px;
+      width: calc(100% - 58px);
+      min-height: 42px;
+      border-radius: 22px;
+      border: 1px solid var(--border-gold);
+      background: transparent;
+      color: var(--green-900);
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .view-all:hover {
+      background: var(--green-900);
+      color: var(--gold-300);
+    }
+
+    /* =========================================================
+       PAYMENT METHODS
+       ========================================================= */
+
+    .methods-grid {
+      padding: 24px 29px 29px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 13px;
+    }
+
+    .payment-method {
+      position: relative;
+      min-height: 140px;
+      padding: 20px;
+      border-radius: 14px;
+      border: 1px solid rgba(5,45,29,.14);
+      background: #fffaf0;
+    }
+
+    .method-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 19px;
+    }
+
+    .method-icon {
+      width: 39px;
+      height: 39px;
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      background: var(--green-900);
+      color: var(--gold-300);
+      font-size: 14px;
+    }
+
+    .default-badge {
+      padding: 5px 8px;
+      border-radius: 12px;
+      background: rgba(215,173,77,.15);
+      color: #7b5d17;
+      font-size: 8px;
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: .8px;
+    }
+
+    .method-number {
+      color: var(--green-900);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 1.3px;
+    }
+
+    .method-name {
+      color: var(--text-muted);
+      font-size: 9px;
+      margin-top: 3px;
+    }
+
+    .method-actions {
+      display: flex;
+      gap: 7px;
+      margin-top: 13px;
+    }
+
+    .small-action {
+      min-height: 28px;
+      padding: 0 10px;
+      border: 1px solid rgba(5,45,29,.20);
+      border-radius: 15px;
+      background: transparent;
+      color: var(--green-900);
+      font-size: 9px;
+      font-weight: 600;
+    }
+
+    .small-action:hover {
+      background: var(--green-900);
+      color: var(--gold-300);
+    }
+
+    .add-method {
+      border: 1px dashed rgba(215,173,77,.75);
+      background: rgba(215,173,77,.06);
+      display: grid;
+      place-items: center;
+      text-align: center;
+      color: var(--green-900);
+    }
+
+    .add-method i {
+      font-size: 22px;
+      color: var(--gold-500);
+      margin-bottom: 7px;
+    }
+
+    .add-method strong {
+      display: block;
+      font-size: 11px;
+    }
+
+    .add-method span {
+      display: block;
+      color: var(--text-muted);
+      font-size: 9px;
+      margin-top: 3px;
+    }
+
+    /* =========================================================
+       INVOICES
+       ========================================================= */
+
+    .invoice-list {
+      padding: 8px 29px 25px;
+    }
+
+    .invoice-row {
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      gap: 20px;
+      align-items: center;
+      padding: 16px 4px;
+      border-bottom: 1px solid rgba(5,45,29,.09);
+    }
+
+    .invoice-row:last-child {
+      border-bottom: 0;
+    }
+
+    .invoice-info strong {
+      display: block;
+      color: var(--green-900);
+      font-size: 11px;
+    }
+
+    .invoice-info span {
+      display: block;
+      color: var(--text-muted);
+      font-size: 9px;
+      margin-top: 2px;
+    }
+
+    .invoice-amount {
+      color: var(--green-900);
+      font-weight: 700;
+      font-size: 11px;
+    }
+
+    .invoice-download {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      border: 1px solid var(--border-gold);
+      background: transparent;
+      color: var(--green-900);
+      font-size: 11px;
+    }
+
+    .invoice-download:hover {
+      background: var(--green-900);
+      color: var(--gold-300);
+    }
+
+    /* =========================================================
+       SECURITY
+       ========================================================= */
+
+    .security-content {
+      padding: 25px 29px 29px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 25px;
+    }
+
+    .security-left {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .security-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      background: var(--green-900);
+      color: var(--gold-300);
+      flex: 0 0 48px;
+    }
+
+    .security-left strong {
+      display: block;
+      color: var(--green-900);
+      font-size: 12px;
+    }
+
+    .security-left span {
+      display: block;
+      color: var(--text-muted);
+      font-size: 10px;
+      margin-top: 3px;
+    }
+
+    .security-button {
+      min-height: 40px;
+      padding: 0 16px;
+      border-radius: 20px;
+      border: 1px solid var(--border-gold);
+      background: transparent;
+      color: var(--green-900);
+      font-size: 10px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .security-button:hover {
+      background: var(--green-900);
+      color: var(--gold-300);
+    }
+
+    /* =========================================================
+       FOOTER
+       ========================================================= */
+
+    .footer {
+      background: #021b11;
+      color: white;
+      border-top: 1px solid rgba(215,173,77,.45);
+    }
+
+    .footer-inner {
+      width: min(calc(100% - 48px), var(--container));
+      margin: auto;
+      padding: 65px 0 45px;
+
+      display: grid;
+      grid-template-columns: 1.7fr 1fr 1fr 1fr;
+      gap: 35px;
+    }
+
+    .footer-brand strong {
+      display: block;
+      color: var(--gold-300);
+      font-family: var(--serif);
+      font-size: 30px;
+      letter-spacing: 2px;
+      margin-bottom: 14px;
+    }
+
+    .footer-brand p {
+      max-width: 330px;
+      color: rgba(255,255,255,.58);
+      font-size: 12px;
+      line-height: 1.8;
+    }
+
+    .footer-column h4 {
+      color: var(--gold-300);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1.6px;
+      margin-bottom: 18px;
+    }
+
+    .footer-column a {
+      display: block;
+      color: rgba(255,255,255,.66);
+      font-size: 12px;
+      margin-bottom: 10px;
+      transition: .2s ease;
+    }
+
+    .footer-column a:hover {
+      color: var(--gold-300);
+    }
+
+    .footer-bottom {
+      width: min(calc(100% - 48px), var(--container));
+      margin: auto;
+      border-top: 1px solid rgba(255,255,255,.08);
+      padding: 20px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      color: rgba(255,255,255,.43);
+      font-size: 10px;
+    }
+
+    /* =========================================================
+       AI
+       ========================================================= */
+
+    .ai-float {
+      position: fixed;
+      right: 24px;
+      bottom: 24px;
+      z-index: 1200;
+    }
+
+    .ai-float-button {
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      border: 2px solid var(--gold-300);
+      background: var(--green-900);
+      color: var(--gold-300);
+      display: grid;
+      place-items: center;
+      font-size: 22px;
+      box-shadow: 0 12px 30px rgba(0,0,0,.25);
+    }
+
+    .ai-tooltip {
+      position: absolute;
+      right: 68px;
+      bottom: 5px;
+      white-space: nowrap;
+      background: var(--green-950);
+      color: white;
+      border: 1px solid rgba(215,173,77,.5);
+      padding: 9px 13px;
+      border-radius: 8px;
+      font-size: 11px;
+      opacity: 0;
+      transform: translateX(5px);
+      pointer-events: none;
+      transition: .2s ease;
+    }
+
+    .ai-float:hover .ai-tooltip {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* =========================================================
+       TOAST
+       ========================================================= */
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 25px;
+      transform: translate(-50%, 100px);
+      z-index: 2000;
+      background: var(--green-950);
+      color: white;
+      border: 1px solid var(--gold-400);
+      border-radius: 10px;
+      padding: 13px 18px;
+      font-size: 12px;
+      box-shadow: 0 15px 35px rgba(0,0,0,.25);
+      opacity: 0;
+      pointer-events: none;
+      transition: .3s ease;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+
+    /* =========================================================
+       MOBILE MENU
+       ========================================================= */
+
+    @media (max-width: 1100px) {
+
+      .main-nav {
+        gap: 17px;
+      }
+
+      .main-nav a {
+        font-size: 12px;
+      }
+
+      .payments-layout {
+        grid-template-columns: 250px 1fr;
+      }
+
+    }
+
+    @media (max-width: 850px) {
+
+      :root {
+        --header-height: 68px;
+      }
+
+      .container,
+      .footer-inner,
+      .footer-bottom {
+        width: min(calc(100% - 32px), var(--container));
+      }
+
+      .main-nav,
+      .header-search,
+      .login-btn {
+        display: none;
+      }
+
+      .get-started {
+        display: none;
+      }
+
+      .mobile-menu {
+        display: grid;
+        place-items: center;
+      }
+
+      .payments-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .payments-sidebar {
+        position: static;
+      }
+
+      .side-nav {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 5px;
+      }
+
+      .side-nav .logout {
+        margin-top: 0;
+      }
+
+      .summary-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .footer-inner {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .footer-brand {
+        grid-column: 1 / -1;
+      }
+
+    }
+
+    @media (max-width: 600px) {
+
+      .container,
+      .footer-inner,
+      .footer-bottom {
+        width: min(calc(100% - 24px), var(--container));
+      }
+
+      .brand-name {
+        font-size: 22px;
+      }
+
+      .brand-mark {
+        width: 39px;
+        height: 39px;
+      }
+
+      .payments-hero {
+        padding: 50px 0 55px;
+      }
+
+      .hero-title {
+        font-size: 44px;
+      }
+
+      .hero-description {
+        font-size: 13px;
+      }
+
+      .payments-section {
+        padding: 43px 0 70px;
+      }
+
+      .side-nav {
+        grid-template-columns: 1fr;
+      }
+
+      .card-header {
+        padding: 22px 20px 18px;
+        align-items: flex-start;
+      }
+
+      .card-header h2 {
+        font-size: 23px;
+      }
+
+      .summary-grid {
+        grid-template-columns: 1fr;
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+
+      .transactions {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+
+      .transaction {
+        grid-template-columns: 40px 1fr auto;
+        gap: 11px;
+      }
+
+      .transaction-date {
+        display: none;
+      }
+
+      .transaction-amount {
+        grid-column: 3;
+      }
+
+      .view-all {
+        margin-left: 20px;
+        margin-right: 20px;
+        width: calc(100% - 40px);
+      }
+
+      .methods-grid {
+        grid-template-columns: 1fr;
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+
+      .invoice-list {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+
+      .invoice-row {
+        grid-template-columns: 1fr auto;
+        gap: 10px;
+      }
+
+      .invoice-amount {
+        display: none;
+      }
+
+      .security-content {
+        display: block;
+        padding: 22px 20px 25px;
+      }
+
+      .security-button {
+        margin-top: 18px;
+      }
+
+      .footer-inner {
+        grid-template-columns: 1fr 1fr;
+        gap: 30px 20px;
+      }
+
+      .footer-brand {
+        grid-column: 1 / -1;
+      }
+
+      .footer-bottom {
+        display: block;
+      }
+
+      .footer-bottom span {
+        display: block;
+      }
+
+      .footer-bottom span + span {
+        margin-top: 9px;
+      }
+
+      .ai-float {
+        right: 15px;
+        bottom: 15px;
+      }
+
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- =======================================================
+       HEADER
+       ======================================================= -->
+
+  <header class="site-header">
+
+    <div class="container header-inner">
+
+      <a href="index.html" class="brand">
+
+        <div class="brand-mark">
+          <i class="fa-solid fa-house"></i>
+        </div>
+
+        <div>
+          <div class="brand-name">GHAR</div>
+          <span class="brand-tagline">BUY | SELL | RENT</span>
+        </div>
+
+      </a>
+
+
+      <nav class="main-nav">
+
+        <a href="index.html">Home</a>
+
+        <a href="properties.html">Properties</a>
+
+        <a href="buy.html">Buy</a>
+
+        <a href="rent.html">Rent</a>
+
+        <a href="sell.html">Sell</a>
+
+        <a href="ghar-ai.html">GHAR AI</a>
+
+        <a href="about.html">About</a>
+
+        <a href="contact.html">Contact</a>
+
+      </nav>
+
+
+      <div class="header-actions">
+
+        <button
+          class="header-search"
+          aria-label="Search"
+          onclick="window.location.href='property-search.html'"
+        >
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+
+        <a href="login.html" class="login-btn">
+          Login
+        </a>
+
+        <a href="register.html" class="get-started">
+          Get Started
+        </a>
+
+        <button
+          class="mobile-menu"
+          id="mobileMenu"
+          aria-label="Menu"
+        >
+          <i class="fa-solid fa-bars"></i>
+        </button>
+
+      </div>
+
+    </div>
+
+  </header>
+
+
+  <!-- =======================================================
+       MAIN
+       ======================================================= -->
+
+  <main>
+
+    <!-- =====================================================
+         HERO
+         ===================================================== -->
+
+    <section class="payments-hero">
+
+      <div class="container hero-inner">
+
+        <div class="eyebrow">
+          GHAR ACCOUNT
+        </div>
+
+        <h1 class="hero-title">
+          Payments,
+          <em>made simple.</em>
+        </h1>
+
+        <p class="hero-description">
+          Manage your property payments, transaction history,
+          saved payment methods and invoices from one secure
+          GHAR account.
+        </p>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         PAYMENTS AREA
+         ===================================================== -->
+
+    <section class="payments-section">
+
+      <div class="container payments-layout">
+
+
+        <!-- =================================================
+             SIDEBAR
+             ================================================= -->
+
+        <aside class="payments-sidebar">
+
+          <div class="side-profile">
+
+            <div class="side-avatar">
+              VC
+            </div>
+
+            <strong>
+              Vivek Choubey
+            </strong>
+
+            <span>
+              Property Explorer
+            </span>
+
+          </div>
+
+
+          <nav class="side-nav">
+
+            <a href="profile.html">
+              <i class="fa-regular fa-user"></i>
+              Profile
+            </a>
+
+            <a href="dashboard.html">
+              <i class="fa-solid fa-chart-line"></i>
+              Dashboard
+            </a>
+
+            <a href="buyer/saved-properties.html">
+              <i class="fa-regular fa-heart"></i>
+              Saved Properties
+            </a>
+
+            <a href="buyer/visits.html">
+              <i class="fa-regular fa-calendar"></i>
+              My Visits
+            </a>
+
+            <a href="buyer/offers.html">
+              <i class="fa-solid fa-handshake"></i>
+              My Offers
+            </a>
+
+            <a href="buyer/documents.html">
+              <i class="fa-regular fa-file-lines"></i>
+              Documents
+            </a>
+
+            <a
+              href="payments.html"
+              class="active"
+            >
+              <i class="fa-solid fa-credit-card"></i>
+              Payments
+            </a>
+
+            <a href="settings.html">
+              <i class="fa-solid fa-gear"></i>
+              Settings
+            </a>
+
+            <button
+              class="logout"
+              id="logoutButton"
+              type="button"
+            >
+              <i class="fa-solid fa-arrow-right-from-bracket"></i>
+              Logout
+            </button>
+
+          </nav>
+
+        </aside>
+
+
+        <!-- =================================================
+             CONTENT
+             ================================================= -->
+
+        <div class="payments-content">
+
+
+          <!-- =================================================
+               PAYMENT OVERVIEW
+               ================================================= -->
+
+          <section class="content-card">
+
+            <div class="card-header">
+
+              <div>
+
+                <h2>
+                  Payment Overview
+                </h2>
+
+                <p>
+                  Your recent payment activity at a glance.
+                </p>
+
+              </div>
+
+            </div>
+
+
+            <div class="summary-grid">
+
+
+              <div class="summary-card">
+
+                <div class="summary-icon">
+                  <i class="fa-solid fa-indian-rupee-sign"></i>
+                </div>
+
+                <span class="summary-label">
+                  Total Paid
+                </span>
+
+                <strong class="summary-value">
+                  ₹0
+                </strong>
+
+                <span class="summary-note">
+                  Across all GHAR transactions
+                </span>
+
+              </div>
+
+
+              <div class="summary-card">
+
+                <div class="summary-icon">
+                  <i class="fa-solid fa-clock"></i>
+                </div>
+
+                <span class="summary-label">
+                  Pending
+                </span>
+
+                <strong class="summary-value">
+                  ₹0
+                </strong>
+
+                <span class="summary-note">
+                  No pending payments
+                </span>
+
+              </div>
+
+
+              <div class="summary-card">
+
+                <div class="summary-icon">
+                  <i class="fa-solid fa-file-invoice"></i>
+                </div>
+
+                <span class="summary-label">
+                  Invoices
+                </span>
+
+                <strong class="summary-value">
+                  0
+                </strong>
+
+                <span class="summary-note">
+                  Available invoices
+                </span>
+
+              </div>
+
+            </div>
+
+          </section>
+
+
+          <!-- =================================================
+               TRANSACTIONS
+               ================================================= -->
+
+          <section class="content-card">
+
+            <div class="card-header">
+
+              <div>
+
+                <h2>
+                  Recent Transactions
+                </h2>
+
+                <p>
+                  View your recent GHAR payment activity.
+                </p>
+
+              </div>
+
+
+              <div class="transaction-tools">
+
+                <select
+                  class="filter-select"
+                  id="transactionFilter"
+                  aria-label="Filter transactions"
+                >
+                  <option value="all">
+                    All
+                  </option>
+
+                  <option value="completed">
+                    Completed
+                  </option>
+
+                  <option value="pending">
+                    Pending
+                  </option>
+
+                  <option value="failed">
+                    Failed
+                  </option>
+                </select>
+
+              </div>
+
+            </div>
+
+
+            <div
+              class="transactions"
+              id="transactions"
+            >
+
+              <div
+                class="transaction"
+                data-status="completed"
+              >
+
+                <div class="transaction-icon">
+                  <i class="fa-solid fa-house"></i>
+                </div>
+
+                <div class="transaction-info">
+
+                  <strong>
+                    Property Booking
+                  </strong>
+
+                  <span>
+                    No transactions yet
+                  </span>
+
+                  <div class="transaction-status">
+                    <i class="fa-solid fa-circle-check"></i>
+                    Completed
+                  </div>
+
+                </div>
+
+                <div class="transaction-date">
+                  --
+                </div>
+
+                <div class="transaction-amount">
+                  ₹0
+                </div>
+
+              </div>
+
+
+              <div
+                class="transaction"
+                data-status="completed"
+              >
+
+                <div class="transaction-icon">
+                  <i class="fa-solid fa-file-signature"></i>
+                </div>
+
+                <div class="transaction-info">
+
+                  <strong>
+                    Property Service
+                  </strong>
+
+                  <span>
+                    No payment records available
+                  </span>
+
+                  <div class="transaction-status">
+                    <i class="fa-solid fa-circle-check"></i>
+                    Completed
+                  </div>
+
+                </div>
+
+                <div class="transaction-date">
+                  --
+                </div>
+
+                <div class="transaction-amount">
+                  ₹0
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <button
+              class="view-all"
+              type="button"
+              id="viewTransactions"
+            >
+              View All Transactions
+              <i class="fa-solid fa-arrow-right"></i>
+            </button>
+
+          </section>
+
+
+          <!-- =================================================
+               PAYMENT METHODS
+               ================================================= -->
+
+          <section class="content-card">
+
+            <div class="card-header">
+
+              <div>
+
+                <h2>
+                  Payment Methods
+                </h2>
+
+                <p>
+                  Manage your saved payment methods securely.
+                </p>
+
+              </div>
+
+            </div>
+
+
+            <div class="methods-grid">
+
+
+              <div class="payment-method">
+
+                <div class="method-top">
+
+                  <div class="method-icon">
+                    <i class="fa-regular fa-credit-card"></i>
+                  </div>
+
+                  <span class="default-badge">
+                    Default
+                  </span>
+
+                </div>
+
+                <div class="method-number">
+                  No payment method
+                </div>
+
+                <div class="method-name">
+                  Add a card or payment method to continue.
+                </div>
+
+                <div class="method-actions">
+
+                  <button
+                    class="small-action"
+                    type="button"
+                    onclick="addPaymentMethod()"
+                  >
+                    Add Method
+                  </button>
+
+                </div>
+
+              </div>
+
+
+              <button
+                class="payment-method add-method"
+                type="button"
+                onclick="addPaymentMethod()"
+              >
+
+                <div>
+
+                  <i class="fa-solid fa-plus"></i>
+
+                  <strong>
+                    Add Payment Method
+                  </strong>
+
+                  <span>
+                    Securely save your preferred method
+                  </span>
+
+                </div>
+
+              </button>
+
+
+            </div>
+
+          </section>
+
+
+          <!-- =================================================
+               INVOICES
+               ================================================= -->
+
+          <section class="content-card">
+
+            <div class="card-header">
+
+              <div>
+
+                <h2>
+                  Invoices
+                </h2>
+
+                <p>
+                  Access invoices and payment receipts.
+                </p>
+
+              </div>
+
+            </div>
+
+
+            <div class="invoice-list">
+
+
+              <div class="invoice-row">
+
+                <div class="invoice-info">
+
+                  <strong>
+                    No invoices available
+                  </strong>
+
+                  <span>
+                    Your GHAR invoices will appear here after
+                    successful transactions.
+                  </span>
+
+                </div>
+
+                <div class="invoice-amount">
+                  --
+                </div>
+
+                <button
+                  class="invoice-download"
+                  type="button"
+                  onclick="showToast('No invoice is available yet.')"
+                  aria-label="Download invoice"
+                >
+                  <i class="fa-solid fa-download"></i>
+                </button>
+
+              </div>
+
+
+            </div>
+
+          </section>
+
+
+          <!-- =================================================
+               PAYMENT SECURITY
+               ================================================= -->
+
+          <section class="content-card">
+
+            <div class="card-header">
+
+              <div>
+
+                <h2>
+                  Payment Security
+                </h2>
+
+                <p>
+                  Your payment information is protected.
+                </p>
+
+              </div>
+
+            </div>
+
+
+            <div class="security-content">
+
+              <div class="security-left">
+
+                <div class="security-icon">
+                  <i class="fa-solid fa-shield-halved"></i>
+                </div>
+
+                <div>
+
+                  <strong>
+                    Secure GHAR Payments
+                  </strong>
+
+                  <span>
+                    Never share your OTP, card PIN or banking
+                    credentials with anyone.
+                  </span>
+
+                </div>
+
+              </div>
+
+
+              <button
+                class="security-button"
+                type="button"
+                onclick="showToast('Payment security information opened.')"
+              >
+                <i class="fa-solid fa-lock"></i>
+                Security Information
+              </button>
+
+            </div>
+
+          </section>
+
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- =======================================================
+       FOOTER
+       ======================================================= -->
+
+  <footer class="footer">
+
+    <div class="footer-inner">
+
+      <div class="footer-brand">
+
+        <strong>
+          GHAR
+        </strong>
+
+        <p>
+          A premium real estate experience built around
+          intelligent discovery, transparent transactions
+          and exceptional property journeys.
+        </p>
+
+      </div>
+
+
+      <div class="footer-column">
+
+        <h4>
+          EXPLORE
+        </h4>
+
+        <a href="properties.html">
+          Properties
+        </a>
+
+        <a href="property-search.html">
+          Search
+        </a>
+
+        <a href="buyer/saved-properties.html">
+          Saved Properties
+        </a>
+
+        <a href="buyer/visits.html">
+          Visits
+        </a>
+
+      </div>
+
+
+      <div class="footer-column">
+
+        <h4>
+          ACCOUNT
+        </h4>
+
+        <a href="profile.html">
+          Profile
+        </a>
+
+        <a href="settings.html">
+          Settings
+        </a>
+
+        <a href="buyer/documents.html">
+          Documents
+        </a>
+
+        <a href="payments.html">
+          Payments
+        </a>
+
+      </div>
+
+
+      <div class="footer-column">
+
+        <h4>
+          SUPPORT
+        </h4>
+
+        <a href="help-centre.html">
+          Help Centre
+        </a>
+
+        <a href="faqs.html">
+          FAQs
+        </a>
+
+        <a href="contact.html">
+          Contact
+        </a>
+
+        <a href="privacy-policy.html">
+          Privacy Policy
+        </a>
+
+      </div>
+
+    </div>
+
+
+    <div class="footer-bottom">
+
+      <span>
+        © 2026 GHAR. All rights reserved.
+      </span>
+
+      <span>
+        BUY • SELL • RENT • INVEST
+      </span>
+
+    </div>
+
+  </footer>
+
+
+  <!-- =======================================================
+       GHAR AI
+       ======================================================= -->
+
+  <div class="ai-float">
+
+    <div class="ai-tooltip">
+      Ask GHAR AI
+    </div>
+
+    <button
+      class="ai-float-button"
+      onclick="window.location.href='ghar-ai.html'"
+      aria-label="Open GHAR AI"
+    >
+      <i class="fa-solid fa-wand-magic-sparkles"></i>
+    </button>
+
+  </div>
+
+
+  <!-- =======================================================
+       TOAST
+       ======================================================= -->
+
+  <div
+    class="toast"
+    id="toast"
+    role="status"
+    aria-live="polite"
+  ></div>
+
+
+  <!-- =======================================================
+       JAVASCRIPT
+       ======================================================= -->
+
+  <script>
+
+    /* =========================================================
+       MOBILE MENU
+       ========================================================= */
+
+    const mobileMenu =
+      document.getElementById("mobileMenu");
+
+    mobileMenu.addEventListener(
+      "click",
+      function () {
+
+        const nav =
+          document.querySelector(".main-nav");
+
+        const isOpen =
+          nav.classList.toggle("mobile-open");
+
+        if (isOpen) {
+
+          nav.style.display = "flex";
+          nav.style.position = "absolute";
+          nav.style.top = "68px";
+          nav.style.left = "0";
+          nav.style.right = "0";
+          nav.style.padding = "18px";
+          nav.style.background = "#031b11";
+          nav.style.borderBottom =
+            "1px solid rgba(215,173,77,.45)";
+          nav.style.flexDirection = "column";
+          nav.style.alignItems = "stretch";
+          nav.style.gap = "0";
+
+          nav.querySelectorAll("a").forEach(
+            function (link) {
+
+              link.style.padding =
+                "13px 10px";
+
+            }
+          );
+
+        } else {
+
+          nav.removeAttribute("style");
+
+          nav.querySelectorAll("a").forEach(
+            function (link) {
+
+              link.removeAttribute("style");
+
+            }
+          );
+
+        }
+
+      }
+    );
+
+
+    /* =========================================================
+       HEADER SHADOW
+       ========================================================= */
+
+    window.addEventListener(
+      "scroll",
+      function () {
+
+        const header =
+          document.querySelector(".site-header");
+
+        if (window.scrollY > 20) {
+
+          header.style.boxShadow =
+            "0 10px 30px rgba(0,0,0,.22)";
+
+        } else {
+
+          header.style.boxShadow =
+            "none";
+
+        }
+
+      }
+    );
+
+
+    /* =========================================================
+       TOAST
+       ========================================================= */
+
+    function showToast(message) {
+
+      const toast =
+        document.getElementById("toast");
+
+      toast.textContent = message;
+
+      toast.classList.add("show");
+
+      setTimeout(
+        function () {
+
+          toast.classList.remove("show");
+
+        },
+        2800
+      );
+
+    }
+
+
+    /* =========================================================
+       TRANSACTION FILTER
+       ========================================================= */
+
+    const transactionFilter =
+      document.getElementById(
+        "transactionFilter"
+      );
+
+    transactionFilter.addEventListener(
+      "change",
+      function () {
+
+        const selected =
+          this.value;
+
+        const transactions =
+          document.querySelectorAll(
+            ".transaction"
+          );
+
+        transactions.forEach(
+          function (transaction) {
+
+            const status =
+              transaction.dataset.status;
+
+            if (
+              selected === "all" ||
+              selected === status
+            ) {
+
+              transaction.style.display =
+                "grid";
+
+            } else {
+
+              transaction.style.display =
+                "none";
+
+            }
+
+          }
+        );
+
+      }
+    );
+
+
+    /* =========================================================
+       VIEW TRANSACTIONS
+       ========================================================= */
+
+    document
+      .getElementById("viewTransactions")
+      .addEventListener(
+        "click",
+        function () {
+
+          showToast(
+            "Full transaction history will appear here."
+          );
+
+        }
+      );
+
+
+    /* =========================================================
+       ADD PAYMENT METHOD
+       ========================================================= */
+
+    function addPaymentMethod() {
+
+      showToast(
+        "Secure payment-method setup will open here."
+      );
+
+    }
+
+
+    /* =========================================================
+       LOGOUT
+       ========================================================= */
+
+    function logoutUser() {
+
+      try {
+
+        localStorage.removeItem(
+          "ghar_user"
+        );
+
+        localStorage.removeItem(
+          "ghar_token"
+        );
+
+        sessionStorage.removeItem(
+          "ghar_user"
+        );
+
+        sessionStorage.removeItem(
+          "ghar_token"
+        );
+
+      } catch (error) {
+
+        console.warn(
+          "Storage cleanup failed:",
+          error
+        );
+
+      }
+
+      showToast(
+        "You have been signed out."
+      );
+
+      setTimeout(
+        function () {
+
+          window.location.href =
+            "login.html";
+
+        },
+        900
+      );
+
+    }
+
+
+    document
+      .getElementById("logoutButton")
+      .addEventListener(
+        "click",
+        logoutUser
+      );
+
+
+    /* =========================================================
+       LOAD STORED USER
+       ========================================================= */
+
+    function loadStoredUser() {
+
+      try {
+
+        const raw =
+          localStorage.getItem(
+            "ghar_user"
+          );
+
+        if (!raw) {
+          return;
+        }
+
+        const user =
+          JSON.parse(raw);
+
+        const firstName =
+          user.firstName ||
+          user.first_name ||
+          "";
+
+        const lastName =
+          user.lastName ||
+          user.last_name ||
+          "";
+
+        const fullName =
+          (
+            firstName +
+            " " +
+            lastName
+          ).trim();
+
+        if (fullName) {
+
+          document.querySelector(
+            ".side-profile strong"
+          ).textContent =
+            fullName;
+
+          let initials = "";
+
+          if (firstName) {
+
+            initials +=
+              firstName
+                .charAt(0)
+                .toUpperCase();
+
+          }
+
+          if (lastName) {
+
+            initials +=
+              lastName
+                .charAt(0)
+                .toUpperCase();
+
+          }
+
+          if (!initials) {
+            initials = "GH";
+          }
+
+          document.querySelector(
+            ".side-avatar"
+          ).textContent =
+            initials;
+
+        }
+
+      } catch (error) {
+
+        console.warn(
+          "Could not load stored GHAR user.",
+          error
+        );
+
+      }
+
+    }
+
+
+    loadStoredUser();
+
+
+    /* =========================================================
+       INITIAL PAGE STATE
+       ========================================================= */
+
+    document.addEventListener(
+      "DOMContentLoaded",
+      function () {
+
+        showToast(
+          "Payments dashboard loaded."
+        );
+
+      }
+    );
+
+  </script>
+
+</body>
+</html>
