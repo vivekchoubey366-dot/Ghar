@@ -1,1071 +1,2048 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Favourites | GHAR -- Your Shortlisted Properties</title>
-
-<meta name="description"
-      content="View and manage your favourite properties on GHAR.">
-
-<link rel="icon"
-      type="image/svg+xml"
-      href="/assets/images/logo/favicon.svg">
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap"
-      rel="stylesheet">
-
-<link rel="stylesheet" href="/assets/css/variables.css">
-<link rel="stylesheet" href="/assets/css/reset.css">
-<link rel="stylesheet" href="/assets/css/style.css">
-<link rel="stylesheet" href="/assets/css/layout.css">
-<link rel="stylesheet" href="/assets/css/components.css">
-<link rel="stylesheet" href="/assets/css/navigation.css">
-<link rel="stylesheet" href="/assets/css/cards.css">
-<link rel="stylesheet" href="/assets/css/forms.css">
-<link rel="stylesheet" href="/assets/css/property.css">
-<link rel="stylesheet" href="/assets/css/animations.css">
-<link rel="stylesheet" href="/assets/css/responsive.css">
-
-<style>
-
-:root {
-    --ivory:#f8f5ee;
-    --pearl:#f1eee6;
-    --champagne:#e8dcc7;
-    --gold:#b79a68;
-    --gold-light:#d9c39b;
-    --sage:#dfe6dc;
-    --emerald:#27483d;
-    --emerald-deep:#19372f;
-    --text:#23342f;
-    --muted:#737b76;
-    --border:rgba(39,72,61,.11);
-    --shadow:0 20px 60px rgba(50,59,49,.10);
-}
-
-* {
-    box-sizing:border-box;
-}
-
-html {
-    scroll-behavior:smooth;
-}
-
-body {
-    margin:0;
-    background:
-        radial-gradient(circle at 10% 0%,rgba(217,195,155,.20),transparent 28%),
-        radial-gradient(circle at 95% 18%,rgba(135,150,135,.14),transparent 30%),
-        var(--ivory);
-    color:var(--text);
-    font-family:"DM Sans",sans-serif;
-}
-
-a {
-    color:inherit;
-    text-decoration:none;
-}
-
-button,
-input,
-select {
-    font:inherit;
-}
-
-img {
-    max-width:100%;
-    display:block;
-}
-
-/* HEADER */
-
-.ghar-header {
-    position:sticky;
-    top:0;
-    z-index:1000;
-    background:rgba(248,245,238,.92);
-    backdrop-filter:blur(20px);
-    border-bottom:1px solid var(--border);
-}
-
-.ghar-nav {
-    max-width:1440px;
-    min-height:82px;
-    padding:0 34px;
-    margin:auto;
-
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:30px;
-}
-
-.logo img {
-    width:132px;
-}
-
-.main-nav {
-    display:flex;
-    align-items:center;
-    gap:30px;
-}
-
-.main-nav a {
-    color:#59655f;
-    font-size:14px;
-    font-weight:600;
-    padding:9px 0;
-}
-
-.main-nav a:hover,
-.main-nav a.active {
-    color:var(--emerald);
-}
-
-.main-nav a.active {
-    border-bottom:2px solid var(--gold);
-}
-
-.nav-actions {
-    display:flex;
-    align-items:center;
-    gap:10px;
-}
-
-.nav-icon {
-    width:42px;
-    height:42px;
-    display:grid;
-    place-items:center;
-    border:1px solid var(--border);
-    border-radius:50%;
-    background:rgba(255,255,255,.65);
-}
-
-.list-btn {
-    padding:12px 19px;
-    border-radius:999px;
-    background:var(--emerald);
-    color:white;
-    font-size:13px;
-    font-weight:700;
-}
-
-/* HERO */
-
-.page-hero {
-    max-width:1440px;
-    margin:auto;
-    padding:78px 34px 48px;
-}
-
-.eyebrow {
-    color:var(--gold);
-    font-size:11px;
-    font-weight:800;
-    text-transform:uppercase;
-    letter-spacing:.18em;
-}
-
-.page-title {
-    max-width:800px;
-    margin:14px 0 0;
-
-    color:var(--emerald-deep);
-    font-family:"Playfair Display",serif;
-    font-size:clamp(45px,5vw,72px);
-    line-height:1;
-    letter-spacing:-.04em;
-}
-
-.page-title span {
-    color:var(--gold);
-}
-
-.page-description {
-    max-width:650px;
-    margin:22px 0 0;
-    color:var(--muted);
-    line-height:1.8;
-}
-
-/* CONTENT */
-
-.page-container {
-    max-width:1440px;
-    margin:auto;
-    padding:0 34px 100px;
-}
-
-.toolbar {
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    margin-bottom:24px;
-    gap:20px;
-}
-
-.toolbar h2 {
-    margin:0;
-    color:var(--emerald-deep);
-    font-family:"Playfair Display",serif;
-    font-size:29px;
-}
-
-.toolbar p {
-    margin:5px 0 0;
-    color:var(--muted);
-    font-size:13px;
-}
-
-.clear-btn {
-    padding:11px 17px;
-    border:1px solid var(--border);
-    border-radius:12px;
-    background:white;
-    color:var(--emerald);
-    font-size:12px;
-    font-weight:700;
-    cursor:pointer;
-}
-
-/* GRID */
-
-.property-grid {
-    display:grid;
-    grid-template-columns:repeat(3,minmax(0,1fr));
-    gap:24px;
-}
-
-.property-card {
-    overflow:hidden;
-    background:rgba(255,255,255,.78);
-    border:1px solid var(--border);
-    border-radius:26px;
-    box-shadow:0 13px 45px rgba(50,59,49,.07);
-    transition:.3s ease;
-}
-
-.property-card:hover {
-    transform:translateY(-7px);
-    box-shadow:var(--shadow);
-}
-
-.property-image {
-    position:relative;
-    height:280px;
-    overflow:hidden;
-}
-
-.property-image img {
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    transition:.5s ease;
-}
-
-.property-card:hover .property-image img {
-    transform:scale(1.04);
-}
-
-.property-status {
-    position:absolute;
-    top:16px;
-    left:16px;
-
-    padding:7px 11px;
-    border-radius:999px;
-
-    background:rgba(255,255,255,.92);
-    color:var(--emerald);
-
-    font-size:10px;
-    font-weight:800;
-    text-transform:uppercase;
-}
-
-.remove-btn {
-    position:absolute;
-    top:15px;
-    right:15px;
-
-    width:39px;
-    height:39px;
-
-    border:0;
-    border-radius:50%;
-
-    background:white;
-    color:#a66d6d;
-
-    cursor:pointer;
-    box-shadow:0 8px 20px rgba(0,0,0,.10);
-}
-
-.property-content {
-    padding:21px;
-}
-
-.property-type {
-    color:var(--gold);
-    font-size:10px;
-    font-weight:800;
-    text-transform:uppercase;
-    letter-spacing:.14em;
-}
-
-.property-title {
-    margin:8px 0 6px;
-    color:var(--emerald-deep);
-    font-family:"Playfair Display",serif;
-    font-size:22px;
-}
-
-.property-location {
-    color:var(--muted);
-    font-size:12px;
-}
-
-.property-meta {
-    display:flex;
-    gap:10px;
-    flex-wrap:wrap;
-
-    margin:17px 0;
-    padding-top:15px;
-
-    border-top:1px solid rgba(39,72,61,.09);
-
-    color:#596560;
-    font-size:12px;
-}
-
-.property-bottom {
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:10px;
-}
-
-.price {
-    color:var(--emerald-deep);
-    font-size:20px;
-    font-weight:800;
-}
-
-.view-btn {
-    padding:10px 14px;
-    border-radius:12px;
-    background:var(--sage);
-    color:var(--emerald);
-    font-size:11px;
-    font-weight:800;
-}
-
-/* EMPTY */
-
-.empty-state {
-    display:none;
-    padding:90px 25px;
-    text-align:center;
-
-    border:1px dashed rgba(39,72,61,.18);
-    border-radius:30px;
-    background:rgba(255,255,255,.48);
-}
-
-.empty-icon {
-    font-size:46px;
-    color:var(--gold);
-}
-
-.empty-state h3 {
-    margin:16px 0 8px;
-    font-family:"Playfair Display",serif;
-    font-size:30px;
-}
-
-.empty-state p {
-    color:var(--muted);
-}
-
-.explore-btn {
-    display:inline-block;
-    margin-top:15px;
-    padding:13px 21px;
-    border-radius:999px;
-    background:var(--emerald);
-    color:white;
-    font-size:12px;
-    font-weight:800;
-}
-
-/* FOOTER */
-
-.footer {
-    background:#e7e1d5;
-    border-top:1px solid var(--border);
-}
-
-.footer-inner {
-    max-width:1440px;
-    margin:auto;
-    padding:60px 34px 35px;
-
-    display:grid;
-    grid-template-columns:1.5fr repeat(3,1fr);
-    gap:40px;
-}
-
-.footer-logo {
-    width:125px;
-    margin-bottom:16px;
-}
-
-.footer p {
-    max-width:330px;
-    color:#68716c;
-    font-size:13px;
-    line-height:1.7;
-}
-
-.footer h4 {
-    margin:0 0 16px;
-    color:var(--emerald);
-    font-size:13px;
-}
-
-.footer a {
-    display:block;
-    margin-bottom:11px;
-    color:#717873;
-    font-size:12px;
-}
-
-.footer-bottom {
-    max-width:1440px;
-    margin:auto;
-    padding:18px 34px 25px;
-
-    display:flex;
-    justify-content:space-between;
-
-    border-top:1px solid var(--border);
-
-    color:#7d837f;
-    font-size:11px;
-}
-
-/* MOBILE */
-
-.mobile-dock {
-    display:none;
-}
-
-@media(max-width:1100px) {
-    .property-grid {
-        grid-template-columns:repeat(2,minmax(0,1fr));
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Favourites | GHAR</title>
+
+  <meta
+    name="description"
+    content="View and manage your favourite properties on GHAR."
+  >
+
+  <meta name="theme-color" content="#052d1d">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap"
+    rel="stylesheet"
+  >
+
+  <!-- Icons -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+  >
+
+  <style>
+
+    /* =========================================================
+       GHAR -- FAVOURITES PAGE
+       SAME ROYAL GREEN + GOLD DESIGN SYSTEM
+       ========================================================= */
+
+    :root {
+      --green-950: #031b11;
+      --green-900: #052d1d;
+      --green-850: #073a25;
+      --green-800: #08442a;
+      --green-700: #0c5535;
+      --green-600: #126742;
+
+      --gold-500: #d7ad4d;
+      --gold-400: #e7c76b;
+      --gold-300: #f1d98a;
+      --gold-200: #f6e8b1;
+
+      --cream: #f5efdf;
+      --cream-2: #eee5d0;
+      --white: #ffffff;
+
+      --text-dark: #122118;
+      --text-muted: #657068;
+
+      --border-gold: rgba(215,173,77,.65);
+      --border-light: rgba(255,255,255,.13);
+
+      --shadow: 0 20px 50px rgba(0,0,0,.18);
+
+      --serif: "Playfair Display", Georgia, serif;
+      --sans: "DM Sans", Arial, sans-serif;
+
+      --header-height: 72px;
+
+      --radius-sm: 10px;
+      --radius-md: 16px;
+      --radius-lg: 24px;
+
+      --container: 1380px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--sans);
+      color: var(--text-dark);
+      background: var(--cream);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      object-fit: cover;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    input,
+    textarea,
+    select {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .container {
+      width: min(calc(100% - 48px), var(--container));
+      margin: auto;
+    }
+
+
+    /* =========================================================
+       HEADER -- SAME BASE
+       ========================================================= */
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      height: var(--header-height);
+      background: var(--green-950);
+      border-bottom: 1px solid rgba(215,173,77,.45);
+    }
+
+    .header-inner {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 30px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      flex-shrink: 0;
+    }
+
+    .brand-mark {
+      width: 43px;
+      height: 43px;
+      border: 1.5px solid var(--gold-400);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: var(--gold-300);
+      font-size: 19px;
+      position: relative;
+    }
+
+    .brand-mark::after {
+      content: "";
+      position: absolute;
+      inset: 4px;
+      border: 1px solid rgba(231,199,107,.35);
+      border-radius: 50%;
+    }
+
+    .brand-name {
+      color: var(--gold-300);
+      font-family: var(--serif);
+      font-size: 25px;
+      letter-spacing: 2px;
+      line-height: 1;
+    }
+
+    .brand-tagline {
+      display: block;
+      margin-top: 3px;
+      color: #e9e2d2;
+      font-size: 7px;
+      letter-spacing: 2px;
+      font-weight: 600;
     }
 
     .main-nav {
-        gap:18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 27px;
+      margin-left: auto;
     }
 
-    .footer-inner {
-        grid-template-columns:repeat(2,1fr);
+    .main-nav a {
+      position: relative;
+      color: rgba(255,255,255,.82);
+      font-size: 13px;
+      font-weight: 500;
+      padding: 26px 0;
+      transition: .25s ease;
+      white-space: nowrap;
     }
-}
 
-@media(max-width:820px) {
-
-    .ghar-nav {
-        padding:0 20px;
+    .main-nav a:hover,
+    .main-nav a.active {
+      color: var(--gold-300);
     }
 
-    .main-nav,
-    .list-btn {
-        display:none;
+    .main-nav a.active::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 15px;
+      height: 2px;
+      background: var(--gold-400);
+      border-radius: 20px;
     }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .header-search {
+      width: 38px;
+      height: 38px;
+      border: 0;
+      background: transparent;
+      color: white;
+      display: grid;
+      place-items: center;
+      font-size: 15px;
+    }
+
+    .login-btn {
+      min-width: 74px;
+      height: 38px;
+      padding: 0 17px;
+      border-radius: 22px;
+      border: 1px solid var(--gold-400);
+      background: transparent;
+      color: white;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .get-started {
+      height: 38px;
+      padding: 0 19px;
+      border-radius: 22px;
+      border: 1px solid var(--gold-400);
+      background: linear-gradient(
+        135deg,
+        var(--gold-300),
+        var(--gold-500)
+      );
+      color: var(--green-950);
+      font-weight: 700;
+      font-size: 12px;
+      box-shadow: 0 6px 18px rgba(215,173,77,.18);
+    }
+
+    .mobile-menu {
+      display: none;
+      width: 40px;
+      height: 40px;
+      border: 1px solid var(--border-gold);
+      background: transparent;
+      color: var(--gold-300);
+      border-radius: 10px;
+    }
+
+
+    /* =========================================================
+       HERO
+       ========================================================= */
 
     .page-hero {
-        padding:55px 20px 35px;
+      background: var(--green-900);
+      color: white;
+      padding: 78px 0 82px;
+      position: relative;
+      overflow: hidden;
     }
 
-    .page-container {
-        padding:0 20px 110px;
+    .page-hero::before {
+      content: "";
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      border: 1px solid rgba(215,173,77,.10);
+      border-radius: 50%;
+      right: -210px;
+      top: -250px;
     }
+
+    .page-hero::after {
+      content: "";
+      position: absolute;
+      width: 310px;
+      height: 310px;
+      border: 1px solid rgba(215,173,77,.08);
+      border-radius: 50%;
+      left: -170px;
+      bottom: -210px;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 820px;
+    }
+
+    .eyebrow {
+      color: var(--gold-300);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2.7px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .hero-title {
+      font-family: var(--serif);
+      font-size: clamp(46px, 5.5vw, 76px);
+      line-height: 1;
+      font-weight: 600;
+      letter-spacing: -2px;
+    }
+
+    .hero-title em {
+      color: var(--gold-300);
+      font-weight: 500;
+    }
+
+    .hero-description {
+      max-width: 690px;
+      margin-top: 23px;
+      color: rgba(255,255,255,.72);
+      font-size: 15px;
+      line-height: 1.8;
+    }
+
+
+    /* =========================================================
+       FAVOURITES CONTENT
+       ========================================================= */
+
+    .favourites-section {
+      background: var(--cream);
+      padding: 75px 0 105px;
+      min-height: 620px;
+    }
+
+    .section-top {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 25px;
+      margin-bottom: 32px;
+    }
+
+    .section-eyebrow {
+      color: #9c7929;
+      text-transform: uppercase;
+      font-weight: 700;
+      font-size: 11px;
+      letter-spacing: 2.5px;
+      margin-bottom: 11px;
+    }
+
+    .section-title {
+      font-family: var(--serif);
+      color: var(--green-900);
+      font-size: clamp(36px, 4vw, 52px);
+      line-height: 1.05;
+      font-weight: 600;
+      letter-spacing: -1px;
+    }
+
+    .section-title em {
+      color: #9d7929;
+      font-weight: 500;
+    }
+
+    .property-count {
+      color: var(--text-muted);
+      font-size: 12px;
+      background: #eee5d0;
+      border: 1px solid rgba(5,45,29,.12);
+      padding: 10px 15px;
+      border-radius: 22px;
+      white-space: nowrap;
+    }
+
+
+    /* =========================================================
+       FILTER BAR
+       ========================================================= */
+
+    .filter-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      background: #eee5d0;
+      border: 1px solid rgba(5,45,29,.13);
+      border-radius: 15px;
+      padding: 13px 15px;
+      margin-bottom: 28px;
+    }
+
+    .filter-left {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      flex-wrap: wrap;
+    }
+
+    .filter-button {
+      min-height: 36px;
+      padding: 0 14px;
+      border-radius: 20px;
+      border: 1px solid rgba(5,45,29,.16);
+      background: #f9f4e8;
+      color: var(--green-900);
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .filter-button.active,
+    .filter-button:hover {
+      background: var(--green-900);
+      border-color: var(--green-900);
+      color: var(--gold-300);
+    }
+
+    .clear-button {
+      border: 0;
+      background: transparent;
+      color: #8e6c27;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+
+    /* =========================================================
+       PROPERTY GRID
+       ========================================================= */
 
     .property-grid {
-        grid-template-columns:1fr;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
     }
 
-    .mobile-dock {
-        display:block;
-
-        position:fixed;
-        left:12px;
-        right:12px;
-        bottom:12px;
-        z-index:999;
-
-        padding:9px;
-
-        border:1px solid var(--border);
-        border-radius:22px;
-
-        background:rgba(255,255,255,.94);
-        box-shadow:0 18px 55px rgba(39,72,61,.18);
-        backdrop-filter:blur(18px);
+    .property-card {
+      background: #f9f4e8;
+      border: 1px solid rgba(5,45,29,.14);
+      border-radius: 18px;
+      overflow: hidden;
+      position: relative;
+      transition:
+        transform .25s ease,
+        box-shadow .25s ease;
     }
 
-    .mobile-dock-inner {
-        display:grid;
-        grid-template-columns:repeat(4,1fr);
+    .property-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 42px rgba(0,0,0,.12);
     }
 
-    .mobile-dock a {
-        padding:8px;
-        text-align:center;
-        color:#77807b;
-        font-size:10px;
-        font-weight:700;
+    .property-image {
+      height: 250px;
+      position: relative;
+      overflow: hidden;
+      background: var(--green-800);
     }
 
-    .mobile-dock a.active {
-        color:var(--emerald);
+    .property-image img {
+      height: 100%;
+      transition: transform .4s ease;
     }
+
+    .property-card:hover .property-image img {
+      transform: scale(1.04);
+    }
+
+    .property-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        180deg,
+        rgba(0,0,0,.08),
+        transparent 45%,
+        rgba(0,0,0,.5)
+      );
+      pointer-events: none;
+    }
+
+    .property-type {
+      position: absolute;
+      left: 14px;
+      top: 14px;
+      z-index: 2;
+      padding: 7px 10px;
+      border-radius: 15px;
+      background: var(--green-900);
+      color: var(--gold-300);
+      border: 1px solid rgba(231,199,107,.55);
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .favourite-button {
+      position: absolute;
+      right: 14px;
+      top: 14px;
+      z-index: 3;
+      width: 37px;
+      height: 37px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,.7);
+      background: rgba(3,27,17,.78);
+      color: var(--gold-300);
+      display: grid;
+      place-items: center;
+      font-size: 14px;
+      transition: .2s ease;
+    }
+
+    .favourite-button:hover {
+      background: var(--gold-500);
+      color: var(--green-950);
+    }
+
+    .property-body {
+      padding: 20px;
+    }
+
+    .property-location {
+      color: #98742b;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.3px;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .property-name {
+      color: var(--green-900);
+      font-family: var(--serif);
+      font-size: 23px;
+      line-height: 1.2;
+      margin-bottom: 8px;
+    }
+
+    .property-description {
+      color: var(--text-muted);
+      font-size: 11px;
+      line-height: 1.65;
+      margin-bottom: 14px;
+    }
+
+    .property-meta {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 13px;
+      border-top: 1px solid rgba(5,45,29,.10);
+      padding-top: 13px;
+    }
+
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      color: var(--text-muted);
+      font-size: 10px;
+    }
+
+    .meta-item i {
+      color: #9d7929;
+    }
+
+    .property-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-top: 17px;
+    }
+
+    .property-price {
+      color: var(--green-900);
+      font-family: var(--serif);
+      font-size: 21px;
+      font-weight: 600;
+    }
+
+    .view-button {
+      min-height: 37px;
+      padding: 0 14px;
+      border-radius: 20px;
+      border: 1px solid var(--gold-500);
+      background: var(--green-900);
+      color: var(--gold-300);
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    .view-button:hover {
+      background: var(--gold-500);
+      color: var(--green-950);
+    }
+
+
+    /* =========================================================
+       EMPTY STATE
+       ========================================================= */
+
+    .empty-state {
+      display: none;
+      text-align: center;
+      max-width: 570px;
+      margin: 65px auto 20px;
+      padding: 55px 30px;
+      background: #f9f4e8;
+      border: 1px solid rgba(5,45,29,.14);
+      border-radius: 22px;
+    }
+
+    .empty-icon {
+      width: 76px;
+      height: 76px;
+      margin: 0 auto 22px;
+      border-radius: 50%;
+      background: var(--green-900);
+      border: 1px solid var(--gold-400);
+      display: grid;
+      place-items: center;
+      color: var(--gold-300);
+      font-size: 27px;
+    }
+
+    .empty-state h2 {
+      font-family: var(--serif);
+      color: var(--green-900);
+      font-size: 31px;
+      margin-bottom: 9px;
+    }
+
+    .empty-state p {
+      color: var(--text-muted);
+      font-size: 13px;
+      line-height: 1.7;
+      margin-bottom: 23px;
+    }
+
+    .gold-button {
+      min-height: 46px;
+      padding: 0 22px;
+      border: 1px solid var(--gold-400);
+      background: linear-gradient(
+        135deg,
+        var(--gold-300),
+        var(--gold-500)
+      );
+      color: var(--green-950);
+      border-radius: 24px;
+      font-size: 12px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+
+    /* =========================================================
+       FOOTER -- EXACT SAME BASE
+       ========================================================= */
 
     .footer {
-        padding-bottom:90px;
-    }
-}
-
-@media(max-width:620px) {
-
-    .logo img {
-        width:108px;
-    }
-
-    .toolbar {
-        flex-direction:column;
-        align-items:flex-start;
+      background: #021b11;
+      color: white;
+      border-top: 1px solid rgba(215,173,77,.45);
     }
 
     .footer-inner {
-        grid-template-columns:1fr;
-        padding:45px 20px 25px;
+      width: min(calc(100% - 48px), var(--container));
+      margin: auto;
+      padding: 65px 0 45px;
+
+      display: grid;
+      grid-template-columns: 1.7fr 1fr 1fr 1fr;
+      gap: 35px;
+    }
+
+    .footer-brand strong {
+      display: block;
+      color: var(--gold-300);
+      font-family: var(--serif);
+      font-size: 28px;
+      letter-spacing: 2px;
+      margin-bottom: 14px;
+    }
+
+    .footer-brand p {
+      max-width: 330px;
+      color: rgba(255,255,255,.58);
+      font-size: 12px;
+      line-height: 1.8;
+    }
+
+    .footer-column {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .footer-column h4 {
+      color: var(--gold-300);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1.6px;
+      margin-bottom: 8px;
+    }
+
+    .footer-column a {
+      color: rgba(255,255,255,.66);
+      font-size: 12px;
+      transition: .2s ease;
+    }
+
+    .footer-column a:hover {
+      color: var(--gold-300);
     }
 
     .footer-bottom {
-        padding:18px 20px 25px;
-        flex-direction:column;
-    }
-}
+      width: min(calc(100% - 48px), var(--container));
+      margin: auto;
 
-</style>
+      border-top: 1px solid rgba(255,255,255,.08);
+      padding: 20px 0;
+
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+
+      color: rgba(255,255,255,.43);
+      font-size: 10px;
+    }
+
+
+    /* =========================================================
+       FLOATING AI
+       ========================================================= */
+
+    .ai-float {
+      position: fixed;
+      right: 24px;
+      bottom: 24px;
+      z-index: 1200;
+    }
+
+    .ai-float-button {
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      border: 2px solid var(--gold-300);
+      background: var(--green-900);
+      color: var(--gold-300);
+      display: grid;
+      place-items: center;
+      font-size: 22px;
+      box-shadow: 0 12px 30px rgba(0,0,0,.25);
+    }
+
+    .ai-tooltip {
+      position: absolute;
+      right: 68px;
+      bottom: 5px;
+      white-space: nowrap;
+      background: var(--green-950);
+      color: white;
+      border: 1px solid rgba(215,173,77,.5);
+      padding: 9px 13px;
+      border-radius: 8px;
+      font-size: 11px;
+      opacity: 0;
+      transform: translateX(5px);
+      pointer-events: none;
+      transition: .2s ease;
+    }
+
+    .ai-float:hover .ai-tooltip {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+
+    /* =========================================================
+       RESPONSIVE
+       ========================================================= */
+
+    @media (max-width: 1100px) {
+
+      .main-nav {
+        gap: 17px;
+      }
+
+      .main-nav a {
+        font-size: 12px;
+      }
+
+      .property-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+    }
+
+
+    @media (max-width: 850px) {
+
+      :root {
+        --header-height: 68px;
+      }
+
+      .container {
+        width: min(calc(100% - 32px), var(--container));
+      }
+
+      .main-nav,
+      .header-search,
+      .login-btn {
+        display: none;
+      }
+
+      .get-started {
+        display: none;
+      }
+
+      .mobile-menu {
+        display: grid;
+        place-items: center;
+      }
+
+      .page-hero {
+        padding: 62px 0 68px;
+      }
+
+      .section-top {
+        display: block;
+      }
+
+      .property-count {
+        display: inline-block;
+        margin-top: 15px;
+      }
+
+      .filter-bar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .footer-inner {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .footer-brand {
+        grid-column: 1 / -1;
+      }
+
+    }
+
+
+    @media (max-width: 560px) {
+
+      .container,
+      .footer-inner,
+      .footer-bottom {
+        width: min(calc(100% - 24px), var(--container));
+      }
+
+      .brand-name {
+        font-size: 22px;
+      }
+
+      .brand-mark {
+        width: 39px;
+        height: 39px;
+      }
+
+      .hero-title {
+        font-size: 45px;
+      }
+
+      .hero-description {
+        font-size: 14px;
+      }
+
+      .favourites-section {
+        padding: 55px 0 75px;
+      }
+
+      .property-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .property-image {
+        height: 235px;
+      }
+
+      .filter-left {
+        width: 100%;
+      }
+
+      .filter-button {
+        flex: 1;
+      }
+
+      .footer-inner {
+        grid-template-columns: 1fr 1fr;
+        gap: 30px 20px;
+      }
+
+      .footer-bottom {
+        display: block;
+      }
+
+      .footer-bottom span {
+        display: block;
+      }
+
+      .footer-bottom span + span {
+        margin-top: 10px;
+      }
+
+      .ai-float {
+        right: 15px;
+        bottom: 15px;
+      }
+
+    }
+
+  </style>
 </head>
 
 <body>
 
-<header class="ghar-header">
+  <!-- =======================================================
+       HEADER
+       ======================================================= -->
 
-<nav class="ghar-nav">
+  <header class="site-header">
 
-<a href="/index.html" class="logo">
-<img src="/assets/images/logo/ghar-logo.png" alt="GHAR">
-</a>
+    <div class="container header-inner">
 
-<div class="main-nav">
+      <a href="index.html" class="brand">
 
-<a href="/index.html">Home</a>
-<a href="/properties.html">Properties</a>
-<a href="/property-search.html">Search</a>
-<a href="/compare.html">Compare</a>
-<a href="/favourites.html" class="active">Favourites</a>
-<a href="/about.html">About</a>
+        <div class="brand-mark">
+          <i class="fa-solid fa-house"></i>
+        </div>
 
-</div>
+        <div>
+          <div class="brand-name">GHAR</div>
+          <span class="brand-tagline">BUY | SELL | RENT</span>
+        </div>
 
-<div class="nav-actions">
+      </a>
 
-<a href="/property-search.html" class="nav-icon">⌕</a>
 
-<a href="/offers.html" class="nav-icon">◇</a>
+      <nav class="main-nav">
 
-<a href="/login.html" class="list-btn">
-List Property
-</a>
+        <a href="index.html">Home</a>
 
-</div>
+        <a href="properties.html">Properties</a>
 
-</nav>
+        <a href="buy.html">Buy</a>
 
-</header>
+        <a href="rent.html">Rent</a>
 
+        <a href="sell.html">Sell</a>
 
-<section class="page-hero">
+        <a href="ghar-ai.html">GHAR AI</a>
 
-<div class="eyebrow">
-Your GHAR Collection
-</div>
+        <a href="about.html">About</a>
 
-<h1 class="page-title">
-Places you <span>love.</span>
-</h1>
+        <a href="contact.html">Contact</a>
 
-<p class="page-description">
-Keep the properties that caught your attention in one refined
-collection. Compare them, revisit their details and move closer
-to finding your next place.
-</p>
+      </nav>
 
-</section>
 
+      <div class="header-actions">
 
-<main class="page-container">
+        <button
+          class="header-search"
+          aria-label="Search"
+          onclick="window.location.href='property-search.html'"
+        >
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
 
-<div class="toolbar">
+        <a href="login.html" class="login-btn">
+          Login
+        </a>
 
-<div>
+        <a href="registration.html" class="get-started">
+          Get Started
+        </a>
 
-<h2>
-Saved Properties
-</h2>
+        <button
+          class="mobile-menu"
+          id="mobileMenu"
+          aria-label="Menu"
+        >
+          <i class="fa-solid fa-bars"></i>
+        </button>
 
-<p id="favouriteCount">
-Your shortlisted properties appear here.
-</p>
+      </div>
 
-</div>
+    </div>
 
-<button
-class="clear-btn"
-onclick="clearFavourites()"
-type="button"
->
-Clear All
-</button>
+  </header>
 
-</div>
 
+  <!-- =======================================================
+       MAIN
+       ======================================================= -->
 
-<section
-id="favouriteGrid"
-class="property-grid"
->
+  <main>
 
-</section>
+    <!-- HERO -->
 
+    <section class="page-hero">
 
-<section
-id="emptyState"
-class="empty-state"
->
+      <div class="container">
 
-<div class="empty-icon">
-♡
-</div>
+        <div class="hero-content">
 
-<h3>
-Your collection is waiting.
-</h3>
+          <div class="eyebrow">
+            Your GHAR Collection
+          </div>
 
-<p>
-Save properties you love and they will appear here.
-</p>
+          <h1 class="hero-title">
+            Your favourite
+            <em>properties.</em>
+          </h1>
 
-<a
-href="/properties.html"
-class="explore-btn"
->
-Explore Properties →
-</a>
+          <p class="hero-description">
+            Keep the properties that caught your attention in one
+            place. Compare your favourites, revisit details and
+            continue your property journey whenever you're ready.
+          </p>
 
-</section>
+        </div>
 
-</main>
+      </div>
 
+    </section>
 
-<footer class="footer">
 
-<div class="footer-inner">
+    <!-- FAVOURITES -->
 
-<div>
+    <section class="favourites-section">
 
-<img
-src="/assets/images/logo/ghar-logo.png"
-class="footer-logo"
-alt="GHAR"
->
+      <div class="container">
 
-<p>
-A premium real-estate experience designed to make finding,
-selling, renting and managing property simpler.
-</p>
+        <div class="section-top">
 
-</div>
+          <div>
 
-<div>
+            <div class="section-eyebrow">
+              Saved Collection
+            </div>
 
-<h4>Explore</h4>
+            <h2 class="section-title">
+              Properties you
+              <em>love.</em>
+            </h2>
 
-<a href="/properties.html">Properties</a>
-<a href="/property-search.html">Smart Search</a>
-<a href="/compare.html">Compare</a>
-<a href="/offers.html">Offers</a>
+          </div>
 
-</div>
+          <div class="property-count" id="propertyCount">
+            6 Favourite Properties
+          </div>
 
-<div>
+        </div>
 
-<h4>GHAR</h4>
 
-<a href="/about.html">About GHAR</a>
-<a href="/services.html">Services</a>
-<a href="/ai-assistant.html">GHAR AI</a>
-<a href="/contact.html">Contact</a>
+        <!-- FILTER -->
 
-</div>
+        <div class="filter-bar">
 
-<div>
+          <div class="filter-left">
 
-<h4>Account</h4>
+            <button
+              class="filter-button active"
+              data-filter="all"
+            >
+              All
+            </button>
 
-<a href="/login.html">Login</a>
-<a href="/profile.html">Profile</a>
-<a href="/documents.html">Documents</a>
-<a href="/help-centre.html">Help Centre</a>
+            <button
+              class="filter-button"
+              data-filter="sale"
+            >
+              For Sale
+            </button>
 
-</div>
+            <button
+              class="filter-button"
+              data-filter="rent"
+            >
+              For Rent
+            </button>
 
-</div>
+            <button
+              class="filter-button"
+              data-filter="commercial"
+            >
+              Commercial
+            </button>
 
-<div class="footer-bottom">
+          </div>
 
-<span>© 2026 GHAR. All rights reserved.</span>
+          <button
+            class="clear-button"
+            id="clearFavourites"
+          >
+            <i class="fa-solid fa-trash-can"></i>
+            Clear All
+          </button>
 
-<span>Privacy · Terms · Legal</span>
+        </div>
 
-</div>
 
-</footer>
+        <!-- PROPERTY GRID -->
 
+        <div class="property-grid" id="propertyGrid">
 
-<nav class="mobile-dock">
 
-<div class="mobile-dock-inner">
+          <!-- PROPERTY 1 -->
 
-<a href="/index.html">
-⌂<br>Home
-</a>
+          <article
+            class="property-card"
+            data-category="sale"
+          >
 
-<a href="/properties.html">
-⌂<br>Properties
-</a>
+            <div class="property-image">
 
-<a href="/favourites.html" class="active">
-♡<br>Favourites
-</a>
+              <img
+                src="assets/images/properties/villa-1.jpg"
+                alt="Luxury villa in Noida"
+                loading="lazy"
+              >
 
-<a href="/login.html">
-●<br>Account
-</a>
+              <div class="property-overlay"></div>
 
-</div>
+              <span class="property-type">
+                For Sale
+              </span>
 
-</nav>
+              <button
+                class="favourite-button"
+                aria-label="Remove from favourites"
+              >
+                <i class="fa-solid fa-heart"></i>
+              </button>
 
+            </div>
 
-<script src="/assets/js/constants.js"></script>
-<script src="/assets/js/config.js"></script>
-<script src="/assets/js/storage.js"></script>
-<script src="/assets/js/api.js"></script>
-<script src="/assets/js/auth.js"></script>
-<script src="/assets/js/core.js"></script>
-<script src="/assets/js/components.js"></script>
-<script src="/assets/js/components/global.js"></script>
-<script src="/assets/js/navigation.js"></script>
-<script src="/assets/js/property.js"></script>
-<script src="/assets/js/properties.js"></script>
 
+            <div class="property-body">
 
-<script>
+              <div class="property-location">
+                Noida, Uttar Pradesh
+              </div>
 
-const FALLBACK_IMAGE =
-"/assets/images/properties/residentials/house/house-01.jpg";
+              <h3 class="property-name">
+                The Grand Villa
+              </h3>
 
-let properties = [];
+              <p class="property-description">
+                Premium independent villa with elegant interiors,
+                landscaped surroundings and modern amenities.
+              </p>
 
-async function loadFavourites() {
+              <div class="property-meta">
 
-    const saved =
-        JSON.parse(
-            localStorage.getItem(
-                "ghar_saved_properties"
-            ) || "[]"
-        );
+                <span class="meta-item">
+                  <i class="fa-solid fa-bed"></i>
+                  4 Beds
+                </span>
 
-    try {
+                <span class="meta-item">
+                  <i class="fa-solid fa-bath"></i>
+                  4 Baths
+                </span>
 
-        const response =
-            await fetch("/data/properties.json");
+                <span class="meta-item">
+                  <i class="fa-solid fa-ruler-combined"></i>
+                  3,200 sq.ft.
+                </span>
 
-        const data =
-            await response.json();
+              </div>
 
-        properties =
-            Array.isArray(data)
-                ? data
-                : data.properties || [];
+              <div class="property-bottom">
 
-    } catch {
+                <div class="property-price">
+                  ₹3.85 Cr
+                </div>
 
-        properties = [
+                <a
+                  href="property-details.html?id=GHAR-P001"
+                  class="view-button"
+                >
+                  View Property
+                </a>
 
-            {
-                id:"GHAR-P001",
-                title:"The Emerald Residence",
-                type:"Villa",
-                location:"Noida, Uttar Pradesh",
-                price:"₹2.85 Cr",
-                area:"3,450 sq.ft.",
-                beds:"4 Beds",
-                baths:"4 Baths",
-                images:[
-                    "/assets/images/properties/residentials/villa/villa-01.jpg"
-                ]
-            },
+              </div>
 
-            {
-                id:"GHAR-P002",
-                title:"The Pearl Apartment",
-                type:"Apartment",
-                location:"Noida Extension",
-                price:"₹1.42 Cr",
-                area:"1,850 sq.ft.",
-                beds:"3 Beds",
-                baths:"3 Baths",
-                images:[
-                    "/assets/images/properties/residentials/apartment/appartment-01.jpg"
-                ]
-            },
+            </div>
 
-            {
-                id:"GHAR-P003",
-                title:"The Sandstone House",
-                type:"House",
-                location:"Greater Noida",
-                price:"₹1.95 Cr",
-                area:"2,600 sq.ft.",
-                beds:"4 Beds",
-                baths:"3 Baths",
-                images:[
-                    "/assets/images/properties/residentials/house/house-01.jpg"
-                ]
-            }
+          </article>
 
-        ];
 
-    }
+          <!-- PROPERTY 2 -->
 
-    const favourites =
-        properties.filter(
-            property =>
-                saved.includes(
-                    String(property.id)
-                )
-        );
+          <article
+            class="property-card"
+            data-category="sale"
+          >
 
-    renderFavourites(favourites);
+            <div class="property-image">
 
-}
+              <img
+                src="assets/images/properties/villa-2.jpg"
+                alt="Luxury villa"
+                loading="lazy"
+              >
 
+              <div class="property-overlay"></div>
 
-function renderFavourites(items) {
+              <span class="property-type">
+                For Sale
+              </span>
 
-    const grid =
-        document.getElementById(
-            "favouriteGrid"
-        );
+              <button
+                class="favourite-button"
+                aria-label="Remove from favourites"
+              >
+                <i class="fa-solid fa-heart"></i>
+              </button>
 
-    const empty =
-        document.getElementById(
-            "emptyState"
-        );
+            </div>
 
-    document.getElementById(
-        "favouriteCount"
-    ).textContent =
-        `${items.length} ${
-            items.length === 1
-                ? "property"
-                : "properties"
-        } saved`;
 
-    if (!items.length) {
+            <div class="property-body">
 
-        grid.innerHTML = "";
-        empty.style.display = "block";
+              <div class="property-location">
+                Greater Noida
+              </div>
+
+              <h3 class="property-name">
+                Royal Green Estate
+              </h3>
+
+              <p class="property-description">
+                Spacious premium residence designed for modern
+                family living with private outdoor space.
+              </p>
+
+              <div class="property-meta">
+
+                <span class="meta-item">
+                  <i class="fa-solid fa-bed"></i>
+                  5 Beds
+                </span>
+
+                <span class="meta-item">
+                  <i class="fa-solid fa-bath"></i>
+                  5 Baths
+                </span>
+
+                <span class="meta-item">
+                  <i class="fa-solid fa-ruler-combined"></i>
+                  4,100 sq.ft.
+                </span>
+
+              </div>
+
+              <div class="property-bottom">
+
+                <div class="property-price">
+                  ₹4.60 Cr
+                </div>
+
+                <a
+                  href="property-details.html?id=GHAR-P002"
+                  class="view-button"
+                >
+                  View Property
+                </a>
+
+              </div>
+
+            </div>
+
+          </article>
+
+
+          <!-- PROPERTY 3 -->
+
+          <article
+            class="property-card"
+            data-category="rent"
+          >
+
+            <div class="property-image">
+
+              <img
+                src="assets/images/properties/apartment-1.jpg"
+                alt="Premium apartment"
+                loading="lazy"
+              >
+
+              <div class="property-overlay"></div>
+
+              <span class="property-type">
+                For Rent
+              </span>
+
+              <button
+                class="favourite-button"
+                aria-label="Remove from favourites"
+              >
+                <i class="fa-solid fa-heart"></i>
+              </button>
+
+            </div>
+
+
+            <div class="property-body">
+
+              <div class="property-location">
+                Sector 150, Noida
+              </div>
+
+              <h3 class="property-name">
+                Parkside Residence
+              </h3>
+
+              <p class="property-description">
+                Contemporary apartment with spacious living areas,
+                premium amenities and excellent connectivity.
+              </p>
+
+              <div class="property-meta">
+
+                <span class="meta-item">
+                  <i class="fa-solid fa-bed"></i>
+                  3 Beds
+                </span>
+
+                <span class="meta-item">
+                  <i class="fa-solid fa-bath"></i>
+                  3 Baths
+                </span>
+
+                <span class="meta-item">
+                  <i class="fa-solid fa-ruler-combined"></i>
+                  1,850 sq.ft.
+                </span>
+
+              </div>
+
+              <div class="property-bottom">
+
+                <div class="property-price">
+                  ₹58K / Month
+                </div>
+
+                <a
+                  href="property-details.html?id=GHAR-P003"
+                  class="view-button"
+                >
+                  View Property
+                </a>
+
+              </div>
+
+            </div>
+
+          </article>
+
+
+          <!-- PROPERTY 4 -->
+
+          <article
+            class="property-card"
+            data-category="commercial"
+          >
+
+            <div class="property-image">
+
+              <img
+                src="assets/images/properties/commercial-office.jpg"
+                alt="Premium commercial office"
+                loading="lazy"
+              >
+
+              <div class="property-overlay"></div>
+
+              <span class="property-type">
+                Commercial
+              </span>
+
+              <button
+                class="favourite-button"
+                aria-label="Remove from favourites"
+              >
+                <i class="fa-solid fa-heart"></i>
+              </button>
+
+            </div>
+
+
+            <div class="property-body">
+
+              <div class="property-location">
+                Sector 62, Noida
+              </div>
+
+              <h3 class="property-name">
+                Executive Business Centre
+              </h3>
+
+              <p class="property-description">
+                Premium office environment suitable for modern
+                businesses, consultants and corporate teams.
+              </p>
+
+              <div class="property-meta">
+
+                <span class="meta-item">
+                  <i class="fa-solid fa-building"></i>
+                  Office
+                </span>
+
+                <span class="meta-item">
+                  <i class="fa-solid fa-users"></i>
+                  30 Seats
+                </span>
+
+                <span class="meta-item">
+                  <i class="fa-solid fa-ruler-combined"></i>
+                  2,400 sq.ft.
+                </span>
+
+              </div>
+
+              <div class="property-bottom">
+
+                <div class="property-price">
+                  ₹1.25 L / Month
+                </div>
+
+                <a
+                  href="property-details.html?id=GHAR-P004"
+                  class="view-button"
+                >
+                  View Property
+                </a>
+
+              </div>
+
+            </div>
+
+          </article>
+
+
+          <!-- PROPERTY 5 -->
+
+          <article
+            class="property-card"
+            data-category="rent"
+          >
+
+            <div class="property-image">
+
+              <img
+                src="assets/images/properties/apartment-2.jpg"
+                alt="Luxury apartment interior"
+                loading="lazy"
+              >
+
+              <div class="property-overlay"></div>
+
+              <span class="property-type">
+                For Rent
+              </span>
+
+              <button
+                class="favourite-button"
+                aria-label="Remove from favourites"
+              >
+                <i class="fa-solid fa-heart"></i>
+              </button>
+
+            </div>
+
+
+            <div class="property-body">
+
+              <div class="property-location">
+                Sector 137, Noida
+              </div>
+
+              <h3 class="property-name">
+                Urban Luxe Apartment
+              </h3>
+
+              <p class="property-description">
+                Refined apartment living with contemporary design,
+                natural light and lifestyle amenities.
+              </p>
+
+              <div class="property-meta">
+
+                <span class="meta-item">
+                  <i class="fa-solid fa-bed"></i>
+                  2 Beds
+                </span>
+
+                <span class="meta-item">
+                  <i class="fa-solid fa-bath"></i>
+                  2 Baths
+                </span>
+
+                <span class="meta-item">
+                  <i class="fa-solid fa-ruler-combined"></i>
+                  1,250 sq.ft.
+                </span>
+
+              </div>
+
+              <div class="property-bottom">
+
+                <div class="property-price">
+                  ₹38K / Month
+                </div>
+
+                <a
+                  href="property-details.html?id=GHAR-P005"
+                  class="view-button"
+                >
+                  View Property
+                </a>
+
+              </div>
+
+            </div>
+
+          </article>
+
+
+          <!-- PROPERTY 6 -->
+
+          <article
+            class="property-card"
+            data-category="sale"
+          >
+
+            <div class="property-image">
+
+              <img
+                src="assets/images/properties/house-1.jpg"
+                alt="Premium family house"
+                loading="lazy"
+              >
+
+              <div class="property-overlay"></div>
+
+              <span class="property-type">
+                For Sale
+              </span>
+
+              <button
+                class="favourite-button"
+                aria-label="Remove from favourites"
+              >
+                <i class="fa-solid fa-heart"></i>
+              </button>
+
+            </div>
+
+
+            <div class="property-body">
+
+              <div class="property-location">
+                Indirapuram, Ghaziabad
+              </div>
+
+              <h3 class="property-name">
+                Heritage Family Home
+              </h3>
+
+              <p class="property-description">
+                Elegant family residence with generous spaces,
+                established neighbourhood and excellent access.
+              </p>
+
+              <div class="property-meta">
+
+                <span class="meta-item">
+                  <i class="fa-solid fa-bed"></i>
+                  4 Beds
+                </span>
+
+                <span class="meta-item">
+                  <i class="fa-solid fa-bath"></i>
+                  4 Baths
+                </span>
+
+                <span class="meta-item">
+                  <i class="fa-solid fa-ruler-combined"></i>
+                  2,750 sq.ft.
+                </span>
+
+              </div>
+
+              <div class="property-bottom">
+
+                <div class="property-price">
+                  ₹2.95 Cr
+                </div>
+
+                <a
+                  href="property-details.html?id=GHAR-P006"
+                  class="view-button"
+                >
+                  View Property
+                </a>
+
+              </div>
+
+            </div>
+
+          </article>
+
+        </div>
+
+
+        <!-- EMPTY STATE -->
+
+        <div
+          class="empty-state"
+          id="emptyState"
+        >
+
+          <div class="empty-icon">
+            <i class="fa-regular fa-heart"></i>
+          </div>
+
+          <h2>
+            No favourite properties
+          </h2>
+
+          <p>
+            You haven't saved any properties yet. Explore GHAR
+            and save the homes, apartments or commercial spaces
+            you would like to revisit.
+          </p>
+
+          <a
+            href="properties.html"
+            class="gold-button"
+          >
+            Explore Properties
+            <i class="fa-solid fa-arrow-right"></i>
+          </a>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- =======================================================
+       FOOTER
+       ======================================================= -->
+
+  <footer class="footer">
+
+    <div class="footer-inner">
+
+      <div class="footer-brand">
+
+        <strong>GHAR</strong>
+
+        <p>
+          A premium real estate experience built around
+          intelligent discovery, transparent transactions
+          and exceptional property journeys.
+        </p>
+
+      </div>
+
+
+      <div class="footer-column">
+
+        <h4>EXPLORE</h4>
+
+        <a href="properties.html">Properties</a>
+        <a href="property-search.html">Search</a>
+        <a href="buyer/saved-properties.html">Saved Properties</a>
+        <a href="buyer/visits.html">Visits</a>
+
+      </div>
+
+
+      <div class="footer-column">
+
+        <h4>ACCOUNT</h4>
+
+        <a href="profile.html">Profile</a>
+        <a href="settings.html">Settings</a>
+        <a href="buyer/documents.html">Documents</a>
+        <a href="buyer/payments.html">Payments</a>
+
+      </div>
+
+
+      <div class="footer-column">
+
+        <h4>SUPPORT</h4>
+
+        <a href="help-centre.html">Help Centre</a>
+        <a href="faqs.html">FAQs</a>
+        <a href="contact.html">Contact</a>
+        <a href="privacy-policy.html">Privacy Policy</a>
+
+      </div>
+
+    </div>
+
+
+    <div class="footer-bottom">
+
+      <span>
+        © 2026 GHAR. All rights reserved.
+      </span>
+
+      <span>
+        BUY • SELL • RENT • INVEST
+      </span>
+
+    </div>
+
+  </footer>
+
+
+  <!-- =======================================================
+       FLOATING GHAR AI
+       ======================================================= -->
+
+  <div class="ai-float">
+
+    <div class="ai-tooltip">
+      Ask GHAR AI
+    </div>
+
+    <button
+      class="ai-float-button"
+      onclick="window.location.href='ghar-ai.html'"
+      aria-label="Open GHAR AI"
+    >
+      <i class="fa-solid fa-wand-magic-sparkles"></i>
+    </button>
+
+  </div>
+
+
+  <!-- =======================================================
+       JAVASCRIPT
+       ======================================================= -->
+
+  <script>
+
+    /* =======================================================
+       MOBILE MENU
+       ======================================================= */
+
+    const mobileMenu =
+      document.getElementById("mobileMenu");
+
+    mobileMenu.addEventListener("click", function () {
+
+      const nav =
+        document.querySelector(".main-nav");
+
+      const isOpen =
+        nav.classList.toggle("mobile-open");
+
+      if (isOpen) {
+
+        nav.style.display = "flex";
+        nav.style.position = "absolute";
+        nav.style.top = "68px";
+        nav.style.left = "0";
+        nav.style.right = "0";
+        nav.style.padding = "18px";
+        nav.style.background = "#031b11";
+        nav.style.borderBottom =
+          "1px solid rgba(215,173,77,.45)";
+        nav.style.flexDirection = "column";
+        nav.style.alignItems = "stretch";
+        nav.style.gap = "0";
+
+        nav.querySelectorAll("a").forEach(function(link) {
+
+          link.style.padding = "13px 10px";
+
+        });
+
+      } else {
+
+        nav.removeAttribute("style");
+
+      }
+
+    });
+
+
+    /* =======================================================
+       IMAGE FALLBACK
+       ======================================================= */
+
+    document
+      .querySelectorAll("img")
+      .forEach(function(img) {
+
+        img.addEventListener("error", function() {
+
+          this.style.background = "#123b29";
+          this.style.minHeight = "150px";
+          this.style.objectFit = "cover";
+
+        });
+
+      });
+
+
+    /* =======================================================
+       HEADER SHADOW
+       ======================================================= */
+
+    window.addEventListener("scroll", function() {
+
+      const header =
+        document.querySelector(".site-header");
+
+      if (window.scrollY > 20) {
+
+        header.style.boxShadow =
+          "0 10px 30px rgba(0,0,0,.22)";
+
+      } else {
+
+        header.style.boxShadow = "none";
+
+      }
+
+    });
+
+
+    /* =======================================================
+       FILTER
+       ======================================================= */
+
+    const filterButtons =
+      document.querySelectorAll(".filter-button");
+
+    const propertyCards =
+      document.querySelectorAll(".property-card");
+
+    const propertyCount =
+      document.getElementById("propertyCount");
+
+    filterButtons.forEach(function(button) {
+
+      button.addEventListener("click", function() {
+
+        filterButtons.forEach(function(item) {
+          item.classList.remove("active");
+        });
+
+        button.classList.add("active");
+
+        const filter =
+          button.getAttribute("data-filter");
+
+        let visible = 0;
+
+        propertyCards.forEach(function(card) {
+
+          const category =
+            card.getAttribute("data-category");
+
+          if (
+            filter === "all" ||
+            category === filter
+          ) {
+
+            card.style.display = "";
+
+            visible++;
+
+          } else {
+
+            card.style.display = "none";
+
+          }
+
+        });
+
+        propertyCount.textContent =
+          visible +
+          (visible === 1
+            ? " Favourite Property"
+            : " Favourite Properties");
+
+      });
+
+    });
+
+
+    /* =======================================================
+       REMOVE INDIVIDUAL FAVOURITE
+       ======================================================= */
+
+    document
+      .querySelectorAll(".favourite-button")
+      .forEach(function(button) {
+
+        button.addEventListener("click", function() {
+
+          const card =
+            button.closest(".property-card");
+
+          card.style.opacity = "0";
+          card.style.transform = "scale(.96)";
+
+          setTimeout(function() {
+
+            card.remove();
+
+            updateFavouriteState();
+
+          }, 220);
+
+        });
+
+      });
+
+
+    /* =======================================================
+       CLEAR ALL
+       ======================================================= */
+
+    const clearButton =
+      document.getElementById("clearFavourites");
+
+    clearButton.addEventListener("click", function() {
+
+      const cards =
+        document.querySelectorAll(".property-card");
+
+      if (!cards.length) {
         return;
+      }
 
-    }
-
-    empty.style.display = "none";
-
-    grid.innerHTML =
-        items.map(createCard).join("");
-
-}
-
-
-function createCard(property) {
-
-    const image =
-        property.images &&
-        property.images.length
-            ? property.images[0]
-            : FALLBACK_IMAGE;
-
-    return `
-
-<article class="property-card">
-
-<div class="property-image">
-
-<img
-src="${escapeHtml(image)}"
-alt="${escapeHtml(property.title || "GHAR Property")}"
-loading="lazy"
-onerror="this.src='${FALLBACK_IMAGE}'"
->
-
-<span class="property-status">
-Saved
-</span>
-
-<button
-class="remove-btn"
-type="button"
-onclick="removeFavourite('${escapeHtml(property.id)}')"
-aria-label="Remove favourite"
->
-♥
-</button>
-
-</div>
-
-<div class="property-content">
-
-<div class="property-type">
-${escapeHtml(property.type || "Property")}
-</div>
-
-<h3 class="property-title">
-${escapeHtml(property.title || "GHAR Property")}
-</h3>
-
-<div class="property-location">
-⌖ ${escapeHtml(property.location || "India")}
-</div>
-
-<div class="property-meta">
-
-${property.beds ? `<span>${escapeHtml(property.beds)}</span>` : ""}
-
-${property.baths ? `<span>${escapeHtml(property.baths)}</span>` : ""}
-
-${property.area ? `<span>${escapeHtml(property.area)}</span>` : ""}
-
-</div>
-
-<div class="property-bottom">
-
-<div class="price">
-${escapeHtml(property.price || "Price on Request")}
-</div>
-
-<a
-href="/property-details.html?id=${encodeURIComponent(property.id || "")}"
-class="view-btn"
->
-View →
-</a>
-
-</div>
-
-</div>
-
-</article>
-
-`;
-
-}
-
-
-function removeFavourite(id) {
-
-    let saved =
-        JSON.parse(
-            localStorage.getItem(
-                "ghar_saved_properties"
-            ) || "[]"
+      const confirmed =
+        window.confirm(
+          "Remove all properties from favourites?"
         );
 
-    saved =
-        saved.filter(
-            item => String(item) !== String(id)
-        );
-
-    localStorage.setItem(
-        "ghar_saved_properties",
-        JSON.stringify(saved)
-    );
-
-    loadFavourites();
-
-}
-
-
-function clearFavourites() {
-
-    if (!confirm(
-        "Remove all saved properties?"
-    )) {
+      if (!confirmed) {
         return;
+      }
+
+      cards.forEach(function(card) {
+        card.remove();
+      });
+
+      updateFavouriteState();
+
+    });
+
+
+    /* =======================================================
+       EMPTY STATE
+       ======================================================= */
+
+    function updateFavouriteState() {
+
+      const remaining =
+        document.querySelectorAll(".property-card");
+
+      const emptyState =
+        document.getElementById("emptyState");
+
+      if (remaining.length === 0) {
+
+        emptyState.style.display = "block";
+
+        propertyCount.textContent =
+          "0 Favourite Properties";
+
+      } else {
+
+        emptyState.style.display = "none";
+
+        propertyCount.textContent =
+          remaining.length +
+          (
+            remaining.length === 1
+              ? " Favourite Property"
+              : " Favourite Properties"
+          );
+
+      }
+
     }
 
-    localStorage.removeItem(
-        "ghar_saved_properties"
-    );
-
-    loadFavourites();
-
-}
-
-
-function escapeHtml(value) {
-
-    return String(value ?? "")
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
-
-}
-
-
-document.addEventListener(
-    "DOMContentLoaded",
-    loadFavourites
-);
-
-</script>
+  </script>
 
 </body>
 </html>

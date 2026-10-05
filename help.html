@@ -1,827 +1,1183 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <meta name="theme-color" content="#f4ead9">
-  <meta name="description" content="GHAR Help -- get assistance with properties, accounts, listings, payments, documents and your property journey.">
+  <title>Help | GHAR Premium Real Estate</title>
 
-  <title>Help -- GHAR</title>
+  <meta
+    name="description"
+    content="Get help with GHAR property search, buying, renting, selling, accounts, documents, payments and GHAR AI."
+  >
 
-  <link rel="icon" type="image/png" href="assets/images/logo/ghar-logo.jpg">
+  <meta name="theme-color" content="#052d1d">
 
-  <!-- GLOBAL CSS -->
-  <link rel="stylesheet" href="assets/css/variables.css">
-  <link rel="stylesheet" href="assets/css/reset.css">
-  <link rel="stylesheet" href="assets/css/style.css">
-  <link rel="stylesheet" href="assets/css/layout.css">
-  <link rel="stylesheet" href="assets/css/components.css">
-  <link rel="stylesheet" href="assets/css/navigation.css">
-  <link rel="stylesheet" href="assets/css/cards.css">
-  <link rel="stylesheet" href="assets/css/forms.css">
-  <link rel="stylesheet" href="assets/css/animations.css">
-  <link rel="stylesheet" href="assets/css/responsive.css">
-  <link rel="stylesheet" href="assets/css/utilities.css">
+  <!-- =======================================================
+       FONTS
+       ======================================================= -->
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap"
+    rel="stylesheet"
+  >
+
+  <!-- =======================================================
+       ICONS
+       ======================================================= -->
+
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+  >
 
   <style>
 
-    :root{
-      --ivory:#f8f1e5;
-      --pearl:#fffaf2;
-      --sand:#eadbc4;
-      --champagne:#d9bd83;
-      --gold:#b18a48;
-      --gold2:#e7d09b;
-      --emerald:#163a2e;
-      --emerald2:#245442;
-      --ink:#17251f;
-      --muted:#737d76;
-      --line:rgba(23,58,46,.12);
-      --shadow:0 30px 80px rgba(30,49,40,.12);
-      --radius:28px;
+    /* =========================================================
+       GHAR -- HELP PAGE
+       SAME ROYAL GREEN + GOLD DESIGN SYSTEM
+       ========================================================= */
+
+    :root {
+      --green-950: #031b11;
+      --green-900: #052d1d;
+      --green-850: #073a25;
+      --green-800: #08442a;
+      --green-700: #0c5535;
+      --green-600: #126742;
+
+      --gold-500: #d7ad4d;
+      --gold-400: #e7c76b;
+      --gold-300: #f1d98a;
+      --gold-200: #f6e8b1;
+
+      --cream: #f5efdf;
+      --cream-2: #eee5d0;
+      --white: #ffffff;
+
+      --text-dark: #122118;
+      --text-muted: #657068;
+
+      --border-gold: rgba(215,173,77,.65);
+      --border-light: rgba(255,255,255,.13);
+
+      --shadow: 0 20px 50px rgba(0,0,0,.18);
+
+      --serif: "Playfair Display", Georgia, serif;
+      --sans: "DM Sans", Arial, sans-serif;
+
+      --header-height: 72px;
+
+      --radius-sm: 10px;
+      --radius-md: 16px;
+      --radius-lg: 24px;
+
+      --container: 1380px;
     }
 
-    *{
-      box-sizing:border-box;
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
 
-    html{
-      scroll-behavior:smooth;
+
+    html {
+      scroll-behavior: smooth;
     }
 
-    body{
-      margin:0;
-      background:var(--ivory);
-      color:var(--ink);
-      font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
-      line-height:1.55;
-      overflow-x:hidden;
+
+    body {
+      font-family: var(--sans);
+      color: var(--text-dark);
+      background: var(--cream);
+      overflow-x: hidden;
+      line-height: 1.6;
     }
 
-    a{
-      text-decoration:none;
-      color:inherit;
+
+    img {
+      display: block;
+      width: 100%;
+      object-fit: cover;
     }
 
-    img{
-      display:block;
-      max-width:100%;
+
+    a {
+      color: inherit;
+      text-decoration: none;
     }
+
 
     button,
     input,
-    textarea{
-      font:inherit;
+    textarea,
+    select {
+      font: inherit;
     }
 
-    /* =========================
-       TOP BAR
-    ========================= */
 
-    .topbar{
-      background:var(--emerald);
-      color:#f8f1e5;
-      text-align:center;
-      font-size:11px;
-      letter-spacing:.1em;
-      padding:8px 16px;
+    button {
+      cursor: pointer;
     }
 
-    .topbar b{
-      color:var(--gold2);
+
+    .container {
+      width: min(calc(100% - 48px), var(--container));
+      margin: auto;
     }
 
-    /* =========================
+
+    /* =========================================================
        HEADER
-    ========================= */
+       ========================================================= */
 
-    .header{
-      position:sticky;
-      top:0;
-      z-index:1000;
-      padding:12px 3.5vw;
-      background:rgba(248,241,229,.93);
-      backdrop-filter:blur(18px);
-      border-bottom:1px solid var(--line);
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      height: var(--header-height);
+      background: var(--green-950);
+      border-bottom: 1px solid rgba(215,173,77,.45);
     }
 
-    .nav{
-      max-width:1380px;
-      margin:auto;
-      display:flex;
-      align-items:center;
-      gap:26px;
+
+    .header-inner {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 30px;
     }
 
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:11px;
-      font-weight:900;
-      letter-spacing:.2em;
-      color:var(--emerald);
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      flex-shrink: 0;
     }
 
-    .brand img{
-      width:42px;
-      height:42px;
-      object-fit:contain;
+
+    .brand-mark {
+      width: 43px;
+      height: 43px;
+      border: 1.5px solid var(--gold-400);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: var(--gold-300);
+      font-size: 19px;
+      position: relative;
     }
 
-    .links{
-      display:flex;
-      gap:5px;
-      margin-left:auto;
+
+    .brand-mark::after {
+      content: "";
+      position: absolute;
+      inset: 4px;
+      border: 1px solid rgba(231,199,107,.35);
+      border-radius: 50%;
     }
 
-    .links a{
-      font-size:13px;
-      font-weight:700;
-      padding:10px 13px;
-      border-radius:999px;
+
+    .brand-name {
+      color: var(--gold-300);
+      font-family: var(--serif);
+      font-size: 25px;
+      letter-spacing: 2px;
+      line-height: 1;
     }
 
-    .links a:hover{
-      background:#eee3d2;
+
+    .brand-tagline {
+      display: block;
+      margin-top: 3px;
+      color: #e9e2d2;
+      font-size: 7px;
+      letter-spacing: 2px;
+      font-weight: 600;
     }
 
-    .nav-actions{
-      display:flex;
-      gap:8px;
-      align-items:center;
+
+    .main-nav {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 27px;
+      margin-left: auto;
     }
 
-    .pill{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      min-height:44px;
-      padding:0 17px;
-      border-radius:999px;
-      border:1px solid var(--line);
-      font-size:12px;
-      font-weight:800;
+
+    .main-nav a {
+      position: relative;
+      color: rgba(255,255,255,.82);
+      font-size: 13px;
+      font-weight: 500;
+      padding: 26px 0;
+      transition: .25s ease;
+      white-space: nowrap;
     }
 
-    .pill.gold{
-      background:var(--emerald);
-      border-color:var(--emerald);
-      color:#fff;
+
+    .main-nav a:hover,
+    .main-nav a.active {
+      color: var(--gold-300);
     }
 
-    .menu{
-      display:none;
-      border:0;
-      background:none;
-      font-size:24px;
-      color:var(--emerald);
-      cursor:pointer;
+
+    .main-nav a.active::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 15px;
+      height: 2px;
+      background: var(--gold-400);
+      border-radius: 20px;
     }
 
-    /* =========================
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+
+    .header-search {
+      width: 38px;
+      height: 38px;
+      border: 0;
+      background: transparent;
+      color: white;
+      display: grid;
+      place-items: center;
+      font-size: 15px;
+    }
+
+
+    .login-btn {
+      min-width: 74px;
+      height: 38px;
+      padding: 0 17px;
+      border-radius: 22px;
+      border: 1px solid var(--gold-400);
+      background: transparent;
+      color: white;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+
+    .get-started {
+      height: 38px;
+      padding: 0 19px;
+      border-radius: 22px;
+      border: 1px solid var(--gold-400);
+      background: linear-gradient(135deg, var(--gold-300), var(--gold-500));
+      color: var(--green-950);
+      font-weight: 700;
+      font-size: 12px;
+      box-shadow: 0 6px 18px rgba(215,173,77,.18);
+    }
+
+
+    .mobile-menu {
+      display: none;
+      width: 40px;
+      height: 40px;
+      border: 1px solid var(--border-gold);
+      background: transparent;
+      color: var(--gold-300);
+      border-radius: 10px;
+    }
+
+
+    /* =========================================================
        HERO
-    ========================= */
+       ========================================================= */
 
-    .hero{
-      position:relative;
-      min-height:610px;
-      display:flex;
-      align-items:center;
-      overflow:hidden;
-
-      background:
-        linear-gradient(
-          105deg,
-          rgba(17,48,38,.92),
-          rgba(17,48,38,.66) 55%,
-          rgba(17,48,38,.25)
-        ),
-        url("assets/images/banners/ghar-hero-evening.webp")
-        center/cover no-repeat;
+    .help-hero {
+      background: var(--green-900);
+      color: white;
+      padding: 82px 0 88px;
+      position: relative;
+      overflow: hidden;
     }
 
-    .hero:after{
-      content:"";
-      position:absolute;
-      inset:auto 0 0;
-      height:120px;
-      background:linear-gradient(
-        transparent,
-        var(--ivory)
-      );
-      pointer-events:none;
+
+    .help-hero::before {
+      content: "";
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      border: 1px solid rgba(215,173,77,.12);
+      border-radius: 50%;
+      right: -180px;
+      top: -220px;
     }
 
-    .hero-inner{
-      position:relative;
-      z-index:2;
-      width:min(1250px,90vw);
-      margin:auto;
-      padding:90px 0 120px;
+
+    .help-hero::after {
+      content: "";
+      position: absolute;
+      width: 310px;
+      height: 310px;
+      border: 1px solid rgba(215,173,77,.08);
+      border-radius: 50%;
+      left: -170px;
+      bottom: -180px;
     }
 
-    .eyebrow{
-      display:inline-flex;
-      align-items:center;
-      gap:9px;
-      color:var(--gold2);
-      font-size:10px;
-      font-weight:900;
-      letter-spacing:.22em;
-      text-transform:uppercase;
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 850px;
+      margin: auto;
+      text-align: center;
     }
 
-    .eyebrow:before{
-      content:"";
-      width:30px;
-      height:1px;
-      background:var(--gold2);
+
+    .eyebrow {
+      color: var(--gold-300);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2.7px;
+      text-transform: uppercase;
+      margin-bottom: 17px;
     }
 
-    h1{
-      font:500 clamp(55px,7vw,96px)/.92 Georgia,serif;
-      letter-spacing:-.06em;
-      color:#fff;
-      margin:20px 0 25px;
-      max-width:900px;
+
+    .hero-title {
+      font-family: var(--serif);
+      font-size: clamp(48px, 6vw, 76px);
+      line-height: .98;
+      font-weight: 600;
+      letter-spacing: -2px;
     }
 
-    h1 em{
-      font-style:normal;
-      color:#e8d19c;
+
+    .hero-title em {
+      color: var(--gold-300);
+      font-weight: 500;
     }
 
-    .hero-copy{
-      max-width:680px;
-      color:rgba(255,255,255,.74);
-      font-size:16px;
-      line-height:1.85;
-      margin:0;
+
+    .hero-description {
+      max-width: 700px;
+      margin: 25px auto 0;
+      color: rgba(255,255,255,.72);
+      font-size: 15px;
+      line-height: 1.8;
     }
 
-    .actions{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      margin-top:28px;
+
+    /* =========================================================
+       SEARCH
+       ========================================================= */
+
+    .help-search-wrap {
+      max-width: 720px;
+      margin: 32px auto 0;
+      position: relative;
     }
 
-    .btn{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      min-height:52px;
-      padding:0 22px;
-      border-radius:999px;
-      border:1px solid var(--line);
-      font-size:12px;
-      font-weight:850;
-      transition:.25s;
+
+    .help-search {
+      width: 100%;
+      min-height: 58px;
+      border-radius: 30px;
+      border: 1px solid var(--gold-400);
+      background: rgba(255,255,255,.08);
+      color: white;
+      padding: 0 60px 0 23px;
+      outline: none;
+      font-size: 14px;
+      backdrop-filter: blur(8px);
     }
 
-    .btn:hover{
-      transform:translateY(-2px);
+
+    .help-search::placeholder {
+      color: rgba(255,255,255,.55);
     }
 
-    .btn.gold{
-      background:var(--champagne);
-      color:#14251e;
-      border-color:var(--champagne);
+
+    .help-search:focus {
+      box-shadow: 0 0 0 4px rgba(231,199,107,.10);
     }
 
-    .btn.light{
-      color:#fff;
-      background:rgba(255,255,255,.08);
-      border-color:rgba(255,255,255,.25);
-      backdrop-filter:blur(12px);
+
+    .help-search-icon {
+      position: absolute;
+      right: 22px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gold-300);
+      pointer-events: none;
     }
 
-    /* =========================
-       SEARCH HELP
-    ========================= */
 
-    .search-wrap{
-      position:relative;
-      z-index:5;
-      margin:-48px auto 0;
-      width:min(1050px,88vw);
+    /* =========================================================
+       QUICK HELP
+       ========================================================= */
+
+    .quick-section {
+      background: var(--cream);
+      padding: 85px 0;
     }
 
-    .search-box{
-      background:var(--pearl);
-      border:1px solid rgba(177,138,72,.24);
-      border-radius:25px;
-      box-shadow:var(--shadow);
-      padding:10px;
-      display:flex;
-      gap:8px;
+
+    .section-heading {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto 45px;
     }
 
-    .search-box input{
-      flex:1;
-      min-width:0;
-      border:0;
-      outline:0;
-      background:#f2e8d8;
-      border-radius:17px;
-      padding:0 19px;
-      min-height:60px;
-      color:var(--ink);
-      font-size:13px;
-      font-weight:700;
+
+    .section-eyebrow {
+      color: #9c7929;
+      text-transform: uppercase;
+      font-weight: 700;
+      font-size: 11px;
+      letter-spacing: 2.5px;
+      margin-bottom: 14px;
     }
 
-    .search-box button{
-      border:0;
-      border-radius:17px;
-      background:var(--emerald);
-      color:#fff;
-      padding:0 24px;
-      font-size:12px;
-      font-weight:900;
-      cursor:pointer;
+
+    .section-title {
+      font-family: var(--serif);
+      color: var(--green-900);
+      font-size: clamp(38px, 4vw, 56px);
+      line-height: 1.05;
+      font-weight: 600;
+      letter-spacing: -1.2px;
     }
 
-    /* =========================
-       SECTIONS
-    ========================= */
 
-    .section{
-      padding:105px 4.5vw;
+    .section-title em {
+      color: #9d7929;
+      font-weight: 500;
     }
 
-    .container{
-      max-width:1280px;
-      margin:auto;
+
+    .section-description {
+      color: var(--text-muted);
+      margin-top: 17px;
+      font-size: 14px;
     }
 
-    .head{
-      margin-bottom:42px;
+
+    .quick-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 17px;
     }
 
-    .kicker{
-      font-size:10px;
-      font-weight:900;
-      text-transform:uppercase;
-      letter-spacing:.2em;
-      color:var(--gold);
+
+    .quick-card {
+      background: #f9f4e8;
+      border: 1px solid rgba(5,45,29,.15);
+      border-radius: 18px;
+      padding: 30px 25px;
+      min-height: 205px;
+      transition: .25s ease;
     }
 
-    .section h2{
-      font:500 clamp(40px,5vw,68px)/.98 Georgia,serif;
-      letter-spacing:-.045em;
-      color:var(--emerald);
-      margin:12px 0 0;
+
+    .quick-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 18px 40px rgba(0,0,0,.10);
+      border-color: rgba(215,173,77,.55);
     }
 
-    .section-intro{
-      max-width:600px;
-      color:var(--muted);
-      font-size:13px;
-      line-height:1.85;
-      margin-top:16px;
+
+    .quick-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: var(--green-900);
+      border: 1px solid var(--gold-400);
+      color: var(--gold-300);
+      margin-bottom: 19px;
     }
 
-    /* =========================
-       HELP CARDS
-    ========================= */
 
-    .help-grid{
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:15px;
+    .quick-card h3 {
+      color: var(--green-900);
+      font-family: var(--serif);
+      font-size: 22px;
+      margin-bottom: 8px;
     }
 
-    .help-card{
-      position:relative;
-      padding:30px;
-      min-height:240px;
-      border-radius:27px;
 
-      background:
-        linear-gradient(
-          145deg,
-          #fffaf2,
-          #f0e4d1
-        );
-
-      border:1px solid var(--line);
-      transition:.3s;
-      overflow:hidden;
+    .quick-card p {
+      color: var(--text-muted);
+      font-size: 12px;
+      line-height: 1.7;
     }
 
-    .help-card:after{
-      content:"";
-      position:absolute;
-      width:130px;
-      height:130px;
-      border-radius:50%;
-      right:-55px;
-      bottom:-55px;
-      background:rgba(177,138,72,.12);
+
+    .quick-card a {
+      display: inline-block;
+      margin-top: 13px;
+      color: #9c7929;
+      font-size: 11px;
+      font-weight: 700;
     }
 
-    .help-card:hover{
-      transform:translateY(-5px);
-      box-shadow:var(--shadow);
+
+    /* =========================================================
+       HELP CATEGORIES
+       ========================================================= */
+
+    .categories-section {
+      background: #e9dfc8;
+      padding: 95px 0;
     }
 
-    .icon{
-      width:49px;
-      height:49px;
-      border-radius:15px;
-      display:grid;
-      place-items:center;
-      background:var(--emerald);
-      color:var(--gold2);
-      font-size:21px;
+
+    .categories-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 17px;
+      margin-top: 48px;
     }
 
-    .help-card h3{
-      font:500 25px Georgia,serif;
-      color:var(--emerald);
-      margin:30px 0 7px;
+
+    .category-card {
+      background: var(--green-900);
+      border: 1px solid rgba(215,173,77,.35);
+      border-radius: 18px;
+      padding: 30px;
+      color: white;
+      min-height: 245px;
+      transition: .25s ease;
     }
 
-    .help-card p{
-      margin:0;
-      color:var(--muted);
-      font-size:11px;
-      line-height:1.8;
-      max-width:310px;
+
+    .category-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--gold-400);
+      box-shadow: 0 18px 40px rgba(0,0,0,.15);
     }
 
-    .card-link{
-      display:inline-block;
-      margin-top:18px;
-      color:var(--emerald);
-      font-size:11px;
-      font-weight:900;
+
+    .category-icon {
+      color: var(--gold-300);
+      font-size: 23px;
+      margin-bottom: 18px;
     }
 
-    .card-link span{
-      color:var(--gold);
+
+    .category-card h3 {
+      font-family: var(--serif);
+      font-size: 25px;
+      margin-bottom: 9px;
     }
 
-    /* =========================
-       QUICK ACTIONS
-    ========================= */
 
-    .quick-band{
-      background:
-        linear-gradient(
-          135deg,
-          #eee1ce,
-          #f8f0e2
-        );
+    .category-card p {
+      color: rgba(255,255,255,.64);
+      font-size: 12px;
+      line-height: 1.75;
     }
 
-    .quick-grid{
-      display:grid;
-      grid-template-columns:repeat(4,1fr);
-      gap:14px;
+
+    .category-links {
+      margin-top: 17px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
     }
 
-    .quick{
-      padding:26px;
-      border-radius:23px;
-      background:rgba(255,250,242,.75);
-      border:1px solid var(--line);
-      transition:.25s;
+
+    .category-links a {
+      border: 1px solid rgba(215,173,77,.3);
+      border-radius: 20px;
+      padding: 6px 10px;
+      color: rgba(255,255,255,.75);
+      font-size: 10px;
+      transition: .2s ease;
     }
 
-    .quick:hover{
-      transform:translateY(-4px);
-      background:#fffaf2;
+
+    .category-links a:hover {
+      color: var(--green-950);
+      background: var(--gold-300);
+      border-color: var(--gold-300);
     }
 
-    .quick strong{
-      display:block;
-      color:var(--gold);
-      font-size:25px;
-      margin-bottom:20px;
+
+    /* =========================================================
+       FAQ
+       ========================================================= */
+
+    .faq-section {
+      background: var(--cream);
+      padding: 100px 0;
     }
 
-    .quick h3{
-      color:var(--emerald);
-      font-size:14px;
-      margin:0 0 6px;
+
+    .faq-layout {
+      display: grid;
+      grid-template-columns: .8fr 1.2fr;
+      gap: 65px;
+      align-items: start;
     }
 
-    .quick p{
-      color:var(--muted);
-      font-size:10px;
-      line-height:1.7;
-      margin:0;
+
+    .faq-intro {
+      position: sticky;
+      top: 105px;
     }
 
-    /* =========================
-       SUPPORT BAND
-    ========================= */
 
-    .support{
-      background:var(--emerald);
-      color:#fff;
-      padding:100px 4.5vw;
+    .faq-intro p {
+      color: var(--text-muted);
+      font-size: 14px;
+      line-height: 1.8;
+      margin-top: 20px;
     }
 
-    .support-grid{
-      max-width:1180px;
-      margin:auto;
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:60px;
-      align-items:center;
+
+    .faq-contact {
+      margin-top: 25px;
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      color: #9c7929;
+      font-size: 12px;
+      font-weight: 700;
     }
 
-    .support h2{
-      font:500 clamp(42px,5vw,65px)/1 Georgia,serif;
-      letter-spacing:-.04em;
-      margin:12px 0;
+
+    .faq-list {
+      display: grid;
+      gap: 11px;
     }
 
-    .support .kicker{
-      color:var(--gold2);
+
+    .faq-item {
+      border: 1px solid rgba(5,45,29,.15);
+      background: #f9f4e8;
+      border-radius: 14px;
+      overflow: hidden;
     }
 
-    .support-copy{
-      color:rgba(255,255,255,.62);
-      max-width:530px;
-      font-size:13px;
-      line-height:1.9;
+
+    .faq-question {
+      width: 100%;
+      border: 0;
+      background: transparent;
+      padding: 20px 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      color: var(--green-900);
+      text-align: left;
+      font-size: 13px;
+      font-weight: 700;
     }
 
-    .support-card{
-      background:rgba(255,255,255,.07);
-      border:1px solid rgba(255,255,255,.13);
-      border-radius:28px;
-      padding:30px;
-      backdrop-filter:blur(14px);
+
+    .faq-question i {
+      color: #a47d27;
+      transition: transform .25s ease;
     }
 
-    .support-row{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:20px;
-      padding:17px 0;
-      border-bottom:1px solid rgba(255,255,255,.1);
+
+    .faq-answer {
+      display: none;
+      padding: 0 22px 20px;
+      color: var(--text-muted);
+      font-size: 12px;
+      line-height: 1.8;
     }
 
-    .support-row:last-child{
-      border-bottom:0;
+
+    .faq-item.open .faq-answer {
+      display: block;
     }
 
-    .support-row span:first-child{
-      color:rgba(255,255,255,.58);
-      font-size:11px;
+
+    .faq-item.open .faq-question i {
+      transform: rotate(45deg);
     }
 
-    .support-row strong{
-      color:var(--gold2);
-      font-size:12px;
+
+    /* =========================================================
+       GUIDES
+       ========================================================= */
+
+    .guides-section {
+      background: var(--green-900);
+      color: white;
+      padding: 100px 0;
     }
 
-    /* =========================
-       CTA
-    ========================= */
 
-    .cta{
-      padding:110px 4.5vw;
-      text-align:center;
-      background:var(--ivory);
+    .guides-section .section-title {
+      color: white;
     }
 
-    .cta h2{
-      max-width:850px;
-      margin:12px auto;
-      font:500 clamp(46px,6vw,78px)/.96 Georgia,serif;
-      color:var(--emerald);
+
+    .guides-section .section-title em {
+      color: var(--gold-300);
     }
 
-    .cta p{
-      max-width:590px;
-      margin:auto;
-      color:var(--muted);
-      font-size:13px;
-      line-height:1.8;
+
+    .guides-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 17px;
+      margin-top: 50px;
     }
 
-    .cta .actions{
-      justify-content:center;
+
+    .guide-card {
+      background: var(--green-850);
+      border: 1px solid rgba(215,173,77,.3);
+      border-radius: 18px;
+      padding: 31px;
+      min-height: 240px;
     }
 
-    /* =========================
+
+    .guide-number {
+      color: var(--gold-300);
+      font-family: var(--serif);
+      font-size: 31px;
+      margin-bottom: 20px;
+    }
+
+
+    .guide-card h3 {
+      font-family: var(--serif);
+      font-size: 23px;
+      margin-bottom: 9px;
+    }
+
+
+    .guide-card p {
+      color: rgba(255,255,255,.64);
+      font-size: 12px;
+      line-height: 1.75;
+    }
+
+
+    .guide-card a {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      margin-top: 17px;
+      color: var(--gold-300);
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+
+    /* =========================================================
+       SUPPORT CTA
+       ========================================================= */
+
+    .support-section {
+      background: var(--cream);
+      padding: 95px 0;
+    }
+
+
+    .support-box {
+      background: var(--green-900);
+      border: 1px solid var(--gold-400);
+      border-radius: 24px;
+      padding: 60px 45px;
+      text-align: center;
+      color: white;
+    }
+
+
+    .support-box h2 {
+      font-family: var(--serif);
+      font-size: clamp(38px, 5vw, 58px);
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+
+
+    .support-box h2 em {
+      color: var(--gold-300);
+      font-weight: 500;
+    }
+
+
+    .support-box p {
+      max-width: 630px;
+      margin: auto;
+      color: rgba(255,255,255,.67);
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+
+    .support-actions {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+
+    .gold-button {
+      min-height: 48px;
+      padding: 0 23px;
+      border: 1px solid var(--gold-400);
+      background: linear-gradient(135deg, var(--gold-300), var(--gold-500));
+      color: var(--green-950);
+      border-radius: 25px;
+      font-size: 13px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+
+    .outline-button {
+      min-height: 48px;
+      padding: 0 23px;
+      border: 1px solid rgba(231,199,107,.65);
+      background: transparent;
+      color: white;
+      border-radius: 25px;
+      font-size: 13px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+
+    /* =========================================================
        FOOTER
-    ========================= */
+       ========================================================= */
 
-    footer{
-      background:#10291f;
-      color:#fff;
+    .footer {
+      background: #021b11;
+      color: white;
+      border-top: 1px solid rgba(215,173,77,.45);
     }
 
-    .footer{
-      max-width:1280px;
-      margin:auto;
-      padding:70px 4.5vw;
-      display:grid;
-      grid-template-columns:2fr 1fr 1fr 1fr;
-      gap:45px;
+
+    .footer-inner {
+      width: min(calc(100% - 48px), var(--container));
+      margin: auto;
+      padding: 65px 0 45px;
+
+      display: grid;
+      grid-template-columns: 1.7fr 1fr 1fr 1fr;
+      gap: 35px;
     }
 
-    .footer-brand{
-      font-size:25px;
-      font-weight:900;
-      letter-spacing:.2em;
-      color:var(--gold2);
+
+    .footer-brand strong {
+      color: var(--gold-300);
+      font-family: var(--serif);
+      font-size: 28px;
+      letter-spacing: 2px;
+      display: block;
+      margin-bottom: 17px;
     }
 
-    .footer p{
-      color:rgba(255,255,255,.5);
-      max-width:380px;
-      font-size:12px;
-      line-height:1.8;
+
+    .footer-brand p {
+      max-width: 330px;
+      color: rgba(255,255,255,.58);
+      font-size: 12px;
+      line-height: 1.8;
     }
 
-    .footer h4{
-      color:var(--gold2);
-      margin:0 0 15px;
-      font-size:11px;
-      text-transform:uppercase;
-      letter-spacing:.15em;
+
+    .footer-column {
+      display: flex;
+      flex-direction: column;
     }
 
-    .footer a{
-      display:block;
-      color:rgba(255,255,255,.6);
-      font-size:11px;
-      margin:9px 0;
+
+    .footer-column h4 {
+      color: var(--gold-300);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1.6px;
+      margin-bottom: 18px;
     }
 
-    .footer a:hover{
-      color:#fff;
+
+    .footer-column a {
+      color: rgba(255,255,255,.66);
+      font-size: 12px;
+      margin-bottom: 10px;
+      transition: .2s ease;
     }
 
-    .bottom{
-      max-width:1280px;
-      margin:auto;
-      padding:18px 4.5vw 25px;
-      border-top:1px solid rgba(255,255,255,.1);
-      display:flex;
-      justify-content:space-between;
-      gap:20px;
-      color:rgba(255,255,255,.4);
-      font-size:10px;
+
+    .footer-column a:hover {
+      color: var(--gold-300);
     }
 
-    .bottom a{
-      display:inline;
-      margin:0;
+
+    .footer-bottom {
+      width: min(calc(100% - 48px), var(--container));
+      margin: auto;
+      border-top: 1px solid rgba(255,255,255,.08);
+      padding: 20px 0;
+
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+
+      color: rgba(255,255,255,.43);
+      font-size: 10px;
     }
 
-    /* =========================
-       MOBILE DOCK
-    ========================= */
 
-    .mobile-dock{
-      display:none;
+    /* =========================================================
+       FLOATING GHAR AI
+       ========================================================= */
+
+    .ai-float {
+      position: fixed;
+      right: 24px;
+      bottom: 24px;
+      z-index: 1200;
     }
 
-    /* =========================
-       RESPONSIVE
-    ========================= */
 
-    @media(max-width:1050px){
+    .ai-float-button {
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      border: 2px solid var(--gold-300);
+      background: var(--green-900);
+      color: var(--gold-300);
+      display: grid;
+      place-items: center;
+      font-size: 22px;
+      box-shadow: 0 12px 30px rgba(0,0,0,.25);
+    }
 
-      .links{
-        display:none;
+
+    .ai-tooltip {
+      position: absolute;
+      right: 68px;
+      bottom: 5px;
+      white-space: nowrap;
+      background: var(--green-950);
+      color: white;
+      border: 1px solid rgba(215,173,77,.5);
+      padding: 9px 13px;
+      border-radius: 8px;
+      font-size: 11px;
+      opacity: 0;
+      transform: translateX(5px);
+      pointer-events: none;
+      transition: .2s ease;
+    }
+
+
+    .ai-float:hover .ai-tooltip {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+
+    /* =========================================================
+       MOBILE
+       ========================================================= */
+
+    @media (max-width: 1100px) {
+
+      .main-nav {
+        gap: 17px;
       }
 
-      .menu{
-        display:block;
+      .main-nav a {
+        font-size: 12px;
       }
 
-      .help-grid{
-        grid-template-columns:1fr 1fr;
+      .quick-grid {
+        grid-template-columns: repeat(2, 1fr);
       }
 
-      .quick-grid{
-        grid-template-columns:1fr 1fr;
+      .categories-grid {
+        grid-template-columns: repeat(2, 1fr);
       }
 
-      .support-grid{
-        grid-template-columns:1fr;
+      .guides-grid {
+        grid-template-columns: repeat(2, 1fr);
       }
 
-      .footer{
-        grid-template-columns:1fr 1fr;
+      .footer-inner {
+        grid-template-columns: 1.5fr 1fr 1fr;
+      }
+
+      .footer-brand {
+        grid-column: 1 / -1;
       }
 
     }
 
-    @media(max-width:700px){
 
-      .topbar{
-        font-size:9px;
+    @media (max-width: 850px) {
+
+      :root {
+        --header-height: 68px;
       }
 
-      .header{
-        padding:9px 5vw;
+
+      .container,
+      .footer-inner,
+      .footer-bottom {
+        width: min(calc(100% - 32px), var(--container));
       }
 
-      .nav-actions .pill:first-child{
-        display:none;
+
+      .main-nav,
+      .header-search,
+      .login-btn,
+      .get-started {
+        display: none;
       }
 
-      .hero{
-        min-height:650px;
+
+      .mobile-menu {
+        display: grid;
+        place-items: center;
       }
 
-      .hero-inner{
-        width:90vw;
-        padding:70px 0 110px;
+
+      .faq-layout {
+        grid-template-columns: 1fr;
+        gap: 40px;
       }
 
-      h1{
-        font-size:56px;
+
+      .faq-intro {
+        position: static;
       }
 
-      .hero-copy{
-        font-size:14px;
+
+      .quick-section,
+      .categories-section,
+      .faq-section,
+      .guides-section,
+      .support-section {
+        padding: 75px 0;
       }
 
-      .search-wrap{
-        width:90vw;
-        margin-top:-38px;
+    }
+
+
+    @media (max-width: 560px) {
+
+      .container,
+      .footer-inner,
+      .footer-bottom {
+        width: min(calc(100% - 24px), var(--container));
       }
 
-      .search-box{
-        flex-direction:column;
+
+      .brand-name {
+        font-size: 22px;
       }
 
-      .search-box input{
-        min-height:58px;
+
+      .brand-mark {
+        width: 39px;
+        height: 39px;
       }
 
-      .search-box button{
-        min-height:58px;
+
+      .help-hero {
+        padding: 55px 0 60px;
       }
 
-      .help-grid,
-      .quick-grid{
-        grid-template-columns:1fr;
+
+      .hero-title {
+        font-size: 46px;
       }
 
-      .support-grid{
-        gap:35px;
+
+      .hero-description {
+        font-size: 14px;
       }
 
-      .footer{
-        grid-template-columns:1fr;
+
+      .help-search {
+        min-height: 54px;
       }
 
-      .bottom{
-        flex-direction:column;
+
+      .quick-grid,
+      .categories-grid,
+      .guides-grid {
+        grid-template-columns: 1fr;
       }
 
-      .mobile-dock{
-        position:fixed;
-        z-index:9999;
-        left:10px;
-        right:10px;
-        bottom:10px;
 
-        display:grid;
-        grid-template-columns:repeat(5,1fr);
-
-        background:rgba(16,41,31,.95);
-        backdrop-filter:blur(18px);
-
-        border:1px solid rgba(255,255,255,.12);
-        border-radius:20px;
-        padding:8px;
-
-        box-shadow:0 20px 50px rgba(0,0,0,.2);
+      .quick-card,
+      .category-card,
+      .guide-card {
+        min-height: auto;
       }
 
-      .mobile-dock a{
-        text-align:center;
-        color:rgba(255,255,255,.65);
-        font-size:8px;
-        font-weight:800;
+
+      .support-box {
+        padding: 45px 22px;
       }
 
-      .mobile-dock span{
-        display:block;
-        color:var(--gold2);
-        font-size:18px;
-        line-height:1;
-        margin-bottom:3px;
+
+      .footer-inner {
+        grid-template-columns: 1fr 1fr;
+        gap: 30px 20px;
       }
 
-      body{
-        padding-bottom:80px;
+
+      .footer-brand {
+        grid-column: 1 / -1;
+      }
+
+
+      .footer-bottom {
+        display: block;
+      }
+
+
+      .footer-bottom span {
+        display: block;
+      }
+
+
+      .footer-bottom span + span {
+        margin-top: 10px;
+      }
+
+
+      .ai-float {
+        right: 15px;
+        bottom: 15px;
       }
 
     }
@@ -829,452 +1185,153 @@
   </style>
 </head>
 
+
 <body>
 
-  <!-- =========================
-       TOP BAR
-  ========================= -->
 
-  <div class="topbar">
-    <b>GHAR</b>
-    &nbsp; | &nbsp;
-    Help when you need it throughout your property journey
-  </div>
-
-
-  <!-- =========================
+  <!-- =======================================================
        HEADER
-  ========================= -->
+       ======================================================= -->
 
-  <header class="header">
+  <header class="site-header">
 
-    <nav class="nav">
+    <div class="container header-inner">
 
       <a href="index.html" class="brand">
 
-        <img
-          src="assets/images/logo/ghar-logo.png"
-          alt="GHAR"
-        >
+        <div class="brand-mark">
+          <i class="fa-solid fa-house"></i>
+        </div>
 
-        <span>GHAR</span>
+        <div>
+          <div class="brand-name">GHAR</div>
+          <span class="brand-tagline">BUY | SELL | RENT</span>
+        </div>
 
       </a>
 
 
-      <div class="links">
+      <nav class="main-nav">
+
+        <a href="index.html">
+          Home
+        </a>
 
         <a href="properties.html">
           Properties
+        </a>
+
+        <a href="buy.html">
+          Buy
+        </a>
+
+        <a href="rent.html">
+          Rent
+        </a>
+
+        <a href="sell.html">
+          Sell
+        </a>
+
+        <a href="ghar-ai.html">
+          GHAR AI
         </a>
 
         <a href="about.html">
           About
         </a>
 
-        <a href="property-search.html">
-          Search
-        </a>
-
-        <a href="compare-properties.html">
-          Compare
-        </a>
-
         <a href="contact.html">
           Contact
         </a>
 
-      </div>
+      </nav>
 
 
-      <div class="nav-actions">
+      <div class="header-actions">
 
-        <a
-          href="login.html"
-          class="pill"
+        <button
+          class="header-search"
+          aria-label="Search"
+          onclick="window.location.href='property-search.html'"
         >
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+
+
+        <a href="login.html" class="login-btn">
           Login
         </a>
 
-        <a
-          href="role-selection.html"
-          class="pill gold"
-        >
+
+        <a href="register.html" class="get-started">
           Get Started
         </a>
 
+
         <button
-          class="menu"
-          type="button"
-          aria-label="Open navigation"
+          class="mobile-menu"
+          id="mobileMenu"
+          aria-label="Menu"
         >
-          ☰
+          <i class="fa-solid fa-bars"></i>
         </button>
 
       </div>
 
-    </nav>
+    </div>
 
   </header>
 
 
+  <!-- =======================================================
+       MAIN
+       ======================================================= -->
+
   <main>
 
 
-    <!-- =========================
+    <!-- =====================================================
          HERO
-    ========================= -->
+         ===================================================== -->
 
-    <section class="hero">
-
-      <div class="hero-inner">
-
-        <div class="eyebrow">
-          GHAR support
-        </div>
-
-        <h1>
-          Help for every
-          <em>property journey.</em>
-        </h1>
-
-        <p class="hero-copy">
-          Find answers, understand GHAR services, manage
-          your account and get assistance with properties,
-          listings, enquiries, visits, documents and payments.
-        </p>
-
-        <div class="actions">
-
-          <a
-            href="help-centre.html"
-            class="btn gold"
-          >
-            Visit Help Centre
-          </a>
-
-          <a
-            href="contact.html"
-            class="btn light"
-          >
-            Contact GHAR
-          </a>
-
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- =========================
-         SEARCH
-    ========================= -->
-
-    <div class="search-wrap">
-
-      <form
-        class="search-box"
-        id="helpSearch"
-      >
-
-        <input
-          id="helpQuery"
-          type="search"
-          autocomplete="off"
-          placeholder="Search help -- e.g. listing a property, payments, documents..."
-          aria-label="Search GHAR help"
-        >
-
-        <button type="submit">
-          Search Help
-        </button>
-
-      </form>
-
-    </div>
-
-
-    <!-- =========================
-         HELP CATEGORIES
-    ========================= -->
-
-    <section class="section">
+    <section class="help-hero">
 
       <div class="container">
 
-        <div class="head">
+        <div class="hero-content">
 
-          <div class="kicker">
-            How can we help?
+          <div class="eyebrow">
+            GHAR Support
           </div>
 
-          <h2>
-            Find the right
-            <br>
-            place for your question.
-          </h2>
 
-          <p class="section-intro">
-            Choose a support area to quickly find information
-            about your GHAR account, property journey and
-            platform services.
+          <h1 class="hero-title">
+            How can we
+            <em>help?</em>
+          </h1>
+
+
+          <p class="hero-description">
+            Find answers about buying, renting, selling,
+            property discovery, accounts, documents, payments
+            and everything you need to use GHAR.
           </p>
 
-        </div>
 
+          <div class="help-search-wrap">
 
-        <div class="help-grid">
+            <input
+              type="search"
+              id="helpSearch"
+              class="help-search"
+              placeholder="Search for help, e.g. How do I save a property?"
+              aria-label="Search help"
+            >
 
+            <i class="fa-solid fa-magnifying-glass help-search-icon"></i>
 
-          <!-- ACCOUNT -->
-
-          <a
-            class="help-card"
-            href="help-centre.html?topic=account"
-          >
-
-            <div class="icon">
-              ◉
-            </div>
-
-            <h3>
-              Account & Login
-            </h3>
-
-            <p>
-              Get help with registration, login, OTP,
-              password recovery, email verification and
-              account settings.
-            </p>
-
-            <span class="card-link">
-              Account help <span>→</span>
-            </span>
-
-          </a>
-
-
-          <!-- BUYER -->
-
-          <a
-            class="help-card"
-            href="help-centre.html?topic=buyer"
-          >
-
-            <div class="icon">
-              ⌂
-            </div>
-
-            <h3>
-              Buying Property
-            </h3>
-
-            <p>
-              Learn how to search properties, save listings,
-              enquire, schedule visits and manage offers.
-            </p>
-
-            <span class="card-link">
-              Buyer help <span>→</span>
-            </span>
-
-          </a>
-
-
-          <!-- SELLER -->
-
-          <a
-            class="help-card"
-            href="help-centre.html?topic=seller"
-          >
-
-            <div class="icon">
-              ◇
-            </div>
-
-            <h3>
-              Selling Property
-            </h3>
-
-            <p>
-              Understand property listing, verification,
-              enquiries, visits, offers and seller tools.
-            </p>
-
-            <span class="card-link">
-              Seller help <span>→</span>
-            </span>
-
-          </a>
-
-
-          <!-- RENT -->
-
-          <a
-            class="help-card"
-            href="help-centre.html?topic=rent"
-          >
-
-            <div class="icon">
-              ↗
-            </div>
-
-            <h3>
-              Rent & Lease
-            </h3>
-
-            <p>
-              Find information about rental properties,
-              lease opportunities, enquiries and related
-              property journeys.
-            </p>
-
-            <span class="card-link">
-              Rental help <span>→</span>
-            </span>
-
-          </a>
-
-
-          <!-- DOCUMENTS -->
-
-          <a
-            class="help-card"
-            href="help-centre.html?topic=documents"
-          >
-
-            <div class="icon">
-              ▣
-            </div>
-
-            <h3>
-              Documents
-            </h3>
-
-            <p>
-              Understand document uploads, verification,
-              application files, access requests and
-              document management.
-            </p>
-
-            <span class="card-link">
-              Document help <span>→</span>
-            </span>
-
-          </a>
-
-
-          <!-- PAYMENTS -->
-
-          <a
-            class="help-card"
-            href="help-centre.html?topic=payments"
-          >
-
-            <div class="icon">
-              ₹
-            </div>
-
-            <h3>
-              Payments
-            </h3>
-
-            <p>
-              Get information about subscriptions,
-              transaction status, receipts, refunds and
-              payment-related questions.
-            </p>
-
-            <span class="card-link">
-              Payment help <span>→</span>
-            </span>
-
-          </a>
-
-
-          <!-- VISITS -->
-
-          <a
-            class="help-card"
-            href="help-centre.html?topic=visits"
-          >
-
-            <div class="icon">
-              ◷
-            </div>
-
-            <h3>
-              Property Visits
-            </h3>
-
-            <p>
-              Understand visit requests, schedules,
-              confirmations, changes and visit-related
-              communication.
-            </p>
-
-            <span class="card-link">
-              Visit help <span>→</span>
-            </span>
-
-          </a>
-
-
-          <!-- AI -->
-
-          <a
-            class="help-card"
-            href="help-centre.html?topic=ai"
-          >
-
-            <div class="icon">
-              ✦
-            </div>
-
-            <h3>
-              GHAR AI
-            </h3>
-
-            <p>
-              Learn about AI property matching, search
-              assistance, property information and other
-              intelligent platform features.
-            </p>
-
-            <span class="card-link">
-              AI help <span>→</span>
-            </span>
-
-          </a>
-
-
-          <!-- SECURITY -->
-
-          <a
-            class="help-card"
-            href="help-centre.html?topic=security"
-          >
-
-            <div class="icon">
-              ⛨
-            </div>
-
-            <h3>
-              Safety & Security
-            </h3>
-
-            <p>
-              Protect your account, understand security
-              practices and learn how to report suspicious
-              activity.
-            </p>
-
-            <span class="card-link">
-              Security help <span>→</span>
-            </span>
-
-          </a>
+          </div>
 
         </div>
 
@@ -1283,25 +1340,28 @@
     </section>
 
 
-    <!-- =========================
-         QUICK ACTIONS
-    ========================= -->
+    <!-- =====================================================
+         QUICK HELP
+         ===================================================== -->
 
-    <section class="section quick-band">
+    <section class="quick-section">
 
       <div class="container">
 
-        <div class="head">
+        <div class="section-heading">
 
-          <div class="kicker">
-            Quick actions
+          <div class="section-eyebrow">
+            Quick Help
           </div>
 
-          <h2>
-            Need something
-            <br>
-            specific?
+          <h2 class="section-title">
+            Start with what
+            <em>you need.</em>
           </h2>
+
+          <p class="section-description">
+            Get directly to the most common GHAR support areas.
+          </p>
 
         </div>
 
@@ -1309,209 +1369,89 @@
         <div class="quick-grid">
 
 
-          <a
-            href="login.html"
-            class="quick"
-          >
+          <article class="quick-card">
 
-            <strong>
-              ◉
-            </strong>
+            <div class="quick-icon">
+              <i class="fa-solid fa-house"></i>
+            </div>
 
-            <h3>
-              Login to GHAR
-            </h3>
+            <h3>Find a Property</h3>
 
             <p>
-              Access your account, dashboard,
-              saved properties and activity.
+              Learn how to search, filter, compare and save
+              properties on GHAR.
             </p>
 
-          </a>
-
-
-          <a
-            href="seller/list-property.html"
-            class="quick"
-          >
-
-            <strong>
-              +
-            </strong>
-
-            <h3>
-              List a Property
-            </h3>
-
-            <p>
-              Start creating a property listing
-              through the GHAR seller journey.
-            </p>
-
-          </a>
-
-
-          <a
-            href="contact.html"
-            class="quick"
-          >
-
-            <strong>
-              ✉
-            </strong>
-
-            <h3>
-              Contact Support
-            </h3>
-
-            <p>
-              Send GHAR a support request or
-              property-related enquiry.
-            </p>
-
-          </a>
-
-
-          <a
-            href="security.html"
-            class="quick"
-          >
-
-            <strong>
-              ⛨
-            </strong>
-
-            <h3>
-              Security Centre
-            </h3>
-
-            <p>
-              Review account protection and
-              security guidance.
-            </p>
-
-          </a>
-
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- =========================
-         SUPPORT
-    ========================= -->
-
-    <section class="support">
-
-      <div class="support-grid">
-
-
-        <div>
-
-          <div class="kicker">
-            Still need assistance?
-          </div>
-
-          <h2>
-            We're here to help you move forward.
-          </h2>
-
-          <p class="support-copy">
-            If you cannot find the information you need,
-            contact GHAR with the relevant details.
-            Providing your account or property reference,
-            where appropriate, can help support teams
-            understand your request.
-          </p>
-
-          <div class="actions">
-
-            <a
-              href="contact.html"
-              class="btn gold"
-            >
-              Contact Support
+            <a href="property-search.html">
+              Property Search
+              <i class="fa-solid fa-arrow-right"></i>
             </a>
 
-            <a
-              href="help-centre.html"
-              class="btn light"
-            >
-              Browse Help Centre
-            </a>
-
-          </div>
-
-        </div>
+          </article>
 
 
-        <div class="support-card">
+          <article class="quick-card">
 
-          <div class="support-row">
+            <div class="quick-icon">
+              <i class="fa-solid fa-user"></i>
+            </div>
 
-            <span>
-              General assistance
-            </span>
+            <h3>Account & Login</h3>
 
-            <strong>
-              Help Centre
-            </strong>
+            <p>
+              Get help with registration, login, profiles,
+              verification and account settings.
+            </p>
 
-          </div>
-
-
-          <div class="support-row">
-
-            <span>
-              Property questions
-            </span>
-
-            <strong>
-              Property Support
-            </strong>
-
-          </div>
-
-
-          <div class="support-row">
-
-            <span>
-              Account access
-            </span>
-
-            <strong>
+            <a href="login.html">
               Account Help
-            </strong>
+              <i class="fa-solid fa-arrow-right"></i>
+            </a>
 
-          </div>
-
-
-          <div class="support-row">
-
-            <span>
-              Safety concerns
-            </span>
-
-            <strong>
-              Security Centre
-            </strong>
-
-          </div>
+          </article>
 
 
-          <div class="support-row">
+          <article class="quick-card">
 
-            <span>
-              Other enquiries
-            </span>
+            <div class="quick-icon">
+              <i class="fa-solid fa-file-lines"></i>
+            </div>
 
-            <strong>
-              Contact GHAR
-            </strong>
+            <h3>Documents</h3>
 
-          </div>
+            <p>
+              Understand document uploads, applications,
+              verification and document management.
+            </p>
+
+            <a href="buyer/documents.html">
+              Document Help
+              <i class="fa-solid fa-arrow-right"></i>
+            </a>
+
+          </article>
+
+
+          <article class="quick-card">
+
+            <div class="quick-icon">
+              <i class="fa-solid fa-credit-card"></i>
+            </div>
+
+            <h3>Payments</h3>
+
+            <p>
+              Get information about payments, transactions,
+              receipts and payment-related issues.
+            </p>
+
+            <a href="buyer/payments.html">
+              Payment Help
+              <i class="fa-solid fa-arrow-right"></i>
+            </a>
+
+          </article>
+
 
         </div>
 
@@ -1520,47 +1460,588 @@
     </section>
 
 
-    <!-- =========================
-         CTA
-    ========================= -->
+    <!-- =====================================================
+         CATEGORIES
+         ===================================================== -->
 
-    <section class="cta">
+    <section class="categories-section">
 
       <div class="container">
 
-        <div class="kicker">
-          GHAR support ecosystem
+        <div class="section-heading">
+
+          <div class="section-eyebrow">
+            Help Categories
+          </div>
+
+          <h2 class="section-title">
+            Everything in
+            <em>one place.</em>
+          </h2>
+
         </div>
 
-        <h2>
-          Search, understand and continue your journey.
-        </h2>
 
-        <p>
-          Explore the Help Centre for detailed guidance,
-          or contact GHAR when you need direct assistance.
-        </p>
+        <div class="categories-grid">
 
-        <div class="actions">
 
-          <a
-            href="help-centre.html"
-            class="btn"
-            style="
-              background:var(--emerald);
-              color:#fff;
-              border-color:var(--emerald)
-            "
-          >
-            Open Help Centre →
+          <article class="category-card">
+
+            <div class="category-icon">
+              <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
+
+            <h3>Property Search</h3>
+
+            <p>
+              Find homes, apartments, villas, commercial spaces
+              and land using GHAR's discovery tools.
+            </p>
+
+            <div class="category-links">
+
+              <a href="properties.html">
+                Browse
+              </a>
+
+              <a href="property-search.html">
+                Search
+              </a>
+
+              <a href="compare.html">
+                Compare
+              </a>
+
+              <a href="map.html">
+                Map
+              </a>
+
+            </div>
+
+          </article>
+
+
+          <article class="category-card">
+
+            <div class="category-icon">
+              <i class="fa-solid fa-key"></i>
+            </div>
+
+            <h3>Buying</h3>
+
+            <p>
+              Learn about discovering properties, shortlisting,
+              visits, applications and moving forward.
+            </p>
+
+            <div class="category-links">
+
+              <a href="buy.html">
+                Buy
+              </a>
+
+              <a href="properties.html">
+                Properties
+              </a>
+
+              <a href="buyer/visits.html">
+                Visits
+              </a>
+
+            </div>
+
+          </article>
+
+
+          <article class="category-card">
+
+            <div class="category-icon">
+              <i class="fa-solid fa-building"></i>
+            </div>
+
+            <h3>Renting</h3>
+
+            <p>
+              Find rental properties and understand the GHAR
+              rental discovery and communication journey.
+            </p>
+
+            <div class="category-links">
+
+              <a href="rent.html">
+                Rent
+              </a>
+
+              <a href="properties.html">
+                Browse
+              </a>
+
+              <a href="contact.html">
+                Contact
+              </a>
+
+            </div>
+
+          </article>
+
+
+          <article class="category-card">
+
+            <div class="category-icon">
+              <i class="fa-solid fa-tag"></i>
+            </div>
+
+            <h3>Selling</h3>
+
+            <p>
+              Get help with listing properties, property
+              information, leads and seller processes.
+            </p>
+
+            <div class="category-links">
+
+              <a href="sell.html">
+                Sell
+              </a>
+
+              <a href="registration.html">
+                Register
+              </a>
+
+              <a href="contact.html">
+                Support
+              </a>
+
+            </div>
+
+          </article>
+
+
+          <article class="category-card">
+
+            <div class="category-icon">
+              <i class="fa-solid fa-robot"></i>
+            </div>
+
+            <h3>GHAR AI</h3>
+
+            <p>
+              Use conversational property discovery and get
+              assistance with your property journey.
+            </p>
+
+            <div class="category-links">
+
+              <a href="ghar-ai.html">
+                Open GHAR AI
+              </a>
+
+              <a href="compare.html">
+                Compare
+              </a>
+
+            </div>
+
+          </article>
+
+
+          <article class="category-card">
+
+            <div class="category-icon">
+              <i class="fa-solid fa-shield-halved"></i>
+            </div>
+
+            <h3>Security & Privacy</h3>
+
+            <p>
+              Learn about account security, verification,
+              privacy and responsible use of GHAR.
+            </p>
+
+            <div class="category-links">
+
+              <a href="security.html">
+                Security
+              </a>
+
+              <a href="privacy-policy.html">
+                Privacy
+              </a>
+
+              <a href="terms.html">
+                Terms
+              </a>
+
+            </div>
+
+          </article>
+
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         FAQ
+         ===================================================== -->
+
+    <section class="faq-section">
+
+      <div class="container faq-layout">
+
+
+        <div class="faq-intro">
+
+          <div class="section-eyebrow">
+            Frequently Asked
+          </div>
+
+          <h2 class="section-title">
+            Common
+            <em>questions.</em>
+          </h2>
+
+          <p>
+            Here are some common questions about using the
+            GHAR platform. For additional assistance, contact
+            the GHAR support team.
+          </p>
+
+          <a href="contact.html" class="faq-contact">
+            Contact Support
+            <i class="fa-solid fa-arrow-right"></i>
           </a>
 
-          <a
-            href="contact.html"
-            class="btn"
-          >
-            Contact Us
-          </a>
+        </div>
+
+
+        <div class="faq-list">
+
+
+          <div class="faq-item">
+
+            <button class="faq-question">
+
+              <span>
+                How do I search for a property?
+              </span>
+
+              <i class="fa-solid fa-plus"></i>
+
+            </button>
+
+            <div class="faq-answer">
+              Use the GHAR property search page to enter your
+              preferred location, property type, budget and
+              other requirements. You can then review matching
+              properties and open their details.
+            </div>
+
+          </div>
+
+
+          <div class="faq-item">
+
+            <button class="faq-question">
+
+              <span>
+                How can I save a property?
+              </span>
+
+              <i class="fa-solid fa-plus"></i>
+
+            </button>
+
+            <div class="faq-answer">
+              Open a property listing and use the save or
+              shortlist option when available. Saved properties
+              can be accessed from your buyer account.
+            </div>
+
+          </div>
+
+
+          <div class="faq-item">
+
+            <button class="faq-question">
+
+              <span>
+                Can I compare properties?
+              </span>
+
+              <i class="fa-solid fa-plus"></i>
+
+            </button>
+
+            <div class="faq-answer">
+              Yes. GHAR provides a property comparison experience
+              so you can review selected properties and evaluate
+              their relevant information side by side.
+            </div>
+
+          </div>
+
+
+          <div class="faq-item">
+
+            <button class="faq-question">
+
+              <span>
+                How do I arrange a property visit?
+              </span>
+
+              <i class="fa-solid fa-plus"></i>
+
+            </button>
+
+            <div class="faq-answer">
+              Open the relevant property and use the available
+              visit or enquiry option. Your requested visit can
+              then be managed through the appropriate account
+              section.
+            </div>
+
+          </div>
+
+
+          <div class="faq-item">
+
+            <button class="faq-question">
+
+              <span>
+                How do I reset my password?
+              </span>
+
+              <i class="fa-solid fa-plus"></i>
+
+            </button>
+
+            <div class="faq-answer">
+              Use the forgot-password option on the GHAR login
+              page and follow the verification instructions
+              provided for your account.
+            </div>
+
+          </div>
+
+
+          <div class="faq-item">
+
+            <button class="faq-question">
+
+              <span>
+                What is GHAR AI?
+              </span>
+
+              <i class="fa-solid fa-plus"></i>
+
+            </button>
+
+            <div class="faq-answer">
+              GHAR AI is the platform's intelligent assistance
+              experience designed to help users describe their
+              property requirements, discover relevant options
+              and navigate the property journey.
+            </div>
+
+          </div>
+
+
+          <div class="faq-item">
+
+            <button class="faq-question">
+
+              <span>
+                Where can I manage my documents?
+              </span>
+
+              <i class="fa-solid fa-plus"></i>
+
+            </button>
+
+            <div class="faq-answer">
+              Logged-in users can access their available document
+              management area through their account and buyer
+              dashboard.
+            </div>
+
+          </div>
+
+
+          <div class="faq-item">
+
+            <button class="faq-question">
+
+              <span>
+                How can I contact GHAR?
+              </span>
+
+              <i class="fa-solid fa-plus"></i>
+
+            </button>
+
+            <div class="faq-answer">
+              Visit the GHAR contact page to access the available
+              support and communication options.
+            </div>
+
+          </div>
+
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         GUIDES
+         ===================================================== -->
+
+    <section class="guides-section">
+
+      <div class="container">
+
+        <div class="section-heading">
+
+          <div class="section-eyebrow">
+            Helpful Guides
+          </div>
+
+          <h2 class="section-title">
+            Make your GHAR journey
+            <em>simpler.</em>
+          </h2>
+
+        </div>
+
+
+        <div class="guides-grid">
+
+
+          <article class="guide-card">
+
+            <div class="guide-number">
+              01
+            </div>
+
+            <h3>
+              Find Your Next Home
+            </h3>
+
+            <p>
+              Start with your location, budget and property
+              requirements, then narrow down your options using
+              GHAR's discovery tools.
+            </p>
+
+            <a href="properties.html">
+              Explore Properties
+              <i class="fa-solid fa-arrow-right"></i>
+            </a>
+
+          </article>
+
+
+          <article class="guide-card">
+
+            <div class="guide-number">
+              02
+            </div>
+
+            <h3>
+              Use GHAR AI
+            </h3>
+
+            <p>
+              Instead of using only filters, describe the type of
+              property, location and lifestyle you are looking for.
+            </p>
+
+            <a href="ghar-ai.html">
+              Try GHAR AI
+              <i class="fa-solid fa-arrow-right"></i>
+            </a>
+
+          </article>
+
+
+          <article class="guide-card">
+
+            <div class="guide-number">
+              03
+            </div>
+
+            <h3>
+              Manage Your Journey
+            </h3>
+
+            <p>
+              Keep your account, saved properties, visits,
+              documents and other property activities organised.
+            </p>
+
+            <a href="profile.html">
+              Open Profile
+              <i class="fa-solid fa-arrow-right"></i>
+            </a>
+
+          </article>
+
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         SUPPORT CTA
+         ===================================================== -->
+
+    <section class="support-section">
+
+      <div class="container">
+
+        <div class="support-box">
+
+          <div class="section-eyebrow">
+            Still Need Help?
+          </div>
+
+
+          <h2>
+            We're here to help you
+            <em>move forward.</em>
+          </h2>
+
+
+          <p>
+            If you cannot find the answer you are looking for,
+            contact GHAR or use GHAR AI to explore your question
+            and property requirements.
+          </p>
+
+
+          <div class="support-actions">
+
+            <a href="contact.html" class="gold-button">
+              Contact GHAR
+              <i class="fa-solid fa-arrow-right"></i>
+            </a>
+
+
+            <a href="ghar-ai.html" class="outline-button">
+              <i class="fa-solid fa-wand-magic-sparkles"></i>
+              Ask GHAR AI
+            </a>
+
+          </div>
 
         </div>
 
@@ -1571,149 +2052,73 @@
   </main>
 
 
-  <!-- =========================
+  <!-- =======================================================
        FOOTER
-  ========================= -->
+       ======================================================= -->
 
-  <footer>
+  <footer class="footer">
 
-    <div class="footer">
+    <div class="footer-inner">
 
+      <div class="footer-brand">
 
-      <div>
-
-        <div class="footer-brand">
-          GHAR
-        </div>
+        <strong>GHAR</strong>
 
         <p>
-          A structured real-estate ecosystem connecting
-          buyers, sellers, renters and property transactions
-          through one premium digital experience.
+          A premium real estate experience built around
+          intelligent discovery, transparent transactions
+          and exceptional property journeys.
         </p>
 
       </div>
 
 
-      <div>
+      <div class="footer-column">
 
-        <h4>
-          Properties
-        </h4>
+        <h4>EXPLORE</h4>
 
-        <a href="properties.html">
-          Buy
-        </a>
-
-        <a href="properties.html?listing=rent">
-          Rent
-        </a>
-
-        <a href="properties.html?listing=lease">
-          Lease
-        </a>
-
-        <a href="properties.html?type=commercial">
-          Commercial
-        </a>
-
-        <a href="properties.html?type=land">
-          Land
-        </a>
+        <a href="properties.html">Properties</a>
+        <a href="property-search.html">Search</a>
+        <a href="buyer/saved-properties.html">Saved Properties</a>
+        <a href="buyer/visits.html">Visits</a>
 
       </div>
 
 
-      <div>
+      <div class="footer-column">
 
-        <h4>
-          Support
-        </h4>
+        <h4>ACCOUNT</h4>
 
-        <a href="help.html">
-          Help
-        </a>
-
-        <a href="help-centre.html">
-          Help Centre
-        </a>
-
-        <a href="contact.html">
-          Contact
-        </a>
-
-        <a href="security.html">
-          Security
-        </a>
-
-        <a href="accessibility.html">
-          Accessibility
-        </a>
+        <a href="profile.html">Profile</a>
+        <a href="settings.html">Settings</a>
+        <a href="buyer/documents.html">Documents</a>
+        <a href="buyer/payments.html">Payments</a>
 
       </div>
 
 
-      <div>
+      <div class="footer-column">
 
-        <h4>
-          GHAR
-        </h4>
+        <h4>SUPPORT</h4>
 
-        <a href="about.html">
-          About
-        </a>
-
-        <a href="education.html">
-          Education
-        </a>
-
-        <a href="careers.html">
-          Careers
-        </a>
-
-        <a href="terms.html">
-          Terms
-        </a>
-
-        <a href="privacy.html">
-          Privacy
-        </a>
+        <a href="help-centre.html">Help Centre</a>
+        <a href="faqs.html">FAQs</a>
+        <a href="contact.html">Contact</a>
+        <a href="privacy-policy.html">Privacy Policy</a>
 
       </div>
 
     </div>
 
 
-    <div class="bottom">
+    <div class="footer-bottom">
 
       <span>
         © 2026 GHAR. All rights reserved.
       </span>
 
       <span>
-
-        <a href="terms.html">
-          Terms
-        </a>
-
-        &nbsp;·&nbsp;
-
-        <a href="privacy.html">
-          Privacy
-        </a>
-
-        &nbsp;·&nbsp;
-
-        <a href="cookie-policy.html">
-          Cookies
-        </a>
-
-        &nbsp;·&nbsp;
-
-        <a href="refund-policy.html">
-          Refunds
-        </a>
-
+        BUY • SELL • RENT • INVEST
       </span>
 
     </div>
@@ -1721,164 +2126,215 @@
   </footer>
 
 
-  <!-- =========================
-       MOBILE NAVIGATION
-  ========================= -->
+  <!-- =======================================================
+       FLOATING GHAR AI
+       ======================================================= -->
 
-  <nav
-    class="mobile-dock"
-    aria-label="Mobile navigation"
-  >
+  <div class="ai-float">
 
-    <a href="index.html">
-      <span>⌂</span>
-      Home
-    </a>
-
-    <a href="properties.html">
-      <span>⌕</span>
-      Search
-    </a>
-
-    <a href="help.html">
-      <span>?</span>
-      Help
-    </a>
-
-    <a href="profile.html">
-      <span>◉</span>
-      Account
-    </a>
-
-    <a href="ai/ai-assistant.html">
-      <span>✦</span>
-      AI
-    </a>
-
-  </nav>
+    <div class="ai-tooltip">
+      Ask GHAR AI
+    </div>
 
 
-  <!-- =========================
-       CORE JAVASCRIPT
-  ========================= -->
+    <button
+      class="ai-float-button"
+      onclick="window.location.href='ghar-ai.html'"
+      aria-label="Open GHAR AI"
+    >
+      <i class="fa-solid fa-wand-magic-sparkles"></i>
+    </button>
 
-  <script
-    src="assets/js/constants.js"
-    defer
-  ></script>
-
-  <script
-    src="assets/js/config.js"
-    defer
-  ></script>
-
-  <script
-    src="assets/js/storage.js"
-    defer
-  ></script>
-
-  <script
-    src="assets/js/api.js"
-    defer
-  ></script>
-
-  <script
-    src="assets/js/auth.js"
-    defer
-  ></script>
-
-  <script
-    src="assets/js/core.js"
-    defer
-  ></script>
-
-  <script
-    src="assets/js/components.js"
-    defer
-  ></script>
-
-  <script
-    src="assets/js/navigation.js"
-    defer
-  ></script>
+  </div>
 
 
-  <!-- =========================
-       PAGE JAVASCRIPT
-  ========================= -->
+  <!-- =======================================================
+       JAVASCRIPT
+       ======================================================= -->
 
   <script>
 
-    document.addEventListener(
-      "DOMContentLoaded",
-      () => {
+    /* =====================================================
+       MOBILE MENU
+       ===================================================== */
 
-        /* =========================
-           HELP SEARCH
-        ========================= */
+    const mobileMenu =
+      document.getElementById("mobileMenu");
 
-        const form =
-          document.getElementById(
-            "helpSearch"
-          );
+    mobileMenu.addEventListener("click", function () {
 
-        form?.addEventListener(
-          "submit",
-          event => {
+      const nav =
+        document.querySelector(".main-nav");
 
-            event.preventDefault();
+      const isOpen =
+        nav.classList.toggle("mobile-open");
 
-            const query =
-              document
-                .getElementById("helpQuery")
-                .value
-                .trim();
 
-            if(!query){
+      if (isOpen) {
 
-              location.href =
-                "help-centre.html";
+        nav.style.display = "flex";
+        nav.style.position = "absolute";
+        nav.style.top = "68px";
+        nav.style.left = "0";
+        nav.style.right = "0";
+        nav.style.padding = "18px";
+        nav.style.background = "#031b11";
+        nav.style.borderBottom =
+          "1px solid rgba(215,173,77,.45)";
+        nav.style.flexDirection = "column";
+        nav.style.alignItems = "stretch";
+        nav.style.gap = "0";
 
-              return;
 
-            }
+        nav.querySelectorAll("a").forEach(function(link) {
 
-            location.href =
-              "help-centre.html?q="
-              +
-              encodeURIComponent(query);
+          link.style.padding = "13px 10px";
+
+        });
+
+
+      } else {
+
+        nav.removeAttribute("style");
+
+      }
+
+    });
+
+
+    /* =====================================================
+       HEADER SHADOW
+       ===================================================== */
+
+    window.addEventListener("scroll", function () {
+
+      const header =
+        document.querySelector(".site-header");
+
+      if (window.scrollY > 20) {
+
+        header.style.boxShadow =
+          "0 10px 30px rgba(0,0,0,.22)";
+
+      } else {
+
+        header.style.boxShadow = "none";
+
+      }
+
+    });
+
+
+    /* =====================================================
+       FAQ ACCORDION
+       ===================================================== */
+
+    document
+      .querySelectorAll(".faq-question")
+      .forEach(function (button) {
+
+        button.addEventListener("click", function () {
+
+          const item =
+            this.closest(".faq-item");
+
+          const currentlyOpen =
+            item.classList.contains("open");
+
+
+          document
+            .querySelectorAll(".faq-item")
+            .forEach(function (faq) {
+
+              faq.classList.remove("open");
+
+            });
+
+
+          if (!currentlyOpen) {
+
+            item.classList.add("open");
 
           }
+
+        });
+
+      });
+
+
+    /* =====================================================
+       HELP SEARCH
+       ===================================================== */
+
+    const helpSearch =
+      document.getElementById("helpSearch");
+
+
+    helpSearch.addEventListener("input", function () {
+
+      const query =
+        this.value.toLowerCase().trim();
+
+
+      const searchableItems =
+        document.querySelectorAll(
+          ".quick-card, .category-card, .guide-card, .faq-item"
         );
 
 
-        /* =========================
-           ENTER KEY
-        ========================= */
+      searchableItems.forEach(function (item) {
 
-        document
-          .getElementById("helpQuery")
-          ?.addEventListener(
-            "keydown",
-            event => {
+        const text =
+          item.textContent.toLowerCase();
 
-              if(
-                event.key === "Enter"
-              ){
 
-                event.preventDefault();
+        if (!query || text.includes(query)) {
 
-                form?.requestSubmit();
+          item.style.display = "";
 
-              }
+        } else {
 
-            }
+          item.style.display = "none";
+
+        }
+
+      });
+
+    });
+
+
+    /* =====================================================
+       KEYBOARD SEARCH
+       ===================================================== */
+
+    helpSearch.addEventListener("keydown", function (event) {
+
+      if (event.key === "Enter") {
+
+        const firstVisible =
+          document.querySelector(
+            ".quick-card:not([style*='display: none']), " +
+            ".category-card:not([style*='display: none']), " +
+            ".guide-card:not([style*='display: none']), " +
+            ".faq-item:not([style*='display: none'])"
           );
 
+
+        if (firstVisible) {
+
+          firstVisible.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+          });
+
+        }
+
       }
-    );
+
+    });
 
   </script>
+
 
 </body>
 </html>

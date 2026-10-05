@@ -1,3543 +1,4223 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-
-  <meta name="theme-color" content="#f4ead9">
-  <meta name="description" content="GHAR -- premium real-estate discovery, property journeys, digital services and intelligent assistance.">
-
-  <title>GHAR -- Find a place worth calling home</title>
-
-  <!-- LOGO -->
-<link rel="icon" type="image/png" href="assets/images/logo/ghar-logo.jpg">
-  <!-- GLOBAL CSS -->
-  <link rel="stylesheet" href="assets/css/variables.css">
-  <link rel="stylesheet" href="assets/css/reset.css">
-  <link rel="stylesheet" href="assets/css/style.css">
-  <link rel="stylesheet" href="assets/css/layout.css">
-  <link rel="stylesheet" href="assets/css/components.css">
-  <link rel="stylesheet" href="assets/css/navigation.css">
-  <link rel="stylesheet" href="assets/css/cards.css">
-  <link rel="stylesheet" href="assets/css/forms.css">
-  <link rel="stylesheet" href="assets/css/home.css">
-  <link rel="stylesheet" href="assets/css/property.css">
-  <link rel="stylesheet" href="assets/css/animations.css">
-  <link rel="stylesheet" href="assets/css/responsive.css">
-  <link rel="stylesheet" href="assets/css/utilities.css">
-
-  <style>
-
-    :root{
-      --ivory:#f8f1e5;
-      --pearl:#fffaf2;
-      --sand:#eadbc4;
-      --champagne:#d9bd83;
-      --gold:#b18a48;
-      --gold2:#e7d09b;
-      --emerald:#163a2e;
-      --emerald2:#245442;
-      --ink:#17251f;
-      --muted:#737d76;
-      --line:rgba(23,58,46,.12);
-      --shadow:0 30px 80px rgba(30,49,40,.12);
-      --radius:28px;
-    }
-
-    *{
-      box-sizing:border-box;
-    }
-
-    html{
-      scroll-behavior:smooth;
-    }
-
-    body{
-      margin:0;
-      background:var(--ivory);
-      color:var(--ink);
-      font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
-      line-height:1.55;
-      overflow-x:hidden;
-    }
-
-    a{
-      text-decoration:none;
-      color:inherit;
-    }
-
-    img{
-      display:block;
-      max-width:100%;
-    }
-
-    button,
-    input,
-    select{
-      font:inherit;
-    }
-
-    /* =========================
-       TOP BAR
-    ========================= */
-
-    .topbar{
-      background:var(--emerald);
-      color:#f8f1e5;
-      text-align:center;
-      font-size:11px;
-      letter-spacing:.1em;
-      padding:8px 16px;
-    }
-
-    .topbar b{
-      color:var(--gold2);
-    }
-
-    /* =========================
-       HEADER
-    ========================= */
-
-    .header{
-      position:sticky;
-      top:0;
-      z-index:1000;
-      padding:12px 3.5vw;
-      background:rgba(248,241,229,.92);
-      backdrop-filter:blur(18px);
-      border-bottom:1px solid var(--line);
-    }
-
-    .nav{
-      max-width:1380px;
-      margin:auto;
-      display:flex;
-      align-items:center;
-      gap:26px;
-    }
-
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:11px;
-      font-weight:900;
-      letter-spacing:.2em;
-      color:var(--emerald);
-    }
-
-    .brand img{
-      width:42px;
-      height:42px;
-      object-fit:contain;
-    }
-
-    .links{
-      display:flex;
-      gap:5px;
-      margin-left:auto;
-    }
-
-    .links a{
-      font-size:13px;
-      font-weight:700;
-      padding:10px 13px;
-      border-radius:999px;
-    }
-
-    .links a:hover{
-      background:#eee3d2;
-    }
-
-    .nav-actions{
-      display:flex;
-      gap:8px;
-      align-items:center;
-    }
-
-    .pill{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      min-height:44px;
-      padding:0 17px;
-      border-radius:999px;
-      border:1px solid var(--line);
-      font-size:12px;
-      font-weight:800;
-    }
-
-    .pill.gold{
-      background:var(--emerald);
-      border-color:var(--emerald);
-      color:#fff;
-    }
-
-    .menu{
-      display:none;
-      border:0;
-      background:none;
-      font-size:24px;
-      color:var(--emerald);
-    }
-
-    /* =========================
-       HERO
-    ========================= */
-
-    .hero{
-      position:relative;
-      min-height:760px;
-      display:flex;
-      align-items:center;
-      overflow:hidden;
-
-      background:
-        linear-gradient(
-          105deg,
-          rgba(17,48,38,.88),
-          rgba(17,48,38,.34) 48%,
-          rgba(17,48,38,.05)
-        ),
-        url("assets/images/banners/ghar-hero-evening.webp")
-        center/cover no-repeat;
-    }
-
-    .hero:after{
-      content:"";
-      position:absolute;
-      inset:auto 0 0;
-      height:150px;
-      background:linear-gradient(
-        transparent,
-        var(--ivory)
-      );
-      pointer-events:none;
-    }
-
-    .hero-inner{
-      position:relative;
-      z-index:2;
-      width:min(1320px,90vw);
-      margin:auto;
-      padding:90px 0 110px;
-
-      display:grid;
-      grid-template-columns:1.25fr .75fr;
-      gap:70px;
-      align-items:end;
-    }
-
-    .eyebrow{
-      display:inline-flex;
-      align-items:center;
-      gap:9px;
-      color:var(--gold2);
-      font-size:10px;
-      font-weight:900;
-      letter-spacing:.22em;
-      text-transform:uppercase;
-    }
-
-    .eyebrow:before{
-      content:"";
-      width:30px;
-      height:1px;
-      background:var(--gold2);
-    }
-
-    h1{
-      font:500 clamp(58px,7.5vw,110px)/.9 Georgia,serif;
-      letter-spacing:-.06em;
-      color:#fff;
-      margin:20px 0 25px;
-      max-width:850px;
-    }
-
-    h1 em{
-      font-style:normal;
-      color:#e8d19c;
-    }
-
-    .hero-copy{
-      max-width:650px;
-      color:rgba(255,255,255,.78);
-      font-size:16px;
-      line-height:1.8;
-    }
-
-    .actions{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      margin-top:28px;
-    }
-
-    .btn{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      min-height:52px;
-      padding:0 22px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,.25);
-      font-size:12px;
-      font-weight:850;
-      transition:.25s;
-    }
-
-    .btn:hover{
-      transform:translateY(-2px);
-    }
-
-    .btn.gold{
-      background:var(--champagne);
-      color:#14251e;
-      border-color:var(--champagne);
-    }
-
-    .btn.light{
-      color:#fff;
-      background:rgba(255,255,255,.08);
-      backdrop-filter:blur(12px);
-    }
-
-    /* =========================
-       HERO CARD
-    ========================= */
-
-    .hero-card{
-      max-width:380px;
-      margin-left:auto;
-      padding:25px;
-
-      border:1px solid rgba(255,255,255,.22);
-      border-radius:28px;
-
-      background:rgba(255,250,242,.11);
-      backdrop-filter:blur(20px);
-
-      color:#fff;
-      box-shadow:0 25px 70px rgba(0,0,0,.16);
-    }
-
-    .hero-card small{
-      color:var(--gold2);
-      font-weight:900;
-      text-transform:uppercase;
-      letter-spacing:.16em;
-    }
-
-    .hero-card h2{
-      font:500 31px/1.08 Georgia,serif;
-      margin:12px 0;
-    }
-
-    .hero-card p{
-      color:rgba(255,255,255,.67);
-      font-size:12px;
-    }
-
-    .hero-card .price{
-      display:flex;
-      justify-content:space-between;
-
-      border-top:1px solid rgba(255,255,255,.14);
-
-      padding-top:16px;
-      margin-top:18px;
-    }
-
-    .hero-card strong{
-      color:var(--gold2);
-    }
-
-    /* =========================
-       SEARCH
-    ========================= */
-
-    .search-shell{
-      position:relative;
-      z-index:5;
-
-      margin:-54px auto 0;
-      width:min(1150px,88vw);
-    }
-
-    .search-panel{
-      background:var(--pearl);
-      padding:10px;
-
-      border:1px solid rgba(177,138,72,.25);
-      border-radius:25px;
-
-      box-shadow:var(--shadow);
-
-      display:grid;
-      grid-template-columns:
-        1.4fr
-        1fr
-        1fr
-        1fr
-        auto;
-
-      gap:7px;
-    }
-
-    .field{
-      background:#f2e8d8;
-      border-radius:17px;
-      padding:10px 15px;
-      min-height:66px;
-    }
-
-    .field label{
-      display:block;
-      color:#7a817c;
-      font-size:9px;
-      text-transform:uppercase;
-      letter-spacing:.15em;
-      font-weight:900;
-    }
-
-    .field input,
-    .field select{
-      width:100%;
-      border:0;
-      outline:0;
-      background:transparent;
-      color:var(--ink);
-      font-size:13px;
-      font-weight:750;
-      margin-top:4px;
-    }
-
-    .search-btn{
-      border:0;
-      border-radius:17px;
-      background:var(--emerald);
-      color:#fff;
-      padding:0 21px;
-      font-size:12px;
-      font-weight:900;
-      cursor:pointer;
-    }
-
-    /* =========================
-       GENERAL SECTIONS
-    ========================= */
-
-    .section{
-      padding:105px 4.5vw;
-    }
-
-    .container{
-      max-width:1280px;
-      margin:auto;
-    }
-
-    .head{
-      display:flex;
-      justify-content:space-between;
-      align-items:end;
-      gap:30px;
-      margin-bottom:42px;
-    }
-
-    .kicker{
-      font-size:10px;
-      font-weight:900;
-      text-transform:uppercase;
-      letter-spacing:.2em;
-      color:var(--gold);
-    }
-
-    .section h2{
-      font:500 clamp(40px,5vw,70px)/.98 Georgia,serif;
-      letter-spacing:-.045em;
-      color:var(--emerald);
-      margin:12px 0 0;
-    }
-
-    .head p{
-      max-width:500px;
-      color:var(--muted);
-      font-size:13px;
-      line-height:1.8;
-      margin:0;
-    }
-
-    .arrow-link{
-      font-size:12px;
-      font-weight:900;
-      color:var(--emerald);
-      white-space:nowrap;
-    }
-
-    .arrow-link span{
-      color:var(--gold);
-    }
-
-    /* =========================
-       CATEGORIES
-    ========================= */
-
-    .categories{
-      display:grid;
-      grid-template-columns:repeat(6,1fr);
-      gap:12px;
-    }
-
-    .category{
-      position:relative;
-      min-height:185px;
-      padding:24px;
-
-      border-radius:24px;
-
-      background:
-        linear-gradient(
-          145deg,
-          #fffaf2,
-          #f0e4d1
-        );
-
-      border:1px solid var(--line);
-
-      overflow:hidden;
-      transition:.3s;
-    }
-
-    .category:after{
-      content:"";
-      position:absolute;
-
-      width:100px;
-      height:100px;
-
-      border-radius:50%;
-
-      right:-40px;
-      bottom:-45px;
-
-      background:rgba(177,138,72,.13);
-    }
-
-    .category:hover{
-      transform:translateY(-6px);
-      box-shadow:var(--shadow);
-    }
-
-    .category-icon{
-      width:45px;
-      height:45px;
-
-      border-radius:14px;
-
-      background:var(--emerald);
-      color:var(--gold2);
-
-      display:grid;
-      place-items:center;
-
-      font-size:20px;
-    }
-
-    .category h3{
-      font:500 21px Georgia,serif;
-      margin:35px 0 3px;
-    }
-
-    .category p{
-      font-size:11px;
-      color:var(--muted);
-      margin:0;
-    }
-
-    /* =========================
-       FEATURED PROPERTIES
-    ========================= */
-
-    .featured{
-      background:var(--emerald);
-      color:#fff;
-    }
-
-    .featured h2{
-      color:#fff;
-    }
-
-    .featured .kicker{
-      color:var(--gold2);
-    }
-
-    .featured .head p{
-      color:rgba(255,255,255,.57);
-    }
-
-    .featured .arrow-link{
-      color:#fff;
-    }
-
-    .carousel-wrap{
-      position:relative;
-    }
-
-    .carousel{
-      display:flex;
-      gap:18px;
-
-      overflow-x:auto;
-
-      scroll-snap-type:x mandatory;
-
-      scrollbar-width:none;
-
-      padding:2px 2px 18px;
-    }
-
-    .carousel::-webkit-scrollbar{
-      display:none;
-    }
-
-    .property{
-      min-width:calc((100% - 36px)/3);
-
-      scroll-snap-align:start;
-
-      background:#204737;
-
-      border:1px solid rgba(255,255,255,.1);
-
-      border-radius:27px;
-
-      overflow:hidden;
-
-      transition:.3s;
-    }
-
-    .property:hover{
-      transform:translateY(-5px);
-    }
-
-    /* =========================
-       PROPERTY IMAGE SLIDER
-    ========================= */
-
-    .gallery{
-      position:relative;
-      height:320px;
-      overflow:hidden;
-      background:#274f40;
-    }
-
-    .gallery img{
-      position:absolute;
-
-      inset:0;
-
-      width:100%;
-      height:100%;
-
-      object-fit:cover;
-
-      opacity:0;
-
-      transition:
-        opacity .7s,
-        transform 1s;
-    }
-
-    .gallery img.active{
-      opacity:1;
-    }
-
-    .property:hover .gallery img.active{
-      transform:scale(1.035);
-    }
-
-    .badge{
-      position:absolute;
-
-      top:15px;
-      left:15px;
-
-      z-index:3;
-
-      padding:8px 11px;
-
-      border-radius:999px;
-
-      background:rgba(16,44,34,.82);
-
-      color:var(--gold2);
-
-      font-size:9px;
-
-      text-transform:uppercase;
-
-      letter-spacing:.13em;
-
-      font-weight:900;
-    }
-
-    .save{
-      position:absolute;
-
-      right:15px;
-      top:15px;
-
-      z-index:3;
-
-      width:38px;
-      height:38px;
-
-      border-radius:50%;
-
-      border:1px solid rgba(255,255,255,.15);
-
-      background:rgba(16,44,34,.76);
-
-      color:#fff;
-
-      cursor:pointer;
-    }
-
-    .dots{
-      position:absolute;
-
-      z-index:3;
-
-      left:50%;
-      bottom:14px;
-
-      transform:translateX(-50%);
-
-      display:flex;
-      gap:5px;
-    }
-
-    .dot{
-      width:6px;
-      height:6px;
-
-      border:0;
-
-      border-radius:50%;
-
-      background:rgba(255,255,255,.48);
-
-      padding:0;
-
-      cursor:pointer;
-    }
-
-    .dot.active{
-      background:#fff;
-    }
-
-    /* =========================
-       PROPERTY BODY
-    ========================= */
-
-    .pbody{
-      padding:22px;
-    }
-
-    .pbody h3{
-      font:500 25px/1.05 Georgia,serif;
-      margin:0 0 7px;
-    }
-
-    .loc{
-      color:rgba(255,255,255,.52);
-      font-size:11px;
-    }
-
-    .meta{
-      display:flex;
-      gap:8px;
-      flex-wrap:wrap;
-
-      color:rgba(255,255,255,.72);
-
-      font-size:10px;
-
-      margin-top:15px;
-    }
-
-    .pfoot{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-
-      border-top:1px solid rgba(255,255,255,.1);
-
-      margin-top:19px;
-      padding-top:15px;
-    }
-
-    .pprice{
-      color:var(--gold2);
-      font-size:15px;
-      font-weight:900;
-    }
-
-    .pview{
-      font-size:10px;
-      font-weight:900;
-    }
-
-    .carousel-controls{
-      display:flex;
-      gap:8px;
-      justify-content:flex-end;
-      margin-top:6px;
-    }
-
-    .carousel-controls button{
-      width:44px;
-      height:44px;
-
-      border-radius:50%;
-
-      border:1px solid rgba(255,255,255,.17);
-
-      background:rgba(255,255,255,.06);
-
-      color:#fff;
-
-      cursor:pointer;
-    }
-
-    /* =========================
-       AI SECTION
-    ========================= */
-
-    .ai-band{
-      padding:105px 4.5vw;
-
-      background:
-        linear-gradient(
-          135deg,
-          #eee1ce,
-          #f8f0e2
-        );
-    }
-
-    .ai-grid{
-      display:grid;
-
-      grid-template-columns:1fr 1fr;
-
-      gap:55px;
-
-      align-items:center;
-    }
-
-    .ai-box{
-      background:var(--emerald);
-
-      border-radius:34px;
-
-      padding:38px;
-
-      color:#fff;
-
-      box-shadow:var(--shadow);
-
-      position:relative;
-
-      overflow:hidden;
-    }
-
-    .ai-box:after{
-      content:"✦";
-
-      position:absolute;
-
-      right:30px;
-      top:20px;
-
-      color:rgba(231,208,155,.22);
-
-      font-size:120px;
-    }
-
-    .ai-box h3{
-      font:500 38px Georgia,serif;
-      margin:12px 0;
-    }
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="GHAR -- Premium real estate for buying, selling, renting and investing."
+    >
+
+    <meta
+        name="theme-color"
+        content="#06291d"
+    >
+
+    <title>GHAR | Premium Real Estate</title>
+
+    <!-- =========================================================
+         FONTS
+    ========================================================== -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- =========================================================
+         ICONS
+    ========================================================== -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+    <!-- =========================================================
+         EXISTING GHAR CSS
+    ========================================================== -->
+    <link rel="stylesheet" href="assets/css/reset.css">
+    <link rel="stylesheet" href="assets/css/variables.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/layout.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/navigation.css">
+    <link rel="stylesheet" href="assets/css/cards.css">
+    <link rel="stylesheet" href="assets/css/forms.css">
+    <link rel="stylesheet" href="assets/css/home.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <link rel="stylesheet" href="assets/css/animations.css">
+
+    <!-- =========================================================
+         PAGE OVERRIDE
+         Keeps the page visually close to the reference.
+         No background image is applied to body/sections.
+    ========================================================== -->
+
+    <style>
+
+        /* =====================================================
+           ROOT
+        ====================================================== */
+
+        :root {
+            --ghar-green-950: #031b13;
+            --ghar-green-900: #06291d;
+            --ghar-green-850: #073521;
+            --ghar-green-800: #0a4029;
+            --ghar-green-700: #0e5034;
+
+            --ghar-gold-100: #fff5cf;
+            --ghar-gold-200: #f8df8b;
+            --ghar-gold-300: #e8bf55;
+            --ghar-gold-400: #d8a83e;
+            --ghar-gold-500: #bd8728;
+
+            --ghar-cream: #f5efdf;
+            --ghar-cream-2: #eee4cb;
+
+            --ghar-white: #ffffff;
+            --ghar-text: #f8f5ed;
+            --ghar-muted: #bfc8c1;
 
-    .ai-box p{
-      color:rgba(255,255,255,.63);
-      font-size:13px;
-      max-width:550px;
-    }
+            --ghar-border: rgba(232, 191, 85, 0.38);
 
-    .ai-input{
-      display:flex;
-      gap:8px;
-      margin-top:25px;
-    }
+            --radius-sm: 8px;
+            --radius-md: 14px;
+            --radius-lg: 20px;
 
-    .ai-input input{
-      flex:1;
-      min-width:0;
+            --header-height: 74px;
 
-      padding:15px 17px;
+            --container:
+                min(1180px, calc(100% - 48px));
 
-      border:0;
+            --shadow:
+                0 18px 50px rgba(0, 0, 0, 0.20);
+        }
 
-      border-radius:14px;
 
-      outline:0;
+        /* =====================================================
+           RESET
+        ====================================================== */
 
-      background:#fffaf2;
-    }
+        * {
+            box-sizing: border-box;
+        }
 
-    .ai-input button{
-      border:0;
+        html {
+            scroll-behavior: smooth;
+        }
 
-      padding:0 18px;
+        body {
+            margin: 0;
+            padding: 0;
 
-      border-radius:14px;
+            font-family: "Inter", sans-serif;
 
-      background:var(--champagne);
+            color: var(--ghar-text);
 
-      color:#14251e;
+            background:
+                var(--ghar-green-900);
 
-      font-weight:900;
+            overflow-x: hidden;
+        }
 
-      cursor:pointer;
-    }
+        img {
+            display: block;
+            max-width: 100%;
+        }
 
-    .ai-points{
-      display:grid;
-      gap:15px;
-    }
+        button,
+        input,
+        select {
+            font: inherit;
+        }
 
-    .ai-point{
-      display:flex;
-      gap:17px;
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
 
-      padding:20px;
+        button {
+            border: 0;
+        }
 
-      background:rgba(255,255,255,.6);
 
-      border:1px solid var(--line);
+        /* =====================================================
+           CONTAINER
+        ====================================================== */
 
-      border-radius:20px;
-    }
+        .ghar-container {
+            width: var(--container);
+            margin-inline: auto;
+        }
 
-    .ai-point>b{
-      color:var(--gold);
 
-      font-size:23px;
-    }
+        /* =====================================================
+           HEADER
+        ====================================================== */
 
-    .ai-point h4{
-      margin:0 0 5px;
+        .ghar-header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
 
-      font-size:14px;
-    }
+            width: 100%;
 
-    .ai-point p{
-      margin:0;
+            min-height: var(--header-height);
 
-      color:var(--muted);
+            background:
+                rgba(4, 31, 21, 0.98);
 
-      font-size:11px;
-    }
+            border-bottom:
+                1px solid rgba(232, 191, 85, 0.34);
 
-    /* =========================
-       JOURNEY
-    ========================= */
+            box-shadow:
+                0 8px 25px rgba(0, 0, 0, 0.15);
+        }
 
-    .journey{
-      display:grid;
+        .ghar-header-inner {
+            width: var(--container);
 
-      grid-template-columns:.85fr 1.15fr;
+            min-height: var(--header-height);
 
-      gap:90px;
+            margin-inline: auto;
 
-      align-items:center;
-    }
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
 
-    .journey-copy p{
-      color:var(--muted);
+            gap: 28px;
+        }
 
-      max-width:550px;
 
-      font-size:14px;
+        /* =====================================================
+           LOGO
+        ====================================================== */
 
-      line-height:1.9;
+        .ghar-logo {
+            flex: 0 0 auto;
 
-      margin:25px 0;
-    }
+            display: inline-flex;
+            align-items: center;
 
-    .journey-list{
-      display:grid;
+            gap: 10px;
 
-      grid-template-columns:1fr 1fr;
+            min-width: 155px;
+        }
 
-      gap:14px;
-    }
+        .ghar-logo-mark {
+            width: 45px;
+            height: 45px;
 
-    .journey-step{
-      padding:28px;
+            border: 1px solid var(--ghar-gold-300);
 
-      min-height:190px;
+            border-radius: 50%;
 
-      background:#fffaf2;
+            display: grid;
+            place-items: center;
 
-      border:1px solid var(--line);
+            color: var(--ghar-gold-200);
 
-      border-radius:24px;
-    }
+            background:
+                #0a3825;
 
-    .num{
-      color:var(--gold);
+            box-shadow:
+                inset 0 0 0 3px rgba(232, 191, 85, 0.08);
 
-      font-size:10px;
+            transition:
+                transform .35s ease,
+                box-shadow .35s ease;
+        }
 
-      font-weight:900;
+        .ghar-logo:hover .ghar-logo-mark {
+            transform: rotate(-5deg) scale(1.04);
 
-      letter-spacing:.2em;
-    }
+            box-shadow:
+                0 0 0 5px rgba(232, 191, 85, 0.08);
+        }
 
-    .journey-step h3{
-      font:500 26px Georgia,serif;
+        .ghar-logo-mark i {
+            font-size: 20px;
+        }
 
-      margin:34px 0 7px;
+        .ghar-logo-text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1;
+        }
 
-      color:var(--emerald);
-    }
+        .ghar-logo-title {
+            font-family: "Cormorant Garamond", serif;
 
-    .journey-step p{
-      margin:0;
+            font-size: 25px;
+            font-weight: 600;
 
-      color:var(--muted);
+            letter-spacing: .12em;
 
-      font-size:11px;
-    }
+            color: var(--ghar-gold-200);
+        }
 
-    /* =========================
-       LIFESTYLE
-    ========================= */
+        .ghar-logo-subtitle {
+            margin-top: 5px;
 
-    .lifestyle{
-      background:#f0e4d1;
-    }
+            font-size: 7px;
+            font-weight: 600;
 
-    .life-grid{
-      display:grid;
+            letter-spacing: .20em;
 
-      grid-template-columns:1.15fr .85fr .85fr;
+            color: #ddd7c7;
+        }
 
-      gap:15px;
-    }
 
-    .life{
-      position:relative;
+        /* =====================================================
+           NAVIGATION
+        ====================================================== */
 
-      min-height:460px;
+        .ghar-nav {
+            display: flex;
+            align-items: center;
 
-      overflow:hidden;
+            gap: 4px;
 
-      border-radius:28px;
+            height: 100%;
+        }
 
-      background:#173a2e;
-    }
+        .ghar-nav a {
+            position: relative;
 
-    .life img{
-      position:absolute;
+            display: inline-flex;
+            align-items: center;
 
-      inset:0;
+            height: 74px;
 
-      width:100%;
-      height:100%;
+            padding: 0 13px;
 
-      object-fit:cover;
+            font-size: 12px;
+            font-weight: 500;
 
-      transition:transform .8s;
-    }
+            color: #dddeda;
 
-    .life:after{
-      content:"";
+            transition:
+                color .25s ease;
+        }
 
-      position:absolute;
+        .ghar-nav a::after {
+            content: "";
 
-      inset:0;
+            position: absolute;
 
-      background:
-        linear-gradient(
-          transparent 35%,
-          rgba(12,38,29,.88)
-        );
-    }
+            left: 13px;
+            right: 13px;
+            bottom: 12px;
 
-    .life:hover img{
-      transform:scale(1.05);
-    }
+            height: 1px;
 
-    .life-content{
-      position:absolute;
+            background:
+                var(--ghar-gold-300);
 
-      z-index:2;
+            transform:
+                scaleX(0);
 
-      left:25px;
-      right:25px;
-      bottom:25px;
+            transform-origin:
+                center;
 
-      color:#fff;
-    }
+            transition:
+                transform .25s ease;
+        }
 
-    .life-content small{
-      color:var(--gold2);
+        .ghar-nav a:hover,
+        .ghar-nav a.active {
+            color:
+                var(--ghar-gold-200);
+        }
 
-      text-transform:uppercase;
+        .ghar-nav a:hover::after,
+        .ghar-nav a.active::after {
+            transform:
+                scaleX(1);
+        }
 
-      letter-spacing:.15em;
 
-      font-size:9px;
+        /* =====================================================
+           HEADER ACTIONS
+        ====================================================== */
 
-      font-weight:900;
-    }
+        .ghar-header-actions {
+            display: flex;
+            align-items: center;
 
-    .life-content h3{
-      font:500 38px Georgia,serif;
+            gap: 10px;
+        }
 
-      margin:7px 0;
-    }
+        .ghar-icon-button {
+            width: 38px;
+            height: 38px;
 
-    .life-content p{
-      margin:0;
+            display: grid;
+            place-items: center;
 
-      color:rgba(255,255,255,.68);
+            border-radius: 50%;
 
-      font-size:11px;
-    }
+            color: #f2eee3;
 
-    /* =========================
-       SIGNATURE RESIDENCE
-    ========================= */
+            background: transparent;
 
-    .residence{
-      padding:110px 4.5vw;
+            cursor: pointer;
 
-      background:var(--ivory);
-    }
+            transition:
+                background .25s ease,
+                color .25s ease;
+        }
 
-    .residence-card{
-      min-height:630px;
+        .ghar-icon-button:hover {
+            color: var(--ghar-gold-200);
 
-      max-width:1280px;
+            background:
+                rgba(232, 191, 85, 0.08);
+        }
 
-      margin:auto;
+        .ghar-login-btn {
+            height: 38px;
 
-      border-radius:38px;
+            padding: 0 18px;
 
-      overflow:hidden;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
 
-      position:relative;
+            border: 1px solid var(--ghar-gold-300);
 
-      background:
-        linear-gradient(
-          90deg,
-          rgba(12,38,29,.88),
-          rgba(12,38,29,.3),
-          transparent
-        ),
-        url(
-          "assets/images/properties/residential/house/house-02.jpg"
-        )
-        center/cover no-repeat;
+            border-radius: 999px;
 
-      display:flex;
+            color: #fff;
 
-      align-items:end;
-    }
+            background: transparent;
 
-    .residence-content{
-      padding:55px;
+            font-size: 11px;
+            font-weight: 600;
 
-      max-width:650px;
+            cursor: pointer;
 
-      color:#fff;
-    }
+            transition:
+                .25s ease;
+        }
 
-    .residence-content small{
-      color:var(--gold2);
+        .ghar-login-btn:hover {
+            color: var(--ghar-green-950);
 
-      text-transform:uppercase;
+            background:
+                var(--ghar-gold-200);
+        }
 
-      letter-spacing:.18em;
+        .ghar-start-btn {
+            height: 38px;
 
-      font-size:10px;
+            padding: 0 19px;
 
-      font-weight:900;
-    }
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
 
-    .residence-content h2{
-      font:500 clamp(42px,6vw,75px)/.95 Georgia,serif;
+            border-radius: 999px;
 
-      margin:15px 0;
-    }
+            color: var(--ghar-green-950);
 
-    .residence-content p{
-      color:rgba(255,255,255,.65);
+            background:
+                linear-gradient(
+                    135deg,
+                    #f7df92,
+                    #d9a63f
+                );
 
-      font-size:12px;
-    }
+            font-size: 11px;
+            font-weight: 700;
 
-    .residence-price{
-      color:var(--gold2);
+            cursor: pointer;
 
-      font-size:22px;
+            box-shadow:
+                0 7px 18px rgba(216, 168, 62, .18);
 
-      font-weight:900;
+            transition:
+                transform .25s ease,
+                box-shadow .25s ease;
+        }
 
-      margin:20px 0;
-    }
+        .ghar-start-btn:hover {
+            transform:
+                translateY(-1px);
 
-    /* =========================
-       FINAL CTA
-    ========================= */
+            box-shadow:
+                0 11px 25px rgba(216, 168, 62, .28);
+        }
 
-    .final-cta{
-      padding:110px 4.5vw;
 
-      background:var(--emerald);
+        /* =====================================================
+           MOBILE MENU BUTTON
+        ====================================================== */
 
-      color:#fff;
+        .ghar-mobile-menu {
+            display: none;
 
-      text-align:center;
-    }
+            width: 40px;
+            height: 40px;
 
-    .final-cta .kicker{
-      color:var(--gold2);
-    }
+            border:
+                1px solid rgba(232, 191, 85, .4);
 
-    .final-cta h2{
-      font:500 clamp(48px,7vw,90px)/.95 Georgia,serif;
+            border-radius: 10px;
 
-      margin:15px auto;
+            color: var(--ghar-gold-200);
 
-      max-width:950px;
-    }
+            background: transparent;
 
-    .final-cta p{
-      color:rgba(255,255,255,.62);
+            cursor: pointer;
+        }
 
-      max-width:600px;
 
-      margin:0 auto;
-    }
+        /* =====================================================
+           HERO
+        ====================================================== */
 
-    .subscribe{
-      display:flex;
+        .ghar-hero {
+            position: relative;
 
-      max-width:480px;
+            min-height: 505px;
 
-      margin:25px auto 0;
+            overflow: hidden;
 
-      gap:7px;
-    }
+            background:
+                var(--ghar-green-900);
+        }
 
-    .subscribe input{
-      flex:1;
+        .ghar-hero-image {
+            position: absolute;
 
-      min-width:0;
+            inset: 0;
 
-      border:0;
+            width: 100%;
+            height: 100%;
 
-      border-radius:999px;
+            object-fit: cover;
 
-      padding:15px 18px;
+            object-position: center;
+        }
 
-      outline:0;
-    }
+        .ghar-hero-overlay {
+            position: absolute;
 
-    .subscribe button{
-      border:0;
+            inset: 0;
 
-      border-radius:999px;
+            background:
+                linear-gradient(
+                    90deg,
+                    rgba(3, 25, 17, .96) 0%,
+                    rgba(3, 25, 17, .84) 28%,
+                    rgba(3, 25, 17, .40) 55%,
+                    rgba(3, 25, 17, .05) 100%
+                );
+        }
 
-      padding:0 20px;
+        .ghar-hero-content {
+            position: relative;
+            z-index: 2;
 
-      background:var(--champagne);
+            width: var(--container);
 
-      color:var(--emerald);
+            min-height: 505px;
 
-      font-weight:900;
-    }
+            margin-inline: auto;
 
-    /* =========================
-       FOOTER
-    ========================= */
+            display: flex;
+            align-items: center;
+        }
 
-    footer{
-      background:#10291f;
+        .ghar-hero-copy {
+            width: min(500px, 100%);
 
-      color:#fff;
-    }
+            padding-top: 12px;
+        }
 
-    .footer{
-      max-width:1280px;
+        .ghar-eyebrow {
+            margin-bottom: 13px;
 
-      margin:auto;
+            color:
+                var(--ghar-gold-300);
 
-      padding:70px 4.5vw;
+            font-size: 12px;
+            font-weight: 700;
 
-      display:grid;
+            letter-spacing: .16em;
+            text-transform: uppercase;
+        }
 
-      grid-template-columns:2fr 1fr 1fr 1fr;
+        .ghar-hero-title {
+            margin: 0;
 
-      gap:45px;
-    }
+            font-family:
+                "Cormorant Garamond",
+                serif;
 
-    .footer-brand{
-      font-size:25px;
+            font-size:
+                clamp(50px, 5.5vw, 76px);
 
-      font-weight:900;
+            font-weight: 500;
 
-      letter-spacing:.2em;
+            line-height: .88;
 
-      color:var(--gold2);
-    }
+            letter-spacing: -.025em;
 
-    .footer p{
-      color:rgba(255,255,255,.5);
+            color:
+                #fff;
+        }
 
-      max-width:380px;
+        .ghar-hero-title em {
+            color:
+                var(--ghar-gold-200);
 
-      font-size:12px;
+            font-style: italic;
+        }
 
-      line-height:1.8;
-    }
+        .ghar-hero-description {
+            max-width: 410px;
 
-    .footer h4{
-      color:var(--gold2);
+            margin:
+                22px 0;
 
-      margin:0 0 15px;
+            color:
+                #e5e7df;
 
-      font-size:11px;
+            font-size: 14px;
 
-      text-transform:uppercase;
+            line-height: 1.55;
+        }
 
-      letter-spacing:.15em;
-    }
 
-    .footer a{
-      display:block;
+        /* =====================================================
+           HERO BUTTONS
+        ====================================================== */
 
-      color:rgba(255,255,255,.6);
+        .ghar-hero-actions {
+            display: flex;
+            align-items: center;
 
-      font-size:11px;
+            gap: 12px;
+        }
 
-      margin:9px 0;
-    }
+        .ghar-primary-btn {
+            min-height: 40px;
 
-    .footer a:hover{
-      color:#fff;
-    }
+            padding:
+                0 18px;
 
-    .bottom{
-      max-width:1280px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
 
-      margin:auto;
+            gap: 8px;
 
-      padding:18px 4.5vw 25px;
+            border-radius: 999px;
 
-      border-top:1px solid rgba(255,255,255,.1);
+            color:
+                var(--ghar-green-950);
 
-      display:flex;
+            background:
+                linear-gradient(
+                    135deg,
+                    #f8df8b,
+                    #d9a63f
+                );
 
-      justify-content:space-between;
+            font-size: 12px;
+            font-weight: 700;
 
-      gap:20px;
+            cursor: pointer;
+        }
 
-      color:rgba(255,255,255,.4);
+        .ghar-outline-btn {
+            min-height: 40px;
 
-      font-size:10px;
-    }
+            padding:
+                0 19px;
 
-    /* =========================
-       MOBILE DOCK
-    ========================= */
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
 
-    .mobile-dock{
-      display:none;
-    }
+            gap: 8px;
 
-    /* =========================
-       RESPONSIVE
-    ========================= */
+            border:
+                1px solid rgba(248, 223, 139, .65);
 
-    @media (max-width:1050px){
+            border-radius: 999px;
 
-      .links{
-        display:none;
-      }
+            color:
+                #fff;
 
-      .menu{
-        display:block;
-      }
+            background:
+                rgba(3, 25, 17, .35);
 
-      .hero-inner{
-        grid-template-columns:1fr;
-      }
+            font-size: 12px;
+            font-weight: 600;
 
-      .hero-card{
-        margin-left:0;
-      }
+            cursor: pointer;
 
-      .categories{
-        grid-template-columns:repeat(3,1fr);
-      }
+            backdrop-filter:
+                blur(5px);
+        }
 
-      .property{
-        min-width:calc((100% - 18px)/2);
-      }
 
-      .ai-grid,
-      .journey{
-        grid-template-columns:1fr;
-      }
+        /* =====================================================
+           HERO STATS
+        ====================================================== */
 
-      .life-grid{
-        grid-template-columns:1fr 1fr;
-      }
+        .ghar-stats {
+            display: flex;
 
-      .life:first-child{
-        grid-column:1/-1;
-      }
+            gap: 36px;
 
-      .footer{
-        grid-template-columns:1fr 1fr;
-      }
-    }
+            margin-top: 25px;
+        }
 
-    @media (max-width:700px){
+        .ghar-stat {
+            display: flex;
+            flex-direction: column;
 
-      .topbar{
-        font-size:9px;
-      }
+            gap: 3px;
+        }
 
-      .header{
-        padding:9px 5vw;
-      }
+        .ghar-stat strong {
+            color:
+                var(--ghar-gold-200);
 
-      .nav-actions .pill:first-child{
-        display:none;
-      }
+            font-size: 19px;
+        }
 
-      .hero{
-        min-height:720px;
-      }
+        .ghar-stat span {
+            color:
+                #d6d9d3;
 
-      .hero-inner{
-        width:90vw;
+            font-size: 10px;
+        }
 
-        padding-top:70px;
-      }
 
-      h1{
-        font-size:57px;
-      }
+        /* =====================================================
+           FEATURED HERO PROPERTY
+        ====================================================== */
 
-      .search-shell{
-        width:90vw;
-        margin-top:-40px;
-      }
+        .ghar-hero-feature {
+            position: absolute;
 
-      .search-panel{
-        grid-template-columns:1fr;
-      }
+            right: 4%;
+            bottom: 58px;
 
-      .search-btn{
-        min-height:58px;
-      }
+            z-index: 3;
 
-      .categories{
-        grid-template-columns:1fr 1fr;
-      }
+            width: 225px;
 
-      .property{
-        min-width:86%;
-      }
+            padding: 15px;
 
-      .gallery{
-        height:290px;
-      }
+            border:
+                1px solid rgba(232, 191, 85, .36);
 
-      .ai-input{
-        flex-direction:column;
-      }
+            border-radius: 14px;
 
-      .ai-input button{
-        min-height:50px;
-      }
+            background:
+                rgba(3, 28, 19, .76);
 
-      .journey-list{
-        grid-template-columns:1fr;
-      }
+            backdrop-filter:
+                blur(8px);
 
-      .life-grid{
-        grid-template-columns:1fr;
-      }
+            box-shadow:
+                0 18px 45px rgba(0,0,0,.22);
+        }
 
-      .life:first-child{
-        grid-column:auto;
-      }
+        .ghar-feature-label {
+            display: inline-flex;
 
-      .life{
-        min-height:390px;
-      }
+            padding:
+                4px 8px;
 
-      .residence-card{
-        min-height:600px;
-      }
+            margin-bottom: 8px;
 
-      .residence-content{
-        padding:30px;
-      }
+            border-radius: 999px;
 
-      .subscribe{
-        flex-direction:column;
-      }
+            color:
+                var(--ghar-green-950);
 
-      .subscribe button{
-        min-height:50px;
-      }
+            background:
+                var(--ghar-gold-200);
 
-      .footer{
-        grid-template-columns:1fr;
-      }
+            font-size: 8px;
+            font-weight: 800;
 
-      .bottom{
-        flex-direction:column;
-      }
+            text-transform: uppercase;
+        }
 
-      .mobile-dock{
-        position:fixed;
+        .ghar-hero-feature h3 {
+            margin: 0 0 5px;
 
-        z-index:9999;
+            font-family:
+                "Cormorant Garamond",
+                serif;
 
-        left:10px;
-        right:10px;
-        bottom:10px;
+            font-size: 20px;
+        }
 
-        display:grid;
+        .ghar-hero-feature-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
 
-        grid-template-columns:repeat(5,1fr);
+        .ghar-hero-feature-row span {
+            color:
+                var(--ghar-gold-200);
 
-        background:rgba(16,41,31,.95);
+            font-weight: 700;
+        }
 
-        backdrop-filter:blur(18px);
+        .ghar-slider-buttons {
+            display: flex;
+            gap: 5px;
+        }
 
-        border:1px solid rgba(255,255,255,.12);
+        .ghar-slider-buttons button {
+            width: 27px;
+            height: 27px;
 
-        border-radius:20px;
+            border-radius: 50%;
 
-        padding:8px;
+            color: #fff;
 
-        box-shadow:0 20px 50px rgba(0,0,0,.2);
-      }
+            background:
+                rgba(255,255,255,.14);
 
-      .mobile-dock a{
-        text-align:center;
+            cursor: pointer;
+        }
 
-        color:rgba(255,255,255,.65);
 
-        font-size:8px;
+        /* =====================================================
+           SEARCH PANEL
+        ====================================================== */
 
-        font-weight:800;
-      }
+        .ghar-search-wrap {
+            position: relative;
 
-      .mobile-dock span{
-        display:block;
+            z-index: 20;
 
-        color:var(--gold2);
+            margin-top: -38px;
+        }
 
-        font-size:18px;
+        .ghar-search {
+            overflow: hidden;
 
-        line-height:1;
+            border:
+                1px solid var(--ghar-border);
 
-        margin-bottom:3px;
-      }
+            border-radius: 15px;
 
-      body{
-        padding-bottom:80px;
-      }
-    }
+            background:
+                #062d20;
 
-  </style>
+            box-shadow:
+                0 18px 40px rgba(0,0,0,.28);
+        }
+
+        .ghar-search-tabs {
+            display: flex;
+
+            height: 43px;
+
+            padding: 5px;
+
+            border-bottom:
+                1px solid rgba(232,191,85,.16);
+        }
+
+        .ghar-search-tab {
+            min-width: 74px;
+
+            padding:
+                0 18px;
+
+            border-radius: 8px;
+
+            color:
+                #c4cbc5;
+
+            background:
+                transparent;
+
+            cursor: pointer;
+
+            font-size: 11px;
+        }
+
+        .ghar-search-tab.active {
+            color:
+                var(--ghar-green-950);
+
+            background:
+                var(--ghar-gold-200);
+
+            font-weight: 700;
+        }
+
+        .ghar-search-fields {
+            display: grid;
+
+            grid-template-columns:
+                1.2fr
+                1fr
+                .9fr
+                .9fr
+                auto;
+
+            gap: 8px;
+
+            padding: 9px;
+        }
+
+        .ghar-search-field {
+            min-height: 58px;
+
+            padding:
+                9px 13px;
+
+            border-radius: 9px;
+
+            background:
+                #0a3827;
+
+            display: flex;
+            align-items: center;
+
+            gap: 11px;
+
+            color: #fff;
+        }
+
+        .ghar-search-field i {
+            color:
+                var(--ghar-gold-300);
+        }
+
+        .ghar-search-field-content {
+            min-width: 0;
+
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .ghar-search-field label {
+            color:
+                #aebbb3;
+
+            font-size: 9px;
+        }
+
+        .ghar-search-field select,
+        .ghar-search-field input {
+            width: 100%;
+
+            border: 0;
+            outline: 0;
+
+            color:
+                #f4f4ef;
+
+            background:
+                transparent;
+
+            font-size: 11px;
+        }
+
+        .ghar-search-field select option {
+            color: #111;
+        }
+
+        .ghar-search-submit {
+            min-width: 145px;
+
+            border-radius: 9px;
+
+            color:
+                var(--ghar-green-950);
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #f8df8b,
+                    #d7a33b
+                );
+
+            font-size: 11px;
+            font-weight: 800;
+
+            cursor: pointer;
+        }
+
+
+        /* =====================================================
+           LIGHT DISCOVERY SECTION
+        ====================================================== */
+
+        .ghar-discovery {
+            padding:
+                50px 0;
+
+            color:
+                #17251e;
+
+            background:
+                var(--ghar-cream);
+        }
+
+        .ghar-discovery-grid {
+            display: grid;
+
+            grid-template-columns:
+                200px 1fr;
+
+            gap: 30px;
+
+            align-items: center;
+        }
+
+        .ghar-section-kicker {
+            color:
+                #a77b29;
+
+            font-size: 10px;
+            font-weight: 800;
+
+            letter-spacing: .16em;
+            text-transform: uppercase;
+        }
+
+        .ghar-section-title {
+            margin:
+                7px 0 0;
+
+            font-family:
+                "Cormorant Garamond",
+                serif;
+
+            font-size:
+                clamp(35px, 4vw, 52px);
+
+            line-height: .9;
+
+            font-weight: 500;
+        }
+
+        .ghar-section-title em {
+            color:
+                #a67827;
+
+            font-style: italic;
+        }
+
+        .ghar-category-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(6, 1fr);
+
+            gap: 9px;
+        }
+
+        .ghar-category {
+            position: relative;
+
+            height: 124px;
+
+            overflow: hidden;
+
+            border-radius: 11px;
+
+            background:
+                #173e2e;
+
+            color: #fff;
+
+            cursor: pointer;
+        }
+
+        .ghar-category img {
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+
+            transition:
+                transform .4s ease;
+        }
+
+        .ghar-category:hover img {
+            transform:
+                scale(1.07);
+        }
+
+        .ghar-category::after {
+            content: "";
+
+            position: absolute;
+            inset: 0;
+
+            background:
+                linear-gradient(
+                    transparent 35%,
+                    rgba(0,0,0,.75)
+                );
+        }
+
+        .ghar-category span {
+            position: absolute;
+
+            z-index: 2;
+
+            left: 9px;
+            right: 9px;
+            bottom: 9px;
+
+            text-align: center;
+
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+
+        /* =====================================================
+           FEATURED PROPERTIES
+        ====================================================== */
+
+        .ghar-properties {
+            padding:
+                52px 0 60px;
+
+            background:
+                var(--ghar-green-900);
+        }
+
+        .ghar-section-head {
+            display: flex;
+
+            align-items: end;
+            justify-content: space-between;
+
+            margin-bottom: 23px;
+        }
+
+        .ghar-section-head .ghar-section-title {
+            color:
+                #fff;
+        }
+
+        .ghar-view-all {
+            color:
+                var(--ghar-gold-200);
+
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .ghar-property-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 18px;
+        }
+
+
+        /* =====================================================
+           PROPERTY CARD
+        ====================================================== */
+
+        .ghar-property-card {
+            overflow: hidden;
+
+            border:
+                1px solid rgba(232,191,85,.42);
+
+            border-radius: 13px;
+
+            background:
+                #073522;
+
+            transition:
+                transform .3s ease,
+                box-shadow .3s ease,
+                border-color .3s ease;
+        }
+
+        .ghar-property-card:hover {
+            transform:
+                translateY(-4px);
+
+            border-color:
+                rgba(248,223,139,.75);
+
+            box-shadow:
+                0 20px 40px rgba(0,0,0,.22);
+        }
+
+        .ghar-property-image {
+            position: relative;
+
+            height: 190px;
+
+            overflow: hidden;
+        }
+
+        .ghar-property-image img {
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+
+            transition:
+                transform .45s ease;
+        }
+
+        .ghar-property-card:hover
+        .ghar-property-image img {
+            transform:
+                scale(1.045);
+        }
+
+        .ghar-property-badge {
+            position: absolute;
+
+            top: 10px;
+            left: 10px;
+
+            padding:
+                5px 8px;
+
+            border-radius: 5px;
+
+            color:
+                #382607;
+
+            background:
+                var(--ghar-gold-200);
+
+            font-size: 8px;
+            font-weight: 800;
+        }
+
+        .ghar-property-heart {
+            position: absolute;
+
+            top: 9px;
+            right: 9px;
+
+            width: 31px;
+            height: 31px;
+
+            border-radius: 50%;
+
+            color: #fff;
+
+            background:
+                rgba(0,0,0,.42);
+
+            cursor: pointer;
+        }
+
+        .ghar-property-content {
+            padding:
+                14px;
+        }
+
+        .ghar-property-title-row {
+            display: flex;
+
+            align-items: start;
+            justify-content: space-between;
+
+            gap: 12px;
+        }
+
+        .ghar-property-title {
+            margin: 0;
+
+            font-family:
+                "Cormorant Garamond",
+                serif;
+
+            font-size: 21px;
+            font-weight: 600;
+
+            color: #fff;
+        }
+
+        .ghar-property-price {
+            white-space: nowrap;
+
+            color:
+                var(--ghar-gold-200);
+
+            font-size: 14px;
+            font-weight: 800;
+        }
+
+        .ghar-property-location {
+            margin-top: 3px;
+
+            color:
+                #aebbb3;
+
+            font-size: 9px;
+        }
+
+        .ghar-property-meta {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 8px;
+
+            margin-top: 15px;
+
+            padding-top: 12px;
+
+            border-top:
+                1px solid rgba(255,255,255,.09);
+        }
+
+        .ghar-property-meta-item {
+            display: flex;
+            align-items: center;
+
+            gap: 5px;
+
+            color:
+                #d8ddd8;
+
+            font-size: 9px;
+        }
+
+        .ghar-property-meta-item i {
+            color:
+                var(--ghar-gold-300);
+        }
+
+
+        /* =====================================================
+           VIDEO / VISUAL STORIES
+        ====================================================== */
+
+        .ghar-stories {
+            padding:
+                55px 0;
+
+            background:
+                #041f15;
+        }
+
+        .ghar-stories-layout {
+            display: grid;
+
+            grid-template-columns:
+                210px 1fr;
+
+            gap: 30px;
+        }
+
+        .ghar-stories-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 12px;
+        }
+
+        .ghar-video-card {
+            position: relative;
+
+            height: 190px;
+
+            overflow: hidden;
+
+            border-radius: 11px;
+
+            background: #0b3928;
+        }
+
+        .ghar-video-card img {
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+
+            transition:
+                transform .45s ease;
+        }
+
+        .ghar-video-card:hover img {
+            transform:
+                scale(1.05);
+        }
+
+        .ghar-video-overlay {
+            position: absolute;
+
+            inset: 0;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background:
+                linear-gradient(
+                    rgba(0,0,0,.02),
+                    rgba(0,0,0,.42)
+                );
+        }
+
+        .ghar-play {
+            width: 48px;
+            height: 48px;
+
+            display: grid;
+            place-items: center;
+
+            border:
+                1px solid rgba(255,255,255,.65);
+
+            border-radius: 50%;
+
+            color:
+                #fff;
+
+            background:
+                rgba(0,0,0,.35);
+
+            backdrop-filter:
+                blur(5px);
+
+            cursor: pointer;
+
+            transition:
+                transform .25s ease,
+                background .25s ease;
+        }
+
+        .ghar-play:hover {
+            transform:
+                scale(1.08);
+
+            background:
+                rgba(189,135,40,.75);
+        }
+
+
+        /* =====================================================
+           AI SECTION
+        ====================================================== */
+
+        .ghar-ai {
+            padding:
+                58px 0;
+
+            color:
+                #17251e;
+
+            background:
+                var(--ghar-cream);
+        }
+
+        .ghar-ai-layout {
+            display: grid;
+
+            grid-template-columns:
+                210px 1fr 145px;
+
+            gap: 30px;
+
+            align-items: center;
+        }
+
+        .ghar-ai-title {
+            margin: 0;
+
+            font-family:
+                "Cormorant Garamond",
+                serif;
+
+            font-size:
+                clamp(38px, 4vw, 55px);
+
+            line-height: .88;
+        }
+
+        .ghar-ai-title em {
+            color:
+                #a77b29;
+        }
+
+        .ghar-ai-box {
+            padding:
+                18px;
+
+            border:
+                1px solid #d5c6a5;
+
+            border-radius: 15px;
+
+            background:
+                #fbf7eb;
+
+            box-shadow:
+                0 16px 40px rgba(50,40,20,.08);
+        }
+
+        .ghar-ai-input {
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+        }
+
+        .ghar-ai-input input {
+            flex: 1;
+
+            min-width: 0;
+
+            height: 46px;
+
+            border:
+                0;
+
+            outline: 0;
+
+            color:
+                #29342e;
+
+            background:
+                transparent;
+
+            font-size: 12px;
+        }
+
+        .ghar-ai-send {
+            width: 38px;
+            height: 38px;
+
+            display: grid;
+            place-items: center;
+
+            border-radius: 50%;
+
+            color:
+                #382607;
+
+            background:
+                var(--ghar-gold-200);
+
+            cursor: pointer;
+        }
+
+        .ghar-ai-suggestions {
+            display: flex;
+            flex-wrap: wrap;
+
+            gap: 6px;
+
+            margin-top: 10px;
+        }
+
+        .ghar-ai-chip {
+            padding:
+                7px 10px;
+
+            border:
+                1px solid #ded2b7;
+
+            border-radius: 999px;
+
+            color:
+                #665f50;
+
+            background:
+                #f7f0df;
+
+            font-size: 9px;
+
+            cursor: pointer;
+        }
+
+        .ghar-ai-chip:hover {
+            color:
+                #50370e;
+
+            border-color:
+                var(--ghar-gold-400);
+        }
+
+        .ghar-ai-visual {
+            width: 125px;
+            height: 125px;
+
+            margin-inline: auto;
+
+            display: grid;
+            place-items: center;
+
+            border:
+                1px solid rgba(189,135,40,.4);
+
+            border-radius: 50%;
+
+            color:
+                var(--ghar-gold-300);
+
+            background:
+                #082d20;
+
+            box-shadow:
+                0 12px 30px rgba(0,0,0,.12);
+
+            animation:
+                gharFloat 4s ease-in-out infinite;
+        }
+
+        .ghar-ai-visual i {
+            font-size: 46px;
+        }
+
+        @keyframes gharFloat {
+            0%,100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-6px);
+            }
+        }
+
+
+        /* =====================================================
+           TESTIMONIALS
+        ====================================================== */
+
+        .ghar-testimonials {
+            padding:
+                54px 0;
+
+            background:
+                var(--ghar-green-900);
+        }
+
+        .ghar-testimonial-grid {
+            display: grid;
+
+            grid-template-columns:
+                210px repeat(3, 1fr);
+
+            gap: 15px;
+        }
+
+        .ghar-testimonial {
+            padding:
+                20px;
+
+            border:
+                1px solid rgba(232,191,85,.18);
+
+            border-radius: 12px;
+
+            background:
+                #073522;
+        }
+
+        .ghar-stars {
+            margin-bottom: 11px;
+
+            color:
+                var(--ghar-gold-300);
+
+            letter-spacing: 2px;
+
+            font-size: 11px;
+        }
+
+        .ghar-testimonial p {
+            margin: 0;
+
+            color:
+                #e6e8e4;
+
+            font-family:
+                "Cormorant Garamond",
+                serif;
+
+            font-size: 17px;
+
+            line-height: 1.25;
+        }
+
+        .ghar-review-author {
+            margin-top: 15px;
+
+            color:
+                var(--ghar-gold-200);
+
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .ghar-review-location {
+            margin-top: 3px;
+
+            color:
+                #9fac9f;
+
+            font-size: 9px;
+        }
+
+
+        /* =====================================================
+           FOOTER
+        ====================================================== */
+
+        .ghar-footer {
+            padding:
+                42px 0 20px;
+
+            background:
+                #02150e;
+
+            border-top:
+                1px solid rgba(232,191,85,.42);
+        }
+
+        .ghar-footer-main {
+            display: grid;
+
+            grid-template-columns:
+                1.8fr
+                1fr
+                1fr
+                1fr
+                1fr;
+
+            gap: 35px;
+
+            padding-bottom: 30px;
+        }
+
+        .ghar-footer-brand {
+            max-width: 290px;
+        }
+
+        .ghar-footer-logo {
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 9px;
+        }
+
+        .ghar-footer-logo-mark {
+            width: 42px;
+            height: 42px;
+
+            display: grid;
+            place-items: center;
+
+            border:
+                1px solid var(--ghar-gold-300);
+
+            border-radius: 50%;
+
+            color:
+                var(--ghar-gold-200);
+        }
+
+        .ghar-footer-logo-text strong {
+            display: block;
+
+            color:
+                var(--ghar-gold-200);
+
+            font-family:
+                "Cormorant Garamond",
+                serif;
+
+            font-size: 25px;
+
+            letter-spacing: .12em;
+        }
+
+        .ghar-footer-logo-text small {
+            display: block;
+
+            margin-top: 3px;
+
+            color:
+                #aaaFA9;
+
+            font-size: 7px;
+
+            letter-spacing: .18em;
+        }
+
+        .ghar-footer-description {
+            margin-top: 17px;
+
+            color:
+                #aab5ad;
+
+            font-size: 10px;
+
+            line-height: 1.65;
+        }
+
+        .ghar-footer-column h4 {
+            margin:
+                2px 0 15px;
+
+            color:
+                var(--ghar-gold-200);
+
+            font-size: 11px;
+
+            font-weight: 700;
+        }
+
+        .ghar-footer-column a {
+            display: block;
+
+            margin-bottom: 9px;
+
+            color:
+                #b4beb7;
+
+            font-size: 10px;
+
+            transition:
+                color .2s ease,
+                transform .2s ease;
+        }
+
+        .ghar-footer-column a:hover {
+            color:
+                var(--ghar-gold-200);
+
+            transform:
+                translateX(2px);
+        }
+
+        .ghar-socials {
+            display: flex;
+
+            gap: 7px;
+
+            margin-top: 13px;
+        }
+
+        .ghar-social {
+            width: 31px;
+            height: 31px;
+
+            display: grid;
+            place-items: center;
+
+            border:
+                1px solid rgba(232,191,85,.4);
+
+            border-radius: 50%;
+
+            color:
+                #d4d8d4;
+
+            font-size: 11px;
+
+            transition:
+                .25s ease;
+        }
+
+        .ghar-social:hover {
+            color:
+                var(--ghar-green-950);
+
+            background:
+                var(--ghar-gold-200);
+
+            border-color:
+                var(--ghar-gold-200);
+        }
+
+        .ghar-footer-bottom {
+            display: flex;
+
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 15px;
+
+            padding-top: 18px;
+
+            border-top:
+                1px solid rgba(255,255,255,.08);
+
+            color:
+                #78847c;
+
+            font-size: 9px;
+        }
+
+
+        /* =====================================================
+           MOBILE NAV
+        ====================================================== */
+
+        .ghar-mobile-nav {
+            display: none;
+
+            position: fixed;
+
+            z-index: 2000;
+
+            top: var(--header-height);
+            left: 0;
+            right: 0;
+
+            padding: 12px 20px 20px;
+
+            border-bottom:
+                1px solid rgba(232,191,85,.35);
+
+            background:
+                #042117;
+
+            box-shadow:
+                0 20px 35px rgba(0,0,0,.25);
+        }
+
+        .ghar-mobile-nav.open {
+            display: block;
+        }
+
+        .ghar-mobile-nav a {
+            display: flex;
+
+            align-items: center;
+
+            min-height: 44px;
+
+            padding:
+                0 10px;
+
+            border-bottom:
+                1px solid rgba(255,255,255,.06);
+
+            color:
+                #e3e6e2;
+
+            font-size: 13px;
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ====================================================== */
+
+        @media (max-width: 1100px) {
+
+            .ghar-nav {
+                gap: 0;
+            }
+
+            .ghar-nav a {
+                padding:
+                    0 8px;
+
+                font-size: 11px;
+            }
+
+            .ghar-nav a::after {
+                left: 8px;
+                right: 8px;
+            }
+
+            .ghar-header-actions {
+                gap: 5px;
+            }
+
+            .ghar-login-btn {
+                padding: 0 13px;
+            }
+
+            .ghar-start-btn {
+                padding: 0 14px;
+            }
+
+            .ghar-search-fields {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .ghar-search-submit {
+                min-height: 55px;
+            }
+
+            .ghar-category-grid {
+                grid-template-columns:
+                    repeat(3, 1fr);
+            }
+
+            .ghar-footer-main {
+                grid-template-columns:
+                    1.5fr
+                    repeat(3, 1fr);
+            }
+
+            .ghar-footer-social-column {
+                grid-column:
+                    span 2;
+            }
+        }
+
+
+        @media (max-width: 850px) {
+
+            :root {
+                --container:
+                    min(100% - 30px, 700px);
+            }
+
+            .ghar-nav,
+            .ghar-login-btn {
+                display: none;
+            }
+
+            .ghar-mobile-menu {
+                display: grid;
+                place-items: center;
+            }
+
+            .ghar-header-inner {
+                gap: 10px;
+            }
+
+            .ghar-hero {
+                min-height: 600px;
+            }
+
+            .ghar-hero-content {
+                min-height: 600px;
+
+                align-items:
+                    flex-start;
+
+                padding-top:
+                    75px;
+            }
+
+            .ghar-hero-feature {
+                display: none;
+            }
+
+            .ghar-discovery-grid,
+            .ghar-stories-layout {
+                grid-template-columns:
+                    1fr;
+            }
+
+            .ghar-ai-layout {
+                grid-template-columns:
+                    1fr;
+            }
+
+            .ghar-ai-visual {
+                display: none;
+            }
+
+            .ghar-testimonial-grid {
+                grid-template-columns:
+                    1fr 1fr;
+            }
+
+            .ghar-testimonial-grid
+            > :first-child {
+                grid-column:
+                    1 / -1;
+            }
+
+            .ghar-footer-main {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .ghar-footer-brand {
+                grid-column:
+                    1 / -1;
+
+                max-width:
+                    100%;
+            }
+        }
+
+
+        @media (max-width: 650px) {
+
+            :root {
+                --container:
+                    calc(100% - 24px);
+
+                --header-height: 66px;
+            }
+
+            .ghar-header-inner {
+                min-height:
+                    66px;
+            }
+
+            .ghar-logo-mark {
+                width: 38px;
+                height: 38px;
+            }
+
+            .ghar-logo-title {
+                font-size: 22px;
+            }
+
+            .ghar-logo-subtitle {
+                font-size: 6px;
+            }
+
+            .ghar-header-actions
+            .ghar-icon-button {
+                display: none;
+            }
+
+            .ghar-start-btn {
+                height: 35px;
+
+                padding:
+                    0 13px;
+
+                font-size: 10px;
+            }
+
+            .ghar-hero {
+                min-height:
+                    570px;
+            }
+
+            .ghar-hero-content {
+                min-height:
+                    570px;
+
+                padding-top:
+                    70px;
+            }
+
+            .ghar-hero-title {
+                font-size:
+                    clamp(46px, 14vw, 62px);
+            }
+
+            .ghar-hero-description {
+                font-size:
+                    12px;
+
+                max-width:
+                    330px;
+            }
+
+            .ghar-stats {
+                gap:
+                    20px;
+            }
+
+            .ghar-stat strong {
+                font-size:
+                    16px;
+            }
+
+            .ghar-search-wrap {
+                margin-top:
+                    -25px;
+            }
+
+            .ghar-search-fields {
+                grid-template-columns:
+                    1fr;
+            }
+
+            .ghar-search-submit {
+                width: 100%;
+            }
+
+            .ghar-category-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .ghar-category {
+                height:
+                    120px;
+            }
+
+            .ghar-section-head {
+                align-items:
+                    flex-start;
+
+                flex-direction:
+                    column;
+
+                gap:
+                    10px;
+            }
+
+            .ghar-property-grid {
+                grid-template-columns:
+                    1fr;
+            }
+
+            .ghar-stories-grid {
+                grid-template-columns:
+                    1fr;
+            }
+
+            .ghar-video-card {
+                height:
+                    210px;
+            }
+
+            .ghar-testimonial-grid {
+                grid-template-columns:
+                    1fr;
+            }
+
+            .ghar-testimonial-grid
+            > :first-child {
+                grid-column:
+                    auto;
+            }
+
+            .ghar-footer-main {
+                grid-template-columns:
+                    1fr 1fr;
+
+                gap:
+                    25px;
+            }
+
+            .ghar-footer-brand {
+                grid-column:
+                    1 / -1;
+            }
+
+            .ghar-footer-bottom {
+                align-items:
+                    flex-start;
+
+                flex-direction:
+                    column;
+            }
+        }
+
+
+        @media (max-width: 400px) {
+
+            .ghar-logo-text {
+                display: none;
+            }
+
+            .ghar-hero-actions {
+                flex-direction:
+                    column;
+
+                align-items:
+                    flex-start;
+            }
+
+            .ghar-primary-btn,
+            .ghar-outline-btn {
+                width:
+                    100%;
+            }
+
+            .ghar-stats {
+                gap:
+                    13px;
+            }
+
+            .ghar-category-grid {
+                grid-template-columns:
+                    1fr 1fr;
+            }
+
+            .ghar-footer-main {
+                grid-template-columns:
+                    1fr;
+            }
+        }
+
+    </style>
 </head>
+
 
 <body>
 
-  <!-- =========================
-       TOP BAR
-  ========================= -->
+<!-- =========================================================
+     HEADER
+========================================================== -->
 
-  <div class="topbar">
-    <b>GHAR</b>
-    &nbsp; | &nbsp;
-    A premium digital ecosystem for your property journey
-  </div>
+<header class="ghar-header">
 
+    <div class="ghar-header-inner">
 
-  <!-- =========================
-       HEADER
-  ========================= -->
+        <a href="index.html" class="ghar-logo">
 
-  <header class="header">
-
-    <nav class="nav">
-
-      <a href="index.html" class="brand">
-
-        <img
-          src="assets/images/logo/ghar-logo.png"
-          alt="GHAR"
-        >
-
-        <span>GHAR</span>
-
-      </a>
-
-      <div class="links">
-
-        <a href="properties.html">Properties</a>
-
-        <a href="about.html">About</a>
-
-        <a href="property-search.html">Search</a>
-
-        <a href="compare-properties.html">Compare</a>
-
-        <a href="contact.html">Contact</a>
-
-      </div>
-
-      <div class="nav-actions">
-
-        <a href="login.html" class="pill">
-          Login
-        </a>
-
-        <a href="role-selection.html" class="pill gold">
-          Get Started
-        </a>
-
-        <button class="menu" type="button">
-          ☰
-        </button>
-
-      </div>
-
-    </nav>
-
-  </header>
-
-
-  <main>
-
-
-    <!-- =========================
-         HERO
-    ========================= -->
-
-    <section class="hero">
-
-      <div class="hero-inner">
-
-        <div>
-
-          <div class="eyebrow">
-            Premium real estate
-          </div>
-
-          <h1>
-            Find a place
-            <em>worth calling home.</em>
-          </h1>
-
-          <p class="hero-copy">
-            Discover exceptional properties, connect with sellers,
-            manage your property journey and access intelligent
-            digital services -- all through GHAR.
-          </p>
-
-          <div class="actions">
-
-            <a
-              href="properties.html"
-              class="btn gold"
-            >
-              Explore Properties
-            </a>
-
-            <a
-              href="seller/list-property.html"
-              class="btn light"
-            >
-              List Your Property
-            </a>
-
-          </div>
-
-        </div>
-
-
-        <div class="hero-card">
-
-          <small>
-            Signature residence
-          </small>
-
-          <h2>
-            Contemporary Family Residence
-          </h2>
-
-          <p>
-            A premium 3 BHK residence designed around
-            space, natural light and modern family living.
-          </p>
-
-          <div class="price">
-
-            <span>
-              Noida, Uttar Pradesh
+            <span class="ghar-logo-mark">
+                <i class="fa-solid fa-house"></i>
             </span>
 
-            <strong>
-              ₹2.35 Cr
-            </strong>
+            <span class="ghar-logo-text">
 
-          </div>
+                <span class="ghar-logo-title">
+                    GHAR
+                </span>
 
-        </div>
+                <span class="ghar-logo-subtitle">
+                    BUY | SELL | RENT
+                </span>
 
-      </div>
+            </span>
 
-    </section>
-
-
-    <!-- =========================
-         SEARCH
-    ========================= -->
-
-    <div class="search-shell">
-
-      <form
-        class="search-panel"
-        id="propertySearch"
-      >
-
-        <div class="field">
-
-          <label>
-            Location
-          </label>
-
-          <input
-            name="location"
-            placeholder="City, locality or project"
-          >
-
-        </div>
+        </a>
 
 
-        <div class="field">
+        <nav class="ghar-nav">
 
-          <label>
-            Listing
-          </label>
+            <a href="index.html" class="active">
+                Home
+            </a>
 
-          <select name="listing">
+            <a href="properties.html">
+                Properties
+            </a>
 
-            <option value="">
-              Buy / Rent
-            </option>
+            <a href="buy.html">
+                Buy
+            </a>
 
-            <option value="sale">
-              Buy
-            </option>
+            <a href="rent.html">
+                Rent
+            </a>
 
-            <option value="rent">
-              Rent
-            </option>
+            <a href="sell.html">
+                Sell
+            </a>
 
-            <option value="lease">
-              Lease
-            </option>
+            <a href="ghar-ai.html">
+                GHAR AI
+            </a>
 
-          </select>
+            <a href="about.html">
+                About
+            </a>
 
-        </div>
+            <a href="contact.html">
+                Contact
+            </a>
+
+        </nav>
 
 
-        <div class="field">
+        <div class="ghar-header-actions">
 
-          <label>
-            Property
-          </label>
+            <button
+                class="ghar-icon-button"
+                id="headerSearchButton"
+                aria-label="Search"
+            >
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
 
-          <select name="type">
 
-            <option value="">
-              Property Type
-            </option>
+            <a
+                href="login.html"
+                class="ghar-login-btn"
+            >
+                Login
+            </a>
 
-            <option value="apartment">
-              Apartment
-            </option>
 
-            <option value="villa">
-              Villa
-            </option>
+            <a
+                href="role-selection.html"
+                class="ghar-start-btn"
+            >
+                Get Started
+            </a>
 
-            <option value="house">
-              House
-            </option>
 
-            <option value="land">
-              Land
-            </option>
-
-            <option value="commercial">
-              Commercial
-            </option>
-
-          </select>
+            <button
+                class="ghar-mobile-menu"
+                id="gharMobileMenuButton"
+                aria-label="Open navigation"
+                aria-expanded="false"
+            >
+                <i class="fa-solid fa-bars"></i>
+            </button>
 
         </div>
-
-
-        <div class="field">
-
-          <label>
-            Budget
-          </label>
-
-          <select name="budget">
-
-            <option value="">
-              Any Budget
-            </option>
-
-            <option value="1cr">
-              Up to ₹1 Cr
-            </option>
-
-            <option value="2cr">
-              Up to ₹2 Cr
-            </option>
-
-            <option value="5cr">
-              Up to ₹5 Cr
-            </option>
-
-            <option value="5cr+">
-              ₹5 Cr+
-            </option>
-
-          </select>
-
-        </div>
-
-
-        <button
-          class="search-btn"
-          type="submit"
-        >
-          Search
-        </button>
-
-      </form>
 
     </div>
 
+</header>
 
-    <!-- =========================
-         CATEGORIES
-    ========================= -->
 
-    <section class="section">
+<!-- =========================================================
+     MOBILE NAV
+========================================================== -->
 
-      <div class="container">
+<nav
+    class="ghar-mobile-nav"
+    id="gharMobileNav"
+>
 
-        <div class="head">
+    <a href="index.html">
+        Home
+    </a>
 
-          <div>
+    <a href="properties.html">
+        Properties
+    </a>
 
-            <div class="kicker">
-              Explore properties
+    <a href="buy.html">
+        Buy
+    </a>
+
+    <a href="rent.html">
+        Rent
+    </a>
+
+    <a href="sell.html">
+        Sell
+    </a>
+
+    <a href="ghar-ai.html">
+        GHAR AI
+    </a>
+
+    <a href="about.html">
+        About
+    </a>
+
+    <a href="contact.html">
+        Contact
+    </a>
+
+    <a href="login.html">
+        Login
+    </a>
+
+</nav>
+
+
+<!-- =========================================================
+     HERO
+========================================================== -->
+
+<section class="ghar-hero">
+
+    <img
+        class="ghar-hero-image"
+        src="assets/images/properties/palm-villa-1.jpg"
+        alt="Luxury Palm Villa"
+    >
+
+    <div class="ghar-hero-overlay"></div>
+
+
+    <div class="ghar-hero-content">
+
+        <div class="ghar-hero-copy">
+
+            <div class="ghar-eyebrow">
+                Premium Real Estate
             </div>
 
-            <h2>
-              Find your
-              <br>
-              kind of space.
-            </h2>
+            <h1 class="ghar-hero-title">
 
-          </div>
+                Find a place
+                <br>
 
-          <p>
-            Browse residential, commercial and land
-            opportunities through structured property
-            discovery.
-          </p>
+                worth calling
+
+                <br>
+
+                <em>Home.</em>
+
+            </h1>
+
+
+            <p class="ghar-hero-description">
+
+                Luxury homes, modern living and the right
+                opportunities -- all in one place.
+
+            </p>
+
+
+            <div class="ghar-hero-actions">
+
+                <a
+                    href="properties.html"
+                    class="ghar-primary-btn"
+                >
+                    Explore Properties
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+
+                <a
+                    href="ghar-ai.html"
+                    class="ghar-outline-btn"
+                >
+                    GHAR AI
+                </a>
+
+            </div>
+
+
+            <div class="ghar-stats">
+
+                <div class="ghar-stat">
+
+                    <strong>
+                        2.4K+
+                    </strong>
+
+                    <span>
+                        Curated Homes
+                    </span>
+
+                </div>
+
+
+                <div class="ghar-stat">
+
+                    <strong>
+                        48+
+                    </strong>
+
+                    <span>
+                        Prime Locations
+                    </span>
+
+                </div>
+
+
+                <div class="ghar-stat">
+
+                    <strong>
+                        4.9/5
+                    </strong>
+
+                    <span>
+                        Client Rating
+                    </span>
+
+                </div>
+
+            </div>
 
         </div>
 
 
-        <div class="categories">
+        <div class="ghar-hero-feature">
 
-
-          <a
-            class="category"
-            href="properties.html?type=apartment"
-          >
-
-            <div class="category-icon">
-              ◫
-            </div>
+            <span class="ghar-feature-label">
+                Featured
+            </span>
 
             <h3>
-              Apartments
+                The Palm Villa
             </h3>
 
-            <p>
-              Modern urban residences
-            </p>
+            <div class="ghar-hero-feature-row">
 
-          </a>
+                <span>
+                    ₹2.75 Cr
+                </span>
 
+                <div class="ghar-slider-buttons">
 
-          <a
-            class="category"
-            href="properties.html?type=villa"
-          >
+                    <button
+                        type="button"
+                        aria-label="Previous property"
+                    >
+                        <i class="fa-solid fa-chevron-left"></i>
+                    </button>
 
-            <div class="category-icon">
-              ◇
+                    <button
+                        type="button"
+                        aria-label="Next property"
+                    >
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </button>
+
+                </div>
+
             </div>
-
-            <h3>
-              Villas
-            </h3>
-
-            <p>
-              Private luxury living
-            </p>
-
-          </a>
-
-
-          <a
-            class="category"
-            href="properties.html?type=house"
-          >
-
-            <div class="category-icon">
-              ⌂
-            </div>
-
-            <h3>
-              Houses
-            </h3>
-
-            <p>
-              Family-first residences
-            </p>
-
-          </a>
-
-
-          <a
-            class="category"
-            href="properties.html?type=commercial"
-          >
-
-            <div class="category-icon">
-              ▦
-            </div>
-
-            <h3>
-              Commercial
-            </h3>
-
-            <p>
-              Business opportunities
-            </p>
-
-          </a>
-
-
-          <a
-            class="category"
-            href="properties.html?type=land"
-          >
-
-            <div class="category-icon">
-              ◌
-            </div>
-
-            <h3>
-              Land
-            </h3>
-
-            <p>
-              Future-ready plots
-            </p>
-
-          </a>
-
-
-          <a
-            class="category"
-            href="properties.html?listing=rent"
-          >
-
-            <div class="category-icon">
-              ↗
-            </div>
-
-            <h3>
-              Rentals
-            </h3>
-
-            <p>
-              Flexible living options
-            </p>
-
-          </a>
 
         </div>
 
-      </div>
+    </div>
 
-    </section>
+</section>
 
 
-    <!-- =========================
-         FEATURED PROPERTIES
-    ========================= -->
+<!-- =========================================================
+     SEARCH
+========================================================== -->
 
-    <section class="section featured">
+<section class="ghar-search-wrap">
 
-      <div class="container">
+    <div class="ghar-container">
 
-        <div class="head">
+        <div class="ghar-search">
 
-          <div>
+            <div class="ghar-search-tabs">
 
-            <div class="kicker">
-              Curated collection
+                <button
+                    class="ghar-search-tab active"
+                    type="button"
+                    data-search-mode="buy"
+                >
+                    Buy
+                </button>
+
+                <button
+                    class="ghar-search-tab"
+                    type="button"
+                    data-search-mode="rent"
+                >
+                    Rent
+                </button>
+
+                <button
+                    class="ghar-search-tab"
+                    type="button"
+                    data-search-mode="invest"
+                >
+                    Invest
+                </button>
+
             </div>
 
-            <h2>
-              Properties
-              <br>
-              worth seeing.
-            </h2>
 
-          </div>
+            <form
+                class="ghar-search-fields"
+                id="gharPropertySearch"
+                action="property-search.html"
+                method="GET"
+            >
 
-          <a
-            href="properties.html"
-            class="arrow-link"
-          >
-            View all
-            <span>→</span>
-          </a>
+                <div class="ghar-search-field">
+
+                    <i class="fa-solid fa-location-dot"></i>
+
+                    <div class="ghar-search-field-content">
+
+                        <label>
+                            Location
+                        </label>
+
+                        <input
+                            type="text"
+                            name="location"
+                            placeholder="Noida, Gurgaon, Delhi..."
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <div class="ghar-search-field">
+
+                    <i class="fa-regular fa-building"></i>
+
+                    <div class="ghar-search-field-content">
+
+                        <label>
+                            Property Type
+                        </label>
+
+                        <select name="type">
+
+                            <option value="">
+                                Any property
+                            </option>
+
+                            <option value="apartment">
+                                Apartment
+                            </option>
+
+                            <option value="villa">
+                                Villa
+                            </option>
+
+                            <option value="house">
+                                Independent House
+                            </option>
+
+                            <option value="commercial">
+                                Commercial
+                            </option>
+
+                            <option value="land">
+                                Land / Plot
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <div class="ghar-search-field">
+
+                    <i class="fa-solid fa-bed"></i>
+
+                    <div class="ghar-search-field-content">
+
+                        <label>
+                            Bedrooms
+                        </label>
+
+                        <select name="bedrooms">
+
+                            <option value="">
+                                Any
+                            </option>
+
+                            <option value="1">
+                                1 BHK
+                            </option>
+
+                            <option value="2">
+                                2 BHK
+                            </option>
+
+                            <option value="3">
+                                3 BHK
+                            </option>
+
+                            <option value="4">
+                                4 BHK
+                            </option>
+
+                            <option value="5">
+                                5+ BHK
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <div class="ghar-search-field">
+
+                    <i class="fa-solid fa-wallet"></i>
+
+                    <div class="ghar-search-field-content">
+
+                        <label>
+                            Budget
+                        </label>
+
+                        <select name="budget">
+
+                            <option value="">
+                                Any budget
+                            </option>
+
+                            <option value="50l">
+                                Under ₹50 L
+                            </option>
+
+                            <option value="1cr">
+                                ₹50 L – ₹1 Cr
+                            </option>
+
+                            <option value="2cr">
+                                ₹1 Cr – ₹2 Cr
+                            </option>
+
+                            <option value="5cr">
+                                ₹2 Cr – ₹5 Cr
+                            </option>
+
+                            <option value="5cr+">
+                                ₹5 Cr+
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    class="ghar-search-submit"
+                    type="submit"
+                >
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    &nbsp;
+                    Search Properties
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     CATEGORY SECTION
+========================================================== -->
+
+<section class="ghar-discovery">
+
+    <div class="ghar-container">
+
+        <div class="ghar-discovery-grid">
+
+            <div>
+
+                <div class="ghar-section-kicker">
+                    Explore GHAR
+                </div>
+
+                <h2 class="ghar-section-title">
+
+                    Find your
+                    <br>
+
+                    <em>kind of place.</em>
+
+                </h2>
+
+            </div>
+
+
+            <div class="ghar-category-grid">
+
+                <a
+                    href="property-search.html?type=apartment"
+                    class="ghar-category"
+                >
+
+                    <img
+                        src="assets/images/properties/apartment.jpg"
+                        alt="Apartments"
+                        loading="lazy"
+                    >
+
+                    <span>
+                        Apartments
+                    </span>
+
+                </a>
+
+
+                <a
+                    href="property-search.html?type=villa"
+                    class="ghar-category"
+                >
+
+                    <img
+                        src="assets/images/properties/villa.jpg"
+                        alt="Villas"
+                        loading="lazy"
+                    >
+
+                    <span>
+                        Villas
+                    </span>
+
+                </a>
+
+
+                <a
+                    href="property-search.html?type=house"
+                    class="ghar-category"
+                >
+
+                    <img
+                        src="assets/images/properties/independent-house.jpg"
+                        alt="Independent Houses"
+                        loading="lazy"
+                    >
+
+                    <span>
+                        Independent Houses
+                    </span>
+
+                </a>
+
+
+                <a
+                    href="property-search.html?type=commercial"
+                    class="ghar-category"
+                >
+
+                    <img
+                        src="assets/images/properties/commercial.jpg"
+                        alt="Commercial"
+                        loading="lazy"
+                    >
+
+                    <span>
+                        Commercial
+                    </span>
+
+                </a>
+
+
+                <a
+                    href="property-search.html?type=land"
+                    class="ghar-category"
+                >
+
+                    <img
+                        src="assets/images/properties/land.jpg"
+                        alt="Land and Plots"
+                        loading="lazy"
+                    >
+
+                    <span>
+                        Land / Plots
+                    </span>
+
+                </a>
+
+
+                <a
+                    href="property-search.html?type=rent"
+                    class="ghar-category"
+                >
+
+                    <img
+                        src="assets/images/properties/rental.jpg"
+                        alt="Rental Properties"
+                        loading="lazy"
+                    >
+
+                    <span>
+                        Rentals
+                    </span>
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     FEATURED PROPERTIES
+========================================================== -->
+
+<section class="ghar-properties">
+
+    <div class="ghar-container">
+
+        <div class="ghar-section-head">
+
+            <div>
+
+                <div class="ghar-section-kicker">
+                    Handpicked for you
+                </div>
+
+                <h2 class="ghar-section-title">
+                    Featured Properties
+                </h2>
+
+            </div>
+
+            <a
+                href="properties.html"
+                class="ghar-view-all"
+            >
+                View All Properties
+                <i class="fa-solid fa-arrow-right"></i>
+            </a>
 
         </div>
 
 
-        <div class="carousel-wrap">
-
-          <div
-            class="carousel"
-            id="propertyCarousel"
-          >
-
+        <div
+            class="ghar-property-grid"
+            id="featuredProperties"
+        >
 
             <!-- PROPERTY 1 -->
 
-            <article class="property">
+            <article
+                class="ghar-property-card"
+                data-property-id="GHAR-P001"
+            >
 
-              <div
-                class="gallery"
-                data-gallery='[
-                  "assets/images/properties/residential/apartment/apartment-01.webp",
-                  "assets/images/properties/residential/apartment/apartment-02.webp",
-                  "assets/images/properties/residential/apartment/apartment-03.webp"
-                ]'
-              >
+                <div class="ghar-property-image">
 
-                <span class="badge">
-                  Featured
-                </span>
+                    <img
+                        src="assets/images/properties/emerald-heights-1.jpg"
+                        alt="Emerald Heights luxury house"
+                        loading="lazy"
+                    >
 
-                <button
-                  class="save"
-                  type="button"
-                  aria-label="Save property"
-                >
-                  ♡
-                </button>
+                    <span class="ghar-property-badge">
+                        APARTMENT
+                    </span>
 
-                <div class="dots"></div>
-
-              </div>
-
-
-              <div class="pbody">
-
-                <h3>
-                  Emerald Heights
-                </h3>
-
-                <div class="loc">
-                  ⌖ Sector 150, Noida
-                </div>
-
-                <div class="meta">
-
-                  <span>
-                    3 BHK
-                  </span>
-
-                  <span>
-                    2 Baths
-                  </span>
-
-                  <span>
-                    Apartment
-                  </span>
+                    <button
+                        class="ghar-property-heart"
+                        type="button"
+                        aria-label="Save property"
+                        data-favorite="GHAR-P001"
+                    >
+                        <i class="fa-regular fa-heart"></i>
+                    </button>
 
                 </div>
 
-                <div class="pfoot">
 
-                  <span class="pprice">
-                    ₹1.48 Cr
-                  </span>
+                <div class="ghar-property-content">
 
-                  <a
-                    class="pview"
-                    href="property-details.html?id=GHAR-P001"
-                  >
-                    View Details →
-                  </a>
+                    <div class="ghar-property-title-row">
+
+                        <div>
+
+                            <h3 class="ghar-property-title">
+                                Emerald Heights
+                            </h3>
+
+                            <div class="ghar-property-location">
+                                Sector 150, Noida
+                            </div>
+
+                        </div>
+
+                        <span class="ghar-property-price">
+                            ₹1.48 Cr
+                        </span>
+
+                    </div>
+
+
+                    <div class="ghar-property-meta">
+
+                        <span class="ghar-property-meta-item">
+                            <i class="fa-solid fa-bed"></i>
+                            3 BHK
+                        </span>
+
+                        <span class="ghar-property-meta-item">
+                            <i class="fa-solid fa-bath"></i>
+                            2 Baths
+                        </span>
+
+                        <span class="ghar-property-meta-item">
+                            <i class="fa-solid fa-ruler-combined"></i>
+                            1,850 sq.ft.
+                        </span>
+
+                    </div>
 
                 </div>
-
-              </div>
 
             </article>
 
 
             <!-- PROPERTY 2 -->
 
-            <article class="property">
+            <article
+                class="ghar-property-card"
+                data-property-id="GHAR-P002"
+            >
 
-              <div
-                class="gallery"
-                data-gallery='[
-                  "assets/images/properties/residential/villa/villa-01.webp",
-                  "assets/images/properties/residential/villa/villa-02.webp",
-                  "assets/images/properties/residential/villa/villa-03.webp"
-                ]'
-              >
+                <div class="ghar-property-image">
 
-                <span class="badge">
-                  Luxury Villa
-                </span>
+                    <img
+                        src="assets/images/properties/palm-villa-1.jpg"
+                        alt="The Palm Villa"
+                        loading="lazy"
+                    >
 
-                <button
-                  class="save"
-                  type="button"
-                  aria-label="Save property"
-                >
-                  ♡
-                </button>
+                    <span class="ghar-property-badge">
+                        VILLA
+                    </span>
 
-                <div class="dots"></div>
-
-              </div>
-
-
-              <div class="pbody">
-
-                <h3>
-                  The Palm Villa
-                </h3>
-
-                <div class="loc">
-                  ⌖ Greater Noida West
-                </div>
-
-                <div class="meta">
-
-                  <span>
-                    4 BHK
-                  </span>
-
-                  <span>
-                    4 Baths
-                  </span>
-
-                  <span>
-                    Villa
-                  </span>
+                    <button
+                        class="ghar-property-heart"
+                        type="button"
+                        aria-label="Save property"
+                        data-favorite="GHAR-P002"
+                    >
+                        <i class="fa-regular fa-heart"></i>
+                    </button>
 
                 </div>
 
-                <div class="pfoot">
 
-                  <span class="pprice">
-                    ₹2.75 Cr
-                  </span>
+                <div class="ghar-property-content">
 
-                  <a
-                    class="pview"
-                    href="property-details.html?id=GHAR-P002"
-                  >
-                    View Details →
-                  </a>
+                    <div class="ghar-property-title-row">
+
+                        <div>
+
+                            <h3 class="ghar-property-title">
+                                The Palm Villa
+                            </h3>
+
+                            <div class="ghar-property-location">
+                                Greater Noida West
+                            </div>
+
+                        </div>
+
+                        <span class="ghar-property-price">
+                            ₹2.75 Cr
+                        </span>
+
+                    </div>
+
+
+                    <div class="ghar-property-meta">
+
+                        <span class="ghar-property-meta-item">
+                            <i class="fa-solid fa-bed"></i>
+                            4 BHK
+                        </span>
+
+                        <span class="ghar-property-meta-item">
+                            <i class="fa-solid fa-bath"></i>
+                            4 Baths
+                        </span>
+
+                        <span class="ghar-property-meta-item">
+                            <i class="fa-solid fa-ruler-combined"></i>
+                            3,450 sq.ft.
+                        </span>
+
+                    </div>
 
                 </div>
-
-              </div>
 
             </article>
 
 
             <!-- PROPERTY 3 -->
 
-            <article class="property">
+            <article
+                class="ghar-property-card"
+                data-property-id="GHAR-P003"
+            >
 
-              <div
-                class="gallery"
-                data-gallery='[
-                  "assets/images/properties/residential/apartment/apartment-04.webp",
-                  "assets/images/properties/residential/apartment/apartment-05.webp",
-                  "assets/images/properties/residential/apartment/apartment-06.webp"
-                ]'
-              >
+                <div class="ghar-property-image">
 
-                <span class="badge">
-                  New Listing
-                </span>
+                    <img
+                        src="assets/images/properties/garden-courtyard-home-1.jpg"
+                        alt="Garden Courtyard Home"
+                        loading="lazy"
+                    >
 
-                <button
-                  class="save"
-                  type="button"
-                  aria-label="Save property"
+                    <span class="ghar-property-badge">
+                        HOUSE
+                    </span>
+
+                    <button
+                        class="ghar-property-heart"
+                        type="button"
+                        aria-label="Save property"
+                        data-favorite="GHAR-P003"
+                    >
+                        <i class="fa-regular fa-heart"></i>
+                    </button>
+
+                </div>
+
+
+                <div class="ghar-property-content">
+
+                    <div class="ghar-property-title-row">
+
+                        <div>
+
+                            <h3 class="ghar-property-title">
+                                Garden Courtyard Home
+                            </h3>
+
+                            <div class="ghar-property-location">
+                                Noida Extension
+                            </div>
+
+                        </div>
+
+                        <span class="ghar-property-price">
+                            ₹1.92 Cr
+                        </span>
+
+                    </div>
+
+
+                    <div class="ghar-property-meta">
+
+                        <span class="ghar-property-meta-item">
+                            <i class="fa-solid fa-bed"></i>
+                            4 BHK
+                        </span>
+
+                        <span class="ghar-property-meta-item">
+                            <i class="fa-solid fa-bath"></i>
+                            3 Baths
+                        </span>
+
+                        <span class="ghar-property-meta-item">
+                            <i class="fa-solid fa-ruler-combined"></i>
+                            2,900 sq.ft.
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     GHAR VISUAL STORIES / VIDEOS
+========================================================== -->
+
+<section class="ghar-stories">
+
+    <div class="ghar-container">
+
+        <div class="ghar-stories-layout">
+
+            <div>
+
+                <div class="ghar-section-kicker">
+                    GHAR Visual Stories
+                </div>
+
+                <h2 class="ghar-section-title">
+                    See the place.
+                    <br>
+                    <em>Feel the space.</em>
+                </h2>
+
+            </div>
+
+
+            <div class="ghar-stories-grid">
+
+                <a
+                    href="property-details.html?id=GHAR-P001"
+                    class="ghar-video-card"
                 >
-                  ♡
-                </button>
 
-                <div class="dots"></div>
+                    <img
+                        src="assets/images/properties/emerald-heights-1.jpg"
+                        alt="Emerald Heights video"
+                        loading="lazy"
+                    >
 
-              </div>
+                    <span class="ghar-video-overlay">
+
+                        <span class="ghar-play">
+                            <i class="fa-solid fa-play"></i>
+                        </span>
+
+                    </span>
+
+                </a>
 
 
-              <div class="pbody">
+                <a
+                    href="property-details.html?id=GHAR-P002"
+                    class="ghar-video-card"
+                >
 
-                <h3>
-                  The Grand Residences
-                </h3>
+                    <img
+                        src="assets/images/properties/palm-villa-1.jpg"
+                        alt="Palm Villa video"
+                        loading="lazy"
+                    >
 
-                <div class="loc">
-                  ⌖ Sector 79, Noida
-                </div>
+                    <span class="ghar-video-overlay">
 
-                <div class="meta">
+                        <span class="ghar-play">
+                            <i class="fa-solid fa-play"></i>
+                        </span>
 
-                  <span>
-                    3 BHK
-                  </span>
+                    </span>
 
-                  <span>
-                    3 Baths
-                  </span>
+                </a>
 
-                  <span>
-                    Apartment
-                  </span>
 
-                </div>
-
-                <div class="pfoot">
-
-                  <span class="pprice">
-                    ₹1.86 Cr
-                  </span>
-
-                  <a
-                    class="pview"
+                <a
                     href="property-details.html?id=GHAR-P003"
-                  >
-                    View Details →
-                  </a>
-
-                </div>
-
-              </div>
-
-            </article>
-
-
-            <!-- PROPERTY 4 -->
-
-            <article class="property">
-
-              <div
-                class="gallery"
-                data-gallery='[
-                  "assets/images/properties/residential/house/house-01.webp",
-                  "assets/images/properties/residential/house/house-02.webp",
-                  "assets/images/properties/residential/house/house-03.webp"
-                ]'
-              >
-
-                <span class="badge">
-                  Family Home
-                </span>
-
-                <button
-                  class="save"
-                  type="button"
-                  aria-label="Save property"
+                    class="ghar-video-card"
                 >
-                  ♡
-                </button>
 
-                <div class="dots"></div>
+                    <img
+                        src="assets/images/properties/garden-courtyard-home-1.jpg"
+                        alt="Garden Courtyard Home video"
+                        loading="lazy"
+                    >
 
-              </div>
+                    <span class="ghar-video-overlay">
+
+                        <span class="ghar-play">
+                            <i class="fa-solid fa-play"></i>
+                        </span>
+
+                    </span>
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
 
 
-              <div class="pbody">
+<!-- =========================================================
+     GHAR AI
+========================================================== -->
 
-                <h3>
-                  Garden Courtyard Home
-                </h3>
+<section class="ghar-ai">
 
-                <div class="loc">
-                  ⌖ Noida Extension, Uttar Pradesh
+    <div class="ghar-container">
+
+        <div class="ghar-ai-layout">
+
+            <div>
+
+                <div class="ghar-section-kicker">
+                    GHAR Intelligence
                 </div>
 
-                <div class="meta">
+                <h2 class="ghar-ai-title">
 
-                  <span>
-                    4 BHK
-                  </span>
+                    Don't search
+                    <br>
 
-                  <span>
-                    3 Baths
-                  </span>
+                    for a home.
 
-                  <span>
-                    House
-                  </span>
+                    <br>
+
+                    <em>Describe one.</em>
+
+                </h2>
+
+            </div>
+
+
+            <div class="ghar-ai-box">
+
+                <form
+                    id="gharAiForm"
+                    class="ghar-ai-input"
+                >
+
+                    <input
+                        id="gharAiInput"
+                        type="text"
+                        autocomplete="off"
+                        placeholder="Ask GHAR AI anything..."
+                        aria-label="Ask GHAR AI"
+                    >
+
+                    <button
+                        type="submit"
+                        class="ghar-ai-send"
+                        aria-label="Send"
+                    >
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+
+                </form>
+
+
+                <div class="ghar-ai-suggestions">
+
+                    <button
+                        class="ghar-ai-chip"
+                        type="button"
+                        data-ai-query="3 BHK under ₹2 Cr in Noida"
+                    >
+                        3 BHK under ₹2 Cr
+                    </button>
+
+                    <button
+                        class="ghar-ai-chip"
+                        type="button"
+                        data-ai-query="Show premium villas"
+                    >
+                        Premium Villas
+                    </button>
+
+                    <button
+                        class="ghar-ai-chip"
+                        type="button"
+                        data-ai-query="Compare properties"
+                    >
+                        Compare Properties
+                    </button>
+
+                    <button
+                        class="ghar-ai-chip"
+                        type="button"
+                        data-ai-query="I want to sell my property"
+                    >
+                        Sell My Property
+                    </button>
+
+                    <button
+                        class="ghar-ai-chip"
+                        type="button"
+                        data-ai-query="What documents do I need?"
+                    >
+                        Documents
+                    </button>
 
                 </div>
 
-                <div class="pfoot">
+                <div
+                    id="gharAiResponse"
+                    style="
+                        display:none;
+                        margin-top:12px;
+                        padding:12px;
+                        border-radius:10px;
+                        background:#f0e8d5;
+                        color:#27352d;
+                        font-size:11px;
+                        line-height:1.5;
+                    "
+                ></div>
 
-                  <span class="pprice">
-                    ₹1.92 Cr
-                  </span>
+            </div>
 
-                  <a
-                    class="pview"
-                    href="property-details.html?id=GHAR-P004"
-                  >
-                    View Details →
-                  </a>
 
+            <div class="ghar-ai-visual">
+
+                <i class="fa-solid fa-robot"></i>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     REVIEWS
+========================================================== -->
+
+<section class="ghar-testimonials">
+
+    <div class="ghar-container">
+
+        <div class="ghar-testimonial-grid">
+
+            <div>
+
+                <div class="ghar-section-kicker">
+                    Real Experiences
                 </div>
 
-              </div>
+                <h2 class="ghar-section-title">
+                    People who
+                    <br>
+                    found their place.
+                </h2>
+
+            </div>
+
+
+            <article class="ghar-testimonial">
+
+                <div class="ghar-stars">
+                    ★★★★★
+                </div>
+
+                <p>
+                    "The property search felt completely different.
+                    GHAR helped us narrow down exactly what we were
+                    looking for."
+                </p>
+
+                <div class="ghar-review-author">
+                    Verified Buyer
+                </div>
+
+                <div class="ghar-review-location">
+                    Noida
+                </div>
 
             </article>
 
-          </div>
+
+            <article class="ghar-testimonial">
+
+                <div class="ghar-stars">
+                    ★★★★★
+                </div>
+
+                <p>
+                    "Excellent service and premium properties.
+                    The entire process was smooth and transparent."
+                </p>
+
+                <div class="ghar-review-author">
+                    Verified Visitor
+                </div>
+
+                <div class="ghar-review-location">
+                    Greater Noida
+                </div>
+
+            </article>
 
 
-          <div class="carousel-controls">
+            <article class="ghar-testimonial">
 
-            <button
-              type="button"
-              data-scroll="prev"
-              aria-label="Previous properties"
-            >
-              ←
-            </button>
+                <div class="ghar-stars">
+                    ★★★★★
+                </div>
 
-            <button
-              type="button"
-              data-scroll="next"
-              aria-label="Next properties"
-            >
-              →
-            </button>
+                <p>
+                    "I wanted a premium home and didn't want to spend
+                    hours searching. GHAR made it simple."
+                </p>
 
-          </div>
+                <div class="ghar-review-author">
+                    Verified Buyer
+                </div>
 
-        </div>
+                <div class="ghar-review-location">
+                    Gurgaon
+                </div>
 
-      </div>
-
-    </section>
-
-
-    <!-- =========================
-         AI SECTION
-    ========================= -->
-
-    <section class="ai-band">
-
-      <div class="container ai-grid">
-
-
-        <div class="ai-box reveal">
-
-          <div class="kicker">
-            GHAR intelligence
-          </div>
-
-          <h3>
-            Tell GHAR what you want.
-          </h3>
-
-          <p>
-            Describe a property in natural language
-            and let the platform turn your request into
-            a structured property search.
-          </p>
-
-          <form
-            class="ai-input"
-            id="aiSearch"
-          >
-
-            <input
-              id="aiQuery"
-              placeholder="3 BHK near Noida under ₹2 Cr"
-            >
-
-            <button type="submit">
-              Search with AI
-            </button>
-
-          </form>
+            </article>
 
         </div>
-
-
-        <div class="ai-points">
-
-
-          <div class="ai-point reveal">
-
-            <b>
-              ✦
-            </b>
-
-            <div>
-
-              <h4>
-                Smart property matching
-              </h4>
-
-              <p>
-                Rank properties by budget, location,
-                configuration, amenities and preferences.
-              </p>
-
-            </div>
-
-          </div>
-
-
-          <div class="ai-point reveal">
-
-            <b>
-              ◈
-            </b>
-
-            <div>
-
-              <h4>
-                AI property valuation
-              </h4>
-
-              <p>
-                Present market-based estimates clearly
-                as estimates, never guaranteed valuations.
-              </p>
-
-            </div>
-
-          </div>
-
-
-          <div class="ai-point reveal">
-
-            <b>
-              ▣
-            </b>
-
-            <div>
-
-              <h4>
-                Document & loan assistance
-              </h4>
-
-              <p>
-                Understand checklists, application steps
-                and scenarios without replacing professional
-                or lender decisions.
-              </p>
-
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- =========================
-         JOURNEY
-    ========================= -->
-
-    <section class="section">
-
-      <div class="container journey">
-
-
-        <div class="journey-copy reveal">
-
-          <div class="kicker">
-            Built around confidence
-          </div>
-
-          <h2>
-            A property journey
-            designed to feel simpler.
-          </h2>
-
-          <p>
-            GHAR connects discovery, saved properties,
-            enquiries, visits, offers, documents,
-            communication and supporting services into
-            one structured experience.
-          </p>
-
-          <a
-            class="btn"
-            style="
-              background:var(--emerald);
-              color:#fff;
-              border-color:var(--emerald)
-            "
-            href="about.html"
-          >
-            Explore GHAR →
-          </a>
-
-        </div>
-
-
-        <div class="journey-list">
-
-
-          <div class="journey-step reveal">
-
-            <div class="num">
-              01
-            </div>
-
-            <h3>
-              Discover
-            </h3>
-
-            <p>
-              Search by location, category,
-              budget and listing type.
-            </p>
-
-          </div>
-
-
-          <div class="journey-step reveal">
-
-            <div class="num">
-              02
-            </div>
-
-            <h3>
-              Connect
-            </h3>
-
-            <p>
-              Save properties, send enquiries
-              and continue conversations.
-            </p>
-
-          </div>
-
-
-          <div class="journey-step reveal">
-
-            <div class="num">
-              03
-            </div>
-
-            <h3>
-              Manage
-            </h3>
-
-            <p>
-              Keep visits, offers, documents
-              and activity organized.
-            </p>
-
-          </div>
-
-
-          <div class="journey-step reveal">
-
-            <div class="num">
-              04
-            </div>
-
-            <h3>
-              Move forward
-            </h3>
-
-            <p>
-              Continue through connected GHAR
-              services and role dashboards.
-            </p>
-
-          </div>
-
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- =========================
-         LIFESTYLE
-    ========================= -->
-
-    <section class="section lifestyle">
-
-      <div class="container">
-
-        <div class="head reveal">
-
-          <div>
-
-            <div class="kicker">
-              Explore by lifestyle
-            </div>
-
-            <h2>
-              Spaces for the
-              <br>
-              way you live.
-            </h2>
-
-          </div>
-
-          <p>
-            Move beyond generic listings with curated
-            pathways for living, working and investing.
-          </p>
-
-        </div>
-
-
-        <div class="life-grid">
-
-
-          <a
-            class="life reveal"
-            href="properties.html?type=villa"
-          >
-
-            <img
-              src="/assets/images/properties/residentials/villa/villa-placeholder.jpg"
-              alt="Luxury villas"
-            >
-
-            <div class="life-content">
-
-              <small>
-                Private living
-              </small>
-
-              <h3>
-                Villas
-              </h3>
-
-              <p>
-                Space, privacy and refined living.
-              </p>
-
-            </div>
-
-          </a>
-
-
-          <a
-            class="life reveal"
-            href="properties.html?type=apartment"
-          >
-
-            <img
-              src="/assets/images/properties/residentials/apartment/apartment-placeholder.jpg"
-              alt="Modern apartments"
-            >
-
-            <div class="life-content">
-
-              <small>
-                Modern living
-              </small>
-
-              <h3>
-                Apartments
-              </h3>
-
-              <p>
-                Connected urban residences.
-              </p>
-
-            </div>
-
-          </a>
-
-
-          <a
-            class="life reveal"
-            href="properties.html?type=commercial"
-          >
-
-            <img
-              src="/assets/images/properties/commercial/office/office-placeholder.jpg"
-              alt="Commercial spaces"
-            >
-
-            <div class="life-content">
-
-              <small>
-                Business
-              </small>
-
-              <h3>
-                Commercial
-              </h3>
-
-              <p>
-                Workspaces built for opportunity.
-              </p>
-
-            </div>
-
-          </a>
-
-
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- =========================
-         SIGNATURE RESIDENCE
-    ========================= -->
-
-    <section class="residence">
-
-      <div class="residence-card">
-
-        <div class="residence-content reveal">
-
-          <small>
-            GHAR signature collection
-          </small>
-
-          <h2>
-            Contemporary Family Residence
-          </h2>
-
-          <p>
-            ⌖ Noida, Uttar Pradesh
-            · 3 BHK
-            · 2 Baths
-            · Premium residence
-          </p>
-
-          <div class="residence-price">
-            ₹2.35 Cr
-          </div>
-
-          <a
-            class="btn gold"
-            href="property-details.html?id=GHAR-P001"
-          >
-            View Residence →
-          </a>
-
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- =========================
-         FINAL CTA
-    ========================= -->
-
-    <section class="final-cta">
-
-      <div class="container reveal">
-
-        <div class="kicker">
-          Your next chapter
-        </div>
-
-        <h2>
-          Find a place worth calling home.
-        </h2>
-
-        <p>
-          Search properties, list your space or
-          continue your property journey through GHAR.
-        </p>
-
-        <div
-          class="actions"
-          style="justify-content:center"
-        >
-
-          <a
-            class="btn gold"
-            href="properties.html"
-          >
-            Explore Properties
-          </a>
-
-          <a
-            class="btn light"
-            href="seller/list-property.html"
-          >
-            List Your Property
-          </a>
-
-        </div>
-
-
-        <form
-          class="subscribe"
-          id="subscribeForm"
-        >
-
-          <input
-            type="email"
-            required
-            placeholder="Your email address"
-            aria-label="Email address"
-          >
-
-          <button>
-            Stay connected
-          </button>
-
-        </form>
-
-      </div>
-
-    </section>
-
-  </main>
-
-
-  <!-- =========================
-       FOOTER
-  ========================= -->
-
-  <footer>
-
-    <div class="footer">
-
-
-      <div>
-
-        <div class="footer-brand">
-          GHAR
-        </div>
-
-        <p>
-          A structured real-estate ecosystem connecting
-          buyers, sellers, renters and property transactions
-          through one premium digital experience.
-        </p>
-
-      </div>
-
-
-      <div>
-
-        <h4>
-          Properties
-        </h4>
-
-        <a href="properties.html">
-          Buy
-        </a>
-
-        <a href="properties.html?listing=rent">
-          Rent
-        </a>
-
-        <a href="properties.html?listing=lease">
-          Lease
-        </a>
-
-        <a href="properties.html?type=commercial">
-          Commercial
-        </a>
-
-        <a href="properties.html?type=land">
-          Land
-        </a>
-
-      </div>
-
-
-      <div>
-
-        <h4>
-          Account
-        </h4>
-
-        <a href="dashboard.html">
-          Dashboard
-        </a>
-
-        <a href="buyer/saved-properties.html">
-          Saved Properties
-        </a>
-
-        <a href="buyer/enquiries.html">
-          My Enquiries
-        </a>
-
-        <a href="buyer/offers.html">
-          My Offers
-        </a>
-
-        <a href="profile.html">
-          My Profile
-        </a>
-
-      </div>
-
-
-      <div>
-
-        <h4>
-          Seller
-        </h4>
-
-        <a href="seller/list-property.html">
-          List Property
-        </a>
-
-        <a href="seller/seller-dashboard.html">
-          Seller Dashboard
-        </a>
-
-        <a href="seller/my-properties.html">
-          My Properties
-        </a>
-
-        <a href="seller/visits.html">
-          Scheduled Visits
-        </a>
-
-        <a href="seller/offers.html">
-          Offers
-        </a>
-
-      </div>
 
     </div>
 
+</section>
 
-    <div class="bottom">
 
-      <span>
-        © 2026 GHAR. All rights reserved.
-      </span>
+<!-- =========================================================
+     FOOTER
+========================================================== -->
 
-      <span>
+<footer class="ghar-footer">
 
-        <a href="about.html">
-          About
-        </a>
+    <div class="ghar-container">
 
-        ·
+        <div class="ghar-footer-main">
 
-        <a href="contact.html">
-          Contact
-        </a>
+            <!-- BRAND -->
 
-        ·
+            <div class="ghar-footer-brand">
 
-        <a href="help-centre.html">
-          Help & Support
-        </a>
+                <a
+                    href="index.html"
+                    class="ghar-footer-logo"
+                >
 
-        ·
+                    <span class="ghar-footer-logo-mark">
+                        <i class="fa-solid fa-house"></i>
+                    </span>
 
-        <a href="terms.html">
-          Terms
-        </a>
+                    <span class="ghar-footer-logo-text">
 
-        ·
+                        <strong>
+                            GHAR
+                        </strong>
 
-        <a href="privacy.html">
-          Privacy
-        </a>
+                        <small>
+                            BUY | SELL | RENT
+                        </small>
 
-      </span>
+                    </span>
+
+                </a>
+
+
+                <p class="ghar-footer-description">
+
+                    A premium real estate experience built around
+                    discovery, intelligent matching and exceptional
+                    property journeys.
+
+                </p>
+
+            </div>
+
+
+            <!-- EXPLORE -->
+
+            <div class="ghar-footer-column">
+
+                <h4>
+                    Explore
+                </h4>
+
+                <a href="properties.html">
+                    Properties
+                </a>
+
+                <a href="buy.html">
+                    Buy
+                </a>
+
+                <a href="rent.html">
+                    Rent
+                </a>
+
+                <a href="sell.html">
+                    Sell
+                </a>
+
+            </div>
+
+
+            <!-- COMPANY -->
+
+            <div class="ghar-footer-column">
+
+                <h4>
+                    Company
+                </h4>
+
+                <a href="about.html">
+                    About
+                </a>
+
+                <a href="careers.html">
+                    Careers
+                </a>
+
+                <a href="contact.html">
+                    Contact
+                </a>
+
+                <a href="privacy-policy.html">
+                    Privacy Policy
+                </a>
+
+            </div>
+
+
+            <!-- SUPPORT -->
+
+            <div class="ghar-footer-column">
+
+                <h4>
+                    Support
+                </h4>
+
+                <a href="help-centre.html">
+                    Help Center
+                </a>
+
+                <a href="documents.html">
+                    Documents
+                </a>
+
+                <a href="faqs.html">
+                    FAQs
+                </a>
+
+                <a href="contact.html">
+                    Contact Us
+                </a>
+
+            </div>
+
+
+            <!-- SOCIAL -->
+
+            <div class="ghar-footer-column ghar-footer-social-column">
+
+                <h4>
+                    Follow Us
+                </h4>
+
+                <div class="ghar-socials">
+
+                    <a
+                        href="#"
+                        class="ghar-social"
+                        aria-label="Instagram"
+                    >
+                        <i class="fa-brands fa-instagram"></i>
+                    </a>
+
+                    <a
+                        href="#"
+                        class="ghar-social"
+                        aria-label="YouTube"
+                    >
+                        <i class="fa-brands fa-youtube"></i>
+                    </a>
+
+                    <a
+                        href="#"
+                        class="ghar-social"
+                        aria-label="Facebook"
+                    >
+                        <i class="fa-brands fa-facebook-f"></i>
+                    </a>
+
+                    <a
+                        href="#"
+                        class="ghar-social"
+                        aria-label="LinkedIn"
+                    >
+                        <i class="fa-brands fa-linkedin-in"></i>
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="ghar-footer-bottom">
+
+            <span>
+                © 2026 GHAR. All rights reserved.
+            </span>
+
+            <span>
+                Premium Real Estate
+            </span>
+
+        </div>
 
     </div>
 
-  </footer>
+</footer>
 
 
-  <!-- =========================
-       MOBILE NAVIGATION
-  ========================= -->
+<!-- =========================================================
+     SCRIPTS
+========================================================== -->
 
-  <nav
-    class="mobile-dock"
-    aria-label="Mobile navigation"
-  >
-
-    <a href="index.html">
-      <span>⌂</span>
-      Home
-    </a>
-
-    <a href="properties.html">
-      <span>⌕</span>
-      Search
-    </a>
-
-    <a href="buyer/saved-properties.html">
-      <span>♡</span>
-      Saved
-    </a>
-
-    <a href="profile.html">
-      <span>◉</span>
-      Account
-    </a>
-
-    <a href="ai/ai-assistant.html">
-      <span>✦</span>
-      AI
-    </a>
-
-  </nav>
+<script src="assets/js/constants.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/storage.js"></script>
+<script src="assets/js/api.js"></script>
+<script src="assets/js/auth.js"></script>
+<script src="assets/js/core.js"></script>
+<script src="assets/js/components.js"></script>
+<script src="assets/js/components/global.js"></script>
+<script src="assets/js/profile.js"></script>
 
 
-  <!-- =========================
-       CORE JAVASCRIPT
-  ========================= -->
+<script>
 
-  <script
-    src="assets/js/constants.js"
-    defer
-  ></script>
-
-  <script
-    src="assets/js/config.js"
-    defer
-  ></script>
-
-  <script
-    src="assets/js/storage.js"
-    defer
-  ></script>
-
-  <script
-    src="assets/js/api.js"
-    defer
-  ></script>
-
-  <script
-    src="assets/js/auth.js"
-    defer
-  ></script>
-
-  <script
-    src="assets/js/core.js"
-    defer
-  ></script>
-
-  <script
-    src="assets/js/components.js"
-    defer
-  ></script>
-
-  <script
-    src="assets/js/navigation.js"
-    defer
-  ></script>
-
-  <script
-    src="assets/js/property/property.js"
-    defer
-  ></script>
-
-  <script
-    src="assets/js/property/property-search.js"
-    defer
-  ></script>
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
 
 
-  <!-- =========================
-       PAGE JAVASCRIPT
-  ========================= -->
+        /* =====================================================
+           MOBILE MENU
+        ====================================================== */
 
-  <script>
+        const menuButton =
+            document.getElementById(
+                "gharMobileMenuButton"
+            );
 
-    document.addEventListener(
-      'DOMContentLoaded',
-      () => {
+        const mobileNav =
+            document.getElementById(
+                "gharMobileNav"
+            );
 
+        if (menuButton && mobileNav) {
 
-        /* =========================
-           REVEAL ANIMATION
-        ========================= */
+            menuButton.addEventListener(
+                "click",
+                function () {
 
-        const observer =
-          new IntersectionObserver(
-            entries =>
-              entries.forEach(
-                e => {
+                    const opened =
+                        mobileNav.classList.toggle(
+                            "open"
+                        );
 
-                  if(e.isIntersecting){
-
-                    e.target.classList.add(
-                      'visible'
+                    menuButton.setAttribute(
+                        "aria-expanded",
+                        opened
                     );
 
-                    observer.unobserve(
-                      e.target
-                    );
-
-                  }
+                    menuButton.innerHTML =
+                        opened
+                            ? '<i class="fa-solid fa-xmark"></i>'
+                            : '<i class="fa-solid fa-bars"></i>';
 
                 }
-              ),
-            {
-              threshold:.1
+            );
+
+        }
+
+
+        /* =====================================================
+           SEARCH TABS
+        ====================================================== */
+
+        const searchTabs =
+            document.querySelectorAll(
+                ".ghar-search-tab"
+            );
+
+        searchTabs.forEach(
+            function (tab) {
+
+                tab.addEventListener(
+                    "click",
+                    function () {
+
+                        searchTabs.forEach(
+                            function (item) {
+
+                                item.classList.remove(
+                                    "active"
+                                );
+
+                            }
+                        );
+
+                        tab.classList.add(
+                            "active"
+                        );
+
+                    }
+                );
+
             }
-          );
+        );
 
 
-        document
-          .querySelectorAll('.reveal')
-          .forEach(
-            x => observer.observe(x)
-          );
+        /* =====================================================
+           FAVORITES
+        ====================================================== */
+
+        const favoriteButtons =
+            document.querySelectorAll(
+                "[data-favorite]"
+            );
+
+        favoriteButtons.forEach(
+            function (button) {
+
+                button.addEventListener(
+                    "click",
+                    function (event) {
+
+                        event.preventDefault();
+                        event.stopPropagation();
+
+                        const icon =
+                            button.querySelector("i");
+
+                        const propertyId =
+                            button.dataset.favorite;
+
+                        const active =
+                            button.dataset.active === "true";
+
+                        button.dataset.active =
+                            (!active).toString();
+
+                        if (!active) {
+
+                            icon.className =
+                                "fa-solid fa-heart";
+
+                            icon.style.color =
+                                "#f8df8b";
+
+                        } else {
+
+                            icon.className =
+                                "fa-regular fa-heart";
+
+                            icon.style.color =
+                                "";
+
+                        }
 
 
-        /* =========================
-           PROPERTY IMAGE SLIDERS
-        ========================= */
+                        /*
+                         * Hook for existing storage/API.
+                         */
 
-        document
-          .querySelectorAll('.gallery')
-          .forEach(
-            g => {
+                        try {
 
-              let paths=[];
+                            const favorites =
+                                JSON.parse(
+                                    localStorage.getItem(
+                                        "ghar_favorites"
+                                    ) || "[]"
+                                );
 
-              try{
+                            if (!active) {
 
-                paths =
-                  JSON.parse(
-                    g.dataset.gallery || '[]'
-                  );
+                                if (
+                                    !favorites.includes(
+                                        propertyId
+                                    )
+                                ) {
+                                    favorites.push(
+                                        propertyId
+                                    );
+                                }
 
-              }catch(e){}
+                            } else {
+
+                                const index =
+                                    favorites.indexOf(
+                                        propertyId
+                                    );
+
+                                if (index !== -1) {
+                                    favorites.splice(
+                                        index,
+                                        1
+                                    );
+                                }
+
+                            }
+
+                            localStorage.setItem(
+                                "ghar_favorites",
+                                JSON.stringify(
+                                    favorites
+                                )
+                            );
+
+                        } catch (error) {
+
+                            console.warn(
+                                "GHAR favorites storage unavailable.",
+                                error
+                            );
+
+                        }
+
+                    }
+                );
+
+            }
+        );
 
 
-              const valid=[];
+        /* =====================================================
+           AI
+        ====================================================== */
 
-              const dots =
-                g.querySelector('.dots');
+        const aiForm =
+            document.getElementById(
+                "gharAiForm"
+            );
 
+        const aiInput =
+            document.getElementById(
+                "gharAiInput"
+            );
 
-              paths.forEach(
-                (src,i) => {
-
-                  const img =
-                    document.createElement(
-                      'img'
-                    );
-
-                  img.src=src;
-
-                  img.alt=
-                    'Property image';
-
-                  img.loading='lazy';
+        const aiResponse =
+            document.getElementById(
+                "gharAiResponse"
+            );
 
 
-                  img.addEventListener(
-                    'error',
+        function runGHARAI(query) {
+
+            if (!query || !query.trim()) {
+                return;
+            }
+
+            const cleanQuery =
+                query.trim();
+
+            aiResponse.style.display =
+                "block";
+
+            aiResponse.innerHTML =
+                "<strong>GHAR AI</strong><br>" +
+                "Understanding your request: <strong>" +
+                escapeHTML(cleanQuery) +
+                "</strong><br><br>" +
+                "I can help you search properties, " +
+                "compare homes, estimate affordability, " +
+                "find suitable locations, prepare a " +
+                "property-selling request, or guide you " +
+                "through documents and visits.";
+
+
+            /*
+             * Existing backend AI integration can be
+             * connected here.
+             *
+             * Example endpoint:
+             *
+             * /api/ai/chat
+             *
+             * The frontend intentionally does not expose
+             * an API key.
+             */
+
+            if (
+                window.GHAR_CONFIG &&
+                GHAR_CONFIG.API_BASE_URL
+            ) {
+
+                fetch(
+                    GHAR_CONFIG.API_BASE_URL +
+                    "/api/ai/chat",
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        credentials:
+                            "include",
+
+                        body:
+                            JSON.stringify({
+                                message:
+                                    cleanQuery
+                            })
+                    }
+                )
+                .then(
+                    response =>
+                        response.ok
+                            ? response.json()
+                            : null
+                )
+                .then(
+                    data => {
+
+                        if (
+                            data &&
+                            data.message
+                        ) {
+
+                            aiResponse.innerHTML =
+                                "<strong>GHAR AI</strong><br>" +
+                                escapeHTML(
+                                    data.message
+                                );
+
+                        }
+
+                    }
+                )
+                .catch(
                     () => {
 
-                      img.remove();
-
-                      const d =
-                        dots?.children[i];
-
-                      if(d){
-                        d.remove();
-                      }
+                        /*
+                         * Keep the local response
+                         * if backend is unavailable.
+                         */
 
                     }
-                  );
+                );
+
+            }
+
+        }
 
 
-                  g.insertBefore(
-                    img,
-                    dots
-                  );
+        function escapeHTML(value) {
 
-                  valid.push(img);
+            return value
+                .replace(
+                    /&/g,
+                    "&amp;"
+                )
+                .replace(
+                    /</g,
+                    "&lt;"
+                )
+                .replace(
+                    />/g,
+                    "&gt;"
+                )
+                .replace(
+                    /"/g,
+                    "&quot;"
+                )
+                .replace(
+                    /'/g,
+                    "&#039;"
+                );
+
+        }
 
 
-                  const d =
-                    document.createElement(
-                      'button'
+        if (aiForm) {
+
+            aiForm.addEventListener(
+                "submit",
+                function (event) {
+
+                    event.preventDefault();
+
+                    runGHARAI(
+                        aiInput.value
                     );
 
-                  d.className =
-                    'dot' +
-                    (
-                      i===0
-                      ? ' active'
-                      : ''
+                }
+            );
+
+        }
+
+
+        /* =====================================================
+           AI QUICK CHIPS
+        ====================================================== */
+
+        document
+            .querySelectorAll(
+                "[data-ai-query]"
+            )
+            .forEach(
+                function (chip) {
+
+                    chip.addEventListener(
+                        "click",
+                        function () {
+
+                            const query =
+                                chip.dataset.aiQuery;
+
+                            aiInput.value =
+                                query;
+
+                            runGHARAI(
+                                query
+                            );
+
+                        }
                     );
 
-                  d.type='button';
-
-                  d.setAttribute(
-                    'aria-label',
-                    'Show image ' +
-                    (i+1)
-                  );
+                }
+            );
 
 
-                  d.addEventListener(
-                    'click',
-                    e => {
+        /* =====================================================
+           HERO SEARCH SHORTCUT
+        ====================================================== */
 
-                      e.preventDefault();
+        const headerSearch =
+            document.getElementById(
+                "headerSearchButton"
+            );
 
-                      e.stopPropagation();
+        if (headerSearch) {
 
-                      show(i);
+            headerSearch.addEventListener(
+                "click",
+                function () {
+
+                    const search =
+                        document.getElementById(
+                            "gharPropertySearch"
+                        );
+
+                    if (search) {
+
+                        search.scrollIntoView({
+                            behavior: "smooth",
+                            block: "center"
+                        });
+
+                        const location =
+                            search.querySelector(
+                                'input[name="location"]'
+                            );
+
+                        if (location) {
+                            setTimeout(
+                                () => location.focus(),
+                                450
+                            );
+                        }
 
                     }
-                  );
-
-
-                  dots.appendChild(d);
 
                 }
-              );
+            );
 
+        }
 
-              let current=0;
 
+    }
+);
 
-              function show(i){
-
-                if(!valid.length){
-                  return;
-                }
-
-
-                current =
-                  (i + valid.length)
-                  % valid.length;
-
-
-                valid.forEach(
-                  (x,n) =>
-                    x.classList.toggle(
-                      'active',
-                      n===current
-                    )
-                );
-
-
-                [
-                  ...dots.children
-                ].forEach(
-                  (d,n) =>
-                    d.classList.toggle(
-                      'active',
-                      n===current
-                    )
-                );
-
-              }
-
-
-              show(0);
-
-
-              setInterval(
-                () =>
-                  show(current+1),
-                4200
-              );
-
-            }
-          );
-
-
-        /* =========================
-           PROPERTY CAROUSEL
-        ========================= */
-
-        const carousel =
-          document.getElementById(
-            'propertyCarousel'
-          );
-
-
-        document
-          .querySelectorAll('[data-scroll]')
-          .forEach(
-            btn => {
-
-              btn.addEventListener(
-                'click',
-                () => {
-
-                  carousel?.scrollBy({
-
-                    left:
-                      (
-                        btn.dataset.scroll ===
-                        'next'
-                        ? 1
-                        : -1
-                      )
-                      *
-                      carousel.clientWidth
-                      *
-                      .78,
-
-                    behavior:'smooth'
-
-                  });
-
-                }
-              );
-
-            }
-          );
-
-
-        /* =========================
-           SAVE PROPERTY
-        ========================= */
-
-        document
-          .querySelectorAll('.save')
-          .forEach(
-            btn => {
-
-              btn.addEventListener(
-                'click',
-                e => {
-
-                  e.preventDefault();
-
-                  e.stopPropagation();
-
-                  btn.textContent =
-                    btn.textContent === '♡'
-                    ? '♥'
-                    : '♡';
-
-                }
-              );
-
-            }
-          );
-
-
-        /* =========================
-           AI PROPERTY SEARCH
-        ========================= */
-
-        document
-          .getElementById('aiSearch')
-          ?.addEventListener(
-            'submit',
-            e => {
-
-              e.preventDefault();
-
-
-              const q =
-                document
-                  .getElementById(
-                    'aiQuery'
-                  )
-                  .value
-                  .trim();
-
-
-              if(q){
-
-                location.href =
-                  'ai/ai-property-match.html?q='
-                  +
-                  encodeURIComponent(q);
-
-              }
-
-            }
-          );
-
-
-        /* =========================
-           EMAIL SUBSCRIPTION
-        ========================= */
-
-        document
-          .getElementById(
-            'subscribeForm'
-          )
-          ?.addEventListener(
-            'submit',
-            e => {
-
-              e.preventDefault();
-
-
-              const input =
-                e.currentTarget
-                  .querySelector(
-                    'input'
-                  );
-
-
-              if(input.value){
-
-                input.value='';
-
-                input.placeholder =
-                  'Thank you -- you are connected.';
-
-              }
-
-            }
-          );
-
-
-        /* =========================
-           MAIN PROPERTY SEARCH
-        ========================= */
-
-        document
-          .getElementById(
-            'propertySearch'
-          )
-          ?.addEventListener(
-            'submit',
-            e => {
-
-              e.preventDefault();
-
-
-              const form =
-                new FormData(
-                  e.currentTarget
-                );
-
-
-              const params =
-                new URLSearchParams();
-
-
-              for(
-                const [
-                  key,
-                  value
-                ] of form.entries()
-              ){
-
-                if(value){
-
-                  params.set(
-                    key,
-                    value
-                  );
-
-                }
-
-              }
-
-
-              location.href =
-                'properties.html?'
-                +
-                params.toString();
-
-            }
-          );
-
-      }
-
-    );
-
-  </script>
+</script>
 
 </body>
 </html>

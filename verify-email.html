@@ -2,45 +2,79 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
-
-  <meta
-    name="description"
-    content="Verify your email address securely with GHAR."
-  >
-
-  <meta
-    name="theme-color"
-    content="#162d25"
-  >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>Verify Email | GHAR</title>
 
-  <link rel="stylesheet" href="assets/css/variables.css">
-  <link rel="stylesheet" href="assets/css/reset.css">
-  <link rel="stylesheet" href="assets/css/style.css">
-  <link rel="stylesheet" href="assets/css/forms.css">
-  <link rel="stylesheet" href="assets/css/responsive.css">
+  <meta
+    name="description"
+    content="Verify your email address and continue your GHAR real estate journey."
+  >
+
+  <meta name="theme-color" content="#052d1d">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap"
+    rel="stylesheet"
+  >
+
+  <!-- Icons -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+  >
 
   <style>
+
+    /* =========================================================
+       GHAR -- VERIFY EMAIL
+       SAME GHAR ROYAL GREEN + GOLD DESIGN SYSTEM
+       ========================================================= */
+
     :root {
-      --ghar-green: #162d25;
-      --ghar-green-2: #23483b;
-      --ghar-cream: #f5efe3;
-      --ghar-sand: #e7d7bb;
-      --ghar-gold: #c6a15b;
-      --ghar-text: #17251f;
-      --ghar-muted: #6c766f;
-      --ghar-border: rgba(22, 45, 37, 0.13);
-      --ghar-danger: #b54a4a;
-      --ghar-success: #2d7a55;
+      --green-950: #031b11;
+      --green-900: #052d1d;
+      --green-850: #073a25;
+      --green-800: #08442a;
+      --green-700: #0c5535;
+      --green-600: #126742;
+
+      --gold-500: #d7ad4d;
+      --gold-400: #e7c76b;
+      --gold-300: #f1d98a;
+      --gold-200: #f6e8b1;
+
+      --cream: #f5efdf;
+      --cream-2: #eee5d0;
+      --white: #ffffff;
+
+      --text-dark: #122118;
+      --text-muted: #657068;
+
+      --border-gold: rgba(215,173,77,.65);
+      --border-light: rgba(255,255,255,.13);
+
+      --shadow: 0 20px 50px rgba(0,0,0,.18);
+
+      --serif: "Playfair Display", Georgia, serif;
+      --sans: "DM Sans", Arial, sans-serif;
+
+      --header-height: 72px;
+
+      --radius-sm: 10px;
+      --radius-md: 16px;
+      --radius-lg: 24px;
+
+      --container: 1380px;
     }
 
     * {
+      margin: 0;
+      padding: 0;
       box-sizing: border-box;
     }
 
@@ -49,64 +83,11 @@
     }
 
     body {
-      margin: 0;
-      min-height: 100vh;
-      font-family:
-        Inter,
-        system-ui,
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        sans-serif;
-
-      color: var(--ghar-text);
-
-      background:
-        radial-gradient(
-          circle at 15% 15%,
-          rgba(198, 161, 91, 0.20),
-          transparent 30%
-        ),
-        radial-gradient(
-          circle at 85% 80%,
-          rgba(35, 72, 59, 0.18),
-          transparent 32%
-        ),
-        linear-gradient(
-          135deg,
-          #f4ecdf 0%,
-          #e9dfcf 48%,
-          #dfe8e1 100%
-        );
-
+      font-family: var(--sans);
+      color: var(--text-dark);
+      background: var(--cream);
       overflow-x: hidden;
-    }
-
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-
-      background:
-        linear-gradient(
-          115deg,
-          transparent 0%,
-          rgba(255,255,255,0.20) 45%,
-          transparent 70%
-        );
-
-      animation: backgroundShift 15s ease-in-out infinite alternate;
-    }
-
-    @keyframes backgroundShift {
-      from {
-        transform: translateX(-4%);
-      }
-
-      to {
-        transform: translateX(4%);
-      }
+      line-height: 1.6;
     }
 
     a {
@@ -115,313 +96,406 @@
     }
 
     button,
-    input {
+    input,
+    textarea,
+    select {
       font: inherit;
     }
 
-    .page {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
+    button {
+      cursor: pointer;
     }
 
-    /* =========================================
-       HEADER
-    ========================================= */
+    .container {
+      width: min(calc(100% - 48px), var(--container));
+      margin: auto;
+    }
 
-    .auth-header {
-      width: 100%;
-      padding: 22px 5%;
+    /* =========================================================
+       HEADER
+       ========================================================= */
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      height: var(--header-height);
+      background: var(--green-950);
+      border-bottom: 1px solid rgba(215,173,77,.45);
+    }
+
+    .header-inner {
+      height: 100%;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      position: relative;
-      z-index: 10;
+      gap: 30px;
     }
 
     .brand {
-      display: inline-flex;
+      display: flex;
       align-items: center;
-      gap: 12px;
-      font-weight: 800;
-      letter-spacing: 0.08em;
-      color: var(--ghar-green);
+      gap: 11px;
+      flex-shrink: 0;
     }
 
     .brand-mark {
-      width: 42px;
-      height: 42px;
-      border-radius: 13px;
-
+      width: 43px;
+      height: 43px;
+      border: 1.5px solid var(--gold-400);
+      border-radius: 50%;
       display: grid;
       place-items: center;
-
-      color: #fff;
-
-      background:
-        linear-gradient(
-          145deg,
-          var(--ghar-green),
-          var(--ghar-green-2)
-        );
-
-      box-shadow:
-        0 10px 25px rgba(22, 45, 37, 0.20);
+      color: var(--gold-300);
+      font-size: 19px;
+      position: relative;
     }
 
-    .brand-mark span {
-      font-size: 19px;
-      font-weight: 900;
+    .brand-mark::after {
+      content: "";
+      position: absolute;
+      inset: 4px;
+      border: 1px solid rgba(231,199,107,.35);
+      border-radius: 50%;
     }
 
     .brand-name {
-      font-size: 22px;
+      color: var(--gold-300);
+      font-family: var(--serif);
+      font-size: 25px;
+      letter-spacing: 2px;
+      line-height: 1;
     }
 
-    .header-help {
-      color: var(--ghar-muted);
-      font-size: 14px;
+    .brand-tagline {
+      display: block;
+      margin-top: 3px;
+      color: #e9e2d2;
+      font-size: 7px;
+      letter-spacing: 2px;
+      font-weight: 600;
     }
 
-    .header-help a {
-      color: var(--ghar-green);
-      font-weight: 700;
-    }
-
-    /* =========================================
-       MAIN
-    ========================================= */
-
-    .auth-main {
-      flex: 1;
-
-      width: min(1180px, 92%);
-      margin: 0 auto;
-
-      display: grid;
-      grid-template-columns: 0.85fr 1.15fr;
-      align-items: center;
-      gap: 70px;
-
-      padding: 45px 0 70px;
-    }
-
-    /* =========================================
-       LEFT INFORMATION PANEL
-    ========================================= */
-
-    .intro {
-      padding: 20px 0;
-    }
-
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-
-      padding: 8px 13px;
-
-      border: 1px solid rgba(198,161,91,0.30);
-      border-radius: 999px;
-
-      background: rgba(255,255,255,0.35);
-
-      color: var(--ghar-green);
-
-      font-size: 12px;
-      font-weight: 800;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
-    .eyebrow-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: var(--ghar-gold);
-    }
-
-    .intro h1 {
-      margin: 22px 0 18px;
-
-      font-size: clamp(36px, 5vw, 62px);
-      line-height: 1.03;
-      letter-spacing: -0.045em;
-
-      color: var(--ghar-green);
-    }
-
-    .intro h1 span {
-      color: var(--ghar-gold);
-    }
-
-    .intro p {
-      max-width: 500px;
-
-      margin: 0;
-
-      font-size: 16px;
-      line-height: 1.75;
-
-      color: var(--ghar-muted);
-    }
-
-    .security-points {
-      margin-top: 35px;
-
-      display: grid;
-      gap: 16px;
-    }
-
-    .security-point {
+    .main-nav {
       display: flex;
-      align-items: flex-start;
-      gap: 13px;
+      align-items: center;
+      justify-content: center;
+      gap: 27px;
+      margin-left: auto;
     }
 
-    .point-icon {
-      flex: 0 0 auto;
+    .main-nav a {
+      position: relative;
+      color: rgba(255,255,255,.82);
+      font-size: 13px;
+      font-weight: 500;
+      padding: 26px 0;
+      transition: .25s ease;
+      white-space: nowrap;
+    }
 
-      width: 37px;
-      height: 37px;
+    .main-nav a:hover,
+    .main-nav a.active {
+      color: var(--gold-300);
+    }
 
-      border-radius: 11px;
+    .main-nav a.active::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 15px;
+      height: 2px;
+      background: var(--gold-400);
+      border-radius: 20px;
+    }
 
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .header-search {
+      width: 38px;
+      height: 38px;
+      border: 0;
+      background: transparent;
+      color: white;
       display: grid;
       place-items: center;
-
-      color: var(--ghar-green);
-
-      background: rgba(255,255,255,0.48);
-      border: 1px solid var(--ghar-border);
+      font-size: 15px;
     }
 
-    .security-point strong {
-      display: block;
-      margin-bottom: 3px;
+    .login-btn {
+      min-width: 74px;
+      height: 38px;
+      padding: 0 17px;
+      border-radius: 22px;
+      border: 1px solid var(--gold-400);
+      background: transparent;
+      color: white;
+      font-size: 12px;
+      font-weight: 600;
+    }
 
+    .get-started {
+      height: 38px;
+      padding: 0 19px;
+      border-radius: 22px;
+      border: 1px solid var(--gold-400);
+      background: linear-gradient(135deg, var(--gold-300), var(--gold-500));
+      color: var(--green-950);
+      font-weight: 700;
+      font-size: 12px;
+      box-shadow: 0 6px 18px rgba(215,173,77,.18);
+    }
+
+    .mobile-menu {
+      display: none;
+      width: 40px;
+      height: 40px;
+      border: 1px solid var(--border-gold);
+      background: transparent;
+      color: var(--gold-300);
+      border-radius: 10px;
+    }
+
+    /* =========================================================
+       PAGE
+       ========================================================= */
+
+    .verify-section {
+      min-height: calc(100vh - var(--header-height));
+      padding: 85px 0 100px;
+      background:
+        radial-gradient(
+          circle at 85% 15%,
+          rgba(215,173,77,.13),
+          transparent 28%
+        ),
+        radial-gradient(
+          circle at 10% 90%,
+          rgba(12,85,53,.10),
+          transparent 30%
+        ),
+        var(--cream);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .verify-section::before {
+      content: "";
+      position: absolute;
+      width: 460px;
+      height: 460px;
+      border: 1px solid rgba(215,173,77,.16);
+      border-radius: 50%;
+      right: -180px;
+      top: -180px;
+    }
+
+    .verify-section::after {
+      content: "";
+      position: absolute;
+      width: 320px;
+      height: 320px;
+      border: 1px solid rgba(5,45,29,.10);
+      border-radius: 50%;
+      left: -170px;
+      bottom: -170px;
+    }
+
+    .verify-wrapper {
+      position: relative;
+      z-index: 2;
+      width: min(100%, 1050px);
+      margin: auto;
+      display: grid;
+      grid-template-columns: .9fr 1.1fr;
+      gap: 45px;
+      align-items: stretch;
+    }
+
+    /* =========================================================
+       LEFT PANEL
+       ========================================================= */
+
+    .verify-intro {
+      background: var(--green-900);
+      color: white;
+      border: 1px solid var(--gold-400);
+      border-radius: 24px;
+      padding: 55px 42px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      box-shadow: var(--shadow);
+    }
+
+    .verify-intro::after {
+      content: "GHAR";
+      position: absolute;
+      right: -35px;
+      bottom: -45px;
+      color: rgba(215,173,77,.035);
+      font-family: var(--serif);
+      font-size: 155px;
+      font-weight: 700;
+      pointer-events: none;
+    }
+
+    .intro-icon {
+      width: 66px;
+      height: 66px;
+      border-radius: 50%;
+      border: 1px solid var(--gold-400);
+      color: var(--gold-300);
+      display: grid;
+      place-items: center;
+      font-size: 25px;
+      margin-bottom: 27px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .section-eyebrow {
+      color: var(--gold-300);
+      text-transform: uppercase;
+      font-weight: 700;
+      font-size: 11px;
+      letter-spacing: 2.5px;
+      margin-bottom: 13px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .intro-title {
+      font-family: var(--serif);
+      font-size: clamp(38px, 4vw, 54px);
+      line-height: 1.05;
+      font-weight: 600;
+      position: relative;
+      z-index: 2;
+    }
+
+    .intro-title em {
+      color: var(--gold-300);
+      font-weight: 500;
+    }
+
+    .intro-text {
+      margin-top: 22px;
+      color: rgba(255,255,255,.68);
       font-size: 14px;
-      color: var(--ghar-green);
+      line-height: 1.8;
+      max-width: 440px;
+      position: relative;
+      z-index: 2;
     }
 
-    .security-point small {
-      color: var(--ghar-muted);
-      line-height: 1.45;
+    .intro-points {
+      margin-top: 28px;
+      display: grid;
+      gap: 13px;
+      position: relative;
+      z-index: 2;
     }
 
-    /* =========================================
-       CARD
-    ========================================= */
+    .intro-point {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      color: rgba(255,255,255,.76);
+      font-size: 12px;
+    }
+
+    .intro-point i {
+      color: var(--gold-300);
+      width: 18px;
+    }
+
+    /* =========================================================
+       VERIFY CARD
+       ========================================================= */
 
     .verify-card {
-      width: 100%;
-      max-width: 540px;
-      margin-left: auto;
-
-      padding: 38px;
-
-      border:
-        1px solid
-        rgba(255,255,255,0.60);
-
-      border-radius: 28px;
-
-      background:
-        linear-gradient(
-          145deg,
-          rgba(255,255,255,0.76),
-          rgba(247,239,226,0.72)
-        );
-
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-
-      box-shadow:
-        0 25px 70px rgba(22,45,37,0.15);
+      background: #f9f4e8;
+      border: 1px solid rgba(5,45,29,.16);
+      border-radius: 24px;
+      padding: 48px 43px;
+      box-shadow: 0 20px 50px rgba(0,0,0,.10);
     }
 
     .card-top {
       text-align: center;
     }
 
-    .mail-icon {
-      width: 68px;
-      height: 68px;
-
-      margin: 0 auto 20px;
-
+    .email-icon {
+      width: 82px;
+      height: 82px;
+      margin: 0 auto 22px;
+      border-radius: 50%;
+      background: var(--green-900);
+      border: 1px solid var(--gold-400);
+      color: var(--gold-300);
       display: grid;
       place-items: center;
-
-      border-radius: 21px;
-
-      color: var(--ghar-green);
-
-      background:
-        linear-gradient(
-          145deg,
-          rgba(198,161,91,0.23),
-          rgba(35,72,59,0.12)
-        );
-
-      border: 1px solid rgba(198,161,91,0.25);
-
       font-size: 29px;
+      box-shadow: 0 10px 25px rgba(5,45,29,.15);
     }
 
-    .card-top h2 {
-      margin: 0;
-
-      font-size: 29px;
-      letter-spacing: -0.025em;
-
-      color: var(--ghar-green);
+    .verify-title {
+      color: var(--green-900);
+      font-family: var(--serif);
+      font-size: 38px;
+      line-height: 1.1;
+      font-weight: 600;
     }
 
-    .card-top p {
-      margin: 11px auto 0;
+    .verify-title em {
+      color: #9d7929;
+      font-weight: 500;
+    }
 
-      max-width: 410px;
-
-      color: var(--ghar-muted);
-
-      font-size: 14px;
-      line-height: 1.65;
+    .verify-description {
+      margin: 14px auto 0;
+      max-width: 490px;
+      color: var(--text-muted);
+      font-size: 13px;
+      line-height: 1.75;
     }
 
     .email-display {
-      margin: 17px 0 27px;
-
-      padding: 11px 15px;
-
-      border-radius: 12px;
-
-      background: rgba(22,45,37,0.06);
-
-      color: var(--ghar-green);
-
-      font-size: 14px;
-      font-weight: 800;
-
+      margin: 25px auto 0;
+      width: fit-content;
+      max-width: 100%;
+      padding: 11px 17px;
+      border: 1px solid rgba(215,173,77,.55);
+      border-radius: 10px;
+      background: #f2e9d5;
+      color: var(--green-900);
+      font-size: 13px;
+      font-weight: 700;
       word-break: break-word;
     }
 
-    /* =========================================
-       CODE INPUT
-    ========================================= */
+    /* =========================================================
+       OTP
+       ========================================================= */
 
-    .code-label {
+    .otp-label {
       display: block;
-
-      margin-bottom: 11px;
-
-      color: var(--ghar-green);
-
-      font-size: 13px;
-      font-weight: 800;
+      color: var(--green-900);
+      font-size: 12px;
+      font-weight: 700;
+      margin: 30px 0 11px;
+      text-align: left;
     }
 
-    .otp-wrapper {
+    .otp-inputs {
       display: grid;
       grid-template-columns: repeat(6, 1fr);
       gap: 9px;
@@ -429,589 +503,674 @@
 
     .otp-input {
       width: 100%;
-      height: 58px;
-
-      border:
-        1px solid
-        rgba(22,45,37,0.16);
-
-      border-radius: 13px;
-
-      background:
-        rgba(255,255,255,0.68);
-
-      color: var(--ghar-green);
-
-      text-align: center;
-
-      font-size: 21px;
-      font-weight: 800;
-
+      height: 55px;
+      border: 1px solid rgba(5,45,29,.22);
+      background: #fffaf0;
+      border-radius: 10px;
       outline: none;
-
-      transition:
-        border-color .2s ease,
-        box-shadow .2s ease,
-        transform .2s ease;
+      text-align: center;
+      color: var(--green-900);
+      font-size: 20px;
+      font-weight: 700;
+      transition: .2s ease;
     }
 
     .otp-input:focus {
-      border-color: var(--ghar-gold);
-
-      box-shadow:
-        0 0 0 4px rgba(198,161,91,0.13);
-
-      transform: translateY(-1px);
+      border-color: var(--gold-500);
+      box-shadow: 0 0 0 3px rgba(215,173,77,.14);
     }
-
-    .code-error {
-      display: none;
-
-      margin-top: 10px;
-
-      color: var(--ghar-danger);
-
-      font-size: 13px;
-      font-weight: 700;
-    }
-
-    /* =========================================
-       VERIFY BUTTON
-    ========================================= */
 
     .verify-button {
       width: 100%;
-
-      margin-top: 22px;
-
-      min-height: 53px;
-
-      border: 0;
-      border-radius: 14px;
-
-      background:
-        linear-gradient(
-          135deg,
-          var(--ghar-green),
-          var(--ghar-green-2)
-        );
-
-      color: #fff;
-
-      font-weight: 800;
-
-      cursor: pointer;
-
-      box-shadow:
-        0 12px 28px rgba(22,45,37,0.20);
-
-      transition:
-        transform .2s ease,
-        box-shadow .2s ease,
-        opacity .2s ease;
+      min-height: 50px;
+      margin-top: 21px;
+      border: 1px solid var(--gold-400);
+      border-radius: 26px;
+      background: linear-gradient(
+        135deg,
+        var(--gold-300),
+        var(--gold-500)
+      );
+      color: var(--green-950);
+      font-size: 13px;
+      font-weight: 700;
+      transition: .2s ease;
     }
 
     .verify-button:hover {
-      transform: translateY(-2px);
-
-      box-shadow:
-        0 17px 34px rgba(22,45,37,0.26);
+      transform: translateY(-1px);
+      box-shadow: 0 9px 22px rgba(215,173,77,.20);
     }
 
     .verify-button:disabled {
+      opacity: .55;
       cursor: not-allowed;
-      opacity: .60;
       transform: none;
+      box-shadow: none;
     }
 
-    /* =========================================
-       RESEND
-    ========================================= */
-
-    .resend-section {
-      margin-top: 22px;
-
+    .resend-area {
       text-align: center;
-
-      color: var(--ghar-muted);
-
-      font-size: 13px;
+      margin-top: 20px;
+      color: var(--text-muted);
+      font-size: 12px;
     }
 
     .resend-button {
-      margin-left: 5px;
-
-      padding: 0;
-
       border: 0;
       background: transparent;
-
-      color: var(--ghar-green);
-
-      font-weight: 800;
-
-      cursor: pointer;
+      color: #9c7929;
+      font-weight: 700;
+      padding: 0;
     }
 
     .resend-button:disabled {
-      color: var(--ghar-muted);
+      color: #999;
       cursor: not-allowed;
     }
 
     .timer {
-      margin-top: 8px;
+      margin-top: 6px;
+      color: var(--green-900);
+      font-size: 11px;
+      font-weight: 600;
+    }
 
+    .change-email {
+      display: block;
+      text-align: center;
+      margin-top: 21px;
+      color: var(--green-900);
       font-size: 12px;
-      color: var(--ghar-muted);
+      font-weight: 600;
     }
 
-    /* =========================================
-       ACTIONS
-    ========================================= */
-
-    .secondary-actions {
-      margin-top: 25px;
-
-      padding-top: 22px;
-
-      border-top: 1px solid var(--ghar-border);
-
-      display: flex;
-      justify-content: space-between;
-      gap: 15px;
+    .change-email:hover {
+      color: #9c7929;
     }
 
-    .secondary-actions a {
-      color: var(--ghar-green);
-
-      font-size: 13px;
-      font-weight: 800;
-    }
-
-    /* =========================================
-       STATUS
-    ========================================= */
-
-    .status-message {
+    .message {
       display: none;
-
       margin-top: 17px;
-
-      padding: 12px 14px;
-
-      border-radius: 11px;
-
-      font-size: 13px;
-      line-height: 1.5;
-    }
-
-    .status-message.success {
-      display: block;
-
-      background: rgba(45,122,85,0.10);
-      border: 1px solid rgba(45,122,85,0.18);
-
-      color: var(--ghar-success);
-    }
-
-    .status-message.error {
-      display: block;
-
-      background: rgba(181,74,74,0.09);
-      border: 1px solid rgba(181,74,74,0.17);
-
-      color: var(--ghar-danger);
-    }
-
-    /* =========================================
-       FOOTER
-    ========================================= */
-
-    .auth-footer {
-      padding: 20px 5% 28px;
-
-      display: flex;
-      justify-content: center;
-
-      color: var(--ghar-muted);
-
-      font-size: 12px;
-
+      padding: 11px 13px;
+      border-radius: 9px;
+      font-size: 11px;
       text-align: center;
     }
 
-    .auth-footer a {
-      color: var(--ghar-green);
-      font-weight: 700;
+    .message.success {
+      display: block;
+      color: #155b35;
+      background: #e1f1e5;
+      border: 1px solid #a8cfb1;
     }
 
-    /* =========================================
-       MOBILE
-    ========================================= */
-
-    @media (max-width: 900px) {
-
-      .auth-main {
-        grid-template-columns: 1fr;
-
-        gap: 30px;
-
-        padding-top: 20px;
-      }
-
-      .intro {
-        text-align: center;
-      }
-
-      .intro p {
-        margin-left: auto;
-        margin-right: auto;
-      }
-
-      .security-points {
-        max-width: 480px;
-        margin-left: auto;
-        margin-right: auto;
-
-        text-align: left;
-      }
-
-      .verify-card {
-        margin: 0 auto;
-      }
+    .message.error {
+      display: block;
+      color: #8a2727;
+      background: #f8e2e0;
+      border: 1px solid #e1b1ac;
     }
 
-    @media (max-width: 600px) {
+    .security-note {
+      margin-top: 26px;
+      padding-top: 19px;
+      border-top: 1px solid rgba(5,45,29,.12);
+      text-align: center;
+      color: #7a827c;
+      font-size: 10px;
+    }
 
-      .auth-header {
-        padding: 17px 5%;
+    .security-note i {
+      color: #9c7929;
+      margin-right: 5px;
+    }
+
+    /* =========================================================
+       FOOTER
+       ========================================================= */
+
+    .footer {
+      background: #021b11;
+      color: white;
+      border-top: 1px solid rgba(215,173,77,.45);
+    }
+
+    .footer-inner {
+      width: min(calc(100% - 48px), var(--container));
+      margin: auto;
+      padding: 65px 0 45px;
+      display: grid;
+      grid-template-columns: 1.7fr 1fr 1fr 1fr;
+      gap: 35px;
+    }
+
+    .footer-brand strong {
+      display: block;
+      color: var(--gold-300);
+      font-family: var(--serif);
+      font-size: 27px;
+      letter-spacing: 2px;
+      margin-bottom: 15px;
+    }
+
+    .footer-brand p {
+      max-width: 330px;
+      color: rgba(255,255,255,.58);
+      font-size: 12px;
+      line-height: 1.8;
+    }
+
+    .footer-column {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .footer-column h4 {
+      color: var(--gold-300);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1.6px;
+      margin-bottom: 18px;
+    }
+
+    .footer-column a {
+      color: rgba(255,255,255,.66);
+      font-size: 12px;
+      margin-bottom: 10px;
+      transition: .2s ease;
+    }
+
+    .footer-column a:hover {
+      color: var(--gold-300);
+    }
+
+    .footer-bottom {
+      width: min(calc(100% - 48px), var(--container));
+      margin: auto;
+      border-top: 1px solid rgba(255,255,255,.08);
+      padding: 20px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .footer-bottom span {
+      color: rgba(255,255,255,.43);
+      font-size: 10px;
+    }
+
+    /* =========================================================
+       FLOATING AI
+       ========================================================= */
+
+    .ai-float {
+      position: fixed;
+      right: 24px;
+      bottom: 24px;
+      z-index: 1200;
+    }
+
+    .ai-float-button {
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      border: 2px solid var(--gold-300);
+      background: var(--green-900);
+      color: var(--gold-300);
+      display: grid;
+      place-items: center;
+      font-size: 22px;
+      box-shadow: 0 12px 30px rgba(0,0,0,.25);
+    }
+
+    .ai-tooltip {
+      position: absolute;
+      right: 68px;
+      bottom: 5px;
+      white-space: nowrap;
+      background: var(--green-950);
+      color: white;
+      border: 1px solid rgba(215,173,77,.5);
+      padding: 9px 13px;
+      border-radius: 8px;
+      font-size: 11px;
+      opacity: 0;
+      transform: translateX(5px);
+      pointer-events: none;
+      transition: .2s ease;
+    }
+
+    .ai-float:hover .ai-tooltip {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* =========================================================
+       RESPONSIVE
+       ========================================================= */
+
+    @media (max-width: 1100px) {
+
+      .main-nav {
+        gap: 17px;
       }
 
-      .brand-name {
-        font-size: 19px;
-      }
-
-      .brand-mark {
-        width: 38px;
-        height: 38px;
-      }
-
-      .header-help {
+      .main-nav a {
         font-size: 12px;
       }
 
-      .auth-main {
-        width: 92%;
-        padding: 10px 0 45px;
+      .verify-wrapper {
+        gap: 28px;
       }
 
-      .intro {
+      .footer-inner {
+        grid-template-columns: 1.5fr 1fr 1fr 1fr;
+      }
+
+    }
+
+    @media (max-width: 850px) {
+
+      :root {
+        --header-height: 68px;
+      }
+
+      .container {
+        width: min(calc(100% - 32px), var(--container));
+      }
+
+      .main-nav,
+      .header-search,
+      .login-btn {
         display: none;
       }
 
+      .get-started {
+        display: none;
+      }
+
+      .mobile-menu {
+        display: grid;
+        place-items: center;
+      }
+
+      .verify-section {
+        padding: 55px 0 75px;
+      }
+
+      .verify-wrapper {
+        grid-template-columns: 1fr;
+        width: min(100%, 650px);
+      }
+
+      .verify-intro {
+        padding: 42px 32px;
+      }
+
+      .footer-inner {
+        grid-template-columns: 1fr 1fr;
+      }
+
+    }
+
+    @media (max-width: 560px) {
+
+      .container {
+        width: min(calc(100% - 24px), var(--container));
+      }
+
+      .brand-name {
+        font-size: 22px;
+      }
+
+      .brand-mark {
+        width: 39px;
+        height: 39px;
+      }
+
+      .verify-section {
+        padding: 40px 0 60px;
+      }
+
+      .verify-intro {
+        padding: 35px 25px;
+        border-radius: 20px;
+      }
+
+      .intro-title {
+        font-size: 40px;
+      }
+
       .verify-card {
-        padding: 25px 18px;
-        border-radius: 22px;
+        padding: 38px 20px;
+        border-radius: 20px;
       }
 
-      .card-top h2 {
-        font-size: 25px;
+      .verify-title {
+        font-size: 32px;
       }
 
-      .otp-wrapper {
+      .otp-inputs {
         gap: 6px;
       }
 
       .otp-input {
-        height: 53px;
-        border-radius: 11px;
-        font-size: 19px;
+        height: 50px;
+        font-size: 18px;
       }
 
-      .secondary-actions {
-        flex-direction: column;
-        align-items: center;
+      .footer-inner {
+        width: min(calc(100% - 24px), var(--container));
+        grid-template-columns: 1fr 1fr;
+        gap: 30px 20px;
       }
+
+      .footer-brand {
+        grid-column: 1 / -1;
+      }
+
+      .footer-bottom {
+        width: min(calc(100% - 24px), var(--container));
+        display: block;
+      }
+
+      .footer-bottom span {
+        display: block;
+      }
+
+      .footer-bottom span + span {
+        margin-top: 10px;
+      }
+
+      .ai-float {
+        right: 15px;
+        bottom: 15px;
+      }
+
     }
 
-    @media (max-width: 370px) {
-
-      .verify-card {
-        padding: 22px 14px;
-      }
-
-      .otp-input {
-        height: 48px;
-        font-size: 17px;
-      }
-    }
   </style>
 </head>
 
 <body>
 
-<div class="page">
-
-  <!-- =========================================
+  <!-- =======================================================
        HEADER
-  ========================================== -->
+       ======================================================= -->
 
-  <header class="auth-header">
+  <header class="site-header">
 
-    <a href="index.html" class="brand" aria-label="GHAR Home">
+    <div class="container header-inner">
 
-      <span class="brand-mark">
-        <span>G</span>
-      </span>
+      <a href="index.html" class="brand">
 
-      <span class="brand-name">
-        GHAR
-      </span>
+        <div class="brand-mark">
+          <i class="fa-solid fa-house"></i>
+        </div>
 
-    </a>
+        <div>
+          <div class="brand-name">GHAR</div>
+          <span class="brand-tagline">BUY | SELL | RENT</span>
+        </div>
 
-    <div class="header-help">
-      Need help?
-      <a href="help.html?topic=account">
-        Help Centre
       </a>
+
+      <nav class="main-nav">
+
+        <a href="index.html">Home</a>
+
+        <a href="properties.html">Properties</a>
+
+        <a href="buy.html">Buy</a>
+
+        <a href="rent.html">Rent</a>
+
+        <a href="sell.html">Sell</a>
+
+        <a href="ghar-ai.html">GHAR AI</a>
+
+        <a href="about.html">About</a>
+
+        <a href="contact.html">Contact</a>
+
+      </nav>
+
+      <div class="header-actions">
+
+        <button
+          class="header-search"
+          aria-label="Search"
+          onclick="window.location.href='property-search.html'"
+        >
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+
+        <a href="login.html" class="login-btn">
+          Login
+        </a>
+
+        <a href="registration.html" class="get-started">
+          Get Started
+        </a>
+
+        <button class="mobile-menu" id="mobileMenu" aria-label="Menu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+
+      </div>
+
     </div>
 
   </header>
 
 
-  <!-- =========================================
-       MAIN
-  ========================================== -->
+  <!-- =======================================================
+       VERIFY EMAIL
+       ======================================================= -->
 
-  <main class="auth-main">
+  <main>
 
-    <!-- LEFT -->
+    <section class="verify-section">
 
-    <section class="intro">
+      <div class="container">
 
-      <span class="eyebrow">
-        <span class="eyebrow-dot"></span>
-        Account Security
-      </span>
+        <div class="verify-wrapper">
 
-      <h1>
-        Verify your
-        <span>email.</span>
-      </h1>
+          <!-- =================================================
+               INTRO
+               ================================================= -->
 
-      <p>
-        Email verification helps GHAR protect your account,
-        secure your property activity, and keep important
-        notifications connected to the right person.
-      </p>
+          <div class="verify-intro">
 
-      <div class="security-points">
+            <div class="intro-icon">
+              <i class="fa-solid fa-envelope-circle-check"></i>
+            </div>
 
-        <div class="security-point">
+            <div class="section-eyebrow">
+              GHAR Account Security
+            </div>
 
-          <div class="point-icon">
-            ✓
+            <h1 class="intro-title">
+              One step closer to
+              <em>your place.</em>
+            </h1>
+
+            <p class="intro-text">
+              Verify your email address to secure your GHAR
+              account and continue your property journey.
+            </p>
+
+            <div class="intro-points">
+
+              <div class="intro-point">
+                <i class="fa-solid fa-shield-halved"></i>
+                Secure account verification
+              </div>
+
+              <div class="intro-point">
+                <i class="fa-solid fa-bell"></i>
+                Receive important property updates
+              </div>
+
+              <div class="intro-point">
+                <i class="fa-solid fa-house"></i>
+                Continue your GHAR journey
+              </div>
+
+            </div>
+
           </div>
 
-          <div>
-            <strong>Secure account access</strong>
-            <small>
-              Verification helps protect your GHAR account.
-            </small>
+
+          <!-- =================================================
+               VERIFY CARD
+               ================================================= -->
+
+          <div class="verify-card">
+
+            <div class="card-top">
+
+              <div class="email-icon">
+                <i class="fa-solid fa-envelope"></i>
+              </div>
+
+              <h2 class="verify-title">
+                Verify your
+                <em>email.</em>
+              </h2>
+
+              <p class="verify-description">
+                We've sent a six-digit verification code to the
+                email address associated with your GHAR account.
+                Enter the code below to continue.
+              </p>
+
+              <div class="email-display" id="emailDisplay">
+                your-email@example.com
+              </div>
+
+            </div>
+
+
+            <label class="otp-label">
+              Enter verification code
+            </label>
+
+            <div class="otp-inputs">
+
+              <input
+                class="otp-input"
+                type="text"
+                inputmode="numeric"
+                maxlength="1"
+                autocomplete="one-time-code"
+                aria-label="Verification digit 1"
+              >
+
+              <input
+                class="otp-input"
+                type="text"
+                inputmode="numeric"
+                maxlength="1"
+                aria-label="Verification digit 2"
+              >
+
+              <input
+                class="otp-input"
+                type="text"
+                inputmode="numeric"
+                maxlength="1"
+                aria-label="Verification digit 3"
+              >
+
+              <input
+                class="otp-input"
+                type="text"
+                inputmode="numeric"
+                maxlength="1"
+                aria-label="Verification digit 4"
+              >
+
+              <input
+                class="otp-input"
+                type="text"
+                inputmode="numeric"
+                maxlength="1"
+                aria-label="Verification digit 5"
+              >
+
+              <input
+                class="otp-input"
+                type="text"
+                inputmode="numeric"
+                maxlength="1"
+                aria-label="Verification digit 6"
+              >
+
+            </div>
+
+
+            <button
+              class="verify-button"
+              id="verifyButton"
+              type="button"
+            >
+              Verify Email
+              <i class="fa-solid fa-arrow-right"></i>
+            </button>
+
+
+            <div
+              class="message"
+              id="message"
+              role="status"
+              aria-live="polite"
+            ></div>
+
+
+            <div class="resend-area">
+
+              Didn't receive the code?
+
+              <button
+                class="resend-button"
+                id="resendButton"
+                type="button"
+                disabled
+              >
+                Resend Code
+              </button>
+
+              <div class="timer" id="timer">
+                Resend available in 60s
+              </div>
+
+            </div>
+
+
+            <a
+              href="registration.html"
+              class="change-email"
+            >
+              <i class="fa-solid fa-arrow-left"></i>
+              Use a different email address
+            </a>
+
+
+            <div class="security-note">
+
+              <i class="fa-solid fa-lock"></i>
+
+              Your verification code is private and should
+              never be shared with anyone.
+
+            </div>
+
           </div>
 
         </div>
-
-        <div class="security-point">
-
-          <div class="point-icon">
-            ✓
-          </div>
-
-          <div>
-            <strong>Property communication</strong>
-            <small>
-              Receive important property, offer and visit updates.
-            </small>
-          </div>
-
-        </div>
-
-        <div class="security-point">
-
-          <div class="point-icon">
-            ✓
-          </div>
-
-          <div>
-            <strong>Document & verification alerts</strong>
-            <small>
-              Stay informed about documents and account verification.
-            </small>
-          </div>
-
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- VERIFICATION CARD -->
-
-    <section class="verify-card">
-
-      <div class="card-top">
-
-        <div class="mail-icon">
-          ✉
-        </div>
-
-        <h2>
-          Verify your email
-        </h2>
-
-        <p>
-          We sent a 6-digit verification code to the email
-          address associated with your GHAR account.
-        </p>
-
-        <div
-          class="email-display"
-          id="emailDisplay"
-        >
-          Loading email...
-        </div>
-
-      </div>
-
-
-      <!-- FORM -->
-
-      <form
-        id="verifyEmailForm"
-        autocomplete="one-time-code"
-      >
-
-        <label class="code-label">
-          Enter verification code
-        </label>
-
-        <div class="otp-wrapper">
-
-          <input
-            class="otp-input"
-            type="text"
-            inputmode="numeric"
-            maxlength="1"
-            autocomplete="one-time-code"
-            aria-label="Verification digit 1"
-          >
-
-          <input
-            class="otp-input"
-            type="text"
-            inputmode="numeric"
-            maxlength="1"
-            aria-label="Verification digit 2"
-          >
-
-          <input
-            class="otp-input"
-            type="text"
-            inputmode="numeric"
-            maxlength="1"
-            aria-label="Verification digit 3"
-          >
-
-          <input
-            class="otp-input"
-            type="text"
-            inputmode="numeric"
-            maxlength="1"
-            aria-label="Verification digit 4"
-          >
-
-          <input
-            class="otp-input"
-            type="text"
-            inputmode="numeric"
-            maxlength="1"
-            aria-label="Verification digit 5"
-          >
-
-          <input
-            class="otp-input"
-            type="text"
-            inputmode="numeric"
-            maxlength="1"
-            aria-label="Verification digit 6"
-          >
-
-        </div>
-
-        <div
-          class="code-error"
-          id="codeError"
-        >
-          Please enter the complete 6-digit verification code.
-        </div>
-
-
-        <button
-          type="submit"
-          class="verify-button"
-          id="verifyButton"
-        >
-          Verify Email
-        </button>
-
-
-        <div
-          class="status-message"
-          id="statusMessage"
-        ></div>
-
-      </form>
-
-
-      <!-- RESEND -->
-
-      <div class="resend-section">
-
-        Didn't receive the code?
-
-        <button
-          type="button"
-          class="resend-button"
-          id="resendButton"
-          disabled
-        >
-          Resend code
-        </button>
-
-        <div
-          class="timer"
-          id="timer"
-        >
-          Resend available in 60 seconds
-        </div>
-
-      </div>
-
-
-      <!-- SECONDARY ACTIONS -->
-
-      <div class="secondary-actions">
-
-        <a href="registration.html">
-          ← Back to registration
-        </a>
-
-        <a href="#" id="changeEmail">
-          Change email
-        </a>
 
       </div>
 
@@ -1020,171 +1179,218 @@
   </main>
 
 
-  <!-- =========================================
+  <!-- =======================================================
        FOOTER
-  ========================================== -->
+       ======================================================= -->
 
-  <footer class="auth-footer">
+  <footer class="footer">
 
-    <span>
-      © <span id="year"></span> GHAR.
-      All rights reserved.
-      &nbsp;·&nbsp;
-      <a href="privacy.html">Privacy</a>
-      &nbsp;·&nbsp;
-      <a href="terms.html">Terms</a>
-      &nbsp;·&nbsp;
-      <a href="security.html">Security</a>
-    </span>
+    <div class="footer-inner">
+
+      <div class="footer-brand">
+
+        <strong>GHAR</strong>
+
+        <p>
+          A premium real estate experience built around
+          intelligent discovery, transparent transactions
+          and exceptional property journeys.
+        </p>
+
+      </div>
+
+
+      <div class="footer-column">
+
+        <h4>EXPLORE</h4>
+
+        <a href="properties.html">Properties</a>
+        <a href="property-search.html">Search</a>
+        <a href="buyer/saved-properties.html">Saved Properties</a>
+        <a href="buyer/visits.html">Visits</a>
+
+      </div>
+
+
+      <div class="footer-column">
+
+        <h4>ACCOUNT</h4>
+
+        <a href="profile.html">Profile</a>
+        <a href="settings.html">Settings</a>
+        <a href="buyer/documents.html">Documents</a>
+        <a href="buyer/payments.html">Payments</a>
+
+      </div>
+
+
+      <div class="footer-column">
+
+        <h4>SUPPORT</h4>
+
+        <a href="help-centre.html">Help Centre</a>
+        <a href="faqs.html">FAQs</a>
+        <a href="contact.html">Contact</a>
+        <a href="privacy-policy.html">Privacy Policy</a>
+
+      </div>
+
+    </div>
+
+
+    <div class="footer-bottom">
+
+      <span>
+        © 2026 GHAR. All rights reserved.
+      </span>
+
+      <span>
+        BUY • SELL • RENT • INVEST
+      </span>
+
+    </div>
 
   </footer>
 
-</div>
+
+  <!-- =======================================================
+       FLOATING GHAR AI
+       ======================================================= -->
+
+  <div class="ai-float">
+
+    <div class="ai-tooltip">
+      Ask GHAR AI
+    </div>
+
+    <button
+      class="ai-float-button"
+      onclick="window.location.href='ghar-ai.html'"
+      aria-label="Open GHAR AI"
+    >
+      <i class="fa-solid fa-wand-magic-sparkles"></i>
+    </button>
+
+  </div>
 
 
-<script>
-/* =========================================================
-   GHAR EMAIL VERIFICATION
-   ========================================================= */
+  <!-- =======================================================
+       JAVASCRIPT
+       ======================================================= -->
 
-(function () {
+  <script>
 
-  "use strict";
+    /* =========================================================
+       MOBILE MENU
+       ========================================================= */
 
+    const mobileMenu =
+      document.getElementById("mobileMenu");
 
-  /* =========================================
-     CONFIG
-  ========================================== */
+    mobileMenu.addEventListener("click", function () {
 
-  const API_BASE =
-    window.GHAR_API_BASE ||
-    "/api";
+      const nav =
+        document.querySelector(".main-nav");
 
+      const isOpen =
+        nav.classList.toggle("mobile-open");
 
-  /* =========================================
-     ELEMENTS
-  ========================================== */
+      if (isOpen) {
 
-  const form =
-    document.getElementById("verifyEmailForm");
+        nav.style.display = "flex";
+        nav.style.position = "absolute";
+        nav.style.top = "68px";
+        nav.style.left = "0";
+        nav.style.right = "0";
+        nav.style.padding = "18px";
+        nav.style.background = "#031b11";
+        nav.style.borderBottom =
+          "1px solid rgba(215,173,77,.45)";
+        nav.style.flexDirection = "column";
+        nav.style.alignItems = "stretch";
+        nav.style.gap = "0";
 
-  const inputs =
-    Array.from(
-      document.querySelectorAll(".otp-input")
-    );
+        nav.querySelectorAll("a").forEach(function(link) {
 
-  const emailDisplay =
-    document.getElementById("emailDisplay");
+          link.style.padding = "13px 10px";
 
-  const verifyButton =
-    document.getElementById("verifyButton");
+        });
 
-  const resendButton =
-    document.getElementById("resendButton");
+      } else {
 
-  const timer =
-    document.getElementById("timer");
+        nav.removeAttribute("style");
 
-  const codeError =
-    document.getElementById("codeError");
+      }
 
-  const statusMessage =
-    document.getElementById("statusMessage");
-
-  const changeEmail =
-    document.getElementById("changeEmail");
-
-  const year =
-    document.getElementById("year");
+    });
 
 
-  /* =========================================
-     YEAR
-  ========================================== */
+    /* =========================================================
+       EMAIL FROM URL / LOCAL STORAGE
+       ========================================================= */
 
-  year.textContent =
-    new Date().getFullYear();
+    const emailDisplay =
+      document.getElementById("emailDisplay");
 
+    const urlParams =
+      new URLSearchParams(window.location.search);
 
-  /* =========================================
-     GET PENDING EMAIL
-  ========================================== */
-
-  function getPendingEmail() {
-
-    const params =
-      new URLSearchParams(
-        window.location.search
-      );
-
-    const queryEmail =
-      params.get("email");
+    const urlEmail =
+      urlParams.get("email");
 
     const storedEmail =
-      localStorage.getItem(
-        "ghar_pending_email"
+      localStorage.getItem("gharVerificationEmail");
+
+    const email =
+      urlEmail ||
+      storedEmail ||
+      "your-email@example.com";
+
+    if (
+      email !== "your-email@example.com"
+    ) {
+
+      emailDisplay.textContent = email;
+
+      localStorage.setItem(
+        "gharVerificationEmail",
+        email
       );
 
-    return (
-      queryEmail ||
-      storedEmail ||
-      ""
-    );
-
-  }
+    }
 
 
-  const pendingEmail =
-    getPendingEmail();
+    /* =========================================================
+       OTP INPUT
+       ========================================================= */
 
+    const otpInputs =
+      Array.from(
+        document.querySelectorAll(".otp-input")
+      );
 
-  if (pendingEmail) {
+    otpInputs.forEach(function(input, index) {
 
-    emailDisplay.textContent =
-      pendingEmail;
-
-  } else {
-
-    emailDisplay.textContent =
-      "your registered email";
-
-  }
-
-
-  /* =========================================
-     OTP INPUT BEHAVIOUR
-  ========================================== */
-
-  inputs.forEach((input, index) => {
-
-    input.addEventListener(
-      "input",
-      function () {
+      input.addEventListener("input", function() {
 
         this.value =
-          this.value.replace(
-            /\D/g,
-            ""
-          );
+          this.value.replace(/\D/g, "");
 
         if (
           this.value &&
-          index < inputs.length - 1
+          index < otpInputs.length - 1
         ) {
 
-          inputs[index + 1].focus();
+          otpInputs[index + 1].focus();
 
         }
 
-        hideError();
+        updateVerifyButton();
 
-      }
-    );
+      });
 
 
-    input.addEventListener(
-      "keydown",
-      function (event) {
+      input.addEventListener("keydown", function(event) {
 
         if (
           event.key === "Backspace" &&
@@ -1192,289 +1398,249 @@
           index > 0
         ) {
 
-          inputs[index - 1].focus();
+          otpInputs[index - 1].focus();
 
         }
 
-      }
-    );
+      });
 
 
-    input.addEventListener(
-      "paste",
-      function (event) {
+      input.addEventListener("paste", function(event) {
 
         event.preventDefault();
 
         const pasted =
-          (
-            event.clipboardData ||
-            window.clipboardData
-          )
-          .getData("text")
-          .replace(/\D/g, "")
-          .slice(0, 6);
-
+          event.clipboardData
+            .getData("text")
+            .replace(/\D/g, "")
+            .slice(0, 6);
 
         pasted
           .split("")
-          .forEach(
-            (digit, digitIndex) => {
+          .forEach(function(char, i) {
 
-              if (inputs[digitIndex]) {
-
-                inputs[digitIndex].value =
-                  digit;
-
-              }
-
+            if (otpInputs[i]) {
+              otpInputs[i].value = char;
             }
+
+          });
+
+        const nextIndex =
+          Math.min(
+            pasted.length,
+            otpInputs.length - 1
           );
 
+        otpInputs[nextIndex].focus();
 
-        if (pasted.length) {
+        updateVerifyButton();
 
-          inputs[
-            Math.min(
-              pasted.length,
-              inputs.length
-            ) - 1
-          ].focus();
+      });
 
-        }
+    });
 
-      }
-    );
 
-  });
+    /* =========================================================
+       VERIFY BUTTON
+       ========================================================= */
 
+    const verifyButton =
+      document.getElementById("verifyButton");
 
-  /* =========================================
-     GET OTP
-  ========================================== */
+    const message =
+      document.getElementById("message");
 
-  function getOTP() {
 
-    return inputs
-      .map(input => input.value)
-      .join("");
+    function getOTP() {
 
-  }
-
-
-  /* =========================================
-     STATUS
-  ========================================== */
-
-  function showStatus(
-    message,
-    type
-  ) {
-
-    statusMessage.textContent =
-      message;
-
-    statusMessage.className =
-      "status-message " + type;
-
-  }
-
-
-  function hideError() {
-
-    codeError.style.display =
-      "none";
-
-  }
-
-
-  /* =========================================
-     VERIFY EMAIL
-  ========================================== */
-
-  form.addEventListener(
-    "submit",
-    async function (event) {
-
-      event.preventDefault();
-
-      const otp =
-        getOTP();
-
-
-      if (otp.length !== 6) {
-
-        codeError.style.display =
-          "block";
-
-        inputs[0].focus();
-
-        return;
-
-      }
-
-
-      verifyButton.disabled =
-        true;
-
-      verifyButton.textContent =
-        "Verifying...";
-
-
-      try {
-
-        /*
-         * Expected backend endpoint:
-         *
-         * POST /api/auth/verify-email
-         *
-         * Body:
-         * {
-         *   email: "...",
-         *   otp: "123456"
-         * }
-         */
-
-        const response =
-          await fetch(
-            `${API_BASE}/auth/verify-email`,
-            {
-              method: "POST",
-
-              headers: {
-                "Content-Type":
-                  "application/json"
-              },
-
-              credentials: "include",
-
-              body: JSON.stringify({
-                email: pendingEmail,
-                otp: otp
-              })
-            }
-          );
-
-
-        const data =
-          await response
-            .json()
-            .catch(
-              () => ({})
-            );
-
-
-        if (!response.ok) {
-
-          throw new Error(
-            data.message ||
-            "The verification code is invalid or expired."
-          );
-
-        }
-
-
-        showStatus(
-          data.message ||
-          "Email verified successfully.",
-          "success"
-        );
-
-
-        /*
-         * Remove pending email after
-         * successful verification.
-         */
-
-        localStorage.removeItem(
-          "ghar_pending_email"
-        );
-
-
-        verifyButton.textContent =
-          "Email Verified";
-
-
-        /*
-         * Continue through the
-         * authentication flow.
-         */
-
-        setTimeout(
-          function () {
-
-            window.location.href =
-              data.redirect ||
-              "login.html";
-
-          },
-          1200
-        );
-
-
-      } catch (error) {
-
-        showStatus(
-          error.message ||
-          "Unable to verify your email. Please try again.",
-          "error"
-        );
-
-        verifyButton.disabled =
-          false;
-
-        verifyButton.textContent =
-          "Verify Email";
-
-      }
+      return otpInputs
+        .map(function(input) {
+          return input.value;
+        })
+        .join("");
 
     }
-  );
 
 
-  /* =========================================
-     RESEND TIMER
-  ========================================== */
+    function updateVerifyButton() {
 
-  let remainingSeconds =
-    60;
+      verifyButton.disabled =
+        getOTP().length !== 6;
 
-  let timerInterval;
+    }
 
 
-  function startTimer() {
+    verifyButton.addEventListener(
+      "click",
+      async function() {
 
-    remainingSeconds =
-      60;
+        const otp = getOTP();
 
-    resendButton.disabled =
-      true;
+        if (otp.length !== 6) {
 
-    timer.textContent =
-      `Resend available in ${remainingSeconds} seconds`;
+          showMessage(
+            "Please enter the complete 6-digit verification code.",
+            "error"
+          );
+
+          return;
+
+        }
 
 
-    clearInterval(
-      timerInterval
+        /*
+          Frontend placeholder.
+
+          Connect this section to your GHAR backend,
+          for example:
+
+          POST /api/auth/verify-email
+
+          Body:
+          {
+            email: email,
+            otp: otp
+          }
+        */
+
+        verifyButton.disabled = true;
+
+        verifyButton.innerHTML =
+          '<i class="fa-solid fa-spinner fa-spin"></i> Verifying...';
+
+
+        try {
+
+          /*
+            Replace this simulated verification
+            with your real API request.
+
+            Example:
+
+            const response = await fetch(
+              "/api/auth/verify-email",
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                  email: email,
+                  otp: otp
+                })
+              }
+            );
+
+            const data = await response.json();
+
+            if (!response.ok) {
+              throw new Error(
+                data.message || "Verification failed."
+              );
+            }
+          */
+
+
+          await new Promise(function(resolve) {
+
+            setTimeout(resolve, 900);
+
+          });
+
+
+          showMessage(
+            "Email verified successfully. Redirecting to your GHAR account...",
+            "success"
+          );
+
+
+          localStorage.setItem(
+            "gharEmailVerified",
+            "true"
+          );
+
+
+          setTimeout(function() {
+
+            window.location.href =
+              "role-selection.html";
+
+          }, 1400);
+
+
+        } catch (error) {
+
+          showMessage(
+            error.message ||
+            "Unable to verify your email. Please try again.",
+            "error"
+          );
+
+          verifyButton.disabled = false;
+
+          verifyButton.innerHTML =
+            'Verify Email <i class="fa-solid fa-arrow-right"></i>';
+
+        }
+
+      }
     );
 
 
-    timerInterval =
-      setInterval(
-        function () {
+    /* =========================================================
+       MESSAGE
+       ========================================================= */
 
-          remainingSeconds--;
+    function showMessage(text, type) {
 
-          if (
-            remainingSeconds <= 0
-          ) {
+      message.textContent = text;
 
-            clearInterval(
-              timerInterval
-            );
+      message.className =
+        "message " + type;
 
-            resendButton.disabled =
-              false;
+    }
+
+
+    /* =========================================================
+       RESEND TIMER
+       ========================================================= */
+
+    const resendButton =
+      document.getElementById("resendButton");
+
+    const timer =
+      document.getElementById("timer");
+
+    let countdown = 60;
+
+    let timerInterval;
+
+
+    function startTimer() {
+
+      countdown = 60;
+
+      resendButton.disabled = true;
+
+      timer.textContent =
+        "Resend available in " +
+        countdown +
+        "s";
+
+
+      clearInterval(timerInterval);
+
+
+      timerInterval =
+        setInterval(function() {
+
+          countdown--;
+
+          if (countdown <= 0) {
+
+            clearInterval(timerInterval);
+
+            resendButton.disabled = false;
 
             timer.textContent =
               "You can request a new code.";
@@ -1485,163 +1651,139 @@
 
 
           timer.textContent =
-            `Resend available in ${remainingSeconds} seconds`;
+            "Resend available in " +
+            countdown +
+            "s";
 
-        },
-        1000
-      );
+        }, 1000);
 
-  }
-
-
-  startTimer();
+    }
 
 
-  /* =========================================
-     RESEND OTP
-  ========================================== */
+    resendButton.addEventListener(
+      "click",
+      async function() {
 
-  resendButton.addEventListener(
-    "click",
-    async function () {
-
-      if (!pendingEmail) {
-
-        showStatus(
-          "Your email address could not be found. Please return to registration.",
-          "error"
-        );
-
-        return;
-
-      }
-
-
-      resendButton.disabled =
-        true;
-
-      resendButton.textContent =
-        "Sending...";
-
-
-      try {
-
-        /*
-         * Expected backend endpoint:
-         *
-         * POST /api/auth/resend-email-verification
-         */
-
-        const response =
-          await fetch(
-            `${API_BASE}/auth/resend-email-verification`,
-            {
-              method: "POST",
-
-              headers: {
-                "Content-Type":
-                  "application/json"
-              },
-
-              credentials: "include",
-
-              body: JSON.stringify({
-                email: pendingEmail
-              })
-            }
-          );
-
-
-        const data =
-          await response
-            .json()
-            .catch(
-              () => ({})
-            );
-
-
-        if (!response.ok) {
-
-          throw new Error(
-            data.message ||
-            "Unable to resend the verification code."
-          );
-
+        if (resendButton.disabled) {
+          return;
         }
 
 
-        showStatus(
-          data.message ||
-          "A new verification code has been sent.",
-          "success"
-        );
-
+        resendButton.disabled = true;
 
         resendButton.textContent =
-          "Resend code";
-
-        startTimer();
+          "Sending...";
 
 
-      } catch (error) {
+        /*
+          Connect this section to:
 
-        showStatus(
-          error.message ||
-          "Unable to resend the code.",
-          "error"
-        );
+          POST /api/auth/resend-verification
 
-        resendButton.disabled =
-          false;
+          Body:
+          {
+            email: email
+          }
+        */
 
-        resendButton.textContent =
-          "Resend code";
+
+        try {
+
+          await new Promise(function(resolve) {
+
+            setTimeout(resolve, 700);
+
+          });
+
+
+          showMessage(
+            "A new verification code has been sent to your email.",
+            "success"
+          );
+
+
+          otpInputs.forEach(function(input) {
+
+            input.value = "";
+
+          });
+
+
+          otpInputs[0].focus();
+
+          verifyButton.disabled = true;
+
+          resendButton.textContent =
+            "Resend Code";
+
+          startTimer();
+
+
+        } catch (error) {
+
+          showMessage(
+            "Unable to resend the verification code. Please try again.",
+            "error"
+          );
+
+          resendButton.disabled = false;
+
+          resendButton.textContent =
+            "Resend Code";
+
+        }
+
+      }
+    );
+
+
+    /* =========================================================
+       START TIMER
+       ========================================================= */
+
+    startTimer();
+
+
+    /* =========================================================
+       IMAGE / RESOURCE SAFETY
+       ========================================================= */
+
+    document.querySelectorAll("img").forEach(function(img) {
+
+      img.addEventListener("error", function() {
+
+        this.style.background = "#123b29";
+        this.style.minHeight = "150px";
+        this.style.objectFit = "cover";
+
+      });
+
+    });
+
+
+    /* =========================================================
+       HEADER SHADOW
+       ========================================================= */
+
+    window.addEventListener("scroll", function() {
+
+      const header =
+        document.querySelector(".site-header");
+
+      if (window.scrollY > 20) {
+
+        header.style.boxShadow =
+          "0 10px 30px rgba(0,0,0,.22)";
+
+      } else {
+
+        header.style.boxShadow = "none";
 
       }
 
-    }
-  );
+    });
 
-
-  /* =========================================
-     CHANGE EMAIL
-  ========================================== */
-
-  changeEmail.addEventListener(
-    "click",
-    function (event) {
-
-      event.preventDefault();
-
-      /*
-       * Registration page can read this
-       * value and allow the user to edit it.
-       */
-
-      window.location.href =
-        "registration.html?edit=email";
-
-    }
-  );
-
-
-  /* =========================================
-     AUTO FOCUS
-  ========================================== */
-
-  if (inputs[0]) {
-
-    setTimeout(
-      function () {
-        inputs[0].focus();
-      },
-      300
-    );
-
-  }
-
-})();
-</script>
+  </script>
 
 </body>
 </html>
