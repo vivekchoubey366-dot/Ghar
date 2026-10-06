@@ -1,152 +1,285 @@
-"use strict";
+'use strict';
 
 /**
- * GHAR Admin Authorization Middleware
+ * ============================================================
+ * GHAR - ADMIN AUTHORIZATION MIDDLEWARE
+ * ============================================================
  *
- * Authentication:
- *   auth.middleware.js
+ * Purpose:
+ * - Protect admin-only routes
+ * - Verify authenticated user
+ * - Verify administrator role
+ * - Support admin / super_admin roles
+ * - Prevent deleted, inactive or suspended accounts
  *
- * Authorization:
- *   admin.middleware.js
+ * Expected auth middleware:
+ *   req.user = {
+ *     id,
+ *     role,
+ *     status,
+ *     email
+ *   }
  *
- * Expected flow:
+ * Usage:
  *
- * Request
- *   ↓
- * request-id
- *   ↓
- * security
- *   ↓
- * auth
- *   ↓
- * admin
- *   ↓
- * controller
+ * const { requireAdmin } = require('../middleware/admin.middleware');
+ *
+ * router.get(
+ *   '/dashboard',
+ *   requireAdmin,
+ *   adminController.dashboard
+ * );
+ *
+ * ============================================================
  */
 
 const ADMIN_ROLES = new Set([
-  "admin",
-  "super_admin"
+  'admin',
+  'super_admin'
 ]);
 
-function sendForbidden(res, req, code, message) {
-  return res.status(403).json({
+const ALLOWED_ADMIN_STATUSES = new Set([
+  'active'
+]);
+
+
+/**
+ * ------------------------------------------------------------
+ * Helper: Create authorization error
+ * ------------------------------------------------------------
+ */
+
+function authorizationError(
+  res,
+  status,
+  code,
+  message
+) {
+  return res.status(status).json({
     success: false,
     error: {
       code,
-      message,
-      requestId: req.requestId || null
+      message
     }
   });
 }
 
-/**
- * Require an authenticated administrator.
- */
-function requireAdmin(req, res, next) {
-  if (!req.user?.userId) {
-    return res.status(401).json({
-      success: false,
-      error: {
-        code: "AUTHENTICATION_REQUIRED",
-        message: "Authentication is required.",
-        requestId: req.requestId || null
-      }
-    });
-  }
-
-  const role = String(
-    req.user.role || ""
-  ).toLowerCase();
-
-  if (!ADMIN_ROLES.has(role)) {
-    return sendForbidden(
-      res,
-      req,
-      "ADMIN_ACCESS_REQUIRED",
-      "Administrator access is required."
-    );
-  }
-
-  req.admin = {
-    isAdmin: true,
-    isSuperAdmin: role === "super_admin",
-    role
-  };
-
-  next();
-}
 
 /**
- * Require Super Admin privileges.
+ * ------------------------------------------------------------
+ * Require authenticated administrator
+ * ------------------------------------------------------------
  *
- * Use for high-risk operations such as:
- * - Security configuration
- * - AI model configuration
- * - User privilege changes
- * - Audit-log administration
- * - Critical system settings
+ * Requires auth.middleware.js to run before this middleware.
  */
+
+function requireAdmin(req, res, next) {
+  try {
+    if (!req.user) {
+      return authorizationError(
+        res,
+        401,
+        'AUTHENTICATION_REQUIRED',
+        'Authentication is required.'
+      );
+    }
+
+    const {
+      id,
+      role,
+      status
+    } = req.user;
+
+    if (!id) {
+      return authorizationError(
+        res,
+        401,
+        'INVALID_USER',
+        'Authenticated user information is invalid.'
+      );
+    }
+
+    if (
+      status &&
+      !ALLOWED_ADMIN_STATUSES.has(status)
+    ) {
+      return authorizationError(
+        res,
+        403,
+        'ACCOUNT_NOT_ACTIVE',
+        'Your account is not active.'
+      );
+    }
+
+    if (!ADMIN_ROLES.has(role)) {
+      return authorizationError(
+        res,
+        403,
+        'ADMIN_ACCESS_REQUIRED',
+        'Administrator privileges are required.'
+      );
+    }
+
+    req.admin = req.user;
+
+    return next();
+
+  } catch (error) {
+    return next(error);
+  }
+}
+
+
+/**
+ * ------------------------------------------------------------
+ * Require super administrator
+ * ------------------------------------------------------------
+ */
+
 function requireSuperAdmin(req, res, next) {
-  if (!req.user?.userId) {
-    return res.status(401).json({
-      success: false,
-      error: {
-        code: "AUTHENTICATION_REQUIRED",
-        message: "Authentication is required.",
-        requestId: req.requestId || null
+  try {
+    if (!req.user) {
+      return authorizationError(
+        res,
+        401,
+        'AUTHENTICATION_REQUIRED',
+        'Authentication is required.'
+      );
+    }
+
+    if (!req.user.id) {
+      return authorizationError(
+        res,
+        401,
+        'INVALID_USER',
+        'Authenticated user information is invalid.'
+      );
+    }
+
+    if (
+      req.user.status &&
+      !ALLOWED_ADMIN_STATUSES.has(req.user.status)
+    ) {
+      return authorizationError(
+        res,
+        403,
+        'ACCOUNT_NOT_ACTIVE',
+        'Your account is not active.'
+      );
+    }
+
+    if (req.user.role !== 'super_admin') {
+      return authorizationError(
+        res,
+        403,
+        'SUPER_ADMIN_ACCESS_REQUIRED',
+        'Super administrator privileges are required.'
+      );
+    }
+
+    req.admin = req.user;
+
+    return next();
+
+  } catch (error) {
+    return next(error);
+  }
+}
+
+
+/**
+ * ------------------------------------------------------------
+ * Require one of the supplied roles
+ * ------------------------------------------------------------
+ *
+ * Example:
+ *
+ * requireRole('admin', 'super_admin')
+ *
+ * or:
+ *
+ * requireRole('admin', 'manager', 'super_admin')
+ */
+
+function requireRole(...roles) {
+  const allowedRoles = new Set(roles);
+
+  return function roleMiddleware(req, res, next) {
+    try {
+      if (!req.user) {
+        return authorizationError(
+          res,
+          401,
+          'AUTHENTICATION_REQUIRED',
+          'Authentication is required.'
+        );
       }
-    });
-  }
 
-  const role = String(
-    req.user.role || ""
-  ).toLowerCase();
+      if (!req.user.id) {
+        return authorizationError(
+          res,
+          401,
+          'INVALID_USER',
+          'Authenticated user information is invalid.'
+        );
+      }
 
-  if (role !== "super_admin") {
-    return sendForbidden(
-      res,
-      req,
-      "SUPER_ADMIN_ACCESS_REQUIRED",
-      "Super administrator access is required."
-    );
-  }
+      if (
+        req.user.status &&
+        !ALLOWED_ADMIN_STATUSES.has(req.user.status)
+      ) {
+        return authorizationError(
+          res,
+          403,
+          'ACCOUNT_NOT_ACTIVE',
+          'Your account is not active.'
+        );
+      }
 
-  req.admin = {
-    isAdmin: true,
-    isSuperAdmin: true,
-    role
+      if (!allowedRoles.has(req.user.role)) {
+        return authorizationError(
+          res,
+          403,
+          'INSUFFICIENT_PRIVILEGES',
+          'You do not have permission to access this resource.'
+        );
+      }
+
+      req.admin = req.user;
+
+      return next();
+
+    } catch (error) {
+      return next(error);
+    }
   };
-
-  next();
 }
+
 
 /**
- * Check admin status without blocking the request.
+ * ------------------------------------------------------------
+ * Require admin OR super_admin
+ * ------------------------------------------------------------
  */
-function isAdmin(req) {
-  const role = String(
-    req.user?.role || ""
-  ).toLowerCase();
 
-  return ADMIN_ROLES.has(role);
-}
+const requireAdminOrSuperAdmin = requireRole(
+  'admin',
+  'super_admin'
+);
+
 
 /**
- * Check Super Admin status.
+ * ------------------------------------------------------------
+ * Export middleware
+ * ------------------------------------------------------------
  */
-function isSuperAdmin(req) {
-  return (
-    String(
-      req.user?.role || ""
-    ).toLowerCase() === "super_admin"
-  );
-}
 
 module.exports = {
   requireAdmin,
   requireSuperAdmin,
-  isAdmin,
-  isSuperAdmin,
-  ADMIN_ROLES
+  requireRole,
+  requireAdminOrSuperAdmin,
+
+  ADMIN_ROLES,
+  ALLOWED_ADMIN_STATUSES
 };

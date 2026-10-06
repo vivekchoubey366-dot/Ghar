@@ -1,1269 +1,569 @@
-"use strict";
+'use strict';
 
 /**
  * ============================================================
- * GHAR
- * EMAIL CONFIGURATION
+ * GHAR - Email Configuration
  * ============================================================
  *
- * Central configuration for all transactional email operations.
+ * Central email/SMTP configuration for GHAR.
  *
- * Used by:
+ * Responsibilities:
+ * - SMTP configuration
+ * - TLS/security configuration
+ * - Sender identity
+ * - Connection timeouts
+ * - Email feature flags
+ * - Verification/reset/notification settings
  *
- *   Auth
- *     ├── Welcome
- *     ├── Email verification
- *     ├── OTP
- *     ├── Password reset
- *     └── Security alerts
- *
- *   Properties
- *     ├── Property listed
- *     ├── Property approved
- *     ├── Property rejected
- *     └── Property verification
- *
- *   Buyer / Seller / Tenant
- *     ├── Visits
- *     ├── Offers
- *     ├── Applications
- *     ├── Documents
- *     └── Notifications
- *
- *   Payments
- *     ├── Payment success
- *     ├── Payment failed
- *     ├── Refund
- *     └── Invoice
- *
- *   Subscriptions
- *     ├── Started
- *     ├── Renewed
- *     ├── Cancelled
- *     └── Expired
- *
- *   Loans
- *     ├── Application
- *     └── Status
- *
- *   Support
- *     ├── Ticket created
- *     └── Ticket updated
- *
- *   Admin
- *     └── Security / system alerts
- *
- * Provider:
- *   SMTP
- *
- * Credentials:
- *   config/env.js
- *
+ * Actual email sending belongs in services/email.service.js
  * ============================================================
  */
 
-const env = require("./env");
+const nodemailer = require('nodemailer');
+const env = require('./env');
 
 /* ============================================================
- * HELPERS
- * ============================================================ */
+   1. BASIC CONFIGURATION
+   ============================================================ */
 
-function envString(name, fallback = "") {
-  const value = process.env[name];
+const enabled =
+  Boolean(
+    env.email.host &&
+    env.email.user &&
+    env.email.password
+  );
 
-  if (
-    value === undefined ||
-    value === null
-  ) {
-    return fallback;
-  }
+const host =
+  env.email.host || null;
 
-  return String(value).trim();
-}
+const port =
+  Number(env.email.port) || 587;
 
-function envBoolean(name, fallback = false) {
-  const value = process.env[name];
+const secure =
+  Boolean(env.email.secure);
 
-  if (
-    value === undefined ||
-    value === null ||
-    value === ""
-  ) {
-    return fallback;
-  }
+const user =
+  env.email.user || null;
 
-  return String(value).toLowerCase() === "true";
-}
+const password =
+  env.email.password || null;
 
-function envNumber(name, fallback) {
-  const value = Number(process.env[name]);
-
-  return Number.isFinite(value)
-    ? value
-    : fallback;
-}
+const from =
+  env.email.from ||
+  'GHAR <no-reply@ghar.com>';
 
 /* ============================================================
- * EMAIL CONFIGURATION
- * ============================================================ */
-
-const emailConfig = {
-  /**
-   * Master switch.
-   *
-   * Email requires SMTP credentials unless sending
-   * is intentionally disabled in development.
-   */
-  enabled:
-    envBoolean(
-      "EMAIL_ENABLED",
-      true
-    ),
-
-  provider:
-    envString(
-      "EMAIL_PROVIDER",
-      "smtp"
-    ),
-
-  /* ----------------------------------------------------------
-   * SMTP
-   * -------------------------------------------------------- */
-
-  smtp: {
-    host:
-      env.email.host || "",
-
-    port:
-      Number(env.email.port) || 587,
-
-    secure:
-      envBoolean(
-        "EMAIL_SECURE",
-        Number(env.email.port) === 465
-      ),
-
-    user:
-      env.email.user || "",
-
-    password:
-      env.email.password || "",
-
-    connectionTimeout:
-      envNumber(
-        "EMAIL_CONNECTION_TIMEOUT",
-        10_000
-      ),
-
-    greetingTimeout:
-      envNumber(
-        "EMAIL_GREETING_TIMEOUT",
-        10_000
-      ),
-
-    socketTimeout:
-      envNumber(
-        "EMAIL_SOCKET_TIMEOUT",
-        30_000
-      ),
-
-    pool:
-      envBoolean(
-        "EMAIL_POOL",
-        true
-      ),
-
-    maxConnections:
-      envNumber(
-        "EMAIL_MAX_CONNECTIONS",
-        5
-      ),
-
-    maxMessages:
-      envNumber(
-        "EMAIL_MAX_MESSAGES",
-        100
-      )
-  },
-
-  /* ----------------------------------------------------------
-   * SENDER
-   * -------------------------------------------------------- */
-
-  sender: {
-    from:
-      env.email.from ||
-      envString(
-        "EMAIL_FROM",
-        "no-reply@example.com"
-      ),
-
-    replyTo:
-      envString(
-        "EMAIL_REPLY_TO",
-        ""
-      ),
-
-    name:
-      envString(
-        "EMAIL_FROM_NAME",
-        "GHAR"
-      )
-  },
-
-  /* ----------------------------------------------------------
-   * LIMITS
-   * -------------------------------------------------------- */
-
-  limits: {
-    maxRecipients:
-      envNumber(
-        "EMAIL_MAX_RECIPIENTS",
-        50
-      ),
-
-    maxAttachmentSize:
-      envNumber(
-        "EMAIL_MAX_ATTACHMENT_SIZE",
-        10 * 1024 * 1024
-      ),
-
-    maxSubjectLength:
-      envNumber(
-        "EMAIL_MAX_SUBJECT_LENGTH",
-        998
-      ),
-
-    maxBodyLength:
-      envNumber(
-        "EMAIL_MAX_BODY_LENGTH",
-        1_000_000
-      )
-  },
-
-  /* ----------------------------------------------------------
-   * AUTHENTICATION EMAILS
-   * -------------------------------------------------------- */
-
-  auth: {
-    welcome: true,
-
-    verifyEmail:
-      true,
-
-    otp:
-      envBoolean(
-        "OTP_ENABLED",
-        true
-      ),
-
-    passwordReset:
-      true,
-
-    passwordChanged:
-      true,
-
-    loginAlert:
-      true,
-
-    securityAlert:
-      true
-  },
-
-  /* ----------------------------------------------------------
-   * PROPERTY EMAILS
-   * -------------------------------------------------------- */
-
-  property: {
-    listed: true,
-
-    approved: true,
-
-    rejected: true,
-
-    updated: true,
-
-    verification: true
-  },
-
-  /* ----------------------------------------------------------
-   * VISITS
-   * -------------------------------------------------------- */
-
-  visits: {
-    scheduled: true,
-
-    reminder: true,
-
-    cancelled: true,
-
-    completed: true
-  },
-
-  /* ----------------------------------------------------------
-   * OFFERS
-   * -------------------------------------------------------- */
-
-  offers: {
-    received: true,
-
-    accepted: true,
-
-    rejected: true,
-
-    counterOffer: true
-  },
-
-  /* ----------------------------------------------------------
-   * APPLICATIONS
-   * -------------------------------------------------------- */
-
-  applications: {
-    submitted: true,
-
-    updated: true,
-
-    approved: true,
-
-    rejected: true
-  },
-
-  /* ----------------------------------------------------------
-   * DOCUMENTS
-   * -------------------------------------------------------- */
-
-  documents: {
-    uploaded: true,
-
-    verified: true,
-
-    rejected: true,
-
-    verificationRequired: true
-  },
-
-  /* ----------------------------------------------------------
-   * VERIFICATION
-   * -------------------------------------------------------- */
-
-  verification: {
-    identity: true,
-
-    phone: true,
-
-    email: true,
-
-    address: true,
-
-    kyc: true,
-
-    pan: true,
-
-    aadhaar: true,
-
-    ownership: true,
-
-    completed: true
-  },
-
-  /* ----------------------------------------------------------
-   * PAYMENTS
-   * -------------------------------------------------------- */
-
-  payments: {
-    success: true,
-
-    failed: true,
-
-    refunded: true,
-
-    invoice: true,
-
-    paymentReminder: true
-  },
-
-  /* ----------------------------------------------------------
-   * SUBSCRIPTIONS
-   * -------------------------------------------------------- */
-
-  subscriptions: {
-    started: true,
-
-    renewed: true,
-
-    cancelled: true,
-
-    expired: true,
-
-    paymentFailed: true,
-
-    renewalReminder: true
-  },
-
-  /* ----------------------------------------------------------
-   * LOANS
-   * -------------------------------------------------------- */
-
-  loans: {
-    application: true,
-
-    status: true,
-
-    approved: true,
-
-    rejected: true
-  },
-
-  /* ----------------------------------------------------------
-   * REFERRALS
-   * -------------------------------------------------------- */
-
-  referrals: {
-    created: true,
-
-    successful: true,
-
-    reward: true
-  },
-
-  /* ----------------------------------------------------------
-   * SUPPORT
-   * -------------------------------------------------------- */
-
-  support: {
-    ticketCreated: true,
-
-    ticketUpdated: true,
-
-    ticketResolved: true
-  },
-
-  /* ----------------------------------------------------------
-   * ADMIN
-   * -------------------------------------------------------- */
-
-  admin: {
-    alerts: true,
-
-    securityAlerts: true,
-
-    systemAlerts: true,
-
-    fraudAlerts: true,
-
-    moderationAlerts: true
-  },
-
-  /* ----------------------------------------------------------
-   * TEMPLATES
-   * -------------------------------------------------------- */
-
-  templates: {
-    welcome:
-      "welcome",
-
-    verifyEmail:
-      "verify-email",
-
-    otp:
-      "otp",
-
-    passwordReset:
-      "password-reset",
-
-    passwordChanged:
-      "password-changed",
-
-    loginAlert:
-      "login-alert",
-
-    securityAlert:
-      "security-alert",
-
-    propertyListed:
-      "property-listed",
-
-    propertyApproved:
-      "property-approved",
-
-    propertyRejected:
-      "property-rejected",
-
-    propertyUpdated:
-      "property-updated",
-
-    propertyVerification:
-      "property-verification",
-
-    visitScheduled:
-      "visit-scheduled",
-
-    visitReminder:
-      "visit-reminder",
-
-    visitCancelled:
-      "visit-cancelled",
-
-    visitCompleted:
-      "visit-completed",
-
-    offerReceived:
-      "offer-received",
-
-    offerAccepted:
-      "offer-accepted",
-
-    offerRejected:
-      "offer-rejected",
-
-    counterOffer:
-      "counter-offer",
-
-    applicationSubmitted:
-      "application-submitted",
-
-    applicationUpdated:
-      "application-updated",
-
-    applicationApproved:
-      "application-approved",
-
-    applicationRejected:
-      "application-rejected",
-
-    documentUploaded:
-      "document-uploaded",
-
-    documentVerified:
-      "document-verified",
-
-    documentRejected:
-      "document-rejected",
-
-    verificationRequired:
-      "verification-required",
-
-    paymentSuccess:
-      "payment-success",
-
-    paymentFailed:
-      "payment-failed",
-
-    paymentRefunded:
-      "payment-refunded",
-
-    invoice:
-      "invoice",
-
-    subscriptionStarted:
-      "subscription-started",
-
-    subscriptionRenewed:
-      "subscription-renewed",
-
-    subscriptionCancelled:
-      "subscription-cancelled",
-
-    subscriptionExpired:
-      "subscription-expired",
-
-    subscriptionPaymentFailed:
-      "subscription-payment-failed",
-
-    loanApplication:
-      "loan-application",
-
-    loanStatus:
-      "loan-status",
-
-    loanApproved:
-      "loan-approved",
-
-    loanRejected:
-      "loan-rejected",
-
-    referral:
-      "referral",
-
-    supportTicketCreated:
-      "support-ticket-created",
-
-    supportTicketUpdated:
-      "support-ticket-updated",
-
-    supportTicketResolved:
-      "support-ticket-resolved",
-
-    adminAlert:
-      "admin-alert",
-
-    fraudAlert:
-      "fraud-alert",
-
-    moderationAlert:
-      "moderation-alert"
-  },
-
-  /* ----------------------------------------------------------
-   * OTP
-   * -------------------------------------------------------- */
-
-  otp: {
-    enabled:
-      envBoolean(
-        "OTP_ENABLED",
-        true
-      ),
-
-    expiresMinutes:
-      envNumber(
-        "OTP_EXPIRES_MINUTES",
-        10
-      ),
-
-    length:
-      envNumber(
-        "OTP_LENGTH",
-        6
-      ),
-
-    maxAttempts:
-      envNumber(
-        "OTP_MAX_ATTEMPTS",
-        5
-      ),
-
-    resendCooldownSeconds:
-      envNumber(
-        "OTP_RESEND_COOLDOWN",
-        60
-      )
-  },
-
-  /* ----------------------------------------------------------
-   * RETRY
-   * -------------------------------------------------------- */
-
-  retry: {
-    enabled:
-      envBoolean(
-        "EMAIL_RETRY_ENABLED",
-        true
-      ),
-
-    maxAttempts:
-      envNumber(
-        "EMAIL_MAX_RETRIES",
-        3
-      ),
-
-    delayMs:
-      envNumber(
-        "EMAIL_RETRY_DELAY_MS",
-        2_000
-      )
-  },
-
-  /* ----------------------------------------------------------
-   * SECURITY
-   * -------------------------------------------------------- */
-
-  security: {
-    preventHeaderInjection:
-      true,
-
-    hideCredentials:
-      true,
-
-    neverLogPassword:
-      true,
-
-    neverLogOTP:
-      true,
-
-    neverLogTokens:
-      true,
-
-    neverLogSensitiveDocuments:
-      true,
-
-    neverLogMessageContent:
-      true,
-
-    allowHtml:
-      envBoolean(
-        "EMAIL_ALLOW_HTML",
-        true
-      ),
-
-    allowExternalImages:
-      envBoolean(
-        "EMAIL_ALLOW_EXTERNAL_IMAGES",
-        false
-      ),
-
-    requireValidRecipient:
-      true,
-
-    requireValidSender:
-      true
-  },
-
-  /* ----------------------------------------------------------
-   * LOGGING
-   * -------------------------------------------------------- */
-
-  logging: {
-    enabled:
-      envBoolean(
-        "EMAIL_LOG_ENABLED",
-        true
-      ),
-
-    logRecipients:
-      envBoolean(
-        "EMAIL_LOG_RECIPIENTS",
-        true
-      ),
-
-    logMessageContent:
-      false,
-
-    logCredentials:
-      false,
-
-    logOtp:
-      false,
-
-    logTokens:
-      false
-  },
-
-  /* ----------------------------------------------------------
-   * DEVELOPMENT
-   * -------------------------------------------------------- */
-
-  development: {
-    logEmails:
-      envBoolean(
-        "EMAIL_LOG_DEVELOPMENT",
-        false
-      ),
-
-    disableSending:
-      envBoolean(
-        "EMAIL_DISABLE_SENDING",
-        false
-      )
-  }
+   2. TLS CONFIGURATION
+   ============================================================ */
+
+const rejectUnauthorized =
+  process.env.EMAIL_TLS_REJECT_UNAUTHORIZED !==
+  'false';
+
+const tls = {
+  rejectUnauthorized
 };
 
 /* ============================================================
- * STATUS HELPERS
- * ============================================================ */
+   3. CONNECTION SETTINGS
+   ============================================================ */
 
-/**
- * Check whether SMTP credentials are available.
- *
- * @returns {boolean}
- */
-function isSMTPConfigured() {
-  return Boolean(
-    emailConfig.smtp.host &&
-    emailConfig.smtp.user &&
-    emailConfig.smtp.password
+const connectionTimeout =
+  Number(
+    process.env.EMAIL_CONNECTION_TIMEOUT ||
+    10000
   );
+
+const greetingTimeout =
+  Number(
+    process.env.EMAIL_GREETING_TIMEOUT ||
+    10000
+  );
+
+const socketTimeout =
+  Number(
+    process.env.EMAIL_SOCKET_TIMEOUT ||
+    20000
+  );
+
+/* ============================================================
+   4. RETRY SETTINGS
+   ============================================================ */
+
+const maxRetries =
+  Number(
+    process.env.EMAIL_MAX_RETRIES ||
+    3
+  );
+
+const retryDelayMs =
+  Number(
+    process.env.EMAIL_RETRY_DELAY_MS ||
+    1000
+  );
+
+/* ============================================================
+   5. EMAIL FEATURES
+   ============================================================ */
+
+const features = {
+  verification:
+    process.env.EMAIL_FEATURE_VERIFICATION !==
+    'false',
+
+  passwordReset:
+    process.env.EMAIL_FEATURE_PASSWORD_RESET !==
+    'false',
+
+  welcome:
+    process.env.EMAIL_FEATURE_WELCOME !==
+    'false',
+
+  propertyAlerts:
+    process.env.EMAIL_FEATURE_PROPERTY_ALERTS !==
+    'false',
+
+  applicationUpdates:
+    process.env.EMAIL_FEATURE_APPLICATION_UPDATES !==
+    'false',
+
+  paymentReceipts:
+    process.env.EMAIL_FEATURE_PAYMENT_RECEIPTS !==
+    'false',
+
+  loanUpdates:
+    process.env.EMAIL_FEATURE_LOAN_UPDATES !==
+    'false',
+
+  adminNotifications:
+    process.env.EMAIL_FEATURE_ADMIN_NOTIFICATIONS !==
+    'false',
+
+  marketing:
+    process.env.EMAIL_FEATURE_MARKETING ===
+    'true'
+};
+
+/* ============================================================
+   6. EMAIL LIMITS
+   ============================================================ */
+
+const limits = {
+  verificationExpiryMinutes:
+    Number(
+      process.env.EMAIL_VERIFICATION_EXPIRY_MINUTES ||
+      30
+    ),
+
+  passwordResetExpiryMinutes:
+    Number(
+      process.env.EMAIL_PASSWORD_RESET_EXPIRY_MINUTES ||
+      30
+    ),
+
+  maxRecipients:
+    Number(
+      process.env.EMAIL_MAX_RECIPIENTS ||
+      50
+    ),
+
+  maxAttachmentSizeMB:
+    Number(
+      process.env.EMAIL_MAX_ATTACHMENT_SIZE_MB ||
+      10
+    )
+};
+
+/* ============================================================
+   7. EMAIL BRANDING
+   ============================================================ */
+
+const branding = {
+  applicationName:
+    process.env.EMAIL_APP_NAME ||
+    'GHAR',
+
+  supportEmail:
+    process.env.EMAIL_SUPPORT_ADDRESS ||
+    from,
+
+  supportName:
+    process.env.EMAIL_SUPPORT_NAME ||
+    'GHAR Support',
+
+  websiteUrl:
+    process.env.EMAIL_WEBSITE_URL ||
+    env.app.url,
+
+  logoUrl:
+    process.env.EMAIL_LOGO_URL ||
+    null,
+
+  primaryColor:
+    process.env.EMAIL_PRIMARY_COLOR ||
+    '#162D25'
+};
+
+/* ============================================================
+   8. CREATE SMTP TRANSPORTER
+   ============================================================ */
+
+let transporter = null;
+
+if (enabled) {
+  transporter =
+    nodemailer.createTransport({
+      host,
+
+      port,
+
+      secure,
+
+      auth: {
+        user,
+        pass: password
+      },
+
+      tls,
+
+      connectionTimeout,
+
+      greetingTimeout,
+
+      socketTimeout,
+
+      pool:
+        process.env.EMAIL_POOL !==
+        'false',
+
+      maxConnections:
+        Number(
+          process.env.EMAIL_MAX_CONNECTIONS ||
+          5
+        ),
+
+      maxMessages:
+        Number(
+          process.env.EMAIL_MAX_MESSAGES ||
+          100
+        )
+    });
 }
 
-/**
- * Check whether the GHAR email service is enabled.
- *
- * @returns {boolean}
- */
-function isEmailEnabled() {
-  if (!emailConfig.enabled) {
-    return false;
+/* ============================================================
+   9. VERIFY SMTP CONNECTION
+   ============================================================ */
+
+async function verifyConnection() {
+  if (!transporter) {
+    return {
+      success: false,
+      configured: false,
+      message:
+        'Email service is not configured.'
+    };
   }
 
-  if (
-    emailConfig.development.disableSending &&
-    process.env.NODE_ENV === "development"
-  ) {
-    return false;
-  }
+  try {
+    await transporter.verify();
 
-  return isSMTPConfigured();
+    return {
+      success: true,
+      configured: true,
+      message:
+        'SMTP connection verified.'
+    };
+  } catch (error) {
+    return {
+      success: false,
+      configured: true,
+      message:
+        error.message
+    };
+  }
 }
 
-/**
- * Check whether OTP email is enabled.
- *
- * @returns {boolean}
- */
-function isOTPEmailEnabled() {
-  return Boolean(
-    isEmailEnabled() &&
-    emailConfig.otp.enabled &&
-    emailConfig.auth.otp
+/* ============================================================
+   10. SEND EMAIL
+   ============================================================ */
+
+async function sendMail(options = {}) {
+  if (!transporter) {
+    throw new Error(
+      'GHAR email service is not configured.'
+    );
+  }
+
+  if (!options.to) {
+    throw new Error(
+      'Email recipient is required.'
+    );
+  }
+
+  if (!options.subject) {
+    throw new Error(
+      'Email subject is required.'
+    );
+  }
+
+  const message = {
+    from:
+      options.from ||
+      from,
+
+    to:
+      options.to,
+
+    cc:
+      options.cc,
+
+    bcc:
+      options.bcc,
+
+    replyTo:
+      options.replyTo,
+
+    subject:
+      options.subject,
+
+    text:
+      options.text,
+
+    html:
+      options.html,
+
+    attachments:
+      options.attachments
+  };
+
+  return transporter.sendMail(
+    message
   );
 }
 
 /* ============================================================
- * VALIDATION
- * ============================================================ */
+   11. FEATURE CHECK
+   ============================================================ */
 
-/**
- * Basic email validation.
- *
- * @param {string} email
- * @returns {boolean}
- */
-function isValidEmail(email) {
-  if (
-    typeof email !== "string" ||
-    !email.trim()
-  ) {
-    return false;
-  }
-
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
-    email.trim()
+function isFeatureEnabled(
+  feature
+) {
+  return (
+    enabled &&
+    features[feature] === true
   );
 }
 
-/**
- * Normalize an email address.
- *
- * @param {string} email
- * @returns {string}
- */
-function normalizeEmail(email) {
-  if (typeof email !== "string") {
-    return "";
-  }
+/* ============================================================
+   12. SAFE CONFIGURATION
+   ============================================================ */
 
-  return email
-    .trim()
-    .toLowerCase();
+function getSafeConfig() {
+  return {
+    enabled,
+
+    host,
+
+    port,
+
+    secure,
+
+    configured:
+      Boolean(
+        host &&
+        user &&
+        password
+      ),
+
+    sender:
+      from,
+
+    connection: {
+      connectionTimeout,
+
+      greetingTimeout,
+
+      socketTimeout
+    },
+
+    retry: {
+      maxRetries,
+
+      retryDelayMs
+    },
+
+    features: {
+      ...features
+    },
+
+    limits: {
+      ...limits
+    },
+
+    branding: {
+      applicationName:
+        branding.applicationName,
+
+      supportEmail:
+        branding.supportEmail,
+
+      supportName:
+        branding.supportName,
+
+      websiteUrl:
+        branding.websiteUrl,
+
+      logoConfigured:
+        Boolean(
+          branding.logoUrl
+        )
+    }
+  };
 }
 
-/**
- * Validate recipients.
- *
- * @param {string|string[]} recipients
- * @returns {boolean}
- */
-function validateRecipients(recipients) {
-  const list = Array.isArray(recipients)
-    ? recipients
-    : [recipients];
+/* ============================================================
+   13. VALIDATION
+   ============================================================ */
 
-  if (
-    list.length === 0 ||
-    list.length >
-      emailConfig.limits.maxRecipients
-  ) {
-    return false;
-  }
+function validate() {
+  const warnings = [];
+  const errors = [];
 
-  return list.every((email) =>
-    isValidEmail(email)
-  );
-}
-
-/**
- * Validate email subject.
- *
- * @param {string} subject
- * @returns {boolean}
- */
-function isValidSubject(subject) {
-  if (typeof subject !== "string") {
-    return false;
-  }
-
-  const value = subject.trim();
-
-  if (!value) {
-    return false;
+  if (!enabled) {
+    warnings.push(
+      '[GHAR EMAIL] SMTP email service is not configured.'
+    );
   }
 
   if (
-    value.length >
-    emailConfig.limits.maxSubjectLength
+    env.app.environment === 'production' &&
+    !enabled
   ) {
-    return false;
+    warnings.push(
+      '[GHAR EMAIL] Production email functionality will not work until SMTP credentials are configured.'
+    );
   }
 
-  /*
-   * Prevent CRLF/header injection.
-   */
-  if (/[\r\n]/.test(value)) {
-    return false;
+  if (
+    port <= 0 ||
+    port > 65535
+  ) {
+    errors.push(
+      'EMAIL_PORT must be a valid TCP port.'
+    );
+  }
+
+  if (
+    maxRetries < 0
+  ) {
+    errors.push(
+      'EMAIL_MAX_RETRIES cannot be negative.'
+    );
+  }
+
+  if (
+    limits.maxRecipients < 1
+  ) {
+    errors.push(
+      'EMAIL_MAX_RECIPIENTS must be greater than zero.'
+    );
+  }
+
+  if (
+    limits.verificationExpiryMinutes <= 0
+  ) {
+    errors.push(
+      'EMAIL_VERIFICATION_EXPIRY_MINUTES must be greater than zero.'
+    );
+  }
+
+  if (
+    limits.passwordResetExpiryMinutes <= 0
+  ) {
+    errors.push(
+      'EMAIL_PASSWORD_RESET_EXPIRY_MINUTES must be greater than zero.'
+    );
+  }
+
+  for (
+    const warning of warnings
+  ) {
+    console.warn(warning);
+  }
+
+  if (
+    errors.length > 0
+  ) {
+    throw new Error(
+      `[GHAR EMAIL CONFIG ERROR]\n- ${errors.join('\n- ')}`
+    );
   }
 
   return true;
 }
 
 /* ============================================================
- * TEMPLATE HELPERS
- * ============================================================ */
+   14. EXPORT
+   ============================================================ */
 
-/**
- * Get a registered email template.
- *
- * @param {string} template
- * @returns {string|null}
- */
-function getTemplate(template) {
-  if (!template) {
-    return null;
-  }
+const email = {
+  enabled,
 
-  const normalized =
-    String(template).trim();
+  host,
 
-  const templates =
-    Object.values(
-      emailConfig.templates
-    );
+  port,
 
-  return templates.includes(normalized)
-    ? normalized
-    : null;
-}
+  secure,
 
-/**
- * Check whether a template is enabled.
- *
- * @param {string} template
- * @returns {boolean}
- */
-function isTemplateEnabled(template) {
-  const normalized =
-    String(template || "")
-      .trim();
+  user,
 
-  if (!normalized) {
-    return false;
-  }
+  password,
 
-  const templateMap = {
-    welcome:
-      emailConfig.auth.welcome,
+  from,
 
-    "verify-email":
-      emailConfig.auth.verifyEmail,
+  tls,
 
-    otp:
-      emailConfig.auth.otp,
+  connection: {
+    connectionTimeout,
 
-    "password-reset":
-      emailConfig.auth.passwordReset,
+    greetingTimeout,
 
-    "password-changed":
-      emailConfig.auth.passwordChanged,
+    socketTimeout
+  },
 
-    "login-alert":
-      emailConfig.auth.loginAlert,
+  retry: {
+    maxRetries,
 
-    "security-alert":
-      emailConfig.auth.securityAlert,
+    retryDelayMs
+  },
 
-    "property-listed":
-      emailConfig.property.listed,
+  features,
 
-    "property-approved":
-      emailConfig.property.approved,
+  limits,
 
-    "property-rejected":
-      emailConfig.property.rejected,
+  branding,
 
-    "property-updated":
-      emailConfig.property.updated,
+  transporter,
 
-    "property-verification":
-      emailConfig.property.verification,
+  verifyConnection,
 
-    "visit-scheduled":
-      emailConfig.visits.scheduled,
+  sendMail,
 
-    "visit-reminder":
-      emailConfig.visits.reminder,
+  isFeatureEnabled,
 
-    "visit-cancelled":
-      emailConfig.visits.cancelled,
+  getSafeConfig,
 
-    "visit-completed":
-      emailConfig.visits.completed,
-
-    "offer-received":
-      emailConfig.offers.received,
-
-    "offer-accepted":
-      emailConfig.offers.accepted,
-
-    "offer-rejected":
-      emailConfig.offers.rejected,
-
-    "counter-offer":
-      emailConfig.offers.counterOffer,
-
-    "application-submitted":
-      emailConfig.applications.submitted,
-
-    "application-updated":
-      emailConfig.applications.updated,
-
-    "application-approved":
-      emailConfig.applications.approved,
-
-    "application-rejected":
-      emailConfig.applications.rejected,
-
-    "document-uploaded":
-      emailConfig.documents.uploaded,
-
-    "document-verified":
-      emailConfig.documents.verified,
-
-    "document-rejected":
-      emailConfig.documents.rejected,
-
-    "verification-required":
-      emailConfig.documents.verificationRequired,
-
-    "payment-success":
-      emailConfig.payments.success,
-
-    "payment-failed":
-      emailConfig.payments.failed,
-
-    "payment-refunded":
-      emailConfig.payments.refunded,
-
-    invoice:
-      emailConfig.payments.invoice,
-
-    "subscription-started":
-      emailConfig.subscriptions.started,
-
-    "subscription-renewed":
-      emailConfig.subscriptions.renewed,
-
-    "subscription-cancelled":
-      emailConfig.subscriptions.cancelled,
-
-    "subscription-expired":
-      emailConfig.subscriptions.expired,
-
-    "subscription-payment-failed":
-      emailConfig.subscriptions.paymentFailed,
-
-    "loan-application":
-      emailConfig.loans.application,
-
-    "loan-status":
-      emailConfig.loans.status,
-
-    "loan-approved":
-      emailConfig.loans.approved,
-
-    "loan-rejected":
-      emailConfig.loans.rejected,
-
-    referral:
-      emailConfig.referrals.created,
-
-    "support-ticket-created":
-      emailConfig.support.ticketCreated,
-
-    "support-ticket-updated":
-      emailConfig.support.ticketUpdated,
-
-    "support-ticket-resolved":
-      emailConfig.support.ticketResolved,
-
-    "admin-alert":
-      emailConfig.admin.alerts,
-
-    "fraud-alert":
-      emailConfig.admin.fraudAlerts,
-
-    "moderation-alert":
-      emailConfig.admin.moderationAlerts
-  };
-
-  return Boolean(
-    templateMap[normalized]
-  );
-}
-
-/* ============================================================
- * CONFIGURATION VALIDATION
- * ============================================================ */
-
-/**
- * Validate email configuration.
- *
- * Does not throw when SMTP is intentionally
- * absent during development.
- *
- * @returns {Object}
- */
-function validateEmailConfig() {
-  const smtpConfigured =
-    isSMTPConfigured();
-
-  if (!emailConfig.enabled) {
-    return {
-      enabled: false,
-      configured: smtpConfigured,
-      provider:
-        emailConfig.provider,
-      message:
-        "GHAR email service is disabled."
-    };
-  }
-
-  if (!smtpConfigured) {
-    return {
-      enabled: false,
-      configured: false,
-      provider:
-        emailConfig.provider,
-      message:
-        "GHAR email service is enabled but SMTP credentials are not configured."
-    };
-  }
-
-  if (
-    !isValidEmail(
-      emailConfig.sender.from
-    )
-  ) {
-    return {
-      enabled: false,
-      configured: true,
-      provider:
-        emailConfig.provider,
-      message:
-        "EMAIL_FROM is not a valid email address."
-    };
-  }
-
-  return {
-    enabled:
-      isEmailEnabled(),
-
-    configured:
-      true,
-
-    provider:
-      emailConfig.provider,
-
-    host:
-      emailConfig.smtp.host,
-
-    port:
-      emailConfig.smtp.port,
-
-    secure:
-      emailConfig.smtp.secure,
-
-    from:
-      emailConfig.sender.from
-  };
-}
-
-/* ============================================================
- * SAFE DIAGNOSTICS
- * ============================================================ */
-
-/**
- * Return configuration suitable for
- * health checks / admin diagnostics.
- *
- * NEVER exposes SMTP credentials.
- *
- * @returns {Object}
- */
-function getSafeEmailConfig() {
-  return {
-    enabled:
-      isEmailEnabled(),
-
-    configured:
-      isSMTPConfigured(),
-
-    provider:
-      emailConfig.provider,
-
-    host:
-      emailConfig.smtp.host,
-
-    port:
-      emailConfig.smtp.port,
-
-    secure:
-      emailConfig.smtp.secure,
-
-    userConfigured:
-      Boolean(
-        emailConfig.smtp.user
-      ),
-
-    passwordConfigured:
-      Boolean(
-        emailConfig.smtp.password
-      ),
-
-    from:
-      emailConfig.sender.from,
-
-    replyTo:
-      emailConfig.sender.replyTo,
-
-    pool:
-      emailConfig.smtp.pool,
-
-    maxConnections:
-      emailConfig.smtp.maxConnections,
-
-    otpEnabled:
-      isOTPEmailEnabled()
-  };
-}
-
-/* ============================================================
- * EXPORTS
- * ============================================================ */
-
-module.exports = {
-  emailConfig,
-
-  isEmailEnabled,
-
-  isSMTPConfigured,
-
-  isOTPEmailEnabled,
-
-  getSender:
-    () => emailConfig.sender.from,
-
-  isValidEmail,
-
-  normalizeEmail,
-
-  validateRecipients,
-
-  isValidSubject,
-
-  getTemplate,
-
-  isTemplateEnabled,
-
-  validateEmailConfig,
-
-  getSafeEmailConfig
+  validate
 };
+
+/* ============================================================
+   15. VALIDATE ON LOAD
+   ============================================================ */
+
+validate();
+
+/* ============================================================
+   16. EXPORT CONFIGURATION
+   ============================================================ */
+
+module.exports = email;

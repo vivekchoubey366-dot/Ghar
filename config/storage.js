@@ -1,1058 +1,959 @@
-"use strict";
+'use strict';
 
 /**
  * ============================================================
- * GHAR - STORAGE CONFIGURATION
+ * GHAR - Storage Configuration
  * ============================================================
  *
- * Central storage configuration for:
+ * Central storage configuration for the GHAR backend.
  *
+ * Supports:
  * - Local filesystem
+ * - Cloudinary
  * - AWS S3
  * - Cloudflare R2
- * - MinIO
- * - S3-compatible providers
  *
- * GHAR storage categories:
+ * Storage operations belong in:
  *
- * property-images
- * property-videos
- * floor-plans
- * profile-images
- * documents
- * agreements
- * verification
+ * services/storage.service.js
+ * middleware/upload.middleware.js
  *
- * IMPORTANT:
- *
- * - Never expose storage credentials.
- * - Private files must not be publicly served.
- * - Documents must be accessed through authorization.
- * - Signed URLs should be short-lived.
- * - File paths must be protected against traversal.
- * - Storage configuration must work in development and production.
- */
-
-const fs = require("fs");
-const path = require("path");
-
-const env = require("./env");
-
-/* ============================================================
- * SUPPORTED PROVIDERS
  * ============================================================
  */
 
-const SUPPORTED_PROVIDERS = Object.freeze([
-  "local",
-  "s3",
-  "aws-s3",
-  "r2",
-  "minio"
-]);
-
-const provider = String(
-  env.storage?.provider || "local"
-)
-  .trim()
-  .toLowerCase();
+const path = require('path');
+const env = require('./env');
 
 /* ============================================================
- * STORAGE ROOT
- * ============================================================
- */
+   1. BASIC CONFIGURATION
+   ============================================================ */
 
-const uploadRoot = path.resolve(
-  env.uploadDir ||
-    path.join(process.cwd(), "uploads")
-);
+const enabled =
+  process.env.STORAGE_ENABLED !== 'false';
+
+const provider =
+  (
+    process.env.STORAGE_PROVIDER ||
+    'local'
+  ).toLowerCase();
+
+const environment =
+  (
+    env.app.environment ||
+    'development'
+  ).toLowerCase();
 
 /* ============================================================
- * STORAGE PATHS
- * ============================================================
- */
+   2. LOCAL STORAGE
+   ============================================================ */
 
-const storagePaths = Object.freeze({
-  propertyImages:
-    process.env.PROPERTY_IMAGE_DIR ||
-    "uploads/property-images",
+const local = {
+  root:
+    process.env.STORAGE_LOCAL_ROOT ||
+    path.join(
+      process.cwd(),
+      'storage'
+    ),
 
-  propertyVideos:
-    process.env.PROPERTY_VIDEO_DIR ||
-    "uploads/property-videos",
+  uploads:
+    process.env.STORAGE_LOCAL_UPLOADS ||
+    'uploads',
 
-  floorPlans:
-    process.env.FLOOR_PLAN_DIR ||
-    "uploads/floor-plans",
+  properties:
+    process.env.STORAGE_LOCAL_PROPERTIES ||
+    'properties',
 
-  profileImages:
-    process.env.PROFILE_IMAGE_DIR ||
-    "uploads/profile-images",
+  users:
+    process.env.STORAGE_LOCAL_USERS ||
+    'users',
 
   documents:
-    process.env.DOCUMENT_DIR ||
-    "uploads/documents",
-
-  agreements:
-    process.env.AGREEMENT_DIR ||
-    "uploads/agreements",
-
-  verification:
-    process.env.VERIFICATION_DIR ||
-    "uploads/verification"
-});
-
-/* ============================================================
- * NORMALIZE STORAGE DIRECTORY
- * ============================================================
- *
- * Local paths may be:
- *
- * uploads/documents
- *
- * while object-storage keys should be:
- *
- * documents
- *
- * This helper removes the configured local upload root.
- */
-
-function normalizeStoragePrefix(value) {
-  return String(value || "")
-    .replace(/\\/g, "/")
-    .replace(/^\/+/, "")
-    .replace(/^uploads\//i, "")
-    .replace(/\/+$/, "");
-}
-
-const storagePrefixes = Object.freeze({
-  propertyImages: normalizeStoragePrefix(
-    storagePaths.propertyImages
-  ),
-
-  propertyVideos: normalizeStoragePrefix(
-    storagePaths.propertyVideos
-  ),
-
-  floorPlans: normalizeStoragePrefix(
-    storagePaths.floorPlans
-  ),
-
-  profileImages: normalizeStoragePrefix(
-    storagePaths.profileImages
-  ),
-
-  documents: normalizeStoragePrefix(
-    storagePaths.documents
-  ),
-
-  agreements: normalizeStoragePrefix(
-    storagePaths.agreements
-  ),
-
-  verification: normalizeStoragePrefix(
-    storagePaths.verification
-  )
-});
-
-/* ============================================================
- * ACCESS POLICY
- * ============================================================
- */
-
-const access = Object.freeze({
-  propertyImages:
-    process.env.STORAGE_PROPERTY_IMAGES_ACCESS ||
-    "public",
-
-  propertyVideos:
-    process.env.STORAGE_PROPERTY_VIDEOS_ACCESS ||
-    "public",
-
-  floorPlans:
-    process.env.STORAGE_FLOOR_PLANS_ACCESS ||
-    "private",
-
-  profileImages:
-    process.env.STORAGE_PROFILE_IMAGES_ACCESS ||
-    "public",
-
-  documents:
-    process.env.STORAGE_DOCUMENTS_ACCESS ||
-    "private",
-
-  agreements:
-    process.env.STORAGE_AGREEMENTS_ACCESS ||
-    "private",
-
-  verification:
-    process.env.STORAGE_VERIFICATION_ACCESS ||
-    "private"
-});
-
-/* ============================================================
- * STORAGE CONFIG
- * ============================================================
- */
-
-const storageConfig = {
-  /**
-   * Active provider.
-   */
-  provider,
-
-  /**
-   * Provider enabled.
-   */
-  enabled:
-    SUPPORTED_PROVIDERS.includes(provider),
-
-  /**
-   * Local filesystem.
-   */
-  local: {
-    root: uploadRoot,
-
-    publicPath:
-      process.env.UPLOAD_PUBLIC_PATH ||
-      "/uploads",
-
-    createDirectories:
-      process.env.STORAGE_CREATE_DIRECTORIES !==
-      "false"
-  },
-
-  /**
-   * S3-compatible storage.
-   */
-  s3: {
-    bucket:
-      env.storage?.bucket || "",
-
-    region:
-      env.storage?.region ||
-      "ap-south-1",
-
-    accessKey:
-      env.storage?.accessKey || "",
-
-    secretKey:
-      env.storage?.secretKey || "",
-
-    endpoint:
-      process.env.STORAGE_ENDPOINT || "",
-
-    publicUrl:
-      process.env.STORAGE_PUBLIC_URL || "",
-
-    forcePathStyle:
-      process.env.STORAGE_FORCE_PATH_STYLE ===
-      "true",
-
-    useSSL:
-      process.env.STORAGE_USE_SSL !==
-      "false"
-  },
-
-  /**
-   * Object storage settings.
-   */
-  objectStorage: {
-    multipartEnabled:
-      process.env.STORAGE_MULTIPART_ENABLED !==
-      "false",
-
-    multipartPartSize:
-      Number(
-        process.env.STORAGE_MULTIPART_PART_SIZE
-      ) ||
-      5 * 1024 * 1024,
-
-    maxConcurrency:
-      Number(
-        process.env.STORAGE_MAX_CONCURRENCY
-      ) || 3
-  },
-
-  /**
-   * Storage prefixes.
-   */
-  paths: storagePrefixes,
-
-  /**
-   * File access policy.
-   */
-  access,
-
-  /**
-   * File naming policy.
-   */
-  files: {
-    generateUniqueNames:
-      process.env.STORAGE_UNIQUE_NAMES !==
-      "false",
-
-    preserveOriginalNames:
-      process.env.STORAGE_PRESERVE_NAMES ===
-      "true",
-
-    overwriteExisting:
-      process.env.STORAGE_ALLOW_OVERWRITE ===
-      "true",
-
-    sanitizeNames:
-      process.env.STORAGE_SANITIZE_NAMES !==
-      "false",
-
-    useUUID:
-      process.env.STORAGE_USE_UUID !==
-      "false"
-  },
-
-  /**
-   * Signed URL configuration.
-   */
-  signedUrls: {
-    enabled:
-      process.env.STORAGE_SIGNED_URLS !==
-      "false",
-
-    expiresIn:
-      Number(
-        process.env.STORAGE_SIGNED_URL_EXPIRY
-      ) || 900,
-
-    maxExpiresIn:
-      Number(
-        process.env.STORAGE_SIGNED_URL_MAX_EXPIRY
-      ) || 3600
-  },
-
-  /**
-   * File security.
-   */
-  security: {
-    validateMimeType:
-      process.env.STORAGE_VALIDATE_MIME !==
-      "false",
-
-    validateExtension:
-      process.env.STORAGE_VALIDATE_EXTENSION !==
-      "false",
-
-    scanFiles:
-      process.env.STORAGE_SCAN_FILES ===
-      "true",
-
-    rejectExecutables:
-      process.env.STORAGE_REJECT_EXECUTABLES !==
-      "false",
-
-    rejectDoubleExtensions:
-      process.env.STORAGE_REJECT_DOUBLE_EXTENSIONS !==
-      "false",
-
-    preventPathTraversal:
-      process.env.STORAGE_PREVENT_PATH_TRAVERSAL !==
-      "false",
-
-    blockHiddenFiles:
-      process.env.STORAGE_BLOCK_HIDDEN_FILES !==
-      "false"
-  },
-
-  /**
-   * Lifecycle management.
-   */
-  lifecycle: {
-    softDelete:
-      process.env.STORAGE_SOFT_DELETE !==
-      "false",
-
-    deleteOrphans:
-      process.env.STORAGE_DELETE_ORPHANS ===
-      "true",
-
-    orphanRetentionDays:
-      Number(
-        process.env.STORAGE_ORPHAN_RETENTION_DAYS
-      ) || 7
-  },
-
-  /**
-   * Cache configuration.
-   */
-  cache: {
-    enabled:
-      process.env.STORAGE_CACHE_ENABLED !==
-      "false",
-
-    maxAge:
-      Number(
-        process.env.STORAGE_CACHE_MAX_AGE
-      ) || 86400,
-
-    immutable:
-      process.env.STORAGE_CACHE_IMMUTABLE ===
-      "true"
-  },
-
-  /**
-   * Logging.
-   */
-  logging: {
-    enabled:
-      process.env.STORAGE_LOGGING !==
-      "false",
-
-    logUploads:
-      process.env.STORAGE_LOG_UPLOADS !==
-      "false",
-
-    logDeletes:
-      process.env.STORAGE_LOG_DELETES !==
-      "false",
-
-    logDownloads:
-      process.env.STORAGE_LOG_DOWNLOADS ===
-      "true",
-
-    logFileNames:
-      process.env.STORAGE_LOG_FILENAMES ===
-      "true"
-  }
+    process.env.STORAGE_LOCAL_DOCUMENTS ||
+    'documents',
+
+  applications:
+    process.env.STORAGE_LOCAL_APPLICATIONS ||
+    'applications',
+
+  temp:
+    process.env.STORAGE_LOCAL_TEMP ||
+    'temp'
 };
 
 /* ============================================================
- * CATEGORY HELPERS
- * ============================================================
- */
+   3. CLOUDINARY
+   ============================================================ */
 
-/**
- * Check whether a storage category exists.
- *
- * @param {string} category
- * @returns {boolean}
- */
-function isValidCategory(category) {
-  return Boolean(
-    category &&
-      Object.prototype.hasOwnProperty.call(
-        storageConfig.paths,
-        category
-      )
-  );
-}
+const cloudinary = {
+  cloudName:
+    process.env.CLOUDINARY_CLOUD_NAME ||
+    null,
 
-/**
- * Get object-storage prefix.
- *
- * @param {string} category
- * @returns {string|null}
- */
-function getStoragePath(category) {
-  if (!isValidCategory(category)) {
-    return null;
-  }
+  apiKey:
+    process.env.CLOUDINARY_API_KEY ||
+    null,
 
-  return storageConfig.paths[category];
-}
+  apiSecret:
+    process.env.CLOUDINARY_API_SECRET ||
+    null,
 
-/**
- * Get local absolute directory.
- *
- * @param {string} category
- * @returns {string|null}
- */
-function getLocalStoragePath(category) {
-  if (!isValidCategory(category)) {
-    return null;
-  }
+  folder:
+    process.env.CLOUDINARY_FOLDER ||
+    'ghar',
 
-  const configuredPath =
-    storagePaths[category];
-
-  const normalized =
-    String(configuredPath)
-      .replace(/\\/g, "/")
-      .replace(/^\/+/, "");
-
-  return path.resolve(
-    process.cwd(),
-    normalized
-  );
-}
-
-/**
- * Get access mode.
- *
- * @param {string} category
- * @returns {"public"|"private"}
- */
-function getAccessMode(category) {
-  if (!isValidCategory(category)) {
-    return "private";
-  }
-
-  return access[category] === "public"
-    ? "public"
-    : "private";
-}
-
-/**
- * Check public category.
- *
- * @param {string} category
- * @returns {boolean}
- */
-function isPublicCategory(category) {
-  return (
-    getAccessMode(category) ===
-    "public"
-  );
-}
-
-/**
- * Check private category.
- *
- * @param {string} category
- * @returns {boolean}
- */
-function isPrivateCategory(category) {
-  return (
-    getAccessMode(category) ===
-    "private"
-  );
-}
+  secure:
+    process.env.CLOUDINARY_SECURE !==
+    'false'
+};
 
 /* ============================================================
- * PROVIDER HELPERS
- * ============================================================
- */
+   4. AWS S3
+   ============================================================ */
 
-/**
- * Local storage active.
- */
-function isLocalStorage() {
-  return provider === "local";
-}
+const s3 = {
+  bucket:
+    process.env.S3_BUCKET ||
+    null,
 
-/**
- * Object storage active.
- */
-function isObjectStorage() {
+  region:
+    process.env.S3_REGION ||
+    'ap-south-1',
+
+  accessKeyId:
+    process.env.S3_ACCESS_KEY_ID ||
+    null,
+
+  secretAccessKey:
+    process.env.S3_SECRET_ACCESS_KEY ||
+    null,
+
+  endpoint:
+    process.env.S3_ENDPOINT ||
+    null,
+
+  publicUrl:
+    process.env.S3_PUBLIC_URL ||
+    null,
+
+  forcePathStyle:
+    process.env.S3_FORCE_PATH_STYLE ===
+    'true'
+};
+
+/* ============================================================
+   5. CLOUDFLARE R2
+   ============================================================ */
+
+const r2 = {
+  bucket:
+    process.env.R2_BUCKET ||
+    null,
+
+  accountId:
+    process.env.R2_ACCOUNT_ID ||
+    null,
+
+  accessKeyId:
+    process.env.R2_ACCESS_KEY_ID ||
+    null,
+
+  secretAccessKey:
+    process.env.R2_SECRET_ACCESS_KEY ||
+    null,
+
+  endpoint:
+    process.env.R2_ENDPOINT ||
+    null,
+
+  publicUrl:
+    process.env.R2_PUBLIC_URL ||
+    null
+};
+
+/* ============================================================
+   6. FILE SIZE LIMITS
+   ============================================================ */
+
+const limits = {
+  image:
+    Number(
+      process.env.STORAGE_MAX_IMAGE_MB ||
+      10
+    ),
+
+  document:
+    Number(
+      process.env.STORAGE_MAX_DOCUMENT_MB ||
+      20
+    ),
+
+  pdf:
+    Number(
+      process.env.STORAGE_MAX_PDF_MB ||
+      20
+    ),
+
+  video:
+    Number(
+      process.env.STORAGE_MAX_VIDEO_MB ||
+      100
+    ),
+
+  total:
+    Number(
+      process.env.STORAGE_MAX_FILE_MB ||
+      100
+    )
+};
+
+/* ============================================================
+   7. ALLOWED FILE TYPES
+   ============================================================ */
+
+const allowedMimeTypes = {
+  images: [
+    'image/jpeg',
+    'image/png',
+    'image/webp',
+    'image/gif'
+  ],
+
+  documents: [
+    'application/pdf',
+
+    'application/msword',
+
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+
+    'application/vnd.ms-excel',
+
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+
+    'text/plain'
+  ],
+
+  videos: [
+    'video/mp4',
+    'video/webm',
+    'video/quicktime'
+  ]
+};
+
+/* ============================================================
+   8. STORAGE FOLDERS
+   ============================================================ */
+
+const folders = {
+  properties:
+    'properties',
+
+  propertyImages:
+    'properties/images',
+
+  propertyVideos:
+    'properties/videos',
+
+  users:
+    'users',
+
+  avatars:
+    'users/avatars',
+
+  documents:
+    'documents',
+
+  identityDocuments:
+    'documents/identity',
+
+  addressDocuments:
+    'documents/address',
+
+  financialDocuments:
+    'documents/financial',
+
+  propertyDocuments:
+    'documents/property',
+
+  applicationDocuments:
+    'applications',
+
+  loanDocuments:
+    'loans',
+
+  paymentDocuments:
+    'payments',
+
+  contracts:
+    'contracts',
+
+  reports:
+    'reports',
+
+  temporary:
+    'temporary'
+};
+
+/* ============================================================
+   9. STORAGE ACCESS
+   ============================================================ */
+
+const access = {
+  /*
+   * Public property images may be publicly readable.
+   */
+
+  propertyImagesPublic:
+    process.env.STORAGE_PROPERTY_IMAGES_PUBLIC ===
+    'true',
+
+  /*
+   * User documents should remain private.
+   */
+
+  userDocumentsPrivate:
+    process.env.STORAGE_USER_DOCUMENTS_PRIVATE !==
+    'false',
+
+  /*
+   * KYC documents must remain private.
+   */
+
+  kycDocumentsPrivate:
+    process.env.STORAGE_KYC_DOCUMENTS_PRIVATE !==
+    'false',
+
+  /*
+   * Payment documents should remain private.
+   */
+
+  paymentDocumentsPrivate:
+    process.env.STORAGE_PAYMENT_DOCUMENTS_PRIVATE !==
+    'false'
+};
+
+/* ============================================================
+   10. SIGNED URL CONFIGURATION
+   ============================================================ */
+
+const signedUrls = {
+  enabled:
+    process.env.STORAGE_SIGNED_URLS_ENABLED !==
+    'false',
+
+  expiresInSeconds:
+    Number(
+      process.env.STORAGE_SIGNED_URL_EXPIRY ||
+      900
+    )
+};
+
+/* ============================================================
+   11. IMAGE PROCESSING
+   ============================================================ */
+
+const imageProcessing = {
+  enabled:
+    process.env.STORAGE_IMAGE_PROCESSING !==
+    'false',
+
+  maxWidth:
+    Number(
+      process.env.STORAGE_IMAGE_MAX_WIDTH ||
+      2400
+    ),
+
+  maxHeight:
+    Number(
+      process.env.STORAGE_IMAGE_MAX_HEIGHT ||
+      2400
+    ),
+
+  quality:
+    Number(
+      process.env.STORAGE_IMAGE_QUALITY ||
+      82
+    ),
+
+  format:
+    process.env.STORAGE_IMAGE_FORMAT ||
+    'webp'
+};
+
+/* ============================================================
+   12. FILE NAME SETTINGS
+   ============================================================ */
+
+const filenames = {
+  /*
+   * Never trust user-supplied file names as storage keys.
+   */
+
+  sanitize:
+    process.env.STORAGE_SANITIZE_FILENAMES !==
+    'false',
+
+  preserveOriginalName:
+    process.env.STORAGE_PRESERVE_ORIGINAL_NAME ===
+    'true',
+
+  useUniqueNames:
+    process.env.STORAGE_UNIQUE_FILENAMES !==
+    'false'
+};
+
+/* ============================================================
+   13. RETENTION
+   ============================================================ */
+
+const retention = {
+  temporaryFilesHours:
+    Number(
+      process.env.STORAGE_TEMP_RETENTION_HOURS ||
+      24
+    ),
+
+  deletedFilesDays:
+    Number(
+      process.env.STORAGE_DELETED_RETENTION_DAYS ||
+      30
+    )
+};
+
+/* ============================================================
+   14. PROVIDER SUPPORT
+   ============================================================ */
+
+function isProviderSupported() {
   return [
-    "s3",
-    "aws-s3",
-    "r2",
-    "minio"
+    'local',
+    'cloudinary',
+    's3',
+    'r2'
   ].includes(provider);
 }
 
-/**
- * Check object storage credentials.
- */
-function isS3Configured() {
-  return Boolean(
-    storageConfig.s3.bucket &&
-      storageConfig.s3.accessKey &&
-      storageConfig.s3.secretKey
+/* ============================================================
+   15. PROVIDER CONFIGURATION CHECK
+   ============================================================ */
+
+function isProviderConfigured() {
+  if (!enabled) {
+    return false;
+  }
+
+  switch (provider) {
+    case 'local':
+      return Boolean(
+        local.root
+      );
+
+    case 'cloudinary':
+      return Boolean(
+        cloudinary.cloudName &&
+        cloudinary.apiKey &&
+        cloudinary.apiSecret
+      );
+
+    case 's3':
+      return Boolean(
+        s3.bucket &&
+        s3.region &&
+        s3.accessKeyId &&
+        s3.secretAccessKey
+      );
+
+    case 'r2':
+      return Boolean(
+        r2.bucket &&
+        r2.accountId &&
+        r2.accessKeyId &&
+        r2.secretAccessKey
+      );
+
+    default:
+      return false;
+  }
+}
+
+/* ============================================================
+   16. ACTIVE PROVIDER CONFIGURATION
+   ============================================================ */
+
+function getProviderConfig() {
+  switch (provider) {
+    case 'local':
+      return local;
+
+    case 'cloudinary':
+      return cloudinary;
+
+    case 's3':
+      return s3;
+
+    case 'r2':
+      return r2;
+
+    default:
+      throw new Error(
+        `Unsupported storage provider: ${provider}`
+      );
+  }
+}
+
+/* ============================================================
+   17. FILE TYPE CHECK
+   ============================================================ */
+
+function isAllowedMimeType(
+  mimeType,
+  category = 'documents'
+) {
+  if (
+    !mimeType ||
+    !allowedMimeTypes[category]
+  ) {
+    return false;
+  }
+
+  return allowedMimeTypes[
+    category
+  ].includes(
+    mimeType.toLowerCase()
   );
 }
 
-/**
- * Check whether storage is configured.
- */
-function isStorageConfigured() {
-  if (!storageConfig.enabled) {
-    return false;
+/* ============================================================
+   18. FILE SIZE CHECK
+   ============================================================ */
+
+function validateFileSize(
+  bytes,
+  category = 'document'
+) {
+  const size =
+    Number(bytes);
+
+  if (
+    !Number.isFinite(size) ||
+    size < 0
+  ) {
+    return {
+      valid: false,
+      reason:
+        'Invalid file size.'
+    };
   }
 
-  if (isLocalStorage()) {
-    return Boolean(
-      storageConfig.local.root
+  const maxMb =
+    limits[
+      category
+    ] ||
+    limits.total;
+
+  const maxBytes =
+    maxMb *
+    1024 *
+    1024;
+
+  if (
+    size > maxBytes
+  ) {
+    return {
+      valid: false,
+      reason:
+        `File exceeds the ${maxMb} MB ${category} limit.`
+    };
+  }
+
+  return {
+    valid: true
+  };
+}
+
+/* ============================================================
+   19. STORAGE PATH
+   ============================================================ */
+
+function getLocalPath(
+  folder,
+  filename
+) {
+  return path.join(
+    local.root,
+    folder,
+    filename
+  );
+}
+
+/* ============================================================
+   20. PUBLIC URL
+   ============================================================ */
+
+function getPublicUrl(
+  key
+) {
+  if (!key) {
+    return null;
+  }
+
+  switch (provider) {
+    case 'cloudinary':
+      if (
+        cloudinary.secure &&
+        cloudinary.cloudName
+      ) {
+        return (
+          `https://res.cloudinary.com/` +
+          `${cloudinary.cloudName}/` +
+          `image/upload/` +
+          `${key}`
+        );
+      }
+
+      return null;
+
+    case 's3':
+      if (s3.publicUrl) {
+        return (
+          `${s3.publicUrl.replace(/\/$/, '')}/` +
+          `${key}`
+        );
+      }
+
+      return null;
+
+    case 'r2':
+      if (r2.publicUrl) {
+        return (
+          `${r2.publicUrl.replace(/\/$/, '')}/` +
+          `${key}`
+        );
+      }
+
+      return null;
+
+    case 'local':
+      return null;
+
+    default:
+      return null;
+  }
+}
+
+/* ============================================================
+   21. FEATURE SETTINGS
+   ============================================================ */
+
+const features = {
+  propertyImages:
+    process.env.STORAGE_FEATURE_PROPERTY_IMAGES !==
+    'false',
+
+  propertyVideos:
+    process.env.STORAGE_FEATURE_PROPERTY_VIDEOS !==
+    'false',
+
+  userAvatars:
+    process.env.STORAGE_FEATURE_AVATARS !==
+    'false',
+
+  identityDocuments:
+    process.env.STORAGE_FEATURE_IDENTITY_DOCUMENTS !==
+    'false',
+
+  propertyDocuments:
+    process.env.STORAGE_FEATURE_PROPERTY_DOCUMENTS !==
+    'false',
+
+  loanDocuments:
+    process.env.STORAGE_FEATURE_LOAN_DOCUMENTS !==
+    'false',
+
+  applicationDocuments:
+    process.env.STORAGE_FEATURE_APPLICATION_DOCUMENTS !==
+    'false',
+
+  paymentDocuments:
+    process.env.STORAGE_FEATURE_PAYMENT_DOCUMENTS !==
+    'false'
+};
+
+/* ============================================================
+   22. FEATURE CHECK
+   ============================================================ */
+
+function isFeatureEnabled(
+  feature
+) {
+  return (
+    enabled &&
+    features[feature] === true
+  );
+}
+
+/* ============================================================
+   23. VALIDATION
+   ============================================================ */
+
+function validate() {
+  const errors = [];
+  const warnings = [];
+
+  if (
+    !isProviderSupported()
+  ) {
+    errors.push(
+      `Unsupported STORAGE_PROVIDER: ${provider}. ` +
+      `Supported providers: local, cloudinary, s3, r2.`
     );
   }
 
-  if (isObjectStorage()) {
-    return isS3Configured();
-  }
-
-  return false;
-}
-
-/* ============================================================
- * LOCAL DIRECTORY MANAGEMENT
- * ============================================================
- */
-
-/**
- * Create all GHAR local storage directories.
- *
- * Safe to run repeatedly.
- */
-function ensureLocalDirectories() {
   if (
-    !isLocalStorage() ||
-    !storageConfig.local.createDirectories
+    enabled &&
+    !isProviderConfigured()
   ) {
-    return;
+    warnings.push(
+      `[GHAR STORAGE] ${provider} storage is not fully configured.`
+    );
   }
-
-  for (const category of Object.keys(
-    storageConfig.paths
-  )) {
-    const directory =
-      getLocalStoragePath(category);
-
-    if (!directory) {
-      continue;
-    }
-
-    fs.mkdirSync(directory, {
-      recursive: true
-    });
-  }
-}
-
-/* ============================================================
- * PATH SECURITY
- * ============================================================
- */
-
-/**
- * Validate storage path.
- *
- * @param {string} value
- * @returns {boolean}
- */
-function isSafePath(value) {
-  if (
-    typeof value !== "string" ||
-    !value.trim()
-  ) {
-    return false;
-  }
-
-  const normalized =
-    value.replace(/\\/g, "/");
 
   if (
-    normalized.includes("\0") ||
-    normalized.includes("../") ||
-    normalized.includes("/..") ||
-    normalized.startsWith("../") ||
-    normalized.startsWith("/")
+    environment === 'production' &&
+    provider === 'local'
   ) {
-    return false;
+    warnings.push(
+      '[GHAR STORAGE] Local filesystem storage is being used in production. Use persistent/object storage for production deployments.'
+    );
+  }
+
+  if (
+    limits.image <= 0
+  ) {
+    errors.push(
+      'STORAGE_MAX_IMAGE_MB must be greater than zero.'
+    );
+  }
+
+  if (
+    limits.document <= 0
+  ) {
+    errors.push(
+      'STORAGE_MAX_DOCUMENT_MB must be greater than zero.'
+    );
+  }
+
+  if (
+    limits.pdf <= 0
+  ) {
+    errors.push(
+      'STORAGE_MAX_PDF_MB must be greater than zero.'
+    );
+  }
+
+  if (
+    limits.video <= 0
+  ) {
+    errors.push(
+      'STORAGE_MAX_VIDEO_MB must be greater than zero.'
+    );
+  }
+
+  if (
+    signedUrls.expiresInSeconds <= 0
+  ) {
+    errors.push(
+      'STORAGE_SIGNED_URL_EXPIRY must be greater than zero.'
+    );
+  }
+
+  if (
+    imageProcessing.quality < 1 ||
+    imageProcessing.quality > 100
+  ) {
+    errors.push(
+      'STORAGE_IMAGE_QUALITY must be between 1 and 100.'
+    );
+  }
+
+  for (
+    const warning of warnings
+  ) {
+    console.warn(
+      warning
+    );
+  }
+
+  if (
+    errors.length > 0
+  ) {
+    throw new Error(
+      `[GHAR STORAGE CONFIG ERROR]\n- ${errors.join('\n- ')}`
+    );
   }
 
   return true;
 }
 
-/**
- * Sanitize filename.
- *
- * @param {string} filename
- * @returns {string}
- */
-function sanitizeFilename(filename) {
-  if (
-    typeof filename !== "string" ||
-    !filename.trim()
-  ) {
-    return "";
-  }
-
-  let safeName =
-    path.basename(filename);
-
-  safeName = safeName
-    .replace(
-      /[<>:"/\\|?*\x00-\x1F]/g,
-      "-"
-    )
-    .replace(/\s+/g, "-")
-    .replace(/-+/g, "-")
-    .replace(/^\.+/, "")
-    .trim();
-
-  if (
-    storageConfig.security
-      .rejectDoubleExtensions
-  ) {
-    const extensionCount =
-      (safeName.match(/\./g) || [])
-        .length;
-
-    if (extensionCount > 1) {
-      return "";
-    }
-  }
-
-  return safeName;
-}
-
 /* ============================================================
- * OBJECT STORAGE KEY
- * ============================================================
- */
+   24. SAFE CONFIGURATION
+   ============================================================ */
 
-/**
- * Build a safe object-storage key.
- *
- * Example:
- *
- * property-images/abc123.webp
- *
- * @param {string} category
- * @param {string} filename
- * @returns {string|null}
- */
-function buildObjectKey(
-  category,
-  filename
-) {
-  if (
-    !isValidCategory(category) ||
-    !filename
-  ) {
-    return null;
-  }
-
-  const safeFilename =
-    sanitizeFilename(filename);
-
-  if (!safeFilename) {
-    return null;
-  }
-
-  return `${getStoragePath(
-    category
-  )}/${safeFilename}`;
-}
-
-/* ============================================================
- * PUBLIC URL
- * ============================================================
- */
-
-/**
- * Generate a public URL.
- *
- * Only public categories are allowed.
- *
- * @param {string} category
- * @param {string} filename
- * @returns {string|null}
- */
-function getPublicUrl(
-  category,
-  filename
-) {
-  if (
-    !isValidCategory(category) ||
-    !isPublicCategory(category)
-  ) {
-    return null;
-  }
-
-  const key =
-    buildObjectKey(
-      category,
-      filename
-    );
-
-  if (!key) {
-    return null;
-  }
-
-  if (isLocalStorage()) {
-    return `${storageConfig.local.publicPath}/${key}`;
-  }
-
-  if (storageConfig.s3.publicUrl) {
-    return `${storageConfig.s3.publicUrl.replace(
-      /\/$/,
-      ""
-    )}/${key}`;
-  }
-
-  return null;
-}
-
-/* ============================================================
- * SIGNED URL SUPPORT
- * ============================================================
- */
-
-/**
- * Check whether signed URLs can be generated.
- *
- * @param {string} category
- * @returns {boolean}
- */
-function canGenerateSignedUrl(
-  category
-) {
-  return Boolean(
-    storageConfig.signedUrls.enabled &&
-      isPrivateCategory(category) &&
-      isObjectStorage() &&
-      isS3Configured()
-  );
-}
-
-/**
- * Get signed URL expiry.
- *
- * @param {number} requestedSeconds
- * @returns {number}
- */
-function getSignedUrlExpiry(
-  requestedSeconds
-) {
-  const requested =
-    Number(requestedSeconds);
-
-  if (
-    !Number.isFinite(requested) ||
-    requested <= 0
-  ) {
-    return storageConfig.signedUrls
-      .expiresIn;
-  }
-
-  return Math.min(
-    requested,
-    storageConfig.signedUrls
-      .maxExpiresIn
-  );
-}
-
-/* ============================================================
- * CONFIGURATION VALIDATION
- * ============================================================
- */
-
-/**
- * Validate storage configuration.
- *
- * Production fails fast.
- * Development returns diagnostic information.
- *
- * @returns {Object}
- */
-function validateStorageConfig() {
-  const errors = [];
-
-  if (
-    !SUPPORTED_PROVIDERS.includes(
-      provider
-    )
-  ) {
-    errors.push(
-      `Unsupported STORAGE_PROVIDER: ${provider}`
-    );
-  }
-
-  if (
-    storageConfig.signedUrls
-      .expiresIn <= 0
-  ) {
-    errors.push(
-      "STORAGE_SIGNED_URL_EXPIRY must be greater than 0."
-    );
-  }
-
-  if (
-    storageConfig.signedUrls
-      .expiresIn >
-    storageConfig.signedUrls
-      .maxExpiresIn
-  ) {
-    errors.push(
-      "STORAGE_SIGNED_URL_EXPIRY cannot exceed STORAGE_SIGNED_URL_MAX_EXPIRY."
-    );
-  }
-
-  if (
-    isObjectStorage() &&
-    !isS3Configured()
-  ) {
-    errors.push(
-      "Object storage requires STORAGE_BUCKET, STORAGE_ACCESS_KEY and STORAGE_SECRET_KEY."
-    );
-  }
-
-  if (
-    env.nodeEnv === "production" &&
-    errors.length > 0
-  ) {
-    throw new Error(
-      `Invalid GHAR storage configuration:\n- ${errors.join(
-        "\n- "
-      )}`
-    );
-  }
-
+function getSafeConfig() {
   return {
-    valid:
-      errors.length === 0,
-
-    configured:
-      isStorageConfigured(),
+    enabled,
 
     provider,
 
-    errors
-  };
-}
+    environment,
 
-/* ============================================================
- * SAFE DIAGNOSTICS
- * ============================================================
- */
-
-/**
- * Return safe storage configuration.
- *
- * NEVER returns:
- * - accessKey
- * - secretKey
- */
-function getSafeStorageConfig() {
-  return {
-    enabled:
-      storageConfig.enabled,
-
-    configured:
-      isStorageConfigured(),
-
-    provider:
-      storageConfig.provider,
+    providerConfigured:
+      isProviderConfigured(),
 
     local: {
       root:
-        storageConfig.local.root,
-
-      publicPath:
-        storageConfig.local.publicPath
+        provider === 'local'
+          ? local.root
+          : '[not active]'
     },
 
-    objectStorage: {
+    cloudinary: {
+      configured:
+        Boolean(
+          cloudinary.cloudName &&
+          cloudinary.apiKey &&
+          cloudinary.apiSecret
+        ),
+
+      cloudName:
+        cloudinary.cloudName
+          ? '[configured]'
+          : null
+    },
+
+    s3: {
+      configured:
+        Boolean(
+          s3.bucket &&
+          s3.accessKeyId &&
+          s3.secretAccessKey
+        ),
+
       bucket:
-        storageConfig.s3.bucket,
+        s3.bucket
+          ? '[configured]'
+          : null,
 
       region:
-        storageConfig.s3.region,
-
-      endpoint:
-        storageConfig.s3.endpoint,
-
-      publicUrl:
-        storageConfig.s3.publicUrl,
-
-      forcePathStyle:
-        storageConfig.s3.forcePathStyle
+        s3.region
     },
 
-    paths:
-      storageConfig.paths,
+    r2: {
+      configured:
+        Boolean(
+          r2.bucket &&
+          r2.accountId &&
+          r2.accessKeyId &&
+          r2.secretAccessKey
+        ),
 
-    access:
-      storageConfig.access,
+      bucket:
+        r2.bucket
+          ? '[configured]'
+          : null
+    },
+
+    limits: {
+      ...limits
+    },
 
     signedUrls: {
       enabled:
-        storageConfig.signedUrls.enabled,
+        signedUrls.enabled,
 
-      expiresIn:
-        storageConfig.signedUrls.expiresIn,
-
-      maxExpiresIn:
-        storageConfig.signedUrls
-          .maxExpiresIn
+      expiresInSeconds:
+        signedUrls.expiresInSeconds
     },
 
-    security: {
-      validateMimeType:
-        storageConfig.security
-          .validateMimeType,
+    imageProcessing: {
+      ...imageProcessing
+    },
 
-      validateExtension:
-        storageConfig.security
-          .validateExtension,
+    access: {
+      ...access
+    },
 
-      scanFiles:
-        storageConfig.security
-          .scanFiles,
-
-      rejectExecutables:
-        storageConfig.security
-          .rejectExecutables,
-
-      rejectDoubleExtensions:
-        storageConfig.security
-          .rejectDoubleExtensions,
-
-      preventPathTraversal:
-        storageConfig.security
-          .preventPathTraversal
+    features: {
+      ...features
     }
   };
 }
 
 /* ============================================================
- * STARTUP
- * ============================================================
- */
+   25. EXPORT
+   ============================================================ */
 
-validateStorageConfig();
+const storage = {
+  enabled,
 
-if (
-  isLocalStorage() &&
-  storageConfig.local
-    .createDirectories
-) {
-  ensureLocalDirectories();
-}
+  provider,
 
-/* ============================================================
- * EXPORTS
- * ============================================================
- */
+  environment,
 
-module.exports = {
-  storageConfig,
+  local,
 
-  SUPPORTED_PROVIDERS,
+  cloudinary,
 
-  isLocalStorage,
-  isObjectStorage,
-  isS3Configured,
-  isStorageConfigured,
+  s3,
 
-  isValidCategory,
+  r2,
 
-  getStoragePath,
-  getLocalStoragePath,
+  limits,
 
-  getAccessMode,
-  isPublicCategory,
-  isPrivateCategory,
+  allowedMimeTypes,
 
-  ensureLocalDirectories,
+  folders,
 
-  isSafePath,
-  sanitizeFilename,
-  buildObjectKey,
+  access,
+
+  signedUrls,
+
+  imageProcessing,
+
+  filenames,
+
+  retention,
+
+  features,
+
+  isProviderSupported,
+
+  isProviderConfigured,
+
+  getProviderConfig,
+
+  isAllowedMimeType,
+
+  validateFileSize,
+
+  getLocalPath,
 
   getPublicUrl,
 
-  canGenerateSignedUrl,
-  getSignedUrlExpiry,
+  isFeatureEnabled,
 
-  validateStorageConfig,
-  getSafeStorageConfig
+  getSafeConfig,
+
+  validate
 };
+
+/* ============================================================
+   26. VALIDATE ON LOAD
+   ============================================================ */
+
+validate();
+
+/* ============================================================
+   27. EXPORT
+   ============================================================ */
+
+module.exports = storage;

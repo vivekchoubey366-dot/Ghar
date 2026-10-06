@@ -1,615 +1,600 @@
-"use strict";
+'use strict';
 
 /**
  * ============================================================
- * GHAR AI - CENTRAL AI CONFIGURATION
+ * GHAR - AI Configuration
  * ============================================================
  *
- * Architecture:
+ * Central configuration for all GHAR AI services.
  *
- * Frontend
- *    ↓
- * AI Frontend Router
- *    ↓
- * /api/ai/*
- *    ↓
- * ai.routes.js
- *    ↓
- * ai.controller.js
- *    ↓
- * AI Service Router
- *    ↓
- * Individual AI Services
- *    ↓
- * External AI Provider / Model
- *    ↓
- * GHAR Models / Database
+ * Used by:
+ * - AI assistant
+ * - Property recommendations
+ * - Property search assistance
+ * - Property descriptions
+ * - Document assistance
+ * - Loan assistance
+ * - Admin AI
+ * - Fraud/risk analysis
+ * - Market insights
  *
- * This file is the single configuration source for the
- * server-side GHAR AI system.
- *
- * IMPORTANT:
- * - Never expose AI_API_KEY to frontend JavaScript.
- * - Never put the API key in HTML.
- * - Never commit .env.
- * - Sensitive documents must not automatically be sent
- *   to an external AI provider without explicit controls.
+ * Secrets are loaded from config/env.js.
  * ============================================================
  */
 
-const env = require("./env");
+const env = require('./env');
 
-/* ------------------------------------------------------------
- * HELPERS
- * ------------------------------------------------------------ */
+/* ============================================================
+   1. AI ENABLED
+   ============================================================ */
 
-/**
- * Convert environment string to boolean safely.
- */
-function toBoolean(value, defaultValue = false) {
-  if (value === undefined || value === null || value === "") {
-    return defaultValue;
-  }
+const enabled = Boolean(
+  env.ai &&
+  env.ai.enabled
+);
 
-  return String(value).trim().toLowerCase() === "true";
-}
-
-/**
- * Read a number while preserving valid zero values.
- */
-function toNumber(value, defaultValue, options = {}) {
-  const number = Number(value);
-
-  if (!Number.isFinite(number)) {
-    return defaultValue;
-  }
-
-  if (
-    options.min !== undefined &&
-    number < options.min
-  ) {
-    return defaultValue;
-  }
-
-  if (
-    options.max !== undefined &&
-    number > options.max
-  ) {
-    return defaultValue;
-  }
-
-  return number;
-}
-
-/**
- * Remove trailing slashes from URLs.
- */
-function normalizeUrl(value) {
-  return String(value || "").replace(/\/+$/, "");
-}
-
-/* ------------------------------------------------------------
- * BASIC AI SETTINGS
- * ------------------------------------------------------------ */
+/* ============================================================
+   2. AI PROVIDER
+   ============================================================ */
 
 const provider =
   process.env.AI_PROVIDER ||
-  "openai";
+  'openai';
+
+/* ============================================================
+   3. API CONFIGURATION
+   ============================================================ */
 
 const apiKey =
-  env.ai?.apiKey ||
-  process.env.AI_API_KEY ||
-  "";
+  env.ai.apiKey || null;
 
-const apiUrl = normalizeUrl(
-  env.ai?.apiUrl ||
-    process.env.AI_API_URL ||
-    "https://api.openai.com/v1"
-);
+const apiUrl =
+  env.ai.apiUrl ||
+  'https://api.openai.com/v1';
 
 const model =
-  env.ai?.model ||
-  process.env.AI_MODEL ||
-  "";
+  env.ai.model ||
+  'gpt-5.6';
 
-const fallbackModel =
-  process.env.AI_FALLBACK_MODEL ||
-  "";
+/* ============================================================
+   4. REQUEST SETTINGS
+   ============================================================ */
 
-const environment =
-  env.nodeEnv ||
-  process.env.NODE_ENV ||
-  "development";
+const timeout =
+  Number(env.ai.timeout) || 30000;
 
-/* ------------------------------------------------------------
- * AI ENABLEMENT
- * ------------------------------------------------------------ */
+const maxTokens =
+  Number(env.ai.maxTokens) || 2000;
 
-/*
- * AI_ENABLED is the master switch.
- *
- * Development:
- *   AI_ENABLED=false
- *   → AI requests are disabled.
- *
- * Production:
- *   AI_ENABLED=true
- *   + valid API credentials
- *   → AI can operate.
- */
-
-const explicitlyEnabled =
-  toBoolean(
-    process.env.AI_ENABLED,
-    false
+const temperature =
+  Number(
+    process.env.AI_TEMPERATURE || 0.2
   );
 
-const hasCredentials =
-  Boolean(apiKey);
-
-/*
- * AI is considered operational only when both the master
- * switch and provider credentials are available.
- */
-
-const operational =
-  explicitlyEnabled &&
-  hasCredentials;
-
-/* ------------------------------------------------------------
- * REQUEST CONFIGURATION
- * ------------------------------------------------------------ */
-
-const request = {
-  timeoutMs: toNumber(
-    process.env.AI_TIMEOUT,
-    60_000,
-    {
-      min: 1_000,
-      max: 300_000
-    }
-  ),
-
-  maxRetries: toNumber(
-    process.env.AI_MAX_RETRIES,
-    2,
-    {
-      min: 0,
-      max: 10
-    }
-  ),
-
-  retryDelayMs: toNumber(
-    process.env.AI_RETRY_DELAY_MS,
-    1_000,
-    {
-      min: 100,
-      max: 30_000
-    }
-  ),
-
-  maxConcurrentRequests: toNumber(
-    process.env.AI_MAX_CONCURRENT_REQUESTS,
-    10,
-    {
-      min: 1,
-      max: 100
-    }
-  ),
-
-  maxTokens: toNumber(
-    process.env.AI_MAX_TOKENS,
-    4_000,
-    {
-      min: 1,
-      max: 100_000
-    }
-  ),
-
-  temperature: toNumber(
-    process.env.AI_TEMPERATURE,
-    0.2,
-    {
-      min: 0,
-      max: 2
-    }
-  ),
-
-  topP: toNumber(
-    process.env.AI_TOP_P,
-    1,
-    {
-      min: 0,
-      max: 1
-    }
-  )
-};
-
-/* ------------------------------------------------------------
- * MODEL CONFIGURATION
- * ------------------------------------------------------------ */
-
-const models = {
-  default:
-    model,
-
-  fallback:
-    fallbackModel,
-
-  /*
-   * Optional specialized models.
-   *
-   * If empty, the AI service layer should fall back to
-   * the default model.
-   */
-
-  chat:
-    process.env.AI_CHAT_MODEL ||
-    model,
-
-  search:
-    process.env.AI_SEARCH_MODEL ||
-    model,
-
-  recommendations:
-    process.env.AI_RECOMMENDATIONS_MODEL ||
-    model,
-
-  pricing:
-    process.env.AI_PRICING_MODEL ||
-    model,
-
-  investment:
-    process.env.AI_INVESTMENT_MODEL ||
-    model,
-
-  loans:
-    process.env.AI_LOAN_MODEL ||
-    model,
-
-  documents:
-    process.env.AI_DOCUMENT_MODEL ||
-    model,
-
-  propertyContent:
-    process.env.AI_PROPERTY_CONTENT_MODEL ||
-    model,
-
-  rental:
-    process.env.AI_RENTAL_MODEL ||
-    model,
-
-  moderation:
-    process.env.AI_MODERATION_MODEL ||
-    model,
-
-  fraud:
-    process.env.AI_FRAUD_MODEL ||
-    model
-};
-
-/* ------------------------------------------------------------
- * GHAR AI MODULES
- * ------------------------------------------------------------ */
-
-const modules = {
-  chat: toBoolean(
-    process.env.AI_CHAT,
-    true
-  ),
-
-  search: toBoolean(
-    process.env.AI_PROPERTY_SEARCH,
-    true
-  ),
-
-  recommendations: toBoolean(
-    process.env.AI_RECOMMENDATIONS,
-    true
-  ),
-
-  priceEstimation: toBoolean(
-    process.env.AI_PRICE_ESTIMATION,
-    true
-  ),
-
-  investment: toBoolean(
-    process.env.AI_INVESTMENT_ADVISOR,
-    true
-  ),
-
-  loanAdvisor: toBoolean(
-    process.env.AI_LOAN_ADVISOR,
-    true
-  ),
-
-  documentAssistant: toBoolean(
-    process.env.AI_DOCUMENT_ASSISTANT,
-    true
-  ),
-
-  propertyDescription: toBoolean(
-    process.env.AI_PROPERTY_DESCRIPTION,
-    true
-  ),
-
-  rentalAdvisor: toBoolean(
-    process.env.AI_RENTAL_ASSISTANCE,
-    true
-  ),
-
-  moderation: toBoolean(
-    process.env.AI_MODERATION,
-    true
-  ),
-
-  fraudDetection: toBoolean(
-    process.env.AI_FRAUD_DETECTION,
-    true
-  )
-};
-
-/* ------------------------------------------------------------
- * AI ROUTES
- * ------------------------------------------------------------ */
-
-const routes = {
-  base: "/api/ai",
-
-  chat: "/chat",
-
-  search: "/search",
-
-  recommendations:
-    "/recommendations",
-
-  pricing:
-    "/pricing",
-
-  investment:
-    "/investment",
-
-  loans:
-    "/loans",
-
-  documents:
-    "/documents",
-
-  propertyContent:
-    "/property-content",
-
-  rental:
-    "/rental",
-
-  moderation:
-    "/moderation",
-
-  fraud:
-    "/fraud"
-};
-
-/* ------------------------------------------------------------
- * ROUTE → MODULE MAP
- * ------------------------------------------------------------ */
-
-const routeModules = {
-  chat: "chat",
-  search: "search",
-  recommendations: "recommendations",
-  pricing: "priceEstimation",
-  investment: "investment",
-  loans: "loanAdvisor",
-  documents: "documentAssistant",
-  propertyContent: "propertyDescription",
-  rental: "rentalAdvisor",
-  moderation: "moderation",
-  fraud: "fraudDetection"
-};
-
-/* ------------------------------------------------------------
- * LIMITS
- * ------------------------------------------------------------ */
-
-const limits = {
-  promptLength: toNumber(
-    process.env.AI_MAX_PROMPT_LENGTH,
-    20_000,
-    {
-      min: 100,
-      max: 1_000_000
-    }
-  ),
-
-  contextLength: toNumber(
-    process.env.AI_MAX_CONTEXT_LENGTH,
-    50_000,
-    {
-      min: 100,
-      max: 2_000_000
-    }
-  ),
-
-  outputLength: toNumber(
-    process.env.AI_MAX_OUTPUT_LENGTH,
-    20_000,
-    {
-      min: 100,
-      max: 1_000_000
-    }
-  ),
-
-  requestsPerMinute: toNumber(
-    process.env.AI_REQUESTS_PER_MINUTE,
-    30,
-    {
-      min: 1,
-      max: 10_000
-    }
-  ),
-
-  requestsPerDay: toNumber(
-    process.env.AI_REQUESTS_PER_DAY,
-    500,
-    {
-      min: 1,
-      max: 1_000_000
-    }
-  ),
-
-  maxConversationMessages: toNumber(
-    process.env.AI_MAX_CONVERSATION_MESSAGES,
-    50,
-    {
-      min: 1,
-      max: 500
-    }
-  )
-};
-
-/* ------------------------------------------------------------
- * PRIVACY
- * ------------------------------------------------------------ */
-
-const privacy = {
-  /*
-   * False by default.
-   */
-
-  storePrompts: toBoolean(
-    process.env.AI_STORE_PROMPTS,
-    false
-  ),
-
-  storeResponses: toBoolean(
-    process.env.AI_STORE_RESPONSES,
-    false
-  ),
-
-  /*
-   * This should remain false.
-   *
-   * Sensitive information should be redacted before logging
-   * or sending data to an AI provider.
-   */
-
-  storeSensitiveData: false,
-
-  redactSensitiveData: toBoolean(
-    process.env.AI_REDACT_SENSITIVE_DATA,
-    true
-  ),
-
-  logRequests: toBoolean(
-    process.env.AI_LOG_REQUESTS,
-    true
-  ),
-
-  logResponses: toBoolean(
-    process.env.AI_LOG_RESPONSES,
-    false
-  )
-};
-
-/* ------------------------------------------------------------
- * SECURITY / SAFETY
- * ------------------------------------------------------------ */
-
-const safety = {
-  moderationEnabled: toBoolean(
-    process.env.AI_MODERATION,
-    true
-  ),
-
-  fraudDetectionEnabled: toBoolean(
-    process.env.AI_FRAUD_DETECTION,
-    true
-  ),
-
-  documentSafetyChecks: toBoolean(
-    process.env.AI_DOCUMENT_SAFETY_CHECKS,
-    true
-  ),
-
-  propertyContentModeration: toBoolean(
-    process.env.AI_PROPERTY_CONTENT_MODERATION,
-    true
-  ),
-
-  blockUnsafeRequests: toBoolean(
-    process.env.AI_BLOCK_UNSAFE_REQUESTS,
-    true
-  ),
-
-  requireHumanReviewForFraud: toBoolean(
-    process.env.AI_REQUIRE_HUMAN_REVIEW_FRAUD,
-    true
-  ),
-
-  requireHumanReviewForDocuments: toBoolean(
-    process.env.AI_REQUIRE_HUMAN_REVIEW_DOCUMENTS,
-    true
-  ),
-
-  requireHumanReviewForHighRiskLoans: toBoolean(
-    process.env.AI_REQUIRE_HUMAN_REVIEW_LOANS,
-    true
-  )
-};
-
-/* ------------------------------------------------------------
- * CACHE
- * ------------------------------------------------------------ */
-
-const cache = {
-  enabled: toBoolean(
-    process.env.AI_CACHE_ENABLED,
-    false
-  ),
-
-  ttlMs: toNumber(
-    process.env.AI_CACHE_TTL_MS,
-    300_000,
-    {
-      min: 1_000,
-      max: 86_400_000
-    }
-  )
-};
-
-/* ------------------------------------------------------------
- * FEATURE FLAGS
- * ------------------------------------------------------------ */
+/* ============================================================
+   5. RETRY SETTINGS
+   ============================================================ */
+
+const maxRetries =
+  Number(
+    process.env.AI_MAX_RETRIES || 3
+  );
+
+const retryDelayMs =
+  Number(
+    process.env.AI_RETRY_DELAY_MS || 1000
+  );
+
+/* ============================================================
+   6. RATE LIMITING
+   ============================================================ */
+
+const rateLimitWindowMs =
+  Number(
+    process.env.AI_RATE_LIMIT_WINDOW_MS ||
+    60 * 1000
+  );
+
+const rateLimitMax =
+  Number(
+    process.env.AI_RATE_LIMIT_MAX || 30
+  );
+
+/* ============================================================
+   7. CONTEXT LIMITS
+   ============================================================ */
+
+const maxInputCharacters =
+  Number(
+    process.env.AI_MAX_INPUT_CHARACTERS ||
+    20000
+  );
+
+const maxConversationMessages =
+  Number(
+    process.env.AI_MAX_CONVERSATION_MESSAGES ||
+    20
+  );
+
+/* ============================================================
+   8. SYSTEM IDENTITY
+   ============================================================ */
+
+const systemPrompt = `
+You are GHAR AI, the intelligent assistant for the GHAR
+real-estate platform.
+
+Your responsibilities include helping users with:
+
+- Property discovery
+- Buying property
+- Selling property
+- Renting property
+- Property comparisons
+- Property recommendations
+- Property searches
+- Property descriptions
+- Real-estate questions
+- Loan-related guidance
+- Application guidance
+- Document guidance
+- Property verification guidance
+- General market information
+- GHAR platform navigation
+
+Rules:
+
+1. Do not invent property information.
+2. Do not invent prices, availability, legal status,
+   ownership information, loan approvals, or verification
+   results.
+3. Clearly distinguish between verified GHAR data and
+   general guidance.
+4. Never claim that a loan, application, document, property,
+   or payment has been approved unless the backend confirms it.
+5. Never expose passwords, API keys, JWTs, OTPs, payment
+   credentials, or other secrets.
+6. Do not provide professional legal, financial, or tax
+   advice as a substitute for a qualified professional.
+7. When information is missing, say that it is unavailable
+   rather than guessing.
+8. Respect user privacy.
+9. Keep responses clear, useful, and relevant to the user's
+   request.
+`.trim();
+
+/* ============================================================
+   9. AI FEATURE FLAGS
+   ============================================================ */
 
 const features = {
-  streaming: toBoolean(
-    process.env.AI_STREAMING_ENABLED,
-    true
-  ),
+  assistant:
+    process.env.AI_FEATURE_ASSISTANT !== 'false',
 
-  conversationMemory: toBoolean(
-    process.env.AI_MEMORY_ENABLED,
-    true
-  ),
-
-  recommendations: modules.recommendations,
-
-  documentAnalysis:
-    modules.documentAssistant,
+  propertyRecommendations:
+    process.env.AI_FEATURE_PROPERTY_RECOMMENDATIONS !== 'false',
 
   propertySearch:
-    modules.search
+    process.env.AI_FEATURE_PROPERTY_SEARCH !== 'false',
+
+  propertyDescription:
+    process.env.AI_FEATURE_PROPERTY_DESCRIPTION !== 'false',
+
+  propertyComparison:
+    process.env.AI_FEATURE_PROPERTY_COMPARISON !== 'false',
+
+  documentAssistant:
+    process.env.AI_FEATURE_DOCUMENT_ASSISTANT !== 'false',
+
+  loanAssistant:
+    process.env.AI_FEATURE_LOAN_ASSISTANT !== 'false',
+
+  marketInsights:
+    process.env.AI_FEATURE_MARKET_INSIGHTS !== 'false',
+
+  fraudDetection:
+    process.env.AI_FEATURE_FRAUD_DETECTION !== 'false',
+
+  adminAssistant:
+    process.env.AI_FEATURE_ADMIN_ASSISTANT !== 'false',
+
+  moderation:
+    process.env.AI_FEATURE_MODERATION !== 'false'
 };
 
-/* ------------------------------------------------------------
- * CONFIGURATION OBJECT
- * ------------------------------------------------------------ */
+/* ============================================================
+   10. AI TASK CONFIGURATION
+   ============================================================ */
 
-const aiConfig = {
-  enabled: explicitlyEnabled,
+const tasks = {
+  assistant: {
+    model:
+      process.env.AI_ASSISTANT_MODEL ||
+      model,
 
-  operational,
+    maxTokens:
+      Number(
+        process.env.AI_ASSISTANT_MAX_TOKENS ||
+        maxTokens
+      ),
 
-  environment,
+    temperature:
+      Number(
+        process.env.AI_ASSISTANT_TEMPERATURE ||
+        temperature
+      )
+  },
+
+  propertyRecommendations: {
+    model:
+      process.env.AI_RECOMMENDATION_MODEL ||
+      model,
+
+    maxTokens:
+      Number(
+        process.env.AI_RECOMMENDATION_MAX_TOKENS ||
+        1200
+      ),
+
+    temperature:
+      Number(
+        process.env.AI_RECOMMENDATION_TEMPERATURE ||
+        0.2
+      )
+  },
+
+  propertyDescription: {
+    model:
+      process.env.AI_PROPERTY_DESCRIPTION_MODEL ||
+      model,
+
+    maxTokens:
+      Number(
+        process.env.AI_PROPERTY_DESCRIPTION_MAX_TOKENS ||
+        1000
+      ),
+
+    temperature:
+      Number(
+        process.env.AI_PROPERTY_DESCRIPTION_TEMPERATURE ||
+        0.7
+      )
+  },
+
+  documentAssistant: {
+    model:
+      process.env.AI_DOCUMENT_MODEL ||
+      model,
+
+    maxTokens:
+      Number(
+        process.env.AI_DOCUMENT_MAX_TOKENS ||
+        2000
+      ),
+
+    temperature:
+      Number(
+        process.env.AI_DOCUMENT_TEMPERATURE ||
+        0.1
+      )
+  },
+
+  loanAssistant: {
+    model:
+      process.env.AI_LOAN_MODEL ||
+      model,
+
+    maxTokens:
+      Number(
+        process.env.AI_LOAN_MAX_TOKENS ||
+        1500
+      ),
+
+    temperature:
+      Number(
+        process.env.AI_LOAN_TEMPERATURE ||
+        0.1
+      )
+  },
+
+  marketInsights: {
+    model:
+      process.env.AI_MARKET_MODEL ||
+      model,
+
+    maxTokens:
+      Number(
+        process.env.AI_MARKET_MAX_TOKENS ||
+        2000
+      ),
+
+    temperature:
+      Number(
+        process.env.AI_MARKET_TEMPERATURE ||
+        0.2
+      )
+  },
+
+  fraudDetection: {
+    model:
+      process.env.AI_FRAUD_MODEL ||
+      model,
+
+    maxTokens:
+      Number(
+        process.env.AI_FRAUD_MAX_TOKENS ||
+        1000
+      ),
+
+    temperature:
+      Number(
+        process.env.AI_FRAUD_TEMPERATURE ||
+        0
+      )
+  }
+};
+
+/* ============================================================
+   11. SAFETY SETTINGS
+   ============================================================ */
+
+const safety = {
+  enabled:
+    process.env.AI_SAFETY_ENABLED !== 'false',
+
+  redactSecrets:
+    process.env.AI_REDACT_SECRETS !== 'false',
+
+  redactPersonalData:
+    process.env.AI_REDACT_PERSONAL_DATA !== 'false',
+
+  allowFinancialDecisions:
+    process.env.AI_ALLOW_FINANCIAL_DECISIONS === 'true',
+
+  allowLegalDecisions:
+    process.env.AI_ALLOW_LEGAL_DECISIONS === 'true',
+
+  allowAutomaticApprovals:
+    process.env.AI_ALLOW_AUTOMATIC_APPROVALS === 'true'
+};
+
+/* ============================================================
+   12. CACHE
+   ============================================================ */
+
+const cache = {
+  enabled:
+    process.env.AI_CACHE_ENABLED === 'true',
+
+  ttlSeconds:
+    Number(
+      process.env.AI_CACHE_TTL_SECONDS ||
+      300
+    )
+};
+
+/* ============================================================
+   13. VECTOR / KNOWLEDGE SEARCH
+   ============================================================ */
+
+const knowledge = {
+  enabled:
+    process.env.AI_KNOWLEDGE_ENABLED === 'true',
+
+  provider:
+    process.env.AI_KNOWLEDGE_PROVIDER ||
+    null,
+
+  endpoint:
+    process.env.AI_KNOWLEDGE_ENDPOINT ||
+    null,
+
+  apiKey:
+    process.env.AI_KNOWLEDGE_API_KEY ||
+    null,
+
+  collection:
+    process.env.AI_KNOWLEDGE_COLLECTION ||
+    'ghar'
+};
+
+/* ============================================================
+   14. VALIDATION
+   ============================================================ */
+
+function validate() {
+  const warnings = [];
+  const errors = [];
+
+  if (!enabled) {
+    warnings.push(
+      '[GHAR AI] AI is disabled.'
+    );
+  }
+
+  if (
+    enabled &&
+    !apiKey
+  ) {
+    warnings.push(
+      '[GHAR AI] AI_ENABLED=true but AI_API_KEY is missing.'
+    );
+  }
+
+  if (
+    enabled &&
+    !apiUrl
+  ) {
+    errors.push(
+      'AI_API_URL is required when AI is enabled.'
+    );
+  }
+
+  if (
+    !model
+  ) {
+    warnings.push(
+      '[GHAR AI] No default AI model configured.'
+    );
+  }
+
+  if (
+    timeout < 1000
+  ) {
+    warnings.push(
+      '[GHAR AI] AI timeout is unusually low.'
+    );
+  }
+
+  if (
+    maxRetries < 0
+  ) {
+    errors.push(
+      'AI_MAX_RETRIES cannot be negative.'
+    );
+  }
+
+  for (const warning of warnings) {
+    console.warn(warning);
+  }
+
+  if (errors.length) {
+    throw new Error(
+      `[GHAR AI CONFIG ERROR]\n- ${errors.join('\n- ')}`
+    );
+  }
+
+  return true;
+}
+
+/* ============================================================
+   15. FEATURE CHECK
+   ============================================================ */
+
+function isFeatureEnabled(
+  feature
+) {
+  if (!enabled) {
+    return false;
+  }
+
+  return features[feature] === true;
+}
+
+/* ============================================================
+   16. TASK CONFIG
+   ============================================================ */
+
+function getTaskConfig(
+  taskName
+) {
+  if (
+    !tasks[taskName]
+  ) {
+    throw new Error(
+      `Unknown GHAR AI task: ${taskName}`
+    );
+  }
+
+  return {
+    ...tasks[taskName]
+  };
+}
+
+/* ============================================================
+   17. SAFE CONFIGURATION
+   ============================================================ */
+
+function getSafeConfig() {
+  return {
+    enabled,
+
+    provider,
+
+    apiUrl,
+
+    model,
+
+    timeout,
+
+    maxTokens,
+
+    temperature,
+
+    maxRetries,
+
+    retryDelayMs,
+
+    rateLimit: {
+      windowMs:
+        rateLimitWindowMs,
+
+      max:
+        rateLimitMax
+    },
+
+    limits: {
+      maxInputCharacters,
+      maxConversationMessages
+    },
+
+    features: {
+      ...features
+    },
+
+    safety: {
+      enabled:
+        safety.enabled,
+
+      redactSecrets:
+        safety.redactSecrets,
+
+      redactPersonalData:
+        safety.redactPersonalData,
+
+      allowFinancialDecisions:
+        safety.allowFinancialDecisions,
+
+      allowLegalDecisions:
+        safety.allowLegalDecisions,
+
+      allowAutomaticApprovals:
+        safety.allowAutomaticApprovals
+    },
+
+    cache: {
+      enabled:
+        cache.enabled,
+
+      ttlSeconds:
+        cache.ttlSeconds
+    },
+
+    knowledge: {
+      enabled:
+        knowledge.enabled,
+
+      provider:
+        knowledge.provider,
+
+      collection:
+        knowledge.collection,
+
+      configured:
+        Boolean(
+          knowledge.endpoint &&
+          knowledge.apiKey
+        )
+    }
+  };
+}
+
+/* ============================================================
+   18. EXPORT
+   ============================================================ */
+
+const ai = {
+  enabled,
 
   provider,
 
@@ -617,330 +602,61 @@ const aiConfig = {
 
   apiUrl,
 
-  organization:
-    process.env.AI_ORGANIZATION || "",
+  model,
 
-  project:
-    process.env.AI_PROJECT || "",
+  timeout,
 
-  models,
+  maxTokens,
 
-  request,
+  temperature,
 
-  modules,
+  maxRetries,
 
-  routes,
+  retryDelayMs,
 
-  routeModules,
+  rateLimit: {
+    windowMs:
+      rateLimitWindowMs,
 
-  limits,
+    max:
+      rateLimitMax
+  },
 
-  privacy,
+  limits: {
+    maxInputCharacters,
+
+    maxConversationMessages
+  },
+
+  systemPrompt,
+
+  features,
+
+  tasks,
 
   safety,
 
   cache,
 
-  features
+  knowledge,
+
+  isFeatureEnabled,
+
+  getTaskConfig,
+
+  getSafeConfig,
+
+  validate
 };
 
-/* ------------------------------------------------------------
- * MODULE CHECK
- * ------------------------------------------------------------ */
+/* ============================================================
+   19. VALIDATE ON LOAD
+   ============================================================ */
 
-/**
- * Check whether GHAR AI itself is operational.
- */
-function isAIEnabled() {
-  return Boolean(
-    aiConfig.enabled &&
-    aiConfig.operational
-  );
-}
+validate();
 
-/**
- * Check whether a particular AI module is enabled.
- *
- * @param {string} moduleName
- * @returns {boolean}
- */
-function isAIModuleEnabled(moduleName) {
-  if (!isAIEnabled()) {
-    return false;
-  }
+/* ============================================================
+   20. EXPORT
+   ============================================================ */
 
-  return Boolean(
-    aiConfig.modules[moduleName]
-  );
-}
-
-/* ------------------------------------------------------------
- * ROUTE HELPERS
- * ------------------------------------------------------------ */
-
-/**
- * Get a configured AI route.
- *
- * @param {string} routeName
- * @returns {string|null}
- */
-function getAIRoute(routeName) {
-  return (
-    aiConfig.routes[routeName] ||
-    null
-  );
-}
-
-/**
- * Get the module associated with an AI route.
- *
- * @param {string} routeName
- * @returns {string|null}
- */
-function getAIRouteModule(routeName) {
-  return (
-    aiConfig.routeModules[routeName] ||
-    null
-  );
-}
-
-/**
- * Check whether an AI route/module can be used.
- *
- * @param {string} routeName
- * @returns {boolean}
- */
-function isAIRouteEnabled(routeName) {
-  const moduleName =
-    getAIRouteModule(routeName);
-
-  if (!moduleName) {
-    return false;
-  }
-
-  return isAIModuleEnabled(
-    moduleName
-  );
-}
-
-/* ------------------------------------------------------------
- * MODEL HELPER
- * ------------------------------------------------------------ */
-
-/**
- * Return the model assigned to a module.
- *
- * Falls back to the default model.
- *
- * @param {string} moduleName
- * @returns {string}
- */
-function getAIModel(moduleName) {
-  return (
-    aiConfig.models[moduleName] ||
-    aiConfig.models.default ||
-    ""
-  );
-}
-
-/* ------------------------------------------------------------
- * CONFIGURATION VALIDATION
- * ------------------------------------------------------------ */
-
-function validateAIConfig() {
-  const warnings = [];
-  const errors = [];
-
-  /*
-   * AI is disabled intentionally.
-   */
-
-  if (!aiConfig.enabled) {
-    warnings.push(
-      "GHAR AI is disabled because AI_ENABLED is false."
-    );
-
-    return {
-      valid: true,
-      enabled: false,
-      operational: false,
-      provider: aiConfig.provider,
-      model: aiConfig.models.default,
-      warnings,
-      errors
-    };
-  }
-
-  /*
-   * AI enabled but credentials missing.
-   */
-
-  if (!aiConfig.apiKey) {
-    errors.push(
-      "AI_API_KEY is required when AI_ENABLED=true."
-    );
-  }
-
-  /*
-   * Model should normally be explicitly configured.
-   */
-
-  if (!aiConfig.models.default) {
-    errors.push(
-      "AI_MODEL is not configured."
-    );
-  }
-
-  /*
-   * API URL is required.
-   */
-
-  if (!aiConfig.apiUrl) {
-    errors.push(
-      "AI_API_URL is not configured."
-    );
-  }
-
-  /*
-   * Production should not store sensitive AI data.
-   */
-
-  if (
-    environment === "production" &&
-    aiConfig.privacy.storeSensitiveData
-  ) {
-    errors.push(
-      "Sensitive AI data storage cannot be enabled in production."
-    );
-  }
-
-  /*
-   * Warn about potentially expensive settings.
-   */
-
-  if (
-    aiConfig.request.maxTokens > 20_000
-  ) {
-    warnings.push(
-      "AI_MAX_TOKENS is configured above 20,000."
-    );
-  }
-
-  return {
-    valid:
-      errors.length === 0,
-
-    enabled:
-      aiConfig.enabled,
-
-    operational:
-      errors.length === 0,
-
-    provider:
-      aiConfig.provider,
-
-    model:
-      aiConfig.models.default,
-
-    warnings,
-
-    errors
-  };
-}
-
-/* ------------------------------------------------------------
- * SAFE CONFIGURATION
- * ------------------------------------------------------------ */
-
-/**
- * Returns configuration suitable for diagnostics.
- *
- * NEVER returns the API key.
- */
-function getSafeAIConfig() {
-  return {
-    enabled:
-      aiConfig.enabled,
-
-    operational:
-      aiConfig.operational,
-
-    environment:
-      aiConfig.environment,
-
-    provider:
-      aiConfig.provider,
-
-    apiUrl:
-      aiConfig.apiUrl,
-
-    model:
-      aiConfig.models.default,
-
-    fallbackModel:
-      Boolean(aiConfig.models.fallback),
-
-    modules: {
-      ...aiConfig.modules
-    },
-
-    features: {
-      ...aiConfig.features
-    },
-
-    limits: {
-      ...aiConfig.limits
-    },
-
-    privacy: {
-      ...aiConfig.privacy,
-      storeSensitiveData: false
-    },
-
-    safety: {
-      ...aiConfig.safety
-    }
-  };
-}
-
-/* ------------------------------------------------------------
- * STARTUP VALIDATION
- * ------------------------------------------------------------ */
-
-const validation = validateAIConfig();
-
-if (
-  environment === "production" &&
-  aiConfig.enabled &&
-  !validation.valid
-) {
-  throw new Error(
-    `[GHAR AI] Invalid production AI configuration: ${validation.errors.join(
-      "; "
-    )}`
-  );
-}
-
-/* ------------------------------------------------------------
- * EXPORTS
- * ------------------------------------------------------------ */
-
-module.exports = {
-  aiConfig,
-
-  isAIEnabled,
-
-  isAIModuleEnabled,
-
-  getAIRoute,
-
-  getAIRouteModule,
-
-  isAIRouteEnabled,
-
-  getAIModel,
-
-  validateAIConfig,
-
-  getSafeAIConfig
-};
+module.exports = ai;

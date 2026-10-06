@@ -1,340 +1,336 @@
-"use strict";
+'use strict';
 
 /**
  * ============================================================
- * GHAR - CORS CONFIGURATION
+ * GHAR - CORS Configuration
  * ============================================================
  *
- * Centralized Cross-Origin Resource Sharing configuration.
+ * Central CORS configuration for the GHAR API.
  *
  * Responsibilities:
- * - Parse ALLOWED_ORIGINS from environment
- * - Support multiple frontend origins
- * - Support development localhost origins
- * - Support production restrictions
- * - Protect credentialed requests
+ * - Control allowed frontend origins
+ * - Support local development
+ * - Support Render / production frontend
+ * - Handle credentials
  * - Handle preflight requests
- * - Prevent accidental wildcard + credentials configuration
- * - Expose origin validation for testing
+ * - Reject unauthorized browser origins
  *
- * Environment:
- *
- * ALLOWED_ORIGINS=http://localhost:3000,http://127.0.0.1:3000
- *
- * Production example:
- *
- * ALLOWED_ORIGINS=https://ghar.example.com,https://www.ghar.example.com
  * ============================================================
  */
 
-const cors = require("cors");
-const env = require("./env");
+const cors = require('cors');
+const env = require('./env');
 
-/* ------------------------------------------------------------
- * HELPERS
- * ------------------------------------------------------------ */
+/* ============================================================
+   1. ALLOWED ORIGINS
+   ============================================================ */
 
-function normalizeOrigin(origin) {
-  if (!origin) {
-    return "";
-  }
-
-  return String(origin)
-    .trim()
-    .replace(/\/+$/, "");
-}
-
-function parseOrigins(value) {
-  if (!value) {
-    return [];
-  }
-
-  return String(value)
-    .split(",")
-    .map(normalizeOrigin)
-    .filter(Boolean);
-}
-
-/* ------------------------------------------------------------
- * CONFIGURED ORIGINS
- * ------------------------------------------------------------ */
-
-const configuredOrigins = parseOrigins(
-  process.env.ALLOWED_ORIGINS ||
-    env.allowedOrigins ||
-    env.corsOrigin ||
-    ""
-);
-
-/* ------------------------------------------------------------
- * DEVELOPMENT ORIGINS
- * ------------------------------------------------------------ */
-
-const developmentOrigins = [
-  "http://localhost:3000",
-  "http://localhost:5000",
-  "http://127.0.0.1:3000",
-  "http://127.0.0.1:5000"
-];
-
-/* ------------------------------------------------------------
- * PRODUCTION ORIGINS
- * ------------------------------------------------------------ */
-
-const productionOrigins = configuredOrigins;
-
-/* ------------------------------------------------------------
- * FINAL ORIGIN LIST
- * ------------------------------------------------------------ */
-
-const isProduction =
-  String(env.nodeEnv || process.env.NODE_ENV || "development")
-    .toLowerCase() === "production";
-
-const allowedOrigins = isProduction
-  ? productionOrigins
-  : [
-      ...new Set([
-        ...developmentOrigins,
-        ...configuredOrigins
-      ])
-    ];
-
-/* ------------------------------------------------------------
- * WILDCARD DETECTION
- * ------------------------------------------------------------ */
-
-const wildcardConfigured =
-  allowedOrigins.includes("*");
+const configuredOrigins = Array.isArray(
+  env.cors.origin
+)
+  ? env.cors.origin
+  : [];
 
 /*
- * Credentials cannot safely be combined with:
- *
- * Access-Control-Allow-Origin: *
- *
- * Therefore GHAR rejects wildcard CORS when credentials
- * are enabled.
+ * Remove empty values and normalize origins.
  */
+const allowedOrigins = [
+  ...new Set(
+    configuredOrigins
+      .map(origin =>
+        typeof origin === 'string'
+          ? origin.trim().replace(/\/$/, '')
+          : ''
+      )
+      .filter(Boolean)
+  )
+];
 
-if (wildcardConfigured && env.credentials !== false) {
-  throw new Error(
-    "[GHAR CORS] Wildcard origin (*) cannot be used with credentialed requests."
-  );
-}
+/* ============================================================
+   2. DEVELOPMENT ORIGINS
+   ============================================================ */
 
-/* ------------------------------------------------------------
- * ORIGIN VALIDATION
- * ------------------------------------------------------------ */
+const developmentOrigins = [
+  'http://localhost:3000',
+  'http://localhost:3001',
+  'http://localhost:5173',
+  'http://localhost:5174',
+  'http://127.0.0.1:3000',
+  'http://127.0.0.1:5173'
+];
 
-function isAllowedOrigin(origin) {
+/* ============================================================
+   3. COMBINED ORIGINS
+   ============================================================ */
+
+const allAllowedOrigins = [
+  ...new Set([
+    ...allowedOrigins,
+
+    ...(env.app.environment !== 'production'
+      ? developmentOrigins
+      : [])
+  ])
+];
+
+/* ============================================================
+   4. ORIGIN VALIDATION
+   ============================================================ */
+
+function isOriginAllowed(origin) {
   /*
    * Requests such as:
    *
    * curl
-   * server-to-server requests
+   * server-to-server API requests
    * health checks
    *
    * may not contain an Origin header.
+   *
+   * They should be allowed.
    */
 
   if (!origin) {
     return true;
   }
 
-  const normalizedOrigin = normalizeOrigin(origin);
+  const normalizedOrigin =
+    origin
+      .trim()
+      .replace(/\/$/, '');
 
   /*
-   * Explicit wildcard support only when credentials
-   * are disabled.
+   * Exact match.
    */
 
   if (
-    wildcardConfigured &&
-    env.credentials === false
+    allAllowedOrigins.includes(
+      normalizedOrigin
+    )
   ) {
     return true;
   }
 
-  return allowedOrigins.includes(normalizedOrigin);
+  /*
+   * Development-only localhost handling.
+   */
+
+  if (
+    env.app.environment !== 'production'
+  ) {
+    try {
+      const url =
+        new URL(normalizedOrigin);
+
+      if (
+        (
+          url.hostname === 'localhost' ||
+          url.hostname === '127.0.0.1'
+        ) &&
+        (
+          url.protocol === 'http:' ||
+          url.protocol === 'https:'
+        )
+      ) {
+        return true;
+      }
+    } catch (error) {
+      return false;
+    }
+  }
+
+  return false;
 }
 
-/* ------------------------------------------------------------
- * CORS ERROR
- * ------------------------------------------------------------ */
-
-function createCorsError(origin) {
-  const error = new Error(
-    `CORS policy blocked origin: ${origin}`
-  );
-
-  error.code = "CORS_ORIGIN_NOT_ALLOWED";
-  error.statusCode = 403;
-
-  return error;
-}
-
-/* ------------------------------------------------------------
- * CORS OPTIONS
- * ------------------------------------------------------------ */
+/* ============================================================
+   5. CORS OPTIONS
+   ============================================================ */
 
 const corsOptions = {
-  origin(origin, callback) {
-    if (isAllowedOrigin(origin)) {
-      return callback(null, true);
+  origin: function (
+    origin,
+    callback
+  ) {
+    if (
+      isOriginAllowed(origin)
+    ) {
+      /*
+       * Passing the original origin allows CORS
+       * to return the correct Access-Control-Allow-Origin.
+       */
+
+      callback(null, origin || true);
+
+      return;
     }
 
-    return callback(
-      createCorsError(origin)
-    );
+    const error =
+      new Error(
+        `CORS blocked origin: ${origin}`
+      );
+
+    error.statusCode = 403;
+    error.code = 'CORS_ORIGIN_NOT_ALLOWED';
+
+    callback(error);
   },
 
-  /*
-   * Cookies / Authorization credentials.
-   */
-
   credentials:
-    env.credentials !== false,
-
-  /*
-   * HTTP methods supported by GHAR API.
-   */
+    Boolean(env.cors.credentials),
 
   methods: [
-    "GET",
-    "POST",
-    "PUT",
-    "PATCH",
-    "DELETE",
-    "OPTIONS"
+    'GET',
+    'POST',
+    'PUT',
+    'PATCH',
+    'DELETE',
+    'OPTIONS'
   ],
-
-  /*
-   * Request headers accepted by the API.
-   */
 
   allowedHeaders: [
-    "Origin",
-    "Accept",
-    "Content-Type",
-    "Authorization",
-    "X-Requested-With",
-    "X-Request-ID",
-    "X-CSRF-Token",
-    "Cache-Control",
-    "Pragma"
+    'Origin',
+    'X-Requested-With',
+    'Accept',
+    'Content-Type',
+    'Authorization',
+    'X-Request-ID',
+    'X-CSRF-Token',
+    'X-API-Key'
   ],
-
-  /*
-   * Headers that browser JavaScript is allowed
-   * to read from API responses.
-   */
 
   exposedHeaders: [
-    "X-Request-ID",
-    "Content-Length",
-    "Content-Type"
+    'X-Request-ID',
+    'Content-Length',
+    'Content-Type'
   ],
-
-  /*
-   * Browser preflight response.
-   */
 
   optionsSuccessStatus: 204,
 
-  /*
-   * Cache preflight responses for 24 hours.
-   */
-
   maxAge:
-    Number(process.env.CORS_MAX_AGE) ||
-    86400,
-
-  /*
-   * Prevent unnecessary CORS processing for
-   * successful simple requests.
-   */
-
-  preflightContinue: false
+    env.app.environment === 'production'
+      ? 86400
+      : 3600
 };
 
-/* ------------------------------------------------------------
- * CORS MIDDLEWARE
- * ------------------------------------------------------------ */
+/* ============================================================
+   6. CORS MIDDLEWARE
+   ============================================================ */
 
-const corsMiddleware = cors(corsOptions);
+const corsMiddleware =
+  cors(corsOptions);
 
-/* ------------------------------------------------------------
- * DEVELOPMENT DEBUGGING
- * ------------------------------------------------------------ */
+/* ============================================================
+   7. PREFLIGHT
+   ============================================================ */
 
-function getCorsInfo() {
+/*
+ * Do not use:
+ *
+ * app.options('*', ...)
+ *
+ * because newer path-to-regexp versions can throw:
+ *
+ * PathError: Missing parameter name at index 1: *
+ *
+ * The cors middleware itself handles preflight requests.
+ */
+
+/* ============================================================
+   8. CORS ERROR HANDLER
+   ============================================================ */
+
+function corsErrorHandler(
+  error,
+  req,
+  res,
+  next
+) {
+  if (
+    error &&
+    error.code ===
+      'CORS_ORIGIN_NOT_ALLOWED'
+  ) {
+    return res.status(403).json({
+      success: false,
+      error: 'CORS origin not allowed',
+      code: 'CORS_ORIGIN_NOT_ALLOWED'
+    });
+  }
+
+  return next(error);
+}
+
+/* ============================================================
+   9. SECURITY HEADERS
+   ============================================================ */
+
+function applyCorsSecurityHeaders(
+  req,
+  res,
+  next
+) {
+  /*
+   * Tell browsers that the API expects the
+   * Origin header to be respected.
+   */
+
+  res.setHeader(
+    'Vary',
+    'Origin'
+  );
+
+  next();
+}
+
+/* ============================================================
+   10. SAFE CONFIGURATION
+   ============================================================ */
+
+function getCorsConfig() {
   return {
-    environment: env.nodeEnv,
+    environment:
+      env.app.environment,
+
+    allowedOrigins:
+      [...allAllowedOrigins],
 
     credentials:
-      corsOptions.credentials,
+      Boolean(env.cors.credentials),
 
-    allowedOrigins: [
-      ...allowedOrigins
-    ],
+    methods:
+      [...corsOptions.methods],
 
-    wildcard:
-      wildcardConfigured,
+    allowedHeaders:
+      [...corsOptions.allowedHeaders],
 
-    methods: [
-      ...corsOptions.methods
-    ],
+    exposedHeaders:
+      [...corsOptions.exposedHeaders],
 
     maxAge:
       corsOptions.maxAge
   };
 }
 
-/* ------------------------------------------------------------
- * VALIDATION
- * ------------------------------------------------------------ */
+/* ============================================================
+   11. EXPORT
+   ============================================================ */
 
-function validateCorsConfiguration() {
-  /*
-   * Production should have an explicit allowlist.
-   */
+module.exports = corsMiddleware;
 
-  if (
-    isProduction &&
-    allowedOrigins.length === 0
-  ) {
-    throw new Error(
-      "[GHAR CORS] No ALLOWED_ORIGINS configured for production."
-    );
-  }
+/*
+ * Additional exports are available for modules that
+ * need direct access to CORS configuration.
+ */
 
-  /*
-   * Validate origin formatting.
-   */
-
-  for (const origin of allowedOrigins) {
-    if (
-      origin !== "*" &&
-      !/^https?:\/\//i.test(origin)
-    ) {
-      throw new Error(
-        `[GHAR CORS] Invalid origin: ${origin}`
-      );
-    }
-  }
-}
-
-validateCorsConfiguration();
-
-/* ------------------------------------------------------------
- * EXPORTS
- * ------------------------------------------------------------ */
-
-module.exports = {
-  corsOptions,
-  corsMiddleware,
-  allowedOrigins,
-  isAllowedOrigin,
-  getCorsInfo,
-  validateCorsConfiguration
-};
+module.exports.cors = corsMiddleware;
+module.exports.options = corsOptions;
+module.exports.isOriginAllowed =
+  isOriginAllowed;
+module.exports.corsErrorHandler =
+  corsErrorHandler;
+module.exports.applyCorsSecurityHeaders =
+  applyCorsSecurityHeaders;
+module.exports.getCorsConfig =
+  getCorsConfig;
+module.exports.allowedOrigins =
+  allAllowedOrigins;

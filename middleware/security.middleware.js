@@ -1,204 +1,678 @@
 "use strict";
 
-const crypto = require("crypto");
-
 /**
- * GHAR Security Middleware
+ * ============================================================
+ * GHAR - SECURITY MIDDLEWARE
+ * ============================================================
  *
  * Responsibilities:
- * - Security response headers
- * - Basic request hardening
- * - Request sanitization checks
- * - HTTP method restrictions
- * - Suspicious request detection
- * - Content-Type enforcement for API requests
+ * - Apply HTTP security headers
+ * - Protect against common browser-based attacks
+ * - Prevent clickjacking
+ * - Prevent MIME sniffing
+ * - Configure Content Security Policy
+ * - Control referrer information
+ * - Apply HSTS in production
+ * - Disable unnecessary technology disclosure
+ * - Validate basic request characteristics
+ * - Reject suspiciously large headers
  *
  * NOTE:
- * Authentication, authorization, rate limiting and validation
- * are handled by their dedicated middleware.
+ * This middleware complements config/security.js.
+ *
+ * config/security.js
+ *     → security configuration
+ *
+ * middleware/security.middleware.js
+ *     → applies security controls to requests
+ *
+ * ============================================================
  */
 
-const DEFAULT_ALLOWED_METHODS = [
-  "GET",
-  "POST",
-  "PUT",
-  "PATCH",
-  "DELETE",
-  "OPTIONS"
-];
+const crypto = require("crypto");
 
-const BLOCKED_PATH_PATTERNS = [
-  /\.\.\//,
-  /\.\.\\/,
-  /<script\b/i,
-  /javascript:/i,
-  /vbscript:/i,
-  /data:text\/html/i
-];
 
-function createSecurityNonce() {
-  return crypto.randomBytes(16).toString("base64");
+/**
+ * ------------------------------------------------------------
+ * Configuration
+ * ------------------------------------------------------------
+ */
+
+const NODE_ENV =
+  process.env.NODE_ENV || "development";
+
+const IS_PRODUCTION =
+  NODE_ENV === "production";
+
+const SECURITY_CONFIG =
+  Object.freeze({
+    maxHeaderBytes:
+      Number(
+        process.env.SECURITY_MAX_HEADER_BYTES ||
+        32768
+      ),
+
+    hstsMaxAge:
+      Number(
+        process.env.SECURITY_HSTS_MAX_AGE ||
+        31536000
+      ),
+
+    hstsSubdomains:
+      process.env.SECURITY_HSTS_SUBDOMAINS !==
+      "false",
+
+    hstsPreload:
+      process.env.SECURITY_HSTS_PRELOAD ===
+      "true",
+
+    enableCsp:
+      process.env.SECURITY_ENABLE_CSP !==
+      "false",
+
+    enableHsts:
+      process.env.SECURITY_ENABLE_HSTS !==
+      "false"
+  });
+
+
+/**
+ * ============================================================
+ * CONTENT SECURITY POLICY
+ * ============================================================
+ *
+ * Keep this deliberately restrictive.
+ *
+ * If your frontend requires additional external resources,
+ * add only the exact domains required by the application.
+ *
+ * ============================================================
+ */
+
+function buildContentSecurityPolicy(
+  options = {}
+) {
+  const directives = {
+    defaultSrc: [
+      "'self'"
+    ],
+
+    baseUri: [
+      "'self'"
+    ],
+
+    objectSrc: [
+      "'none'"
+    ],
+
+    frameAncestors: [
+      "'none'"
+    ],
+
+    formAction: [
+      "'self'"
+    ],
+
+    scriptSrc: [
+      "'self'"
+    ],
+
+    styleSrc: [
+      "'self'",
+      "'unsafe-inline'"
+    ],
+
+    imgSrc: [
+      "'self'",
+      "data:",
+      "blob:",
+      "https:"
+    ],
+
+    fontSrc: [
+      "'self'",
+      "data:",
+      "https:"
+    ],
+
+    connectSrc: [
+      "'self'",
+      "https:"
+    ],
+
+    mediaSrc: [
+      "'self'",
+      "https:",
+      "blob:"
+    ],
+
+    frameSrc: [
+      "'self'",
+      "https:"
+    ],
+
+    workerSrc: [
+      "'self'",
+      "blob:"
+    ],
+
+    manifestSrc: [
+      "'self'"
+    ],
+
+    ...options
+  };
+
+  return Object.entries(
+    directives
+  )
+    .map(
+      ([directive, sources]) => {
+        if (
+          !Array.isArray(
+            sources
+          )
+        ) {
+          return directive;
+        }
+
+        return [
+          directive,
+          ...sources
+        ].join(" ");
+      }
+    )
+    .join("; ");
 }
 
-function hasSuspiciousPath(req) {
-  const target = [
-    req.originalUrl || "",
-    req.path || "",
-    req.url || ""
-  ].join(" ");
 
-  return BLOCKED_PATH_PATTERNS.some(
-    (pattern) => pattern.test(target)
-  );
+/**
+ * ============================================================
+ * NONCE GENERATOR
+ * ============================================================
+ *
+ * Useful when the frontend needs controlled inline scripts.
+ *
+ * The generated nonce is available as:
+ *
+ * req.securityNonce
+ *
+ * ============================================================
+ */
+
+function generateNonce() {
+  return crypto
+    .randomBytes(16)
+    .toString("base64");
 }
 
-function setSecurityHeaders(req, res, nonce) {
-  res.setHeader(
+
+/**
+ * ============================================================
+ * SECURITY HEADERS
+ * ============================================================
+ */
+
+function applySecurityHeaders(
+  req,
+  res
+) {
+  /**
+   * Prevent MIME-type sniffing.
+   */
+
+  res.set(
     "X-Content-Type-Options",
     "nosniff"
   );
 
-  res.setHeader(
-    "X-Frame-Options",
-    "SAMEORIGIN"
+
+  /**
+   * Prevent legacy browser information leakage.
+   */
+
+  res.set(
+    "X-Download-Options",
+    "noopen"
   );
 
-  res.setHeader(
+
+  /**
+   * Prevent clickjacking.
+   */
+
+  res.set(
+    "X-Frame-Options",
+    "DENY"
+  );
+
+
+  /**
+   * Referrer policy.
+   */
+
+  res.set(
     "Referrer-Policy",
     "strict-origin-when-cross-origin"
   );
 
-  res.setHeader(
+
+  /**
+   * Restrict browser capabilities.
+   */
+
+  res.set(
     "Permissions-Policy",
     [
       "camera=()",
       "microphone=()",
       "geolocation=()",
-      "payment=(self)"
+      "payment=(self)",
+      "usb=()",
+      "bluetooth=()",
+      "serial=()"
     ].join(", ")
   );
 
-  res.setHeader(
+
+  /**
+   * Prevent cross-domain policy files.
+   */
+
+  res.set(
+    "X-Permitted-Cross-Domain-Policies",
+    "none"
+  );
+
+
+  /**
+   * Cross-Origin Resource Policy.
+   *
+   * Same-origin is the safest default for GHAR.
+   */
+
+  res.set(
+    "Cross-Origin-Resource-Policy",
+    "same-origin"
+  );
+
+
+  /**
+   * Cross-Origin Opener Policy.
+   */
+
+  res.set(
     "Cross-Origin-Opener-Policy",
     "same-origin"
   );
 
-  res.setHeader(
-    "Cross-Origin-Resource-Policy",
-    "same-site"
-  );
 
-  /*
-   * HSTS should normally be enabled only when the
-   * application is served entirely over HTTPS.
+  /**
+   * HSTS should only be enabled over HTTPS.
    */
+
   if (
-    process.env.NODE_ENV === "production" &&
-    process.env.ENABLE_HSTS === "true"
+    IS_PRODUCTION &&
+    SECURITY_CONFIG.enableHsts
   ) {
-    res.setHeader(
+    let value =
+      `max-age=${SECURITY_CONFIG.hstsMaxAge}`;
+
+    if (
+      SECURITY_CONFIG.hstsSubdomains
+    ) {
+      value +=
+        "; includeSubDomains";
+    }
+
+    if (
+      SECURITY_CONFIG.hstsPreload
+    ) {
+      value +=
+        "; preload";
+    }
+
+    res.set(
       "Strict-Transport-Security",
-      "max-age=31536000; includeSubDomains"
+      value
     );
   }
 
-  /*
-   * Nonce is made available to templates or downstream
-   * application code if CSP is enabled at the server layer.
+
+  /**
+   * Content Security Policy.
    */
-  res.locals.cspNonce = nonce;
+
+  if (
+    SECURITY_CONFIG.enableCsp
+  ) {
+    const nonce =
+      generateNonce();
+
+    req.securityNonce =
+      nonce;
+
+    const csp =
+      buildContentSecurityPolicy({
+        scriptSrc: [
+          "'self'",
+          `'nonce-${nonce}'`
+        ]
+      });
+
+    res.set(
+      "Content-Security-Policy",
+      csp
+    );
+  }
+
+
+  /**
+   * Remove Express fingerprinting.
+   */
+
+  res.removeHeader(
+    "X-Powered-By"
+  );
 }
 
-function securityMiddleware(options = {}) {
-  const allowedMethods =
-    options.allowedMethods ||
-    DEFAULT_ALLOWED_METHODS;
 
-  return (req, res, next) => {
-    const nonce = createSecurityNonce();
+/**
+ * ============================================================
+ * REQUEST SIZE / HEADER VALIDATION
+ * ============================================================
+ *
+ * Express/body-parser should also have explicit body limits.
+ * This middleware focuses on headers.
+ *
+ * ============================================================
+ */
 
-    setSecurityHeaders(
-      req,
-      res,
-      nonce
-    );
+function validateRequestHeaders(
+  req,
+  res,
+  next
+) {
+  let totalBytes = 0;
 
-    /*
-     * Reject unsupported HTTP methods.
-     */
+  for (
+    const [
+      name,
+      value
+    ] of Object.entries(
+      req.headers || {}
+    )
+  ) {
+    totalBytes +=
+      Buffer.byteLength(
+        String(name),
+        "utf8"
+      );
+
+    totalBytes +=
+      Buffer.byteLength(
+        String(value),
+        "utf8"
+      );
+  }
+
+  if (
+    totalBytes >
+    SECURITY_CONFIG.maxHeaderBytes
+  ) {
+    return res.status(431).json({
+      success: false,
+
+      error: {
+        code:
+          "REQUEST_HEADERS_TOO_LARGE",
+
+        message:
+          "Request headers are too large.",
+
+        requestId:
+          req.requestId || null
+      }
+    });
+  }
+
+  return next();
+}
+
+
+/**
+ * ============================================================
+ * HTTP METHOD VALIDATION
+ * ============================================================
+ */
+
+function validateHttpMethod(
+  allowedMethods
+) {
+  const methods =
+    Array.isArray(
+      allowedMethods
+    )
+      ? allowedMethods.map(
+          method =>
+            String(
+              method
+            ).toUpperCase()
+        )
+      : null;
+
+  return function methodMiddleware(
+    req,
+    res,
+    next
+  ) {
     if (
-      !allowedMethods.includes(
-        req.method
+      methods &&
+      !methods.includes(
+        req.method.toUpperCase()
       )
     ) {
+      res.set(
+        "Allow",
+        methods.join(", ")
+      );
+
       return res.status(405).json({
         success: false,
+
         error: {
-          code: "METHOD_NOT_ALLOWED",
-          message: "HTTP method is not allowed.",
-          requestId: req.requestId || null
+          code:
+            "METHOD_NOT_ALLOWED",
+
+          message:
+            `HTTP method ${req.method} is not allowed.`,
+
+          requestId:
+            req.requestId || null
         }
       });
     }
 
-    /*
-     * Reject obvious path traversal / script payloads
-     * at the URL level.
-     */
-    if (hasSuspiciousPath(req)) {
-      return res.status(400).json({
-        success: false,
-        error: {
-          code: "INVALID_REQUEST_PATH",
-          message: "The request path is invalid.",
-          requestId: req.requestId || null
-        }
-      });
-    }
-
-    /*
-     * API requests with a body should generally declare
-     * their content type.
-     */
-    if (
-      req.path.startsWith("/api/") &&
-      ["POST", "PUT", "PATCH"].includes(req.method) &&
-      req.body &&
-      Object.keys(req.body).length > 0
-    ) {
-      const contentType =
-        req.get("content-type") || "";
-
-      const validContentType =
-        contentType.includes(
-          "application/json"
-        ) ||
-        contentType.includes(
-          "multipart/form-data"
-        ) ||
-        contentType.includes(
-          "application/x-www-form-urlencoded"
-        );
-
-      if (!validContentType) {
-        return res.status(415).json({
-          success: false,
-          error: {
-            code: "UNSUPPORTED_MEDIA_TYPE",
-            message:
-              "Unsupported request content type.",
-            requestId:
-              req.requestId || null
-          }
-        });
-      }
-    }
-
-    next();
+    return next();
   };
 }
 
+
+/**
+ * ============================================================
+ * BLOCK SUSPICIOUS PATHS
+ * ============================================================
+ *
+ * This is deliberately conservative.
+ *
+ * Do NOT implement aggressive regex-based "hack detection"
+ * here because legitimate URLs, search queries, property names,
+ * and encoded data can trigger false positives.
+ *
+ * ============================================================
+ */
+
+function blockSuspiciousPaths(
+  req,
+  res,
+  next
+) {
+  const path =
+    String(
+      req.path ||
+      ""
+    );
+
+  /**
+   * Reject null bytes.
+   */
+
+  if (
+    path.includes(
+      "\0"
+    )
+  ) {
+    return res.status(400).json({
+      success: false,
+
+      error: {
+        code:
+          "INVALID_REQUEST_PATH",
+
+        message:
+          "The request path is invalid.",
+
+        requestId:
+          req.requestId || null
+      }
+    });
+  }
+
+  return next();
+}
+
+
+/**
+ * ============================================================
+ * SECURE COOKIE OPTIONS
+ * ============================================================
+ *
+ * Use this when setting authentication/session cookies.
+ *
+ * Example:
+ *
+ * res.cookie(
+ *   "ghar_session",
+ *   token,
+ *   secureCookieOptions()
+ * );
+ *
+ * ============================================================
+ */
+
+function secureCookieOptions(
+  options = {}
+) {
+  return {
+    httpOnly:
+      true,
+
+    secure:
+      IS_PRODUCTION,
+
+    sameSite:
+      "lax",
+
+    path:
+      "/",
+
+    ...options
+  };
+}
+
+
+/**
+ * ============================================================
+ * SECURITY MIDDLEWARE
+ * ============================================================
+ *
+ * Main middleware used by server.js.
+ *
+ * ============================================================
+ */
+
+function securityMiddleware(
+  req,
+  res,
+  next
+) {
+  applySecurityHeaders(
+    req,
+    res
+  );
+
+  return next();
+}
+
+
+/**
+ * ============================================================
+ * STRICT SECURITY STACK
+ * ============================================================
+ *
+ * Use this if you want one middleware to apply the complete
+ * request-level security stack.
+ *
+ * ============================================================
+ */
+
+function strictSecurityMiddleware(
+  req,
+  res,
+  next
+) {
+  applySecurityHeaders(
+    req,
+    res
+  );
+
+  return validateRequestHeaders(
+    req,
+    res,
+    () =>
+      blockSuspiciousPaths(
+        req,
+        res,
+        next
+      )
+  );
+}
+
+
+/**
+ * ============================================================
+ * EXPORTS
+ * ============================================================
+ */
+
 module.exports = {
+  SECURITY_CONFIG,
+
   securityMiddleware,
-  createSecurityNonce
+
+  strictSecurityMiddleware,
+
+  applySecurityHeaders,
+
+  buildContentSecurityPolicy,
+
+  generateNonce,
+
+  validateRequestHeaders,
+
+  validateHttpMethod,
+
+  blockSuspiciousPaths,
+
+  secureCookieOptions
 };

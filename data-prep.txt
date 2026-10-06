@@ -1,0 +1,659 @@
+config/
+
+config/
+├── ai.js
+├── cors.js
+├── database.js
+├── email.js
+├── env.js
+├── index.js
+├── payments.js
+├── security.js
+├── storage.js
+└── upload.js
+
+separation will be 
+
+HTTP request
+    ↓
+middleware/upload.middleware.js
+    ↓
+config/upload.js
+    ↓
+validate file
+    ↓
+services/storage.service.js
+    ↓
+config/storage.js
+    ↓
+Local / Cloudinary / S3 / R2
+
+
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+** CONTROLLER AND INTENDED FLOW **
+
+
+
+
+
+                         GHAR BACKEND
+                              │
+                              ▼
+                         server.js
+                              │
+                              ▼
+                    routes/*.routes.js
+                              │
+                              ▼
+                       MIDDLEWARE
+                              │
+             ┌────────────────┼────────────────┐
+             │                │                │
+          Auth/JWT        Validation       Upload
+             │                │                │
+             └────────────────┼────────────────┘
+                              ▼
+                       CONTROLLERS
+                              │
+     ┌────────────────────────┼────────────────────────┐
+     │                        │                        │
+     ▼                        ▼                        ▼
+  Services              Repositories              External APIs
+     │                        │                        │
+     ▼                        ▼                        ▼
+ Business Logic          Database                 AI / Maps /
+                                                    Payments /
+                                                    Email / SMS
+                              │
+                              ▼
+                         PostgreSQL
+                         
+                         
+
+/controllers complete map
+ 
+ 
+ controllers/
+│
+├── admin.controller.js
+├── admin-ai.controller.js
+│
+├── ai.controller.js
+│
+├── application.controller.js
+├── auth.controller.js
+│
+├── compare.controller.js
+├── document.controller.js
+├── favourites.controller.js
+│
+├── loan.controller.js
+├── map.controller.js
+├── marketplace.controller.js
+├── message.controller.js
+│
+├── offer.controller.js
+├── payment.controller.js
+├── property.controller.js
+│
+├── referral.controller.js
+├── search.controller.js
+├── services.controller.js
+├── subscription.controller.js
+├── support.controller.js
+│
+├── user.controller.js
+├── verification.controller.js
+└── visit.controller.js
+
+
+                    ┌──────────────────────┐
+                    │      FRONTEND        │
+                    │ Web / iOS / Android  │
+                    └──────────┬───────────┘
+                               │
+                               ▼
+                    ┌──────────────────────┐
+                    │       SERVER.JS      │
+                    └──────────┬───────────┘
+                               │
+                               ▼
+                    ┌──────────────────────┐
+                    │        ROUTES        │
+                    └──────────┬───────────┘
+                               │
+                               ▼
+                    ┌──────────────────────┐
+                    │     MIDDLEWARE       │
+                    │                      │
+                    │ Auth                 │
+                    │ Roles                │
+                    │ Validation           │
+                    │ Rate Limit           │
+                    │ Upload               │
+                    └──────────┬───────────┘
+                               │
+                               ▼
+                    ┌──────────────────────┐
+                    │     CONTROLLER       │
+                    │                      │
+                    │ Request/Response     │
+                    │ Input validation     │
+                    │ Status codes         │
+                    │ Error handling       │
+                    └──────────┬───────────┘
+                               │
+                               ▼
+                    ┌──────────────────────┐
+                    │       SERVICE        │
+                    │                      │
+                    │ Business logic       │
+                    │ Workflows            │
+                    │ Calculations         │
+                    │ External APIs        │
+                    └──────────┬───────────┘
+                               │
+                               ▼
+                    ┌──────────────────────┐
+                    │     REPOSITORY       │
+                    │                      │
+                    │ SQL queries          │
+                    │ CRUD                 │
+                    │ Transactions         │
+                    └──────────┬───────────┘
+                               │
+                               ▼
+                    ┌──────────────────────┐
+                    │     PostgreSQL       │
+                    └──────────────────────┘
+                    
+                    
+controllers mapped to their services
+
+controllers/
+│
+├── admin.controller.js
+│       ↓
+│   services/admin.service.js
+│       ↓
+│   repositories/admin.repository.js
+│
+├── admin-ai.controller.js
+│       ↓
+│   services/admin-ai.service.js
+│       ↓
+│   repositories/admin-ai.repository.js
+│
+├── ai.controller.js
+│       ↓
+│   services/ai.service.js
+│       ↓
+│   AI Provider
+│
+├── application.controller.js
+│       ↓
+│   services/application.service.js
+│       ↓
+│   repositories/application.repository.js
+│
+├── auth.controller.js
+│       ↓
+│   services/auth.service.js
+│       ↓
+│   repositories/user.repository.js
+│
+├── compare.controller.js
+│       ↓
+│   services/compare.service.js
+│       ↓
+│   repositories/property.repository.js
+│
+├── document.controller.js
+│       ↓
+│   services/document.service.js
+│       ↓
+│   repositories/document.repository.js
+│       ↓
+│   Storage
+│
+├── favourites.controller.js
+│       ↓
+│   services/favourites.service.js
+│       ↓
+│   repositories/favourites.repository.js
+│
+├── loan.controller.js
+│       ↓
+│   services/loan.service.js
+│       ↓
+│   repositories/loan.repository.js
+│
+├── map.controller.js
+│       ↓
+│   services/map.service.js
+│       ↓
+│   Maps API
+│
+├── marketplace.controller.js
+│       ↓
+│   services/marketplace.service.js
+│       ↓
+│   repositories/marketplace.repository.js
+│
+├── message.controller.js
+│       ↓
+│   services/message.service.js
+│       ↓
+│   repositories/message.repository.js
+│
+├── offer.controller.js
+│       ↓
+│   services/offer.service.js
+│       ↓
+│   repositories/offer.repository.js
+│
+├── payment.controller.js
+│       ↓
+│   services/payment.service.js
+│       ↓
+│   repositories/payment.repository.js
+│       ↓
+│   Payment Gateway
+│
+├── property.controller.js
+│       ↓
+│   services/property.service.js
+│       ↓
+│   repositories/property.repository.js
+│
+├── referral.controller.js
+│       ↓
+│   services/referral.service.js
+│       ↓
+│   repositories/referral.repository.js
+│
+├── search.controller.js
+│       ↓
+│   services/search.service.js
+│       ↓
+│   repositories/search.repository.js
+│
+├── services.controller.js
+│       ↓
+│   services/services.service.js
+│       ↓
+│   repositories/services.repository.js
+│
+├── subscription.controller.js
+│       ↓
+│   services/subscription.service.js
+│       ↓
+│   repositories/subscription.repository.js
+│       ↓
+│   Payment Gateway
+│
+├── support.controller.js
+│       ↓
+│   services/support.service.js
+│       ↓
+│   repositories/support.repository.js
+│
+├── user.controller.js
+│       ↓
+│   services/user.service.js
+│       ↓
+│   repositories/user.repository.js
+│
+├── verification.controller.js
+│       ↓
+│   services/verification.service.js
+│       ↓
+│   repositories/verification.repository.js
+│       ↓
+│   KYC / Verification Provider
+│
+└── visit.controller.js
+        ↓
+    services/visit.service.js
+        ↓
+    repositories/visit.repository.js
+    
+    
+    _________________________________________________________________________
+    
+    EXAMPLES
+:::::::::::::::::
+
+Example: Property flow
+
+For example, when a buyer creates a property search:
+ 
+    
+    iOS / Web
+   │
+   │ GET /api/search/properties
+   ▼
+search.routes.js
+   │
+   ▼
+auth.middleware.js
+   │
+   ▼
+search.controller.js
+   │
+   ▼
+search.service.js
+   │
+   ├──────────────► property.repository.js
+   │                       │
+   │                       ▼
+   │                  PostgreSQL
+   │
+   ├──────────────► search/filter logic
+   │
+   └──────────────► map service if required
+   │
+   ▼
+Controller formats response
+   │
+   ▼
+JSON
+   │
+   ▼
+iOS / Web
+
+Example: Buying a property
+
+Your GHAR purchase journey can flow like this:
+
+Buyer
+ │
+ ▼
+property.controller.js
+ │
+ ▼
+property.service.js
+ │
+ ▼
+property.repository.js
+ │
+ ▼
+PostgreSQL
+ │
+ ▼
+Property selected
+ │
+ ▼
+visit.controller.js
+ │
+ ▼
+visit.service.js
+ │
+ ▼
+visit.repository.js
+ │
+ ▼
+Visit scheduled
+ │
+ ▼
+offer.controller.js
+ │
+ ▼
+offer.service.js
+ │
+ ▼
+offer.repository.js
+ │
+ ▼
+Offer submitted
+ │
+ ▼
+application.controller.js
+ │
+ ▼
+application.service.js
+ │
+ ▼
+application.repository.js
+ │
+ ▼
+loan.controller.js
+ │
+ ▼
+loan.service.js
+ │
+ ▼
+Loan processing
+ │
+ ▼
+document.controller.js
+ │
+ ▼
+document.service.js
+ │
+ ▼
+Storage + PostgreSQL
+ │
+ ▼
+payment.controller.js
+ │
+ ▼
+payment.service.js
+ │
+ ▼
+Payment Gateway
+ │
+ ▼
+subscription/payment/application completion
+
+
+
+
+Example: User authentication flow
+
+
+Login
+ │
+ ▼
+auth.routes.js
+ │
+ ▼
+auth.middleware / validation
+ │
+ ▼
+auth.controller.js
+ │
+ ▼
+auth.service.js
+ │
+ ▼
+user.repository.js
+ │
+ ▼
+PostgreSQL
+ │
+ ▼
+Password verification
+ │
+ ▼
+JWT creation
+ │
+ ▼
+Response
+ │
+ ▼
+Frontend
+
+
+
+Admin flow
+
+
+Admin Dashboard
+      │
+      ▼
+admin.routes.js
+      │
+      ▼
+requireAuth
+      │
+      ▼
+requireAdmin
+      │
+      ▼
+admin.controller.js
+      │
+      ├──► admin.service.js
+      │          │
+      │          ▼
+      │    admin.repository.js
+      │
+      └──► Other services
+                 │
+                 ▼
+             PostgreSQL
+             
+ AI admin operations:
+ 
+ Admin Dashboard
+      │
+      ▼
+admin-ai.routes.js
+      │
+      ▼
+requireAuth
+      │
+      ▼
+requireAdmin
+      │
+      ▼
+admin-ai.controller.js
+      │
+      ▼
+admin-ai.service.js
+      │
+      ├──────────► ai.service.js
+      │
+      ├──────────► AI Provider
+      │
+      └──────────► PostgreSQL
+      
+      External services flow
+
+These should not be called directly from controllers where possible.
+
+Controller
+    │
+    ▼
+Service
+    │
+    ├──► AI API
+    │
+    ├──► Google Maps / Maps provider
+    │
+    ├──► Payment Gateway
+    │
+    ├──► Email provider
+    │
+    ├──► SMS / OTP provider
+    │
+    ├──► KYC provider
+    │
+    └──► Cloud Storage
+    
+    
+    so 
+    
+    
+ GHAR/
+│
+├── server.js
+│
+├── config/
+│
+├── middleware/
+│
+├── routes/
+│
+├── controllers/
+│
+├── services/
+│
+├── repositories/
+│
+├── models/
+│
+├── validators/
+│
+├── utils/
+│
+├── integrations/
+│
+├── database/
+│
+├── uploads/
+│
+├── logs/
+│
+└── tests/
+
+:::::::::::::::::::::::;::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+
+db/queries folder is now:
+
+GHAR/
+└── db/
+    └── queries/
+        ├── admin.sql
+        ├── applications.sql
+        ├── auth.sql
+        ├── documents.sql
+        ├── loans.sql
+        ├── messages.sql
+        ├── offers.sql
+        ├── payments.sql
+        ├── properties.sql
+        ├── referrals.sql
+        ├── search.sql
+        ├── subscriptions.sql
+        ├── user.sql
+        └── visits.sql
+       
+       
+       
+The visit lifecycle is:        
+        
+REQUESTED
+   ↓
+PENDING
+   ↓
+CONFIRMED
+   ↓
+COMPLETED
+
+
+And the backend flow is:
+
+buyer/tenant
+    ↓
+routes/visit.routes.js
+    ↓
+middleware/auth.middleware.js
+    ↓
+controllers/visit.controller.js
+    ↓
+services/visit.service.js
+    ↓
+repositories/visit.repository.js
+    ↓
+db/queries/visits.sql
+    ↓
+PostgreSQL
+
+
+
+
+  
+
+    

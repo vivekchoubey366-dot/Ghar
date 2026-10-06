@@ -1,881 +1,802 @@
-"use strict";
+'use strict';
 
 /**
  * ============================================================
- * GHAR
- * Security Configuration
+ * GHAR - Security Configuration
  * ============================================================
  *
- * Central security configuration for the GHAR application.
+ * Central security configuration for the GHAR backend.
  *
  * Responsibilities:
- * - HTTP security headers
- * - Helmet configuration
- * - Content Security Policy
- * - HSTS
- * - Clickjacking protection
- * - MIME sniffing protection
- * - Referrer policy
- * - Permissions policy
- * - Request/body limits
- * - Trusted proxy configuration
- * - Authentication security settings
- * - Cookie security
- * - Password policy
- * - OTP security
+ * - Security headers
+ * - JWT configuration
+ * - Password hashing configuration
+ * - Cookie configuration
  * - CSRF configuration
- * - Production security validation
+ * - Rate-limit settings
+ * - Request security limits
+ * - Sensitive-data protection
  *
- * IMPORTANT:
- * Secrets are NEVER stored in this file.
- * Secrets must come from .env through config/env.js.
+ * Authentication logic belongs in middleware/services.
  * ============================================================
  */
 
-const helmet = require("helmet");
-const env = require("./env");
+const helmet = require('helmet');
+const env = require('./env');
 
 /* ============================================================
- * ENVIRONMENT
- * ============================================================
- */
+   1. ENVIRONMENT
+   ============================================================ */
 
 const isProduction =
-  env.nodeEnv === "production";
-
-const isDevelopment =
-  env.nodeEnv === "development";
-
-const isTest =
-  env.nodeEnv === "test";
+  env.app.environment === 'production';
 
 /* ============================================================
- * TRUST PROXY
- * ============================================================
- *
- * Required when GHAR is behind:
- *
- * - Nginx
- * - Cloudflare
- * - Render
- * - Railway
- * - AWS
- * - Load balancer
- *
- * TRUST_PROXY=1 is recommended for a single reverse proxy.
- */
+   2. SECURITY SETTINGS
+   ============================================================ */
 
-const trustProxy = Number(
-  process.env.TRUST_PROXY || 0
-);
+const settings = {
+  trustProxy: isProduction,
 
-/* ============================================================
- * SECURITY CONFIGURATION
- * ============================================================
- */
-
-const securityConfig = {
-  environment: {
-    production: isProduction,
-    development: isDevelopment,
-    test: isTest,
-
-    trustProxy
-  },
-
-  /* ----------------------------------------------------------
-   * HTTP SECURITY HEADERS
-   * ---------------------------------------------------------- */
+  hidePoweredBy: true,
 
   helmet: {
     enabled: true,
 
-    contentSecurityPolicy: {
-      enabled:
-        process.env.CSP_ENABLED !== "false",
-
-      directives: {
-        defaultSrc: ["'self'"],
-
-        scriptSrc: [
-          "'self'",
-          ...(isDevelopment
-            ? ["'unsafe-inline'"]
-            : [])
-        ],
-
-        styleSrc: [
-          "'self'",
-          "'unsafe-inline'",
-          "https://fonts.googleapis.com"
-        ],
-
-        fontSrc: [
-          "'self'",
-          "https://fonts.gstatic.com",
-          "data:"
-        ],
-
-        imgSrc: [
-          "'self'",
-          "data:",
-          "blob:",
-          "https:"
-        ],
-
-        connectSrc: [
-          "'self'",
-          ...(isDevelopment
-            ? [
-                "http://localhost:*",
-                "ws://localhost:*",
-                "http://127.0.0.1:*",
-                "ws://127.0.0.1:*"
-              ]
-            : [])
-        ],
-
-        mediaSrc: [
-          "'self'",
-          "blob:",
-          "https:"
-        ],
-
-        objectSrc: [
-          "'none'"
-        ],
-
-        frameSrc: [
-          "'self'"
-        ],
-
-        frameAncestors: [
-          "'self'"
-        ],
-
-        baseUri: [
-          "'self'"
-        ],
-
-        formAction: [
-          "'self'"
-        ],
-
-        workerSrc: [
-          "'self'",
-          "blob:"
-        ]
-      }
-    },
+    contentSecurityPolicy:
+      isProduction,
 
     crossOriginEmbedderPolicy:
-      process.env.CROSS_ORIGIN_EMBEDDER_POLICY ===
-      "true",
-
-    crossOriginOpenerPolicy: {
-      policy:
-        process.env.CROSS_ORIGIN_OPENER_POLICY ||
-        "same-origin-allow-popups"
-    },
-
-    crossOriginResourcePolicy: {
-      policy:
-        process.env.CROSS_ORIGIN_RESOURCE_POLICY ||
-        "cross-origin"
-    },
-
-    dnsPrefetchControl: {
-      allow: false
-    },
-
-    frameguard: {
-      action: "deny"
-    },
-
-    hidePoweredBy: true,
-
-    hsts: {
-      enabled:
-        process.env.HSTS_ENABLED !== "false",
-
-      maxAge:
-        Number(process.env.HSTS_MAX_AGE) ||
-        31536000,
-
-      includeSubDomains: true,
-
-      preload:
-        process.env.HSTS_PRELOAD === "true"
-    },
-
-    ieNoOpen: true,
-
-    noSniff: true,
-
-    originAgentCluster: true,
-
-    permittedCrossDomainPolicies: {
-      permittedPolicies: "none"
-    },
-
-    referrerPolicy: {
-      policy:
-        process.env.REFERRER_POLICY ||
-        "strict-origin-when-cross-origin"
-    },
-
-    xssFilter: false
-  },
-
-  /* ----------------------------------------------------------
-   * REQUEST LIMITS
-   * ---------------------------------------------------------- */
-
-  request: {
-    jsonLimit:
-      process.env.JSON_BODY_LIMIT ||
-      "5mb",
-
-    urlEncodedLimit:
-      process.env.URLENCODED_BODY_LIMIT ||
-      "5mb",
-
-    parameterLimit:
-      Number(process.env.PARAMETER_LIMIT) ||
-      100,
-
-    maxHeaderSize:
-      Number(process.env.MAX_HEADER_SIZE) ||
-      16384
-  },
-
-  /* ----------------------------------------------------------
-   * AUTHENTICATION
-   * ---------------------------------------------------------- */
-
-  authentication: {
-    jwt: {
-      algorithm:
-        process.env.JWT_ALGORITHM ||
-        "HS256",
-
-      expiresIn:
-        env.jwtExpiresIn || "7d",
-
-      issuer:
-        process.env.JWT_ISSUER ||
-        "GHAR",
-
-      audience:
-        process.env.JWT_AUDIENCE ||
-        "GHAR_CLIENT"
-    },
-
-    session: {
-      enabled:
-        process.env.SESSION_ENABLED !== "false",
-
-      cookieName:
-        process.env.SESSION_COOKIE_NAME ||
-        "ghar.sid",
-
-      httpOnly: true,
-
-      secure:
-        isProduction,
-
-      sameSite:
-        process.env.SESSION_SAME_SITE ||
-        "lax",
-
-      maxAge:
-        Number(process.env.SESSION_MAX_AGE) ||
-        7 * 24 * 60 * 60 * 1000
-    },
-
-    password: {
-      minimumLength:
-        Number(
-          process.env.PASSWORD_MIN_LENGTH
-        ) || 8,
-
-      maximumLength:
-        Number(
-          process.env.PASSWORD_MAX_LENGTH
-        ) || 128,
-
-      bcryptRounds:
-        Number(
-          process.env.BCRYPT_ROUNDS
-        ) || 12,
-
-      requireUppercase:
-        process.env.PASSWORD_REQUIRE_UPPERCASE !==
-        "false",
-
-      requireLowercase:
-        process.env.PASSWORD_REQUIRE_LOWERCASE !==
-        "false",
-
-      requireNumber:
-        process.env.PASSWORD_REQUIRE_NUMBER !==
-        "false",
-
-      requireSpecialCharacter:
-        process.env.PASSWORD_REQUIRE_SPECIAL !==
-        "false"
-    }
-  },
-
-  /* ----------------------------------------------------------
-   * OTP SECURITY
-   * ---------------------------------------------------------- */
-
-  otp: {
-    enabled:
-      process.env.OTP_ENABLED !== "false",
-
-    expiresMinutes:
-      Number(
-        process.env.OTP_EXPIRES_MINUTES
-      ) || 10,
-
-    length:
-      Number(
-        process.env.OTP_LENGTH
-      ) || 6,
-
-    maximumAttempts:
-      Number(
-        process.env.OTP_MAX_ATTEMPTS
-      ) || 5,
-
-    resendCooldownSeconds:
-      Number(
-        process.env.OTP_RESEND_COOLDOWN
-      ) || 60,
-
-    hashBeforeStorage: true,
-
-    invalidateAfterVerification: true
-  },
-
-  /* ----------------------------------------------------------
-   * CSRF
-   * ----------------------------------------------------------
-   *
-   * GHAR uses JWT Authorization headers for API
-   * authentication. CSRF protection is primarily
-   * required when authentication credentials are
-   * automatically attached by the browser, such as
-   * cookies.
-   */
-
-  csrf: {
-    enabled:
-      process.env.CSRF_ENABLED !== "false",
-
-    headerName:
-      process.env.CSRF_HEADER_NAME ||
-      "X-CSRF-Token",
-
-    cookieName:
-      process.env.CSRF_COOKIE_NAME ||
-      "ghar.csrf",
-
-    cookieHttpOnly: false,
-
-    cookieSecure:
-      isProduction,
-
-    sameSite:
-      process.env.CSRF_SAME_SITE ||
-      "lax",
-
-    ignoredMethods: [
-      "GET",
-      "HEAD",
-      "OPTIONS"
-    ]
-  },
-
-  /* ----------------------------------------------------------
-   * COOKIES
-   * ---------------------------------------------------------- */
-
-  cookies: {
-    secure:
-      isProduction,
-
-    httpOnly: true,
-
-    sameSite:
-      process.env.COOKIE_SAME_SITE ||
-      "lax",
-
-    path: "/"
-  },
-
-  /* ----------------------------------------------------------
-   * PASSWORD RESET
-   * ---------------------------------------------------------- */
-
-  passwordReset: {
-    tokenExpiryMinutes:
-      Number(
-        process.env.PASSWORD_RESET_EXPIRY_MINUTES
-      ) || 30,
-
-    maximumAttempts:
-      Number(
-        process.env.PASSWORD_RESET_MAX_ATTEMPTS
-      ) || 5,
-
-    invalidateAfterUse: true
-  },
-
-  /* ----------------------------------------------------------
-   * RATE LIMITING
-   * ---------------------------------------------------------- */
-
-  rateLimit: {
-    enabled:
-      process.env.RATE_LIMIT_ENABLED !==
-      "false",
-
-    windowMs:
-      Number(
-        process.env.RATE_LIMIT_WINDOW_MS
-      ) || 15 * 60 * 1000,
-
-    max:
-      Number(
-        process.env.RATE_LIMIT_MAX
-      ) || 100,
-
-    authMax:
-      Number(
-        process.env.AUTH_RATE_LIMIT_MAX
-      ) || 10,
-
-    aiMax:
-      Number(
-        process.env.AI_REQUESTS_PER_MINUTE
-      ) || 30,
-
-    paymentMax:
-      Number(
-        process.env.PAYMENT_RATE_LIMIT_MAX
-      ) || 30,
-
-    uploadMax:
-      Number(
-        process.env.UPLOAD_RATE_LIMIT_MAX
-      ) || 20,
-
-    standardMessage:
-      "Too many requests. Please try again later."
-  },
-
-  /* ----------------------------------------------------------
-   * FILE SECURITY
-   * ---------------------------------------------------------- */
-
-  uploads: {
-    allowedMimeTypes: [
-      "image/jpeg",
-      "image/png",
-      "image/webp",
-      "image/avif",
-
-      "application/pdf",
-
-      "video/mp4",
-      "video/webm"
-    ],
-
-    allowedExtensions: [
-      ".jpg",
-      ".jpeg",
-      ".png",
-      ".webp",
-      ".avif",
-      ".pdf",
-      ".mp4",
-      ".webm"
-    ],
-
-    blockExecutableFiles: true,
-
-    blockDoubleExtensions: true,
-
-    sanitizeFileNames: true,
-
-    preserveOriginalName:
       false,
 
-    maxFileSize:
-      Number(
-        process.env.UPLOAD_MAX_SIZE
-      ) || 10 * 1024 * 1024
-  },
-
-  /* ----------------------------------------------------------
-   * API SECURITY
-   * ---------------------------------------------------------- */
-
-  api: {
-    requireRequestId:
-      process.env.REQUIRE_REQUEST_ID !==
-      "false",
-
-    requestIdHeader:
-      "X-Request-ID",
-
-    authorizationHeader:
-      "Authorization",
-
-    bearerPrefix:
-      "Bearer",
-
-    rejectMalformedAuthorization:
+    crossOriginOpenerPolicy:
       true,
 
-    preventParameterPollution:
+    crossOriginResourcePolicy:
+      'cross-origin',
+
+    dnsPrefetchControl:
+      true,
+
+    frameguard:
+      'deny',
+
+    hsts:
+      isProduction,
+
+    ieNoOpen:
+      true,
+
+    noSniff:
+      true,
+
+    originAgentCluster:
+      true,
+
+    permittedCrossDomainPolicies:
+      'none',
+
+    referrerPolicy:
+      'strict-origin-when-cross-origin',
+
+    xssFilter:
       true
   },
 
-  /* ----------------------------------------------------------
-   * LOGGING
-   * ---------------------------------------------------------- */
+  jwt: {
+    algorithm:
+      process.env.JWT_ALGORITHM ||
+      'HS256',
 
-  logging: {
-    logSecurityEvents: true,
+    issuer:
+      process.env.JWT_ISSUER ||
+      'GHAR',
 
-    logAuthenticationFailures: true,
-
-    logAuthorizationFailures: true,
-
-    logRateLimitViolations: true,
-
-    logCORSFailures: true,
-
-    logSensitiveData: false,
-
-    redactTokens: true,
-
-    redactPasswords: true,
-
-    redactCookies: true,
-
-    redactAuthorizationHeaders: true
+    audience:
+      process.env.JWT_AUDIENCE ||
+      'GHAR_USERS'
   },
 
-  /* ----------------------------------------------------------
-   * SECURITY FEATURES
-   * ---------------------------------------------------------- */
+  password: {
+    bcryptRounds:
+      env.security.bcryptRounds,
 
-  features: {
-    preventUserEnumeration: true,
+    minLength:
+      Number(
+        process.env.PASSWORD_MIN_LENGTH ||
+        8
+      ),
 
-    preventTimingAttacks: true,
+    maxLength:
+      Number(
+        process.env.PASSWORD_MAX_LENGTH ||
+        128
+      )
+  },
 
-    sanitizeInput: true,
+  cookies: {
+    httpOnly:
+      true,
 
-    validateInput: true,
-
-    sanitizeHTML: true,
-
-    preventSQLInjection: true,
-
-    preventXSS: true,
-
-    preventClickjacking: true,
-
-    preventMimeSniffing: true,
-
-    secureHeaders: true,
-
-    secureCookies:
+    secure:
       isProduction,
 
-    auditSecurityEvents: true
+    sameSite:
+      process.env.COOKIE_SAME_SITE ||
+      'lax',
+
+    maxAge:
+      Number(
+        process.env.COOKIE_MAX_AGE ||
+        30 * 24 * 60 * 60 * 1000
+      ),
+
+    path:
+      '/',
+
+    domain:
+      process.env.COOKIE_DOMAIN ||
+      undefined
+  },
+
+  csrf: {
+    enabled:
+      process.env.CSRF_ENABLED === 'true',
+
+    cookieName:
+      process.env.CSRF_COOKIE_NAME ||
+      'ghar_csrf',
+
+    headerName:
+      process.env.CSRF_HEADER_NAME ||
+      'X-CSRF-Token'
+  },
+
+  requests: {
+    maxBodySize:
+      process.env.MAX_BODY_SIZE ||
+      '2mb',
+
+    maxParameterLimit:
+      Number(
+        process.env.MAX_PARAMETER_LIMIT ||
+        100
+      ),
+
+    requestTimeout:
+      Number(
+        process.env.REQUEST_TIMEOUT ||
+        30000
+      )
+  },
+
+  bruteForce: {
+    enabled:
+      process.env.BRUTE_FORCE_PROTECTION !==
+      'false',
+
+    maxAttempts:
+      Number(
+        process.env.LOGIN_MAX_ATTEMPTS ||
+        5
+      ),
+
+    windowMinutes:
+      Number(
+        process.env.LOGIN_ATTEMPT_WINDOW_MINUTES ||
+        15
+      ),
+
+    lockoutMinutes:
+      Number(
+        process.env.LOGIN_LOCKOUT_MINUTES ||
+        30
+      )
+  },
+
+  securityHeaders: {
+    cacheControl:
+      true,
+
+    pragma:
+      true,
+
+    noStore:
+      isProduction
   }
 };
 
 /* ============================================================
- * HELMET MIDDLEWARE
- * ============================================================
- */
+   3. HELMET CONFIGURATION
+   ============================================================ */
 
-function createHelmetMiddleware() {
-  if (!securityConfig.helmet.enabled) {
-    return (_req, _res, next) => next();
-  }
+const helmetOptions = {
+  contentSecurityPolicy:
+    settings.helmet.contentSecurityPolicy
+      ? {
+          directives: {
+            defaultSrc: [
+              "'self'"
+            ],
 
-  const directives =
-    securityConfig.helmet
-      .contentSecurityPolicy
-      .directives;
+            baseUri: [
+              "'self'"
+            ],
 
-  return helmet({
-    contentSecurityPolicy:
-      securityConfig.helmet
-        .contentSecurityPolicy.enabled
-        ? {
-            directives
+            objectSrc: [
+              "'none'"
+            ],
+
+            frameAncestors: [
+              "'none'"
+            ],
+
+            scriptSrc: [
+              "'self'"
+            ],
+
+            styleSrc: [
+              "'self'",
+              "'unsafe-inline'"
+            ],
+
+            imgSrc: [
+              "'self'",
+              'data:',
+              'blob:',
+              'https:'
+            ],
+
+            fontSrc: [
+              "'self'",
+              'data:',
+              'https:'
+            ],
+
+            connectSrc: [
+              "'self'",
+              'https:'
+            ],
+
+            mediaSrc: [
+              "'self'",
+              'https:',
+              'blob:'
+            ],
+
+            workerSrc: [
+              "'self'",
+              'blob:'
+            ],
+
+            formAction: [
+              "'self'"
+            ],
+
+            upgradeInsecureRequests:
+              []
           }
-        : false,
+        }
+      : false,
 
-    crossOriginEmbedderPolicy:
-      securityConfig.helmet
-        .crossOriginEmbedderPolicy,
+  crossOriginEmbedderPolicy:
+    settings.helmet.crossOriginEmbedderPolicy,
 
-    crossOriginOpenerPolicy:
-      securityConfig.helmet
-        .crossOriginOpenerPolicy,
+  crossOriginOpenerPolicy:
+    settings.helmet.crossOriginOpenerPolicy
+      ? {
+          policy:
+            'same-origin'
+        }
+      : false,
 
-    crossOriginResourcePolicy:
-      securityConfig.helmet
-        .crossOriginResourcePolicy,
+  crossOriginResourcePolicy:
+    {
+      policy:
+        settings.helmet.crossOriginResourcePolicy
+    },
 
-    dnsPrefetchControl:
-      securityConfig.helmet
-        .dnsPrefetchControl,
+  dnsPrefetchControl:
+    {
+      allow:
+        false
+    },
 
-    frameguard:
-      securityConfig.helmet.frameguard,
+  frameguard:
+    {
+      action:
+        settings.helmet.frameguard
+    },
 
-    hidePoweredBy:
-      securityConfig.helmet.hidePoweredBy,
+  hsts:
+    settings.helmet.hsts
+      ? {
+          maxAge:
+            31536000,
 
-    hsts:
-      securityConfig.helmet.hsts.enabled
-        ? {
-            maxAge:
-              securityConfig.helmet.hsts.maxAge,
+          includeSubDomains:
+            true,
 
-            includeSubDomains:
-              securityConfig.helmet.hsts
-                .includeSubDomains,
+          preload:
+            true
+        }
+      : false,
 
-            preload:
-              securityConfig.helmet.hsts.preload
-          }
-        : false,
+  ieNoOpen:
+    settings.helmet.ieNoOpen,
 
-    ieNoOpen:
-      securityConfig.helmet.ieNoOpen,
+  noSniff:
+    settings.helmet.noSniff,
 
-    noSniff:
-      securityConfig.helmet.noSniff,
+  originAgentCluster:
+    settings.helmet.originAgentCluster,
 
-    originAgentCluster:
-      securityConfig.helmet
-        .originAgentCluster,
+  permittedCrossDomainPolicies:
+    {
+      permittedPolicies:
+        settings.helmet.permittedCrossDomainPolicies
+    },
 
-    permittedCrossDomainPolicies:
-      securityConfig.helmet
-        .permittedCrossDomainPolicies,
-
-    referrerPolicy:
-      securityConfig.helmet.referrerPolicy
-  });
-}
-
-/* ============================================================
- * PASSWORD VALIDATION
- * ============================================================
- */
-
-function validatePassword(password) {
-  if (
-    typeof password !== "string"
-  ) {
-    return {
-      valid: false,
-      errors: [
-        "Password must be a string."
-      ]
-    };
-  }
-
-  const errors = [];
-
-  const policy =
-    securityConfig.authentication.password;
-
-  if (
-    password.length <
-    policy.minimumLength
-  ) {
-    errors.push(
-      `Password must contain at least ${policy.minimumLength} characters.`
-    );
-  }
-
-  if (
-    password.length >
-    policy.maximumLength
-  ) {
-    errors.push(
-      `Password cannot exceed ${policy.maximumLength} characters.`
-    );
-  }
-
-  if (
-    policy.requireUppercase &&
-    !/[A-Z]/.test(password)
-  ) {
-    errors.push(
-      "Password must contain an uppercase letter."
-    );
-  }
-
-  if (
-    policy.requireLowercase &&
-    !/[a-z]/.test(password)
-  ) {
-    errors.push(
-      "Password must contain a lowercase letter."
-    );
-  }
-
-  if (
-    policy.requireNumber &&
-    !/[0-9]/.test(password)
-  ) {
-    errors.push(
-      "Password must contain a number."
-    );
-  }
-
-  if (
-    policy.requireSpecialCharacter &&
-    !/[^A-Za-z0-9]/.test(password)
-  ) {
-    errors.push(
-      "Password must contain a special character."
-    );
-  }
-
-  return {
-    valid: errors.length === 0,
-    errors
-  };
-}
+  referrerPolicy:
+    {
+      policy:
+        settings.helmet.referrerPolicy
+    }
+};
 
 /* ============================================================
- * PRODUCTION VALIDATION
- * ============================================================
- */
+   4. SECURITY HEADERS MIDDLEWARE
+   ============================================================ */
 
-function validateSecurityConfig() {
-  const errors = [];
-
-  if (!isProduction) {
-    return {
-      valid: true,
-      errors
-    };
-  }
-
-  if (
-    !env.jwtSecret ||
-    env.jwtSecret.length < 32
-  ) {
-    errors.push(
-      "JWT_SECRET must be at least 32 characters in production."
-    );
-  }
-
-  if (
-    !env.sessionSecret ||
-    env.sessionSecret.length < 32
-  ) {
-    errors.push(
-      "SESSION_SECRET must be at least 32 characters in production."
-    );
-  }
-
-  if (
-    env.jwtSecret &&
-    env.sessionSecret &&
-    env.jwtSecret === env.sessionSecret
-  ) {
-    errors.push(
-      "JWT_SECRET and SESSION_SECRET must be different."
-    );
-  }
-
-  if (
-    securityConfig.cookies.secure !== true
-  ) {
-    errors.push(
-      "Secure cookies must be enabled in production."
-    );
-  }
-
-  if (
-    securityConfig.helmet.hsts.enabled !==
-    true
-  ) {
-    errors.push(
-      "HSTS should be enabled in production."
-    );
-  }
-
-  if (
-    securityConfig.features.secureHeaders !==
-    true
-  ) {
-    errors.push(
-      "Secure HTTP headers must be enabled."
-    );
-  }
-
-  return {
-    valid: errors.length === 0,
-    errors
-  };
-}
+const securityHeaders =
+  helmet(helmetOptions);
 
 /* ============================================================
- * STARTUP VALIDATION
- * ============================================================
- */
+   5. ADDITIONAL SECURITY HEADERS
+   ============================================================ */
 
-const securityValidation =
-  validateSecurityConfig();
-
-if (
-  isProduction &&
-  !securityValidation.valid
+function additionalSecurityHeaders(
+  req,
+  res,
+  next
 ) {
-  throw new Error(
-    `GHAR security configuration error:\n- ${securityValidation.errors.join(
-      "\n- "
-    )}`
+  /*
+   * Prevent MIME sniffing.
+   */
+
+  res.setHeader(
+    'X-Content-Type-Options',
+    'nosniff'
   );
+
+  /*
+   * Prevent clickjacking.
+   */
+
+  res.setHeader(
+    'X-Frame-Options',
+    'DENY'
+  );
+
+  /*
+   * Control browser referrer information.
+   */
+
+  res.setHeader(
+    'Referrer-Policy',
+    settings.helmet.referrerPolicy
+  );
+
+  /*
+   * Prevent caching of sensitive API responses.
+   */
+
+  if (
+    settings.securityHeaders.noStore &&
+    req.path.startsWith('/api/')
+  ) {
+    res.setHeader(
+      'Cache-Control',
+      'no-store, no-cache, must-revalidate, private'
+    );
+
+    res.setHeader(
+      'Pragma',
+      'no-cache'
+    );
+
+    res.setHeader(
+      'Expires',
+      '0'
+    );
+  }
+
+  /*
+   * Disable legacy browser features.
+   */
+
+  res.setHeader(
+    'X-Permitted-Cross-Domain-Policies',
+    'none'
+  );
+
+  next();
 }
 
 /* ============================================================
- * EXPORTS
- * ============================================================
- */
+   6. JWT CONFIGURATION
+   ============================================================ */
 
-module.exports = {
-  securityConfig,
+function getJwtConfig() {
+  return {
+    secret:
+      env.security.jwtSecret,
 
-  createHelmetMiddleware,
+    expiresIn:
+      env.security.jwtExpiresIn,
 
-  validatePassword,
+    algorithm:
+      settings.jwt.algorithm,
 
-  validateSecurityConfig,
+    issuer:
+      settings.jwt.issuer,
 
-  securityValidation,
+    audience:
+      settings.jwt.audience
+  };
+}
 
-  trustProxy,
+/* ============================================================
+   7. REFRESH TOKEN CONFIGURATION
+   ============================================================ */
 
-  isProduction
+function getRefreshTokenConfig() {
+  return {
+    secret:
+      env.security.refreshTokenSecret,
+
+    expiresIn:
+      env.security.refreshTokenExpiresIn,
+
+    algorithm:
+      settings.jwt.algorithm,
+
+    issuer:
+      settings.jwt.issuer,
+
+    audience:
+      settings.jwt.audience
+  };
+}
+
+/* ============================================================
+   8. PASSWORD CONFIGURATION
+   ============================================================ */
+
+function getPasswordConfig() {
+  return {
+    bcryptRounds:
+      settings.password.bcryptRounds,
+
+    minLength:
+      settings.password.minLength,
+
+    maxLength:
+      settings.password.maxLength
+  };
+}
+
+/* ============================================================
+   9. COOKIE CONFIGURATION
+   ============================================================ */
+
+function getCookieConfig() {
+  return {
+    ...settings.cookies
+  };
+}
+
+/* ============================================================
+   10. CSRF CONFIGURATION
+   ============================================================ */
+
+function getCsrfConfig() {
+  return {
+    enabled:
+      settings.csrf.enabled,
+
+    cookieName:
+      settings.csrf.cookieName,
+
+    headerName:
+      settings.csrf.headerName
+  };
+}
+
+/* ============================================================
+   11. REQUEST SECURITY CONFIGURATION
+   ============================================================ */
+
+function getRequestSecurityConfig() {
+  return {
+    maxBodySize:
+      settings.requests.maxBodySize,
+
+    maxParameterLimit:
+      settings.requests.maxParameterLimit,
+
+    requestTimeout:
+      settings.requests.requestTimeout
+  };
+}
+
+/* ============================================================
+   12. LOGIN PROTECTION
+   ============================================================ */
+
+function getBruteForceConfig() {
+  return {
+    enabled:
+      settings.bruteForce.enabled,
+
+    maxAttempts:
+      settings.bruteForce.maxAttempts,
+
+    windowMinutes:
+      settings.bruteForce.windowMinutes,
+
+    lockoutMinutes:
+      settings.bruteForce.lockoutMinutes
+  };
+}
+
+/* ============================================================
+   13. SECURITY VALIDATION
+   ============================================================ */
+
+function validate() {
+  const errors = [];
+  const warnings = [];
+
+  /*
+   * Production JWT validation.
+   */
+
+  if (
+    isProduction &&
+    !env.security.jwtSecret
+  ) {
+    errors.push(
+      'JWT_SECRET is required in production.'
+    );
+  }
+
+  if (
+    isProduction &&
+    !env.security.refreshTokenSecret
+  ) {
+    errors.push(
+      'REFRESH_TOKEN_SECRET is required in production.'
+    );
+  }
+
+  /*
+   * Password validation.
+   */
+
+  if (
+    settings.password.bcryptRounds < 10
+  ) {
+    warnings.push(
+      'BCRYPT_ROUNDS is below the recommended production level.'
+    );
+  }
+
+  if (
+    settings.password.minLength < 8
+  ) {
+    warnings.push(
+      'PASSWORD_MIN_LENGTH is less than 8 characters.'
+    );
+  }
+
+  /*
+   * Cookie validation.
+   */
+
+  if (
+    isProduction &&
+    !settings.cookies.secure
+  ) {
+    errors.push(
+      'Secure cookies must be enabled in production.'
+    );
+  }
+
+  /*
+   * SameSite validation.
+   */
+
+  const validSameSiteValues = [
+    'strict',
+    'lax',
+    'none'
+  ];
+
+  if (
+    !validSameSiteValues.includes(
+      settings.cookies.sameSite
+    )
+  ) {
+    errors.push(
+      'COOKIE_SAME_SITE must be strict, lax, or none.'
+    );
+  }
+
+  /*
+   * SameSite=None requires Secure.
+   */
+
+  if (
+    settings.cookies.sameSite === 'none' &&
+    !settings.cookies.secure
+  ) {
+    errors.push(
+      'SameSite=None requires secure cookies.'
+    );
+  }
+
+  /*
+   * Request timeout validation.
+   */
+
+  if (
+    settings.requests.requestTimeout < 1000
+  ) {
+    warnings.push(
+      'REQUEST_TIMEOUT is unusually low.'
+    );
+  }
+
+  for (
+    const warning of warnings
+  ) {
+    console.warn(
+      `[GHAR SECURITY WARNING] ${warning}`
+    );
+  }
+
+  if (
+    errors.length > 0
+  ) {
+    throw new Error(
+      `[GHAR SECURITY CONFIG ERROR]\n- ${errors.join('\n- ')}`
+    );
+  }
+
+  return true;
+}
+
+/* ============================================================
+   14. SAFE CONFIGURATION
+   ============================================================ */
+
+function getSafeConfig() {
+  return {
+    environment:
+      env.app.environment,
+
+    helmet:
+      settings.helmet,
+
+    jwt: {
+      algorithm:
+        settings.jwt.algorithm,
+
+      issuer:
+        settings.jwt.issuer,
+
+      audience:
+        settings.jwt.audience,
+
+      secretConfigured:
+        Boolean(env.security.jwtSecret),
+
+      refreshSecretConfigured:
+        Boolean(
+          env.security.refreshTokenSecret
+        )
+    },
+
+    password: {
+      bcryptRounds:
+        settings.password.bcryptRounds,
+
+      minLength:
+        settings.password.minLength,
+
+      maxLength:
+        settings.password.maxLength
+    },
+
+    cookies: {
+      httpOnly:
+        settings.cookies.httpOnly,
+
+      secure:
+        settings.cookies.secure,
+
+      sameSite:
+        settings.cookies.sameSite,
+
+      maxAge:
+        settings.cookies.maxAge,
+
+      domain:
+        settings.cookies.domain
+          ? '[configured]'
+          : null
+    },
+
+    csrf: {
+      enabled:
+        settings.csrf.enabled,
+
+      cookieName:
+        settings.csrf.cookieName,
+
+      headerName:
+        settings.csrf.headerName
+    },
+
+    requests:
+      settings.requests,
+
+    bruteForce:
+      settings.bruteForce
+  };
+}
+
+/* ============================================================
+   15. EXPORT
+   ============================================================ */
+
+const security = {
+  settings,
+
+  helmetOptions,
+
+  securityHeaders,
+
+  additionalSecurityHeaders,
+
+  getJwtConfig,
+
+  getRefreshTokenConfig,
+
+  getPasswordConfig,
+
+  getCookieConfig,
+
+  getCsrfConfig,
+
+  getRequestSecurityConfig,
+
+  getBruteForceConfig,
+
+  getSafeConfig,
+
+  validate
 };
+
+/* ============================================================
+   16. VALIDATE ON LOAD
+   ============================================================ */
+
+validate();
+
+/* ============================================================
+   17. EXPORT
+   ============================================================ */
+
+module.exports = security;

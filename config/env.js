@@ -1,987 +1,827 @@
-"use strict";
+'use strict';
 
 /**
  * ============================================================
  * GHAR - Environment Configuration
  * ============================================================
  *
- * Centralized configuration for:
- * - Application
- * - API
- * - Database
- * - Authentication
- * - Sessions
- * - CORS
- * - Uploads
- * - AI
- * - Payments
- * - Email
- * - Storage
- * - Security
- * - Rate limiting
- * - Realtime
- * - Logging
+ * Centralized environment variable loading and validation.
  *
  * IMPORTANT:
- * Never commit .env to Git.
- * Use .env.example as the template.
+ * - Never put real secrets in this file.
+ * - Real values belong in .env locally / Render Environment
+ *   Variables in production.
+ * - Never commit .env to Git.
  * ============================================================
  */
 
-const path = require("path");
-const dotenv = require("dotenv");
+const path = require('path');
+const dotenv = require('dotenv');
 
-// ------------------------------------------------------------
-// Load .env
-// ------------------------------------------------------------
+/* ============================================================
+   1. LOAD .ENV
+   ============================================================ */
+
+const rootDir = path.resolve(__dirname, '..');
 
 dotenv.config({
-  path: path.resolve(process.cwd(), ".env")
+  path: path.join(rootDir, '.env')
 });
 
-// ------------------------------------------------------------
-// Helpers
-// ------------------------------------------------------------
+/* ============================================================
+   2. HELPERS
+   ============================================================ */
 
-function getString(name, fallback = "") {
+function getEnv(name, defaultValue = undefined) {
   const value = process.env[name];
 
-  if (value === undefined || value === null) {
-    return fallback;
+  if (
+    value === undefined ||
+    value === null ||
+    value === ''
+  ) {
+    return defaultValue;
   }
 
-  return String(value).trim();
+  return value.trim();
 }
 
-function getRequiredString(name) {
-  const value = getString(name);
+function getRequiredEnv(name) {
+  const value = getEnv(name);
 
   if (!value) {
     throw new Error(
-      `Missing required environment variable: ${name}`
+      `[GHAR] Missing required environment variable: ${name}`
     );
   }
 
   return value;
 }
 
-function getNumber(name, fallback) {
-  const value = process.env[name];
+function getBooleanEnv(name, defaultValue = false) {
+  const value = getEnv(name);
 
-  if (
-    value === undefined ||
-    value === null ||
-    value === ""
-  ) {
-    return fallback;
-  }
-
-  const parsed = Number(value);
-
-  if (!Number.isFinite(parsed)) {
-    throw new Error(
-      `Environment variable ${name} must be a valid number.`
-    );
-  }
-
-  return parsed;
-}
-
-function getBoolean(name, fallback = false) {
-  const value = process.env[name];
-
-  if (
-    value === undefined ||
-    value === null ||
-    value === ""
-  ) {
-    return fallback;
+  if (value === undefined) {
+    return defaultValue;
   }
 
   return [
-    "true",
-    "1",
-    "yes",
-    "on"
-  ].includes(String(value).toLowerCase());
+    'true',
+    '1',
+    'yes',
+    'on'
+  ].includes(value.toLowerCase());
 }
 
-function getList(name, fallback = []) {
-  const value = process.env[name];
+function getNumberEnv(name, defaultValue) {
+  const value = getEnv(name);
 
-  if (
-    value === undefined ||
-    value === null ||
-    value.trim() === ""
-  ) {
-    return fallback;
+  if (value === undefined) {
+    return defaultValue;
+  }
+
+  const number = Number(value);
+
+  if (Number.isNaN(number)) {
+    throw new Error(
+      `[GHAR] Environment variable ${name} must be a number.`
+    );
+  }
+
+  return number;
+}
+
+function getListEnv(name, defaultValue = []) {
+  const value = getEnv(name);
+
+  if (!value) {
+    return defaultValue;
   }
 
   return value
-    .split(",")
-    .map((item) => item.trim())
+    .split(',')
+    .map(item => item.trim())
     .filter(Boolean);
 }
 
-// ------------------------------------------------------------
-// Environment
-// ------------------------------------------------------------
+/* ============================================================
+   3. APPLICATION
+   ============================================================ */
 
-const nodeEnv = getString(
-  "NODE_ENV",
-  "development"
-).toLowerCase();
+const NODE_ENV = getEnv(
+  'NODE_ENV',
+  'development'
+);
 
-const isProduction = nodeEnv === "production";
-const isDevelopment = nodeEnv === "development";
-const isTest = nodeEnv === "test";
+const PORT = getNumberEnv(
+  'PORT',
+  10000
+);
 
-// ------------------------------------------------------------
-// Main configuration
-// ------------------------------------------------------------
+const API_VERSION = getEnv(
+  'API_VERSION',
+  'v1'
+);
 
-const env = {
-  // ----------------------------------------------------------
-  // Application
-  // ----------------------------------------------------------
+const APP_NAME = getEnv(
+  'APP_NAME',
+  'GHAR'
+);
 
-  nodeEnv,
+const APP_URL = getEnv(
+  'APP_URL',
+  'http://localhost:10000'
+);
 
-  isProduction,
-  isDevelopment,
-  isTest,
+const API_URL = getEnv(
+  'API_URL',
+  `${APP_URL}/api`
+);
 
-  appName: getString(
-    "APP_NAME",
-    "GHAR"
-  ),
+/* ============================================================
+   4. CORS
+   ============================================================ */
 
-  appVersion: getString(
-    "APP_VERSION",
-    "1.0.0"
-  ),
+const CORS_ORIGIN = getListEnv(
+  'CORS_ORIGIN',
+  [
+    'http://localhost:3000',
+    'http://localhost:5173',
+    'http://localhost:10000'
+  ]
+);
 
-  appUrl: getString(
-    "APP_URL",
-    "http://localhost:5000"
-  ),
+const CORS_CREDENTIALS = getBooleanEnv(
+  'CORS_CREDENTIALS',
+  true
+);
 
-  port: getNumber(
-    "PORT",
-    5000
-  ),
+/* ============================================================
+   5. SECURITY
+   ============================================================ */
 
-  host: getString(
-    "HOST",
-    "0.0.0.0"
-  ),
+const JWT_SECRET = getEnv(
+  'JWT_SECRET'
+);
 
-  trustProxy: getBoolean(
-    "TRUST_PROXY",
-    false
-  ),
+const JWT_EXPIRES_IN = getEnv(
+  'JWT_EXPIRES_IN',
+  '15m'
+);
 
-  // ----------------------------------------------------------
-  // API
-  // ----------------------------------------------------------
+const REFRESH_TOKEN_SECRET = getEnv(
+  'REFRESH_TOKEN_SECRET'
+);
 
-  api: {
-    prefix: getString(
-      "API_PREFIX",
-      "/api"
-    ),
+const REFRESH_TOKEN_EXPIRES_IN = getEnv(
+  'REFRESH_TOKEN_EXPIRES_IN',
+  '30d'
+);
 
-    version: getString(
-      "API_VERSION",
-      "v1"
-    ),
+const SESSION_SECRET = getEnv(
+  'SESSION_SECRET'
+);
 
-    enableDocs: getBoolean(
-      "ENABLE_API_DOCS",
-      !isProduction
-    )
-  },
+const COOKIE_SECRET = getEnv(
+  'COOKIE_SECRET'
+);
 
-  // ----------------------------------------------------------
-  // Database
-  // ----------------------------------------------------------
+const BCRYPT_ROUNDS = getNumberEnv(
+  'BCRYPT_ROUNDS',
+  12
+);
 
-  database: {
-    url: getString(
-      "DATABASE_URL",
-      ""
-    ),
+/* ============================================================
+   6. DATABASE
+   ============================================================ */
 
-    host: getString(
-      "DB_HOST",
-      "localhost"
-    ),
+const DATABASE_URL = getEnv(
+  'DATABASE_URL'
+);
 
-    port: getNumber(
-      "DB_PORT",
-      5432
-    ),
+const DB_HOST = getEnv(
+  'DB_HOST'
+);
 
-    name: getString(
-      "DB_NAME",
-      "ghar"
-    ),
+const DB_PORT = getNumberEnv(
+  'DB_PORT',
+  5432
+);
 
-    user: getString(
-      "DB_USER",
-      "postgres"
-    ),
+const DB_NAME = getEnv(
+  'DB_NAME'
+);
 
-    password: getString(
-      "DB_PASSWORD",
-      ""
-    ),
+const DB_USER = getEnv(
+  'DB_USER'
+);
 
-    ssl: getBoolean(
-      "DB_SSL",
-      isProduction
-    ),
+const DB_PASSWORD = getEnv(
+  'DB_PASSWORD'
+);
 
-    poolMin: getNumber(
-      "DB_POOL_MIN",
-      2
-    ),
+const DB_SSL = getBooleanEnv(
+  'DB_SSL',
+  NODE_ENV === 'production'
+);
 
-    poolMax: getNumber(
-      "DB_POOL_MAX",
-      10
-    ),
+const DB_POOL_MIN = getNumberEnv(
+  'DB_POOL_MIN',
+  2
+);
 
-    idleTimeoutMs: getNumber(
-      "DB_IDLE_TIMEOUT_MS",
-      30000
-    ),
+const DB_POOL_MAX = getNumberEnv(
+  'DB_POOL_MAX',
+  10
+);
 
-    connectionTimeoutMs: getNumber(
-      "DB_CONNECTION_TIMEOUT_MS",
-      10000
-    )
-  },
+const DB_IDLE_TIMEOUT = getNumberEnv(
+  'DB_IDLE_TIMEOUT',
+  30000
+);
 
-  // ----------------------------------------------------------
-  // Authentication
-  // ----------------------------------------------------------
+const DB_CONNECTION_TIMEOUT = getNumberEnv(
+  'DB_CONNECTION_TIMEOUT',
+  10000
+);
 
-  auth: {
-    jwtSecret: getString(
-      "JWT_SECRET",
-      ""
-    ),
+/* ============================================================
+   7. EMAIL
+   ============================================================ */
 
-    jwtExpiresIn: getString(
-      "JWT_EXPIRES_IN",
-      "7d"
-    ),
+const EMAIL_HOST = getEnv(
+  'EMAIL_HOST'
+);
 
-    jwtIssuer: getString(
-      "JWT_ISSUER",
-      "GHAR"
-    ),
+const EMAIL_PORT = getNumberEnv(
+  'EMAIL_PORT',
+  587
+);
 
-    jwtAudience: getString(
-      "JWT_AUDIENCE",
-      "GHAR_USERS"
-    ),
+const EMAIL_SECURE = getBooleanEnv(
+  'EMAIL_SECURE',
+  false
+);
 
-    refreshTokenSecret: getString(
-      "REFRESH_TOKEN_SECRET",
-      ""
-    ),
+const EMAIL_USER = getEnv(
+  'EMAIL_USER'
+);
 
-    refreshTokenExpiresIn: getString(
-      "REFRESH_TOKEN_EXPIRES_IN",
-      "30d"
-    ),
+const EMAIL_PASSWORD = getEnv(
+  'EMAIL_PASSWORD'
+);
 
-    sessionSecret: getString(
-      "SESSION_SECRET",
-      ""
-    ),
+const EMAIL_FROM = getEnv(
+  'EMAIL_FROM',
+  'GHAR <no-reply@ghar.com>'
+);
 
-    bcryptRounds: getNumber(
-      "BCRYPT_ROUNDS",
-      12
-    ),
+/* ============================================================
+   8. PAYMENT
+   ============================================================ */
 
-    otpLength: getNumber(
-      "OTP_LENGTH",
-      6
-    ),
+const PAYMENT_PROVIDER = getEnv(
+  'PAYMENT_PROVIDER',
+  'razorpay'
+);
 
-    otpExpiresInMinutes: getNumber(
-      "OTP_EXPIRES_MINUTES",
-      10
-    ),
+const RAZORPAY_KEY_ID = getEnv(
+  'RAZORPAY_KEY_ID'
+);
 
-    maxLoginAttempts: getNumber(
-      "MAX_LOGIN_ATTEMPTS",
-      5
-    )
-  },
+const RAZORPAY_KEY_SECRET = getEnv(
+  'RAZORPAY_KEY_SECRET'
+);
 
-  // ----------------------------------------------------------
-  // CORS
-  // ----------------------------------------------------------
+const RAZORPAY_WEBHOOK_SECRET = getEnv(
+  'RAZORPAY_WEBHOOK_SECRET'
+);
 
-  cors: {
-    origin: getString(
-      "CORS_ORIGIN",
-      "http://localhost:5000"
-    ),
+/* ============================================================
+   9. STORAGE
+   ============================================================ */
 
-    origins: getList(
-      "CORS_ORIGINS",
-      [
-        "http://localhost:5000"
-      ]
-    ),
+const STORAGE_PROVIDER = getEnv(
+  'STORAGE_PROVIDER',
+  'local'
+);
 
-    credentials: getBoolean(
-      "CORS_CREDENTIALS",
-      true
-    )
-  },
+const STORAGE_BUCKET = getEnv(
+  'STORAGE_BUCKET'
+);
 
-  // ----------------------------------------------------------
-  // Uploads
-  // ----------------------------------------------------------
+const STORAGE_REGION = getEnv(
+  'STORAGE_REGION'
+);
 
-  uploads: {
-    directory: getString(
-      "UPLOAD_DIR",
-      path.join(
-        process.cwd(),
-        "uploads"
+const STORAGE_ACCESS_KEY = getEnv(
+  'STORAGE_ACCESS_KEY'
+);
+
+const STORAGE_SECRET_KEY = getEnv(
+  'STORAGE_SECRET_KEY'
+);
+
+/* ============================================================
+   10. FILE UPLOADS
+   ============================================================ */
+
+const MAX_FILE_SIZE_MB = getNumberEnv(
+  'MAX_FILE_SIZE_MB',
+  10
+);
+
+const MAX_FILE_SIZE_BYTES =
+  MAX_FILE_SIZE_MB * 1024 * 1024;
+
+const UPLOAD_DIR = getEnv(
+  'UPLOAD_DIR',
+  path.join(rootDir, 'uploads')
+);
+
+const ALLOWED_FILE_TYPES = getListEnv(
+  'ALLOWED_FILE_TYPES',
+  [
+    'image/jpeg',
+    'image/png',
+    'image/webp',
+    'application/pdf'
+  ]
+);
+
+/* ============================================================
+   11. AI
+   ============================================================ */
+
+const AI_ENABLED = getBooleanEnv(
+  'AI_ENABLED',
+  true
+);
+
+const AI_API_KEY = getEnv(
+  'AI_API_KEY'
+);
+
+const AI_API_URL = getEnv(
+  'AI_API_URL'
+);
+
+const AI_MODEL = getEnv(
+  'AI_MODEL'
+);
+
+const AI_TIMEOUT = getNumberEnv(
+  'AI_TIMEOUT',
+  30000
+);
+
+const AI_MAX_TOKENS = getNumberEnv(
+  'AI_MAX_TOKENS',
+  2000
+);
+
+/* ============================================================
+   12. RATE LIMITING
+   ============================================================ */
+
+const RATE_LIMIT_WINDOW_MS =
+  getNumberEnv(
+    'RATE_LIMIT_WINDOW_MS',
+    15 * 60 * 1000
+  );
+
+const RATE_LIMIT_MAX =
+  getNumberEnv(
+    'RATE_LIMIT_MAX',
+    100
+  );
+
+const AUTH_RATE_LIMIT_MAX =
+  getNumberEnv(
+    'AUTH_RATE_LIMIT_MAX',
+    10
+  );
+
+/* ============================================================
+   13. OTP
+   ============================================================ */
+
+const OTP_EXPIRES_MINUTES =
+  getNumberEnv(
+    'OTP_EXPIRES_MINUTES',
+    10
+  );
+
+const OTP_LENGTH =
+  getNumberEnv(
+    'OTP_LENGTH',
+    6
+  );
+
+/* ============================================================
+   14. LOGGING
+   ============================================================ */
+
+const LOG_LEVEL = getEnv(
+  'LOG_LEVEL',
+  NODE_ENV === 'production'
+    ? 'info'
+    : 'debug'
+);
+
+const LOG_DIR = getEnv(
+  'LOG_DIR',
+  path.join(rootDir, 'logs')
+);
+
+/* ============================================================
+   15. REDIS / CACHE
+   ============================================================ */
+
+const REDIS_URL = getEnv(
+  'REDIS_URL'
+);
+
+const CACHE_ENABLED = getBooleanEnv(
+  'CACHE_ENABLED',
+  Boolean(REDIS_URL)
+);
+
+/* ============================================================
+   16. REALTIME
+   ============================================================ */
+
+const REALTIME_ENABLED = getBooleanEnv(
+  'REALTIME_ENABLED',
+  true
+);
+
+/* ============================================================
+   17. FRONTEND
+   ============================================================ */
+
+const FRONTEND_URL = getEnv(
+  'FRONTEND_URL',
+  APP_URL
+);
+
+/* ============================================================
+   18. ENVIRONMENT VALIDATION
+   ============================================================ */
+
+function validateEnvironment() {
+  const errors = [];
+  const warnings = [];
+
+  /*
+   * Production requirements.
+   */
+
+  if (NODE_ENV === 'production') {
+    if (!JWT_SECRET) {
+      errors.push(
+        'JWT_SECRET is required in production.'
+      );
+    }
+
+    if (!REFRESH_TOKEN_SECRET) {
+      errors.push(
+        'REFRESH_TOKEN_SECRET is required in production.'
+      );
+    }
+
+    if (!DATABASE_URL && !DB_HOST) {
+      errors.push(
+        'DATABASE_URL or DB_HOST is required in production.'
+      );
+    }
+
+    if (
+      PAYMENT_PROVIDER === 'razorpay' &&
+      (
+        !RAZORPAY_KEY_ID ||
+        !RAZORPAY_KEY_SECRET
       )
-    ),
-
-    maxFileSize: getNumber(
-      "MAX_FILE_SIZE",
-      10 * 1024 * 1024
-    ),
-
-    maxPropertyImages: getNumber(
-      "MAX_PROPERTY_IMAGES",
-      30
-    ),
-
-    maxPropertyVideos: getNumber(
-      "MAX_PROPERTY_VIDEOS",
-      5
-    ),
-
-    maxDocuments: getNumber(
-      "MAX_DOCUMENTS",
-      20
-    ),
-
-    allowedImageTypes: getList(
-      "ALLOWED_IMAGE_TYPES",
-      [
-        "image/jpeg",
-        "image/png",
-        "image/webp"
-      ]
-    ),
-
-    allowedDocumentTypes: getList(
-      "ALLOWED_DOCUMENT_TYPES",
-      [
-        "application/pdf",
-        "image/jpeg",
-        "image/png"
-      ]
-    )
-  },
-
-  // ----------------------------------------------------------
-  // AI
-  // ----------------------------------------------------------
-
-  ai: {
-    enabled: getBoolean(
-      "AI_ENABLED",
-      true
-    ),
-
-    provider: getString(
-      "AI_PROVIDER",
-      ""
-    ),
-
-    apiKey: getString(
-      "AI_API_KEY",
-      ""
-    ),
-
-    apiUrl: getString(
-      "AI_API_URL",
-      ""
-    ),
-
-    model: getString(
-      "AI_MODEL",
-      ""
-    ),
-
-    organization: getString(
-      "AI_ORGANIZATION",
-      ""
-    ),
-
-    timeout: getNumber(
-      "AI_TIMEOUT",
-      60000
-    ),
-
-    maxTokens: getNumber(
-      "AI_MAX_TOKENS",
-      4000
-    ),
-
-    temperature: getNumber(
-      "AI_TEMPERATURE",
-      0.3
-    ),
-
-    enableChat: getBoolean(
-      "AI_CHAT_ENABLED",
-      true
-    ),
-
-    enableSearch: getBoolean(
-      "AI_SEARCH_ENABLED",
-      true
-    ),
-
-    enableRecommendations: getBoolean(
-      "AI_RECOMMENDATIONS_ENABLED",
-      true
-    ),
-
-    enablePricing: getBoolean(
-      "AI_PRICING_ENABLED",
-      true
-    ),
-
-    enableInvestment: getBoolean(
-      "AI_INVESTMENT_ENABLED",
-      true
-    ),
-
-    enableLoans: getBoolean(
-      "AI_LOANS_ENABLED",
-      true
-    ),
-
-    enableDocuments: getBoolean(
-      "AI_DOCUMENTS_ENABLED",
-      true
-    ),
-
-    enableRental: getBoolean(
-      "AI_RENTAL_ENABLED",
-      true
-    ),
-
-    enableModeration: getBoolean(
-      "AI_MODERATION_ENABLED",
-      true
-    ),
-
-    enableFraudDetection: getBoolean(
-      "AI_FRAUD_DETECTION_ENABLED",
-      true
-    )
-  },
-
-  // ----------------------------------------------------------
-  // Payments
-  // ----------------------------------------------------------
-
-  payments: {
-    enabled: getBoolean(
-      "PAYMENTS_ENABLED",
-      false
-    ),
-
-    provider: getString(
-      "PAYMENT_PROVIDER",
-      ""
-    ),
-
-    keyId: getString(
-      "PAYMENT_KEY_ID",
-      ""
-    ),
-
-    keySecret: getString(
-      "PAYMENT_KEY_SECRET",
-      ""
-    ),
-
-    webhookSecret: getString(
-      "PAYMENT_WEBHOOK_SECRET",
-      ""
-    ),
-
-    currency: getString(
-      "PAYMENT_CURRENCY",
-      "INR"
-    )
-  },
-
-  // ----------------------------------------------------------
-  // Email
-  // ----------------------------------------------------------
-
-  email: {
-    enabled: getBoolean(
-      "EMAIL_ENABLED",
-      false
-    ),
-
-    host: getString(
-      "EMAIL_HOST",
-      ""
-    ),
-
-    port: getNumber(
-      "EMAIL_PORT",
-      587
-    ),
-
-    secure: getBoolean(
-      "EMAIL_SECURE",
-      false
-    ),
-
-    user: getString(
-      "EMAIL_USER",
-      ""
-    ),
-
-    password: getString(
-      "EMAIL_PASSWORD",
-      ""
-    ),
-
-    from: getString(
-      "EMAIL_FROM",
-      ""
-    ),
-
-    replyTo: getString(
-      "EMAIL_REPLY_TO",
-      ""
-    )
-  },
-
-  // ----------------------------------------------------------
-  // SMS / OTP
-  // ----------------------------------------------------------
-
-  sms: {
-    enabled: getBoolean(
-      "SMS_ENABLED",
-      false
-    ),
-
-    provider: getString(
-      "SMS_PROVIDER",
-      ""
-    ),
-
-    apiKey: getString(
-      "SMS_API_KEY",
-      ""
-    ),
-
-    apiSecret: getString(
-      "SMS_API_SECRET",
-      ""
-    ),
-
-    senderId: getString(
-      "SMS_SENDER_ID",
-      "GHAR"
-    )
-  },
-
-  // ----------------------------------------------------------
-  // Storage
-  // ----------------------------------------------------------
-
-  storage: {
-    provider: getString(
-      "STORAGE_PROVIDER",
-      "local"
-    ),
-
-    bucket: getString(
-      "STORAGE_BUCKET",
-      ""
-    ),
-
-    region: getString(
-      "STORAGE_REGION",
-      ""
-    ),
-
-    endpoint: getString(
-      "STORAGE_ENDPOINT",
-      ""
-    ),
-
-    accessKey: getString(
-      "STORAGE_ACCESS_KEY",
-      ""
-    ),
-
-    secretKey: getString(
-      "STORAGE_SECRET_KEY",
-      ""
-    )
-  },
-
-  // ----------------------------------------------------------
-  // Security
-  // ----------------------------------------------------------
-
-  security: {
-    helmetEnabled: getBoolean(
-      "HELMET_ENABLED",
-      true
-    ),
-
-    csrfEnabled: getBoolean(
-      "CSRF_ENABLED",
-      false
-    ),
-
-    rateLimitWindowMs: getNumber(
-      "RATE_LIMIT_WINDOW",
-      15 * 60 * 1000
-    ),
-
-    rateLimitMax: getNumber(
-      "RATE_LIMIT_MAX",
-      100
-    ),
-
-    authRateLimitMax: getNumber(
-      "AUTH_RATE_LIMIT_MAX",
-      10
-    ),
-
-    aiRateLimitMax: getNumber(
-      "AI_RATE_LIMIT_MAX",
-      30
-    ),
-
-    maxRequestBodySize: getString(
-      "MAX_REQUEST_BODY_SIZE",
-      "5mb"
-    )
-  },
-
-  // ----------------------------------------------------------
-  // Realtime
-  // ----------------------------------------------------------
-
-  realtime: {
-    enabled: getBoolean(
-      "REALTIME_ENABLED",
-      false
-    ),
-
-    provider: getString(
-      "REALTIME_PROVIDER",
-      "socket.io"
-    ),
-
-    url: getString(
-      "REALTIME_URL",
-      ""
-    )
-  },
-
-  // ----------------------------------------------------------
-  // Maps
-  // ----------------------------------------------------------
-
-  maps: {
-    provider: getString(
-      "MAP_PROVIDER",
-      ""
-    ),
-
-    apiKey: getString(
-      "MAP_API_KEY",
-      ""
-    )
-  },
-
-  // ----------------------------------------------------------
-  // Logging
-  // ----------------------------------------------------------
-
-  logging: {
-    level: getString(
-      "LOG_LEVEL",
-      isProduction ? "info" : "debug"
-    ),
-
-    directory: getString(
-      "LOG_DIR",
-      path.join(
-        process.cwd(),
-        "logs"
-      )
-    ),
-
-    enableFileLogging: getBoolean(
-      "ENABLE_FILE_LOGGING",
-      true
-    )
-  },
-
-  // ----------------------------------------------------------
-  // Feature Flags
-  // ----------------------------------------------------------
-
-  features: {
-    marketplace: getBoolean(
-      "FEATURE_MARKETPLACE",
-      true
-    ),
-
-    referrals: getBoolean(
-      "FEATURE_REFERRALS",
-      true
-    ),
-
-    loans: getBoolean(
-      "FEATURE_LOANS",
-      true
-    ),
-
-    payments: getBoolean(
-      "FEATURE_PAYMENTS",
-      false
-    ),
-
-    subscriptions: getBoolean(
-      "FEATURE_SUBSCRIPTIONS",
-      true
-    ),
-
-    verification: getBoolean(
-      "FEATURE_VERIFICATION",
-      true
-    ),
-
-    realtime: getBoolean(
-      "FEATURE_REALTIME",
-      false
-    ),
-
-    ai: getBoolean(
-      "FEATURE_AI",
-      true
-    )
-  }
-};
-
-// ============================================================
-// Production validation
-// ============================================================
-
-function validateProductionEnvironment() {
-  if (!isProduction) {
-    return;
+    ) {
+      warnings.push(
+        'Razorpay credentials are not configured.'
+      );
+    }
+
+    if (
+      AI_ENABLED &&
+      !AI_API_KEY
+    ) {
+      warnings.push(
+        'AI_ENABLED=true but AI_API_KEY is not configured.'
+      );
+    }
   }
 
-  const required = [
-    ["JWT_SECRET", env.auth.jwtSecret],
-    [
-      "REFRESH_TOKEN_SECRET",
-      env.auth.refreshTokenSecret
-    ],
-    [
-      "SESSION_SECRET",
-      env.auth.sessionSecret
-    ],
-    [
-      "DATABASE_URL",
-      env.database.url
-    ]
-  ];
+  /*
+   * Development warnings.
+   */
 
-  const missing = required
-    .filter(([, value]) => !value)
-    .map(([name]) => name);
-
-  if (missing.length > 0) {
-    throw new Error(
-      `Missing required production environment variables: ${missing.join(", ")}`
+  if (
+    NODE_ENV !== 'production' &&
+    !JWT_SECRET
+  ) {
+    warnings.push(
+      'JWT_SECRET is not configured. Authentication should configure a development secret.'
     );
   }
 
   if (
-    env.auth.jwtSecret.length < 32
+    NODE_ENV !== 'production' &&
+    !DATABASE_URL &&
+    !DB_HOST
   ) {
-    throw new Error(
-      "JWT_SECRET must contain at least 32 characters in production."
+    warnings.push(
+      'Database environment variables are not configured.'
     );
   }
 
-  if (
-    env.auth.refreshTokenSecret.length < 32
-  ) {
-    throw new Error(
-      "REFRESH_TOKEN_SECRET must contain at least 32 characters in production."
+  /*
+   * Output warnings.
+   */
+
+  for (const warning of warnings) {
+    console.warn(
+      `[GHAR CONFIG WARNING] ${warning}`
     );
   }
 
-  if (
-    env.auth.sessionSecret.length < 32
-  ) {
+  /*
+   * Stop application for fatal configuration errors.
+   */
+
+  if (errors.length > 0) {
     throw new Error(
-      "SESSION_SECRET must contain at least 32 characters in production."
+      `[GHAR CONFIG ERROR]\n- ${errors.join('\n- ')}`
     );
   }
 
-  if (
-    env.cors.origins.includes("*")
-  ) {
-    throw new Error(
-      "Wildcard CORS (*) is not allowed in production."
-    );
-  }
+  return true;
 }
 
-// ============================================================
-// Configuration validation
-// ============================================================
-
-function validateConfiguration() {
-  if (
-    env.port < 1 ||
-    env.port > 65535
-  ) {
-    throw new Error(
-      "PORT must be between 1 and 65535."
-    );
-  }
-
-  if (
-    env.auth.bcryptRounds < 10 ||
-    env.auth.bcryptRounds > 16
-  ) {
-    throw new Error(
-      "BCRYPT_ROUNDS must be between 10 and 16."
-    );
-  }
-
-  if (
-    env.auth.otpLength < 4 ||
-    env.auth.otpLength > 8
-  ) {
-    throw new Error(
-      "OTP_LENGTH must be between 4 and 8."
-    );
-  }
-
-  if (
-    env.database.poolMin < 0 ||
-    env.database.poolMax < env.database.poolMin
-  ) {
-    throw new Error(
-      "Invalid database connection pool configuration."
-    );
-  }
-
-  if (
-    env.ai.temperature < 0 ||
-    env.ai.temperature > 2
-  ) {
-    throw new Error(
-      "AI_TEMPERATURE must be between 0 and 2."
-    );
-  }
-}
-
-// ============================================================
-// Run validation
-// ============================================================
-
-validateConfiguration();
-validateProductionEnvironment();
-
-// ============================================================
-// Safe configuration summary
-// ============================================================
+/* ============================================================
+   19. SAFE CONFIG SUMMARY
+   * Never expose secrets.
+   ============================================================ */
 
 function getSafeConfig() {
   return {
     app: {
-      name: env.appName,
-      version: env.appVersion,
-      environment: env.nodeEnv,
-      port: env.port
+      name: APP_NAME,
+      environment: NODE_ENV,
+      port: PORT,
+      apiVersion: API_VERSION,
+      appUrl: APP_URL,
+      apiUrl: API_URL
     },
 
-    api: env.api,
+    cors: {
+      origins: CORS_ORIGIN,
+      credentials: CORS_CREDENTIALS
+    },
 
     database: {
-      configured: Boolean(
-        env.database.url ||
-        env.database.host
-      ),
-      host: env.database.host,
-      port: env.database.port,
-      name: env.database.name
+      provider: DATABASE_URL
+        ? 'connection-string'
+        : 'individual-settings',
+      host: DB_HOST || null,
+      port: DB_PORT,
+      database: DB_NAME || null,
+      ssl: DB_SSL,
+      poolMin: DB_POOL_MIN,
+      poolMax: DB_POOL_MAX
     },
 
-    ai: {
-      enabled: env.ai.enabled,
-      provider: env.ai.provider,
-      model: env.ai.model
-    },
-
-    payments: {
-      enabled: env.payments.enabled,
-      provider: env.payments.provider,
-      currency: env.payments.currency
+    security: {
+      jwtConfigured: Boolean(JWT_SECRET),
+      refreshTokenConfigured:
+        Boolean(REFRESH_TOKEN_SECRET),
+      sessionConfigured:
+        Boolean(SESSION_SECRET),
+      bcryptRounds: BCRYPT_ROUNDS
     },
 
     email: {
-      enabled: env.email.enabled,
-      host: env.email.host,
-      port: env.email.port
+      host: EMAIL_HOST || null,
+      port: EMAIL_PORT,
+      secure: EMAIL_SECURE,
+      configured:
+        Boolean(
+          EMAIL_HOST &&
+          EMAIL_USER &&
+          EMAIL_PASSWORD
+        )
+    },
+
+    payments: {
+      provider: PAYMENT_PROVIDER,
+      configured:
+        PAYMENT_PROVIDER === 'razorpay'
+          ? Boolean(
+              RAZORPAY_KEY_ID &&
+              RAZORPAY_KEY_SECRET
+            )
+          : false
     },
 
     storage: {
-      provider: env.storage.provider
+      provider: STORAGE_PROVIDER,
+      bucket: STORAGE_BUCKET || null
+    },
+
+    uploads: {
+      directory: UPLOAD_DIR,
+      maxFileSizeMB: MAX_FILE_SIZE_MB,
+      allowedFileTypes:
+        ALLOWED_FILE_TYPES
+    },
+
+    ai: {
+      enabled: AI_ENABLED,
+      configured: Boolean(AI_API_KEY),
+      model: AI_MODEL || null,
+      timeout: AI_TIMEOUT
+    },
+
+    rateLimit: {
+      windowMs: RATE_LIMIT_WINDOW_MS,
+      max: RATE_LIMIT_MAX,
+      authMax: AUTH_RATE_LIMIT_MAX
+    },
+
+    cache: {
+      enabled: CACHE_ENABLED,
+      configured: Boolean(REDIS_URL)
     },
 
     realtime: {
-      enabled: env.realtime.enabled,
-      provider: env.realtime.provider
+      enabled: REALTIME_ENABLED
+    },
+
+    logging: {
+      level: LOG_LEVEL,
+      directory: LOG_DIR
     }
   };
 }
 
-env.getSafeConfig = getSafeConfig;
+/* ============================================================
+   20. EXPORT
+   ============================================================ */
 
-// ============================================================
-// Export
-// ============================================================
+const env = {
+  rootDir,
+
+  app: {
+    name: APP_NAME,
+    environment: NODE_ENV,
+    port: PORT,
+    apiVersion: API_VERSION,
+    url: APP_URL,
+    apiUrl: API_URL
+  },
+
+  cors: {
+    origin: CORS_ORIGIN,
+    credentials: CORS_CREDENTIALS
+  },
+
+  security: {
+    jwtSecret: JWT_SECRET,
+    jwtExpiresIn: JWT_EXPIRES_IN,
+
+    refreshTokenSecret:
+      REFRESH_TOKEN_SECRET,
+
+    refreshTokenExpiresIn:
+      REFRESH_TOKEN_EXPIRES_IN,
+
+    sessionSecret: SESSION_SECRET,
+    cookieSecret: COOKIE_SECRET,
+
+    bcryptRounds: BCRYPT_ROUNDS
+  },
+
+  database: {
+    url: DATABASE_URL,
+
+    host: DB_HOST,
+    port: DB_PORT,
+    name: DB_NAME,
+    user: DB_USER,
+    password: DB_PASSWORD,
+
+    ssl: DB_SSL,
+
+    poolMin: DB_POOL_MIN,
+    poolMax: DB_POOL_MAX,
+
+    idleTimeout:
+      DB_IDLE_TIMEOUT,
+
+    connectionTimeout:
+      DB_CONNECTION_TIMEOUT
+  },
+
+  email: {
+    host: EMAIL_HOST,
+    port: EMAIL_PORT,
+    secure: EMAIL_SECURE,
+    user: EMAIL_USER,
+    password: EMAIL_PASSWORD,
+    from: EMAIL_FROM
+  },
+
+  payments: {
+    provider: PAYMENT_PROVIDER,
+
+    razorpay: {
+      keyId: RAZORPAY_KEY_ID,
+      keySecret: RAZORPAY_KEY_SECRET,
+      webhookSecret:
+        RAZORPAY_WEBHOOK_SECRET
+    }
+  },
+
+  storage: {
+    provider: STORAGE_PROVIDER,
+    bucket: STORAGE_BUCKET,
+    region: STORAGE_REGION,
+    accessKey: STORAGE_ACCESS_KEY,
+    secretKey: STORAGE_SECRET_KEY
+  },
+
+  upload: {
+    directory: UPLOAD_DIR,
+    maxFileSizeMB: MAX_FILE_SIZE_MB,
+    maxFileSizeBytes:
+      MAX_FILE_SIZE_BYTES,
+    allowedFileTypes:
+      ALLOWED_FILE_TYPES
+  },
+
+  ai: {
+    enabled: AI_ENABLED,
+    apiKey: AI_API_KEY,
+    apiUrl: AI_API_URL,
+    model: AI_MODEL,
+    timeout: AI_TIMEOUT,
+    maxTokens: AI_MAX_TOKENS
+  },
+
+  rateLimit: {
+    windowMs:
+      RATE_LIMIT_WINDOW_MS,
+
+    max: RATE_LIMIT_MAX,
+
+    authMax:
+      AUTH_RATE_LIMIT_MAX
+  },
+
+  otp: {
+    expiresMinutes:
+      OTP_EXPIRES_MINUTES,
+
+    length:
+      OTP_LENGTH
+  },
+
+  logging: {
+    level: LOG_LEVEL,
+    directory: LOG_DIR
+  },
+
+  cache: {
+    enabled: CACHE_ENABLED,
+    redisUrl: REDIS_URL
+  },
+
+  realtime: {
+    enabled: REALTIME_ENABLED
+  },
+
+  frontend: {
+    url: FRONTEND_URL
+  },
+
+  getSafeConfig,
+  validateEnvironment
+};
+
+/* ============================================================
+   21. VALIDATE
+   ============================================================ */
+
+validateEnvironment();
+
+/* ============================================================
+   22. EXPORT CONFIGURATION
+   ============================================================ */
 
 module.exports = env;

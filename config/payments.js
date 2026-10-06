@@ -1,908 +1,853 @@
-"use strict";
+'use strict';
 
 /**
  * ============================================================
- * GHAR
- * PAYMENT CONFIGURATION
+ * GHAR - Payment Configuration
  * ============================================================
  *
- * Location:
- *   /config/payments.js
+ * Central payment configuration for the GHAR backend.
+ *
+ * Designed for:
+ * - Razorpay
+ * - Stripe
+ * - Future payment providers
  *
  * Responsibilities:
- * - Payment provider configuration
- * - One-time payments
- * - Property booking payments
- * - Property purchase payments
- * - Rent / maintenance payments
- * - Subscription payments
- * - Refund configuration
+ * - Provider selection
+ * - API credentials
+ * - Currency
+ * - Amount limits
+ * - Checkout configuration
  * - Webhook configuration
- * - Idempotency configuration
- * - Payment validation
+ * - Payment verification configuration
  *
- * Architecture:
+ * Actual payment operations belong in:
  *
- * Frontend
- *    ↓
- * /api/payments
- *    ↓
- * payment.routes.js
- *    ↓
- * payment.controller.js
- *    ↓
- * payment service
- *    ↓
- * payment provider
- *    ↓
- * Razorpay / Other Provider
+ * services/payment.service.js
+ * controllers/payment.controller.js
+ * routes/payment.routes.js
  *
- * IMPORTANT:
- * Never expose keySecret, webhookSecret or other
- * private credentials to frontend code.
+ * ============================================================
  */
 
-const env = require("./env");
+const crypto = require('crypto');
+const env = require('./env');
 
 /* ============================================================
- * HELPERS
- * ============================================================ */
+   1. BASIC PAYMENT CONFIGURATION
+   ============================================================ */
 
-function numberEnv(value, fallback) {
-  const parsed = Number(value);
+const enabled =
+  process.env.PAYMENTS_ENABLED !== 'false';
 
-  return Number.isFinite(parsed)
-    ? parsed
-    : fallback;
-}
+const provider =
+  (
+    process.env.PAYMENT_PROVIDER ||
+    'razorpay'
+  ).toLowerCase();
 
-function booleanEnv(value, fallback = false) {
-  if (value === undefined || value === null || value === "") {
-    return fallback;
-  }
-
-  return String(value).toLowerCase() === "true";
-}
-
-function stringEnv(value, fallback = "") {
-  if (value === undefined || value === null) {
-    return fallback;
-  }
-
-  return String(value).trim();
-}
+const environment =
+  (
+    process.env.PAYMENT_ENVIRONMENT ||
+    env.app.environment ||
+    'development'
+  ).toLowerCase();
 
 /* ============================================================
- * BASIC PROVIDER CONFIGURATION
- * ============================================================ */
+   2. CURRENCY
+   ============================================================ */
 
-const provider = stringEnv(
-  env.payments?.provider ||
-    process.env.PAYMENT_PROVIDER,
-  "razorpay"
-).toLowerCase();
-
-const keyId = stringEnv(
-  env.payments?.keyId ||
-    process.env.PAYMENT_KEY_ID
-);
-
-const keySecret = stringEnv(
-  env.payments?.keySecret ||
-    process.env.PAYMENT_KEY_SECRET
-);
-
-const webhookSecret = stringEnv(
-  process.env.PAYMENT_WEBHOOK_SECRET
-);
-
-const paymentMode = stringEnv(
-  process.env.PAYMENT_MODE,
-  "test"
-).toLowerCase();
+const currency =
+  (
+    process.env.PAYMENT_CURRENCY ||
+    'INR'
+  ).toUpperCase();
 
 /* ============================================================
- * ENABLEMENT
- * ============================================================ */
-
-const providerConfigured =
-  Boolean(keyId && keySecret);
-
-const paymentsEnabled =
-  booleanEnv(
-    process.env.PAYMENTS_ENABLED,
-    true
-  ) && providerConfigured;
-
-/* ============================================================
- * MAIN CONFIG
- * ============================================================ */
-
-const paymentsConfig = {
-
-  enabled: paymentsEnabled,
-
-  provider,
-
-  mode:
-    paymentMode === "live"
-      ? "live"
-      : "test",
-
-  currency: stringEnv(
-    process.env.PAYMENT_CURRENCY,
-    "INR"
-  ).toUpperCase(),
-
-  keyId,
-
-  keySecret,
-
-  webhookSecret,
-
-  apiUrl: stringEnv(
-    process.env.PAYMENT_API_URL,
-    provider === "razorpay"
-      ? "https://api.razorpay.com/v1"
-      : ""
-  ),
-
-  timeout: numberEnv(
-    process.env.PAYMENT_TIMEOUT,
-    30_000
-  ),
-
-  maxRetries: numberEnv(
-    process.env.PAYMENT_MAX_RETRIES,
-    2
-  ),
-
-  /* ==========================================================
-   * AMOUNT CONFIGURATION
-   * ========================================================== */
-
-  amount: {
-
-    /**
-     * Application-level amounts are represented
-     * in major currency units.
-     *
-     * Example:
-     *
-     * ₹1,000
-     * =
-     * 1000 INR
-     */
-
-    minimum: numberEnv(
-      process.env.PAYMENT_MIN_AMOUNT,
-      1
-    ),
-
-    maximum: numberEnv(
-      process.env.PAYMENT_MAX_AMOUNT,
-      100_000_000
-    ),
-
-    decimalPlaces: 2,
-
-    /**
-     * Razorpay and many payment gateways expect
-     * the smallest currency unit.
-     *
-     * INR:
-     *
-     * ₹100
-     * → 10000 paise
-     */
-
-    smallestUnitMultiplier: 100
-  },
-
-  /* ==========================================================
-   * PAYMENT PURPOSES
-   * ========================================================== */
-
-  purposes: {
-
-    propertyPurchase:
-      "property_purchase",
-
-    propertyBooking:
-      "property_booking",
-
-    subscription:
-      "subscription",
-
-    rent:
-      "rent",
-
-    maintenance:
-      "maintenance",
-
-    loanApplication:
-      "loan_application",
-
-    serviceFee:
-      "service_fee",
-
-    verificationFee:
-      "verification_fee",
-
-    platformFee:
-      "platform_fee",
-
-    documentVerification:
-      "document_verification",
-
-    listingFee:
-      "listing_fee",
-
-    visitFee:
-      "visit_fee",
-
-    referral:
-      "referral"
-  },
-
-  /* ==========================================================
-   * PAYMENT STATUS
-   * ========================================================== */
-
-  statuses: {
-
-    created:
-      "created",
-
-    pending:
-      "pending",
-
-    authorized:
-      "authorized",
-
-    captured:
-      "captured",
-
-    failed:
-      "failed",
-
-    cancelled:
-      "cancelled",
-
-    refunded:
-      "refunded",
-
-    partiallyRefunded:
-      "partially_refunded",
-
-    expired:
-      "expired",
-
-    disputed:
-      "disputed"
-  },
-
-  /* ==========================================================
-   * PAYMENT METHODS
-   * ========================================================== */
-
-  methods: {
-
-    card:
-      "card",
-
-    upi:
-      "upi",
-
-    netbanking:
-      "netbanking",
-
-    wallet:
-      "wallet",
-
-    bankTransfer:
-      "bank_transfer",
-
-    emi:
-      "emi",
-
-    other:
-      "other"
-  },
-
-  /* ==========================================================
-   * SUBSCRIPTION PLANS
-   * ========================================================== */
-
-  plans: {
-
-    free: {
-      code: "FREE",
-      name: "Free",
-      billing: "none",
-      interval: null,
-      active: true
-    },
-
-    buyerPlus: {
-      code: "BUYER_PLUS",
-      name: "Buyer Plus",
-      billing: "subscription",
-      interval: "monthly",
-      active: true
-    },
-
-    sellerPro: {
-      code: "SELLER_PRO",
-      name: "Seller Pro",
-      billing: "subscription",
-      interval: "monthly",
-      active: true
-    },
-
-    agentPro: {
-      code: "AGENT_PRO",
-      name: "Agent Pro",
-      billing: "subscription",
-      interval: "monthly",
-      active: true
-    },
-
-    business: {
-      code: "BUSINESS",
-      name: "Business",
-      billing: "subscription",
-      interval: "monthly",
-      active: true
-    }
-  },
-
-  /* ==========================================================
-   * SUBSCRIPTION SETTINGS
-   * ========================================================== */
-
-  subscriptions: {
-
-    enabled:
-      booleanEnv(
-        process.env.SUBSCRIPTION_ENABLED,
-        true
-      ),
-
-    defaultPlan:
-      stringEnv(
-        process.env.DEFAULT_SUBSCRIPTION_PLAN,
-        "FREE"
-      ).toUpperCase(),
-
-    autoRenew:
-      booleanEnv(
-        process.env.SUBSCRIPTION_AUTO_RENEW,
-        true
-      ),
-
-    gracePeriodDays:
-      numberEnv(
-        process.env.SUBSCRIPTION_GRACE_PERIOD_DAYS,
-        3
-      )
-  },
-
-  /* ==========================================================
-   * REFUNDS
-   * ========================================================== */
-
-  refunds: {
-
-    enabled:
-      booleanEnv(
-        process.env.REFUNDS_ENABLED,
-        true
-      ),
-
-    maximumDays:
-      numberEnv(
-        process.env.REFUND_MAX_DAYS,
-        7
-      ),
-
-    requireAdminApproval:
-      booleanEnv(
-        process.env.REFUND_REQUIRE_ADMIN,
-        true
-      ),
-
-    allowPartialRefund:
-      booleanEnv(
-        process.env.REFUND_ALLOW_PARTIAL,
-        true
-      ),
-
-    maximumAmount:
-      numberEnv(
-        process.env.REFUND_MAX_AMOUNT,
-        100_000_000
-      )
-  },
-
-  /* ==========================================================
-   * WEBHOOK
-   * ========================================================== */
-
-  webhook: {
-
-    enabled:
-      booleanEnv(
-        process.env.PAYMENT_WEBHOOK_ENABLED,
-        true
-      ),
-
-    path:
-      stringEnv(
-        process.env.PAYMENT_WEBHOOK_PATH,
-        "/api/payments/webhook"
-      ),
-
-    verifySignature:
-      true,
-
-    secretConfigured:
-      Boolean(webhookSecret),
-
-    maxBodySize:
-      stringEnv(
-        process.env.PAYMENT_WEBHOOK_BODY_LIMIT,
-        "1mb"
-      )
-  },
-
-  /* ==========================================================
-   * IDEMPOTENCY
-   * ========================================================== */
-
-  idempotency: {
-
-    enabled:
-      booleanEnv(
-        process.env.PAYMENT_IDEMPOTENCY_ENABLED,
-        true
-      ),
-
-    header:
-      stringEnv(
-        process.env.PAYMENT_IDEMPOTENCY_HEADER,
-        "Idempotency-Key"
-      ),
-
-    ttlSeconds:
-      numberEnv(
-        process.env.PAYMENT_IDEMPOTENCY_TTL,
-        86_400
-      )
-  },
-
-  /* ==========================================================
-   * SECURITY
-   * ========================================================== */
-
-  security: {
-
-    neverExposeSecrets:
-      true,
-
-    verifyWebhookSignature:
-      true,
-
-    preventDuplicateCapture:
-      true,
-
-    preventDuplicateRefund:
-      true,
-
-    requireAuthenticatedUser:
-      true,
-
-    requireOwnership:
-      true,
-
-    logSensitivePaymentData:
-      false,
-
-    storeCardDetails:
-      false,
-
-    storeCVV:
-      false,
-
-    storeRawPaymentCredentials:
-      false
-  },
-
-  /* ==========================================================
-   * INVOICE
-   * ========================================================== */
-
-  invoices: {
-
-    enabled:
-      booleanEnv(
-        process.env.INVOICES_ENABLED,
-        true
-      ),
-
-    prefix:
-      stringEnv(
-        process.env.INVOICE_PREFIX,
-        "GHAR-INV"
-      ),
-
-    includeTax:
-      booleanEnv(
-        process.env.INVOICE_INCLUDE_TAX,
-        true
-      )
-  },
-
-  /* ==========================================================
-   * TAX
-   * ========================================================== */
-
-  tax: {
-
-    enabled:
-      booleanEnv(
-        process.env.PAYMENT_TAX_ENABLED,
-        false
-      ),
-
-    rate:
-      numberEnv(
-        process.env.PAYMENT_TAX_RATE,
-        0
-      )
-  },
-
-  /* ==========================================================
-   * RECEIPTS
-   * ========================================================== */
-
-  receipts: {
-
-    enabled:
-      booleanEnv(
-        process.env.PAYMENT_RECEIPTS_ENABLED,
-        true
-      ),
-
-    email:
-      booleanEnv(
-        process.env.PAYMENT_RECEIPT_EMAIL,
-        true
-      )
-  },
-
-  /* ==========================================================
-   * AUDIT
-   * ========================================================== */
-
-  audit: {
-
-    enabled: true,
-
-    logCreation: true,
-
-    logAuthorization: true,
-
-    logCapture: true,
-
-    logFailure: true,
-
-    logRefund: true,
-
-    logWebhook: true
-  }
+   3. RAZORPAY CONFIGURATION
+   ============================================================ */
+
+const razorpay = {
+  keyId:
+    process.env.RAZORPAY_KEY_ID ||
+    null,
+
+  keySecret:
+    process.env.RAZORPAY_KEY_SECRET ||
+    null,
+
+  webhookSecret:
+    process.env.RAZORPAY_WEBHOOK_SECRET ||
+    null,
+
+  apiUrl:
+    process.env.RAZORPAY_API_URL ||
+    'https://api.razorpay.com/v1',
+
+  timeout:
+    Number(
+      process.env.RAZORPAY_TIMEOUT ||
+      15000
+    )
 };
 
 /* ============================================================
- * VALIDATE AMOUNT
- * ============================================================ */
+   4. STRIPE CONFIGURATION
+   ============================================================ */
 
-/**
- * Validate payment amount in INR.
- *
- * @param {number|string} amount
- * @returns {boolean}
- */
-function validateAmount(amount) {
+const stripe = {
+  publishableKey:
+    process.env.STRIPE_PUBLISHABLE_KEY ||
+    null,
 
-  const numericAmount = Number(amount);
+  secretKey:
+    process.env.STRIPE_SECRET_KEY ||
+    null,
 
-  if (!Number.isFinite(numericAmount)) {
-    return false;
-  }
+  webhookSecret:
+    process.env.STRIPE_WEBHOOK_SECRET ||
+    null,
 
-  if (
-    numericAmount <
-    paymentsConfig.amount.minimum
-  ) {
-    return false;
-  }
+  apiVersion:
+    process.env.STRIPE_API_VERSION ||
+    null,
 
-  if (
-    numericAmount >
-    paymentsConfig.amount.maximum
-  ) {
-    return false;
-  }
-
-  /**
-   * Prevent negative / invalid decimal precision.
-   */
-  const rounded =
+  timeout:
     Number(
-      numericAmount.toFixed(
-        paymentsConfig.amount.decimalPlaces
-      )
-    );
+      process.env.STRIPE_TIMEOUT ||
+      15000
+    )
+};
 
-  return rounded === numericAmount;
+/* ============================================================
+   5. PAYMENT LIMITS
+   ============================================================ */
+
+const limits = {
+  minimumAmount:
+    Number(
+      process.env.PAYMENT_MIN_AMOUNT ||
+      1
+    ),
+
+  maximumAmount:
+    Number(
+      process.env.PAYMENT_MAX_AMOUNT ||
+      10000000
+    ),
+
+  /*
+   * Maximum amount in a single payment.
+   *
+   * Amounts are expressed in the configured currency.
+   */
+
+  maximumRefundAmount:
+    Number(
+      process.env.PAYMENT_MAX_REFUND_AMOUNT ||
+      10000000
+    )
+};
+
+/* ============================================================
+   6. PAYMENT EXPIRY
+   ============================================================ */
+
+const expiry = {
+  orderMinutes:
+    Number(
+      process.env.PAYMENT_ORDER_EXPIRY_MINUTES ||
+      30
+    ),
+
+  checkoutMinutes:
+    Number(
+      process.env.PAYMENT_CHECKOUT_EXPIRY_MINUTES ||
+      30
+    )
+};
+
+/* ============================================================
+   7. RETRY CONFIGURATION
+   ============================================================ */
+
+const retry = {
+  enabled:
+    process.env.PAYMENT_RETRY_ENABLED !==
+    'false',
+
+  maxAttempts:
+    Number(
+      process.env.PAYMENT_MAX_RETRIES ||
+      3
+    ),
+
+  delayMs:
+    Number(
+      process.env.PAYMENT_RETRY_DELAY_MS ||
+      1000
+    )
+};
+
+/* ============================================================
+   8. WEBHOOK CONFIGURATION
+   ============================================================ */
+
+const webhook = {
+  enabled:
+    process.env.PAYMENT_WEBHOOK_ENABLED !==
+    'false',
+
+  path:
+    process.env.PAYMENT_WEBHOOK_PATH ||
+    '/api/payments/webhook',
+
+  timeout:
+    Number(
+      process.env.PAYMENT_WEBHOOK_TIMEOUT ||
+      10000
+    ),
+
+  toleranceSeconds:
+    Number(
+      process.env.PAYMENT_WEBHOOK_TOLERANCE_SECONDS ||
+      300
+    )
+};
+
+/* ============================================================
+   9. PAYMENT FEATURES
+   ============================================================ */
+
+const features = {
+  propertyPayments:
+    process.env.PAYMENT_FEATURE_PROPERTY !==
+    'false',
+
+  subscriptions:
+    process.env.PAYMENT_FEATURE_SUBSCRIPTIONS !==
+    'false',
+
+  applicationFees:
+    process.env.PAYMENT_FEATURE_APPLICATIONS !==
+    'false',
+
+  loanProcessingFees:
+    process.env.PAYMENT_FEATURE_LOANS !==
+    'false',
+
+  bookingPayments:
+    process.env.PAYMENT_FEATURE_BOOKINGS !==
+    'false',
+
+  servicePayments:
+    process.env.PAYMENT_FEATURE_SERVICES !==
+    'false',
+
+  refunds:
+    process.env.PAYMENT_FEATURE_REFUNDS !==
+    'false',
+
+  partialRefunds:
+    process.env.PAYMENT_FEATURE_PARTIAL_REFUNDS !==
+    'false',
+
+  paymentReceipts:
+    process.env.PAYMENT_FEATURE_RECEIPTS !==
+    'false'
+};
+
+/* ============================================================
+   10. CHECKOUT CONFIGURATION
+   ============================================================ */
+
+const checkout = {
+  name:
+    process.env.PAYMENT_CHECKOUT_NAME ||
+    'GHAR',
+
+  description:
+    process.env.PAYMENT_CHECKOUT_DESCRIPTION ||
+    'GHAR Real Estate Services',
+
+  logo:
+    process.env.PAYMENT_CHECKOUT_LOGO ||
+    null,
+
+  themeColor:
+    process.env.PAYMENT_CHECKOUT_THEME_COLOR ||
+    '#162D25',
+
+  prefill:
+    process.env.PAYMENT_CHECKOUT_PREFILL !==
+    'false'
+};
+
+/* ============================================================
+   11. RECEIPTS
+   ============================================================ */
+
+const receipts = {
+  enabled:
+    process.env.PAYMENT_RECEIPTS_ENABLED !==
+    'false',
+
+  prefix:
+    process.env.PAYMENT_RECEIPT_PREFIX ||
+    'GHAR',
+
+  email:
+    process.env.PAYMENT_RECEIPT_EMAIL !==
+    'false'
+};
+
+/* ============================================================
+   12. IDEMPOTENCY
+   ============================================================ */
+
+const idempotency = {
+  enabled:
+    process.env.PAYMENT_IDEMPOTENCY_ENABLED !==
+    'false',
+
+  ttlSeconds:
+    Number(
+      process.env.PAYMENT_IDEMPOTENCY_TTL_SECONDS ||
+      86400
+    )
+};
+
+/* ============================================================
+   13. PROVIDER CHECK
+   ============================================================ */
+
+function isProviderSupported() {
+  return [
+    'razorpay',
+    'stripe'
+  ].includes(provider);
 }
 
 /* ============================================================
- * CONVERT TO SMALLEST CURRENCY UNIT
- * ============================================================ */
+   14. ACTIVE PROVIDER CONFIGURATION
+   ============================================================ */
 
-/**
- * Convert INR into paise.
- *
- * Example:
- *
- * 100 INR → 10000 paise
- *
- * @param {number|string} amount
- * @returns {number}
- */
-function toSmallestUnit(amount) {
+function getProviderConfig() {
+  switch (provider) {
+    case 'razorpay':
+      return razorpay;
 
-  if (!validateAmount(amount)) {
-    throw new Error(
-      "Invalid payment amount."
-    );
+    case 'stripe':
+      return stripe;
+
+    default:
+      throw new Error(
+        `Unsupported payment provider: ${provider}`
+      );
+  }
+}
+
+/* ============================================================
+   15. PROVIDER CREDENTIAL CHECK
+   ============================================================ */
+
+function isProviderConfigured() {
+  if (!enabled) {
+    return false;
   }
 
-  return Math.round(
-    Number(amount) *
-      paymentsConfig.amount.smallestUnitMultiplier
-  );
+  switch (provider) {
+    case 'razorpay':
+      return Boolean(
+        razorpay.keyId &&
+        razorpay.keySecret
+      );
+
+    case 'stripe':
+      return Boolean(
+        stripe.secretKey
+      );
+
+    default:
+      return false;
+  }
 }
 
 /* ============================================================
- * CONVERT FROM SMALLEST UNIT
- * ============================================================ */
+   16. WEBHOOK SECRET
+   ============================================================ */
+
+function getWebhookSecret() {
+  switch (provider) {
+    case 'razorpay':
+      return razorpay.webhookSecret;
+
+    case 'stripe':
+      return stripe.webhookSecret;
+
+    default:
+      return null;
+  }
+}
+
+/* ============================================================
+   17. WEBHOOK SIGNATURE VERIFICATION
+   ============================================================ */
 
 /**
- * Convert paise into INR.
+ * Generic HMAC-SHA256 verification helper.
  *
- * Example:
- *
- * 10000 paise → 100 INR
- *
- * @param {number|string} amount
- * @returns {number}
+ * Provider-specific webhook services should use the
+ * provider's exact signature-verification mechanism.
  */
-function fromSmallestUnit(amount) {
 
+function verifyHmacSignature(
+  payload,
+  signature,
+  secret
+) {
+  if (
+    !payload ||
+    !signature ||
+    !secret
+  ) {
+    return false;
+  }
+
+  try {
+    const expected =
+      crypto
+        .createHmac(
+          'sha256',
+          secret
+        )
+        .update(
+          payload
+        )
+        .digest('hex');
+
+    const expectedBuffer =
+      Buffer.from(
+        expected,
+        'utf8'
+      );
+
+    const signatureBuffer =
+      Buffer.from(
+        signature,
+        'utf8'
+      );
+
+    if (
+      expectedBuffer.length !==
+      signatureBuffer.length
+    ) {
+      return false;
+    }
+
+    return crypto.timingSafeEqual(
+      expectedBuffer,
+      signatureBuffer
+    );
+  } catch (error) {
+    return false;
+  }
+}
+
+/* ============================================================
+   18. AMOUNT VALIDATION
+   ============================================================ */
+
+function validateAmount(
+  amount
+) {
   const numericAmount =
     Number(amount);
 
   if (
     !Number.isFinite(
       numericAmount
-    ) ||
-    numericAmount < 0
+    )
   ) {
-    throw new Error(
-      "Invalid smallest-unit amount."
-    );
+    return {
+      valid: false,
+      reason:
+        'Payment amount must be a valid number.'
+    };
   }
 
-  return (
-    numericAmount /
-    paymentsConfig.amount.smallestUnitMultiplier
-  );
-}
-
-/* ============================================================
- * GET SUBSCRIPTION PLAN
- * ============================================================ */
-
-/**
- * @param {string} planCode
- * @returns {Object|null}
- */
-function getPlan(planCode) {
-
-  if (!planCode) {
-    return null;
+  if (
+    numericAmount <
+    limits.minimumAmount
+  ) {
+    return {
+      valid: false,
+      reason:
+        `Payment amount must be at least ${limits.minimumAmount} ${currency}.`
+    };
   }
 
-  const normalized =
-    String(planCode)
-      .trim()
-      .toUpperCase();
-
-  const plan =
-    Object.values(
-      paymentsConfig.plans
-    ).find(
-      (item) =>
-        item.code === normalized
-    );
-
-  return plan || null;
-}
-
-/* ============================================================
- * CHECK PLAN
- * ============================================================ */
-
-function isValidPlan(planCode) {
-  return Boolean(
-    getPlan(planCode)
-  );
-}
-
-/* ============================================================
- * CHECK PAYMENT PURPOSE
- * ============================================================ */
-
-function isValidPurpose(purpose) {
-
-  if (!purpose) {
-    return false;
+  if (
+    numericAmount >
+    limits.maximumAmount
+  ) {
+    return {
+      valid: false,
+      reason:
+        `Payment amount cannot exceed ${limits.maximumAmount} ${currency}.`
+    };
   }
-
-  return Object.values(
-    paymentsConfig.purposes
-  ).includes(
-    String(purpose)
-      .trim()
-      .toLowerCase()
-  );
-}
-
-/* ============================================================
- * CHECK PAYMENT STATUS
- * ============================================================ */
-
-function isValidPaymentStatus(status) {
-
-  if (!status) {
-    return false;
-  }
-
-  return Object.values(
-    paymentsConfig.statuses
-  ).includes(
-    String(status)
-      .trim()
-      .toLowerCase()
-  );
-}
-
-/* ============================================================
- * PAYMENT CONFIG STATUS
- * ============================================================ */
-
-function getPaymentStatus() {
 
   return {
-
-    enabled:
-      paymentsConfig.enabled,
-
-    provider:
-      paymentsConfig.provider,
-
-    mode:
-      paymentsConfig.mode,
-
-    currency:
-      paymentsConfig.currency,
-
-    providerConfigured:
-      providerConfigured,
-
-    webhookConfigured:
-      Boolean(
-        paymentsConfig.webhookSecret
-      ),
-
-    subscriptionsEnabled:
-      paymentsConfig.subscriptions.enabled
+    valid: true,
+    amount:
+      numericAmount
   };
 }
 
 /* ============================================================
- * PRODUCTION VALIDATION
- * ============================================================ */
+   19. FEATURE CHECK
+   ============================================================ */
 
-function validateProductionPayments() {
-
-  if (
-    env.nodeEnv !==
-    "production"
-  ) {
-    return;
-  }
-
-  if (
-    !paymentsConfig.enabled
-  ) {
-    throw new Error(
-      "Payments are not properly configured for production."
-    );
-  }
-
-  if (
-    !paymentsConfig.keyId ||
-    !paymentsConfig.keySecret
-  ) {
-    throw new Error(
-      "Missing payment provider credentials."
-    );
-  }
-
-  if (
-    paymentsConfig.webhook.enabled &&
-    !paymentsConfig.webhookSecret
-  ) {
-    throw new Error(
-      "PAYMENT_WEBHOOK_SECRET is required when payment webhooks are enabled."
-    );
-  }
-
-  if (
-    paymentsConfig.mode ===
-    "test"
-  ) {
-    console.warn(
-      "[GHAR] WARNING: Payment system is running in TEST mode."
-    );
-  }
+function isFeatureEnabled(
+  feature
+) {
+  return (
+    enabled &&
+    features[feature] === true
+  );
 }
 
 /* ============================================================
- * RUN VALIDATION
- * ============================================================ */
+   20. PAYMENT STATUS
+   ============================================================ */
 
-validateProductionPayments();
+const statuses = {
+  created:
+    'created',
+
+  pending:
+    'pending',
+
+  authorized:
+    'authorized',
+
+  captured:
+    'captured',
+
+  failed:
+    'failed',
+
+  cancelled:
+    'cancelled',
+
+  refunded:
+    'refunded',
+
+  partiallyRefunded:
+    'partially_refunded'
+};
 
 /* ============================================================
- * EXPORTS
- * ============================================================ */
+   21. PAYMENT METHODS
+   ============================================================ */
 
-module.exports = {
+const methods = {
+  card:
+    true,
 
-  paymentsConfig,
+  upi:
+    true,
 
-  isPaymentsEnabled:
-    () =>
-      paymentsConfig.enabled,
+  netbanking:
+    true,
 
-  getPlan,
+  wallet:
+    true,
 
-  isValidPlan,
+  emi:
+    true,
+
+  bankTransfer:
+    true
+};
+
+/* ============================================================
+   22. SAFE CONFIGURATION
+   ============================================================ */
+
+function getSafeConfig() {
+  return {
+    enabled,
+
+    provider,
+
+    environment,
+
+    currency,
+
+    providerConfigured:
+      isProviderConfigured(),
+
+    limits: {
+      minimumAmount:
+        limits.minimumAmount,
+
+      maximumAmount:
+        limits.maximumAmount,
+
+      maximumRefundAmount:
+        limits.maximumRefundAmount
+    },
+
+    expiry: {
+      orderMinutes:
+        expiry.orderMinutes,
+
+      checkoutMinutes:
+        expiry.checkoutMinutes
+    },
+
+    retry: {
+      enabled:
+        retry.enabled,
+
+      maxAttempts:
+        retry.maxAttempts,
+
+      delayMs:
+        retry.delayMs
+    },
+
+    webhook: {
+      enabled:
+        webhook.enabled,
+
+      path:
+        webhook.path,
+
+      toleranceSeconds:
+        webhook.toleranceSeconds,
+
+      secretConfigured:
+        Boolean(
+          getWebhookSecret()
+        )
+    },
+
+    features: {
+      ...features
+    },
+
+    checkout: {
+      name:
+        checkout.name,
+
+      description:
+        checkout.description,
+
+      logoConfigured:
+        Boolean(
+          checkout.logo
+        ),
+
+      themeColor:
+        checkout.themeColor
+    },
+
+    receipts: {
+      enabled:
+        receipts.enabled,
+
+      prefix:
+        receipts.prefix
+    },
+
+    idempotency: {
+      enabled:
+        idempotency.enabled,
+
+      ttlSeconds:
+        idempotency.ttlSeconds
+    }
+  };
+}
+
+/* ============================================================
+   23. VALIDATION
+   ============================================================ */
+
+function validate() {
+  const errors = [];
+  const warnings = [];
+
+  if (
+    !isProviderSupported()
+  ) {
+    errors.push(
+      `Unsupported PAYMENT_PROVIDER: ${provider}. Supported providers: razorpay, stripe.`
+    );
+  }
+
+  if (
+    limits.minimumAmount <= 0
+  ) {
+    errors.push(
+      'PAYMENT_MIN_AMOUNT must be greater than zero.'
+    );
+  }
+
+  if (
+    limits.maximumAmount <
+    limits.minimumAmount
+  ) {
+    errors.push(
+      'PAYMENT_MAX_AMOUNT cannot be lower than PAYMENT_MIN_AMOUNT.'
+    );
+  }
+
+  if (
+    limits.maximumRefundAmount <= 0
+  ) {
+    errors.push(
+      'PAYMENT_MAX_REFUND_AMOUNT must be greater than zero.'
+    );
+  }
+
+  if (
+    expiry.orderMinutes <= 0
+  ) {
+    errors.push(
+      'PAYMENT_ORDER_EXPIRY_MINUTES must be greater than zero.'
+    );
+  }
+
+  if (
+    retry.maxAttempts < 0
+  ) {
+    errors.push(
+      'PAYMENT_MAX_RETRIES cannot be negative.'
+    );
+  }
+
+  if (
+    webhook.toleranceSeconds < 0
+  ) {
+    errors.push(
+      'PAYMENT_WEBHOOK_TOLERANCE_SECONDS cannot be negative.'
+    );
+  }
+
+  if (
+    enabled &&
+    !isProviderConfigured()
+  ) {
+    warnings.push(
+      `[GHAR PAYMENTS] ${provider} credentials are not configured.`
+    );
+  }
+
+  if (
+    environment === 'production' &&
+    !enabled
+  ) {
+    warnings.push(
+      '[GHAR PAYMENTS] Payments are disabled in production.'
+    );
+  }
+
+  if (
+    webhook.enabled &&
+    !getWebhookSecret()
+  ) {
+    warnings.push(
+      `[GHAR PAYMENTS] ${provider} webhook secret is not configured.`
+    );
+  }
+
+  for (
+    const warning of warnings
+  ) {
+    console.warn(
+      warning
+    );
+  }
+
+  if (
+    errors.length > 0
+  ) {
+    throw new Error(
+      `[GHAR PAYMENT CONFIG ERROR]\n- ${errors.join('\n- ')}`
+    );
+  }
+
+  return true;
+}
+
+/* ============================================================
+   24. EXPORT
+   ============================================================ */
+
+const payments = {
+  enabled,
+
+  provider,
+
+  environment,
+
+  currency,
+
+  razorpay,
+
+  stripe,
+
+  limits,
+
+  expiry,
+
+  retry,
+
+  webhook,
+
+  features,
+
+  checkout,
+
+  receipts,
+
+  idempotency,
+
+  statuses,
+
+  methods,
+
+  isProviderSupported,
+
+  getProviderConfig,
+
+  isProviderConfigured,
+
+  getWebhookSecret,
+
+  verifyHmacSignature,
 
   validateAmount,
 
-  toSmallestUnit,
+  isFeatureEnabled,
 
-  fromSmallestUnit,
+  getSafeConfig,
 
-  isValidPurpose,
-
-  isValidPaymentStatus,
-
-  getPaymentStatus
+  validate
 };
+
+/* ============================================================
+   25. VALIDATE ON LOAD
+   ============================================================ */
+
+validate();
+
+/* ============================================================
+   26. EXPORT
+   ============================================================ */
+
+module.exports = payments;

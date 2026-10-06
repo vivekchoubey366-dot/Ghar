@@ -1,22 +1,65 @@
 "use strict";
 
-function notFoundMiddleware(req, res) {
-  const isApi =
-    req.path === "/api" || req.path.startsWith("/api/");
+/**
+ * ============================================================
+ * GHAR - NOT FOUND MIDDLEWARE
+ * ============================================================
+ *
+ * Purpose:
+ * - Handle requests that do not match any registered route
+ * - Return a consistent GHAR API error response
+ * - Include requestId for debugging/tracing
+ *
+ * IMPORTANT:
+ * Register this AFTER all routes and BEFORE error.middleware.js.
+ *
+ * ============================================================
+ */
 
-  if (isApi) {
-    return res.status(404).json({
-      success: false,
-      error: {
-        code: "ROUTE_NOT_FOUND",
-        message: "API route not found.",
-        path: req.originalUrl || req.url,
-        requestId: req.requestId || null
-      }
-    });
-  }
 
-  return res.status(404).send("Page not found.");
+/**
+ * ------------------------------------------------------------
+ * Not Found Handler
+ * ------------------------------------------------------------
+ */
+
+function notFoundHandler(req, res) {
+  const requestId =
+    req.requestId || null;
+
+  const method =
+    req.method || "UNKNOWN";
+
+  const path =
+    req.originalUrl ||
+    req.url ||
+    "/";
+
+
+  return res.status(404).json({
+    success: false,
+
+    error: {
+      code: "ROUTE_NOT_FOUND",
+
+      message:
+        `Route ${method} ${path} was not found.`,
+
+      requestId
+    }
+  });
 }
 
-module.exports = { notFoundMiddleware };
+
+/**
+ * ------------------------------------------------------------
+ * Export
+ * ------------------------------------------------------------
+ */
+
+module.exports = {
+  notFoundHandler,
+
+  // Compatibility alias
+  notFound: notFoundHandler
+};

@@ -1,228 +1,509 @@
-"use strict";
+'use strict';
 
 /**
  * ============================================================
- * GHAR - DATABASE CONFIGURATION
+ * GHAR - Database Configuration
  * ============================================================
  *
- * PostgreSQL connection configuration using node-postgres.
+ * PostgreSQL database configuration for GHAR.
  *
- * Responsibilities:
- * - Create PostgreSQL connection pool
- * - Support DATABASE_URL
- * - Support individual DB_* variables
- * - Configure pool limits
- * - Configure SSL
- * - Provide database health checks
- * - Handle graceful shutdown
- * - Prevent application crashes from idle DB errors
+ * Supports:
+ * - Neon PostgreSQL
+ * - Render PostgreSQL
+ * - Local PostgreSQL
+ * - DATABASE_URL connection strings
+ * - Individual DB_* variables
+ * - Connection pooling
+ * - Health checks
+ * - Transactions
+ * - Graceful shutdown
+ *
  * ============================================================
  */
 
-const { Pool } = require("pg");
+const { Pool } = require('pg');
+const env = require('./env');
 
-/* ------------------------------------------------------------
- * ENVIRONMENT
- * ------------------------------------------------------------ */
-
-const env = require("./env");
-
-/* ------------------------------------------------------------
- * DATABASE CONFIGURATION
- * ------------------------------------------------------------ */
+/* ============================================================
+   1. DATABASE CONFIGURATION
+   ============================================================ */
 
 const databaseConfig = {
   max:
-    Number(env.database?.poolMax) ||
-    Number(process.env.DB_POOL_MAX) ||
-    10,
+    Number(env.database.poolMax) || 10,
 
   min:
-    Number(env.database?.poolMin) ||
-    Number(process.env.DB_POOL_MIN) ||
-    2,
+    Number(env.database.poolMin) || 2,
 
   idleTimeoutMillis:
-    Number(process.env.DB_IDLE_TIMEOUT_MS) ||
-    30_000,
+    Number(env.database.idleTimeout) || 30000,
 
   connectionTimeoutMillis:
-    Number(process.env.DB_CONNECTION_TIMEOUT_MS) ||
-    10_000,
-
-  statementTimeout:
-    Number(process.env.DB_STATEMENT_TIMEOUT_MS) ||
-    30_000,
-
-  query_timeout:
-    Number(process.env.DB_QUERY_TIMEOUT_MS) ||
-    30_000,
+    Number(env.database.connectionTimeout) || 10000,
 
   allowExitOnIdle:
-    process.env.NODE_ENV === "test"
+    false,
+
+  maxUses:
+    Number(
+      process.env.DB_MAX_USES || 7500
+    ),
+
+  keepAlive:
+    true,
+
+  keepAliveInitialDelayMillis:
+    Number(
+      process.env.DB_KEEPALIVE_DELAY || 10000
+    )
 };
 
-/* ------------------------------------------------------------
- * SSL
- * ------------------------------------------------------------ */
+/* ============================================================
+   2. SSL CONFIGURATION
+   ============================================================ */
 
-const dbSsl =
-  String(process.env.DB_SSL || "false").toLowerCase() === "true";
+const sslEnabled =
+  Boolean(env.database.ssl);
 
-if (dbSsl) {
-  databaseConfig.ssl = {
-    rejectUnauthorized:
-      String(
-        process.env.DB_SSL_REJECT_UNAUTHORIZED || "true"
-      ).toLowerCase() === "true"
-  };
-}
+const sslConfig = sslEnabled
+  ? {
+      rejectUnauthorized:
+        process.env.DB_SSL_REJECT_UNAUTHORIZED !==
+        'false'
+    }
+  : false;
 
-/* ------------------------------------------------------------
- * DATABASE CONNECTION
- * ------------------------------------------------------------ */
+/* ============================================================
+   3. CONNECTION CONFIGURATION
+   ============================================================ */
 
-let poolConfig;
+const connectionConfig = env.database.url
+  ? {
+      connectionString:
+        env.database.url,
 
-/*
- * Prefer DATABASE_URL when supplied.
- *
- * This works well with:
- * - Render
- * - Railway
- * - Supabase
- * - Neon
- * - AWS
- * - managed PostgreSQL
- */
+      ...databaseConfig,
 
-if (env.databaseUrl) {
-  poolConfig = {
-    connectionString: env.databaseUrl,
-    ...databaseConfig
-  };
-} else {
+      ssl:
+        sslConfig
+    }
+  : {
+      host:
+        env.database.host,
+
+      port:
+        env.database.port,
+
+      database:
+        env.database.name,
+
+      user:
+        env.database.user,
+
+      password:
+        env.database.password,
+
+      ...databaseConfig,
+
+      ssl:
+        sslConfig
+    };
+
+/* ============================================================
+   4. VALIDATION
+   ============================================================ */
+
+function validateDatabaseConfig() {
+  const errors = [];
+
   /*
-   * Local development fallback.
+   * DATABASE_URL is preferred for Neon/Render.
    */
 
-  poolConfig = {
-    host:
-      env.database?.host ||
-      process.env.DB_HOST ||
-      "localhost",
+  if (
+    !env.database.url &&
+    !env.database.host
+  ) {
+    errors.push(
+      'DATABASE_URL or DB_HOST must be configured.'
+    );
+  }
 
-    port:
-      Number(env.database?.port) ||
-      Number(process.env.DB_PORT) ||
-      5432,
+  /*
+   * If individual connection variables are used,
+   * validate the required fields.
+   */
 
-    database:
-      env.database?.name ||
-      process.env.DB_NAME ||
-      "ghar",
+  if (
+    !env.database.url
+  ) {
+    if (!env.database.name) {
+      errors.push(
+        'DB_NAME is required when DATABASE_URL is not used.'
+      );
+    }
 
-    user:
-      env.database?.user ||
-      process.env.DB_USER ||
-      "postgres",
+    if (!env.database.user) {
+      errors.push(
+        'DB_USER is required when DATABASE_URL is not used.'
+      );
+    }
 
-    password:
-      env.database?.password ||
-      process.env.DB_PASSWORD ||
-      "",
+    if (
+      env.app.environment === 'production' &&
+      !env.database.password
+    ) {
+      errors.push(
+        'DB_PASSWORD is required when DATABASE_URL is not used.'
+      );
+    }
+  }
 
-    ...databaseConfig
-  };
+  if (
+    databaseConfig.max < 1
+  ) {
+    errors.push(
+      'DB_POOL_MAX must be greater than 0.'
+    );
+  }
+
+  if (
+    databaseConfig.min < 0
+  ) {
+    errors.push(
+      'DB_POOL_MIN cannot be negative.'
+    );
+  }
+
+  if (
+    databaseConfig.min >
+    databaseConfig.max
+  ) {
+    errors.push(
+      'DB_POOL_MIN cannot be greater than DB_POOL_MAX.'
+    );
+  }
+
+  if (
+    errors.length > 0
+  ) {
+    throw new Error(
+      `[GHAR DATABASE CONFIG ERROR]\n- ${errors.join('\n- ')}`
+    );
+  }
+
+  return true;
 }
 
-/* ------------------------------------------------------------
- * CONNECTION POOL
- * ------------------------------------------------------------ */
+validateDatabaseConfig();
 
-const pool = new Pool(poolConfig);
+/* ============================================================
+   5. CREATE CONNECTION POOL
+   ============================================================ */
 
-/* ------------------------------------------------------------
- * ERROR HANDLING
- * ------------------------------------------------------------ */
+const pool =
+  new Pool(connectionConfig);
 
-pool.on("error", (error) => {
-  console.error(
-    "[GHAR DATABASE] Unexpected PostgreSQL pool error:",
-    error
-  );
-});
+/* ============================================================
+   6. POOL ERROR HANDLER
+   ============================================================ */
 
-/* ------------------------------------------------------------
- * CONNECTION EVENT
- * ------------------------------------------------------------ */
-
-pool.on("connect", () => {
-  if (process.env.NODE_ENV !== "test") {
-    console.log("[GHAR DATABASE] PostgreSQL connection established");
+pool.on(
+  'error',
+  (error) => {
+    console.error(
+      '[GHAR DATABASE] Unexpected idle client error:',
+      error
+    );
   }
-});
+);
 
-/* ------------------------------------------------------------
- * HEALTH CHECK
- * ------------------------------------------------------------ */
+/* ============================================================
+   7. CONNECT EVENT
+   ============================================================ */
 
-async function checkDatabase() {
-  const start = Date.now();
+pool.on(
+  'connect',
+  () => {
+    if (
+      process.env.NODE_ENV !==
+      'production'
+    ) {
+      console.log(
+        '[GHAR DATABASE] PostgreSQL client connected.'
+      );
+    }
+  }
+);
 
+/* ============================================================
+   8. REMOVE EVENT
+   ============================================================ */
+
+pool.on(
+  'remove',
+  () => {
+    if (
+      process.env.NODE_ENV !==
+      'production'
+    ) {
+      console.log(
+        '[GHAR DATABASE] PostgreSQL client removed from pool.'
+      );
+    }
+  }
+);
+
+/* ============================================================
+   9. DATABASE CONNECT
+   ============================================================ */
+
+let databaseConnected = false;
+
+async function connectDatabase() {
   try {
-    const result = await pool.query(
-      "SELECT NOW() AS current_time"
+    const client =
+      await pool.connect();
+
+    try {
+      await client.query(
+        'SELECT 1'
+      );
+
+      databaseConnected =
+        true;
+
+      console.log(
+        '[GHAR DATABASE] PostgreSQL connection successful.'
+      );
+
+      return true;
+    } finally {
+      client.release();
+    }
+  } catch (error) {
+    databaseConnected =
+      false;
+
+    console.error(
+      '[GHAR DATABASE] PostgreSQL connection failed:',
+      error.message
     );
 
+    throw error;
+  }
+}
+
+/* ============================================================
+   10. HEALTH CHECK
+   ============================================================ */
+
+async function healthCheck() {
+  try {
+    await pool.query(
+      'SELECT 1'
+    );
+
+    databaseConnected =
+      true;
+
+    return true;
+  } catch (error) {
+    databaseConnected =
+      false;
+
+    return false;
+  }
+}
+
+/* ============================================================
+   11. DETAILED HEALTH CHECK
+   ============================================================ */
+
+async function getHealth() {
+  const startedAt =
+    Date.now();
+
+  try {
+    const result =
+      await pool.query(
+        `
+        SELECT
+          NOW() AS database_time,
+          current_database() AS database_name,
+          current_user AS database_user,
+          version() AS version
+        `
+      );
+
     return {
-      ok: true,
-      connected: true,
-      latencyMs: Date.now() - start,
-      time: result.rows[0]?.current_time || null
+      healthy: true,
+
+      responseTimeMs:
+        Date.now() - startedAt,
+
+      database:
+        result.rows[0]?.database_name ||
+        null,
+
+      user:
+        result.rows[0]?.database_user ||
+        null,
+
+      databaseTime:
+        result.rows[0]?.database_time ||
+        null,
+
+      version:
+        result.rows[0]?.version ||
+        null,
+
+      pool: {
+        total:
+          pool.totalCount,
+
+        idle:
+          pool.idleCount,
+
+        waiting:
+          pool.waitingCount
+      }
     };
   } catch (error) {
     return {
-      ok: false,
-      connected: false,
-      latencyMs: Date.now() - start,
+      healthy: false,
+
+      responseTimeMs:
+        Date.now() - startedAt,
+
       error:
-        process.env.NODE_ENV === "production"
-          ? "Database connection failed"
-          : error.message
+        error.message,
+
+      pool: {
+        total:
+          pool.totalCount,
+
+        idle:
+          pool.idleCount,
+
+        waiting:
+          pool.waitingCount
+      }
     };
   }
 }
 
-/* ------------------------------------------------------------
- * SIMPLE QUERY HELPER
- * ------------------------------------------------------------ */
+/* ============================================================
+   12. QUERY
+   ============================================================ */
 
-async function query(text, params = []) {
-  return pool.query(text, params);
-}
+/**
+ * Execute a parameterized SQL query.
+ *
+ * Example:
+ *
+ * const result = await query(
+ *   'SELECT * FROM users WHERE id = $1',
+ *   [userId]
+ * );
+ */
 
-/* ------------------------------------------------------------
- * TRANSACTION HELPER
- * ------------------------------------------------------------ */
-
-async function transaction(callback) {
-  const client = await pool.connect();
+async function query(
+  text,
+  params = []
+) {
+  const startedAt =
+    Date.now();
 
   try {
-    await client.query("BEGIN");
+    const result =
+      await pool.query(
+        text,
+        params
+      );
 
-    const result = await callback(client);
+    if (
+      process.env.DB_LOG_QUERIES ===
+      'true'
+    ) {
+      console.log(
+        `[GHAR DATABASE] Query completed in ${
+          Date.now() - startedAt
+        }ms`
+      );
+    }
 
-    await client.query("COMMIT");
+    databaseConnected =
+      true;
+
+    return result;
+  } catch (error) {
+    databaseConnected =
+      false;
+
+    console.error(
+      '[GHAR DATABASE] Query failed:',
+      {
+        message:
+          error.message,
+
+        code:
+          error.code,
+
+        durationMs:
+          Date.now() - startedAt
+      }
+    );
+
+    throw error;
+  }
+}
+
+/* ============================================================
+   13. TRANSACTION
+   ============================================================ */
+
+/**
+ * Execute multiple operations inside a transaction.
+ *
+ * Example:
+ *
+ * await transaction(async (client) => {
+ *
+ *   await client.query(...);
+ *
+ *   await client.query(...);
+ *
+ * });
+ */
+
+async function transaction(
+  callback
+) {
+  const client =
+    await pool.connect();
+
+  try {
+    await client.query(
+      'BEGIN'
+    );
+
+    const result =
+      await callback(client);
+
+    await client.query(
+      'COMMIT'
+    );
 
     return result;
   } catch (error) {
     try {
-      await client.query("ROLLBACK");
+      await client.query(
+        'ROLLBACK'
+      );
     } catch (rollbackError) {
       console.error(
-        "[GHAR DATABASE] Rollback failed:",
+        '[GHAR DATABASE] Rollback failed:',
         rollbackError
       );
     }
@@ -233,20 +514,108 @@ async function transaction(callback) {
   }
 }
 
-/* ------------------------------------------------------------
- * GRACEFUL SHUTDOWN
- * ------------------------------------------------------------ */
+/* ============================================================
+   14. GET CLIENT
+   ============================================================ */
+
+async function getClient() {
+  return pool.connect();
+}
+
+/* ============================================================
+   15. DATABASE VERSION
+   ============================================================ */
+
+async function getDatabaseVersion() {
+  const result =
+    await pool.query(
+      'SELECT version() AS version'
+    );
+
+  return (
+    result.rows[0]?.version ||
+    null
+  );
+}
+
+/* ============================================================
+   16. DATABASE TIME
+   ============================================================ */
+
+async function getDatabaseTime() {
+  const result =
+    await pool.query(
+      'SELECT NOW() AS now'
+    );
+
+  return (
+    result.rows[0]?.now ||
+    null
+  );
+}
+
+/* ============================================================
+   17. POOL INFORMATION
+   ============================================================ */
+
+function getPoolStats() {
+  return {
+    total:
+      pool.totalCount,
+
+    idle:
+      pool.idleCount,
+
+    waiting:
+      pool.waitingCount,
+
+    max:
+      databaseConfig.max,
+
+    min:
+      databaseConfig.min
+  };
+}
+
+/* ============================================================
+   18. CONNECTION STATUS
+   ============================================================ */
+
+function isConnected() {
+  return databaseConnected;
+}
+
+/* ============================================================
+   19. CLOSE DATABASE
+   ============================================================ */
+
+let databaseClosed = false;
 
 async function closeDatabase() {
+  if (
+    databaseClosed
+  ) {
+    return;
+  }
+
+  databaseClosed =
+    true;
+
   try {
     await pool.end();
 
+    databaseConnected =
+      false;
+
     console.log(
-      "[GHAR DATABASE] PostgreSQL pool closed"
+      '[GHAR DATABASE] PostgreSQL pool closed.'
     );
   } catch (error) {
+    databaseClosed =
+      false;
+
     console.error(
-      "[GHAR DATABASE] Failed to close PostgreSQL pool:",
+      '[GHAR DATABASE] Failed to close PostgreSQL pool:',
       error
     );
 
@@ -254,47 +623,80 @@ async function closeDatabase() {
   }
 }
 
-/* ------------------------------------------------------------
- * DATABASE INFORMATION
- * ------------------------------------------------------------ */
+/* ============================================================
+   20. SAFE CONFIGURATION
+   ============================================================ */
 
-function getDatabaseInfo() {
+function getSafeConfig() {
   return {
-    provider: "postgresql",
+    provider:
+      'postgresql',
+
+    connectionMode:
+      env.database.url
+        ? 'DATABASE_URL'
+        : 'individual',
 
     host:
-      env.databaseUrl
-        ? "DATABASE_URL"
-        : env.database?.host ||
-          process.env.DB_HOST ||
-          "localhost",
+      env.database.url
+        ? '[connection-string]'
+        : env.database.host,
+
+    port:
+      env.database.port,
 
     database:
-      env.databaseUrl
-        ? "DATABASE_URL"
-        : env.database?.name ||
-          process.env.DB_NAME ||
-          "ghar",
+      env.database.url
+        ? '[configured]'
+        : env.database.name,
 
-    poolMin: databaseConfig.min,
+    ssl:
+      Boolean(env.database.ssl),
 
-    poolMax: databaseConfig.max,
+    pool: {
+      min:
+        databaseConfig.min,
 
-    ssl: Boolean(databaseConfig.ssl),
+      max:
+        databaseConfig.max,
 
-    environment: env.nodeEnv
+      idleTimeoutMs:
+        databaseConfig.idleTimeoutMillis,
+
+      connectionTimeoutMs:
+        databaseConfig.connectionTimeoutMillis
+    }
   };
 }
 
-/* ------------------------------------------------------------
- * EXPORTS
- * ------------------------------------------------------------ */
+/* ============================================================
+   21. EXPORT
+   ============================================================ */
 
 module.exports = {
   pool,
+
+  connectDatabase,
+
+  healthCheck,
+
+  getHealth,
+
   query,
+
   transaction,
-  checkDatabase,
+
+  getClient,
+
+  getDatabaseVersion,
+
+  getDatabaseTime,
+
+  getPoolStats,
+
+  isConnected,
+
   closeDatabase,
-  getDatabaseInfo
+
+  getSafeConfig
 };
