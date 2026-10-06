@@ -1,69 +1,576 @@
 // ============================================================
 // GHAR - REAL ESTATE PLATFORM
 // assets/js/api.js
-// Central API Client
+// Enterprise API Client
 // ============================================================
 
 "use strict";
 
-(function (window) {
+(function (window, document) {
+
+  // ==========================================================
+  // GHAR NAMESPACE
+  // ==========================================================
+
+  const GHAR =
+    window.GHAR ||
+    {};
+
+  const CONFIG =
+    GHAR.config ||
+    window.GHARConfig ||
+    {};
+
+  const STORAGE =
+    GHAR.storage ||
+    window.GHARStorage ||
+    null;
 
   // ==========================================================
   // CONFIGURATION
   // ==========================================================
 
-  const config =
-    window.GHARConfig || {};
-
   const API_BASE =
-    (
-      config.API_BASE_URL ||
-      config.API_URL ||
+    String(
+      CONFIG.apiBaseUrl ||
+      CONFIG.API_BASE_URL ||
+      CONFIG.API_URL ||
       "/api"
     ).replace(/\/+$/, "");
 
+  const API_VERSION =
+    CONFIG.apiVersion ||
+    CONFIG.API_VERSION ||
+    "";
+
   const REQUEST_TIMEOUT =
     Number(
-      config.API_TIMEOUT ||
+      CONFIG.apiTimeout ||
+      CONFIG.API_TIMEOUT ||
       30000
     );
 
+  const RETRY_COUNT =
+    Number(
+      CONFIG.apiRetryCount ??
+      CONFIG.API_RETRY_COUNT ??
+      2
+    );
+
+  const RETRY_DELAY =
+    Number(
+      CONFIG.apiRetryDelay ??
+      CONFIG.API_RETRY_DELAY ??
+      500
+    );
+
+  const ENABLE_RETRY =
+    CONFIG.apiEnableRetry !== false &&
+    CONFIG.API_ENABLE_RETRY !== false;
+
+  const ENABLE_REFRESH =
+    CONFIG.apiEnableRefresh !== false &&
+    CONFIG.API_ENABLE_REFRESH !== false;
+
+  const CSRF_HEADER =
+    CONFIG.csrfHeader ||
+    CONFIG.CSRF_HEADER ||
+    "X-CSRF-Token";
+
+  const CSRF_COOKIE =
+    CONFIG.csrfCookie ||
+    CONFIG.CSRF_COOKIE ||
+    "XSRF-TOKEN";
+
+  const DEFAULT_CREDENTIALS =
+    CONFIG.apiCredentials ||
+    CONFIG.API_CREDENTIALS ||
+    "include";
+
   // ==========================================================
-  // STORAGE
+  // INTERNAL STATE
   // ==========================================================
 
-  const storage =
-    window.GHARStorage || null;
+  const state = {
 
-  function getAccessToken() {
+    initialized: false,
 
-    if (!storage) {
-      return null;
+    online:
+      typeof navigator !== "undefined"
+        ? navigator.onLine
+        : true,
+
+    activeRequests:
+      0,
+
+    requestCount:
+      0,
+
+    failedRequests:
+      0,
+
+    successfulRequests:
+      0,
+
+    refreshingToken:
+      null,
+
+    controllers:
+      new Map(),
+
+    interceptors: {
+
+      request: [],
+
+      response: [],
+
+      error: []
+
     }
 
-    return storage.getAccessToken();
+  };
+
+  // ==========================================================
+  // HELPERS
+  // ==========================================================
+
+  function isFunction(value) {
+
+    return (
+      typeof value ===
+      "function"
+    );
 
   }
 
-  // ==========================================================
-  // REQUEST ID
-  // ==========================================================
+  function isObject(value) {
+
+    return (
+      value !== null &&
+      typeof value === "object" &&
+      !Array.isArray(value)
+    );
+
+  }
+
+  function isBrowser() {
+
+    return (
+      typeof window !==
+      "undefined" &&
+      typeof document !==
+      "undefined"
+    );
+
+  }
+
+  function sleep(ms) {
+
+    return new Promise(
+      resolve =>
+        setTimeout(
+          resolve,
+          ms
+        )
+    );
+
+  }
 
   function createRequestId() {
 
     if (
       window.crypto &&
-      typeof window.crypto.randomUUID ===
-        "function"
+      isFunction(
+        window.crypto.randomUUID
+      )
     ) {
 
-      return `ghar-${window.crypto.randomUUID()}`;
+      return (
+        `ghar-${window.crypto.randomUUID()}`
+      );
 
     }
 
-    return `ghar-${Date.now()}-${Math.random()
-      .toString(36)
-      .slice(2, 10)}`;
+    return (
+      `ghar-${Date.now()}-${Math.random()
+        .toString(36)
+        .slice(2, 10)}`
+    );
+
+  }
+
+  function emit(
+    event,
+    detail = {}
+  ) {
+
+    try {
+
+      document.dispatchEvent(
+        new CustomEvent(
+          `ghar:${event}`,
+          {
+            detail
+          }
+        )
+      );
+
+    } catch (_) {}
+
+    try {
+
+      window.dispatchEvent(
+        new CustomEvent(
+          `ghar:${event}`,
+          {
+            detail
+          }
+        )
+      );
+
+    } catch (_) {}
+
+  }
+
+  // ==========================================================
+  // STORAGE
+  // ==========================================================
+
+  function storageGet(
+    key
+  ) {
+
+    try {
+
+      if (
+        STORAGE &&
+        isFunction(
+          STORAGE.get
+        )
+      ) {
+
+        return STORAGE.get(
+          key
+        );
+
+      }
+
+    } catch (_) {}
+
+    try {
+
+      return localStorage.getItem(
+        key
+      );
+
+    } catch (_) {
+
+      return null;
+
+    }
+
+  }
+
+  function storageSet(
+    key,
+    value
+  ) {
+
+    try {
+
+      if (
+        STORAGE &&
+        isFunction(
+          STORAGE.set
+        )
+      ) {
+
+        STORAGE.set(
+          key,
+          value
+        );
+
+        return;
+
+      }
+
+    } catch (_) {}
+
+    try {
+
+      localStorage.setItem(
+        key,
+        value
+      );
+
+    } catch (_) {}
+
+  }
+
+  function storageRemove(
+    key
+  ) {
+
+    try {
+
+      if (
+        STORAGE &&
+        isFunction(
+          STORAGE.remove
+        )
+      ) {
+
+        STORAGE.remove(
+          key
+        );
+
+        return;
+
+      }
+
+    } catch (_) {}
+
+    try {
+
+      localStorage.removeItem(
+        key
+      );
+
+    } catch (_) {}
+
+  }
+
+  // ==========================================================
+  // TOKEN MANAGEMENT
+  // ==========================================================
+
+  function getAccessToken() {
+
+    const keys = [
+
+      "accessToken",
+
+      "access_token",
+
+      "ghar_access_token",
+
+      "token"
+
+    ];
+
+    for (
+      const key of keys
+    ) {
+
+      const token =
+        storageGet(key);
+
+      if (
+        token
+      ) {
+
+        return token;
+
+      }
+
+    }
+
+    if (
+      GHAR.auth &&
+      isFunction(
+        GHAR.auth.getAccessToken
+      )
+    ) {
+
+      try {
+
+        return GHAR.auth.getAccessToken();
+
+      } catch (_) {}
+
+    }
+
+    return null;
+
+  }
+
+  function getRefreshToken() {
+
+    const keys = [
+
+      "refreshToken",
+
+      "refresh_token",
+
+      "ghar_refresh_token"
+
+    ];
+
+    for (
+      const key of keys
+    ) {
+
+      const token =
+        storageGet(key);
+
+      if (
+        token
+      ) {
+
+        return token;
+
+      }
+
+    }
+
+    return null;
+
+  }
+
+  function saveTokens(
+    data
+  ) {
+
+    if (
+      !data ||
+      typeof data !==
+        "object"
+    ) {
+
+      return;
+
+    }
+
+    const accessToken =
+      data.accessToken ||
+      data.access_token ||
+      data.token;
+
+    const refreshToken =
+      data.refreshToken ||
+      data.refresh_token;
+
+    if (
+      accessToken
+    ) {
+
+      storageSet(
+        "accessToken",
+        accessToken
+      );
+
+    }
+
+    if (
+      refreshToken
+    ) {
+
+      storageSet(
+        "refreshToken",
+        refreshToken
+      );
+
+    }
+
+    emit(
+      "api:tokens-updated",
+      {
+        hasAccessToken:
+          Boolean(
+            accessToken
+          ),
+
+        hasRefreshToken:
+          Boolean(
+            refreshToken
+          )
+      }
+    );
+
+  }
+
+  function clearTokens() {
+
+    [
+      "accessToken",
+      "access_token",
+      "ghar_access_token",
+      "token",
+      "refreshToken",
+      "refresh_token",
+      "ghar_refresh_token"
+    ].forEach(
+      storageRemove
+    );
+
+    emit(
+      "api:tokens-cleared"
+    );
+
+  }
+
+  // ==========================================================
+  // CSRF
+  // ==========================================================
+
+  function getCookie(
+    name
+  ) {
+
+    if (
+      !isBrowser()
+    ) {
+
+      return null;
+
+    }
+
+    const cookies =
+      document.cookie
+        ? document.cookie.split(";")
+        : [];
+
+    for (
+      const cookie of cookies
+    ) {
+
+      const [key, ...rest] =
+        cookie.trim().split("=");
+
+      if (
+        key === name
+      ) {
+
+        return decodeURIComponent(
+          rest.join("=")
+        );
+
+      }
+
+    }
+
+    return null;
+
+  }
+
+  function getCsrfToken() {
+
+    const configured =
+      storageGet(
+        "ghar_csrf_token"
+      );
+
+    if (
+      configured
+    ) {
+
+      return configured;
+
+    }
+
+    return getCookie(
+      CSRF_COOKIE
+    );
 
   }
 
@@ -77,40 +584,99 @@
   ) {
 
     const cleanEndpoint =
-      String(endpoint || "")
+      String(
+        endpoint || ""
+      )
         .replace(/^\/+/, "");
 
-    const url =
-      `${API_BASE}/${cleanEndpoint}`;
+    let base =
+      API_BASE;
 
-    if (!query) {
+    if (
+      API_VERSION
+    ) {
+
+      base =
+        `${base}/${String(
+          API_VERSION
+        ).replace(
+          /^\/+|\/+$/g,
+          ""
+        )}`;
+
+    }
+
+    const url =
+      `${base}/${cleanEndpoint}`;
+
+    if (
+      !query ||
+      typeof query !==
+        "object"
+    ) {
+
       return url;
+
     }
 
     const params =
       new URLSearchParams();
 
-    Object.entries(query)
-      .forEach(([key, value]) => {
+    Object.entries(
+      query
+    ).forEach(
+      ([key, value]) => {
 
         if (
-          value === undefined ||
-          value === null ||
-          value === ""
+          value ===
+            undefined ||
+          value ===
+            null ||
+          value ===
+            ""
         ) {
+
           return;
+
         }
 
-        if (Array.isArray(value)) {
+        if (
+          Array.isArray(value)
+        ) {
 
-          value.forEach(item => {
+          value.forEach(
+            item => {
 
-            params.append(
-              key,
-              String(item)
-            );
+              if (
+                item !==
+                  undefined &&
+                item !==
+                  null
+              ) {
 
-          });
+                params.append(
+                  key,
+                  String(item)
+                );
+
+              }
+
+            }
+          );
+
+          return;
+
+        }
+
+        if (
+          typeof value ===
+          "object"
+        ) {
+
+          params.append(
+            key,
+            JSON.stringify(value)
+          );
 
           return;
 
@@ -121,7 +687,8 @@
           String(value)
         );
 
-      });
+      }
+    );
 
     const queryString =
       params.toString();
@@ -129,6 +696,491 @@
     return queryString
       ? `${url}?${queryString}`
       : url;
+
+  }
+
+  // ==========================================================
+  // ERROR CLASS
+  // ==========================================================
+
+  class GHARApiError
+    extends Error {
+
+    constructor(
+      message,
+      details = {}
+    ) {
+
+      super(
+        message ||
+        "GHAR API request failed."
+      );
+
+      this.name =
+        "GHARApiError";
+
+      this.status =
+        Number(
+          details.status ||
+          0
+        );
+
+      this.code =
+        details.code ||
+        null;
+
+      this.data =
+        details.data ||
+        null;
+
+      this.requestId =
+        details.requestId ||
+        null;
+
+      this.endpoint =
+        details.endpoint ||
+        null;
+
+      this.method =
+        details.method ||
+        null;
+
+      this.retryable =
+        Boolean(
+          details.retryable
+        );
+
+      this.cause =
+        details.cause ||
+        null;
+
+      this.isNetworkError =
+        this.code ===
+        "NETWORK_ERROR";
+
+      this.isTimeout =
+        this.code ===
+        "REQUEST_TIMEOUT";
+
+      this.isUnauthorized =
+        this.status ===
+        401;
+
+      this.isForbidden =
+        this.status ===
+        403;
+
+      this.isNotFound =
+        this.status ===
+        404;
+
+      this.isValidation =
+        this.status ===
+        422;
+
+      this.isServerError =
+        this.status >=
+        500;
+
+    }
+
+  }
+
+  // ==========================================================
+  // RESPONSE PARSER
+  // ==========================================================
+
+  async function parseResponse(
+    response
+  ) {
+
+    const contentType =
+      response.headers.get(
+        "content-type"
+      ) || "";
+
+    if (
+      response.status ===
+        204 ||
+      response.status ===
+        205
+    ) {
+
+      return null;
+
+    }
+
+    if (
+      contentType.includes(
+        "application/json"
+      ) ||
+      contentType.includes(
+        "+json"
+      )
+    ) {
+
+      try {
+
+        return await response.json();
+
+      } catch (_) {
+
+        return null;
+
+      }
+
+    }
+
+    if (
+      contentType.includes(
+        "application/octet-stream"
+      ) ||
+      contentType.includes(
+        "application/pdf"
+      ) ||
+      contentType.includes(
+        "image/"
+      )
+    ) {
+
+      try {
+
+        return await response.blob();
+
+      } catch (_) {
+
+        return null;
+
+      }
+
+    }
+
+    try {
+
+      return await response.text();
+
+    } catch (_) {
+
+      return null;
+
+    }
+
+  }
+
+  // ==========================================================
+  // ERROR MESSAGE EXTRACTION
+  // ==========================================================
+
+  function getErrorMessage(
+    data,
+    status
+  ) {
+
+    if (
+      data &&
+      typeof data ===
+        "object"
+    ) {
+
+      return (
+        data.message ||
+        data.error ||
+        data.detail ||
+        data.title ||
+        data.reason ||
+        `GHAR API request failed with status ${status}.`
+      );
+
+    }
+
+    if (
+      typeof data ===
+      "string" &&
+      data.trim()
+    ) {
+
+      return data;
+
+    }
+
+    return (
+      `GHAR API request failed with status ${status}.`
+    );
+
+  }
+
+  function getErrorCode(
+    data
+  ) {
+
+    if (
+      data &&
+      typeof data ===
+        "object"
+    ) {
+
+      return (
+        data.code ||
+        data.errorCode ||
+        data.error_code ||
+        null
+      );
+
+    }
+
+    return null;
+
+  }
+
+  // ==========================================================
+  // RETRY LOGIC
+  // ==========================================================
+
+  function isRetryableStatus(
+    status
+  ) {
+
+    return (
+      status === 408 ||
+      status === 425 ||
+      status === 429 ||
+      status >= 500
+    );
+
+  }
+
+  function shouldRetry(
+    error,
+    method,
+    attempt,
+    options
+  ) {
+
+    if (
+      !ENABLE_RETRY ||
+      options.retry === false
+    ) {
+
+      return false;
+
+    }
+
+    if (
+      attempt >=
+      options.retryCount
+    ) {
+
+      return false;
+
+    }
+
+    const safeMethod =
+      [
+        "GET",
+        "HEAD",
+        "OPTIONS"
+      ].includes(
+        String(method)
+          .toUpperCase()
+      );
+
+    if (
+      !safeMethod &&
+      options.retryUnsafe !==
+        true
+    ) {
+
+      return false;
+
+    }
+
+    if (
+      error instanceof
+      GHARApiError
+    ) {
+
+      return (
+        error.isNetworkError ||
+        error.isTimeout ||
+        isRetryableStatus(
+          error.status
+        )
+      );
+
+    }
+
+    return false;
+
+  }
+
+  // ==========================================================
+  // INTERCEPTORS
+  // ==========================================================
+
+  async function runRequestInterceptors(
+    context
+  ) {
+
+    let result =
+      context;
+
+    for (
+      const interceptor of
+        state.interceptors.request
+    ) {
+
+      if (
+        isFunction(
+          interceptor
+        )
+      ) {
+
+        result =
+          await interceptor(
+            result
+          ) ||
+          result;
+
+      }
+
+    }
+
+    return result;
+
+  }
+
+  async function runResponseInterceptors(
+    response,
+    context
+  ) {
+
+    let result =
+      response;
+
+    for (
+      const interceptor of
+        state.interceptors.response
+    ) {
+
+      if (
+        isFunction(
+          interceptor
+        )
+      ) {
+
+        result =
+          await interceptor(
+            result,
+            context
+          ) ||
+          result;
+
+      }
+
+    }
+
+    return result;
+
+  }
+
+  async function runErrorInterceptors(
+    error,
+    context
+  ) {
+
+    let result =
+      error;
+
+    for (
+      const interceptor of
+        state.interceptors.error
+    ) {
+
+      if (
+        isFunction(
+          interceptor
+        )
+      ) {
+
+        try {
+
+          result =
+            await interceptor(
+              result,
+              context
+            ) ||
+            result;
+
+        } catch (
+          interceptorError
+        ) {
+
+          result =
+            interceptorError;
+
+        }
+
+      }
+
+    }
+
+    return result;
+
+  }
+
+  function addInterceptor(
+    type,
+    handler
+  ) {
+
+    if (
+      ![
+        "request",
+        "response",
+        "error"
+      ].includes(type)
+    ) {
+
+      throw new Error(
+        "Invalid interceptor type."
+      );
+
+    }
+
+    if (
+      !isFunction(handler)
+    ) {
+
+      throw new TypeError(
+        "Interceptor must be a function."
+      );
+
+    }
+
+    state.interceptors[type]
+      .push(handler);
+
+    return () => {
+
+      const list =
+        state.interceptors[type];
+
+      const index =
+        list.indexOf(handler);
+
+      if (
+        index !==
+        -1
+      ) {
+
+        list.splice(
+          index,
+          1
+        );
+
+      }
+
+    };
 
   }
 
@@ -141,330 +1193,760 @@
     options = {}
   ) {
 
-    const {
-
-      method = "GET",
-
-      body,
-
-      query,
-
-      headers = {},
-
-      auth = true,
-
-      timeout = REQUEST_TIMEOUT,
-
-      signal,
-
-      credentials = "include"
-
-    } = options;
+    const method =
+      String(
+        options.method ||
+        "GET"
+      ).toUpperCase();
 
     const requestId =
       createRequestId();
 
-    const requestHeaders = {
-      Accept:
-        "application/json",
+    const timeout =
+      Number(
+        options.timeout ??
+        REQUEST_TIMEOUT
+      );
 
-      "X-Requested-With":
-        "XMLHttpRequest",
+    const retryCount =
+      Number(
+        options.retryCount ??
+        RETRY_COUNT
+      );
 
-      "X-Request-ID":
-        requestId,
+    const retryDelay =
+      Number(
+        options.retryDelay ??
+        RETRY_DELAY
+      );
 
-      ...headers
+    const auth =
+      options.auth !==
+      false;
 
-    };
-
-    // --------------------------------------------------------
-    // AUTHORIZATION
-    // --------------------------------------------------------
-
-    const token =
-      getAccessToken();
-
-    if (
-      auth &&
-      token
-    ) {
-
-      requestHeaders.Authorization =
-        `Bearer ${token}`;
-
-    }
-
-    // --------------------------------------------------------
-    // BODY
-    // --------------------------------------------------------
-
-    let requestBody =
-      body;
-
-    const isFormData =
-      body instanceof FormData;
-
-    const isBlob =
-      body instanceof Blob;
-
-    const isArrayBuffer =
-      body instanceof ArrayBuffer;
-
-    if (
-      body !== undefined &&
-      body !== null &&
-      !isFormData &&
-      !isBlob &&
-      !isArrayBuffer &&
-      typeof body === "object"
-    ) {
-
-      requestHeaders["Content-Type"] =
-        "application/json";
-
-      requestBody =
-        JSON.stringify(body);
-
-    }
-
-    // --------------------------------------------------------
-    // ABORT CONTROLLER
-    // --------------------------------------------------------
+    const credentials =
+      options.credentials ||
+      DEFAULT_CREDENTIALS;
 
     const controller =
       new AbortController();
 
-    let timeoutId;
+    let timeoutId =
+      null;
 
-    if (timeout > 0) {
+    let externalAbortHandler =
+      null;
 
-      timeoutId =
-        setTimeout(
-          () => controller.abort(),
-          timeout
+    const controllerKey =
+      options.requestKey ||
+      null;
+
+    if (
+      controllerKey
+    ) {
+
+      const existing =
+        state.controllers.get(
+          controllerKey
         );
 
-    }
+      if (
+        existing
+      ) {
 
-    // --------------------------------------------------------
-    // EXTERNAL SIGNAL
-    // --------------------------------------------------------
+        existing.abort();
 
-    if (signal) {
-
-      if (signal.aborted) {
-        controller.abort();
       }
 
-      signal.addEventListener(
-        "abort",
-        () => controller.abort(),
-        {
-          once: true
-        }
+      state.controllers.set(
+        controllerKey,
+        controller
       );
 
     }
 
-    // --------------------------------------------------------
-    // FETCH
-    // --------------------------------------------------------
+    const context = {
 
-    let response;
+      endpoint,
+
+      method,
+
+      requestId,
+
+      options
+
+    };
+
+    state.requestCount++;
+    state.activeRequests++;
+
+    emit(
+      "api:request:start",
+      {
+        ...context
+      }
+    );
 
     try {
 
-      response =
-        await fetch(
-          buildUrl(
-            endpoint,
-            query
-          ),
-          {
-            method,
-
-            headers:
-              requestHeaders,
-
-            body:
-              requestBody,
-
-            credentials,
-
-            signal:
-              controller.signal
-          }
+      let prepared =
+        await runRequestInterceptors(
+          context
         );
 
-    } catch (error) {
-
-      if (
-        error &&
-        error.name ===
-          "AbortError"
+      for (
+        let attempt = 0;
+        attempt <= retryCount;
+        attempt++
       ) {
 
-        throw new GHARApiError(
-          "Request timed out or was cancelled.",
-          {
-            status:
-              408,
+        let requestBody =
+          options.body;
 
-            code:
-              "REQUEST_TIMEOUT",
+        const headers = {
+
+          Accept:
+            options.accept ||
+            "application/json",
+
+          "X-Requested-With":
+            "XMLHttpRequest",
+
+          "X-Request-ID":
+            requestId,
+
+          ...(
+            options.headers ||
+            {}
+          )
+
+        };
+
+        // ------------------------------------------------------
+        // AUTHORIZATION
+        // ------------------------------------------------------
+
+        if (
+          auth
+        ) {
+
+          const token =
+            getAccessToken();
+
+          if (
+            token &&
+            !headers.Authorization
+          ) {
+
+            headers.Authorization =
+              `Bearer ${token}`;
+
+          }
+
+        }
+
+        // ------------------------------------------------------
+        // CSRF
+        // ------------------------------------------------------
+
+        const csrfToken =
+          getCsrfToken();
+
+        if (
+          csrfToken &&
+          ![
+            "GET",
+            "HEAD",
+            "OPTIONS"
+          ].includes(method) &&
+          !headers[CSRF_HEADER]
+        ) {
+
+          headers[CSRF_HEADER] =
+            csrfToken;
+
+        }
+
+        // ------------------------------------------------------
+        // BODY SERIALIZATION
+        // ------------------------------------------------------
+
+        const isFormData =
+          typeof FormData !==
+            "undefined" &&
+          requestBody instanceof
+            FormData;
+
+        const isBlob =
+          typeof Blob !==
+            "undefined" &&
+          requestBody instanceof
+            Blob;
+
+        const isArrayBuffer =
+          typeof ArrayBuffer !==
+            "undefined" &&
+          requestBody instanceof
+            ArrayBuffer;
+
+        const isURLSearchParams =
+          typeof URLSearchParams !==
+            "undefined" &&
+          requestBody instanceof
+            URLSearchParams;
+
+        if (
+          requestBody !==
+            undefined &&
+          requestBody !==
+            null &&
+          !isFormData &&
+          !isBlob &&
+          !isArrayBuffer &&
+          !isURLSearchParams &&
+          typeof requestBody ===
+            "object"
+        ) {
+
+          headers[
+            "Content-Type"
+          ] =
+            headers[
+              "Content-Type"
+            ] ||
+            "application/json";
+
+          requestBody =
+            JSON.stringify(
+              requestBody
+            );
+
+        }
+
+        // ------------------------------------------------------
+        // TIMEOUT
+        // ------------------------------------------------------
+
+        if (
+          timeout > 0
+        ) {
+
+          timeoutId =
+            setTimeout(
+              () => {
+
+                controller.abort();
+
+              },
+              timeout
+            );
+
+        }
+
+        // ------------------------------------------------------
+        // EXTERNAL SIGNAL
+        // ------------------------------------------------------
+
+        if (
+          options.signal
+        ) {
+
+          if (
+            options.signal.aborted
+          ) {
+
+            controller.abort();
+
+          }
+
+          externalAbortHandler =
+            () =>
+              controller.abort();
+
+          options.signal.addEventListener(
+            "abort",
+            externalAbortHandler,
+            {
+              once:
+                true
+            }
+          );
+
+        }
+
+        // ------------------------------------------------------
+        // FETCH
+        // ------------------------------------------------------
+
+        let response;
+
+        try {
+
+          response =
+            await fetch(
+              buildUrl(
+                endpoint,
+                options.query
+              ),
+              {
+                method,
+
+                headers,
+
+                body:
+                  requestBody,
+
+                credentials,
+
+                signal:
+                  controller.signal,
+
+                cache:
+                  options.cache ||
+                  "default",
+
+                redirect:
+                  options.redirect ||
+                  "follow"
+
+              }
+            );
+
+        } catch (error) {
+
+          if (
+            error &&
+            error.name ===
+              "AbortError"
+          ) {
+
+            const message =
+              options.signal?.aborted
+                ? "Request was cancelled."
+                : "Request timed out.";
+
+            throw new GHARApiError(
+              message,
+              {
+                status:
+                  options.signal?.aborted
+                    ? 499
+                    : 408,
+
+                code:
+                  options.signal?.aborted
+                    ? "REQUEST_CANCELLED"
+                    : "REQUEST_TIMEOUT",
+
+                requestId,
+
+                endpoint,
+
+                method,
+
+                retryable:
+                  !options.signal?.aborted
+              }
+            );
+
+          }
+
+          throw new GHARApiError(
+            "Unable to connect to GHAR API.",
+            {
+              status:
+                0,
+
+              code:
+                "NETWORK_ERROR",
+
+              requestId,
+
+              endpoint,
+
+              method,
+
+              cause:
+                error,
+
+              retryable:
+                true
+            }
+          );
+
+        } finally {
+
+          if (
+            timeoutId
+          ) {
+
+            clearTimeout(
+              timeoutId
+            );
+
+            timeoutId =
+              null;
+
+          }
+
+          if (
+            options.signal &&
+            externalAbortHandler
+          ) {
+
+            options.signal.removeEventListener(
+              "abort",
+              externalAbortHandler
+            );
+
+          }
+
+        }
+
+        // ------------------------------------------------------
+        // RESPONSE
+        // ------------------------------------------------------
+
+        const data =
+          await parseResponse(
+            response
+          );
+
+        // ------------------------------------------------------
+        // REFRESH TOKEN
+        // ------------------------------------------------------
+
+        if (
+          response.status ===
+            401 &&
+          auth &&
+          ENABLE_REFRESH &&
+          !options.skipRefresh &&
+          !String(
+            endpoint
+          ).includes(
+            "/auth/refresh"
+          )
+        ) {
+
+          try {
+
+            const refreshed =
+              await refreshAccessToken();
+
+            if (
+              refreshed
+            ) {
+
+              return request(
+                endpoint,
+                {
+                  ...options,
+
+                  skipRefresh:
+                    true
+                }
+              );
+
+            }
+
+          } catch (_) {
+
+            clearTokens();
+
+            emit(
+              "auth:expired",
+              {
+                requestId
+              }
+            );
+
+          }
+
+        }
+
+        // ------------------------------------------------------
+        // HTTP ERROR
+        // ------------------------------------------------------
+
+        if (
+          !response.ok
+        ) {
+
+          const error =
+            new GHARApiError(
+              getErrorMessage(
+                data,
+                response.status
+              ),
+              {
+                status:
+                  response.status,
+
+                code:
+                  getErrorCode(
+                    data
+                  ),
+
+                data,
+
+                requestId,
+
+                endpoint,
+
+                method,
+
+                retryable:
+                  isRetryableStatus(
+                    response.status
+                  )
+              }
+            );
+
+          if (
+            shouldRetry(
+              error,
+              method,
+              attempt,
+              {
+                ...options,
+                retryCount
+              }
+            )
+          ) {
+
+            state.failedRequests++;
+
+            await sleep(
+              retryDelay *
+              Math.pow(
+                2,
+                attempt
+              )
+            );
+
+            continue;
+
+          }
+
+          throw error;
+
+        }
+
+        // ------------------------------------------------------
+        // SUCCESS
+        // ------------------------------------------------------
+
+        state.successfulRequests++;
+
+        if (
+          data &&
+          typeof data ===
+            "object"
+        ) {
+
+          saveTokens(
+            data
+          );
+
+        }
+
+        const result = {
+
+          ok:
+            true,
+
+          status:
+            response.status,
+
+          data,
+
+          requestId,
+
+          headers:
+            response.headers,
+
+          url:
+            response.url
+
+        };
+
+        const finalResult =
+          await runResponseInterceptors(
+            result,
+            prepared
+          );
+
+        emit(
+          "api:request:success",
+          {
+            ...context,
+
+            status:
+              response.status,
 
             requestId
           }
         );
 
-      }
-
-      throw new GHARApiError(
-        "Unable to connect to GHAR API.",
-        {
-          status:
-            0,
-
-          code:
-            "NETWORK_ERROR",
-
-          requestId,
-
-          cause:
-            error
-        }
-      );
-
-    } finally {
-
-      if (timeoutId) {
-        clearTimeout(timeoutId);
-      }
-
-    }
-
-    // --------------------------------------------------------
-    // RESPONSE
-    // --------------------------------------------------------
-
-    const contentType =
-      response.headers.get(
-        "content-type"
-      ) || "";
-
-    let data;
-
-    try {
-
-      if (
-        contentType.includes(
-          "application/json"
-        )
-      ) {
-
-        data =
-          await response.json();
-
-      } else {
-
-        data =
-          await response.text();
+        return finalResult;
 
       }
 
     } catch (error) {
 
-      data = null;
+      state.failedRequests++;
 
-    }
+      const normalized =
+        error instanceof
+          GHARApiError
+          ? error
+          : new GHARApiError(
+              error?.message ||
+              "GHAR API request failed.",
+              {
+                requestId,
 
-    // --------------------------------------------------------
-    // ERROR RESPONSE
-    // --------------------------------------------------------
+                endpoint,
 
-    if (!response.ok) {
+                method,
 
-      const message =
-        data &&
-        typeof data === "object" &&
-        data.error
-          ? data.error
-          : `GHAR API request failed with status ${response.status}.`;
+                cause:
+                  error
+              }
+            );
 
-      throw new GHARApiError(
-        message,
+      const intercepted =
+        await runErrorInterceptors(
+          normalized,
+          context
+        );
+
+      emit(
+        "api:request:error",
         {
-          status:
-            response.status,
+          ...context,
 
-          code:
-            data &&
-            typeof data === "object"
-              ? data.code
-              : undefined,
+          error:
+            intercepted
+        }
+      );
 
-          data,
+      throw intercepted;
 
-          requestId:
-            data &&
-            typeof data === "object" &&
-            data.requestId
-              ? data.requestId
-              : requestId
+    } finally {
+
+      state.activeRequests--;
+
+      if (
+        controllerKey &&
+        state.controllers.get(
+          controllerKey
+        ) === controller
+      ) {
+
+        state.controllers.delete(
+          controllerKey
+        );
+
+      }
+
+      emit(
+        "api:request:end",
+        {
+          ...context,
+
+          activeRequests:
+            state.activeRequests
         }
       );
 
     }
 
-    return {
-
-      ok: true,
-
-      status:
-        response.status,
-
-      data,
-
-      requestId
-
-    };
-
   }
 
   // ==========================================================
-  // API ERROR CLASS
+  // TOKEN REFRESH
   // ==========================================================
 
-  class GHARApiError
-    extends Error {
+  async function refreshAccessToken() {
 
-    constructor(
-      message,
-      details = {}
+    if (
+      state.refreshingToken
     ) {
 
-      super(message);
-
-      this.name =
-        "GHARApiError";
-
-      this.status =
-        details.status || 0;
-
-      this.code =
-        details.code || null;
-
-      this.data =
-        details.data || null;
-
-      this.requestId =
-        details.requestId || null;
-
-      this.cause =
-        details.cause || null;
+      return state.refreshingToken;
 
     }
+
+    const refreshToken =
+      getRefreshToken();
+
+    if (
+      !refreshToken
+    ) {
+
+      return false;
+
+    }
+
+    state.refreshingToken =
+      (async () => {
+
+        try {
+
+          const result =
+            await request(
+              "/auth/refresh",
+              {
+                method:
+                  "POST",
+
+                body: {
+                  refreshToken
+                },
+
+                auth:
+                  false,
+
+                skipRefresh:
+                  true,
+
+                retry:
+                  false
+              }
+            );
+
+          saveTokens(
+            result.data
+          );
+
+          emit(
+            "auth:refresh",
+            {
+              data:
+                result.data
+            }
+          );
+
+          return true;
+
+        } catch (error) {
+
+          clearTokens();
+
+          throw error;
+
+        } finally {
+
+          state.refreshingToken =
+            null;
+
+        }
+
+      })();
+
+    return state.refreshingToken;
 
   }
 
@@ -482,7 +1964,10 @@
       endpoint,
       {
         ...options,
-        method: "GET",
+
+        method:
+          "GET",
+
         query
       }
     );
@@ -499,7 +1984,10 @@
       endpoint,
       {
         ...options,
-        method: "POST",
+
+        method:
+          "POST",
+
         body
       }
     );
@@ -516,7 +2004,10 @@
       endpoint,
       {
         ...options,
-        method: "PUT",
+
+        method:
+          "PUT",
+
         body
       }
     );
@@ -533,7 +2024,10 @@
       endpoint,
       {
         ...options,
-        method: "PATCH",
+
+        method:
+          "PATCH",
+
         body
       }
     );
@@ -549,7 +2043,29 @@
       endpoint,
       {
         ...options,
-        method: "DELETE"
+
+        method:
+          "DELETE"
+      }
+    );
+
+  }
+
+  async function head(
+    endpoint,
+    query = null,
+    options = {}
+  ) {
+
+    return request(
+      endpoint,
+      {
+        ...options,
+
+        method:
+          "HEAD",
+
+        query
       }
     );
 
@@ -569,72 +2085,114 @@
     const formData =
       new FormData();
 
-    // --------------------------------------------------------
-    // Fields
-    // --------------------------------------------------------
-
-    Object.entries(fields)
-      .forEach(([key, value]) => {
+    Object.entries(
+      fields || {}
+    ).forEach(
+      ([key, value]) => {
 
         if (
-          value === undefined ||
-          value === null
+          value ===
+            undefined ||
+          value ===
+            null
         ) {
+
           return;
+
+        }
+
+        if (
+          value instanceof
+          Blob
+        ) {
+
+          formData.append(
+            key,
+            value
+          );
+
+          return;
+
+        }
+
+        if (
+          typeof value ===
+          "object"
+        ) {
+
+          formData.append(
+            key,
+            JSON.stringify(
+              value
+            )
+          );
+
+          return;
+
         }
 
         formData.append(
           key,
-          value
+          String(value)
         );
 
-      });
-
-    // --------------------------------------------------------
-    // Files
-    // --------------------------------------------------------
+      }
+    );
 
     if (
+      typeof File !==
+        "undefined" &&
       files instanceof File
     ) {
 
       formData.append(
+        options.fileField ||
         "file",
         files
       );
 
     } else if (
+      typeof FileList !==
+        "undefined" &&
       files instanceof FileList
     ) {
 
-      Array.from(files)
-        .forEach(file => {
+      Array.from(
+        files
+      ).forEach(
+        file => {
 
           formData.append(
-            "files",
-            file
-          );
-
-        });
-
-    } else if (
-      Array.isArray(files)
-    ) {
-
-      files.forEach(file => {
-
-        if (
-          file instanceof File
-        ) {
-
-          formData.append(
+            options.fileField ||
             "files",
             file
           );
 
         }
+      );
 
-      });
+    } else if (
+      Array.isArray(files)
+    ) {
+
+      files.forEach(
+        file => {
+
+          if (
+            file instanceof
+            Blob
+          ) {
+
+            formData.append(
+              options.fileField ||
+              "files",
+              file
+            );
+
+          }
+
+        }
+      );
 
     }
 
@@ -655,18 +2213,163 @@
   }
 
   // ==========================================================
+  // DOWNLOAD
+  // ==========================================================
+
+  async function download(
+    endpoint,
+    options = {}
+  ) {
+
+    const result =
+      await request(
+        endpoint,
+        {
+          ...options,
+
+          accept:
+            options.accept ||
+            "application/octet-stream"
+        }
+      );
+
+    return result;
+
+  }
+
+  // ==========================================================
+  // PAGINATION
+  // ==========================================================
+
+  function normalizePagination(
+    response
+  ) {
+
+    const data =
+      response?.data;
+
+    if (
+      !data ||
+      typeof data !==
+        "object"
+    ) {
+
+      return {
+
+        items: [],
+
+        page:
+          1,
+
+        limit:
+          0,
+
+        total:
+          0,
+
+        totalPages:
+          0,
+
+        hasNext:
+          false,
+
+        hasPrevious:
+          false
+
+      };
+
+    }
+
+    const items =
+      data.items ||
+      data.results ||
+      data.data ||
+      [];
+
+    const page =
+      Number(
+        data.page ||
+        data.currentPage ||
+        1
+      );
+
+    const limit =
+      Number(
+        data.limit ||
+        data.pageSize ||
+        items.length ||
+        0
+      );
+
+    const total =
+      Number(
+        data.total ||
+        data.count ||
+        0
+      );
+
+    const totalPages =
+      Number(
+        data.totalPages ||
+        data.pages ||
+        (
+          limit > 0
+            ? Math.ceil(
+                total /
+                limit
+              )
+            : 0
+        )
+      );
+
+    return {
+
+      items:
+        Array.isArray(items)
+          ? items
+          : [],
+
+      page,
+
+      limit,
+
+      total,
+
+      totalPages,
+
+      hasNext:
+        Boolean(
+          data.hasNext ??
+          data.has_next ??
+          page <
+            totalPages
+        ),
+
+      hasPrevious:
+        Boolean(
+          data.hasPrevious ??
+          data.has_previous ??
+          page > 1
+        )
+
+    };
+
+  }
+
+  // ==========================================================
   // AUTH API
   // ==========================================================
 
   const auth = {
 
-    login(credentials) {
+    login(data) {
 
       return post(
         "/auth/login",
-        credentials,
+        data,
         {
-          auth: false
+          auth:
+            false
         }
       );
 
@@ -678,7 +2381,8 @@
         "/auth/register",
         data,
         {
-          auth: false
+          auth:
+            false
         }
       );
 
@@ -690,7 +2394,8 @@
         "/auth/signup",
         data,
         {
-          auth: false
+          auth:
+            false
         }
       );
 
@@ -699,7 +2404,12 @@
     logout() {
 
       return post(
-        "/auth/logout"
+        "/auth/logout",
+        null,
+        {
+          retry:
+            false
+        }
       );
 
     },
@@ -708,9 +2418,20 @@
 
       return post(
         "/auth/refresh",
-        data,
         {
-          auth: false
+          refreshToken:
+            data.refreshToken ||
+            getRefreshToken()
+        },
+        {
+          auth:
+            false,
+
+          skipRefresh:
+            true,
+
+          retry:
+            false
         }
       );
 
@@ -730,7 +2451,8 @@
         "/auth/verify-email",
         data,
         {
-          auth: false
+          auth:
+            false
         }
       );
 
@@ -742,7 +2464,8 @@
         "/auth/send-otp",
         data,
         {
-          auth: false
+          auth:
+            false
         }
       );
 
@@ -754,7 +2477,8 @@
         "/auth/verify-otp",
         data,
         {
-          auth: false
+          auth:
+            false
         }
       );
 
@@ -766,7 +2490,8 @@
         "/auth/forgot-password",
         data,
         {
-          auth: false
+          auth:
+            false
         }
       );
 
@@ -778,8 +2503,19 @@
         "/auth/reset-password",
         data,
         {
-          auth: false
+          auth:
+            false
         }
+      );
+
+    },
+
+    logoutLocal() {
+
+      clearTokens();
+
+      emit(
+        "auth:logout"
       );
 
     }
@@ -1093,7 +2829,10 @@
 
     },
 
-    upload(files, fields = {}) {
+    upload(
+      files,
+      fields = {}
+    ) {
 
       return upload(
         "/documents/upload",
@@ -1103,7 +2842,10 @@
 
     },
 
-    verify(id, data = {}) {
+    verify(
+      id,
+      data = {}
+    ) {
 
       return post(
         `/documents/${encodeURIComponent(id)}/verify`,
@@ -1134,7 +2876,8 @@
         "/verification/levels",
         null,
         {
-          auth: false
+          auth:
+            false
         }
       );
 
@@ -1260,7 +3003,8 @@
         "/subscriptions/plans",
         null,
         {
-          auth: false
+          auth:
+            false
         }
       );
 
@@ -1272,7 +3016,8 @@
         "/subscriptions/schema",
         null,
         {
-          auth: false
+          auth:
+            false
         }
       );
 
@@ -1298,7 +3043,12 @@
     cancel() {
 
       return post(
-        "/subscriptions/cancel"
+        "/subscriptions/cancel",
+        null,
+        {
+          retry:
+            false
+        }
       );
 
     }
@@ -1521,7 +3271,8 @@
         "/ai/health",
         null,
         {
-          auth: false
+          auth:
+            false
         }
       );
 
@@ -1533,7 +3284,8 @@
         "/ai/modules",
         null,
         {
-          auth: false
+          auth:
+            false
         }
       );
 
@@ -1672,7 +3424,10 @@
 
     },
 
-    usersUpdate(id, data) {
+    usersUpdate(
+      id,
+      data
+    ) {
 
       return patch(
         `/admin/users/${encodeURIComponent(id)}`,
@@ -1681,7 +3436,10 @@
 
     },
 
-    propertyApprove(id, data = {}) {
+    propertyApprove(
+      id,
+      data = {}
+    ) {
 
       return post(
         `/admin/properties/${encodeURIComponent(id)}/approve`,
@@ -1690,7 +3448,10 @@
 
     },
 
-    propertyReject(id, data = {}) {
+    propertyReject(
+      id,
+      data = {}
+    ) {
 
       return post(
         `/admin/properties/${encodeURIComponent(id)}/reject`,
@@ -1807,7 +3568,8 @@
         "/health",
         null,
         {
-          auth: false
+          auth:
+            false
         }
       );
 
@@ -1819,7 +3581,8 @@
         "",
         null,
         {
-          auth: false
+          auth:
+            false
         }
       );
 
@@ -1831,7 +3594,8 @@
         "/routes",
         null,
         {
-          auth: false
+          auth:
+            false
         }
       );
 
@@ -1840,58 +3604,247 @@
   };
 
   // ==========================================================
-  // PUBLIC API
+  // CLIENT
   // ==========================================================
 
-  window.GHARApi = Object.freeze({
+  const client = {
 
     API_BASE,
+
+    API_VERSION,
 
     request,
 
     get,
+
     post,
+
     put,
+
     patch,
-    delete: del,
+
+    delete:
+      del,
+
+    head,
 
     upload,
+
+    download,
+
+    refreshAccessToken,
+
+    getAccessToken,
+
+    getRefreshToken,
+
+    clearTokens,
+
+    buildUrl,
+
+    normalizePagination,
 
     GHARApiError,
 
     auth,
+
     users,
+
     properties,
+
     search,
+
     visits,
+
     offers,
+
     applications,
+
     documents,
+
     verification,
+
     payments,
+
     subscriptions,
+
     loans,
+
     referrals,
+
     notifications,
+
     messages,
+
     support,
+
     ai,
+
     admin,
+
     adminAI,
-    system
 
-  });
+    system,
 
+    interceptors: {
+
+      addRequest:
+        handler =>
+          addInterceptor(
+            "request",
+            handler
+          ),
+
+      addResponse:
+        handler =>
+          addInterceptor(
+            "response",
+            handler
+          ),
+
+      addError:
+        handler =>
+          addInterceptor(
+            "error",
+            handler
+          )
+
+    },
+
+    getStats() {
+
+      return {
+
+        ...state,
+
+        controllers:
+          undefined,
+
+        refreshingToken:
+          Boolean(
+            state.refreshingToken
+          )
+
+      };
+
+    },
+
+    cancel(
+      requestKey
+    ) {
+
+      const controller =
+        state.controllers.get(
+          requestKey
+        );
+
+      if (
+        controller
+      ) {
+
+        controller.abort();
+
+        state.controllers.delete(
+          requestKey
+        );
+
+        return true;
+
+      }
+
+      return false;
+
+    }
+
+  };
+
+  // ==========================================================
+  // GLOBAL API
+  // ==========================================================
+
+  window.GHARApi =
+    Object.freeze(
+      client
+    );
+
+  // ==========================================================
+  // IMPORTANT GHAR CORE INTEGRATION
+  // ==========================================================
+
+  GHAR.api =
+    client;
+
+  window.GHAR =
+    GHAR;
+
+  // ==========================================================
+  // NETWORK EVENTS
+  // ==========================================================
+
+  if (
+    isBrowser()
+  ) {
+
+    window.addEventListener(
+      "online",
+      () => {
+
+        state.online =
+          true;
+
+        emit(
+          "api:online"
+        );
+
+      }
+    );
+
+    window.addEventListener(
+      "offline",
+      () => {
+
+        state.online =
+          false;
+
+        emit(
+          "api:offline"
+        );
+
+      }
+    );
+
+  }
 
   // ==========================================================
   // READY EVENT
   // ==========================================================
 
-  window.dispatchEvent(
-    new CustomEvent(
-      "ghar:api-ready"
-    )
-  );
+  state.initialized =
+    true;
 
+  try {
+
+    window.dispatchEvent(
+      new CustomEvent(
+        "ghar:api-ready",
+        {
+          detail: {
+
+            api:
+              client,
+
+            baseUrl:
+              API_BASE,
+
+            version:
+              API_VERSION
+
+          }
+
+        }
+      )
+    );
+
+  } catch (_) {}
 
 })(window);

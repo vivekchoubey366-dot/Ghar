@@ -1,171 +1,540 @@
 // ============================================================
 // GHAR - REAL ESTATE PLATFORM
 // assets/js/navigation.js
-// Global Navigation System
+// Global Navigation + Role-Aware Navigation System
 // ============================================================
 
 "use strict";
 
 (function (window, document) {
 
+  const GHAR = window.GHAR = window.GHAR || {};
+
   // ==========================================================
-  // GHAR NAVIGATION
+  // CONFIGURATION
   // ==========================================================
 
-  const GHARNavigation = {
+  const CONFIG = {
 
-    // --------------------------------------------------------
-    // CONFIGURATION
-    // --------------------------------------------------------
+    version: "2.0.0",
 
-    config: {
-      mobileBreakpoint: 1024,
+    mobileBreakpoint: 1024,
 
-      selectors: {
-        toggle:
-          "[data-nav-toggle], [data-menu-toggle]",
+    selectors: {
 
-        navigation:
-          "[data-navigation], .ghar-navigation, .ghar-nav",
+      toggle:
+        "[data-nav-toggle], [data-menu-toggle]",
 
-        mobileNavigation:
-          "[data-mobile-navigation]",
+      navigation:
+        "[data-navigation], .ghar-navigation, .ghar-nav",
 
-        close:
-          "[data-nav-close], [data-menu-close]",
+      mobileNavigation:
+        "[data-mobile-navigation]",
 
-        dropdownToggle:
-          "[data-nav-dropdown-toggle]",
+      close:
+        "[data-nav-close], [data-menu-close]",
 
-        dropdown:
-          "[data-nav-dropdown]",
+      dropdownToggle:
+        "[data-nav-dropdown-toggle]",
 
-        overlay:
-          "[data-nav-overlay]"
-      }
+      dropdown:
+        "[data-nav-dropdown]",
+
+      dropdownMenu:
+        "[data-nav-dropdown-menu]",
+
+      overlay:
+        "[data-nav-overlay]",
+
+      navLink:
+        "[data-nav-link], nav a, .ghar-nav a"
+
     },
 
-    // ========================================================
-    // INITIALIZATION
-    // ========================================================
+    roles: [
 
-    init() {
+      "buyer",
+      "seller",
+      "tenant",
+      "agent",
+      "business",
+      "admin"
 
-      this.cacheElements();
+    ],
 
-      this.bindEvents();
+    roleAliases: {
 
-      this.setupMobileNavigation();
+      buy: "buyer",
+      buyer: "buyer",
 
-      this.setupDropdowns();
+      sell: "seller",
+      seller: "seller",
+      owner: "seller",
 
-      this.setupActiveLinks();
+      tenant: "tenant",
+      renter: "tenant",
+      rent: "tenant",
 
-      this.setupKeyboardNavigation();
+      agent: "agent",
+      broker: "agent",
 
-      this.setupResizeHandler();
+      business: "business",
+      builder: "business",
+      developer: "business",
 
-      this.setupScrollBehavior();
+      admin: "admin",
+      administrator: "admin"
 
-      this.emit(
-        "ghar:navigation-ready"
+    },
+
+    dashboards: {
+
+      buyer:
+        "/buyer/dashboard.html",
+
+      seller:
+        "/seller/dashboard.html",
+
+      tenant:
+        "/tenant/dashboard.html",
+
+      agent:
+        "/agent/dashboard.html",
+
+      business:
+        "/business/dashboard.html",
+
+      admin:
+        "/admin/admin-dashboard.html"
+
+    },
+
+    defaultDashboard:
+      "/dashboard.html",
+
+    login:
+      "/login.html",
+
+    forbidden:
+      "/403.html"
+
+  };
+
+
+  // ==========================================================
+  // STATE
+  // ==========================================================
+
+  const state = {
+
+    initialized: false,
+
+    mobileOpen: false,
+
+    activeDropdown: null,
+
+    currentRole: null,
+
+    authenticated: false,
+
+    lastScroll: 0
+
+  };
+
+
+  // ==========================================================
+  // ROLE MANAGEMENT
+  // ==========================================================
+
+  function normalizeRole(role) {
+
+    if (!role) {
+      return null;
+    }
+
+    const value =
+      String(role)
+        .trim()
+        .toLowerCase();
+
+    return (
+      CONFIG.roleAliases[value] ||
+      (
+        CONFIG.roles.includes(value)
+          ? value
+          : null
+      )
+    );
+
+  }
+
+
+  function getRole() {
+
+    let role = null;
+
+    // GHAR auth module
+
+    try {
+
+      if (
+        window.GHAR_AUTH &&
+        typeof window.GHAR_AUTH.getRole ===
+          "function"
+      ) {
+
+        role =
+          window.GHAR_AUTH.getRole();
+
+      }
+
+    } catch (error) {
+
+      console.warn(
+        "[GHAR Navigation] Auth role error:",
+        error
       );
 
+    }
+
+
+    // GHAR Auth object
+
+    if (!role) {
+
+      try {
+
+        if (
+          window.GHARAuth &&
+          typeof window.GHARAuth.getRole ===
+            "function"
+        ) {
+
+          role =
+            window.GHARAuth.getRole();
+
+        }
+
+      } catch (error) {
+
+        console.warn(
+          "[GHAR Navigation] GHARAuth role error:",
+          error
+        );
+
+      }
+
+    }
+
+
+    // Storage
+
+    if (!role) {
+
+      try {
+
+        role =
+          localStorage.getItem(
+            "ghar_role"
+          );
+
+      } catch {}
+
+    }
+
+
+    // User object
+
+    if (!role) {
+
+      try {
+
+        const user =
+          JSON.parse(
+            localStorage.getItem(
+              "ghar_user"
+            ) || "null"
+          );
+
+        role =
+          user?.role ||
+          user?.userRole ||
+          user?.accountType;
+
+      } catch {}
+
+    }
+
+
+    // HTML dataset
+
+    if (!role) {
+
+      role =
+        document.body?.dataset.role ||
+        document.documentElement?.dataset.role;
+
+    }
+
+
+    return normalizeRole(role);
+
+  }
+
+
+  function setRole(role) {
+
+    const normalized =
+      normalizeRole(role);
+
+    if (!normalized) {
+
+      state.currentRole = null;
+
+      return false;
+
+    }
+
+    state.currentRole =
+      normalized;
+
+    document.body.dataset.role =
+      normalized;
+
+    document.documentElement.dataset.role =
+      normalized;
+
+    document.body.dataset.userRole =
+      normalized;
+
+    return true;
+
+  }
+
+
+  // ==========================================================
+  // AUTHENTICATION
+  // ==========================================================
+
+  function isAuthenticated() {
+
+    try {
+
+      if (
+        window.GHAR_AUTH &&
+        typeof window.GHAR_AUTH.isAuthenticated ===
+          "function"
+      ) {
+
+        return Boolean(
+          window.GHAR_AUTH.isAuthenticated()
+        );
+
+      }
+
+      if (
+        window.GHARAuth &&
+        typeof window.GHARAuth.isAuthenticated ===
+          "function"
+      ) {
+
+        return Boolean(
+          window.GHARAuth.isAuthenticated()
+        );
+
+      }
+
+    } catch {}
+
+    try {
+
+      const token =
+        localStorage.getItem(
+          "ghar_access_token"
+        ) ||
+        localStorage.getItem(
+          "ghar_token"
+        );
+
+      return Boolean(token);
+
+    } catch {
+
+      return false;
+
+    }
+
+  }
+
+
+  // ==========================================================
+  // INITIALIZATION
+  // ==========================================================
+
+  init() {
+
+    if (state.initialized) {
       return this;
+    }
 
-    },
+    this.cacheElements();
 
-    // ========================================================
-    // CACHE DOM
-    // ========================================================
+    this.detectAuthentication();
 
-    cacheElements() {
+    this.detectRole();
 
-      this.toggleButtons =
-        Array.from(
-          document.querySelectorAll(
-            this.config.selectors.toggle
-          )
-        );
+    this.bindEvents();
 
-      this.navigation =
-        document.querySelector(
-          this.config.selectors.navigation
-        );
+    this.setupMobileNavigation();
 
-      this.mobileNavigation =
-        document.querySelector(
-          this.config.selectors.mobileNavigation
-        );
+    this.setupDropdowns();
 
-      this.overlay =
-        document.querySelector(
-          this.config.selectors.overlay
-        );
+    this.setupActiveLinks();
 
-      this.closeButtons =
-        Array.from(
-          document.querySelectorAll(
-            this.config.selectors.close
-          )
-        );
+    this.setupRoleNavigation();
 
-      this.dropdownToggles =
-        Array.from(
-          document.querySelectorAll(
-            this.config.selectors.dropdownToggle
-          )
-        );
+    this.setupKeyboardNavigation();
 
-    },
+    this.setupResizeHandler();
 
-    // ========================================================
-    // EVENTS
-    // ========================================================
+    this.setupScrollBehavior();
 
-    bindEvents() {
+    this.setupOutsideClick();
 
-      this.toggleButtons.forEach(
-        button => {
+    this.emit(
+      "ghar:navigation-ready",
+      {
+        role:
+          state.currentRole,
 
-          button.addEventListener(
-            "click",
-            event => {
+        authenticated:
+          state.authenticated
 
-              event.preventDefault();
+      }
+    );
 
-              this.toggleMobileNavigation(
-                button
-              );
+    state.initialized =
+      true;
 
-            }
-          );
+    return this;
 
-        }
+  },
+
+
+  // ==========================================================
+  // CACHE DOM
+  // ==========================================================
+
+  cacheElements() {
+
+    this.toggleButtons =
+      Array.from(
+        document.querySelectorAll(
+          CONFIG.selectors.toggle
+        )
       );
 
-      this.closeButtons.forEach(
-        button => {
-
-          button.addEventListener(
-            "click",
-            event => {
-
-              event.preventDefault();
-
-              this.closeMobileNavigation();
-
-            }
-          );
-
-        }
+    this.navigation =
+      document.querySelector(
+        CONFIG.selectors.navigation
       );
 
-      if (this.overlay) {
+    this.mobileNavigation =
+      document.querySelector(
+        CONFIG.selectors.mobileNavigation
+      );
 
-        this.overlay.addEventListener(
+    this.overlay =
+      document.querySelector(
+        CONFIG.selectors.overlay
+      );
+
+    this.closeButtons =
+      Array.from(
+        document.querySelectorAll(
+          CONFIG.selectors.close
+        )
+      );
+
+    this.dropdownToggles =
+      Array.from(
+        document.querySelectorAll(
+          CONFIG.selectors.dropdownToggle
+        )
+      );
+
+  },
+
+
+  // ==========================================================
+  // AUTH DETECTION
+  // ==========================================================
+
+  detectAuthentication() {
+
+    state.authenticated =
+      isAuthenticated();
+
+    document.body.dataset.authenticated =
+      state.authenticated
+        ? "true"
+        : "false";
+
+  },
+
+
+  // ==========================================================
+  // ROLE DETECTION
+  // ==========================================================
+
+  detectRole() {
+
+    const role =
+      getRole();
+
+    if (role) {
+
+      setRole(role);
+
+    }
+
+  },
+
+
+  // ==========================================================
+  // EVENT BINDING
+  // ==========================================================
+
+  bindEvents() {
+
+    this.toggleButtons.forEach(
+      button => {
+
+        button.addEventListener(
           "click",
-          () => {
+          event => {
+
+            event.preventDefault();
+
+            this.toggleMobileNavigation(
+              button
+            );
+
+          }
+        );
+
+      }
+    );
+
+
+    this.closeButtons.forEach(
+      button => {
+
+        button.addEventListener(
+          "click",
+          event => {
+
+            event.preventDefault();
 
             this.closeMobileNavigation();
 
@@ -173,869 +542,1317 @@
         );
 
       }
+    );
 
-      document.addEventListener(
-        "keydown",
-        event => {
 
-          if (
-            event.key === "Escape"
-          ) {
+    if (this.overlay) {
 
-            this.closeMobileNavigation();
+      this.overlay.addEventListener(
+        "click",
+        () => {
 
-            this.closeAllDropdowns();
-
-          }
+          this.closeMobileNavigation();
 
         }
       );
 
-    },
+    }
 
-    // ========================================================
-    // MOBILE NAVIGATION
-    // ========================================================
 
-    setupMobileNavigation() {
+    document.addEventListener(
+      "keydown",
+      event => {
 
-      if (!this.navigation) {
-        return;
+        if (
+          event.key === "Escape"
+        ) {
+
+          this.closeMobileNavigation();
+
+          this.closeAllDropdowns();
+
+        }
+
       }
+    );
+
+
+    // Auth changes
+
+    document.addEventListener(
+      "ghar:auth:changed",
+      () => {
+
+        this.detectAuthentication();
+
+        this.detectRole();
+
+        this.setupRoleNavigation();
+
+      }
+    );
+
+
+    document.addEventListener(
+      "ghar:auth:login",
+      event => {
+
+        state.authenticated =
+          true;
+
+        const role =
+          event.detail?.role;
+
+        if (role) {
+          setRole(role);
+        }
+
+        this.setupRoleNavigation();
+
+      }
+    );
+
+
+    document.addEventListener(
+      "ghar:auth:logout",
+      () => {
+
+        state.authenticated =
+          false;
+
+        state.currentRole =
+          null;
+
+        this.setupRoleNavigation();
+
+      }
+    );
+
+  },
+
+
+  // ==========================================================
+  // MOBILE NAVIGATION
+  // ==========================================================
+
+  setupMobileNavigation() {
+
+    if (!this.navigation) {
+      return;
+    }
+
+    this.closeMobileNavigation();
+
+  },
+
+
+  toggleMobileNavigation(
+    button
+  ) {
+
+    if (
+      state.mobileOpen
+    ) {
 
       this.closeMobileNavigation();
 
-    },
+    } else {
 
-    toggleMobileNavigation(button) {
-
-      const isOpen =
-        document.body.classList.contains(
-          "nav-open"
-        );
-
-      if (isOpen) {
-
-        this.closeMobileNavigation();
-
-      } else {
-
-        this.openMobileNavigation(
-          button
-        );
-
-      }
-
-    },
-
-    openMobileNavigation(button) {
-
-      document.body.classList.add(
-        "nav-open"
+      this.openMobileNavigation(
+        button
       );
 
-      document.body.classList.add(
-        "menu-open"
+    }
+
+  },
+
+
+  openMobileNavigation(
+    button
+  ) {
+
+    state.mobileOpen =
+      true;
+
+    document.body.classList.add(
+      "nav-open"
+    );
+
+    document.body.classList.add(
+      "menu-open"
+    );
+
+    document.body.classList.add(
+      "ghar-navigation-open"
+    );
+
+
+    if (this.navigation) {
+
+      this.navigation.classList.add(
+        "is-open"
       );
 
-      if (this.navigation) {
-
-        this.navigation.classList.add(
-          "is-open"
-        );
-
-        this.navigation.setAttribute(
-          "aria-hidden",
-          "false"
-        );
-
-      }
-
-      if (this.mobileNavigation) {
-
-        this.mobileNavigation.classList.add(
-          "is-open"
-        );
-
-        this.mobileNavigation.setAttribute(
-          "aria-hidden",
-          "false"
-        );
-
-      }
-
-      if (this.overlay) {
-
-        this.overlay.classList.add(
-          "is-visible"
-        );
-
-        this.overlay.hidden =
-          false;
-
-      }
-
-      this.toggleButtons.forEach(
-        toggle => {
-
-          toggle.setAttribute(
-            "aria-expanded",
-            "true"
-          );
-
-          toggle.classList.add(
-            "is-active"
-          );
-
-        }
+      this.navigation.setAttribute(
+        "aria-hidden",
+        "false"
       );
 
-      if (button) {
+    }
 
-        button.setAttribute(
-          "aria-expanded",
-          "true"
-        );
 
-      }
+    if (this.mobileNavigation) {
 
-      this.emit(
-        "ghar:navigation-open"
+      this.mobileNavigation.classList.add(
+        "is-open"
       );
 
-    },
-
-    closeMobileNavigation() {
-
-      document.body.classList.remove(
-        "nav-open"
+      this.mobileNavigation.setAttribute(
+        "aria-hidden",
+        "false"
       );
 
-      document.body.classList.remove(
-        "menu-open"
+    }
+
+
+    if (this.overlay) {
+
+      this.overlay.classList.add(
+        "is-visible"
       );
 
-      if (this.navigation) {
+      this.overlay.hidden =
+        false;
 
-        this.navigation.classList.remove(
-          "is-open"
-        );
+    }
 
-        this.navigation.setAttribute(
-          "aria-hidden",
-          "true"
-        );
 
-      }
-
-      if (this.mobileNavigation) {
-
-        this.mobileNavigation.classList.remove(
-          "is-open"
-        );
-
-        this.mobileNavigation.setAttribute(
-          "aria-hidden",
-          "true"
-        );
-
-      }
-
-      if (this.overlay) {
-
-        this.overlay.classList.remove(
-          "is-visible"
-        );
-
-        this.overlay.hidden =
-          true;
-
-      }
-
-      this.toggleButtons.forEach(
-        toggle => {
-
-          toggle.setAttribute(
-            "aria-expanded",
-            "false"
-          );
-
-          toggle.classList.remove(
-            "is-active"
-          );
-
-        }
-      );
-
-      this.emit(
-        "ghar:navigation-close"
-      );
-
-    },
-
-    // ========================================================
-    // DROPDOWNS
-    // ========================================================
-
-    setupDropdowns() {
-
-      this.dropdownToggles.forEach(
-        toggle => {
-
-          toggle.setAttribute(
-            "aria-expanded",
-            "false"
-          );
-
-          toggle.addEventListener(
-            "click",
-            event => {
-
-              event.preventDefault();
-
-              this.toggleDropdown(
-                toggle
-              );
-
-            }
-          );
-
-        }
-      );
-
-      document.addEventListener(
-        "click",
-        event => {
-
-          if (
-            !event.target.closest(
-              "[data-nav-dropdown]"
-            ) &&
-            !event.target.closest(
-              "[data-nav-dropdown-toggle]"
-            )
-          ) {
-
-            this.closeAllDropdowns();
-
-          }
-
-        }
-      );
-
-    },
-
-    toggleDropdown(toggle) {
-
-      const dropdownId =
-        toggle.dataset.navDropdownToggle;
-
-      let dropdown = null;
-
-      if (dropdownId) {
-
-        dropdown =
-          document.getElementById(
-            dropdownId
-          );
-
-      }
-
-      if (!dropdown) {
-
-        const parent =
-          toggle.closest(
-            "[data-nav-dropdown]"
-          );
-
-        dropdown =
-          parent?.querySelector(
-            "[data-nav-dropdown-menu]"
-          );
-
-      }
-
-      if (!dropdown) {
-        return;
-      }
-
-      const isOpen =
-        dropdown.classList.contains(
-          "is-open"
-        );
-
-      this.closeAllDropdowns();
-
-      if (!isOpen) {
-
-        dropdown.classList.add(
-          "is-open"
-        );
-
-        toggle.classList.add(
-          "is-active"
-        );
+    this.toggleButtons.forEach(
+      toggle => {
 
         toggle.setAttribute(
           "aria-expanded",
           "true"
         );
 
-        dropdown.hidden =
-          false;
-
-      }
-
-    },
-
-    closeAllDropdowns() {
-
-      document
-        .querySelectorAll(
-          "[data-nav-dropdown-menu].is-open"
-        )
-        .forEach(
-          dropdown => {
-
-            dropdown.classList.remove(
-              "is-open"
-            );
-
-            dropdown.hidden =
-              true;
-
-          }
-        );
-
-      document
-        .querySelectorAll(
-          "[data-nav-dropdown-toggle]"
-        )
-        .forEach(
-          toggle => {
-
-            toggle.classList.remove(
-              "is-active"
-            );
-
-            toggle.setAttribute(
-              "aria-expanded",
-              "false"
-            );
-
-          }
-        );
-
-    },
-
-    // ========================================================
-    // ACTIVE LINKS
-    // ========================================================
-
-    setupActiveLinks() {
-
-      const currentPath =
-        this.normalizePath(
-          window.location.pathname
-        );
-
-      const links =
-        document.querySelectorAll(
-          "[data-nav-link], nav a, .ghar-nav a"
-        );
-
-      links.forEach(
-        link => {
-
-          const href =
-            link.getAttribute(
-              "href"
-            );
-
-          if (
-            !href ||
-            href === "#" ||
-            href.startsWith(
-              "javascript:"
-            )
-          ) {
-
-            return;
-
-          }
-
-          let targetPath;
-
-          try {
-
-            targetPath =
-              this.normalizePath(
-                new URL(
-                  href,
-                  window.location.origin
-                ).pathname
-              );
-
-          } catch {
-
-            return;
-
-          }
-
-          if (
-            targetPath ===
-            currentPath
-          ) {
-
-            this.activateLink(
-              link
-            );
-
-          } else if (
-            targetPath !== "/" &&
-            currentPath.startsWith(
-              targetPath + "/"
-            )
-          ) {
-
-            this.activateLink(
-              link
-            );
-
-          }
-
-        }
-      );
-
-    },
-
-    activateLink(link) {
-
-      link.classList.add(
-        "is-active"
-      );
-
-      link.setAttribute(
-        "aria-current",
-        "page"
-      );
-
-      const dropdown =
-        link.closest(
-          "[data-nav-dropdown]"
-        );
-
-      if (dropdown) {
-
-        dropdown.classList.add(
+        toggle.classList.add(
           "is-active"
         );
 
-        const toggle =
-          dropdown.querySelector(
-            "[data-nav-dropdown-toggle]"
+      }
+    );
+
+
+    if (button) {
+
+      button.setAttribute(
+        "aria-expanded",
+        "true"
+      );
+
+    }
+
+
+    this.emit(
+      "ghar:navigation-open"
+    );
+
+  },
+
+
+  closeMobileNavigation() {
+
+    state.mobileOpen =
+      false;
+
+    document.body.classList.remove(
+      "nav-open"
+    );
+
+    document.body.classList.remove(
+      "menu-open"
+    );
+
+    document.body.classList.remove(
+      "ghar-navigation-open"
+    );
+
+
+    if (this.navigation) {
+
+      this.navigation.classList.remove(
+        "is-open"
+      );
+
+      this.navigation.setAttribute(
+        "aria-hidden",
+        "true"
+      );
+
+    }
+
+
+    if (this.mobileNavigation) {
+
+      this.mobileNavigation.classList.remove(
+        "is-open"
+      );
+
+      this.mobileNavigation.setAttribute(
+        "aria-hidden",
+        "true"
+      );
+
+    }
+
+
+    if (this.overlay) {
+
+      this.overlay.classList.remove(
+        "is-visible"
+      );
+
+      this.overlay.hidden =
+        true;
+
+    }
+
+
+    this.toggleButtons.forEach(
+      toggle => {
+
+        toggle.setAttribute(
+          "aria-expanded",
+          "false"
+        );
+
+        toggle.classList.remove(
+          "is-active"
+        );
+
+      }
+    );
+
+
+    this.emit(
+      "ghar:navigation-close"
+    );
+
+  },
+
+
+  // ==========================================================
+  // DROPDOWNS
+  // ==========================================================
+
+  setupDropdowns() {
+
+    this.dropdownToggles.forEach(
+      toggle => {
+
+        toggle.setAttribute(
+          "aria-expanded",
+          "false"
+        );
+
+        toggle.addEventListener(
+          "click",
+          event => {
+
+            event.preventDefault();
+
+            this.toggleDropdown(
+              toggle
+            );
+
+          }
+        );
+
+      }
+    );
+
+  },
+
+
+  toggleDropdown(
+    toggle
+  ) {
+
+    const dropdown =
+      this.findDropdown(
+        toggle
+      );
+
+    if (!dropdown) {
+      return;
+    }
+
+    const isOpen =
+      dropdown.classList.contains(
+        "is-open"
+      );
+
+    this.closeAllDropdowns();
+
+    if (isOpen) {
+      return;
+    }
+
+    dropdown.classList.add(
+      "is-open"
+    );
+
+    dropdown.hidden =
+      false;
+
+    toggle.classList.add(
+      "is-active"
+    );
+
+    toggle.setAttribute(
+      "aria-expanded",
+      "true"
+    );
+
+    state.activeDropdown =
+      dropdown;
+
+  },
+
+
+  findDropdown(
+    toggle
+  ) {
+
+    const id =
+      toggle.dataset.navDropdownToggle;
+
+    if (id) {
+
+      const target =
+        document.getElementById(
+          id
+        );
+
+      if (target) {
+        return target;
+      }
+
+    }
+
+    return toggle
+      .closest(
+        "[data-nav-dropdown]"
+      )
+      ?.querySelector(
+        CONFIG.selectors.dropdownMenu
+      );
+
+  },
+
+
+  closeAllDropdowns() {
+
+    document
+      .querySelectorAll(
+        CONFIG.selectors.dropdownMenu
+      )
+      .forEach(
+        dropdown => {
+
+          dropdown.classList.remove(
+            "is-open"
           );
 
-        if (toggle) {
+          dropdown.hidden =
+            true;
 
-          toggle.classList.add(
+        }
+      );
+
+
+    document
+      .querySelectorAll(
+        CONFIG.selectors.dropdownToggle
+      )
+      .forEach(
+        toggle => {
+
+          toggle.classList.remove(
             "is-active"
           );
 
-        }
-
-      }
-
-    },
-
-    normalizePath(pathname) {
-
-      let path =
-        pathname || "/";
-
-      path =
-        path
-          .split("?")[0]
-          .split("#")[0];
-
-      path =
-        path.replace(
-          /\/index\.html$/i,
-          ""
-        );
-
-      path =
-        path.replace(
-          /\.html$/i,
-          ""
-        );
-
-      path =
-        path.replace(
-          /\/+$/,
-          ""
-        );
-
-      return (
-        path || "/"
-      ).toLowerCase();
-
-    },
-
-    // ========================================================
-    // KEYBOARD NAVIGATION
-    // ========================================================
-
-    setupKeyboardNavigation() {
-
-      document.addEventListener(
-        "keydown",
-        event => {
-
-          const active =
-            document.activeElement;
-
-          if (!active) {
-            return;
-          }
-
-          const dropdownToggle =
-            active.closest(
-              "[data-nav-dropdown-toggle]"
-            );
-
-          if (
-            !dropdownToggle
-          ) {
-
-            return;
-
-          }
-
-          if (
-            event.key === "ArrowDown"
-          ) {
-
-            event.preventDefault();
-
-            this.openDropdownFromKeyboard(
-              dropdownToggle
-            );
-
-          }
-
-          if (
-            event.key === "Escape"
-          ) {
-
-            event.preventDefault();
-
-            this.closeAllDropdowns();
-
-            dropdownToggle.focus();
-
-          }
-
-        }
-      );
-
-    },
-
-    openDropdownFromKeyboard(
-      toggle
-    ) {
-
-      this.toggleDropdown(
-        toggle
-      );
-
-      const dropdown =
-        toggle
-          .closest(
-            "[data-nav-dropdown]"
-          )
-          ?.querySelector(
-            "[data-nav-dropdown-menu]"
+          toggle.setAttribute(
+            "aria-expanded",
+            "false"
           );
 
-      if (!dropdown) {
-        return;
-      }
-
-      const firstLink =
-        dropdown.querySelector(
-          "a, button, [tabindex]"
-        );
-
-      if (firstLink) {
-
-        firstLink.focus();
-
-      }
-
-    },
-
-    // ========================================================
-    // RESPONSIVE BEHAVIOUR
-    // ========================================================
-
-    setupResizeHandler() {
-
-      let resizeTimer;
-
-      window.addEventListener(
-        "resize",
-        () => {
-
-          clearTimeout(
-            resizeTimer
-          );
-
-          resizeTimer =
-            setTimeout(
-              () => {
-
-                if (
-                  window.innerWidth >
-                  this.config.mobileBreakpoint
-                ) {
-
-                  this.closeMobileNavigation();
-
-                }
-
-                this.emit(
-                  "ghar:navigation-resize",
-                  {
-                    width:
-                      window.innerWidth,
-
-                    height:
-                      window.innerHeight
-                  }
-                );
-
-              },
-              150
-            );
-
         }
       );
 
-    },
 
-    // ========================================================
-    // SCROLL BEHAVIOUR
-    // ========================================================
+    state.activeDropdown =
+      null;
 
-    setupScrollBehavior() {
+  },
 
-      const header =
-        document.querySelector(
-          "[data-site-header], header.ghar-header"
-        );
 
-      if (!header) {
-        return;
-      }
+  // ==========================================================
+  // OUTSIDE CLICK
+  // ==========================================================
 
-      let lastScroll =
-        window.scrollY;
+  setupOutsideClick() {
 
-      window.addEventListener(
-        "scroll",
-        () => {
-
-          const currentScroll =
-            window.scrollY;
-
-          if (
-            currentScroll >
-            80
-          ) {
-
-            header.classList.add(
-              "is-scrolled"
-            );
-
-          } else {
-
-            header.classList.remove(
-              "is-scrolled"
-            );
-
-          }
-
-          if (
-            currentScroll >
-              lastScroll &&
-            currentScroll >
-              160
-          ) {
-
-            header.classList.add(
-              "is-scroll-down"
-            );
-
-          } else {
-
-            header.classList.remove(
-              "is-scroll-down"
-            );
-
-          }
-
-          lastScroll =
-            currentScroll;
-
-        },
-        {
-          passive: true
-        }
-      );
-
-    },
-
-    // ========================================================
-    // NAVIGATION HELPERS
-    // ========================================================
-
-    goTo(
-      url,
-      options = {}
-    ) {
-
-      if (!url) {
-        return;
-      }
-
-      if (
-        options.newTab
-      ) {
-
-        window.open(
-          url,
-          "_blank",
-          "noopener,noreferrer"
-        );
-
-        return;
-
-      }
-
-      window.location.href =
-        url;
-
-    },
-
-    goBack() {
-
-      window.history.back();
-
-    },
-
-    // ========================================================
-    // ROLE NAVIGATION
-    // ========================================================
-
-    goToRoleDashboard(
-      role
-    ) {
-
-      const dashboards = {
-
-        buyer:
-          "/buyer/dashboard.html",
-
-        seller:
-          "/seller/dashboard.html",
-
-        tenant:
-          "/tenant/dashboard.html",
-
-        admin:
-          "/admin/admin-dashboard.html"
-
-      };
-
-      const target =
-        dashboards[
-          String(role)
-            .toLowerCase()
-        ];
-
-      if (!target) {
-
-        this.goTo(
-          "/dashboard.html"
-        );
-
-        return;
-
-      }
-
-      this.goTo(
-        target
-      );
-
-    },
-
-    // ========================================================
-    // AUTH NAVIGATION
-    // ========================================================
-
-    logout() {
-
-      try {
+    document.addEventListener(
+      "click",
+      event => {
 
         if (
-          window.GHAR_AUTH &&
-          typeof window.GHAR_AUTH.logout ===
-            "function"
+          event.target.closest(
+            CONFIG.selectors.dropdown
+          ) ||
+          event.target.closest(
+            CONFIG.selectors.dropdownToggle
+          )
         ) {
-
-          window.GHAR_AUTH.logout();
 
           return;
 
         }
 
-      } catch (error) {
+        this.closeAllDropdowns();
 
-        console.error(
-          "[GHAR Navigation] Logout error:",
-          error
+      }
+    );
+
+  },
+
+
+  // ==========================================================
+  // ACTIVE LINKS
+  // ==========================================================
+
+  setupActiveLinks() {
+
+    const currentPath =
+      this.normalizePath(
+        window.location.pathname
+      );
+
+    const links =
+      document.querySelectorAll(
+        CONFIG.selectors.navLink
+      );
+
+    links.forEach(
+      link => {
+
+        const href =
+          link.getAttribute(
+            "href"
+          );
+
+        if (
+          !href ||
+          href === "#" ||
+          href.startsWith(
+            "javascript:"
+          )
+        ) {
+
+          return;
+
+        }
+
+        let targetPath;
+
+        try {
+
+          targetPath =
+            this.normalizePath(
+              new URL(
+                href,
+                window.location.origin
+              ).pathname
+            );
+
+        } catch {
+
+          return;
+
+        }
+
+        if (
+          targetPath ===
+          currentPath
+        ) {
+
+          this.activateLink(
+            link
+          );
+
+        } else if (
+          targetPath !== "/" &&
+          currentPath.startsWith(
+            targetPath + "/"
+          )
+        ) {
+
+          this.activateLink(
+            link
+          );
+
+        }
+
+      }
+    );
+
+  },
+
+
+  activateLink(
+    link
+  ) {
+
+    link.classList.add(
+      "is-active"
+    );
+
+    link.setAttribute(
+      "aria-current",
+      "page"
+    );
+
+
+    const dropdown =
+      link.closest(
+        CONFIG.selectors.dropdown
+      );
+
+    if (dropdown) {
+
+      dropdown.classList.add(
+        "is-active"
+      );
+
+      const toggle =
+        dropdown.querySelector(
+          CONFIG.selectors.dropdownToggle
+        );
+
+      if (toggle) {
+
+        toggle.classList.add(
+          "is-active"
         );
 
       }
 
-      this.goTo(
-        "/login.html"
+    }
+
+  },
+
+
+  normalizePath(
+    pathname
+  ) {
+
+    let path =
+      pathname || "/";
+
+    path =
+      path
+        .split("?")[0]
+        .split("#")[0];
+
+    path =
+      path.replace(
+        /\/index\.html$/i,
+        ""
       );
 
-    },
+    path =
+      path.replace(
+        /\.html$/i,
+        ""
+      );
 
-    // ========================================================
-    // EVENT SYSTEM
-    // ========================================================
+    path =
+      path.replace(
+        /\/+$/,
+        ""
+      );
 
-    emit(
-      eventName,
-      detail = {}
+    return (
+      path || "/"
+    ).toLowerCase();
+
+  },
+
+
+  // ==========================================================
+  // ROLE-AWARE NAVIGATION
+  // ==========================================================
+
+  setupRoleNavigation() {
+
+    const role =
+      state.currentRole;
+
+    document
+      .querySelectorAll(
+        "[data-role]",
+      )
+      .forEach(
+        element => {
+
+          const roles =
+            String(
+              element.dataset.role || ""
+            )
+              .split(",")
+              .map(
+                value =>
+                  normalizeRole(
+                    value
+                  )
+              )
+              .filter(Boolean);
+
+          if (!roles.length) {
+            return;
+          }
+
+          element.hidden =
+            !role ||
+            !roles.includes(
+              role
+            );
+
+        }
+      );
+
+
+    document
+      .querySelectorAll(
+        "[data-auth-only]"
+      )
+      .forEach(
+        element => {
+
+          element.hidden =
+            !state.authenticated;
+
+        }
+      );
+
+
+    document
+      .querySelectorAll(
+        "[data-guest-only]"
+      )
+      .forEach(
+        element => {
+
+          element.hidden =
+            state.authenticated;
+
+        }
+      );
+
+
+    document
+      .querySelectorAll(
+        "[data-role-dashboard]"
+      )
+      .forEach(
+        element => {
+
+          const elementRole =
+            normalizeRole(
+              element.dataset.roleDashboard
+            );
+
+          if (
+            elementRole &&
+            CONFIG.dashboards[
+              elementRole
+            ]
+          ) {
+
+            element.href =
+              CONFIG.dashboards[
+                elementRole
+              ];
+
+          }
+
+        }
+      );
+
+  },
+
+
+  // ==========================================================
+  // ROLE DASHBOARD
+  // ==========================================================
+
+  goToRoleDashboard(
+    role
+  ) {
+
+    const normalized =
+      normalizeRole(
+        role ||
+        state.currentRole
+      );
+
+
+    if (
+      !normalized
     ) {
 
-      document.dispatchEvent(
-        new CustomEvent(
-          eventName,
-          {
-            detail
-          }
-        )
+      this.goTo(
+        CONFIG.login
+      );
+
+      return;
+
+    }
+
+
+    if (
+      !state.authenticated
+    ) {
+
+      this.goTo(
+        CONFIG.login
+      );
+
+      return;
+
+    }
+
+
+    const target =
+      CONFIG.dashboards[
+        normalized
+      ];
+
+
+    if (!target) {
+
+      this.goTo(
+        CONFIG.defaultDashboard
+      );
+
+      return;
+
+    }
+
+
+    this.goTo(
+      target
+    );
+
+  },
+
+
+  // ==========================================================
+  // ROLE ACCESS CHECK
+  // ==========================================================
+
+  hasRole(
+    requiredRole
+  ) {
+
+    const current =
+      normalizeRole(
+        state.currentRole ||
+        getRole()
+      );
+
+    const required =
+      normalizeRole(
+        requiredRole
+      );
+
+    if (!current || !required) {
+      return false;
+    }
+
+    // Admin has platform-wide access
+
+    if (
+      current === "admin"
+    ) {
+
+      return true;
+
+    }
+
+    return (
+      current === required
+    );
+
+  },
+
+
+  // ==========================================================
+  // ROLE PROTECTION
+  // ==========================================================
+
+  protectRole(
+    requiredRole
+  ) {
+
+    if (
+      !state.authenticated
+    ) {
+
+      this.goTo(
+        CONFIG.login
+      );
+
+      return false;
+
+    }
+
+
+    if (
+      !this.hasRole(
+        requiredRole
+      )
+    ) {
+
+      this.goTo(
+        CONFIG.forbidden
+      );
+
+      return false;
+
+    }
+
+
+    return true;
+
+  },
+
+
+  // ==========================================================
+  // KEYBOARD NAVIGATION
+  // ==========================================================
+
+  setupKeyboardNavigation() {
+
+    document.addEventListener(
+      "keydown",
+      event => {
+
+        const active =
+          document.activeElement;
+
+        if (!active) {
+          return;
+        }
+
+
+        const toggle =
+          active.closest(
+            CONFIG.selectors.dropdownToggle
+          );
+
+        if (!toggle) {
+          return;
+        }
+
+
+        if (
+          event.key ===
+          "ArrowDown"
+        ) {
+
+          event.preventDefault();
+
+          this.openDropdownFromKeyboard(
+            toggle
+          );
+
+        }
+
+
+        if (
+          event.key ===
+          "ArrowUp"
+        ) {
+
+          event.preventDefault();
+
+          this.openDropdownFromKeyboard(
+            toggle
+          );
+
+        }
+
+
+        if (
+          event.key ===
+          "Escape"
+        ) {
+
+          event.preventDefault();
+
+          this.closeAllDropdowns();
+
+          toggle.focus();
+
+        }
+
+      }
+    );
+
+  },
+
+
+  openDropdownFromKeyboard(
+    toggle
+  ) {
+
+    this.toggleDropdown(
+      toggle
+    );
+
+    const dropdown =
+      this.findDropdown(
+        toggle
+      );
+
+    if (!dropdown) {
+      return;
+    }
+
+    const firstFocusable =
+      dropdown.querySelector(
+        "a, button, input, [tabindex]"
+      );
+
+    firstFocusable?.focus();
+
+  },
+
+
+  // ==========================================================
+  // RESPONSIVE
+  // ==========================================================
+
+  setupResizeHandler() {
+
+    let timer = null;
+
+    window.addEventListener(
+      "resize",
+      () => {
+
+        clearTimeout(
+          timer
+        );
+
+        timer =
+          setTimeout(
+            () => {
+
+              if (
+                window.innerWidth >
+                CONFIG.mobileBreakpoint
+              ) {
+
+                this.closeMobileNavigation();
+
+              }
+
+              this.emit(
+                "ghar:navigation-resize",
+                {
+                  width:
+                    window.innerWidth,
+
+                  height:
+                    window.innerHeight
+                }
+              );
+
+            },
+            150
+          );
+
+      }
+    );
+
+  },
+
+
+  // ==========================================================
+  // SCROLL BEHAVIOUR
+  // ==========================================================
+
+  setupScrollBehavior() {
+
+    const header =
+      document.querySelector(
+        "[data-site-header], header.ghar-header"
+      );
+
+    if (!header) {
+      return;
+    }
+
+
+    state.lastScroll =
+      window.scrollY;
+
+
+    window.addEventListener(
+      "scroll",
+      () => {
+
+        const current =
+          window.scrollY;
+
+
+        header.classList.toggle(
+          "is-scrolled",
+          current > 80
+        );
+
+
+        header.classList.toggle(
+          "is-scroll-down",
+          current >
+            state.lastScroll &&
+          current >
+            160
+        );
+
+
+        header.classList.toggle(
+          "is-scroll-up",
+          current <
+            state.lastScroll
+        );
+
+
+        state.lastScroll =
+          current;
+
+      },
+      {
+        passive: true
+      }
+    );
+
+  },
+
+
+  // ==========================================================
+  // NAVIGATION HELPERS
+  // ==========================================================
+
+  goTo(
+    url,
+    options = {}
+  ) {
+
+    if (!url) {
+      return;
+    }
+
+
+    this.closeMobileNavigation();
+
+    this.closeAllDropdowns();
+
+
+    if (
+      options.newTab
+    ) {
+
+      window.open(
+        url,
+        "_blank",
+        "noopener,noreferrer"
+      );
+
+      return;
+
+    }
+
+
+    window.location.href =
+      url;
+
+  },
+
+
+  goBack() {
+
+    if (
+      window.history.length > 1
+    ) {
+
+      window.history.back();
+
+    } else {
+
+      this.goTo(
+        "/"
       );
 
     }
 
+  },
+
+
+  reload() {
+
+    window.location.reload();
+
+  },
+
+
+  // ==========================================================
+  // AUTH NAVIGATION
+  // ==========================================================
+
+  logout() {
+
+    try {
+
+      if (
+        window.GHAR_AUTH &&
+        typeof window.GHAR_AUTH.logout ===
+          "function"
+      ) {
+
+        window.GHAR_AUTH.logout();
+
+        return;
+
+      }
+
+
+      if (
+        window.GHARAuth &&
+        typeof window.GHARAuth.logout ===
+          "function"
+      ) {
+
+        window.GHARAuth.logout();
+
+        return;
+
+      }
+
+    } catch (error) {
+
+      console.error(
+        "[GHAR Navigation] Logout error:",
+        error
+      );
+
+    }
+
+
+    try {
+
+      localStorage.removeItem(
+        "ghar_access_token"
+      );
+
+      localStorage.removeItem(
+        "ghar_refresh_token"
+      );
+
+      localStorage.removeItem(
+        "ghar_token"
+      );
+
+      localStorage.removeItem(
+        "ghar_role"
+      );
+
+      localStorage.removeItem(
+        "ghar_user"
+      );
+
+    } catch {}
+
+
+    state.authenticated =
+      false;
+
+    state.currentRole =
+      null;
+
+
+    this.goTo(
+      CONFIG.login
+    );
+
+  },
+
+
+  // ==========================================================
+  // EVENT SYSTEM
+  // ==========================================================
+
+  emit(
+    eventName,
+    detail = {}
+  ) {
+
+    document.dispatchEvent(
+      new CustomEvent(
+        eventName,
+        {
+          detail
+        }
+      )
+    );
+
+  },
+
+
+  // ==========================================================
+  // PUBLIC STATE
+  // ==========================================================
+
+  getState() {
+
+    return {
+      ...state
+    };
+
+  },
+
+
+  getRole() {
+
+    return (
+      state.currentRole ||
+      getRole()
+    );
+
+  },
+
+
+  isAuthenticated() {
+
+    return state.authenticated;
+
+  }
+
   };
+
 
   // ==========================================================
   // GLOBAL EXPORT
@@ -1044,14 +1861,25 @@
   window.GHARNavigation =
     GHARNavigation;
 
-  // Backward-compatible alias
-
   window.GHAR_NAVIGATION =
     GHARNavigation;
+
+  // Backward compatibility
+
+  GHAR.Navigation =
+    GHARNavigation;
+
 
   // ==========================================================
   // AUTO START
   // ==========================================================
+
+  function start() {
+
+    GHARNavigation.init();
+
+  }
+
 
   if (
     document.readyState ===
@@ -1060,8 +1888,7 @@
 
     document.addEventListener(
       "DOMContentLoaded",
-      () =>
-        GHARNavigation.init(),
+      start,
       {
         once: true
       }
@@ -1069,7 +1896,7 @@
 
   } else {
 
-    GHARNavigation.init();
+    start();
 
   }
 

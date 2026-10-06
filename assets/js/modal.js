@@ -7,11 +7,17 @@
 
 (function (window, document) {
 
-  const GHAR = window.GHAR = window.GHAR || {};
+  const GHAR =
+    window.GHAR =
+    window.GHAR || {};
 
   const Modal = {
 
     activeModal: null,
+
+    // ========================================================
+    // OPEN
+    // ========================================================
 
     open(options = {}) {
 
@@ -22,19 +28,30 @@
         size = "medium",
         closable = true,
         backdropClose = true,
+        escapeClose = true,
         buttons = [],
+        autoFocus = true,
+        restoreFocus = true,
         onOpen = null,
         onClose = null
       } = options;
 
       this.close();
 
-      const overlay = document.createElement("div");
+      const previousFocus =
+        document.activeElement;
 
-      overlay.className = "ghar-modal-overlay";
-      overlay.dataset.modalId = id;
+      const overlay =
+        document.createElement("div");
 
-      const modal = document.createElement("div");
+      overlay.className =
+        "ghar-modal-overlay";
+
+      overlay.dataset.modalId =
+        id;
+
+      const modal =
+        document.createElement("div");
 
       modal.className =
         `ghar-modal ghar-modal-${size}`;
@@ -54,83 +71,240 @@
         `${id}-title`
       );
 
-      modal.innerHTML = `
-        <div class="ghar-modal-header">
+      if (title) {
 
-          <h2 id="${id}-title">
-            ${title}
-          </h2>
+        modal.innerHTML = `
+          <div class="ghar-modal-header">
+
+            <h2
+              id="${id}-title"
+              class="ghar-modal-title"
+            ></h2>
+
+            ${
+              closable
+                ? `
+                  <button
+                    type="button"
+                    class="ghar-modal-close"
+                    aria-label="Close dialog"
+                  >
+                    ×
+                  </button>
+                `
+                : ""
+            }
+
+          </div>
+
+          <div class="ghar-modal-body"></div>
 
           ${
-            closable
+            buttons.length
               ? `
-                <button
-                  type="button"
-                  class="ghar-modal-close"
-                  aria-label="Close"
-                >
-                  ×
-                </button>
+                <div class="ghar-modal-footer"></div>
               `
               : ""
           }
+        `;
 
-        </div>
+      } else {
 
-        <div class="ghar-modal-body">
-          ${content}
-        </div>
+        modal.innerHTML = `
+          <div class="ghar-modal-header">
 
-        ${
-          buttons.length
-            ? `
-              <div class="ghar-modal-footer">
-                ${buttons.map((button, index) => `
+            ${
+              closable
+                ? `
                   <button
                     type="button"
-                    class="${button.className || "ghar-btn"}"
-                    data-modal-action="${index}"
+                    class="ghar-modal-close"
+                    aria-label="Close dialog"
                   >
-                    ${button.label || "Action"}
+                    ×
                   </button>
-                `).join("")}
-              </div>
-            `
-            : ""
-        }
-      `;
+                `
+                : ""
+            }
 
-      overlay.appendChild(modal);
-      document.body.appendChild(overlay);
+          </div>
+
+          <div class="ghar-modal-body"></div>
+
+          ${
+            buttons.length
+              ? `
+                <div class="ghar-modal-footer"></div>
+              `
+              : ""
+          }
+        `;
+
+      }
+
+      // ======================================================
+      // CONTENT
+      // ======================================================
+
+      const titleElement =
+        modal.querySelector(
+          ".ghar-modal-title"
+        );
+
+      if (titleElement) {
+        titleElement.textContent =
+          title;
+      }
+
+      const body =
+        modal.querySelector(
+          ".ghar-modal-body"
+        );
+
+      if (typeof content === "string") {
+
+        body.innerHTML =
+          content;
+
+      } else if (
+        content instanceof Node
+      ) {
+
+        body.appendChild(
+          content
+        );
+
+      }
+
+      // ======================================================
+      // BUTTONS
+      // ======================================================
+
+      const footer =
+        modal.querySelector(
+          ".ghar-modal-footer"
+        );
+
+      if (footer) {
+
+        buttons.forEach(
+          (button, index) => {
+
+            const element =
+              document.createElement(
+                "button"
+              );
+
+            element.type =
+              button.type || "button";
+
+            element.className =
+              button.className ||
+              "ghar-btn";
+
+            element.dataset.modalAction =
+              index;
+
+            element.textContent =
+              button.label ||
+              "Action";
+
+            if (button.disabled) {
+              element.disabled = true;
+            }
+
+            if (button.ariaLabel) {
+
+              element.setAttribute(
+                "aria-label",
+                button.ariaLabel
+              );
+
+            }
+
+            element.addEventListener(
+              "click",
+              async event => {
+
+                if (
+                  typeof button.onClick ===
+                  "function"
+                ) {
+
+                  await button.onClick(
+                    event,
+                    this,
+                    modal
+                  );
+
+                }
+
+              }
+            );
+
+            footer.appendChild(
+              element
+            );
+
+          }
+        );
+
+      }
+
+      // ======================================================
+      // APPEND
+      // ======================================================
+
+      overlay.appendChild(
+        modal
+      );
+
+      document.body.appendChild(
+        overlay
+      );
 
       this.activeModal = {
+
         id,
+
         overlay,
+
         modal,
-        onClose
+
+        previousFocus,
+
+        restoreFocus,
+
+        onClose,
+
+        escapeHandler: null
+
       };
 
       document.body.classList.add(
         "ghar-modal-open"
       );
 
-      requestAnimationFrame(() => {
-        overlay.classList.add("is-open");
-      });
+      // ======================================================
+      // CLOSE BUTTON
+      // ======================================================
 
       if (closable) {
 
-        const closeButton =
-          modal.querySelector(
+        modal
+          .querySelector(
             ".ghar-modal-close"
+          )
+          ?.addEventListener(
+            "click",
+            () => this.close()
           );
 
-        closeButton?.addEventListener(
-          "click",
-          () => this.close()
-        );
-
       }
+
+      // ======================================================
+      // BACKDROP
+      // ======================================================
 
       if (backdropClose) {
 
@@ -141,7 +315,9 @@
             if (
               event.target === overlay
             ) {
+
               this.close();
+
             }
 
           }
@@ -149,141 +325,480 @@
 
       }
 
-      buttons.forEach(
-        (button, index) => {
+      // ======================================================
+      // ESCAPE KEY
+      // ======================================================
 
-          const element =
-            modal.querySelector(
-              `[data-modal-action="${index}"]`
-            );
+      if (escapeClose) {
 
-          element?.addEventListener(
-            "click",
-            event => {
+        const escapeHandler =
+          event => {
 
-              if (
-                typeof button.onClick ===
-                "function"
-              ) {
-                button.onClick(
-                  event,
-                  this
-                );
-              }
+            if (
+              event.key === "Escape" &&
+              this.activeModal
+            ) {
+
+              event.preventDefault();
+
+              this.close();
 
             }
+
+          };
+
+        this.activeModal.escapeHandler =
+          escapeHandler;
+
+        document.addEventListener(
+          "keydown",
+          escapeHandler
+        );
+
+      }
+
+      // ======================================================
+      // FOCUS TRAP
+      // ======================================================
+
+      modal.addEventListener(
+        "keydown",
+        event => {
+
+          if (
+            event.key !== "Tab"
+          ) {
+            return;
+          }
+
+          const focusable =
+            this.getFocusableElements(
+              modal
+            );
+
+          if (!focusable.length) {
+            return;
+          }
+
+          const first =
+            focusable[0];
+
+          const last =
+            focusable[
+              focusable.length - 1
+            ];
+
+          if (
+            event.shiftKey &&
+            document.activeElement === first
+          ) {
+
+            event.preventDefault();
+
+            last.focus();
+
+          } else if (
+            !event.shiftKey &&
+            document.activeElement === last
+          ) {
+
+            event.preventDefault();
+
+            first.focus();
+
+          }
+
+        }
+      );
+
+      // ======================================================
+      // ANIMATION
+      // ======================================================
+
+      requestAnimationFrame(
+        () => {
+
+          overlay.classList.add(
+            "is-open"
           );
 
         }
       );
 
+      // ======================================================
+      // OPEN CALLBACK
+      // ======================================================
+
       if (
         typeof onOpen ===
         "function"
       ) {
-        onOpen(modal);
+
+        onOpen(
+          modal,
+          this
+        );
+
+      }
+
+      document.dispatchEvent(
+        new CustomEvent(
+          "ghar:modal:open",
+          {
+            detail: {
+              id,
+              modal
+            }
+          }
+        )
+      );
+
+      // ======================================================
+      // AUTO FOCUS
+      // ======================================================
+
+      if (autoFocus) {
+
+        requestAnimationFrame(
+          () => {
+
+            const focusable =
+              this.getFocusableElements(
+                modal
+              );
+
+            if (focusable.length) {
+
+              focusable[0].focus();
+
+            } else {
+
+              modal.setAttribute(
+                "tabindex",
+                "-1"
+              );
+
+              modal.focus();
+
+            }
+
+          }
+        );
+
       }
 
       return modal;
+
     },
+
+    // ========================================================
+    // CLOSE
+    // ========================================================
 
     close() {
 
-      if (!this.activeModal) {
-        return;
+      if (
+        !this.activeModal
+      ) {
+        return false;
       }
+
+      const instance =
+        this.activeModal;
 
       const {
         overlay,
-        onClose
-      } = this.activeModal;
+        previousFocus,
+        restoreFocus,
+        onClose,
+        escapeHandler,
+        id
+      } = instance;
+
+      if (escapeHandler) {
+
+        document.removeEventListener(
+          "keydown",
+          escapeHandler
+        );
+
+      }
 
       overlay.classList.remove(
         "is-open"
       );
 
-      setTimeout(() => {
-
-        overlay.remove();
-
-        document.body.classList.remove(
-          "ghar-modal-open"
-        );
-
-        if (
-          typeof onClose ===
-          "function"
-        ) {
-          onClose();
-        }
-
-      }, 150);
-
       this.activeModal = null;
+
+      setTimeout(
+        () => {
+
+          overlay.remove();
+
+          document.body.classList.remove(
+            "ghar-modal-open"
+          );
+
+          if (
+            restoreFocus &&
+            previousFocus &&
+            typeof previousFocus.focus ===
+              "function" &&
+            document.contains(
+              previousFocus
+            )
+          ) {
+
+            previousFocus.focus();
+
+          }
+
+          if (
+            typeof onClose ===
+            "function"
+          ) {
+
+            onClose(
+              this
+            );
+
+          }
+
+          document.dispatchEvent(
+            new CustomEvent(
+              "ghar:modal:close",
+              {
+                detail: {
+                  id
+                }
+              }
+            )
+          );
+
+        },
+        150
+      );
+
+      return true;
+
     },
+
+    // ========================================================
+    // CONFIRM
+    // ========================================================
 
     confirm(options = {}) {
 
-      return new Promise(resolve => {
+      return new Promise(
+        resolve => {
 
-        this.open({
+          let resolved = false;
 
-          title:
-            options.title ||
-            "Confirm Action",
+          const finish =
+            value => {
 
-          content:
-            options.message ||
-            "Are you sure?",
+              if (resolved) {
+                return;
+              }
 
-          size:
-            options.size ||
-            "small",
+              resolved = true;
 
-          buttons: [
+              this.close();
 
-            {
-              label:
-                options.cancelText ||
-                "Cancel",
+              resolve(
+                value
+              );
 
-              className:
-                "ghar-btn ghar-btn-secondary",
+            };
 
-              onClick: () => {
+          this.open({
 
-                this.close();
-                resolve(false);
+            title:
+              options.title ||
+              "Confirm Action",
+
+            content:
+              options.message ||
+              "Are you sure?",
+
+            size:
+              options.size ||
+              "small",
+
+            closable:
+              options.closable !== false,
+
+            backdropClose:
+              options.backdropClose !== false,
+
+            buttons: [
+
+              {
+
+                label:
+                  options.cancelText ||
+                  "Cancel",
+
+                className:
+                  options.cancelClass ||
+                  "ghar-btn ghar-btn-secondary",
+
+                onClick:
+                  () => finish(false)
+
+              },
+
+              {
+
+                label:
+                  options.confirmText ||
+                  "Confirm",
+
+                className:
+                  options.confirmClass ||
+                  "ghar-btn ghar-btn-primary",
+
+                onClick:
+                  () => finish(true)
 
               }
-            },
 
-            {
-              label:
-                options.confirmText ||
-                "Confirm",
+            ]
 
-              className:
-                "ghar-btn ghar-btn-primary",
+          });
 
-              onClick: () => {
+        }
+      );
 
-                this.close();
-                resolve(true);
+    },
+
+    // ========================================================
+    // ALERT
+    // ========================================================
+
+    alert(options = {}) {
+
+      return new Promise(
+        resolve => {
+
+          this.open({
+
+            title:
+              options.title ||
+              "GHAR",
+
+            content:
+              options.message ||
+              "",
+
+            size:
+              options.size ||
+              "small",
+
+            buttons: [
+
+              {
+
+                label:
+                  options.buttonText ||
+                  "OK",
+
+                className:
+                  options.buttonClass ||
+                  "ghar-btn ghar-btn-primary",
+
+                onClick:
+                  () => {
+
+                    this.close();
+
+                    resolve(
+                      true
+                    );
+
+                  }
 
               }
+
+            ],
+
+            onClose: () => {
+
+              resolve(
+                true
+              );
+
             }
 
-          ]
+          });
 
-        });
+        }
+      );
 
-      });
+    },
+
+    // ========================================================
+    // GET FOCUSABLE ELEMENTS
+    // ========================================================
+
+    getFocusableElements(
+      container
+    ) {
+
+      return Array.from(
+        container.querySelectorAll(
+          `
+          a[href],
+          button:not([disabled]),
+          textarea:not([disabled]),
+          input:not([disabled]),
+          select:not([disabled]),
+          [tabindex]:not([tabindex="-1"])
+          `
+        )
+      ).filter(
+        element =>
+          !element.hidden &&
+          element.offsetParent !== null
+      );
+
+    },
+
+    // ========================================================
+    // IS OPEN
+    // ========================================================
+
+    isOpen() {
+
+      return Boolean(
+        this.activeModal
+      );
+
+    },
+
+    // ========================================================
+    // GET ACTIVE MODAL
+    // ========================================================
+
+    getActive() {
+
+      return (
+        this.activeModal?.modal ||
+        null
+      );
+
     }
+
   };
 
-  GHAR.Modal = Modal;
+  // ==========================================================
+  // GLOBAL EXPORT
+  // ==========================================================
 
-  window.GHARModal = Modal;
+  GHAR.Modal =
+    Modal;
+
+  window.GHARModal =
+    Modal;
 
 })(window, document);

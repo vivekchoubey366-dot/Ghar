@@ -16,13 +16,16 @@ window.GHAR = window.GHAR || {};
 GHAR.APP = Object.freeze({
   NAME: "GHAR",
   FULL_NAME: "GHAR Real Estate Platform",
-  VERSION: "1.0.0",
+  VERSION: "1.1.0",
   DEFAULT_LANGUAGE: "en",
   DEFAULT_CURRENCY: "INR",
   DEFAULT_COUNTRY: "India",
+
   ENVIRONMENT:
     window.location.hostname === "localhost" ||
-    window.location.hostname === "127.0.0.1"
+    window.location.hostname === "127.0.0.1" ||
+    window.location.hostname === "::1" ||
+    window.location.protocol === "file:"
       ? "development"
       : "production"
 });
@@ -38,12 +41,13 @@ GHAR.ROLES = Object.freeze({
   TENANT: "TENANT",
   AGENT: "AGENT",
   BUSINESS: "BUSINESS",
-  ADMIN: "ADMIN"
+  ADMIN: "ADMIN",
+  SUPER_ADMIN: "SUPER_ADMIN"
 });
 
 
 // ============================================================
-// USER ROLE LABELS
+// ROLE LABELS
 // ============================================================
 
 GHAR.ROLE_LABELS = Object.freeze({
@@ -52,8 +56,76 @@ GHAR.ROLE_LABELS = Object.freeze({
   TENANT: "Tenant",
   AGENT: "Agent",
   BUSINESS: "Business",
-  ADMIN: "Administrator"
+  ADMIN: "Administrator",
+  SUPER_ADMIN: "Super Administrator"
 });
+
+
+// ============================================================
+// VALID ROLES
+// ============================================================
+
+GHAR.VALID_ROLES = Object.freeze([
+  GHAR.ROLES.BUYER,
+  GHAR.ROLES.SELLER,
+  GHAR.ROLES.TENANT,
+  GHAR.ROLES.AGENT,
+  GHAR.ROLES.BUSINESS,
+  GHAR.ROLES.ADMIN,
+  GHAR.ROLES.SUPER_ADMIN
+]);
+
+
+// ============================================================
+// ROLE ALIASES
+// ============================================================
+
+GHAR.ROLE_ALIASES = Object.freeze({
+  USER: GHAR.ROLES.BUYER,
+  CUSTOMER: GHAR.ROLES.BUYER,
+  BUY: GHAR.ROLES.BUYER,
+
+  OWNER: GHAR.ROLES.SELLER,
+  LANDLORD: GHAR.ROLES.SELLER,
+
+  RENTER: GHAR.ROLES.TENANT,
+
+  BROKER: GHAR.ROLES.AGENT,
+  REALTOR: GHAR.ROLES.AGENT,
+
+  COMPANY: GHAR.ROLES.BUSINESS,
+
+  SUPERADMIN: GHAR.ROLES.SUPER_ADMIN
+});
+
+
+// ============================================================
+// ROLE NORMALIZATION
+// ============================================================
+
+GHAR.normalizeRole = function (role) {
+
+  if (!role) {
+    return null;
+  }
+
+  const normalized =
+    String(role)
+      .trim()
+      .toUpperCase()
+      .replace(/[\s-]+/g, "_");
+
+  if (
+    GHAR.VALID_ROLES.includes(normalized)
+  ) {
+    return normalized;
+  }
+
+  return (
+    GHAR.ROLE_ALIASES[normalized] ||
+    null
+  );
+};
 
 
 // ============================================================
@@ -71,7 +143,7 @@ GHAR.AUTH_STATUS = Object.freeze({
 
 
 // ============================================================
-// VERIFICATION LEVELS
+// VERIFICATION
 // ============================================================
 
 GHAR.VERIFICATION_LEVELS = Object.freeze({
@@ -81,11 +153,6 @@ GHAR.VERIFICATION_LEVELS = Object.freeze({
   DOCUMENT_VERIFIED: "DOCUMENT_VERIFIED",
   PROPERTY_VERIFIED: "PROPERTY_VERIFIED"
 });
-
-
-// ============================================================
-// VERIFICATION ORDER
-// ============================================================
 
 GHAR.VERIFICATION_ORDER = Object.freeze([
   GHAR.VERIFICATION_LEVELS.UNVERIFIED,
@@ -97,7 +164,7 @@ GHAR.VERIFICATION_ORDER = Object.freeze([
 
 
 // ============================================================
-// LEAD STATUS
+// LEADS
 // ============================================================
 
 GHAR.LEAD_STATUS = Object.freeze({
@@ -109,11 +176,6 @@ GHAR.LEAD_STATUS = Object.freeze({
   CONVERTED: "CONVERTED",
   LOST: "LOST"
 });
-
-
-// ============================================================
-// LEAD STATUS ORDER
-// ============================================================
 
 GHAR.LEAD_STATUS_ORDER = Object.freeze([
   GHAR.LEAD_STATUS.NEW,
@@ -127,7 +189,7 @@ GHAR.LEAD_STATUS_ORDER = Object.freeze([
 
 
 // ============================================================
-// PROPERTY STATUS
+// PROPERTY
 // ============================================================
 
 GHAR.PROPERTY_STATUS = Object.freeze({
@@ -146,11 +208,6 @@ GHAR.PROPERTY_STATUS = Object.freeze({
   ARCHIVED: "ARCHIVED"
 });
 
-
-// ============================================================
-// PROPERTY PURPOSE
-// ============================================================
-
 GHAR.PROPERTY_PURPOSE = Object.freeze({
   SALE: "SALE",
   RENT: "RENT",
@@ -159,11 +216,6 @@ GHAR.PROPERTY_PURPOSE = Object.freeze({
   COMMERCIAL_SALE: "COMMERCIAL_SALE",
   COMMERCIAL_RENT: "COMMERCIAL_RENT"
 });
-
-
-// ============================================================
-// PROPERTY TYPES
-// ============================================================
 
 GHAR.PROPERTY_TYPES = Object.freeze({
   APARTMENT: "APARTMENT",
@@ -186,11 +238,6 @@ GHAR.PROPERTY_TYPES = Object.freeze({
   OTHER: "OTHER"
 });
 
-
-// ============================================================
-// BHK TYPES
-// ============================================================
-
 GHAR.BHK_TYPES = Object.freeze([
   "1RK",
   "1BHK",
@@ -205,11 +252,6 @@ GHAR.BHK_TYPES = Object.freeze([
   "10BHK"
 ]);
 
-
-// ============================================================
-// PROPERTY LISTING TYPES
-// ============================================================
-
 GHAR.LISTING_TYPES = Object.freeze({
   OWNER: "OWNER",
   AGENT: "AGENT",
@@ -217,21 +259,11 @@ GHAR.LISTING_TYPES = Object.freeze({
   BUSINESS: "BUSINESS"
 });
 
-
-// ============================================================
-// PROPERTY FURNISHING
-// ============================================================
-
 GHAR.FURNISHING = Object.freeze({
   UNFURNISHED: "UNFURNISHED",
   SEMI_FURNISHED: "SEMI_FURNISHED",
   FULLY_FURNISHED: "FULLY_FURNISHED"
 });
-
-
-// ============================================================
-// PROPERTY FACING
-// ============================================================
 
 GHAR.FACING = Object.freeze([
   "NORTH",
@@ -243,11 +275,6 @@ GHAR.FACING = Object.freeze([
   "SOUTH_EAST",
   "SOUTH_WEST"
 ]);
-
-
-// ============================================================
-// PROPERTY AMENITIES
-// ============================================================
 
 GHAR.AMENITIES = Object.freeze([
   "PARKING",
@@ -273,7 +300,7 @@ GHAR.AMENITIES = Object.freeze([
 
 
 // ============================================================
-// VISIT STATUS
+// VISITS
 // ============================================================
 
 GHAR.VISIT_STATUS = Object.freeze({
@@ -288,7 +315,7 @@ GHAR.VISIT_STATUS = Object.freeze({
 
 
 // ============================================================
-// OFFER STATUS
+// OFFERS
 // ============================================================
 
 GHAR.OFFER_STATUS = Object.freeze({
@@ -304,7 +331,7 @@ GHAR.OFFER_STATUS = Object.freeze({
 
 
 // ============================================================
-// APPLICATION STATUS
+// APPLICATIONS
 // ============================================================
 
 GHAR.APPLICATION_STATUS = Object.freeze({
@@ -320,7 +347,7 @@ GHAR.APPLICATION_STATUS = Object.freeze({
 
 
 // ============================================================
-// DOCUMENT STATUS
+// DOCUMENTS
 // ============================================================
 
 GHAR.DOCUMENT_STATUS = Object.freeze({
@@ -331,11 +358,6 @@ GHAR.DOCUMENT_STATUS = Object.freeze({
   REJECTED: "REJECTED",
   EXPIRED: "EXPIRED"
 });
-
-
-// ============================================================
-// DOCUMENT TYPES
-// ============================================================
 
 GHAR.DOCUMENT_TYPES = Object.freeze({
   IDENTITY: "IDENTITY",
@@ -357,7 +379,7 @@ GHAR.DOCUMENT_TYPES = Object.freeze({
 
 
 // ============================================================
-// PAYMENT STATUS
+// PAYMENTS
 // ============================================================
 
 GHAR.PAYMENT_STATUS = Object.freeze({
@@ -371,11 +393,6 @@ GHAR.PAYMENT_STATUS = Object.freeze({
   PARTIALLY_REFUNDED: "PARTIALLY_REFUNDED"
 });
 
-
-// ============================================================
-// PAYMENT TYPES
-// ============================================================
-
 GHAR.PAYMENT_TYPES = Object.freeze({
   SUBSCRIPTION: "SUBSCRIPTION",
   PROPERTY_LISTING: "PROPERTY_LISTING",
@@ -388,7 +405,7 @@ GHAR.PAYMENT_TYPES = Object.freeze({
 
 
 // ============================================================
-// SUBSCRIPTION PLANS
+// SUBSCRIPTIONS
 // ============================================================
 
 GHAR.SUBSCRIPTION_PLANS = Object.freeze({
@@ -399,25 +416,17 @@ GHAR.SUBSCRIPTION_PLANS = Object.freeze({
   BUSINESS: "BUSINESS"
 });
 
-
-// ============================================================
-// SUBSCRIPTION STATUS
-// ============================================================
-
 GHAR.SUBSCRIPTION_STATUS = Object.freeze({
   ACTIVE: "ACTIVE",
   INACTIVE: "INACTIVE",
   TRIAL: "TRIAL",
   PENDING: "PENDING",
+  PAUSED: "PAUSED",
   CANCELLED: "CANCELLED",
   EXPIRED: "EXPIRED",
-  SUSPENDED: "SUSPENDED"
+  SUSPENDED: "SUSPENDED",
+  FAILED: "FAILED"
 });
-
-
-// ============================================================
-// SUBSCRIPTION DATABASE FIELDS
-// ============================================================
 
 GHAR.SUBSCRIPTION_FIELDS = Object.freeze([
   "subscription",
@@ -429,7 +438,7 @@ GHAR.SUBSCRIPTION_FIELDS = Object.freeze([
 
 
 // ============================================================
-// LOAN STATUS
+// LOANS
 // ============================================================
 
 GHAR.LOAN_STATUS = Object.freeze({
@@ -447,7 +456,7 @@ GHAR.LOAN_STATUS = Object.freeze({
 
 
 // ============================================================
-// NOTIFICATION TYPES
+// NOTIFICATIONS
 // ============================================================
 
 GHAR.NOTIFICATION_TYPES = Object.freeze({
@@ -470,7 +479,7 @@ GHAR.NOTIFICATION_TYPES = Object.freeze({
 
 
 // ============================================================
-// MESSAGE TYPES
+// MESSAGES
 // ============================================================
 
 GHAR.MESSAGE_TYPES = Object.freeze({
@@ -482,7 +491,7 @@ GHAR.MESSAGE_TYPES = Object.freeze({
 
 
 // ============================================================
-// SUPPORT TICKET STATUS
+// SUPPORT
 // ============================================================
 
 GHAR.SUPPORT_STATUS = Object.freeze({
@@ -493,11 +502,6 @@ GHAR.SUPPORT_STATUS = Object.freeze({
   CLOSED: "CLOSED"
 });
 
-
-// ============================================================
-// SUPPORT PRIORITY
-// ============================================================
-
 GHAR.SUPPORT_PRIORITY = Object.freeze({
   LOW: "LOW",
   MEDIUM: "MEDIUM",
@@ -507,7 +511,7 @@ GHAR.SUPPORT_PRIORITY = Object.freeze({
 
 
 // ============================================================
-// AI MODULES
+// AI
 // ============================================================
 
 GHAR.AI_MODULES = Object.freeze({
@@ -522,31 +526,6 @@ GHAR.AI_MODULES = Object.freeze({
   MODERATION: "moderation",
   FRAUD_DETECTION: "fraud-detection"
 });
-
-
-// ============================================================
-// AI ENDPOINTS
-// ============================================================
-
-GHAR.AI_ENDPOINTS = Object.freeze({
-  SEARCH: "/api/ai/search",
-  RECOMMENDATIONS: "/api/ai/recommendations",
-  PRICE: "/api/ai/price",
-  INVESTMENT: "/api/ai/investment",
-  LOAN: "/api/ai/loan",
-  DOCUMENTS: "/api/ai/documents",
-  PROPERTY_DESCRIPTION:
-    "/api/ai/property-description",
-  RENTAL: "/api/ai/rental",
-  MODERATION: "/api/ai/moderation",
-  HEALTH: "/api/ai/health",
-  MODULES: "/api/ai/modules"
-});
-
-
-// ============================================================
-// AI REQUEST STATUS
-// ============================================================
 
 GHAR.AI_STATUS = Object.freeze({
   IDLE: "IDLE",
@@ -567,6 +546,7 @@ GHAR.API = Object.freeze({
 
   AUTH: "/api/auth",
   USERS: "/api/users",
+
   PROPERTIES: "/api/properties",
   SEARCH: "/api/search",
   MARKETPLACE: "/api/marketplace",
@@ -592,21 +572,63 @@ GHAR.API = Object.freeze({
   SUPPORT: "/api/support",
   CONTACT: "/api/contact",
 
+  AI: "/api/ai",
+
   ADMIN: "/api/admin",
   ADMIN_AI: "/api/admin/ai",
 
-  AI: "/api/ai",
-
-  PLATFORM_STATUS:
-    "/api/platform/status",
-
-  ROUTES:
-    "/api/routes"
+  PLATFORM_STATUS: "/api/platform/status",
+  ROUTES: "/api/routes"
 });
 
 
 // ============================================================
-// HTTP METHODS
+// AI API ENDPOINTS
+// ============================================================
+
+GHAR.AI_ENDPOINTS = Object.freeze({
+  BASE: GHAR.API.AI,
+
+  SEARCH:
+    `${GHAR.API.AI}/search`,
+
+  RECOMMENDATIONS:
+    `${GHAR.API.AI}/recommendations`,
+
+  PRICE:
+    `${GHAR.API.AI}/price`,
+
+  INVESTMENT:
+    `${GHAR.API.AI}/investment`,
+
+  LOAN:
+    `${GHAR.API.AI}/loan`,
+
+  DOCUMENTS:
+    `${GHAR.API.AI}/documents`,
+
+  PROPERTY_DESCRIPTION:
+    `${GHAR.API.AI}/property-description`,
+
+  RENTAL:
+    `${GHAR.API.AI}/rental`,
+
+  MODERATION:
+    `${GHAR.API.AI}/moderation`,
+
+  HEALTH:
+    `${GHAR.API.AI}/health`,
+
+  MODULES:
+    `${GHAR.API.AI}/modules`,
+
+  CHAT:
+    `${GHAR.API.AI}/chat`
+});
+
+
+// ============================================================
+// HTTP
 // ============================================================
 
 GHAR.HTTP_METHODS = Object.freeze({
@@ -616,11 +638,6 @@ GHAR.HTTP_METHODS = Object.freeze({
   PATCH: "PATCH",
   DELETE: "DELETE"
 });
-
-
-// ============================================================
-// HTTP STATUS CODES
-// ============================================================
 
 GHAR.HTTP_STATUS = Object.freeze({
   OK: 200,
@@ -642,57 +659,33 @@ GHAR.HTTP_STATUS = Object.freeze({
 
 
 // ============================================================
-// STORAGE KEYS
+// STORAGE
 // ============================================================
 
 GHAR.STORAGE_KEYS = Object.freeze({
-  ACCESS_TOKEN:
-    "ghar_access_token",
+  ACCESS_TOKEN: "ghar_access_token",
+  REFRESH_TOKEN: "ghar_refresh_token",
 
-  REFRESH_TOKEN:
-    "ghar_refresh_token",
+  USER: "ghar_user",
+  USER_ID: "ghar_user_id",
+  ROLE: "ghar_role",
+  ROLES: "ghar_roles",
 
-  USER:
-    "ghar_user",
+  AUTH_STATUS: "ghar_auth_status",
+  SESSION: "ghar_session",
 
-  USER_ID:
-    "ghar_user_id",
+  LANGUAGE: "ghar_language",
+  THEME: "ghar_theme",
+  CURRENCY: "ghar_currency",
 
-  ROLE:
-    "ghar_role",
+  FAVOURITES: "ghar_favourites",
+  SAVED_PROPERTIES: "ghar_saved_properties",
+  RECENT_SEARCHES: "ghar_recent_searches",
+  PROPERTY_SEARCHES: "ghar_property_searches",
 
-  AUTH_STATUS:
-    "ghar_auth_status",
-
-  LANGUAGE:
-    "ghar_language",
-
-  THEME:
-    "ghar_theme",
-
-  CURRENCY:
-    "ghar_currency",
-
-  FAVOURITES:
-    "ghar_favourites",
-
-  SAVED_PROPERTIES:
-    "ghar_saved_properties",
-
-  RECENT_SEARCHES:
-    "ghar_recent_searches",
-
-  PROPERTY_SEARCHES:
-    "ghar_property_searches",
-
-  COMPARE:
-    "ghar_compare",
-
-  NOTIFICATIONS:
-    "ghar_notifications",
-
-  SETTINGS:
-    "ghar_settings"
+  COMPARE: "ghar_compare",
+  NOTIFICATIONS: "ghar_notifications",
+  SETTINGS: "ghar_settings"
 });
 
 
@@ -711,25 +704,24 @@ GHAR.FILE_UPLOAD = Object.freeze({
   MAX_DOCUMENT_SIZE:
     25 * 1024 * 1024,
 
-  IMAGE_TYPES: [
+  IMAGE_TYPES: Object.freeze([
     "image/jpeg",
     "image/png",
     "image/webp",
     "image/avif"
-  ],
+  ]),
 
-  VIDEO_TYPES: [
+  VIDEO_TYPES: Object.freeze([
     "video/mp4",
     "video/webm",
     "video/quicktime"
-  ],
+  ]),
 
-  DOCUMENT_TYPES: [
+  DOCUMENT_TYPES: Object.freeze([
     "application/pdf",
     "image/jpeg",
     "image/png"
-  ]
-
+  ])
 });
 
 
@@ -777,6 +769,8 @@ GHAR.ROUTE_GROUPS = Object.freeze({
   BUYER: "BUYER",
   SELLER: "SELLER",
   TENANT: "TENANT",
+  AGENT: "AGENT",
+  BUSINESS: "BUSINESS",
   ADMIN: "ADMIN"
 });
 
@@ -790,7 +784,10 @@ GHAR.ACCESS = Object.freeze({
   AUTHENTICATED: "AUTHENTICATED",
   VERIFIED: "VERIFIED",
   OWNER: "OWNER",
-  ADMIN: "ADMIN"
+  AGENT: "AGENT",
+  BUSINESS: "BUSINESS",
+  ADMIN: "ADMIN",
+  SUPER_ADMIN: "SUPER_ADMIN"
 });
 
 
@@ -811,44 +808,25 @@ GHAR.THEME = Object.freeze({
 
 GHAR.EVENTS = Object.freeze({
 
-  AUTH_LOGIN:
-    "ghar:auth:login",
+  AUTH_LOGIN: "ghar:auth:login",
+  AUTH_LOGOUT: "ghar:auth:logout",
+  AUTH_CHANGED: "ghar:auth:changed",
+  AUTH_EXPIRED: "ghar:auth:expired",
 
-  AUTH_LOGOUT:
-    "ghar:auth:logout",
+  ROLE_CHANGED: "ghar:role:changed",
+  USER_UPDATED: "ghar:user:updated",
 
-  AUTH_CHANGED:
-    "ghar:auth:changed",
+  PROPERTY_CREATED: "ghar:property:created",
+  PROPERTY_UPDATED: "ghar:property:updated",
+  PROPERTY_DELETED: "ghar:property:deleted",
+  PROPERTY_SAVED: "ghar:property:saved",
+  PROPERTY_UNSAVED: "ghar:property:unsaved",
 
-  USER_UPDATED:
-    "ghar:user:updated",
+  VISIT_CREATED: "ghar:visit:created",
+  OFFER_CREATED: "ghar:offer:created",
 
-  PROPERTY_CREATED:
-    "ghar:property:created",
-
-  PROPERTY_UPDATED:
-    "ghar:property:updated",
-
-  PROPERTY_DELETED:
-    "ghar:property:deleted",
-
-  PROPERTY_SAVED:
-    "ghar:property:saved",
-
-  PROPERTY_UNSAVED:
-    "ghar:property:unsaved",
-
-  VISIT_CREATED:
-    "ghar:visit:created",
-
-  OFFER_CREATED:
-    "ghar:offer:created",
-
-  PAYMENT_SUCCESS:
-    "ghar:payment:success",
-
-  PAYMENT_FAILED:
-    "ghar:payment:failed",
+  PAYMENT_SUCCESS: "ghar:payment:success",
+  PAYMENT_FAILED: "ghar:payment:failed",
 
   NOTIFICATION_RECEIVED:
     "ghar:notification:received",
@@ -877,6 +855,7 @@ GHAR.ERROR_CODES = Object.freeze({
   AUTH_REQUIRED: "GHAR_AUTH_REQUIRED",
   SESSION_EXPIRED: "GHAR_SESSION_EXPIRED",
   ACCESS_DENIED: "GHAR_ACCESS_DENIED",
+  INVALID_ROLE: "GHAR_INVALID_ROLE",
   VALIDATION: "GHAR_VALIDATION_ERROR",
   NOT_FOUND: "GHAR_NOT_FOUND",
   SERVER: "GHAR_SERVER_ERROR",
@@ -909,18 +888,22 @@ GHAR.REGEX = Object.freeze({
 
   PASSWORD:
     /^(?=.*[A-Za-z])(?=.*\d).{8,}$/
-
 });
 
 
 // ============================================================
-// DEFAULT VALUES
+// DEFAULTS
 // ============================================================
 
 GHAR.DEFAULTS = Object.freeze({
 
   ROLE:
     GHAR.ROLES.BUYER,
+
+  ROLES:
+    Object.freeze([
+      GHAR.ROLES.BUYER
+    ]),
 
   AUTH_STATUS:
     GHAR.AUTH_STATUS.UNAUTHENTICATED,
@@ -948,15 +931,75 @@ GHAR.DEFAULTS = Object.freeze({
 
   LIMIT:
     GHAR.PAGINATION.DEFAULT_LIMIT
-
 });
 
 
 // ============================================================
-// FREEZE MAIN OBJECT
+// ROLE HELPERS
 // ============================================================
 
-Object.freeze(GHAR);
+GHAR.isValidRole = function (role) {
+  return Boolean(
+    GHAR.normalizeRole(role)
+  );
+};
+
+
+GHAR.getRoleLabel = function (role) {
+
+  const normalized =
+    GHAR.normalizeRole(role);
+
+  if (!normalized) {
+    return "User";
+  }
+
+  return (
+    GHAR.ROLE_LABELS[normalized] ||
+    normalized
+  );
+
+};
+
+
+GHAR.isAdminRole = function (role) {
+
+  const normalized =
+    GHAR.normalizeRole(role);
+
+  return (
+    normalized === GHAR.ROLES.ADMIN ||
+    normalized === GHAR.ROLES.SUPER_ADMIN
+  );
+
+};
+
+
+GHAR.isSellerRole = function (role) {
+
+  const normalized =
+    GHAR.normalizeRole(role);
+
+  return (
+    normalized === GHAR.ROLES.SELLER ||
+    normalized === GHAR.ROLES.AGENT ||
+    normalized === GHAR.ROLES.BUSINESS
+  );
+
+};
+
+
+GHAR.isBuyerRole = function (role) {
+
+  const normalized =
+    GHAR.normalizeRole(role);
+
+  return (
+    normalized === GHAR.ROLES.BUYER ||
+    normalized === GHAR.ROLES.TENANT
+  );
+
+};
 
 
 // ============================================================
@@ -967,13 +1010,30 @@ if (
   GHAR.APP.ENVIRONMENT === "development"
 ) {
 
-  console.log(
+  console.info(
     "[GHAR] constants.js loaded"
   );
 
-  console.log(
+  console.info(
     "[GHAR] Version:",
     GHAR.APP.VERSION
   );
 
+  console.info(
+    "[GHAR] Roles:",
+    GHAR.VALID_ROLES
+  );
+
+  console.info(
+    "[GHAR] API:",
+    GHAR.API.BASE
+  );
+
 }
+
+
+// ============================================================
+// FINAL EXPORT
+// ============================================================
+
+Object.freeze(GHAR);

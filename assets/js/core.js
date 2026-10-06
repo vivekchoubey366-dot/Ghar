@@ -14,20 +14,11 @@
 
   const GHAR = window.GHAR || {};
 
-  const CONFIG =
-    GHAR.config || {};
-
-  const CONSTANTS =
-    GHAR.constants || {};
-
-  const STORAGE =
-    GHAR.storage || {};
-
-  const API =
-    GHAR.api || {};
-
-  const AUTH =
-    GHAR.auth || {};
+  const CONFIG = GHAR.config || {};
+  const CONSTANTS = GHAR.constants || {};
+  const STORAGE = GHAR.storage || {};
+  const API = GHAR.api || {};
+  const AUTH = GHAR.auth || {};
 
   // ==========================================================
   // CORE CONFIGURATION
@@ -52,17 +43,60 @@
       "/api",
 
     defaultPage:
+      CONFIG.routes?.home ||
       "/index.html",
 
     loginPage:
       CONFIG.routes?.login ||
       "/login.html",
 
+    signupPage:
+      CONFIG.routes?.signup ||
+      "/sign-up.html",
+
+    roleSelectionPage:
+      CONFIG.routes?.roleSelection ||
+      "/role-selection.html",
+
     errorPage:
+      CONFIG.routes?.error ||
       "/404.html",
 
     offlinePage:
-      "/offline.html"
+      CONFIG.routes?.offline ||
+      "/offline.html",
+
+    dashboardPages: {
+
+      buyer:
+        "/buyer/index.html",
+
+      seller:
+        "/seller/index.html",
+
+      tenant:
+        "/tenant/index.html",
+
+      admin:
+        "/admin/admin-dashboard.html"
+
+    },
+
+    storageKeys: {
+
+      theme:
+        CONSTANTS.STORAGE_KEYS?.THEME ||
+        "ghar_theme",
+
+      language:
+        CONSTANTS.STORAGE_KEYS?.LANGUAGE ||
+        "ghar_language",
+
+      lastPage:
+        CONSTANTS.STORAGE_KEYS?.LAST_PAGE ||
+        "ghar_last_page"
+
+    }
 
   };
 
@@ -72,14 +106,17 @@
 
   const state = {
 
-    initialized: false,
+    initialized:
+      false,
 
-    ready: false,
+    ready:
+      false,
+
+    loading:
+      false,
 
     online:
       navigator.onLine,
-
-    loading: false,
 
     currentPage:
       window.location.pathname,
@@ -90,33 +127,62 @@
     role:
       null,
 
+    authenticated:
+      false,
+
     lastError:
       null,
 
     navigation:
       null,
 
+    theme:
+      null,
+
+    language:
+      null,
+
     device: {
+
       mobile:
-        window.matchMedia(
-          "(max-width: 767px)"
-        ).matches,
+        false,
 
       tablet:
-        window.matchMedia(
-          "(min-width: 768px) and (max-width: 1024px)"
-        ).matches,
+        false,
 
       desktop:
-        window.matchMedia(
-          "(min-width: 1025px)"
-        ).matches
+        false
+
     }
 
   };
 
   // ==========================================================
-  // UTILITIES
+  // INTERNAL FLAGS
+  // ==========================================================
+
+  let initializationPromise = null;
+
+  let authListenersInitialized =
+    false;
+
+  let networkListenersInitialized =
+    false;
+
+  let responsiveListenersInitialized =
+    false;
+
+  let globalErrorListenersInitialized =
+    false;
+
+  let linksInitialized =
+    false;
+
+  let formsInitialized =
+    false;
+
+  // ==========================================================
+  // UTILITY HELPERS
   // ==========================================================
 
   function isFunction(value) {
@@ -132,10 +198,15 @@
 
     return (
       value !== null &&
-      typeof value ===
-      "object" &&
+      typeof value === "object" &&
       !Array.isArray(value)
     );
+
+  }
+
+  function isArray(value) {
+
+    return Array.isArray(value);
 
   }
 
@@ -145,8 +216,7 @@
   ) {
 
     if (
-      typeof value !==
-      "string"
+      typeof value !== "string"
     ) {
 
       return value;
@@ -155,15 +225,31 @@
 
     try {
 
-      return JSON.parse(
-        value
-      );
+      return JSON.parse(value);
 
     } catch (_) {
 
       return fallback;
 
     }
+
+  }
+
+  function safeString(
+    value,
+    fallback = ""
+  ) {
+
+    if (
+      value === null ||
+      value === undefined
+    ) {
+
+      return fallback;
+
+    }
+
+    return String(value);
 
   }
 
@@ -181,10 +267,12 @@
       timer =
         setTimeout(
           () => {
+
             callback.apply(
               this,
               args
             );
+
           },
           delay
         );
@@ -198,7 +286,8 @@
     delay = 250
   ) {
 
-    let waiting = false;
+    let waiting =
+      false;
 
     return function (...args) {
 
@@ -215,11 +304,15 @@
         args
       );
 
-      waiting = true;
+      waiting =
+        true;
 
       setTimeout(
         () => {
-          waiting = false;
+
+          waiting =
+            false;
+
         },
         delay
       );
@@ -244,7 +337,18 @@
   // DOM HELPERS
   // ==========================================================
 
-  function $(selector, root = document) {
+  function $(
+    selector,
+    root = document
+  ) {
+
+    if (
+      !selector
+    ) {
+
+      return null;
+
+    }
 
     return root.querySelector(
       selector
@@ -252,7 +356,18 @@
 
   }
 
-  function $$(selector, root = document) {
+  function $$(
+    selector,
+    root = document
+  ) {
+
+    if (
+      !selector
+    ) {
+
+      return [];
+
+    }
 
     return Array.from(
       root.querySelectorAll(
@@ -291,25 +406,31 @@
     }
 
     if (
-      options.text
+      options.text !== undefined
     ) {
 
       element.textContent =
-        options.text;
+        String(
+          options.text
+        );
 
     }
 
     if (
-      options.html
+      options.html !== undefined
     ) {
 
       element.innerHTML =
-        options.html;
+        String(
+          options.html
+        );
 
     }
 
     if (
-      isObject(options.attributes)
+      isObject(
+        options.attributes
+      )
     ) {
 
       Object.entries(
@@ -317,10 +438,36 @@
       ).forEach(
         ([key, value]) => {
 
-          element.setAttribute(
-            key,
-            value
-          );
+          if (
+            value !== null &&
+            value !== undefined
+          ) {
+
+            element.setAttribute(
+              key,
+              String(value)
+            );
+
+          }
+
+        }
+      );
+
+    }
+
+    if (
+      isObject(
+        options.dataset
+      )
+    ) {
+
+      Object.entries(
+        options.dataset
+      ).forEach(
+        ([key, value]) => {
+
+          element.dataset[key] =
+            String(value);
 
         }
       );
@@ -338,6 +485,7 @@
   function getCurrentPage() {
 
     return {
+
       path:
         window.location.pathname,
 
@@ -348,7 +496,11 @@
         window.location.hash,
 
       url:
-        window.location.href
+        window.location.href,
+
+      title:
+        document.title
+
     };
 
   }
@@ -397,7 +549,7 @@
   // EVENT BUS
   // ==========================================================
 
-  const events = {};
+  const events = Object.create(null);
 
   function on(
     event,
@@ -424,11 +576,14 @@
       handler
     );
 
-    return () =>
+    return function unsubscribe() {
+
       off(
         event,
         handler
       );
+
+    };
 
   }
 
@@ -458,32 +613,29 @@
     detail = {}
   ) {
 
-    if (
-      events[event]
-    ) {
+    const handlers =
+      events[event] || [];
 
-      events[event].forEach(
-        handler => {
+    handlers.forEach(
+      handler => {
 
-          try {
+        try {
 
-            handler(
-              detail
-            );
+          handler(
+            detail
+          );
 
-          } catch (error) {
+        } catch (error) {
 
-            console.error(
-              `[GHAR EVENT] ${event}`,
-              error
-            );
-
-          }
+          console.error(
+            `[GHAR EVENT] ${event}`,
+            error
+          );
 
         }
-      );
 
-    }
+      }
+    );
 
     try {
 
@@ -546,10 +698,13 @@
     emit(
       "loading",
       {
+
         loading:
           state.loading,
 
-        message
+        message:
+          String(message)
+
       }
     );
 
@@ -567,9 +722,19 @@
 
     const duration =
       Number(
-        options.duration ||
+        options.duration ??
         4000
       );
+
+    const safeType =
+      [
+        "info",
+        "success",
+        "warning",
+        "error"
+      ].includes(type)
+        ? type
+        : "info";
 
     let container =
       $(
@@ -584,10 +749,12 @@
         createElement(
           "div",
           {
+
             className:
               "ghar-notification-container",
 
             attributes: {
+
               "data-ghar-notifications":
                 "true",
 
@@ -596,13 +763,29 @@
 
               "aria-atomic":
                 "true"
+
             }
+
           }
         );
 
-      document.body.appendChild(
-        container
-      );
+      if (
+        document.body
+      ) {
+
+        document.body.appendChild(
+          container
+        );
+
+      }
+
+    }
+
+    if (
+      !container
+    ) {
+
+      return null;
 
     }
 
@@ -610,15 +793,19 @@
       createElement(
         "div",
         {
+
           className:
-            `ghar-notification ghar-notification-${type}`,
+            `ghar-notification ghar-notification-${safeType}`,
 
           attributes: {
+
             role:
-              type === "error"
+              safeType === "error"
                 ? "alert"
                 : "status"
+
           }
+
         }
       );
 
@@ -626,11 +813,16 @@
       createElement(
         "div",
         {
+
           className:
             "ghar-notification-content",
 
           text:
-            String(message)
+            safeString(
+              message,
+              "Notification"
+            )
+
         }
       );
 
@@ -638,6 +830,7 @@
       createElement(
         "button",
         {
+
           className:
             "ghar-notification-close",
 
@@ -645,12 +838,15 @@
             "×",
 
           attributes: {
+
             type:
               "button",
 
             "aria-label":
               "Close notification"
+
           }
+
         }
       );
 
@@ -676,7 +872,7 @@
       duration > 0
     ) {
 
-      setTimeout(
+      window.setTimeout(
         () => {
 
           if (
@@ -696,8 +892,13 @@
     emit(
       "notification",
       {
-        message,
-        type
+
+        message:
+          safeString(message),
+
+        type:
+          safeType
+
       }
     );
 
@@ -716,8 +917,10 @@
 
     const message =
       error?.message ||
-      String(error) ||
-      "Something went wrong.";
+      safeString(
+        error,
+        "Something went wrong."
+      );
 
     state.lastError =
       error;
@@ -733,7 +936,8 @@
 
       notify(
         message,
-        "error"
+        "error",
+        options
       );
 
     }
@@ -741,8 +945,11 @@
     emit(
       "error",
       {
+
         error,
+
         message
+
       }
     );
 
@@ -751,17 +958,23 @@
   }
 
   // ==========================================================
-  // ONLINE / OFFLINE
+  // NETWORK STATE
   // ==========================================================
 
   function updateNetworkState(
     online
   ) {
 
-    state.online =
+    const next =
       Boolean(
         online
       );
+
+    const changed =
+      state.online !== next;
+
+    state.online =
+      next;
 
     document.documentElement
       .classList.toggle(
@@ -775,45 +988,69 @@
         !state.online
       );
 
-    emit(
-      state.online
-        ? "online"
-        : "offline",
-      {
-        online:
-          state.online
-      }
-    );
+    if (
+      changed
+    ) {
+
+      emit(
+        state.online
+          ? "online"
+          : "offline",
+        {
+          online:
+            state.online
+        }
+      );
+
+    }
 
   }
 
   function handleOnline() {
 
+    const wasOffline =
+      !state.online;
+
     updateNetworkState(
       true
     );
 
-    notify(
-      "Internet connection restored.",
-      "success"
-    );
+    if (
+      wasOffline
+    ) {
+
+      notify(
+        "Internet connection restored.",
+        "success"
+      );
+
+    }
 
   }
 
   function handleOffline() {
 
+    const wasOnline =
+      state.online;
+
     updateNetworkState(
       false
     );
 
-    notify(
-      "You are offline. Some GHAR features may be unavailable.",
-      "warning",
-      {
-        duration:
-          6000
-      }
-    );
+    if (
+      wasOnline
+    ) {
+
+      notify(
+        "You are offline. Some GHAR features may be unavailable.",
+        "warning",
+        {
+          duration:
+            6000
+        }
+      );
+
+    }
 
   }
 
@@ -826,7 +1063,7 @@
     const width =
       window.innerWidth;
 
-    state.device = {
+    const nextState = {
 
       mobile:
         width < 768,
@@ -839,6 +1076,17 @@
         width > 1024
 
     };
+
+    const changed =
+      JSON.stringify(
+        state.device
+      ) !==
+      JSON.stringify(
+        nextState
+      );
+
+    state.device =
+      nextState;
 
     document.documentElement
       .classList.toggle(
@@ -858,12 +1106,18 @@
         state.device.desktop
       );
 
-    emit(
-      "responsive",
-      {
-        ...state.device
-      }
-    );
+    if (
+      changed
+    ) {
+
+      emit(
+        "responsive",
+        {
+          ...state.device
+        }
+      );
+
+    }
 
   }
 
@@ -886,8 +1140,19 @@
       )
     ) {
 
-      authState =
-        AUTH.getAuthState();
+      try {
+
+        authState =
+          AUTH.getAuthState();
+
+      } catch (error) {
+
+        console.warn(
+          "[GHAR CORE] Unable to read auth state:",
+          error
+        );
+
+      }
 
     }
 
@@ -903,14 +1168,31 @@
         authState.role ||
         null;
 
+      state.authenticated =
+        Boolean(
+          authState.authenticated ??
+          authState.token
+        );
+
+    } else {
+
+      state.authenticated =
+        Boolean(
+          state.currentUser
+        );
+
     }
 
     document.documentElement
       .classList.toggle(
         "ghar-authenticated",
-        Boolean(
-          state.currentUser
-        )
+        state.authenticated
+      );
+
+    document.documentElement
+      .classList.toggle(
+        "ghar-guest",
+        !state.authenticated
       );
 
     if (
@@ -935,11 +1217,16 @@
     emit(
       "auth-state",
       {
+
         user:
           state.currentUser,
 
         role:
-          state.role
+          state.role,
+
+        authenticated:
+          state.authenticated
+
       }
     );
 
@@ -959,6 +1246,10 @@
         AUTH.requireAuth
       )
     ) {
+
+      console.warn(
+        "[GHAR CORE] Auth guard unavailable."
+      );
 
       return true;
 
@@ -993,7 +1284,10 @@
 
     return (
       state.role ===
-      String(role)
+      safeString(
+        role
+      )
+        .trim()
         .toLowerCase()
     );
 
@@ -1016,11 +1310,163 @@
 
     }
 
-    return (
-      Array.isArray(roles) &&
-      roles.includes(
-        state.role
+    if (
+      !Array.isArray(roles)
+    ) {
+
+      return false;
+
+    }
+
+    const normalized =
+      roles.map(
+        role =>
+          safeString(
+            role
+          )
+            .trim()
+            .toLowerCase()
+      );
+
+    return normalized.includes(
+      state.role
+    );
+
+  }
+
+  function hasAllRoles(
+    roles
+  ) {
+
+    if (
+      !Array.isArray(roles)
+    ) {
+
+      return false;
+
+    }
+
+    return roles.every(
+      role =>
+        hasRole(
+          role
+        )
+    );
+
+  }
+
+  function isAuthenticated() {
+
+    if (
+      AUTH &&
+      isFunction(
+        AUTH.isAuthenticated
       )
+    ) {
+
+      return AUTH.isAuthenticated();
+
+    }
+
+    return Boolean(
+      state.authenticated
+    );
+
+  }
+
+  function getUser() {
+
+    if (
+      AUTH &&
+      isFunction(
+        AUTH.getUser
+      )
+    ) {
+
+      return AUTH.getUser();
+
+    }
+
+    return state.currentUser;
+
+  }
+
+  function getRole() {
+
+    if (
+      AUTH &&
+      isFunction(
+        AUTH.getRole
+      )
+    ) {
+
+      return AUTH.getRole();
+
+    }
+
+    return state.role;
+
+  }
+
+  // ==========================================================
+  // DASHBOARD / ROLE ROUTING
+  // ==========================================================
+
+  function getDashboardForRole(
+    role
+  ) {
+
+    const normalized =
+      AUTH &&
+      isFunction(
+        AUTH.normalizeRole
+      )
+        ? AUTH.normalizeRole(
+            role
+          )
+        : safeString(
+            role
+          )
+            .trim()
+            .toLowerCase();
+
+    if (
+      AUTH &&
+      isFunction(
+        AUTH.getDashboardForRole
+      )
+    ) {
+
+      return AUTH.getDashboardForRole(
+        normalized
+      );
+
+    }
+
+    return (
+      CORE_CONFIG.dashboardPages[
+        normalized
+      ] ||
+      CORE_CONFIG.defaultPage
+    );
+
+  }
+
+  function redirectByRole(
+    role = null
+  ) {
+
+    const targetRole =
+      role ||
+      getRole();
+
+    const destination =
+      getDashboardForRole(
+        targetRole
+      );
+
+    navigate(
+      destination
     );
 
   }
@@ -1038,29 +1484,60 @@
       !url
     ) {
 
-      return;
+      return false;
 
     }
 
-    if (
-      options.replace
-    ) {
+    const destination =
+      String(url);
 
-      window.location.replace(
-        url
+    state.navigation = {
+
+      from:
+        window.location.href,
+
+      to:
+        destination,
+
+      timestamp:
+        Date.now()
+
+    };
+
+    try {
+
+      if (
+        options.replace
+      ) {
+
+        window.location.replace(
+          destination
+        );
+
+      } else {
+
+        window.location.href =
+          destination;
+
+      }
+
+      return true;
+
+    } catch (error) {
+
+      handleError(
+        error
       );
 
-    } else {
-
-      window.location.href =
-        url;
+      return false;
 
     }
 
   }
 
   function goBack(
-    fallback = CORE_CONFIG.defaultPage
+    fallback =
+      CORE_CONFIG.defaultPage
   ) {
 
     if (
@@ -1071,11 +1548,11 @@
 
       window.history.back();
 
-      return;
+      return true;
 
     }
 
-    navigate(
+    return navigate(
       fallback
     );
 
@@ -1092,6 +1569,17 @@
   // ==========================================================
 
   function initializeLinks() {
+
+    if (
+      linksInitialized
+    ) {
+
+      return;
+
+    }
+
+    linksInitialized =
+      true;
 
     document.addEventListener(
       "click",
@@ -1110,6 +1598,25 @@
 
         }
 
+        if (
+          link.target &&
+          link.target !== "_self"
+        ) {
+
+          return;
+
+        }
+
+        if (
+          link.hasAttribute(
+            "download"
+          )
+        ) {
+
+          return;
+
+        }
+
         const href =
           link.getAttribute(
             "href"
@@ -1117,18 +1624,10 @@
 
         if (
           !href ||
-          href.startsWith(
-            "#"
-          ) ||
-          href.startsWith(
-            "mailto:"
-          ) ||
-          href.startsWith(
-            "tel:"
-          ) ||
-          href.startsWith(
-            "javascript:"
-          )
+          href.startsWith("#") ||
+          href.startsWith("mailto:") ||
+          href.startsWith("tel:") ||
+          href.startsWith("javascript:")
         ) {
 
           return;
@@ -1148,14 +1647,40 @@
             window.location.origin
           ) {
 
+            state.currentPage =
+              url.pathname;
+
+            try {
+
+              if (
+                STORAGE &&
+                isFunction(
+                  STORAGE.set
+                )
+              ) {
+
+                STORAGE.set(
+                  CORE_CONFIG.storageKeys.lastPage,
+                  url.pathname
+                );
+
+              }
+
+            } catch (_) {}
+
             emit(
               "navigation",
               {
+
                 href:
                   url.href,
 
                 path:
-                  url.pathname
+                  url.pathname,
+
+                search:
+                  url.search
+
               }
             );
 
@@ -1186,12 +1711,9 @@
 
     const data = {};
 
-    const fields =
-      Array.from(
-        form.elements
-      );
-
-    fields.forEach(
+    Array.from(
+      form.elements || []
+    ).forEach(
       field => {
 
         if (
@@ -1233,6 +1755,18 @@
 
         }
 
+        if (
+          field.type ===
+          "file"
+        ) {
+
+          data[field.name] =
+            field.files;
+
+          return;
+
+        }
+
         data[field.name] =
           field.value;
 
@@ -1253,7 +1787,7 @@
       !isObject(data)
     ) {
 
-      return;
+      return false;
 
     }
 
@@ -1279,11 +1813,36 @@
         ) {
 
           field.checked =
-            Boolean(
-              value
+            Boolean(value);
+
+        } else if (
+          field.type ===
+          "radio"
+        ) {
+
+          const radios =
+            form.querySelectorAll(
+              `[name="${CSS.escape(name)}"]`
             );
 
-        } else {
+          radios.forEach(
+            radio => {
+
+              radio.checked =
+                String(
+                  radio.value
+                ) ===
+                String(
+                  value
+                );
+
+            }
+          );
+
+        } else if (
+          field.type !==
+          "file"
+        ) {
 
           field.value =
             value ?? "";
@@ -1293,9 +1852,22 @@
       }
     );
 
+    return true;
+
   }
 
   function initializeForms() {
+
+    if (
+      formsInitialized
+    ) {
+
+      return;
+
+    }
+
+    formsInitialized =
+      true;
 
     $$(
       "form[data-ghar-prevent-submit]"
@@ -1339,26 +1911,27 @@
 
     const methodName =
       String(method)
+        .trim()
         .toLowerCase();
 
     if (
-      isFunction(
+      !isFunction(
         API[methodName]
       )
     ) {
 
-      return API[
-        methodName
-      ](
-        endpoint,
-        body,
-        options
+      throw new Error(
+        `API method ${method} is not available.`
       );
 
     }
 
-    throw new Error(
-      `API method ${method} is not available.`
+    return API[
+      methodName
+    ](
+      endpoint,
+      body,
+      options
     );
 
   }
@@ -1372,26 +1945,44 @@
     value
   ) {
 
+    if (
+      !key
+    ) {
+
+      return false;
+
+    }
+
     state[key] =
       value;
 
     emit(
       "state-change",
       {
+
         key,
+
         value
+
       }
     );
+
+    return true;
 
   }
 
   function getState() {
 
     return {
+
       ...state,
+
       device: {
+
         ...state.device
+
       }
+
     };
 
   }
@@ -1408,14 +1999,24 @@
       !theme
     ) {
 
-      return;
+      return false;
 
     }
+
+    const normalized =
+      String(
+        theme
+      )
+        .trim()
+        .toLowerCase();
+
+    state.theme =
+      normalized;
 
     document.documentElement
       .setAttribute(
         "data-theme",
-        theme
+        normalized
       );
 
     try {
@@ -1428,15 +2029,15 @@
       ) {
 
         STORAGE.set(
-          "ghar_theme",
-          theme
+          CORE_CONFIG.storageKeys.theme,
+          normalized
         );
 
       } else {
 
         localStorage.setItem(
-          "ghar_theme",
-          theme
+          CORE_CONFIG.storageKeys.theme,
+          normalized
         );
 
       }
@@ -1446,9 +2047,20 @@
     emit(
       "theme-change",
       {
-        theme
+
+        theme:
+          normalized
+
       }
     );
+
+    return true;
+
+  }
+
+  function getTheme() {
+
+    return state.theme;
 
   }
 
@@ -1467,14 +2079,14 @@
 
         theme =
           STORAGE.get(
-            "ghar_theme"
+            CORE_CONFIG.storageKeys.theme
           );
 
       } else {
 
         theme =
           localStorage.getItem(
-            "ghar_theme"
+            CORE_CONFIG.storageKeys.theme
           );
 
       }
@@ -1496,6 +2108,131 @@
 
     setTheme(
       theme
+    );
+
+  }
+
+  // ==========================================================
+  // LANGUAGE
+  // ==========================================================
+
+  function setLanguage(
+    language
+  ) {
+
+    if (
+      !language
+    ) {
+
+      return false;
+
+    }
+
+    const normalized =
+      String(
+        language
+      )
+        .trim()
+        .toLowerCase();
+
+    state.language =
+      normalized;
+
+    document.documentElement
+      .setAttribute(
+        "lang",
+        normalized
+      );
+
+    try {
+
+      if (
+        STORAGE &&
+        isFunction(
+          STORAGE.set
+        )
+      ) {
+
+        STORAGE.set(
+          CORE_CONFIG.storageKeys.language,
+          normalized
+        );
+
+      } else {
+
+        localStorage.setItem(
+          CORE_CONFIG.storageKeys.language,
+          normalized
+        );
+
+      }
+
+    } catch (_) {}
+
+    emit(
+      "language-change",
+      {
+
+        language:
+          normalized
+
+      }
+    );
+
+    return true;
+
+  }
+
+  function getLanguage() {
+
+    return state.language;
+
+  }
+
+  function initializeLanguage() {
+
+    let language = null;
+
+    try {
+
+      if (
+        STORAGE &&
+        isFunction(
+          STORAGE.get
+        )
+      ) {
+
+        language =
+          STORAGE.get(
+            CORE_CONFIG.storageKeys.language
+          );
+
+      } else {
+
+        language =
+          localStorage.getItem(
+            CORE_CONFIG.storageKeys.language
+          );
+
+      }
+
+    } catch (_) {}
+
+    if (
+      !language
+    ) {
+
+      language =
+        document.documentElement
+          .getAttribute(
+            "lang"
+          ) ||
+        "en";
+
+    }
+
+    setLanguage(
+      language
     );
 
   }
@@ -1533,7 +2270,7 @@
   }
 
   // ==========================================================
-  // PAGE INITIALIZATION
+  // PAGE READY
   // ==========================================================
 
   function markPageReady() {
@@ -1544,6 +2281,11 @@
     document.documentElement
       .classList.add(
         "ghar-ready"
+      );
+
+    document.documentElement
+      .classList.remove(
+        "ghar-initializing"
       );
 
     document.body?.classList.add(
@@ -1562,6 +2304,17 @@
   // ==========================================================
 
   function initializeErrorHandlers() {
+
+    if (
+      globalErrorListenersInitialized
+    ) {
+
+      return;
+
+    }
+
+    globalErrorListenersInitialized =
+      true;
 
     window.addEventListener(
       "error",
@@ -1596,45 +2349,48 @@
 
   function initializeAuthListeners() {
 
-    window.addEventListener(
-      "ghar:auth:login",
-      event => {
+    if (
+      authListenersInitialized
+    ) {
 
-        syncAuthState(
-          event.detail
-        );
+      return;
 
-      }
-    );
+    }
 
-    window.addEventListener(
-      "ghar:auth:logout",
-      event => {
+    authListenersInitialized =
+      true;
 
-        syncAuthState(
-          event.detail
-        );
+    const authEvents = [
 
-      }
-    );
+      "login",
 
-    window.addEventListener(
-      "ghar:auth:refresh",
-      event => {
+      "logout",
 
-        syncAuthState(
-          event.detail
-        );
+      "refresh",
 
-      }
-    );
+      "register",
 
-    window.addEventListener(
-      "ghar:auth:initialized",
-      event => {
+      "initialized"
 
-        syncAuthState(
-          event.detail
+    ];
+
+    authEvents.forEach(
+      type => {
+
+        window.addEventListener(
+          `ghar:auth:${type}`,
+          event => {
+
+            syncAuthState(
+              event.detail
+            );
+
+            emit(
+              `auth:${type}`,
+              event.detail || {}
+            );
+
+          }
         );
 
       }
@@ -1647,6 +2403,17 @@
   // ==========================================================
 
   function initializeNetworkListeners() {
+
+    if (
+      networkListenersInitialized
+    ) {
+
+      return;
+
+    }
+
+    networkListenersInitialized =
+      true;
 
     window.addEventListener(
       "online",
@@ -1666,6 +2433,17 @@
 
   function initializeResponsiveListeners() {
 
+    if (
+      responsiveListenersInitialized
+    ) {
+
+      return;
+
+    }
+
+    responsiveListenersInitialized =
+      true;
+
     window.addEventListener(
       "resize",
       debounce(
@@ -1682,19 +2460,17 @@
 
   function domReady() {
 
+    if (
+      document.readyState !==
+      "loading"
+    ) {
+
+      return Promise.resolve();
+
+    }
+
     return new Promise(
       resolve => {
-
-        if (
-          document.readyState !==
-          "loading"
-        ) {
-
-          resolve();
-
-          return;
-
-        }
 
         document.addEventListener(
           "DOMContentLoaded",
@@ -1716,94 +2492,113 @@
   async function initialize() {
 
     if (
-      state.initialized
+      initializationPromise
     ) {
 
-      return getState();
+      return initializationPromise;
 
     }
 
-    state.initialized =
-      true;
+    initializationPromise =
+      (async function () {
 
-    document.documentElement
-      .classList.add(
-        "ghar-initializing"
-      );
+        if (
+          state.initialized &&
+          state.ready
+        ) {
 
-    try {
-
-      updateNetworkState(
-        navigator.onLine
-      );
-
-      updateDeviceState();
-
-      initializeTheme();
-
-      initializeAccessibility();
-
-      initializeNetworkListeners();
-
-      initializeResponsiveListeners();
-
-      initializeErrorHandlers();
-
-      initializeAuthListeners();
-
-      initializeLinks();
-
-      await domReady();
-
-      initializeForms();
-
-      if (
-        AUTH &&
-        isFunction(
-          AUTH.initialize
-        )
-      ) {
-
-        try {
-
-          await AUTH.initialize();
-
-        } catch (error) {
-
-          console.warn(
-            "[GHAR CORE] Auth initialization failed:",
-            error
-          );
+          return getState();
 
         }
 
-      }
+        state.initialized =
+          true;
 
-      syncAuthState();
+        document.documentElement
+          .classList.add(
+            "ghar-initializing"
+          );
 
-      document.documentElement
-        .classList.remove(
-          "ghar-initializing"
-        );
+        try {
 
-      markPageReady();
+          updateNetworkState(
+            navigator.onLine
+          );
 
-      return getState();
+          updateDeviceState();
 
-    } catch (error) {
+          initializeTheme();
 
-      document.documentElement
-        .classList.remove(
-          "ghar-initializing"
-        );
+          initializeLanguage();
 
-      handleError(
-        error
-      );
+          initializeAccessibility();
 
-      throw error;
+          initializeNetworkListeners();
 
-    }
+          initializeResponsiveListeners();
+
+          initializeErrorHandlers();
+
+          initializeAuthListeners();
+
+          initializeLinks();
+
+          await domReady();
+
+          initializeForms();
+
+          if (
+            AUTH &&
+            isFunction(
+              AUTH.initialize
+            )
+          ) {
+
+            try {
+
+              await AUTH.initialize();
+
+            } catch (error) {
+
+              console.warn(
+                "[GHAR CORE] Auth initialization failed:",
+                error
+              );
+
+            }
+
+          }
+
+          syncAuthState();
+
+          state.currentPage =
+            window.location.pathname;
+
+          markPageReady();
+
+          return getState();
+
+        } catch (error) {
+
+          state.initialized =
+            false;
+
+          document.documentElement
+            .classList.remove(
+              "ghar-initializing"
+            );
+
+          handleError(
+            error
+          );
+
+          throw error;
+
+        }
+
+      })();
+
+    return initializationPromise;
 
   }
 
@@ -1866,7 +2661,25 @@
 
     hasAnyRole,
 
+    hasAllRoles,
+
+    isAuthenticated,
+
+    getUser,
+
+    getRole,
+
+    getDashboardForRole,
+
+    redirectByRole,
+
     setTheme,
+
+    getTheme,
+
+    setLanguage,
+
+    getLanguage,
 
     on,
 

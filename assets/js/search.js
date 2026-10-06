@@ -2,1306 +2,1675 @@
 // GHAR - REAL ESTATE PLATFORM
 // search.js
 // Global Property Search / Filters / Sorting / Suggestions
+// Production-grade frontend search manager
 // ============================================================
-
 "use strict";
-
 (function (window, document) {
-
+  const GHAR = window.GHAR = window.GHAR || {};
+  // ==========================================================
+  // CONSTANTS
+  // ==========================================================
+  const DEFAULTS = Object.freeze({
+    pageSize: 20,
+    debounceDelay: 350,
+    minSearchLength: 2,
+    maxRecentSearches: 10,
+    maxSuggestions: 10,
+    maxPopularSearches: 12,
+    defaultSort: "relevance"
+  });
+  const NUMERIC_FIELDS = Object.freeze([
+    "minPrice",
+    "maxPrice",
+    "bedrooms",
+    "bathrooms",
+    "minArea",
+    "maxArea"
+  ]);
+  const FILTER_KEYS = Object.freeze([
+    "query",
+    "location",
+    "propertyType",
+    "listingType",
+    "purpose",
+    "minPrice",
+    "maxPrice",
+    "bedrooms",
+    "bathrooms",
+    "minArea",
+    "maxArea",
+    "furnishing",
+    "possession",
+    "verification",
+    "sort"
+  ]);
+  // ==========================================================
+  // SEARCH MANAGER
+  // ==========================================================
   const Search = {
-
     // ========================================================
     // CONFIGURATION
     // ========================================================
-
     config: {
       apiBase:
         window.GHAR_CONFIG?.API_BASE_URL ||
         "/api",
-
       endpoints: {
-        search: "/search",
-        properties: "/properties",
-        suggestions: "/search/suggestions",
-        popular: "/search/popular",
-        recent: "/search/recent"
+        search:
+          "/search",
+        properties:
+          "/properties",
+        suggestions:
+          "/search/suggestions",
+        popular:
+          "/search/popular",
+        recent:
+          "/search/recent"
       },
-
-      pageSize: 20,
-
-      debounceDelay: 350,
-
-      minSearchLength: 2
+      pageSize:
+        DEFAULTS.pageSize,
+      debounceDelay:
+        DEFAULTS.debounceDelay,
+      minSearchLength:
+        DEFAULTS.minSearchLength,
+      maxRecentSearches:
+        DEFAULTS.maxRecentSearches,
+      maxSuggestions:
+        DEFAULTS.maxSuggestions,
+      maxPopularSearches:
+        DEFAULTS.maxPopularSearches,
+      defaultSort:
+        DEFAULTS.defaultSort,
+      recentStorageKey:
+        "ghar_recent_searches"
     },
-
     // ========================================================
     // STATE
     // ========================================================
-
     state: {
-
       query: "",
-
       location: "",
-
       propertyType: "",
-
       listingType: "",
-
       purpose: "",
-
       minPrice: null,
-
       maxPrice: null,
-
       bedrooms: null,
-
       bathrooms: null,
-
       minArea: null,
-
       maxArea: null,
-
       furnishing: "",
-
       possession: "",
-
       amenities: [],
-
       verification: "",
-
-      sort: "relevance",
-
+      sort:
+        DEFAULTS.defaultSort,
       page: 1,
-
       total: 0,
-
-      hasMore: true,
-
+      hasMore: false,
       results: [],
-
       suggestions: [],
-
       recentSearches: [],
-
+      popularSearches: [],
       loading: false,
-
       initialized: false,
-
+      searching: false,
+      error: null,
+      lastSearchAt: null,
+      requestController: null,
+      requestSequence: 0,
       debounceTimer: null
-
     },
-
     // ========================================================
     // INITIALIZE
     // ========================================================
-
     init() {
-
-      if (this.state.initialized) {
+      if (
+        this.state.initialized
+      ) {
         return this;
       }
-
-      this.state.initialized = true;
-
+      this.state.initialized =
+        true;
       this.readURL();
-
-      this.bindEvents();
-
       this.loadRecentSearches();
-
+      this.bindEvents();
       if (
-        this.state.query ||
-        this.state.location
+        this.hasActiveSearch()
       ) {
-
         this.executeSearch();
-
       }
-
       return this;
     },
-
     // ========================================================
     // API REQUEST
     // ========================================================
-
     async request(
       endpoint,
       options = {}
     ) {
-
+      const apiBase =
+        String(
+          this.config.apiBase || ""
+        ).replace(
+          /\/+$/,
+          ""
+        );
+      const normalizedEndpoint =
+        String(
+          endpoint || ""
+        ).startsWith("/")
+          ? endpoint
+          : `/${endpoint}`;
       const url =
-        `${this.config.apiBase}${endpoint}`;
-
+        `${apiBase}${normalizedEndpoint}`;
       const headers = {
-        "Content-Type":
+        Accept:
           "application/json",
-
+        ...(options.body
+          ? {
+              "Content-Type":
+                "application/json"
+            }
+          : {}),
         ...(options.headers || {})
       };
-
+      // ------------------------------------------------------
+      // AUTH TOKEN
+      // ------------------------------------------------------
       try {
-
+        const storage =
+          window.GHAR_STORAGE;
         const token =
-          window.GHAR_STORAGE?.get?.(
+          storage?.get?.(
+            "accessToken"
+          ) ||
+          storage?.get?.(
             "token"
           ) ||
-          window.GHAR_STORAGE?.get?.(
-            "accessToken"
+          localStorage.getItem(
+            "ghar_access_token"
           ) ||
           localStorage.getItem(
             "ghar_token"
           );
-
-        if (token) {
-
+        if (
+          token &&
+          !headers.Authorization
+        ) {
           headers.Authorization =
             `Bearer ${token}`;
         }
-
       } catch (error) {
-
         console.warn(
-          "[GHAR Search] Token read failed",
+          "[GHAR Search] Unable to read auth token.",
           error
         );
       }
-
       const response =
         await fetch(
           url,
           {
             ...options,
             headers,
-            credentials: "include"
+            credentials:
+              options.credentials ||
+              "include"
           }
         );
-
-      let data = {};
-
-      try {
-
-        data =
-          await response.json();
-
-      } catch {
-
-        data = {};
+      // ------------------------------------------------------
+      // RESPONSE
+      // ------------------------------------------------------
+      let data = null;
+      const contentType =
+        response.headers.get(
+          "content-type"
+        ) || "";
+      if (
+        contentType.includes(
+          "application/json"
+        )
+      ) {
+        try {
+          data =
+            await response.json();
+        } catch {
+          data = null;
+        }
+      } else {
+        try {
+          const text =
+            await response.text();
+          data =
+            text
+              ? {
+                  message: text
+                }
+              : null;
+        } catch {
+          data = null;
+        }
       }
-
-      if (!response.ok) {
-
+      if (
+        !response.ok
+      ) {
+        const message =
+          data?.error?.message ||
+          data?.error ||
+          data?.message ||
+          `Request failed with status ${response.status}`;
         const error =
           new Error(
-            data?.error ||
-            data?.message ||
-            `Request failed: ${response.status}`
+            message
           );
-
         error.status =
           response.status;
-
+        error.data =
+          data;
         throw error;
       }
-
       return data;
     },
-
     // ========================================================
-    // SEARCH
+    // EXECUTE SEARCH
     // ========================================================
-
     async executeSearch(
       options = {}
     ) {
-
+      const reset =
+        options.reset !== false;
       if (
-        this.state.loading
+        this.state.searching &&
+        !options.force
       ) {
-        return;
+        return {
+          results:
+            this.state.results,
+          total:
+            this.state.total,
+          page:
+            this.state.page,
+          skipped:
+            true
+        };
       }
-
-      if (options.reset !== false) {
-
-        this.state.page = 1;
-
+      if (
+        reset
+      ) {
+        this.state.page =
+          1;
         this.state.hasMore =
           true;
       }
-
+      // ------------------------------------------------------
+      // CANCEL PREVIOUS REQUEST
+      // ------------------------------------------------------
+      this.abortCurrentRequest();
+      const controller =
+        new AbortController();
+      this.state.requestController =
+        controller;
+      const requestId =
+        ++this.state.requestSequence;
       this.state.loading =
         true;
-
+      this.state.searching =
+        true;
+      this.state.error =
+        null;
       this.renderLoading();
-
       try {
-
         const params =
           this.buildQueryParams();
-
         const endpoint =
           `${this.config.endpoints.search}?${params}`;
-
         const data =
           await this.request(
-            endpoint
+            endpoint,
+            {
+              method: "GET",
+              signal:
+                controller.signal
+            }
           );
-
+        // Ignore stale responses.
+        if (
+          requestId !==
+          this.state.requestSequence
+        ) {
+          return {
+            results: [],
+            total: 0,
+            stale: true
+          };
+        }
+        const normalized =
+          this.normalizeSearchResponse(
+            data
+          );
         const results =
-          Array.isArray(data)
-            ? data
-            : (
-                data.properties ||
-                data.results ||
-                data.data ||
-                []
-              );
-
-        const total =
-          Number(
-            data.total ??
-            data.count ??
-            results.length
-          );
-
+          normalized.results;
         if (
           this.state.page === 1
         ) {
-
           this.state.results =
             results;
-
         } else {
-
-          this.state.results = [
-            ...this.state.results,
-            ...results
-          ];
+          this.state.results =
+            this.mergeResults(
+              this.state.results,
+              results
+            );
         }
-
         this.state.total =
-          total;
-
+          normalized.total;
         this.state.hasMore =
-          results.length >=
-          this.config.pageSize;
-
+          normalized.hasMore;
+        this.state.lastSearchAt =
+          Date.now();
         this.renderResults();
-
+        this.updateResultCount();
         this.updateURL();
-
-        this.saveSearch();
-
+        if (
+          this.state.page === 1
+        ) {
+          this.saveSearch();
+        }
         return {
-          results,
-          total,
+          results:
+            this.state.results,
+          total:
+            this.state.total,
           page:
-            this.state.page
+            this.state.page,
+          hasMore:
+            this.state.hasMore
         };
-
       } catch (error) {
-
+        if (
+          error?.name ===
+          "AbortError"
+        ) {
+          return {
+            results: [],
+            total: 0,
+            aborted: true
+          };
+        }
         console.error(
           "[GHAR Search] Search failed:",
           error
         );
-
+        this.state.error =
+          error;
         this.renderError(
-          "Unable to load properties. Please try again."
+          this.getUserErrorMessage(
+            error
+          )
         );
-
         return {
           results: [],
-          total: 0
+          total: 0,
+          error
         };
-
       } finally {
-
-        this.state.loading =
-          false;
+        if (
+          requestId ===
+          this.state.requestSequence
+        ) {
+          this.state.loading =
+            false;
+          this.state.searching =
+            false;
+          this.state.requestController =
+            null;
+        }
       }
     },
-
     // ========================================================
     // LOAD MORE
     // ========================================================
-
     async loadMore() {
-
       if (
         this.state.loading ||
         !this.state.hasMore
       ) {
-        return;
+        return null;
       }
-
       this.state.page += 1;
-
-      await this.executeSearch({
-        reset: false
-      });
+      const result =
+        await this.executeSearch({
+          reset: false
+        });
+      if (
+        result?.error
+      ) {
+        this.state.page =
+          Math.max(
+            1,
+            this.state.page - 1
+          );
+      }
+      return result;
     },
-
     // ========================================================
-    // BUILD QUERY
+    // BUILD QUERY PARAMETERS
     // ========================================================
-
     buildQueryParams() {
-
       const params =
         new URLSearchParams();
-
       const state =
         this.state;
-
       const add =
-        (key, value) => {
-
+        (
+          key,
+          value
+        ) => {
           if (
-            value !== undefined &&
-            value !== null &&
-            value !== ""
+            value === undefined ||
+            value === null ||
+            value === ""
           ) {
-
-            params.set(
-              key,
-              String(value)
-            );
+            return;
           }
+          params.set(
+            key,
+            String(value)
+          );
         };
-
       add(
         "q",
-        state.query
+        this.cleanText(
+          state.query
+        )
       );
-
       add(
         "location",
-        state.location
+        this.cleanText(
+          state.location
+        )
       );
-
       add(
         "propertyType",
         state.propertyType
       );
-
       add(
         "listingType",
         state.listingType
       );
-
       add(
         "purpose",
         state.purpose
       );
-
       add(
         "minPrice",
-        state.minPrice
+        this.toNumber(
+          state.minPrice
+        )
       );
-
       add(
         "maxPrice",
-        state.maxPrice
+        this.toNumber(
+          state.maxPrice
+        )
       );
-
       add(
         "bedrooms",
-        state.bedrooms
+        this.toNumber(
+          state.bedrooms
+        )
       );
-
       add(
         "bathrooms",
-        state.bathrooms
+        this.toNumber(
+          state.bathrooms
+        )
       );
-
       add(
         "minArea",
-        state.minArea
+        this.toNumber(
+          state.minArea
+        )
       );
-
       add(
         "maxArea",
-        state.maxArea
+        this.toNumber(
+          state.maxArea
+        )
       );
-
       add(
         "furnishing",
         state.furnishing
       );
-
       add(
         "possession",
         state.possession
       );
-
       add(
         "verification",
         state.verification
       );
-
       add(
         "sort",
-        state.sort
+        state.sort ||
+        this.config.defaultSort
       );
-
       add(
         "page",
         state.page
       );
-
       add(
         "limit",
         this.config.pageSize
       );
-
       if (
         Array.isArray(
           state.amenities
         ) &&
         state.amenities.length
       ) {
-
         params.set(
           "amenities",
-          state.amenities.join(",")
+          state.amenities
+            .map(item =>
+              this.cleanText(item)
+            )
+            .filter(Boolean)
+            .join(",")
         );
       }
-
       return params.toString();
     },
-
     // ========================================================
-    // UPDATE FILTER
+    // SET FILTER
     // ========================================================
-
     setFilter(
       key,
       value,
       search = true
     ) {
-
       if (
-        !Object.prototype.hasOwnProperty.call(
-          this.state,
+        !FILTER_KEYS.includes(
           key
         )
       ) {
-        return;
+        console.warn(
+          `[GHAR Search] Unknown filter: ${key}`
+        );
+        return false;
       }
-
+      if (
+        NUMERIC_FIELDS.includes(
+          key
+        )
+      ) {
+        value =
+          this.toNumber(
+            value
+          );
+      } else if (
+        typeof value ===
+        "string"
+      ) {
+        value =
+          this.cleanText(
+            value
+          );
+      }
       this.state[key] =
         value;
-
-      if (search) {
-
+      if (
+        search
+      ) {
         this.debounceSearch();
       }
+      return true;
     },
-
     // ========================================================
-    // MULTI FILTER
+    // TOGGLE AMENITY
     // ========================================================
-
     toggleAmenity(
-      amenity
+      amenity,
+      search = true
     ) {
-
       const value =
-        String(
-          amenity || ""
-        ).trim();
-
+        this.cleanText(
+          amenity
+        );
       if (!value) {
-        return;
+        return false;
       }
-
       const index =
         this.state.amenities.indexOf(
           value
         );
-
-      if (index === -1) {
-
+      if (
+        index === -1
+      ) {
         this.state.amenities.push(
           value
         );
-
       } else {
-
         this.state.amenities.splice(
           index,
           1
         );
       }
-
-      this.debounceSearch();
+      if (
+        search
+      ) {
+        this.debounceSearch();
+      }
+      return true;
     },
-
     // ========================================================
     // CLEAR FILTERS
     // ========================================================
-
-    clearFilters() {
-
-      this.state.query = "";
-      this.state.location = "";
-      this.state.propertyType = "";
-      this.state.listingType = "";
-      this.state.purpose = "";
-      this.state.minPrice = null;
-      this.state.maxPrice = null;
-      this.state.bedrooms = null;
-      this.state.bathrooms = null;
-      this.state.minArea = null;
-      this.state.maxArea = null;
-      this.state.furnishing = "";
-      this.state.possession = "";
-      this.state.amenities = [];
-      this.state.verification = "";
-      this.state.sort = "relevance";
-      this.state.page = 1;
-      this.state.results = [];
-      this.state.total = 0;
-      this.state.hasMore = true;
-
+    clearFilters(
+      execute = true
+    ) {
+      this.abortCurrentRequest();
+      this.state.query =
+        "";
+      this.state.location =
+        "";
+      this.state.propertyType =
+        "";
+      this.state.listingType =
+        "";
+      this.state.purpose =
+        "";
+      this.state.minPrice =
+        null;
+      this.state.maxPrice =
+        null;
+      this.state.bedrooms =
+        null;
+      this.state.bathrooms =
+        null;
+      this.state.minArea =
+        null;
+      this.state.maxArea =
+        null;
+      this.state.furnishing =
+        "";
+      this.state.possession =
+        "";
+      this.state.amenities =
+        [];
+      this.state.verification =
+        "";
+      this.state.sort =
+        this.config.defaultSort;
+      this.state.page =
+        1;
+      this.state.results =
+        [];
+      this.state.total =
+        0;
+      this.state.hasMore =
+        false;
+      this.state.error =
+        null;
       this.syncForm();
-
-      this.executeSearch();
+      this.updateURL();
+      this.updateResultCount();
+      if (
+        execute
+      ) {
+        return this.executeSearch();
+      }
+      this.renderResults();
+      return null;
     },
-
     // ========================================================
     // DEBOUNCE
     // ========================================================
-
     debounceSearch() {
-
       if (
         this.state.debounceTimer
       ) {
-
         clearTimeout(
           this.state.debounceTimer
         );
       }
-
       this.state.debounceTimer =
         setTimeout(
           () => {
-
             this.executeSearch();
-
           },
           this.config.debounceDelay
         );
     },
-
     // ========================================================
     // SUGGESTIONS
     // ========================================================
-
     async getSuggestions(
       query
     ) {
-
       const value =
-        String(
-          query || ""
-        ).trim();
-
+        this.cleanText(
+          query
+        );
       if (
         value.length <
         this.config.minSearchLength
       ) {
-
+        this.state.suggestions =
+          [];
         this.clearSuggestions();
-
         return [];
       }
-
       try {
-
         const endpoint =
           `${this.config.endpoints.suggestions}` +
-          `?q=${encodeURIComponent(value)}`;
-
+          `?q=${encodeURIComponent(
+            value
+          )}`;
         const data =
           await this.request(
             endpoint
           );
-
         const suggestions =
-          Array.isArray(data)
-            ? data
-            : (
-                data.suggestions ||
-                data.results ||
-                data.data ||
-                []
-              );
-
+          this.extractArray(
+            data,
+            [
+              "suggestions",
+              "results",
+              "data"
+            ]
+          )
+            .slice(
+              0,
+              this.config.maxSuggestions
+            );
         this.state.suggestions =
           suggestions;
-
         this.renderSuggestions(
           suggestions
         );
-
         return suggestions;
-
       } catch (error) {
-
-        console.warn(
-          "[GHAR Search] Suggestions:",
-          error
-        );
-
+        if (
+          error?.name !==
+          "AbortError"
+        ) {
+          console.warn(
+            "[GHAR Search] Suggestions failed:",
+            error
+          );
+        }
         return [];
       }
     },
-
     // ========================================================
     // POPULAR SEARCHES
     // ========================================================
-
     async loadPopularSearches() {
-
       try {
-
         const data =
           await this.request(
             this.config.endpoints.popular
           );
-
-        const search =
-          Array.isArray(data)
-            ? data
-            : (
-                data.searches ||
-                data.results ||
-                data.data ||
-                []
-              );
-
+        // Fixed original bug:
+        // the old code created `search` but rendered
+        // undefined `searches`.
+        const searches =
+          this.extractArray(
+            data,
+            [
+              "searches",
+              "popular",
+              "results",
+              "data"
+            ]
+          )
+            .slice(
+              0,
+              this.config.maxPopularSearches
+            );
+        this.state.popularSearches =
+          searches;
         this.renderPopularSearches(
           searches
         );
-
         return searches;
-
       } catch (error) {
-
         console.warn(
-          "[GHAR Search] Popular searches:",
+          "[GHAR Search] Popular searches failed:",
           error
         );
-
         return [];
       }
     },
-
     // ========================================================
     // RECENT SEARCHES
     // ========================================================
-
     loadRecentSearches() {
-
       try {
-
         const stored =
           localStorage.getItem(
-            "ghar_recent_searches"
+            this.config.recentStorageKey
           );
-
-        this.state.recentSearches =
-          stored
-            ? JSON.parse(stored)
-            : [];
-
-        if (
-          !Array.isArray(
-            this.state.recentSearches
-          )
-        ) {
-
+        if (!stored) {
           this.state.recentSearches =
             [];
+          this.renderRecentSearches();
+          return [];
         }
-
-        this.renderRecentSearches();
-
+        const parsed =
+          JSON.parse(
+            stored
+          );
+        this.state.recentSearches =
+          Array.isArray(parsed)
+            ? parsed
+                .filter(
+                  item =>
+                    item &&
+                    typeof item ===
+                    "object"
+                )
+                .slice(
+                  0,
+                  this.config.maxRecentSearches
+                )
+            : [];
       } catch (error) {
-
         console.warn(
-          "[GHAR Search] Recent searches:",
+          "[GHAR Search] Recent searches failed:",
           error
         );
-
         this.state.recentSearches =
           [];
       }
+      this.renderRecentSearches();
+      return [
+        ...this.state.recentSearches
+      ];
     },
-
+    // ========================================================
+    // SAVE SEARCH
+    // ========================================================
     saveSearch() {
-
-      const hasSearch =
-        this.state.query ||
-        this.state.location ||
-        this.state.propertyType ||
-        this.state.minPrice ||
-        this.state.maxPrice;
-
-      if (!hasSearch) {
-        return;
+      if (
+        !this.hasActiveSearch()
+      ) {
+        return false;
       }
-
       const search = {
-
         query:
           this.state.query,
-
         location:
           this.state.location,
-
         propertyType:
           this.state.propertyType,
-
         listingType:
           this.state.listingType,
-
         purpose:
           this.state.purpose,
-
         minPrice:
           this.state.minPrice,
-
         maxPrice:
           this.state.maxPrice,
-
         bedrooms:
           this.state.bedrooms,
-
+        bathrooms:
+          this.state.bathrooms,
+        minArea:
+          this.state.minArea,
+        maxArea:
+          this.state.maxArea,
+        furnishing:
+          this.state.furnishing,
+        possession:
+          this.state.possession,
+        amenities:
+          [
+            ...this.state.amenities
+          ],
+        verification:
+          this.state.verification,
+        sort:
+          this.state.sort,
         timestamp:
           Date.now()
       };
-
+      const fingerprint =
+        this.createSearchFingerprint(
+          search
+        );
+      const existing =
+        this.state.recentSearches
+          .filter(
+            item =>
+              this.createSearchFingerprint(
+                item
+              ) !==
+              fingerprint
+          );
       this.state.recentSearches =
         [
           search,
-          ...this.state.recentSearches.filter(
-            item =>
-              JSON.stringify(item) !==
-              JSON.stringify(search)
-          )
-        ].slice(0, 10);
-
+          ...existing
+        ].slice(
+          0,
+          this.config.maxRecentSearches
+        );
       try {
-
         localStorage.setItem(
-          "ghar_recent_searches",
+          this.config.recentStorageKey,
           JSON.stringify(
             this.state.recentSearches
           )
         );
-
       } catch (error) {
-
         console.warn(
-          "[GHAR Search] Save recent search:",
+          "[GHAR Search] Unable to save recent search:",
           error
         );
       }
-
       this.renderRecentSearches();
+      return true;
     },
-
     // ========================================================
     // APPLY SAVED SEARCH
     // ========================================================
-
     applySavedSearch(
       search
     ) {
-
-      if (!search) {
-        return;
+      if (
+        !search ||
+        typeof search !==
+        "object"
+      ) {
+        return null;
       }
-
-      Object.keys(
-        search
-      ).forEach(
+      FILTER_KEYS.forEach(
         key => {
-
-          if (
-            key === "timestamp"
-          ) {
-            return;
-          }
-
           if (
             Object.prototype.hasOwnProperty.call(
-              this.state,
+              search,
               key
             )
           ) {
-
             this.state[key] =
-              search[key];
+              NUMERIC_FIELDS.includes(
+                key
+              )
+                ? this.toNumber(
+                    search[key]
+                  )
+                : (
+                    search[key] ?? ""
+                  );
           }
         }
       );
-
+      this.state.amenities =
+        Array.isArray(
+          search.amenities
+        )
+          ? [
+              ...search.amenities
+            ]
+          : [];
+      this.state.page =
+        1;
       this.syncForm();
-
-      this.executeSearch();
+      return this.executeSearch();
     },
-
     // ========================================================
     // URL STATE
     // ========================================================
-
     readURL() {
-
-      const params =
-        new URLSearchParams(
-          window.location.search
-        );
-
-      const get =
-        key =>
-          params.get(key);
-
-      this.state.query =
-        get("q") || "";
-
-      this.state.location =
-        get("location") || "";
-
-      this.state.propertyType =
-        get("propertyType") || "";
-
-      this.state.listingType =
-        get("listingType") || "";
-
-      this.state.purpose =
-        get("purpose") || "";
-
-      this.state.minPrice =
-        this.toNumber(
-          get("minPrice")
-        );
-
-      this.state.maxPrice =
-        this.toNumber(
-          get("maxPrice")
-        );
-
-      this.state.bedrooms =
-        this.toNumber(
-          get("bedrooms")
-        );
-
-      this.state.bathrooms =
-        this.toNumber(
-          get("bathrooms")
-        );
-
-      this.state.minArea =
-        this.toNumber(
-          get("minArea")
-        );
-
-      this.state.maxArea =
-        this.toNumber(
-          get("maxArea")
-        );
-
-      this.state.furnishing =
-        get("furnishing") || "";
-
-      this.state.possession =
-        get("possession") || "";
-
-      this.state.verification =
-        get("verification") || "";
-
-      this.state.sort =
-        get("sort") ||
-        "relevance";
-
-      const amenities =
-        get("amenities");
-
-      this.state.amenities =
-        amenities
-          ? amenities.split(",")
-          : [];
-
-      this.syncForm();
-    },
-
-    // ========================================================
-    // UPDATE URL
-    // ========================================================
-
-    updateURL() {
-
       try {
-
         const params =
-          new URLSearchParams();
-
-        const query =
-          this.buildQueryParams();
-
-        const current =
           new URLSearchParams(
-            query
+            window.location.search
           );
-
-        current.forEach(
-          (value, key) => {
-
-            if (
-              key !== "page" &&
-              key !== "limit"
-            ) {
-
-              params.set(
-                key,
-                value
-              );
-            }
-          }
-        );
-
-        const url =
-          `${window.location.pathname}` +
-          (
-            params.toString()
-              ? `?${params.toString()}`
-              : ""
+        const get =
+          key =>
+            params.get(key);
+        this.state.query =
+          get("q") || "";
+        this.state.location =
+          get("location") || "";
+        this.state.propertyType =
+          get("propertyType") || "";
+        this.state.listingType =
+          get("listingType") || "";
+        this.state.purpose =
+          get("purpose") || "";
+        this.state.minPrice =
+          this.toNumber(
+            get("minPrice")
           );
-
-        window.history.replaceState(
-          {},
-          "",
-          url
-        );
-
+        this.state.maxPrice =
+          this.toNumber(
+            get("maxPrice")
+          );
+        this.state.bedrooms =
+          this.toNumber(
+            get("bedrooms")
+          );
+        this.state.bathrooms =
+          this.toNumber(
+            get("bathrooms")
+          );
+        this.state.minArea =
+          this.toNumber(
+            get("minArea")
+          );
+        this.state.maxArea =
+          this.toNumber(
+            get("maxArea")
+          );
+        this.state.furnishing =
+          get("furnishing") || "";
+        this.state.possession =
+          get("possession") || "";
+        this.state.verification =
+          get("verification") || "";
+        this.state.sort =
+          get("sort") ||
+          this.config.defaultSort;
+        const amenities =
+          get("amenities");
+        this.state.amenities =
+          amenities
+            ? amenities
+                .split(",")
+                .map(
+                  item =>
+                    this.cleanText(item)
+                )
+                .filter(Boolean)
+            : [];
+        this.state.page =
+          Math.max(
+            1,
+            this.toNumber(
+              get("page")
+            ) || 1
+          );
+        this.syncForm();
       } catch (error) {
-
         console.warn(
-          "[GHAR Search] URL update:",
+          "[GHAR Search] URL parsing failed:",
           error
         );
       }
     },
-
+    // ========================================================
+    // UPDATE URL
+    // ========================================================
+    updateURL() {
+      try {
+        const params =
+          new URLSearchParams(
+            this.buildQueryParams()
+          );
+        params.delete(
+          "page"
+        );
+        params.delete(
+          "limit"
+        );
+        const query =
+          params.toString();
+        const url =
+          `${window.location.pathname}` +
+          (
+            query
+              ? `?${query}`
+              : ""
+          );
+        const current =
+          `${window.location.pathname}` +
+          `${window.location.search}`;
+        if (
+          url !== current
+        ) {
+          window.history.replaceState(
+            {
+              gharSearch:
+                true
+            },
+            "",
+            url
+          );
+        }
+      } catch (error) {
+        console.warn(
+          "[GHAR Search] URL update failed:",
+          error
+        );
+      }
+    },
     // ========================================================
     // FORM SYNCHRONIZATION
     // ========================================================
-
     syncForm() {
-
       const map = {
-
         query:
           "[data-ghar-search-query]",
-
         location:
           "[data-ghar-search-location]",
-
         propertyType:
           "[data-ghar-filter-property-type]",
-
         listingType:
           "[data-ghar-filter-listing-type]",
-
         purpose:
           "[data-ghar-filter-purpose]",
-
         minPrice:
           "[data-ghar-filter-min-price]",
-
         maxPrice:
           "[data-ghar-filter-max-price]",
-
         bedrooms:
           "[data-ghar-filter-bedrooms]",
-
         bathrooms:
           "[data-ghar-filter-bathrooms]",
-
         minArea:
           "[data-ghar-filter-min-area]",
-
         maxArea:
           "[data-ghar-filter-max-area]",
-
         furnishing:
           "[data-ghar-filter-furnishing]",
-
         possession:
           "[data-ghar-filter-possession]",
-
         verification:
           "[data-ghar-filter-verification]",
-
         sort:
           "[data-ghar-search-sort]"
       };
-
-      Object.entries(map)
-        .forEach(
-          ([key, selector]) => {
-
-            const element =
-              document.querySelector(
-                selector
-              );
-
-            if (
-              element &&
-              this.state[key] !== null &&
-              this.state[key] !== undefined
-            ) {
-
-              element.value =
-                this.state[key];
+      Object.entries(
+        map
+      ).forEach(
+        ([key, selector]) => {
+          const elements =
+            document.querySelectorAll(
+              selector
+            );
+          elements.forEach(
+            element => {
+              if (
+                this.state[key] !==
+                  null &&
+                this.state[key] !==
+                  undefined
+              ) {
+                element.value =
+                  this.state[key];
+              }
             }
+          );
+        }
+      );
+      // Sync amenities.
+      document
+        .querySelectorAll(
+          "[data-ghar-amenity]"
+        )
+        .forEach(
+          checkbox => {
+            checkbox.checked =
+              this.state.amenities.includes(
+                checkbox.value
+              );
           }
         );
     },
-
+    // ========================================================
+    // SYNC STATE FROM FORM
+    // ========================================================
+    syncStateFromForm(
+      form
+    ) {
+      if (
+        !form
+      ) {
+        return;
+      }
+      const get =
+        selector =>
+          form.querySelector(
+            selector
+          )?.value;
+      this.state.query =
+        this.cleanText(
+          get(
+            "[data-ghar-search-query]"
+          ) || ""
+        );
+      this.state.location =
+        this.cleanText(
+          get(
+            "[data-ghar-search-location]"
+          ) || ""
+        );
+      this.state.propertyType =
+        get(
+          "[data-ghar-filter-property-type]"
+        ) || "";
+      this.state.listingType =
+        get(
+          "[data-ghar-filter-listing-type]"
+        ) || "";
+      this.state.purpose =
+        get(
+          "[data-ghar-filter-purpose]"
+        ) || "";
+      this.state.minPrice =
+        this.toNumber(
+          get(
+            "[data-ghar-filter-min-price]"
+          )
+        );
+      this.state.maxPrice =
+        this.toNumber(
+          get(
+            "[data-ghar-filter-max-price]"
+          )
+        );
+      this.state.bedrooms =
+        this.toNumber(
+          get(
+            "[data-ghar-filter-bedrooms]"
+          )
+        );
+      this.state.bathrooms =
+        this.toNumber(
+          get(
+            "[data-ghar-filter-bathrooms]"
+          )
+        );
+      this.state.minArea =
+        this.toNumber(
+          get(
+            "[data-ghar-filter-min-area]"
+          )
+        );
+      this.state.maxArea =
+        this.toNumber(
+          get(
+            "[data-ghar-filter-max-area]"
+          )
+        );
+      this.state.furnishing =
+        get(
+          "[data-ghar-filter-furnishing]"
+        ) || "";
+      this.state.possession =
+        get(
+          "[data-ghar-filter-possession]"
+        ) || "";
+      this.state.verification =
+        get(
+          "[data-ghar-filter-verification]"
+        ) || "";
+      this.state.sort =
+        get(
+          "[data-ghar-search-sort]"
+        ) ||
+        this.config.defaultSort;
+      this.state.amenities =
+        Array.from(
+          form.querySelectorAll(
+            "[data-ghar-amenity]:checked"
+          )
+        )
+          .map(
+            checkbox =>
+              checkbox.value
+          )
+          .filter(Boolean);
+    },
     // ========================================================
     // RENDER RESULTS
     // ========================================================
-
     renderResults() {
-
       const containers =
         document.querySelectorAll(
           "[data-ghar-search-results]"
         );
-
       containers.forEach(
         container => {
-
-          container.innerHTML = "";
-
+          container.innerHTML =
+            "";
           if (
             !this.state.results.length
           ) {
-
-            container.innerHTML =
-              `<div class="ghar-empty-state">
-                <h3>No properties found</h3>
+            container.innerHTML = `
+              <div
+                class="ghar-empty-state"
+                role="status"
+              >
+                <h3>
+                  No properties found
+                </h3>
                 <p>
                   Try changing your location,
                   budget or property filters.
                 </p>
-              </div>`;
-
+              </div>
+            `;
             return;
           }
-
+          const fragment =
+            document.createDocumentFragment();
           this.state.results.forEach(
             property => {
-
-              container.appendChild(
+              fragment.appendChild(
                 this.createPropertyCard(
                   property
                 )
               );
             }
           );
+          container.appendChild(
+            fragment
+          );
         }
       );
-
-      this.updateResultCount();
+      this.updateLoadMoreState();
     },
-
     // ========================================================
     // PROPERTY CARD
     // ========================================================
-
     createPropertyCard(
-      property
+      property = {}
     ) {
-
       const card =
-        document.createElement("article");
-
+        document.createElement(
+          "article"
+        );
       card.className =
         "ghar-search-property-card";
-
       const id =
-        property.id ||
-        property._id ||
+        property.id ??
+        property._id ??
         "";
-
       const title =
         property.title ||
         property.name ||
         "Property";
-
       const location =
         property.location ||
-        property.city ||
+        this.buildLocation(
+          property
+        ) ||
         "Location unavailable";
-
       const price =
-        property.price ||
-        property.amount ||
-        "Price on request";
-
+        property.price ??
+        property.amount ??
+        null;
       const image =
         property.image ||
         property.thumbnail ||
         property.coverImage ||
+        property.images?.[0]?.url ||
+        property.images?.[0] ||
         "/assets/images/properties/default.jpg";
-
       const type =
         property.propertyType ||
         property.type ||
         "";
-
       const bedrooms =
-        property.bedrooms ||
-        property.bhk ||
+        property.bedrooms ??
+        property.bhk ??
         "";
-
-      card.innerHTML = `
-
-        <a
-          class="ghar-property-card-link"
-          href="/property-details.html?id=${encodeURIComponent(id)}"
-        >
-
-          <div class="ghar-property-image-wrap">
-
-            <img
-              class="ghar-property-image"
-              src="${this.escapeHTML(image)}"
-              alt="${this.escapeHTML(title)}"
-              loading="lazy"
-            >
-
-          </div>
-
-          <div class="ghar-property-card-body">
-
-            <h3>
-              ${this.escapeHTML(title)}
-            </h3>
-
-            <p class="ghar-property-location">
-              ${this.escapeHTML(location)}
-            </p>
-
-            <strong class="ghar-property-price">
-              ${this.escapeHTML(
-                this.formatPrice(price)
-              )}
-            </strong>
-
-            <div class="ghar-property-meta">
-
-              ${
-                type
-                  ? `<span>
-                      ${this.escapeHTML(type)}
-                    </span>`
-                  : ""
-              }
-
-              ${
-                bedrooms
-                  ? `<span>
-                      ${this.escapeHTML(
-                        bedrooms
-                      )} BHK
-                    </span>`
-                  : ""
-              }
-
-            </div>
-
-          </div>
-
-        </a>
-      `;
-
+      const bathrooms =
+        property.bathrooms ??
+        "";
+      const area =
+        property.area ??
+        property.areaSqFt ??
+        property.squareFeet ??
+        "";
+      const verified =
+        property.verificationStatus ===
+          "verified" ||
+        property.verified === true;
+      // ------------------------------------------------------
+      // Safe DOM construction
+      // ------------------------------------------------------
+      const link =
+        document.createElement(
+          "a"
+        );
+      link.className =
+        "ghar-property-card-link";
+      link.href =
+        this.buildPropertyURL(
+          id
+        );
+      const imageWrap =
+        document.createElement(
+          "div"
+        );
+      imageWrap.className =
+        "ghar-property-image-wrap";
+      const imageElement =
+        document.createElement(
+          "img"
+        );
+      imageElement.className =
+        "ghar-property-image";
+      imageElement.src =
+        this.safeImageURL(
+          image
+        );
+      imageElement.alt =
+        title;
+      imageElement.loading =
+        "lazy";
+      imageElement.decoding =
+        "async";
+      imageElement.addEventListener(
+        "error",
+        () => {
+          if (
+            imageElement.dataset.fallbackApplied
+          ) {
+            return;
+          }
+          imageElement.dataset
+            .fallbackApplied =
+            "true";
+          imageElement.src =
+            "/assets/images/properties/default.jpg";
+        },
+        {
+          once: true
+        }
+      );
+      imageWrap.appendChild(
+        imageElement
+      );
+      const body =
+        document.createElement(
+          "div"
+        );
+      body.className =
+        "ghar-property-card-body";
+      const heading =
+        document.createElement(
+          "h3"
+        );
+      heading.textContent =
+        title;
+      body.appendChild(
+        heading
+      );
+      const locationElement =
+        document.createElement(
+          "p"
+        );
+      locationElement.className =
+        "ghar-property-location";
+      locationElement.textContent =
+        location;
+      body.appendChild(
+        locationElement
+      );
+      const priceElement =
+        document.createElement(
+          "strong"
+        );
+      priceElement.className =
+        "ghar-property-price";
+      priceElement.textContent =
+        this.formatPrice(
+          price
+        );
+      body.appendChild(
+        priceElement
+      );
+      const meta =
+        document.createElement(
+          "div"
+        );
+      meta.className =
+        "ghar-property-meta";
+      this.appendMeta(
+        meta,
+        type
+      );
+      if (
+        bedrooms !== "" &&
+        bedrooms !== null &&
+        bedrooms !== undefined
+      ) {
+        this.appendMeta(
+          meta,
+          `${bedrooms} BHK`
+        );
+      }
+      if (
+        bathrooms !== "" &&
+        bathrooms !== null &&
+        bathrooms !== undefined
+      ) {
+        this.appendMeta(
+          meta,
+          `${bathrooms} Bath`
+        );
+      }
+      if (
+        area !== "" &&
+        area !== null &&
+        area !== undefined
+      ) {
+        this.appendMeta(
+          meta,
+          `${area} sq.ft`
+        );
+      }
+      if (
+        verified
+      ) {
+        this.appendMeta(
+          meta,
+          "Verified"
+        );
+      }
+      body.appendChild(
+        meta
+      );
+      link.appendChild(
+        imageWrap
+      );
+      link.appendChild(
+        body
+      );
+      card.appendChild(
+        link
+      );
       return card;
     },
-
+    // ========================================================
+    // META ITEM
+    // ========================================================
+    appendMeta(
+      container,
+      text
+    ) {
+      if (
+        !text
+      ) {
+        return;
+      }
+      const span =
+        document.createElement(
+          "span"
+        );
+      span.textContent =
+        String(text);
+      container.appendChild(
+        span
+      );
+    },
+    // ========================================================
+    // PROPERTY URL
+    // ========================================================
+    buildPropertyURL(
+      id
+    ) {
+      const encoded =
+        encodeURIComponent(
+          String(id || "")
+        );
+      return (
+        `/property-details.html` +
+        `?id=${encoded}`
+      );
+    },
     // ========================================================
     // SUGGESTIONS RENDERER
     // ========================================================
-
     renderSuggestions(
-      suggestions
+      suggestions = []
     ) {
-
       const containers =
         document.querySelectorAll(
           "[data-ghar-search-suggestions]"
         );
-
       containers.forEach(
         container => {
-
-          container.innerHTML = "";
-
+          container.innerHTML =
+            "";
           suggestions.forEach(
             suggestion => {
-
               const value =
-                typeof suggestion === "string"
-                  ? suggestion
-                  : (
-                      suggestion.label ||
-                      suggestion.name ||
-                      suggestion.location ||
-                      suggestion.value ||
-                      ""
-                    );
-
-              if (!value) {
+                this.getSuggestionValue(
+                  suggestion
+                );
+              if (
+                !value
+              ) {
                 return;
               }
-
               const item =
                 document.createElement(
                   "button"
                 );
-
               item.type =
                 "button";
-
               item.className =
                 "ghar-search-suggestion";
-
               item.textContent =
                 value;
-
               item.addEventListener(
                 "click",
                 () => {
-
                   this.state.query =
                     value;
-
                   this.syncForm();
-
                   this.clearSuggestions();
-
                   this.executeSearch();
                 }
               );
-
               container.appendChild(
                 item
               );
@@ -1310,69 +1679,58 @@
         }
       );
     },
-
+    // ========================================================
+    // CLEAR SUGGESTIONS
+    // ========================================================
     clearSuggestions() {
-
       document
         .querySelectorAll(
           "[data-ghar-search-suggestions]"
         )
         .forEach(
           container => {
-
             container.innerHTML =
               "";
           }
         );
+      this.state.suggestions =
+        [];
     },
-
     // ========================================================
     // RECENT SEARCH RENDERER
     // ========================================================
-
     renderRecentSearches() {
-
       const containers =
         document.querySelectorAll(
           "[data-ghar-recent-searches]"
         );
-
       containers.forEach(
         container => {
-
-          container.innerHTML = "";
-
+          container.innerHTML =
+            "";
           this.state.recentSearches
             .forEach(
               search => {
-
                 const item =
                   document.createElement(
                     "button"
                   );
-
                 item.type =
                   "button";
-
                 item.className =
                   "ghar-recent-search";
-
                 item.textContent =
-                  search.query ||
-                  search.location ||
-                  search.propertyType ||
-                  "Saved search";
-
+                  this.getSearchLabel(
+                    search
+                  );
                 item.addEventListener(
                   "click",
                   () => {
-
                     this.applySavedSearch(
                       search
                     );
                   }
                 );
-
                 container.appendChild(
                   item
                 );
@@ -1381,69 +1739,50 @@
         }
       );
     },
-
     // ========================================================
     // POPULAR SEARCH RENDERER
     // ========================================================
-
     renderPopularSearches(
-      searches
+      searches = []
     ) {
-
       const containers =
         document.querySelectorAll(
           "[data-ghar-popular-searches]"
         );
-
       containers.forEach(
         container => {
-
-          container.innerHTML = "";
-
+          container.innerHTML =
+            "";
           searches.forEach(
             search => {
-
               const value =
-                typeof search === "string"
-                  ? search
-                  : (
-                      search.label ||
-                      search.name ||
-                      search.query ||
-                      ""
-                    );
-
-              if (!value) {
+                this.getSuggestionValue(
+                  search
+                );
+              if (
+                !value
+              ) {
                 return;
               }
-
               const item =
                 document.createElement(
                   "button"
                 );
-
               item.type =
                 "button";
-
               item.className =
                 "ghar-popular-search";
-
               item.textContent =
                 value;
-
               item.addEventListener(
                 "click",
                 () => {
-
                   this.state.query =
                     value;
-
                   this.syncForm();
-
                   this.executeSearch();
                 }
               );
-
               container.appendChild(
                 item
               );
@@ -1452,188 +1791,209 @@
         }
       );
     },
-
     // ========================================================
     // LOADING
     // ========================================================
-
     renderLoading() {
-
-      document
-        .querySelectorAll(
+      const containers =
+        document.querySelectorAll(
           "[data-ghar-search-results]"
-        )
-        .forEach(
-          container => {
-
-            if (
-              this.state.page === 1
-            ) {
-
-              container.innerHTML =
-                `<div class="ghar-loading">
-                  Searching GHAR properties...
-                </div>`;
-            }
-          }
         );
+      containers.forEach(
+        container => {
+          if (
+            this.state.page !== 1 &&
+            this.state.results.length
+          ) {
+            this.updateLoadMoreState(
+              true
+            );
+            return;
+          }
+          container.innerHTML = `
+            <div
+              class="ghar-loading"
+              role="status"
+              aria-live="polite"
+            >
+              Searching GHAR properties...
+            </div>
+          `;
+        }
+      );
     },
-
     // ========================================================
     // ERROR
     // ========================================================
-
     renderError(
       message
     ) {
-
       document
         .querySelectorAll(
           "[data-ghar-search-results]"
         )
         .forEach(
           container => {
-
-            container.innerHTML =
-              `<div class="ghar-error-state">
-                <h3>Search unavailable</h3>
-                <p>
-                  ${this.escapeHTML(message)}
-                </p>
+            container.innerHTML = `
+              <div
+                class="ghar-error-state"
+                role="alert"
+              >
+                <h3>
+                  Search unavailable
+                </h3>
+                <p></p>
                 <button
                   type="button"
                   data-ghar-retry-search
                 >
                   Try Again
                 </button>
-              </div>`;
+              </div>
+            `;
+            const paragraph =
+              container.querySelector(
+                "p"
+              );
+            if (
+              paragraph
+            ) {
+              paragraph.textContent =
+                message;
+            }
           }
         );
     },
-
     // ========================================================
     // RESULT COUNT
     // ========================================================
-
     updateResultCount() {
-
       document
         .querySelectorAll(
           "[data-ghar-search-count]"
         )
         .forEach(
           element => {
-
+            const total =
+              Number(
+                this.state.total
+              ) || 0;
             element.textContent =
-              this.state.total
-                ? `${this.state.total.toLocaleString()} properties`
-                : "0 properties";
+              `${total.toLocaleString(
+                "en-IN"
+              )} ${
+                total === 1
+                  ? "property"
+                  : "properties"
+              }`;
           }
         );
     },
-
+    // ========================================================
+    // LOAD MORE STATE
+    // ========================================================
+    updateLoadMoreState(
+      loading = false
+    ) {
+      document
+        .querySelectorAll(
+          "[data-ghar-load-more-search]"
+        )
+        .forEach(
+          button => {
+            button.disabled =
+              loading ||
+              this.state.loading ||
+              !this.state.hasMore;
+            button.hidden =
+              !this.state.hasMore;
+            if (
+              loading ||
+              this.state.loading
+            ) {
+              button.textContent =
+                "Loading...";
+            } else {
+              button.textContent =
+                "Load More";
+            }
+          }
+        );
+    },
     // ========================================================
     // EVENT BINDINGS
     // ========================================================
-
     bindEvents() {
-
-      // Main search input
+      // ------------------------------------------------------
+      // Input events
+      // ------------------------------------------------------
       document.addEventListener(
         "input",
         event => {
-
-          const input =
+          const queryInput =
             event.target.closest(
               "[data-ghar-search-query]"
             );
-
-          if (!input) {
+          if (
+            queryInput
+          ) {
+            this.state.query =
+              queryInput.value;
+            this.getSuggestions(
+              queryInput.value
+            );
+            this.debounceSearch();
             return;
           }
-
-          this.state.query =
-            input.value;
-
-          this.getSuggestions(
-            input.value
-          );
-
-          this.debounceSearch();
-        }
-      );
-
-      // Location input
-      document.addEventListener(
-        "input",
-        event => {
-
-          const input =
+          const locationInput =
             event.target.closest(
               "[data-ghar-search-location]"
             );
-
-          if (!input) {
-            return;
+          if (
+            locationInput
+          ) {
+            this.state.location =
+              locationInput.value;
+            this.debounceSearch();
           }
-
-          this.state.location =
-            input.value;
-
-          this.debounceSearch();
         }
       );
-
-      // Select/input filters
+      // ------------------------------------------------------
+      // Change events
+      // ------------------------------------------------------
       document.addEventListener(
         "change",
         event => {
-
           const target =
             event.target;
-
           const mappings = {
-
             "[data-ghar-filter-property-type]":
               "propertyType",
-
             "[data-ghar-filter-listing-type]":
               "listingType",
-
             "[data-ghar-filter-purpose]":
               "purpose",
-
             "[data-ghar-filter-min-price]":
               "minPrice",
-
             "[data-ghar-filter-max-price]":
               "maxPrice",
-
             "[data-ghar-filter-bedrooms]":
               "bedrooms",
-
             "[data-ghar-filter-bathrooms]":
               "bathrooms",
-
             "[data-ghar-filter-min-area]":
               "minArea",
-
             "[data-ghar-filter-max-area]":
               "maxArea",
-
             "[data-ghar-filter-furnishing]":
               "furnishing",
-
             "[data-ghar-filter-possession]":
               "possession",
-
             "[data-ghar-filter-verification]":
               "verification",
-
             "[data-ghar-search-sort]":
               "sort"
           };
-
           for (
             const [
               selector,
@@ -1642,372 +2002,623 @@
               mappings
             )
           ) {
-
             if (
               target.matches(
                 selector
               )
             ) {
-
               this.setFilter(
                 key,
-                this.toNumberIfNeeded(
-                  key,
-                  target.value
-                )
+                target.value
               );
-
-              break;
+              return;
             }
+          }
+          const amenity =
+            target.closest(
+              "[data-ghar-amenity]"
+            );
+          if (
+            amenity
+          ) {
+            this.toggleAmenity(
+              amenity.value
+            );
           }
         }
       );
-
-      // Search form submit
+      // ------------------------------------------------------
+      // Form submit
+      // ------------------------------------------------------
       document.addEventListener(
         "submit",
         event => {
-
           const form =
             event.target.closest(
               "[data-ghar-search-form]"
             );
-
-          if (!form) {
+          if (
+            !form
+          ) {
             return;
           }
-
           event.preventDefault();
-
           this.syncStateFromForm(
             form
           );
-
           this.executeSearch();
         }
       );
-
-      // Clear filters
+      // ------------------------------------------------------
+      // Clear
+      // ------------------------------------------------------
       document.addEventListener(
         "click",
         event => {
-
-          const button =
+          const clearButton =
             event.target.closest(
               "[data-ghar-clear-search]"
             );
-
-          if (!button) {
+          if (
+            clearButton
+          ) {
+            this.clearFilters();
             return;
           }
-
-          this.clearFilters();
-        }
-      );
-
-      // Load more
-      document.addEventListener(
-        "click",
-        event => {
-
-          const button =
+          const loadMoreButton =
             event.target.closest(
               "[data-ghar-load-more-search]"
             );
-
-          if (!button) {
+          if (
+            loadMoreButton
+          ) {
+            this.loadMore();
             return;
           }
-
-          this.loadMore();
-        }
-      );
-
-      // Retry
-      document.addEventListener(
-        "click",
-        event => {
-
-          const button =
+          const retryButton =
             event.target.closest(
               "[data-ghar-retry-search]"
             );
-
-          if (!button) {
-            return;
+          if (
+            retryButton
+          ) {
+            this.executeSearch({
+              force: true
+            });
           }
-
-          this.executeSearch();
         }
       );
-
-      // Amenity
-      document.addEventListener(
-        "change",
-        event => {
-
-          const checkbox =
-            event.target.closest(
-              "[data-ghar-amenity]"
+      // ------------------------------------------------------
+      // Browser back / forward
+      // ------------------------------------------------------
+      window.addEventListener(
+        "popstate",
+        () => {
+          this.readURL();
+          if (
+            this.hasActiveSearch()
+          ) {
+            this.executeSearch();
+          } else {
+            this.state.results =
+              [];
+            this.state.total =
+              0;
+            this.renderResults();
+            this.updateResultCount();
+          }
+        }
+      );
+    },
+    // ========================================================
+    // ABORT CURRENT REQUEST
+    // ========================================================
+    abortCurrentRequest() {
+      if (
+        this.state.requestController
+      ) {
+        try {
+          this.state.requestController.abort();
+        } catch {
+          // Ignore abort errors.
+        }
+      }
+      this.state.requestController =
+        null;
+    },
+    // ========================================================
+    // NORMALIZE SEARCH RESPONSE
+    // ========================================================
+    normalizeSearchResponse(
+      data
+    ) {
+      const results =
+        this.extractArray(
+          data,
+          [
+            "properties",
+            "results",
+            "data"
+          ]
+        );
+      const totalRaw =
+        data?.total ??
+        data?.count ??
+        data?.pagination?.total ??
+        data?.meta?.total;
+      const total =
+        Number.isFinite(
+          Number(totalRaw)
+        )
+          ? Number(totalRaw)
+          : (
+              this.state.page === 1
+                ? results.length
+                : Math.max(
+                    this.state.results.length,
+                    results.length
+                  )
             );
-
-          if (!checkbox) {
+      const pagination =
+        data?.pagination ||
+        data?.meta ||
+        {};
+      const hasMore =
+        typeof pagination.hasMore ===
+          "boolean"
+          ? pagination.hasMore
+          : typeof data?.hasMore ===
+              "boolean"
+            ? data.hasMore
+            : results.length >=
+              this.config.pageSize;
+      return {
+        results:
+          Array.isArray(results)
+            ? results
+            : [],
+        total,
+        hasMore
+      };
+    },
+    // ========================================================
+    // MERGE RESULTS
+    // ========================================================
+    mergeResults(
+      current = [],
+      incoming = []
+    ) {
+      const merged = [
+        ...current
+      ];
+      const ids =
+        new Set(
+          current
+            .map(
+              item =>
+                item?.id ??
+                item?._id
+            )
+            .filter(Boolean)
+            .map(
+              String
+            )
+        );
+      incoming.forEach(
+        item => {
+          const id =
+            item?.id ??
+            item?._id;
+          if (
+            id &&
+            ids.has(
+              String(id)
+            )
+          ) {
             return;
           }
-
-          this.toggleAmenity(
-            checkbox.value
+          if (
+            id
+          ) {
+            ids.add(
+              String(id)
+            );
+          }
+          merged.push(
+            item
           );
         }
       );
+      return merged;
     },
-
     // ========================================================
-    // SYNC FORM -> STATE
+    // ARRAY EXTRACTION
     // ========================================================
-
-    syncStateFromForm(
-      form
+    extractArray(
+      data,
+      keys = []
     ) {
-
-      const get =
-        selector =>
-          form.querySelector(
-            selector
-          )?.value;
-
-      this.state.query =
-        get(
-          "[data-ghar-search-query]"
-        ) || "";
-
-      this.state.location =
-        get(
-          "[data-ghar-search-location]"
-        ) || "";
-
-      this.state.propertyType =
-        get(
-          "[data-ghar-filter-property-type]"
-        ) || "";
-
-      this.state.listingType =
-        get(
-          "[data-ghar-filter-listing-type]"
-        ) || "";
-
-      this.state.purpose =
-        get(
-          "[data-ghar-filter-purpose]"
-        ) || "";
-
-      this.state.minPrice =
-        this.toNumber(
-          get(
-            "[data-ghar-filter-min-price]"
+      if (
+        Array.isArray(data)
+      ) {
+        return data;
+      }
+      if (
+        !data ||
+        typeof data !==
+          "object"
+      ) {
+        return [];
+      }
+      for (
+        const key of keys
+      ) {
+        if (
+          Array.isArray(
+            data[key]
           )
-        );
-
-      this.state.maxPrice =
-        this.toNumber(
-          get(
-            "[data-ghar-filter-max-price]"
-          )
-        );
-
-      this.state.bedrooms =
-        this.toNumber(
-          get(
-            "[data-ghar-filter-bedrooms]"
-          )
-        );
-
-      this.state.bathrooms =
-        this.toNumber(
-          get(
-            "[data-ghar-filter-bathrooms]"
-          )
-        );
-
-      this.state.minArea =
-        this.toNumber(
-          get(
-            "[data-ghar-filter-min-area]"
-          )
-        );
-
-      this.state.maxArea =
-        this.toNumber(
-          get(
-            "[data-ghar-filter-max-area]"
-          )
-        );
-
-      this.state.furnishing =
-        get(
-          "[data-ghar-filter-furnishing]"
-        ) || "";
-
-      this.state.possession =
-        get(
-          "[data-ghar-filter-possession]"
-        ) || "";
-
-      this.state.verification =
-        get(
-          "[data-ghar-filter-verification]"
-        ) || "";
-
-      this.state.sort =
-        get(
-          "[data-ghar-search-sort]"
-        ) ||
-        "relevance";
+        ) {
+          return data[key];
+        }
+      }
+      return [];
     },
-
     // ========================================================
-    // HELPERS
+    // ACTIVE SEARCH
     // ========================================================
-
+    hasActiveSearch() {
+      return Boolean(
+        this.cleanText(
+          this.state.query
+        ) ||
+        this.cleanText(
+          this.state.location
+        ) ||
+        this.state.propertyType ||
+        this.state.listingType ||
+        this.state.purpose ||
+        this.state.minPrice !== null ||
+        this.state.maxPrice !== null ||
+        this.state.bedrooms !== null ||
+        this.state.bathrooms !== null ||
+        this.state.minArea !== null ||
+        this.state.maxArea !== null ||
+        this.state.furnishing ||
+        this.state.possession ||
+        this.state.verification ||
+        this.state.amenities.length
+      );
+    },
+    // ========================================================
+    // SEARCH FINGERPRINT
+    // ========================================================
+    createSearchFingerprint(
+      search = {}
+    ) {
+      const data = {
+        query:
+          search.query || "",
+        location:
+          search.location || "",
+        propertyType:
+          search.propertyType || "",
+        listingType:
+          search.listingType || "",
+        purpose:
+          search.purpose || "",
+        minPrice:
+          search.minPrice ?? null,
+        maxPrice:
+          search.maxPrice ?? null,
+        bedrooms:
+          search.bedrooms ?? null,
+        bathrooms:
+          search.bathrooms ?? null,
+        minArea:
+          search.minArea ?? null,
+        maxArea:
+          search.maxArea ?? null,
+        furnishing:
+          search.furnishing || "",
+        possession:
+          search.possession || "",
+        verification:
+          search.verification || "",
+        amenities:
+          Array.isArray(
+            search.amenities
+          )
+            ? [
+                ...search.amenities
+              ].sort()
+            : []
+      };
+      return JSON.stringify(
+        data
+      );
+    },
+    // ========================================================
+    // SEARCH LABEL
+    // ========================================================
+    getSearchLabel(
+      search = {}
+    ) {
+      return (
+        search.query ||
+        search.location ||
+        search.propertyType ||
+        (
+          search.minPrice ||
+          search.maxPrice
+        )
+          ? (
+              search.location ||
+              search.propertyType ||
+              "Property search"
+            )
+          : "Property search"
+      );
+    },
+    // ========================================================
+    // SUGGESTION VALUE
+    // ========================================================
+    getSuggestionValue(
+      suggestion
+    ) {
+      if (
+        typeof suggestion ===
+        "string"
+      ) {
+        return this.cleanText(
+          suggestion
+        );
+      }
+      if (
+        !suggestion ||
+        typeof suggestion !==
+          "object"
+      ) {
+        return "";
+      }
+      return this.cleanText(
+        suggestion.label ||
+        suggestion.name ||
+        suggestion.location ||
+        suggestion.query ||
+        suggestion.value ||
+        ""
+      );
+    },
+    // ========================================================
+    // BUILD LOCATION
+    // ========================================================
+    buildLocation(
+      property = {}
+    ) {
+      return [
+        property.city,
+        property.state,
+        property.pincode
+      ]
+        .filter(Boolean)
+        .join(", ");
+    },
+    // ========================================================
+    // IMAGE URL
+    // ========================================================
+    safeImageURL(
+      value
+    ) {
+      const fallback =
+        "/assets/images/properties/default.jpg";
+      if (
+        !value ||
+        typeof value !==
+          "string"
+      ) {
+        return fallback;
+      }
+      const trimmed =
+        value.trim();
+      if (
+        !trimmed
+      ) {
+        return fallback;
+      }
+      // Permit normal application URLs.
+      if (
+        trimmed.startsWith("/") ||
+        trimmed.startsWith("./") ||
+        trimmed.startsWith("../") ||
+        trimmed.startsWith("https://") ||
+        trimmed.startsWith("http://") ||
+        trimmed.startsWith("data:image/")
+      ) {
+        return trimmed;
+      }
+      return fallback;
+    },
+    // ========================================================
+    // PRICE FORMATTER
+    // ========================================================
+    formatPrice(
+      price
+    ) {
+      if (
+        price === null ||
+        price === undefined ||
+        price === ""
+      ) {
+        return "Price on request";
+      }
+      const numeric =
+        Number(price);
+      if (
+        Number.isFinite(
+          numeric
+        )
+      ) {
+        return new Intl.NumberFormat(
+          "en-IN",
+          {
+            style:
+              "currency",
+            currency:
+              "INR",
+            maximumFractionDigits:
+              0
+          }
+        ).format(
+          numeric
+        );
+      }
+      return String(
+        price
+      );
+    },
+    // ========================================================
+    // NUMBER
+    // ========================================================
     toNumber(
       value
     ) {
-
       if (
         value === null ||
         value === undefined ||
         value === ""
       ) {
-
         return null;
       }
-
       const number =
-        Number(value);
-
-      return Number.isFinite(number)
+        Number(
+          value
+        );
+      return Number.isFinite(
+        number
+      )
         ? number
         : null;
     },
-
-    toNumberIfNeeded(
-      key,
+    // ========================================================
+    // TEXT CLEANER
+    // ========================================================
+    cleanText(
       value
     ) {
-
-      const numericFields = [
-        "minPrice",
-        "maxPrice",
-        "bedrooms",
-        "bathrooms",
-        "minArea",
-        "maxArea"
-      ];
-
-      return numericFields.includes(
-        key
-      )
-        ? this.toNumber(value)
-        : value;
-    },
-
-    formatPrice(
-      price
-    ) {
-
-      if (
-        typeof price === "number"
-      ) {
-
-        return new Intl.NumberFormat(
-          "en-IN",
-          {
-            style: "currency",
-            currency: "INR",
-            maximumFractionDigits: 0
-          }
-        ).format(price);
-      }
-
-      return String(price);
-    },
-
-    escapeHTML(
-      value
-    ) {
-
       return String(
         value ?? ""
       )
+        .trim()
         .replace(
-          /&/g,
-          "&amp;"
-        )
-        .replace(
-          /</g,
-          "&lt;"
-        )
-        .replace(
-          />/g,
-          "&gt;"
-        )
-        .replace(
-          /"/g,
-          "&quot;"
-        )
-        .replace(
-          /'/g,
-          "&#039;"
+          /\s+/g,
+          " "
         );
     },
-
+    // ========================================================
+    // ERROR MESSAGE
+    // ========================================================
+    getUserErrorMessage(
+      error
+    ) {
+      if (
+        error?.status ===
+        401
+      ) {
+        return "Please sign in to continue.";
+      }
+      if (
+        error?.status ===
+        403
+      ) {
+        return "You do not have permission to perform this search.";
+      }
+      if (
+        error?.status ===
+        429
+      ) {
+        return "Too many search requests. Please wait a moment and try again.";
+      }
+      if (
+        error?.status >= 500
+      ) {
+        return "GHAR search is temporarily unavailable. Please try again shortly.";
+      }
+      return (
+        error?.message ||
+        "Unable to load properties. Please try again."
+      );
+    },
     // ========================================================
     // DESTROY
     // ========================================================
-
     destroy() {
-
       if (
         this.state.debounceTimer
       ) {
-
         clearTimeout(
           this.state.debounceTimer
         );
       }
-
+      this.state.debounceTimer =
+        null;
+      this.abortCurrentRequest();
       this.state.initialized =
+        false;
+      this.state.loading =
+        false;
+      this.state.searching =
         false;
     }
   };
-
   // ==========================================================
-  // GLOBAL GHAR API
+  // EXPOSE GLOBAL API
   // ==========================================================
-
+  GHAR.Search =
+    Search;
   window.GHAR_SEARCH =
     Search;
-
   // ==========================================================
   // AUTO INITIALIZATION
   // ==========================================================
-
   if (
     document.readyState ===
     "loading"
   ) {
-
     document.addEventListener(
       "DOMContentLoaded",
-      () => Search.init(),
+      () => {
+        Search.init();
+      },
       {
         once: true
       }
     );
-
   } else {
-
     Search.init();
   }
-
 })(window, document);
+
+Key fixes/upgrades
+
+* Fixed the original searches is not defined bug in loadPopularSearches().
+* Added request cancellation with AbortController.
+* Prevented stale API responses from overwriting newer searches.
+* Added proper pagination state and duplicate-result protection.
+* Added response normalization for different backend response shapes.
+* Added browser back/forward search-state support.
+* Improved recent-search deduplication using a fingerprint.
+* Added GHAR.Search while retaining window.GHAR_SEARCH for compatibility.
+* Replaced dynamic property-card innerHTML with safer DOM construction.
+* Added safer image URL handling and image fallback.
+* Added http, https, relative paths, and data-image support.
+* Added proper loading="lazy" and decoding="async".
+* Added numeric filter normalization.
+* Added amenity synchronization.
+* Added Load More state handling.
+* Added better HTTP error handling for 401 / 403 / 429 / 5xx.
+* Added destroy() and request cleanup.
+* Added hasActiveSearch(), mergeResults(), normalizeSearchResponse(), and reusable helpers.
+* Preserved your existing data-ghar-* selectors, so your existing HTML does not need to be redesigned.
+* The frontend search remains compatible with your planned /api/search backend.
+
+One backend rule is important: don’t rely on this JavaScript to enforce property visibility, seller ownership, subscription restrictions, or authorization. Those checks belong in your GHAR Express middleware/service/database layer.

@@ -1,29 +1,34 @@
 // ============================================================
 // GHAR - REAL ESTATE PLATFORM
 // assets/js/auth.js
-// Authentication Manager
+// Enterprise Authentication & Session Manager
 // ============================================================
 
 "use strict";
 
-(function (window) {
+(function (window, document) {
 
-  // ----------------------------------------------------------
-  // DEPENDENCY CHECK
-  // ----------------------------------------------------------
+  // ==========================================================
+  // GHAR NAMESPACE
+  // ==========================================================
 
-  const GHAR = window.GHAR || {};
+  const GHAR = window.GHAR = window.GHAR || {};
 
   const CONFIG = GHAR.config || {};
   const CONSTANTS = GHAR.constants || {};
   const STORAGE = GHAR.storage || {};
   const API = GHAR.api || {};
 
-  // ----------------------------------------------------------
+  // ==========================================================
   // CONFIGURATION
-  // ----------------------------------------------------------
+  // ==========================================================
 
-  const AUTH_CONFIG = {
+  const AUTH_CONFIG = Object.freeze({
+
+    apiBase:
+      CONFIG.API_BASE_URL ||
+      CONFIG.apiBase ||
+      "/api",
 
     loginPage:
       CONFIG.routes?.login ||
@@ -37,7 +42,11 @@
       CONFIG.routes?.roleSelection ||
       "/role-selection.html",
 
-    dashboardPages: {
+    forbiddenPage:
+      CONFIG.routes?.forbidden ||
+      "/404.html",
+
+    dashboardPages: Object.freeze({
 
       buyer:
         "/buyer/index.html",
@@ -48,10 +57,13 @@
       tenant:
         "/tenant/index.html",
 
+      agent:
+        "/agent/index.html",
+
       admin:
         "/admin/admin-dashboard.html"
 
-    },
+    }),
 
     tokenKey:
       CONSTANTS.STORAGE_KEYS?.AUTH_TOKEN ||
@@ -67,21 +79,209 @@
 
     roleKey:
       CONSTANTS.STORAGE_KEYS?.ROLE ||
-      "ghar_role"
+      "ghar_role",
+
+    rolesKey:
+      CONSTANTS.STORAGE_KEYS?.ROLES ||
+      "ghar_roles",
+
+    sessionKey:
+      CONSTANTS.STORAGE_KEYS?.SESSION ||
+      "ghar_auth_session",
+
+    requestTimeout:
+      Number(
+        CONFIG.AUTH_REQUEST_TIMEOUT ||
+        15000
+      ),
+
+    maxRefreshAttempts: 1
+
+  });
+
+  // ==========================================================
+  // ROLE DEFINITIONS
+  // ==========================================================
+
+  const ROLES = Object.freeze({
+
+    GUEST: "guest",
+    BUYER: "buyer",
+    SELLER: "seller",
+    TENANT: "tenant",
+    AGENT: "agent",
+    ADMIN: "admin"
+
+  });
+
+  const VALID_ROLES = Object.freeze(
+    Object.values(ROLES)
+  );
+
+  const ROLE_ALIASES = Object.freeze({
+
+    guest:
+      ROLES.GUEST,
+
+    buyer:
+      ROLES.BUYER,
+
+    buyers:
+      ROLES.BUYER,
+
+    customer:
+      ROLES.BUYER,
+
+    purchaser:
+      ROLES.BUYER,
+
+    seller:
+      ROLES.SELLER,
+
+    sellers:
+      ROLES.SELLER,
+
+    owner:
+      ROLES.SELLER,
+
+    landlord:
+      ROLES.SELLER,
+
+    tenant:
+      ROLES.TENANT,
+
+    tenants:
+      ROLES.TENANT,
+
+    renter:
+      ROLES.TENANT,
+
+    agent:
+      ROLES.AGENT,
+
+    broker:
+      ROLES.AGENT,
+
+    realtor:
+      ROLES.AGENT,
+
+    admin:
+      ROLES.ADMIN,
+
+    administrator:
+      ROLES.ADMIN,
+
+    superadmin:
+      ROLES.ADMIN
+
+  });
+
+  // ==========================================================
+  // PRIVATE STATE
+  // ==========================================================
+
+  const state = {
+
+    initialized: false,
+
+    initializing: false,
+
+    authenticated: false,
+
+    currentUser: null,
+
+    accessToken: null,
+
+    refreshToken: null,
+
+    roles: [],
+
+    primaryRole: null,
+
+    refreshPromise: null,
+
+    refreshAttempts: 0,
+
+    lastAuthError: null
 
   };
 
-  // ----------------------------------------------------------
-  // AUTH STATE
-  // ----------------------------------------------------------
+  // ==========================================================
+  // GENERAL HELPERS
+  // ==========================================================
 
-  let currentUser = null;
-  let authToken = null;
-  let refreshToken = null;
+  function isObject(value) {
 
-  // ----------------------------------------------------------
-  // STORAGE HELPERS
-  // ----------------------------------------------------------
+    return (
+      value !== null &&
+      typeof value === "object" &&
+      !Array.isArray(value)
+    );
+
+  }
+
+  function safeString(value) {
+
+    return String(
+      value ?? ""
+    ).trim();
+
+  }
+
+  function normalizeRole(role) {
+
+    if (!role) {
+      return null;
+    }
+
+    const normalized =
+      safeString(role)
+        .toLowerCase()
+        .replace(/[\s_-]+/g, "");
+
+    return (
+      ROLE_ALIASES[normalized] ||
+      null
+    );
+
+  }
+
+  function normalizeRoles(roles) {
+
+    if (!roles) {
+      return [];
+    }
+
+    const source =
+      Array.isArray(roles)
+        ? roles
+        : [roles];
+
+    return [
+      ...new Set(
+        source
+          .map(normalizeRole)
+          .filter(Boolean)
+          .filter(
+            role =>
+              role !== ROLES.GUEST
+          )
+      )
+    ];
+
+  }
+
+  function isValidRole(role) {
+
+    return VALID_ROLES.includes(
+      normalizeRole(role)
+    );
+
+  }
+
+  // ==========================================================
+  // STORAGE
+  // ==========================================================
 
   function storageGet(key) {
 
@@ -91,15 +291,17 @@
         STORAGE &&
         typeof STORAGE.get === "function"
       ) {
+
         return STORAGE.get(key);
+
       }
 
       return localStorage.getItem(key);
 
     } catch (error) {
 
-      console.error(
-        "[GHAR AUTH] Storage read error:",
+      console.warn(
+        "[GHAR AUTH] Storage read failed:",
         error
       );
 
@@ -117,30 +319,35 @@
         STORAGE &&
         typeof STORAGE.set === "function"
       ) {
-        STORAGE.set(key, value);
-        return;
-      }
 
-      if (
-        typeof value === "object"
-      ) {
-        localStorage.setItem(
-          key,
-          JSON.stringify(value)
-        );
-      } else {
-        localStorage.setItem(
+        STORAGE.set(
           key,
           value
         );
+
+        return true;
       }
+
+      const serialized =
+        typeof value === "object"
+          ? JSON.stringify(value)
+          : String(value);
+
+      localStorage.setItem(
+        key,
+        serialized
+      );
+
+      return true;
 
     } catch (error) {
 
-      console.error(
-        "[GHAR AUTH] Storage write error:",
+      console.warn(
+        "[GHAR AUTH] Storage write failed:",
         error
       );
+
+      return false;
 
     }
 
@@ -154,160 +361,270 @@
         STORAGE &&
         typeof STORAGE.remove === "function"
       ) {
+
         STORAGE.remove(key);
-        return;
+
+        return true;
       }
 
       localStorage.removeItem(key);
 
+      return true;
+
     } catch (error) {
 
-      console.error(
-        "[GHAR AUTH] Storage remove error:",
+      console.warn(
+        "[GHAR AUTH] Storage remove failed:",
         error
       );
+
+      return false;
 
     }
 
   }
 
-  // ----------------------------------------------------------
-  // LOAD STORED AUTH
-  // ----------------------------------------------------------
+  function parseStoredValue(value) {
+
+    if (
+      typeof value !== "string"
+    ) {
+
+      return value;
+
+    }
+
+    try {
+
+      return JSON.parse(value);
+
+    } catch {
+
+      return value;
+
+    }
+
+  }
+
+  // ==========================================================
+  // TOKEN STORAGE
+  // ==========================================================
 
   function loadStoredAuth() {
 
-    authToken =
+    state.accessToken =
       storageGet(
         AUTH_CONFIG.tokenKey
       );
 
-    refreshToken =
+    state.refreshToken =
       storageGet(
         AUTH_CONFIG.refreshTokenKey
       );
 
-    let storedUser =
-      storageGet(
-        AUTH_CONFIG.userKey
+    state.currentUser =
+      parseStoredValue(
+        storageGet(
+          AUTH_CONFIG.userKey
+        )
       );
 
-    if (
-      typeof storedUser === "string"
-    ) {
+    const storedRole =
+      storageGet(
+        AUTH_CONFIG.roleKey
+      );
 
-      try {
+    const storedRoles =
+      parseStoredValue(
+        storageGet(
+          AUTH_CONFIG.rolesKey
+        )
+      );
 
-        storedUser =
-          JSON.parse(
-            storedUser
+    const userRoles =
+      state.currentUser?.roles ||
+      state.currentUser?.role ||
+      storedRoles ||
+      storedRole ||
+      [];
+
+    state.roles =
+      normalizeRoles(
+        userRoles
+      );
+
+    const primary =
+      normalizeRole(
+        state.currentUser?.role ||
+        storedRole ||
+        state.roles[0]
+      );
+
+    state.primaryRole =
+      primary &&
+      primary !== ROLES.GUEST
+        ? primary
+        : (
+            state.roles[0] ||
+            null
           );
 
-      } catch (_) {
-
-        // Keep string only if JSON parsing fails.
-
-      }
-
-    }
-
-    currentUser =
-      storedUser || null;
-
-    return {
-      token: authToken,
-      refreshToken,
-      user: currentUser
-    };
-
-  }
-
-  // ----------------------------------------------------------
-  // SAVE AUTH
-  // ----------------------------------------------------------
-
-  function saveAuth(data = {}) {
-
-    if (
-      data.token
-    ) {
-
-      authToken =
-        data.token;
-
-      storageSet(
-        AUTH_CONFIG.tokenKey,
-        authToken
+    state.authenticated =
+      Boolean(
+        state.accessToken
       );
-
-    }
-
-    if (
-      data.accessToken
-    ) {
-
-      authToken =
-        data.accessToken;
-
-      storageSet(
-        AUTH_CONFIG.tokenKey,
-        authToken
-      );
-
-    }
-
-    if (
-      data.refreshToken
-    ) {
-
-      refreshToken =
-        data.refreshToken;
-
-      storageSet(
-        AUTH_CONFIG.refreshTokenKey,
-        refreshToken
-      );
-
-    }
-
-    if (
-      data.user
-    ) {
-
-      currentUser =
-        data.user;
-
-      storageSet(
-        AUTH_CONFIG.userKey,
-        currentUser
-      );
-
-    }
-
-    if (
-      data.role
-    ) {
-
-      storageSet(
-        AUTH_CONFIG.roleKey,
-        data.role
-      );
-
-    }
 
     return getAuthState();
 
   }
 
-  // ----------------------------------------------------------
+  // ==========================================================
+  // SAVE AUTH
+  // ==========================================================
+
+  function saveAuth(data = {}) {
+
+    const payload =
+      isObject(data)
+        ? data
+        : {};
+
+    const accessToken =
+      payload.accessToken ||
+      payload.token ||
+      payload.access_token;
+
+    const refreshToken =
+      payload.refreshToken ||
+      payload.refresh_token;
+
+    const user =
+      payload.user ||
+      payload.account ||
+      payload.profile;
+
+    if (accessToken) {
+
+      state.accessToken =
+        safeString(
+          accessToken
+        );
+
+      storageSet(
+        AUTH_CONFIG.tokenKey,
+        state.accessToken
+      );
+
+    }
+
+    if (refreshToken) {
+
+      state.refreshToken =
+        safeString(
+          refreshToken
+        );
+
+      storageSet(
+        AUTH_CONFIG.refreshTokenKey,
+        state.refreshToken
+      );
+
+    }
+
+    if (user) {
+
+      state.currentUser =
+        user;
+
+      storageSet(
+        AUTH_CONFIG.userKey,
+        user
+      );
+
+    }
+
+    const extractedRoles =
+      payload.roles ||
+      user?.roles ||
+      payload.role ||
+      user?.role;
+
+    if (extractedRoles) {
+
+      state.roles =
+        normalizeRoles(
+          extractedRoles
+        );
+
+      const primary =
+        normalizeRole(
+          user?.role ||
+          payload.role ||
+          state.roles[0]
+        );
+
+      state.primaryRole =
+        primary ||
+        state.roles[0] ||
+        null;
+
+      storageSet(
+        AUTH_CONFIG.rolesKey,
+        state.roles
+      );
+
+      if (state.primaryRole) {
+
+        storageSet(
+          AUTH_CONFIG.roleKey,
+          state.primaryRole
+        );
+
+      }
+
+    }
+
+    state.authenticated =
+      Boolean(
+        state.accessToken
+      );
+
+    state.lastAuthError =
+      null;
+
+    return getAuthState();
+
+  }
+
+  // ==========================================================
   // CLEAR AUTH
-  // ----------------------------------------------------------
+  // ==========================================================
 
   function clearAuth() {
 
-    authToken = null;
-    refreshToken = null;
-    currentUser = null;
+    state.authenticated =
+      false;
+
+    state.currentUser =
+      null;
+
+    state.accessToken =
+      null;
+
+    state.refreshToken =
+      null;
+
+    state.roles =
+      [];
+
+    state.primaryRole =
+      null;
+
+    state.refreshAttempts =
+      0;
+
+    state.lastAuthError =
+      null;
 
     storageRemove(
       AUTH_CONFIG.tokenKey
@@ -325,57 +642,63 @@
       AUTH_CONFIG.roleKey
     );
 
+    storageRemove(
+      AUTH_CONFIG.rolesKey
+    );
+
+    storageRemove(
+      AUTH_CONFIG.sessionKey
+    );
+
   }
 
-  // ----------------------------------------------------------
+  // ==========================================================
   // AUTH STATE
-  // ----------------------------------------------------------
+  // ==========================================================
 
   function isAuthenticated() {
 
-    return Boolean(
-      authToken
+    return (
+      state.authenticated &&
+      Boolean(
+        state.accessToken
+      )
     );
 
   }
 
   function getUser() {
 
-    return currentUser;
+    return state.currentUser;
 
   }
 
   function getToken() {
 
-    return authToken;
+    return state.accessToken;
 
   }
 
   function getRefreshToken() {
 
-    return refreshToken;
+    return state.refreshToken;
 
   }
 
   function getRole() {
 
-    if (
-      currentUser &&
-      currentUser.role
-    ) {
-      return normalizeRole(
-        currentUser.role
-      );
-    }
-
-    const role =
-      storageGet(
-        AUTH_CONFIG.roleKey
-      );
-
-    return normalizeRole(
-      role
+    return (
+      state.primaryRole ||
+      null
     );
+
+  }
+
+  function getRoles() {
+
+    return [
+      ...state.roles
+    ];
 
   }
 
@@ -386,95 +709,195 @@
       authenticated:
         isAuthenticated(),
 
+      user:
+        state.currentUser,
+
       token:
-        authToken,
+        state.accessToken,
 
       refreshToken:
-        refreshToken,
-
-      user:
-        currentUser,
+        state.refreshToken,
 
       role:
-        getRole()
+        getRole(),
+
+      roles:
+        getRoles(),
+
+      initialized:
+        state.initialized
 
     };
 
   }
 
-  // ----------------------------------------------------------
-  // ROLE NORMALIZATION
-  // ----------------------------------------------------------
+  // ==========================================================
+  // API REQUEST
+  // ==========================================================
 
-  function normalizeRole(role) {
+  async function request(
+    endpoint,
+    options = {},
+    retry = true
+  ) {
 
-    if (!role) {
-      return null;
+    const url =
+      endpoint.startsWith("http")
+        ? endpoint
+        : `${AUTH_CONFIG.apiBase}${endpoint}`;
+
+    const controller =
+      new AbortController();
+
+    const timeout =
+      setTimeout(
+        () => controller.abort(),
+        AUTH_CONFIG.requestTimeout
+      );
+
+    const headers = {
+
+      "Content-Type":
+        "application/json",
+
+      ...(options.headers || {})
+
+    };
+
+    if (
+      state.accessToken &&
+      !headers.Authorization
+    ) {
+
+      headers.Authorization =
+        `Bearer ${state.accessToken}`;
+
     }
 
-    const value =
-      String(role)
-        .trim()
-        .toLowerCase();
+    try {
 
-    const aliases = {
+      let response;
 
-      buyer:
-        "buyer",
+      if (
+        API &&
+        typeof API.request === "function"
+      ) {
 
-      buyers:
-        "buyer",
+        response =
+          await API.request(
+            endpoint,
+            {
+              ...options,
+              headers,
+              signal:
+                controller.signal
+            }
+          );
 
-      customer:
-        "buyer",
+      } else {
 
-      seller:
-        "seller",
+        response =
+          await fetch(
+            url,
+            {
+              ...options,
+              headers,
+              credentials:
+                "include",
+              signal:
+                controller.signal
+            }
+          );
 
-      sellers:
-        "seller",
+      }
 
-      owner:
-        "seller",
+      if (
+        response?.status === 401 &&
+        retry &&
+        state.refreshToken
+      ) {
 
-      tenant:
-        "tenant",
+        const refreshed =
+          await refresh();
 
-      tenants:
-        "tenant",
+        if (refreshed) {
 
-      renter:
-        "tenant",
+          return request(
+            endpoint,
+            options,
+            false
+          );
 
-      admin:
-        "admin",
+        }
 
-      administrator:
-        "admin"
+      }
 
-    };
+      if (
+        response &&
+        typeof response.json === "function"
+      ) {
 
-    return (
-      aliases[value] ||
-      value
-    );
+        const data =
+          await response.json()
+            .catch(
+              () => ({})
+            );
+
+        if (
+          !response.ok
+        ) {
+
+          const error =
+            new Error(
+              data?.message ||
+              data?.error ||
+              `Request failed: ${response.status}`
+            );
+
+          error.status =
+            response.status;
+
+          error.data =
+            data;
+
+          throw error;
+
+        }
+
+        return data;
+
+      }
+
+      return response;
+
+    } finally {
+
+      clearTimeout(
+        timeout
+      );
+
+    }
 
   }
 
-  // ----------------------------------------------------------
+  // ==========================================================
   // LOGIN
-  // ----------------------------------------------------------
+  // ==========================================================
 
-  async function login(credentials = {}) {
+  async function login(
+    credentials = {}
+  ) {
 
     const email =
-      credentials.email ||
-      credentials.username ||
-      "";
+      safeString(
+        credentials.email ||
+        credentials.username
+      );
 
     const password =
-      credentials.password ||
-      "";
+      safeString(
+        credentials.password
+      );
 
     if (!email) {
 
@@ -492,88 +915,38 @@
 
     }
 
-    const payload = {
-
-      email,
-      password
-
-    };
-
-    let response;
-
-    if (
-      API &&
-      typeof API.post === "function"
-    ) {
-
-      response =
-        await API.post(
-          "/auth/login",
-          payload
-        );
-
-    } else {
-
-      response =
-        await fetch(
-          "/api/auth/login",
-          {
-            method: "POST",
-
-            headers: {
-              "Content-Type":
-                "application/json"
-            },
-
-            credentials:
-              "include",
-
-            body:
-              JSON.stringify(
-                payload
-              )
-
-          }
-        );
-
-      const data =
-        await response.json();
-
-      if (!response.ok) {
-
-        throw new Error(
-          data.error ||
-          data.message ||
-          "Login failed."
-        );
-
-      }
-
-      response = data;
-
-    }
+    const response =
+      await request(
+        "/auth/login",
+        {
+          method: "POST",
+          body:
+            JSON.stringify({
+              email,
+              password
+            })
+        },
+        false
+      );
 
     const data =
       response?.data ||
       response;
 
-    saveAuth({
+    if (
+      !data?.token &&
+      !data?.accessToken
+    ) {
 
-      token:
-        data.token ||
-        data.accessToken,
+      throw new Error(
+        "Login succeeded but no authentication token was returned."
+      );
 
-      refreshToken:
-        data.refreshToken,
+    }
 
-      user:
-        data.user,
-
-      role:
-        data.user?.role ||
-        data.role
-
-    });
+    saveAuth(
+      data
+    );
 
     dispatchAuthEvent(
       "login"
@@ -583,14 +956,18 @@
 
   }
 
-  // ----------------------------------------------------------
+  // ==========================================================
   // REGISTER
-  // ----------------------------------------------------------
+  // ==========================================================
 
-  async function register(payload = {}) {
+  async function register(
+    payload = {}
+  ) {
 
     if (
-      !payload.email
+      !safeString(
+        payload.email
+      )
     ) {
 
       throw new Error(
@@ -600,7 +977,9 @@
     }
 
     if (
-      !payload.password
+      !safeString(
+        payload.password
+      )
     ) {
 
       throw new Error(
@@ -609,87 +988,31 @@
 
     }
 
-    let response;
-
-    if (
-      API &&
-      typeof API.post === "function"
-    ) {
-
-      response =
-        await API.post(
-          "/auth/register",
-          payload
-        );
-
-    } else {
-
-      response =
-        await fetch(
-          "/api/auth/register",
-          {
-
-            method: "POST",
-
-            headers: {
-              "Content-Type":
-                "application/json"
-            },
-
-            credentials:
-              "include",
-
-            body:
-              JSON.stringify(
-                payload
-              )
-
-          }
-        );
-
-      const data =
-        await response.json();
-
-      if (!response.ok) {
-
-        throw new Error(
-          data.error ||
-          data.message ||
-          "Registration failed."
-        );
-
-      }
-
-      response = data;
-
-    }
+    const response =
+      await request(
+        "/auth/register",
+        {
+          method: "POST",
+          body:
+            JSON.stringify(
+              payload
+            )
+        },
+        false
+      );
 
     const data =
       response?.data ||
       response;
 
     if (
-      data.token ||
-      data.accessToken
+      data?.token ||
+      data?.accessToken
     ) {
 
-      saveAuth({
-
-        token:
-          data.token ||
-          data.accessToken,
-
-        refreshToken:
-          data.refreshToken,
-
-        user:
-          data.user,
-
-        role:
-          data.user?.role ||
-          data.role
-
-      });
+      saveAuth(
+        data
+      );
 
     }
 
@@ -701,222 +1024,172 @@
 
   }
 
-  // ----------------------------------------------------------
-  // LOGOUT
-  // ----------------------------------------------------------
-
-  async function logout(options = {}) {
-
-    const redirect =
-      options.redirect !== false;
-
-    try {
-
-      if (
-        authToken &&
-        API &&
-        typeof API.post === "function"
-      ) {
-
-        await API.post(
-          "/auth/logout",
-          {}
-        );
-
-      } else if (
-        authToken
-      ) {
-
-        await fetch(
-          "/api/auth/logout",
-          {
-
-            method: "POST",
-
-            headers: {
-              "Content-Type":
-                "application/json",
-
-              ...(authToken
-                ? {
-                    Authorization:
-                      `Bearer ${authToken}`
-                  }
-                : {})
-
-            },
-
-            credentials:
-              "include"
-
-          }
-        );
-
-      }
-
-    } catch (error) {
-
-      console.warn(
-        "[GHAR AUTH] Logout API failed:",
-        error
-      );
-
-    } finally {
-
-      clearAuth();
-
-      dispatchAuthEvent(
-        "logout"
-      );
-
-      if (
-        redirect
-      ) {
-
-        window.location.href =
-          AUTH_CONFIG.loginPage;
-
-      }
-
-    }
-
-  }
-
-  // ----------------------------------------------------------
+  // ==========================================================
   // REFRESH TOKEN
-  // ----------------------------------------------------------
+  // ==========================================================
 
   async function refresh() {
 
     if (
-      !refreshToken
+      !state.refreshToken
     ) {
 
       return false;
 
     }
 
-    try {
+    // Prevent multiple simultaneous refresh requests.
+    if (
+      state.refreshPromise
+    ) {
 
-      let response;
-
-      if (
-        API &&
-        typeof API.post === "function"
-      ) {
-
-        response =
-          await API.post(
-            "/auth/refresh",
-            {
-              refreshToken
-            }
-          );
-
-      } else {
-
-        const request =
-          await fetch(
-            "/api/auth/refresh",
-            {
-
-              method: "POST",
-
-              headers: {
-                "Content-Type":
-                  "application/json"
-              },
-
-              credentials:
-                "include",
-
-              body:
-                JSON.stringify({
-                  refreshToken
-                })
-
-            }
-          );
-
-        response =
-          await request.json();
-
-        if (
-          !request.ok
-        ) {
-
-          throw new Error(
-            response.error ||
-            "Token refresh failed."
-          );
-
-        }
-
-      }
-
-      const data =
-        response?.data ||
-        response;
-
-      if (
-        !data.token &&
-        !data.accessToken
-      ) {
-
-        return false;
-
-      }
-
-      saveAuth({
-
-        token:
-          data.token ||
-          data.accessToken,
-
-        refreshToken:
-          data.refreshToken ||
-          refreshToken,
-
-        user:
-          data.user ||
-          currentUser,
-
-        role:
-          data.user?.role ||
-          data.role ||
-          getRole()
-
-      });
-
-      dispatchAuthEvent(
-        "refresh"
-      );
-
-      return true;
-
-    } catch (error) {
-
-      console.warn(
-        "[GHAR AUTH] Refresh failed:",
-        error
-      );
-
-      clearAuth();
-
-      return false;
+      return state.refreshPromise;
 
     }
 
+    state.refreshPromise =
+      (async () => {
+
+        try {
+
+          if (
+            state.refreshAttempts >=
+            AUTH_CONFIG.maxRefreshAttempts
+          ) {
+
+            clearAuth();
+
+            return false;
+
+          }
+
+          state.refreshAttempts += 1;
+
+          const response =
+            await fetch(
+              `${AUTH_CONFIG.apiBase}/auth/refresh`,
+              {
+
+                method: "POST",
+
+                headers: {
+                  "Content-Type":
+                    "application/json"
+                },
+
+                credentials:
+                  "include",
+
+                body:
+                  JSON.stringify({
+                    refreshToken:
+                      state.refreshToken
+                  })
+
+              }
+            );
+
+          const data =
+            await response
+              .json()
+              .catch(
+                () => ({})
+              );
+
+          if (
+            !response.ok
+          ) {
+
+            throw new Error(
+              data?.message ||
+              data?.error ||
+              "Token refresh failed."
+            );
+
+          }
+
+          const payload =
+            data?.data ||
+            data;
+
+          const token =
+            payload?.accessToken ||
+            payload?.token;
+
+          if (!token) {
+
+            throw new Error(
+              "Refresh response did not contain an access token."
+            );
+
+          }
+
+          saveAuth({
+
+            accessToken:
+              token,
+
+            refreshToken:
+              payload?.refreshToken ||
+              state.refreshToken,
+
+            user:
+              payload?.user ||
+              state.currentUser,
+
+            roles:
+              payload?.roles ||
+              payload?.user?.roles,
+
+            role:
+              payload?.role ||
+              payload?.user?.role
+
+          });
+
+          state.refreshAttempts =
+            0;
+
+          dispatchAuthEvent(
+            "refresh"
+          );
+
+          return true;
+
+        } catch (error) {
+
+          state.lastAuthError =
+            error;
+
+          clearAuth();
+
+          dispatchAuthEvent(
+            "session-expired"
+          );
+
+          return false;
+
+        } finally {
+
+          state.refreshPromise =
+            null;
+
+        }
+
+      })();
+
+    return state.refreshPromise;
+
   }
 
-  // ----------------------------------------------------------
+  // ==========================================================
   // CURRENT USER
-  // ----------------------------------------------------------
+  // ==========================================================
 
   async function fetchCurrentUser() {
 
     if (
-      !authToken
+      !state.accessToken
     ) {
 
       return null;
@@ -925,97 +1198,79 @@
 
     try {
 
-      let response;
+      const response =
+        await request(
+          "/users/me",
+          {
+            method: "GET"
+          }
+        );
+
+      const data =
+        response?.data ||
+        response;
+
+      const user =
+        data?.user ||
+        data;
 
       if (
-        API &&
-        typeof API.get === "function"
+        user &&
+        (
+          user.id ||
+          user._id ||
+          user.email
+        )
       ) {
 
-        response =
-          await API.get(
-            "/users/me"
+        state.currentUser =
+          user;
+
+        storageSet(
+          AUTH_CONFIG.userKey,
+          user
+        );
+
+        const roles =
+          user.roles ||
+          user.role;
+
+        state.roles =
+          normalizeRoles(
+            roles
           );
 
-      } else {
+        state.primaryRole =
+          normalizeRole(
+            user.role
+          ) ||
+          state.roles[0] ||
+          null;
 
-        const request =
-          await fetch(
-            "/api/users/me",
-            {
-
-              method: "GET",
-
-              headers: {
-
-                Authorization:
-                  `Bearer ${authToken}`
-
-              },
-
-              credentials:
-                "include"
-
-            }
-          );
-
-        response =
-          await request.json();
+        storageSet(
+          AUTH_CONFIG.rolesKey,
+          state.roles
+        );
 
         if (
-          !request.ok
+          state.primaryRole
         ) {
 
-          throw new Error(
-            response.error ||
-            "Unable to fetch user."
+          storageSet(
+            AUTH_CONFIG.roleKey,
+            state.primaryRole
           );
 
         }
 
       }
 
-      const data =
-        response?.data ||
-        response;
-
-      if (
-        data.user
-      ) {
-
-        currentUser =
-          data.user;
-
-      } else if (
-        data.id ||
-        data._id ||
-        data.email
-      ) {
-
-        currentUser =
-          data;
-
-      }
-
-      if (
-        currentUser
-      ) {
-
-        storageSet(
-          AUTH_CONFIG.userKey,
-          currentUser
-        );
-
-      }
-
-      return currentUser;
+      return state.currentUser;
 
     } catch (error) {
 
-      console.error(
-        "[GHAR AUTH] User fetch failed:",
-        error
-      );
+      state.lastAuthError =
+        error;
 
       return null;
 
@@ -1023,34 +1278,77 @@
 
   }
 
-  // ----------------------------------------------------------
-  // ROLE CHECKS
-  // ----------------------------------------------------------
+  // ==========================================================
+  // ROLE CHECKING
+  // ==========================================================
 
   function hasRole(role) {
 
-    return (
-      getRole() ===
-      normalizeRole(role)
+    const normalized =
+      normalizeRole(role);
+
+    if (!normalized) {
+
+      return false;
+
+    }
+
+    if (
+      normalized === ROLES.GUEST
+    ) {
+
+      return !isAuthenticated();
+
+    }
+
+    return state.roles.includes(
+      normalized
     );
 
   }
 
-  function hasAnyRole(roles = []) {
+  function hasAnyRole(
+    roles = []
+  ) {
 
-    const userRole =
-      getRole();
+    return normalizeRoles(
+      roles
+    ).some(
+      role =>
+        hasRole(role)
+    );
 
-    return roles
-      .map(normalizeRole)
-      .includes(userRole);
+  }
+
+  function hasAllRoles(
+    roles = []
+  ) {
+
+    const normalized =
+      normalizeRoles(
+        roles
+      );
+
+    return (
+      normalized.length > 0 &&
+      normalized.every(
+        role =>
+          hasRole(role)
+      )
+    );
+
+  }
+
+  function isGuest() {
+
+    return !isAuthenticated();
 
   }
 
   function isBuyer() {
 
     return hasRole(
-      "buyer"
+      ROLES.BUYER
     );
 
   }
@@ -1058,7 +1356,7 @@
   function isSeller() {
 
     return hasRole(
-      "seller"
+      ROLES.SELLER
     );
 
   }
@@ -1066,7 +1364,15 @@
   function isTenant() {
 
     return hasRole(
-      "tenant"
+      ROLES.TENANT
+    );
+
+  }
+
+  function isAgent() {
+
+    return hasRole(
+      ROLES.AGENT
     );
 
   }
@@ -1074,27 +1380,28 @@
   function isAdmin() {
 
     return hasRole(
-      "admin"
+      ROLES.ADMIN
     );
 
   }
 
-  // ----------------------------------------------------------
-  // ROLE REDIRECT
-  // ----------------------------------------------------------
+  // ==========================================================
+  // DASHBOARD ROUTING
+  // ==========================================================
 
   function getDashboardForRole(
     role
   ) {
 
     const normalized =
-      normalizeRole(role);
+      normalizeRole(
+        role
+      );
 
     return (
-      AUTH_CONFIG
-        .dashboardPages[
-          normalized
-        ] ||
+      AUTH_CONFIG.dashboardPages[
+        normalized
+      ] ||
       "/dashboard.html"
     );
 
@@ -1104,33 +1411,68 @@
     role
   ) {
 
-    window.location.href =
+    const targetRole =
+      role ||
+      getRole();
+
+    window.location.assign(
       getDashboardForRole(
-        role ||
-        getRole()
-      );
+        targetRole
+      )
+    );
 
   }
 
-  // ----------------------------------------------------------
-  // REQUIRE AUTH
-  // ----------------------------------------------------------
+  // ==========================================================
+  // RETURN URL
+  // ==========================================================
+
+  function getCurrentReturnURL() {
+
+    return (
+      window.location.pathname +
+      window.location.search +
+      window.location.hash
+    );
+
+  }
+
+  function buildLoginURL() {
+
+    const current =
+      getCurrentReturnURL();
+
+    if (
+      !current ||
+      current === AUTH_CONFIG.loginPage
+    ) {
+
+      return AUTH_CONFIG.loginPage;
+
+    }
+
+    return (
+      `${AUTH_CONFIG.loginPage}?return=` +
+      encodeURIComponent(
+        current
+      )
+    );
+
+  }
+
+  // ==========================================================
+  // AUTH GUARD
+  // ==========================================================
 
   function requireAuth(
     options = {}
   ) {
 
-    const {
+    const roles =
+      options.roles || null;
 
-      roles = null,
-
-      redirect =
-        AUTH_CONFIG.loginPage,
-
-      redirectIfAuthenticated =
-        false
-
-    } = options;
+    const redirect =
+      options.redirect !== false;
 
     if (
       !isAuthenticated()
@@ -1140,26 +1482,11 @@
         redirect
       ) {
 
-        const returnUrl =
-          encodeURIComponent(
-            window.location.href
-          );
-
-        window.location.href =
-          `${redirect}?return=${returnUrl}`;
+        window.location.assign(
+          buildLoginURL()
+        );
 
       }
-
-      return false;
-
-    }
-
-    if (
-      redirectIfAuthenticated &&
-      isAuthenticated()
-    ) {
-
-      redirectByRole();
 
       return false;
 
@@ -1169,19 +1496,26 @@
       roles
     ) {
 
-      const allowedRoles =
+      const allowed =
         Array.isArray(roles)
           ? roles
           : [roles];
 
       if (
         !hasAnyRole(
-          allowedRoles
+          allowed
         )
       ) {
 
-        window.location.href =
-          "/404.html";
+        if (
+          options.forbiddenRedirect !== false
+        ) {
+
+          window.location.assign(
+            AUTH_CONFIG.forbiddenPage
+          );
+
+        }
 
         return false;
 
@@ -1193,17 +1527,25 @@
 
   }
 
-  // ----------------------------------------------------------
-  // REQUIRE GUEST
-  // ----------------------------------------------------------
+  // ==========================================================
+  // GUEST GUARD
+  // ==========================================================
 
-  function requireGuest() {
+  function requireGuest(
+    options = {}
+  ) {
 
     if (
       isAuthenticated()
     ) {
 
-      redirectByRole();
+      if (
+        options.redirect !== false
+      ) {
+
+        redirectByRole();
+
+      }
 
       return false;
 
@@ -1213,120 +1555,49 @@
 
   }
 
-  // ----------------------------------------------------------
-  // SESSION INITIALIZATION
-  // ----------------------------------------------------------
+  // ==========================================================
+  // PAGE PROTECTION
+  // ==========================================================
 
-  async function initialize() {
+  function protectPage(
+    options = {}
+  ) {
 
-    loadStoredAuth();
-
-    if (
-      !authToken
-    ) {
-
-      return getAuthState();
-
-    }
-
-    // Validate/refresh session where possible.
-
-    if (
-      typeof fetch === "function"
-    ) {
-
-      try {
-
-        const response =
-          await fetch(
-            "/api/auth/me",
-            {
-
-              method: "GET",
-
-              headers: {
-
-                ...(authToken
-                  ? {
-                      Authorization:
-                        `Bearer ${authToken}`
-                    }
-                  : {})
-
-              },
-
-              credentials:
-                "include"
-
-            }
-          );
-
-        if (
-          response.ok
-        ) {
-
-          const data =
-            await response.json();
-
-          const user =
-            data.user ||
-            data.data?.user ||
-            data.data ||
-            data;
-
-          if (
-            user
-          ) {
-
-            currentUser =
-              user;
-
-            storageSet(
-              AUTH_CONFIG.userKey,
-              user
-            );
-
-          }
-
-        } else if (
-          response.status === 401
-        ) {
-
-          const refreshed =
-            await refresh();
-
-          if (
-            refreshed
-          ) {
-
-            await fetchCurrentUser();
-
-          }
-
-        }
-
-      } catch (error) {
-
-        console.warn(
-          "[GHAR AUTH] Session check failed:",
-          error
-        );
-
-      }
-
-    }
-
-    dispatchAuthEvent(
-      "initialized"
+    return requireAuth(
+      options
     );
-
-    return getAuthState();
 
   }
 
-  // ----------------------------------------------------------
-  // AUTH EVENT
-  // ----------------------------------------------------------
+  // ==========================================================
+  // DISPLAY NAME
+  // ==========================================================
+
+  function getDisplayName() {
+
+    const user =
+      state.currentUser;
+
+    if (!user) {
+
+      return "Guest";
+
+    }
+
+    return (
+      user.name ||
+      user.fullName ||
+      user.full_name ||
+      user.username ||
+      user.email ||
+      "GHAR User"
+    );
+
+  }
+
+  // ==========================================================
+  // AUTH EVENTS
+  // ==========================================================
 
   function dispatchAuthEvent(
     type
@@ -1344,57 +1615,193 @@
         )
       );
 
-    } catch (_) {
+    } catch (error) {
 
-      // Older browser fallback.
+      console.warn(
+        "[GHAR AUTH] Event dispatch failed:",
+        error
+      );
 
     }
 
   }
 
-  // ----------------------------------------------------------
-  // AUTH GUARD FOR HTML PAGES
-  // ----------------------------------------------------------
+  // ==========================================================
+  // SESSION INITIALIZATION
+  // ==========================================================
 
-  function protectPage(
+  async function initialize() {
+
+    if (
+      state.initialized
+    ) {
+
+      return getAuthState();
+
+    }
+
+    if (
+      state.initializing
+    ) {
+
+      return getAuthState();
+
+    }
+
+    state.initializing =
+      true;
+
+    try {
+
+      loadStoredAuth();
+
+      if (
+        !state.accessToken
+      ) {
+
+        state.initialized =
+          true;
+
+        dispatchAuthEvent(
+          "initialized"
+        );
+
+        return getAuthState();
+
+      }
+
+      const user =
+        await fetchCurrentUser();
+
+      if (!user) {
+
+        if (
+          state.refreshToken
+        ) {
+
+          const refreshed =
+            await refresh();
+
+          if (
+            refreshed
+          ) {
+
+            await fetchCurrentUser();
+
+          }
+
+        }
+
+      }
+
+      state.authenticated =
+        Boolean(
+          state.accessToken
+        );
+
+      state.initialized =
+        true;
+
+      dispatchAuthEvent(
+        "initialized"
+      );
+
+      return getAuthState();
+
+    } catch (error) {
+
+      state.lastAuthError =
+        error;
+
+      state.initialized =
+        true;
+
+      return getAuthState();
+
+    } finally {
+
+      state.initializing =
+        false;
+
+    }
+
+  }
+
+  // ==========================================================
+  // LOGOUT
+  // ==========================================================
+
+  async function logout(
     options = {}
   ) {
 
-    return requireAuth(
-      options
-    );
+    const shouldRedirect =
+      options.redirect !== false;
 
-  }
+    const token =
+      state.accessToken;
 
-  // ----------------------------------------------------------
-  // LOGGED-IN USER DISPLAY
-  // ----------------------------------------------------------
+    try {
 
-  function getDisplayName() {
+      if (token) {
 
-    if (
-      !currentUser
-    ) {
+        await fetch(
+          `${AUTH_CONFIG.apiBase}/auth/logout`,
+          {
 
-      return "Guest";
+            method: "POST",
+
+            headers: {
+
+              "Content-Type":
+                "application/json",
+
+              Authorization:
+                `Bearer ${token}`
+
+            },
+
+            credentials:
+              "include"
+
+          }
+        ).catch(
+          () => null
+        );
+
+      }
+
+    } finally {
+
+      clearAuth();
+
+      dispatchAuthEvent(
+        "logout"
+      );
+
+      if (
+        shouldRedirect
+      ) {
+
+        window.location.assign(
+          AUTH_CONFIG.loginPage
+        );
+
+      }
 
     }
 
-    return (
-      currentUser.name ||
-      currentUser.fullName ||
-      currentUser.full_name ||
-      currentUser.email ||
-      "GHAR User"
-    );
-
   }
 
-  // ----------------------------------------------------------
+  // ==========================================================
   // PUBLIC API
-  // ----------------------------------------------------------
+  // ==========================================================
 
   GHAR.auth = {
+
+    ROLES,
+
+    VALID_ROLES,
 
     initialize,
 
@@ -1412,7 +1819,11 @@
 
     clearAuth,
 
+    request,
+
     isAuthenticated,
+
+    isGuest,
 
     getUser,
 
@@ -1422,19 +1833,29 @@
 
     getRole,
 
+    getRoles,
+
     getAuthState,
 
     normalizeRole,
 
+    normalizeRoles,
+
+    isValidRole,
+
     hasRole,
 
     hasAnyRole,
+
+    hasAllRoles,
 
     isBuyer,
 
     isSeller,
 
     isTenant,
+
+    isAgent,
 
     isAdmin,
 
@@ -1452,17 +1873,36 @@
 
   };
 
-  // ----------------------------------------------------------
+  // ==========================================================
   // GLOBAL ALIAS
-  // ----------------------------------------------------------
+  // ==========================================================
 
-  window.GHAR =
-    GHAR;
+  window.GHAR_AUTH =
+    GHAR.auth;
 
-  // ----------------------------------------------------------
-  // INITIAL LOAD
-  // ----------------------------------------------------------
+  // ==========================================================
+  // AUTO INITIALIZATION
+  // ==========================================================
 
-  loadStoredAuth();
+  if (
+    document.readyState ===
+    "loading"
+  ) {
 
-})(window);
+    document.addEventListener(
+      "DOMContentLoaded",
+      () => {
+        initialize();
+      },
+      {
+        once: true
+      }
+    );
+
+  } else {
+
+    initialize();
+
+  }
+
+})(window, document);

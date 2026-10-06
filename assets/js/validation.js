@@ -1,963 +1,1899 @@
 // ============================================================
 // GHAR - REAL ESTATE PLATFORM
-// animations.js
-// Global UI animations and motion utilities
+// assets/js/validation.js
+// Global frontend validation library
 // ============================================================
 
 "use strict";
 
 (function (window, document) {
-  // ----------------------------------------------------------
+
+  // ==========================================================
   // GHAR NAMESPACE
-  // ----------------------------------------------------------
+  // ==========================================================
 
   window.GHAR = window.GHAR || {};
 
   const GHAR = window.GHAR;
 
-  // ----------------------------------------------------------
+  GHAR.validation = GHAR.validation || {};
+
+  // ==========================================================
   // CONFIGURATION
-  // ----------------------------------------------------------
+  // ==========================================================
 
-  const CONFIG = {
-    selector: "[data-animate]",
+  const CONFIG = Object.freeze({
 
-    observer: {
-      threshold: 0.12,
-      rootMargin: "0px 0px -40px 0px"
+    selectors: {
+      form: "[data-validate]",
+      field: "[data-validate-field]",
+      message: "[data-validation-message]"
     },
 
-    stagger: 80,
-
-    duration: {
-      fast: 180,
-      normal: 300,
-      slow: 500
+    classes: {
+      valid: "is-valid",
+      invalid: "is-invalid",
+      touched: "is-touched",
+      validating: "is-validating"
     },
 
-    easing: {
-      standard: "cubic-bezier(0.22, 1, 0.36, 1)",
-      smooth: "cubic-bezier(0.16, 1, 0.3, 1)",
-      spring: "cubic-bezier(0.34, 1.56, 0.64, 1)"
+    limits: {
+      nameMin: 2,
+      nameMax: 100,
+
+      passwordMin: 8,
+      passwordMax: 128,
+
+      phoneMin: 10,
+      phoneMax: 15,
+
+      messageMax: 5000,
+
+      propertyTitleMax: 150,
+      propertyDescriptionMax: 5000,
+
+      fileMaxSize: 10 * 1024 * 1024
+    },
+
+    files: {
+      document: [
+        "application/pdf",
+        "image/jpeg",
+        "image/png",
+        "image/webp"
+      ],
+
+      image: [
+        "image/jpeg",
+        "image/png",
+        "image/webp"
+      ]
     }
-  };
 
-  GHAR.animations = GHAR.animations || {};
+  });
 
-  GHAR.animations.config = CONFIG;
+  // ==========================================================
+  // BASIC TYPE HELPERS
+  // ==========================================================
 
-  // ----------------------------------------------------------
-  // REDUCED MOTION
-  // ----------------------------------------------------------
-
-  const prefersReducedMotion = window.matchMedia(
-    "(prefers-reduced-motion: reduce)"
-  );
-
-  function reducedMotion() {
-    return prefersReducedMotion.matches;
+  function isString(value) {
+    return typeof value === "string";
   }
 
-  // ----------------------------------------------------------
-  // SAFE RAF
-  // ----------------------------------------------------------
-
-  function raf(callback) {
-    if (typeof window.requestAnimationFrame === "function") {
-      return window.requestAnimationFrame(callback);
-    }
-
-    return window.setTimeout(callback, 16);
-  }
-
-  // ----------------------------------------------------------
-  // ELEMENT VISIBILITY
-  // ----------------------------------------------------------
-
-  function isVisible(element) {
-    if (!element) {
-      return false;
-    }
-
-    const style = window.getComputedStyle(element);
-
+  function isNumber(value) {
     return (
-      style.display !== "none" &&
-      style.visibility !== "hidden" &&
-      style.opacity !== "0"
+      typeof value === "number" &&
+      Number.isFinite(value)
     );
   }
 
-  // ----------------------------------------------------------
-  // REVEAL ELEMENT
-  // ----------------------------------------------------------
-
-  function reveal(element, options = {}) {
-    if (!element) {
-      return;
-    }
-
-    if (reducedMotion()) {
-      element.style.opacity = "1";
-      element.style.transform = "none";
-      element.classList.add("is-visible");
-      return;
-    }
-
-    const duration =
-      options.duration ||
-      CONFIG.duration.normal;
-
-    const easing =
-      options.easing ||
-      CONFIG.easing.standard;
-
-    const delay =
-      Number(options.delay) || 0;
-
-    const animation =
-      options.animation ||
-      "fade-up";
-
-    element.style.animationDuration =
-      `${duration}ms`;
-
-    element.style.animationTimingFunction =
-      easing;
-
-    element.style.animationDelay =
-      `${delay}ms`;
-
-    element.dataset.animationState =
-      "visible";
-
-    element.classList.add(
-      "gh-animate",
-      `gh-animate-${animation}`,
-      "is-visible"
+  function isObject(value) {
+    return (
+      value !== null &&
+      typeof value === "object" &&
+      !Array.isArray(value)
     );
   }
 
-  // ----------------------------------------------------------
-  // HIDE ELEMENT
-  // ----------------------------------------------------------
-
-  function hide(element) {
-    if (!element) {
-      return;
-    }
-
-    element.classList.remove(
-      "is-visible"
-    );
-
-    element.dataset.animationState =
-      "hidden";
+  function normalize(value) {
+    return String(value ?? "").trim();
   }
 
-  // ----------------------------------------------------------
-  // INITIALIZE SCROLL ANIMATIONS
-  // ----------------------------------------------------------
+  // ==========================================================
+  // ERROR RESULT
+  // ==========================================================
 
-  function initScrollAnimations(root = document) {
-    const elements =
-      root.querySelectorAll(
-        CONFIG.selector
-      );
+  function valid(value = null) {
+    return {
+      valid: true,
+      value,
+      message: ""
+    };
+  }
 
-    if (!elements.length) {
-      return;
+  function invalid(message, value = null) {
+    return {
+      valid: false,
+      value,
+      message
+    };
+  }
+
+  // ==========================================================
+  // REQUIRED
+  // ==========================================================
+
+  function required(
+    value,
+    message = "This field is required."
+  ) {
+    if (
+      value === null ||
+      value === undefined
+    ) {
+      return invalid(message, value);
     }
 
     if (
-      reducedMotion() ||
-      !("IntersectionObserver" in window)
+      typeof value === "string" &&
+      value.trim() === ""
     ) {
-      elements.forEach(element => {
-        reveal(element);
-      });
-
-      return;
+      return invalid(message, value);
     }
 
-    const observer =
-      new IntersectionObserver(
-        entries => {
-          entries.forEach(entry => {
-            if (!entry.isIntersecting) {
-              return;
-            }
+    if (
+      Array.isArray(value) &&
+      value.length === 0
+    ) {
+      return invalid(message, value);
+    }
 
-            const element =
-              entry.target;
-
-            const animation =
-              element.dataset.animate ||
-              "fade-up";
-
-            const delay =
-              element.dataset.animateDelay ||
-              0;
-
-            reveal(element, {
-              animation,
-              delay
-            });
-
-            observer.unobserve(element);
-          });
-        },
-        CONFIG.observer
-      );
-
-    elements.forEach(element => {
-      observer.observe(element);
-    });
-
-    GHAR.animations.scrollObserver =
-      observer;
+    return valid(value);
   }
 
-  // ----------------------------------------------------------
-  // STAGGER CHILDREN
-  // ----------------------------------------------------------
+  // ==========================================================
+  // STRING VALIDATION
+  // ==========================================================
 
-  function stagger(
-    container,
-    selector = ":scope > *",
+  function minLength(
+    value,
+    min,
+    message
+  ) {
+    const text = normalize(value);
+
+    if (text.length < min) {
+      return invalid(
+        message ||
+        `Minimum ${min} characters required.`,
+        value
+      );
+    }
+
+    return valid(value);
+  }
+
+  function maxLength(
+    value,
+    max,
+    message
+  ) {
+    const text = normalize(value);
+
+    if (text.length > max) {
+      return invalid(
+        message ||
+        `Maximum ${max} characters allowed.`,
+        value
+      );
+    }
+
+    return valid(value);
+  }
+
+  function lengthBetween(
+    value,
+    min,
+    max,
+    message
+  ) {
+    const text = normalize(value);
+
+    if (
+      text.length < min ||
+      text.length > max
+    ) {
+      return invalid(
+        message ||
+        `Must be between ${min} and ${max} characters.`,
+        value
+      );
+    }
+
+    return valid(value);
+  }
+
+  // ==========================================================
+  // EMAIL
+  // ==========================================================
+
+  function email(value) {
+
+    const text =
+      normalize(value).toLowerCase();
+
+    if (!text) {
+      return invalid(
+        "Email address is required.",
+        value
+      );
+    }
+
+    if (
+      !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(text)
+    ) {
+      return invalid(
+        "Enter a valid email address.",
+        value
+      );
+    }
+
+    if (text.length > 254) {
+      return invalid(
+        "Email address is too long.",
+        value
+      );
+    }
+
+    return valid(text);
+  }
+
+  // ==========================================================
+  // PHONE
+  // ==========================================================
+
+  function phone(
+    value,
+    country = "IN"
+  ) {
+
+    const text =
+      normalize(value)
+        .replace(/[\s()-]/g, "");
+
+    if (!text) {
+      return invalid(
+        "Phone number is required.",
+        value
+      );
+    }
+
+    if (country === "IN") {
+
+      if (
+        !/^(?:\+91|91)?[6-9]\d{9}$/.test(text)
+      ) {
+        return invalid(
+          "Enter a valid Indian mobile number.",
+          value
+        );
+      }
+
+      return valid(text);
+    }
+
+    if (
+      !/^\+?[1-9]\d{7,14}$/.test(text)
+    ) {
+      return invalid(
+        "Enter a valid phone number.",
+        value
+      );
+    }
+
+    return valid(text);
+  }
+
+  // ==========================================================
+  // NAME
+  // ==========================================================
+
+  function name(
+    value,
+    field = "Name"
+  ) {
+
+    const text = normalize(value);
+
+    if (!text) {
+      return invalid(
+        `${field} is required.`,
+        value
+      );
+    }
+
+    if (
+      text.length <
+      CONFIG.limits.nameMin
+    ) {
+      return invalid(
+        `${field} is too short.`,
+        value
+      );
+    }
+
+    if (
+      text.length >
+      CONFIG.limits.nameMax
+    ) {
+      return invalid(
+        `${field} is too long.`,
+        value
+      );
+    }
+
+    if (
+      !/^[A-Za-zÀ-ÖØ-öø-ÿ.' -]+$/.test(text)
+    ) {
+      return invalid(
+        `${field} contains invalid characters.`,
+        value
+      );
+    }
+
+    return valid(text);
+  }
+
+  // ==========================================================
+  // PASSWORD
+  // ==========================================================
+
+  function password(value) {
+
+    const text = String(value ?? "");
+
+    if (!text) {
+      return invalid(
+        "Password is required.",
+        value
+      );
+    }
+
+    if (
+      text.length <
+      CONFIG.limits.passwordMin
+    ) {
+      return invalid(
+        `Password must contain at least ${CONFIG.limits.passwordMin} characters.`,
+        value
+      );
+    }
+
+    if (
+      text.length >
+      CONFIG.limits.passwordMax
+    ) {
+      return invalid(
+        "Password is too long.",
+        value
+      );
+    }
+
+    if (!/[A-Z]/.test(text)) {
+      return invalid(
+        "Password must contain an uppercase letter.",
+        value
+      );
+    }
+
+    if (!/[a-z]/.test(text)) {
+      return invalid(
+        "Password must contain a lowercase letter.",
+        value
+      );
+    }
+
+    if (!/[0-9]/.test(text)) {
+      return invalid(
+        "Password must contain a number.",
+        value
+      );
+    }
+
+    if (!/[^A-Za-z0-9]/.test(text)) {
+      return invalid(
+        "Password must contain a special character.",
+        value
+      );
+    }
+
+    return valid(true);
+  }
+
+  // ==========================================================
+  // PASSWORD CONFIRMATION
+  // ==========================================================
+
+  function confirmPassword(
+    passwordValue,
+    confirmationValue
+  ) {
+
+    if (
+      String(passwordValue ?? "") !==
+      String(confirmationValue ?? "")
+    ) {
+      return invalid(
+        "Passwords do not match."
+      );
+    }
+
+    return valid(true);
+  }
+
+  // ==========================================================
+  // OTP
+  // ==========================================================
+
+  function otp(
+    value,
+    length = 6
+  ) {
+
+    const text = normalize(value);
+
+    const pattern =
+      new RegExp(`^\\d{${length}}$`);
+
+    if (!pattern.test(text)) {
+      return invalid(
+        `Enter the ${length}-digit OTP.`
+      );
+    }
+
+    return valid(text);
+  }
+
+  // ==========================================================
+  // PAN
+  // ==========================================================
+
+  function pan(value) {
+
+    const text =
+      normalize(value)
+        .toUpperCase();
+
+    if (
+      !/^[A-Z]{5}[0-9]{4}[A-Z]$/.test(text)
+    ) {
+      return invalid(
+        "Enter a valid PAN number."
+      );
+    }
+
+    return valid(text);
+  }
+
+  // ==========================================================
+  // AADHAAR
+  // ==========================================================
+
+  function aadhaar(value) {
+
+    const text =
+      normalize(value)
+        .replace(/\s/g, "");
+
+    if (!/^\d{12}$/.test(text)) {
+      return invalid(
+        "Enter a valid 12-digit Aadhaar number."
+      );
+    }
+
+    return valid(text);
+  }
+
+  // ==========================================================
+  // PINCODE
+  // ==========================================================
+
+  function pincode(
+    value,
+    country = "IN"
+  ) {
+
+    const text =
+      normalize(value);
+
+    if (country === "IN") {
+
+      if (!/^[1-9][0-9]{5}$/.test(text)) {
+        return invalid(
+          "Enter a valid 6-digit Indian PIN code."
+        );
+      }
+
+      return valid(text);
+    }
+
+    if (!/^[A-Za-z0-9 -]{3,12}$/.test(text)) {
+      return invalid(
+        "Enter a valid postal code."
+      );
+    }
+
+    return valid(text);
+  }
+
+  // ==========================================================
+  // URL
+  // ==========================================================
+
+  function url(value) {
+
+    const text = normalize(value);
+
+    try {
+
+      const parsed =
+        new URL(text);
+
+      if (
+        parsed.protocol !== "http:" &&
+        parsed.protocol !== "https:"
+      ) {
+        throw new Error();
+      }
+
+      return valid(parsed.href);
+
+    } catch {
+      return invalid(
+        "Enter a valid URL.",
+        value
+      );
+    }
+  }
+
+  // ==========================================================
+  // NUMBER
+  // ==========================================================
+
+  function number(
+    value,
     options = {}
   ) {
-    if (!container) {
+
+    const text = normalize(value);
+
+    if (!text) {
+      return invalid(
+        options.requiredMessage ||
+        "Number is required."
+      );
+    }
+
+    const numeric =
+      Number(
+        text.replace(/,/g, "")
+      );
+
+    if (!Number.isFinite(numeric)) {
+      return invalid(
+        options.message ||
+        "Enter a valid number."
+      );
+    }
+
+    if (
+      options.min !== undefined &&
+      numeric < options.min
+    ) {
+      return invalid(
+        options.minMessage ||
+        `Value must be at least ${options.min}.`
+      );
+    }
+
+    if (
+      options.max !== undefined &&
+      numeric > options.max
+    ) {
+      return invalid(
+        options.maxMessage ||
+        `Value must not exceed ${options.max}.`
+      );
+    }
+
+    return valid(numeric);
+  }
+
+  // ==========================================================
+  // PRICE
+  // ==========================================================
+
+  function price(value) {
+
+    return number(
+      value,
+      {
+        min: 0,
+        message: "Enter a valid property price.",
+        minMessage: "Property price cannot be negative."
+      }
+    );
+  }
+
+  // ==========================================================
+  // AREA
+  // ==========================================================
+
+  function area(value) {
+
+    return number(
+      value,
+      {
+        min: 0,
+        message: "Enter a valid property area.",
+        minMessage: "Property area cannot be negative."
+      }
+    );
+  }
+
+  // ==========================================================
+  // PROPERTY TITLE
+  // ==========================================================
+
+  function propertyTitle(value) {
+
+    const requiredResult =
+      required(
+        value,
+        "Property title is required."
+      );
+
+    if (!requiredResult.valid) {
+      return requiredResult;
+    }
+
+    return lengthBetween(
+      value,
+      5,
+      CONFIG.limits.propertyTitleMax,
+      "Property title must be between 5 and 150 characters."
+    );
+  }
+
+  // ==========================================================
+  // PROPERTY DESCRIPTION
+  // ==========================================================
+
+  function propertyDescription(value) {
+
+    const text = normalize(value);
+
+    if (!text) {
+      return invalid(
+        "Property description is required."
+      );
+    }
+
+    if (
+      text.length >
+      CONFIG.limits.propertyDescriptionMax
+    ) {
+      return invalid(
+        "Property description is too long."
+      );
+    }
+
+    return valid(text);
+  }
+
+  // ==========================================================
+  // SELECT FIELD
+  // ==========================================================
+
+  function select(
+    value,
+    allowedValues = []
+  ) {
+
+    const text = normalize(value);
+
+    if (!text) {
+      return invalid(
+        "Please select an option."
+      );
+    }
+
+    if (
+      Array.isArray(allowedValues) &&
+      allowedValues.length &&
+      !allowedValues.includes(text)
+    ) {
+      return invalid(
+        "Selected option is not valid."
+      );
+    }
+
+    return valid(text);
+  }
+
+  // ==========================================================
+  // BOOLEAN / CHECKBOX
+  // ==========================================================
+
+  function accepted(
+    value,
+    message = "You must accept this requirement."
+  ) {
+
+    if (
+      value === true ||
+      value === "true" ||
+      value === "on" ||
+      value === 1
+    ) {
+      return valid(true);
+    }
+
+    return invalid(message);
+  }
+
+  // ==========================================================
+  // DATE
+  // ==========================================================
+
+  function date(
+    value,
+    options = {}
+  ) {
+
+    if (!value) {
+      return invalid(
+        options.requiredMessage ||
+        "Date is required."
+      );
+    }
+
+    const parsed =
+      value instanceof Date
+        ? value
+        : new Date(value);
+
+    if (
+      Number.isNaN(
+        parsed.getTime()
+      )
+    ) {
+      return invalid(
+        options.message ||
+        "Enter a valid date."
+      );
+    }
+
+    if (
+      options.min &&
+      parsed < new Date(options.min)
+    ) {
+      return invalid(
+        options.minMessage ||
+        "Selected date is too early."
+      );
+    }
+
+    if (
+      options.max &&
+      parsed > new Date(options.max)
+    ) {
+      return invalid(
+        options.maxMessage ||
+        "Selected date is too late."
+      );
+    }
+
+    return valid(parsed);
+  }
+
+  // ==========================================================
+  // FILE VALIDATION
+  // ==========================================================
+
+  function file(
+    value,
+    options = {}
+  ) {
+
+    const inputFile =
+      value instanceof FileList
+        ? value[0]
+        : value;
+
+    if (!(inputFile instanceof File)) {
+      return invalid(
+        options.required === false
+          ? ""
+          : "Please select a file."
+      );
+    }
+
+    const maxSize =
+      options.maxSize ||
+      CONFIG.limits.fileMaxSize;
+
+    if (
+      inputFile.size > maxSize
+    ) {
+      return invalid(
+        `File size must not exceed ${Math.round(maxSize / 1024 / 1024)} MB.`
+      );
+    }
+
+    const allowedTypes =
+      options.types ||
+      CONFIG.files.document;
+
+    if (
+      !allowedTypes.includes(
+        inputFile.type
+      )
+    ) {
+      return invalid(
+        "This file type is not supported."
+      );
+    }
+
+    return valid(inputFile);
+  }
+
+  // ==========================================================
+  // IMAGE FILE
+  // ==========================================================
+
+  function imageFile(value) {
+
+    return file(
+      value,
+      {
+        types: CONFIG.files.image
+      }
+    );
+  }
+
+  // ==========================================================
+  // DOCUMENT FILE
+  // ==========================================================
+
+  function documentFile(value) {
+
+    return file(
+      value,
+      {
+        types: CONFIG.files.document
+      }
+    );
+  }
+
+  // ==========================================================
+  // FIELD RULE ENGINE
+  // ==========================================================
+
+  function validateField(
+    value,
+    rules = {}
+  ) {
+
+    if (
+      rules.required &&
+      !required(value).valid
+    ) {
+      return required(
+        value,
+        rules.requiredMessage
+      );
+    }
+
+    if (
+      !rules.required &&
+      isEmptyValue(value)
+    ) {
+      return valid(value);
+    }
+
+    if (rules.email) {
+      const result =
+        email(value);
+
+      if (!result.valid) {
+        return result;
+      }
+    }
+
+    if (rules.phone) {
+      const result =
+        phone(
+          value,
+          rules.country || "IN"
+        );
+
+      if (!result.valid) {
+        return result;
+      }
+    }
+
+    if (rules.name) {
+      const result =
+        name(
+          value,
+          rules.nameLabel || "Name"
+        );
+
+      if (!result.valid) {
+        return result;
+      }
+    }
+
+    if (rules.password) {
+      const result =
+        password(value);
+
+      if (!result.valid) {
+        return result;
+      }
+    }
+
+    if (rules.pan) {
+      const result =
+        pan(value);
+
+      if (!result.valid) {
+        return result;
+      }
+    }
+
+    if (rules.aadhaar) {
+      const result =
+        aadhaar(value);
+
+      if (!result.valid) {
+        return result;
+      }
+    }
+
+    if (rules.pincode) {
+      const result =
+        pincode(
+          value,
+          rules.country || "IN"
+        );
+
+      if (!result.valid) {
+        return result;
+      }
+    }
+
+    if (rules.url) {
+      const result =
+        url(value);
+
+      if (!result.valid) {
+        return result;
+      }
+    }
+
+    if (rules.number) {
+      const result =
+        number(
+          value,
+          rules.numberOptions || {}
+        );
+
+      if (!result.valid) {
+        return result;
+      }
+    }
+
+    if (rules.price) {
+      const result =
+        price(value);
+
+      if (!result.valid) {
+        return result;
+      }
+    }
+
+    if (rules.area) {
+      const result =
+        area(value);
+
+      if (!result.valid) {
+        return result;
+      }
+    }
+
+    if (rules.otp) {
+      const result =
+        otp(
+          value,
+          rules.otpLength || 6
+        );
+
+      if (!result.valid) {
+        return result;
+      }
+    }
+
+    if (rules.propertyTitle) {
+      const result =
+        propertyTitle(value);
+
+      if (!result.valid) {
+        return result;
+      }
+    }
+
+    if (rules.propertyDescription) {
+      const result =
+        propertyDescription(value);
+
+      if (!result.valid) {
+        return result;
+      }
+    }
+
+    if (rules.minLength) {
+      const result =
+        minLength(
+          value,
+          rules.minLength,
+          rules.minLengthMessage
+        );
+
+      if (!result.valid) {
+        return result;
+      }
+    }
+
+    if (rules.maxLength) {
+      const result =
+        maxLength(
+          value,
+          rules.maxLength,
+          rules.maxLengthMessage
+        );
+
+      if (!result.valid) {
+        return result;
+      }
+    }
+
+    if (rules.sameAs !== undefined) {
+      if (value !== rules.sameAs) {
+        return invalid(
+          rules.sameAsMessage ||
+          "Values do not match."
+        );
+      }
+    }
+
+    if (rules.accepted) {
+      const result =
+        accepted(
+          value,
+          rules.acceptedMessage
+        );
+
+      if (!result.valid) {
+        return result;
+      }
+    }
+
+    return valid(value);
+  }
+
+  // ==========================================================
+  // EMPTY VALUE
+  // ==========================================================
+
+  function isEmptyValue(value) {
+
+    if (
+      value === null ||
+      value === undefined
+    ) {
+      return true;
+    }
+
+    if (
+      typeof value === "string"
+    ) {
+      return value.trim() === "";
+    }
+
+    if (
+      value instanceof FileList
+    ) {
+      return value.length === 0;
+    }
+
+    return false;
+  }
+
+  // ==========================================================
+  // RULE PARSER
+  // ==========================================================
+
+  function getRules(element) {
+
+    const rules = {};
+
+    if (!element) {
+      return rules;
+    }
+
+    if (
+      element.hasAttribute(
+        "required"
+      )
+    ) {
+      rules.required = true;
+    }
+
+    if (
+      element.dataset.validateRequired
+    ) {
+      rules.required =
+        element.dataset.validateRequired !== "false";
+    }
+
+    if (
+      element.dataset.validateEmail !== undefined
+    ) {
+      rules.email = true;
+    }
+
+    if (
+      element.dataset.validatePhone !== undefined
+    ) {
+      rules.phone = true;
+    }
+
+    if (
+      element.dataset.validateName !== undefined
+    ) {
+      rules.name = true;
+    }
+
+    if (
+      element.dataset.validatePassword !== undefined
+    ) {
+      rules.password = true;
+    }
+
+    if (
+      element.dataset.validatePan !== undefined
+    ) {
+      rules.pan = true;
+    }
+
+    if (
+      element.dataset.validateAadhaar !== undefined
+    ) {
+      rules.aadhaar = true;
+    }
+
+    if (
+      element.dataset.validatePincode !== undefined
+    ) {
+      rules.pincode = true;
+    }
+
+    if (
+      element.dataset.validateUrl !== undefined
+    ) {
+      rules.url = true;
+    }
+
+    if (
+      element.dataset.validatePrice !== undefined
+    ) {
+      rules.price = true;
+    }
+
+    if (
+      element.dataset.validateArea !== undefined
+    ) {
+      rules.area = true;
+    }
+
+    if (
+      element.dataset.validateOtp !== undefined
+    ) {
+      rules.otp = true;
+    }
+
+    if (
+      element.dataset.validatePropertyTitle !== undefined
+    ) {
+      rules.propertyTitle = true;
+    }
+
+    if (
+      element.dataset.validatePropertyDescription !== undefined
+    ) {
+      rules.propertyDescription = true;
+    }
+
+    if (
+      element.dataset.minLength
+    ) {
+      rules.minLength =
+        Number(element.dataset.minLength);
+    }
+
+    if (
+      element.dataset.maxLength
+    ) {
+      rules.maxLength =
+        Number(element.dataset.maxLength);
+    }
+
+    if (
+      element.dataset.validateCountry
+    ) {
+      rules.country =
+        element.dataset.validateCountry;
+    }
+
+    if (
+      element.dataset.validateOtpLength
+    ) {
+      rules.otpLength =
+        Number(element.dataset.validateOtpLength);
+    }
+
+    return rules;
+  }
+
+  // ==========================================================
+  // FIELD UI
+  // ==========================================================
+
+  function findMessageElement(
+    field
+  ) {
+
+    if (!field) {
+      return null;
+    }
+
+    const id =
+      field.getAttribute("id");
+
+    if (id) {
+
+      const linked =
+        document.querySelector(
+          `[data-validation-for="${CSS.escape(id)}"]`
+        );
+
+      if (linked) {
+        return linked;
+      }
+    }
+
+    const parent =
+      field.closest(
+        ".form-field, .form-group, .field, label"
+      );
+
+    if (!parent) {
+      return null;
+    }
+
+    return parent.querySelector(
+      CONFIG.selectors.message
+    );
+  }
+
+  function clearFieldError(field) {
+
+    if (!field) {
       return;
     }
 
-    const children =
-      container.querySelectorAll(
-        selector
+    field.classList.remove(
+      CONFIG.classes.invalid
+    );
+
+    field.removeAttribute(
+      "aria-invalid"
+    );
+
+    const message =
+      findMessageElement(field);
+
+    if (message) {
+      message.textContent = "";
+      message.hidden = true;
+    }
+  }
+
+  function showFieldError(
+    field,
+    message
+  ) {
+
+    if (!field) {
+      return;
+    }
+
+    field.classList.add(
+      CONFIG.classes.invalid
+    );
+
+    field.classList.remove(
+      CONFIG.classes.valid
+    );
+
+    field.setAttribute(
+      "aria-invalid",
+      "true"
+    );
+
+    const messageElement =
+      findMessageElement(field);
+
+    if (messageElement) {
+      messageElement.textContent =
+        message || "Invalid value.";
+
+      messageElement.hidden = false;
+    }
+  }
+
+  function showFieldValid(field) {
+
+    if (!field) {
+      return;
+    }
+
+    field.classList.remove(
+      CONFIG.classes.invalid
+    );
+
+    field.classList.add(
+      CONFIG.classes.valid
+    );
+
+    field.setAttribute(
+      "aria-invalid",
+      "false"
+    );
+
+    const message =
+      findMessageElement(field);
+
+    if (message) {
+      message.textContent = "";
+      message.hidden = true;
+    }
+  }
+
+  // ==========================================================
+  // VALIDATE FIELD ELEMENT
+  // ==========================================================
+
+  function validateElement(
+    field
+  ) {
+
+    if (!field) {
+      return valid();
+    }
+
+    const rules =
+      getRules(field);
+
+    const value =
+      field.type === "checkbox"
+        ? field.checked
+        : field.type === "file"
+          ? field.files
+          : field.value;
+
+    const result =
+      validateField(
+        value,
+        rules
       );
 
-    const delay =
-      Number(options.delay) || 0;
+    field.classList.add(
+      CONFIG.classes.touched
+    );
 
-    children.forEach(
-      (child, index) => {
-        child.style.setProperty(
-          "--ghar-animation-delay",
-          `${delay + index * CONFIG.stagger}ms`
-        );
+    if (result.valid) {
+      showFieldValid(field);
+    } else {
+      showFieldError(
+        field,
+        result.message
+      );
+    }
 
-        child.dataset.animateDelay =
-          delay + index * CONFIG.stagger;
+    return result;
+  }
+
+  // ==========================================================
+  // VALIDATE FORM
+  // ==========================================================
+
+  function validateForm(
+    form,
+    options = {}
+  ) {
+
+    if (!form) {
+      return {
+        valid: false,
+        fields: {},
+        errors: {}
+      };
+    }
+
+    const fields =
+      form.querySelectorAll(
+        CONFIG.selectors.field
+      );
+
+    const results = {};
+    const errors = {};
+
+    let formValid = true;
+
+    fields.forEach(field => {
+
+      const name =
+        field.name ||
+        field.id ||
+        field.dataset.validateField;
+
+      if (!name) {
+        return;
+      }
+
+      const result =
+        validateElement(field);
+
+      results[name] =
+        result;
+
+      if (!result.valid) {
+
+        formValid = false;
+
+        errors[name] =
+          result.message;
 
         if (
-          !child.dataset.animate
+          options.focusFirst !== false &&
+          !options._focused
         ) {
-          child.dataset.animate =
-            options.animation ||
-            "fade-up";
+          try {
+            field.focus();
+          } catch {
+            // Ignore focus errors.
+          }
+
+          options._focused = true;
         }
       }
-    );
-  }
 
-  // ----------------------------------------------------------
-  // PAGE LOAD ANIMATION
-  // ----------------------------------------------------------
-
-  function pageEnter() {
-    if (reducedMotion()) {
-      document.documentElement.classList.add(
-        "ghar-page-ready"
-      );
-
-      return;
-    }
-
-    raf(() => {
-      document.documentElement.classList.add(
-        "ghar-page-ready"
-      );
-
-      document.body.classList.add(
-        "ghar-page-entered"
-      );
     });
-  }
 
-  // ----------------------------------------------------------
-  // PAGE EXIT ANIMATION
-  // ----------------------------------------------------------
-
-  function pageExit(callback) {
-    if (typeof callback !== "function") {
-      return;
-    }
-
-    if (reducedMotion()) {
-      callback();
-      return;
-    }
-
-    document.body.classList.add(
-      "ghar-page-exiting"
+    form.classList.toggle(
+      "is-valid",
+      formValid
     );
 
-    window.setTimeout(
-      callback,
-      CONFIG.duration.fast
+    form.classList.toggle(
+      "is-invalid",
+      !formValid
     );
+
+    return {
+      valid: formValid,
+      fields: results,
+      errors
+    };
   }
 
-  // ----------------------------------------------------------
-  // SMOOTH SCROLL
-  // ----------------------------------------------------------
+  // ==========================================================
+  // VALIDATE OBJECT
+  // ==========================================================
 
-  function smoothScrollTo(
-    target,
-    options = {}
+  function validateObject(
+    data,
+    schema
   ) {
-    let element = target;
 
-    if (typeof target === "string") {
-      element =
-        document.querySelector(target);
-    }
-
-    if (!element) {
-      return;
-    }
-
-    const offset =
-      Number(options.offset) || 0;
-
-    const top =
-      element.getBoundingClientRect().top +
-      window.pageYOffset -
-      offset;
-
-    window.scrollTo({
-      top,
-      behavior:
-        reducedMotion()
-          ? "auto"
-          : "smooth"
-    });
-  }
-
-  // ----------------------------------------------------------
-  // PARALLAX
-  // ----------------------------------------------------------
-
-  function initParallax(root = document) {
-    const elements =
-      root.querySelectorAll(
-        "[data-parallax]"
-      );
-
-    if (
-      !elements.length ||
-      reducedMotion()
-    ) {
-      return;
-    }
-
-    let ticking = false;
-
-    function update() {
-      const scrollY =
-        window.pageYOffset;
-
-      elements.forEach(element => {
-        const speed =
-          Number(
-            element.dataset.parallax
-          ) || 0.15;
-
-        const rect =
-          element.getBoundingClientRect();
-
-        const offset =
-          (rect.top + rect.height / 2) -
-          window.innerHeight / 2;
-
-        const translate =
-          offset * speed;
-
-        element.style.transform =
-          `translate3d(0, ${translate}px, 0)`;
-      });
-
-      ticking = false;
-    }
-
-    function requestUpdate() {
-      if (ticking) {
-        return;
-      }
-
-      ticking = true;
-
-      raf(update);
-    }
-
-    window.addEventListener(
-      "scroll",
-      requestUpdate,
-      { passive: true }
-    );
-
-    update();
-
-    GHAR.animations.parallaxCleanup =
-      () => {
-        window.removeEventListener(
-          "scroll",
-          requestUpdate
-        );
+    if (!isObject(data)) {
+      return {
+        valid: false,
+        errors: {
+          _form: "Invalid data."
+        }
       };
-  }
-
-  // ----------------------------------------------------------
-  // RIPPLE EFFECT
-  // ----------------------------------------------------------
-
-  function createRipple(event, element) {
-    if (
-      reducedMotion() ||
-      !element
-    ) {
-      return;
     }
 
-    const rect =
-      element.getBoundingClientRect();
+    if (!isObject(schema)) {
+      return {
+        valid: true,
+        errors: {}
+      };
+    }
 
-    const ripple =
-      document.createElement("span");
+    const errors = {};
+    const fields = {};
 
-    ripple.className =
-      "ghar-ripple";
+    let isValidResult = true;
 
-    const size =
-      Math.max(
-        rect.width,
-        rect.height
+    Object.entries(schema)
+      .forEach(
+        ([key, rules]) => {
+
+          const result =
+            validateField(
+              data[key],
+              rules || {}
+            );
+
+          fields[key] =
+            result;
+
+          if (!result.valid) {
+
+            isValidResult = false;
+
+            errors[key] =
+              result.message;
+          }
+
+        }
       );
 
-    const x =
-      event.clientX -
-      rect.left -
-      size / 2;
+    return {
+      valid: isValidResult,
+      fields,
+      errors
+    };
+  }
 
-    const y =
-      event.clientY -
-      rect.top -
-      size / 2;
+  // ==========================================================
+  // COMMON GHAR SCHEMAS
+  // ==========================================================
 
-    ripple.style.width =
-      `${size}px`;
+  const schemas = {
 
-    ripple.style.height =
-      `${size}px`;
-
-    ripple.style.left =
-      `${x}px`;
-
-    ripple.style.top =
-      `${y}px`;
-
-    element.appendChild(
-      ripple
-    );
-
-    window.setTimeout(
-      () => {
-        ripple.remove();
+    login: {
+      email: {
+        required: true,
+        email: true
       },
-      650
-    );
-  }
 
-  function initRipples(root = document) {
-    const elements =
-      root.querySelectorAll(
-        "[data-ripple]"
-      );
-
-    elements.forEach(element => {
-      if (
-        element.dataset.rippleInitialized
-      ) {
-        return;
+      password: {
+        required: true,
+        minLength: 8
       }
+    },
 
-      element.dataset.rippleInitialized =
-        "true";
+    register: {
 
-      if (
-        window.getComputedStyle(
-          element
-        ).position === "static"
-      ) {
-        element.style.position =
-          "relative";
+      name: {
+        required: true,
+        name: true
+      },
+
+      email: {
+        required: true,
+        email: true
+      },
+
+      phone: {
+        required: true,
+        phone: true
+      },
+
+      password: {
+        required: true,
+        password: true
       }
+    },
 
-      element.style.overflow =
-        "hidden";
+    property: {
 
-      element.addEventListener(
-        "click",
-        event => {
-          createRipple(
-            event,
-            element
-          );
-        }
+      title: {
+        required: true,
+        propertyTitle: true
+      },
+
+      description: {
+        required: true,
+        propertyDescription: true
+      },
+
+      price: {
+        required: true,
+        price: true
+      },
+
+      area: {
+        required: true,
+        area: true
+      },
+
+      city: {
+        required: true,
+        minLength: 2,
+        maxLength: 100
+      },
+
+      state: {
+        required: true,
+        minLength: 2,
+        maxLength: 100
+      },
+
+      pincode: {
+        required: true,
+        pincode: true
+      }
+    },
+
+    verification: {
+
+      phone: {
+        required: true,
+        phone: true
+      },
+
+      email: {
+        required: true,
+        email: true
+      },
+
+      pan: {
+        required: true,
+        pan: true
+      },
+
+      aadhaar: {
+        required: true,
+        aadhaar: true
+      },
+
+      address: {
+        required: true,
+        minLength: 5,
+        maxLength: 500
+      },
+
+      pincode: {
+        required: true,
+        pincode: true
+      }
+    }
+
+  };
+
+  // ==========================================================
+  // FORM EVENT HANDLERS
+  // ==========================================================
+
+  function handleBlur(event) {
+
+    const field =
+      event.target.closest(
+        CONFIG.selectors.field
       );
-    });
-  }
 
-  // ----------------------------------------------------------
-  // HOVER TILT
-  // ----------------------------------------------------------
-
-  function initTilt(root = document) {
-    const elements =
-      root.querySelectorAll(
-        "[data-tilt]"
-      );
-
-    if (reducedMotion()) {
+    if (!field) {
       return;
     }
 
-    elements.forEach(element => {
-      if (
-        element.dataset.tiltInitialized
-      ) {
-        return;
-      }
-
-      element.dataset.tiltInitialized =
-        "true";
-
-      element.addEventListener(
-        "pointermove",
-        event => {
-          const rect =
-            element.getBoundingClientRect();
-
-          const x =
-            (event.clientX -
-              rect.left) /
-            rect.width;
-
-          const y =
-            (event.clientY -
-              rect.top) /
-            rect.height;
-
-          const rotateY =
-            (x - 0.5) * 8;
-
-          const rotateX =
-            (0.5 - y) * 8;
-
-          element.style.transform =
-            `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(0)`;
-        }
-      );
-
-      element.addEventListener(
-        "pointerleave",
-        () => {
-          element.style.transform =
-            "";
-        }
-      );
-    });
+    validateElement(field);
   }
 
-  // ----------------------------------------------------------
-  // COUNTER ANIMATION
-  // ----------------------------------------------------------
+  function handleInput(event) {
 
-  function animateCounter(
-    element,
-    options = {}
-  ) {
-    if (!element) {
-      return;
-    }
-
-    const target =
-      Number(
-        options.target ??
-        element.dataset.counter ??
-        element.textContent
+    const field =
+      event.target.closest(
+        CONFIG.selectors.field
       );
 
-    if (!Number.isFinite(target)) {
-      return;
-    }
-
-    if (reducedMotion()) {
-      element.textContent =
-        formatNumber(target);
-
-      return;
-    }
-
-    const duration =
-      Number(
-        options.duration
-      ) || 1200;
-
-    const start =
-      Number(options.start) || 0;
-
-    const startTime =
-      performance.now();
-
-    function update(currentTime) {
-      const progress =
-        Math.min(
-          (currentTime - startTime) /
-            duration,
-          1
-        );
-
-      const eased =
-        1 -
-        Math.pow(
-          1 - progress,
-          3
-        );
-
-      const value =
-        start +
-        (target - start) *
-          eased;
-
-      element.textContent =
-        formatNumber(value);
-
-      if (progress < 1) {
-        requestAnimationFrame(
-          update
-        );
-      }
-    }
-
-    requestAnimationFrame(
-      update
-    );
-  }
-
-  function formatNumber(value) {
-    if (
-      Number.isInteger(value)
-    ) {
-      return value.toLocaleString(
-        "en-IN"
-      );
-    }
-
-    return value.toLocaleString(
-      "en-IN",
-      {
-        maximumFractionDigits: 2
-      }
-    );
-  }
-
-  function initCounters(root = document) {
-    const elements =
-      root.querySelectorAll(
-        "[data-counter]"
-      );
-
-    if (
-      !elements.length
-    ) {
+    if (!field) {
       return;
     }
 
     if (
-      reducedMotion() ||
-      !("IntersectionObserver" in window)
+      !field.classList.contains(
+        CONFIG.classes.touched
+      )
     ) {
-      elements.forEach(
-        element => {
-          animateCounter(
-            element
-          );
-        }
+      return;
+    }
+
+    validateElement(field);
+  }
+
+  function handleSubmit(event) {
+
+    const form =
+      event.target.closest(
+        CONFIG.selectors.form
+      );
+
+    if (!form) {
+      return;
+    }
+
+    const result =
+      validateForm(form);
+
+    if (!result.valid) {
+      event.preventDefault();
+
+      form.dispatchEvent(
+        new CustomEvent(
+          "ghar:validation-failed",
+          {
+            bubbles: true,
+            detail: result
+          }
+        )
       );
 
       return;
     }
 
-    const observer =
-      new IntersectionObserver(
-        entries => {
-          entries.forEach(
-            entry => {
-              if (
-                !entry.isIntersecting
-              ) {
-                return;
-              }
-
-              animateCounter(
-                entry.target
-              );
-
-              observer.unobserve(
-                entry.target
-              );
-            }
-          );
-        },
+    form.dispatchEvent(
+      new CustomEvent(
+        "ghar:validation-passed",
         {
-          threshold: 0.4
+          bubbles: true,
+          detail: result
         }
-      );
-
-    elements.forEach(
-      element => {
-        observer.observe(
-          element
-        );
-      }
+      )
     );
   }
 
-  // ----------------------------------------------------------
-  // MODAL ANIMATION
-  // ----------------------------------------------------------
-
-  function showModal(modal) {
-    if (!modal) {
-      return;
-    }
-
-    modal.hidden = false;
-
-    raf(() => {
-      modal.classList.add(
-        "is-open"
-      );
-    });
-
-    document.body.classList.add(
-      "ghar-modal-open"
-    );
-  }
-
-  function hideModal(modal) {
-    if (!modal) {
-      return;
-    }
-
-    modal.classList.remove(
-      "is-open"
-    );
-
-    const delay =
-      reducedMotion()
-        ? 0
-        : CONFIG.duration.normal;
-
-    window.setTimeout(
-      () => {
-        modal.hidden = true;
-      },
-      delay
-    );
-
-    document.body.classList.remove(
-      "ghar-modal-open"
-    );
-  }
-
-  // ----------------------------------------------------------
-  // LOADING ANIMATION
-  // ----------------------------------------------------------
-
-  function setLoading(
-    element,
-    loading = true
-  ) {
-    if (!element) {
-      return;
-    }
-
-    if (loading) {
-      element.setAttribute(
-        "aria-busy",
-        "true"
-      );
-
-      element.classList.add(
-        "is-loading"
-      );
-
-      return;
-    }
-
-    element.setAttribute(
-      "aria-busy",
-      "false"
-    );
-
-    element.classList.remove(
-      "is-loading"
-    );
-  }
-
-  // ----------------------------------------------------------
-  // BUTTON LOADING
-  // ----------------------------------------------------------
-
-  function buttonLoading(
-    button,
-    loading = true,
-    text = "Processing..."
-  ) {
-    if (!button) {
-      return;
-    }
-
-    if (loading) {
-      if (
-        !button.dataset.originalText
-      ) {
-        button.dataset.originalText =
-          button.textContent;
-      }
-
-      button.disabled = true;
-
-      button.setAttribute(
-        "aria-busy",
-        "true"
-      );
-
-      button.classList.add(
-        "is-loading"
-      );
-
-      if (
-        text
-      ) {
-        button.textContent =
-          text;
-      }
-
-      return;
-    }
-
-    button.disabled = false;
-
-    button.setAttribute(
-      "aria-busy",
-      "false"
-    );
-
-    button.classList.remove(
-      "is-loading"
-    );
-
-    if (
-      button.dataset.originalText
-    ) {
-      button.textContent =
-        button.dataset.originalText;
-
-      delete button.dataset
-        .originalText;
-    }
-  }
-
-  // ----------------------------------------------------------
-  // INITIALIZE ALL ANIMATIONS
-  // ----------------------------------------------------------
+  // ==========================================================
+  // INITIALIZE
+  // ==========================================================
 
   function init(root = document) {
-    initScrollAnimations(root);
-    initParallax(root);
-    initRipples(root);
-    initTilt(root);
-    initCounters(root);
+
+    if (!root) {
+      return;
+    }
+
+    root.addEventListener(
+      "blur",
+      handleBlur,
+      true
+    );
+
+    root.addEventListener(
+      "input",
+      handleInput,
+      true
+    );
+
+    root.addEventListener(
+      "change",
+      handleInput,
+      true
+    );
+
+    root.addEventListener(
+      "submit",
+      handleSubmit
+    );
+
   }
 
-  // ----------------------------------------------------------
+  // ==========================================================
   // PUBLIC API
-  // ----------------------------------------------------------
+  // ==========================================================
 
-  GHAR.animations.reveal =
-    reveal;
+  Object.assign(
+    GHAR.validation,
+    {
 
-  GHAR.animations.hide =
-    hide;
+      CONFIG,
 
-  GHAR.animations.init =
-    init;
+      required,
+      minLength,
+      maxLength,
+      lengthBetween,
 
-  GHAR.animations.stagger =
-    stagger;
+      email,
+      phone,
+      name,
+      password,
+      confirmPassword,
+      otp,
 
-  GHAR.animations.pageEnter =
-    pageEnter;
+      pan,
+      aadhaar,
+      pincode,
+      url,
 
-  GHAR.animations.pageExit =
-    pageExit;
+      number,
+      price,
+      area,
 
-  GHAR.animations.smoothScrollTo =
-    smoothScrollTo;
+      propertyTitle,
+      propertyDescription,
 
-  GHAR.animations.showModal =
-    showModal;
+      select,
+      accepted,
+      date,
 
-  GHAR.animations.hideModal =
-    hideModal;
+      file,
+      imageFile,
+      documentFile,
 
-  GHAR.animations.setLoading =
-    setLoading;
+      validateField,
+      validateElement,
+      validateForm,
+      validateObject,
 
-  GHAR.animations.buttonLoading =
-    buttonLoading;
+      getRules,
 
-  GHAR.animations.animateCounter =
-    animateCounter;
+      clearFieldError,
+      showFieldError,
+      showFieldValid,
 
-  GHAR.animations.reducedMotion =
-    reducedMotion;
+      schemas,
 
-  // ----------------------------------------------------------
+      init
+
+    }
+  );
+
+  // ==========================================================
+  // GLOBAL SHORTCUTS
+  // ==========================================================
+
+  GHAR.validateForm =
+    validateForm;
+
+  GHAR.validateField =
+    validateField;
+
+  // ==========================================================
   // DOM READY
-  // ----------------------------------------------------------
-
-  function initialize() {
-    pageEnter();
-    init();
-  }
+  // ==========================================================
 
   if (
-    document.readyState ===
-    "loading"
+    document.readyState === "loading"
   ) {
+
     document.addEventListener(
       "DOMContentLoaded",
-      initialize,
+      () => init(),
       {
         once: true
       }
     );
+
   } else {
-    initialize();
+
+    init();
+
   }
 
 })(window, document);

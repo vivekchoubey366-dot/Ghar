@@ -12,30 +12,49 @@
   // CONFIGURATION
   // ==========================================================
 
-  const DASHBOARD_CONFIG = {
+  const CONFIG = {
 
-    version: "1.0.0",
+    VERSION: "2.0.0",
 
-    apiBase:
-      window.GHARConfig?.API_BASE_URL ||
+    API_BASE:
+      window.GHAR_CONFIG?.API_BASE_URL ||
+      window.GHAR?.config?.API_BASE_URL ||
       "/api",
 
-    storageKeys: {
-      dashboard: "ghar_dashboard",
-      profile: "ghar_profile",
-      user: "ghar_user"
+    DASHBOARD_ENDPOINT:
+      "/dashboard",
+
+    STORAGE_KEYS: {
+
+      DASHBOARD: "ghar_dashboard",
+      USER: "ghar_user",
+      PROFILE: "ghar_profile",
+      ROLE: "ghar_role",
+      ACCESS_TOKEN: "ghar_access_token",
+      ROLES: "ghar_roles"
+
     },
 
-    roles: [
-      "buyer",
-      "seller",
-      "tenant",
-      "agent",
-      "admin",
-      "business"
-    ]
+    ROLES: Object.freeze([
+
+      "BUYER",
+      "SELLER",
+      "TENANT",
+      "AGENT",
+      "ADMIN",
+      "SUPER_ADMIN",
+      "BUSINESS"
+
+    ]),
+
+    DEFAULT_ROLE:
+      "BUYER",
+
+    REQUEST_TIMEOUT:
+      30000
 
   };
+
 
   // ==========================================================
   // STATE
@@ -49,14 +68,23 @@
 
     role: null,
 
+    roles: [],
+
+    user: null,
+
+    profile: null,
+
     data: null,
+
+    error: null,
 
     lastUpdated: null
 
   };
 
+
   // ==========================================================
-  // HELPERS
+  // STORAGE
   // ==========================================================
 
   function getJSON(key) {
@@ -73,7 +101,7 @@
     } catch (error) {
 
       console.warn(
-        "[GHAR DASHBOARD] Storage error:",
+        "[GHAR Dashboard] Storage read failed:",
         error
       );
 
@@ -82,6 +110,7 @@
     }
 
   }
+
 
   function setJSON(key, value) {
 
@@ -97,7 +126,7 @@
     } catch (error) {
 
       console.warn(
-        "[GHAR DASHBOARD] Storage write error:",
+        "[GHAR Dashboard] Storage write failed:",
         error
       );
 
@@ -107,6 +136,183 @@
 
   }
 
+
+  function removeStorage(key) {
+
+    try {
+
+      localStorage.removeItem(key);
+
+    } catch (error) {
+
+      console.warn(
+        "[GHAR Dashboard] Storage remove failed:",
+        error
+      );
+
+    }
+
+  }
+
+
+  // ==========================================================
+  // ROLE SYSTEM
+  // ==========================================================
+
+  function normalizeRole(role) {
+
+    if (
+      role === null ||
+      role === undefined
+    ) {
+
+      return null;
+
+    }
+
+    const normalized =
+      String(role)
+        .trim()
+        .toUpperCase()
+        .replace(/[\s-]+/g, "_");
+
+    const aliases = {
+
+      USER:
+        "BUYER",
+
+      CUSTOMER:
+        "BUYER",
+
+      CLIENT:
+        "BUYER",
+
+      OWNER:
+        "SELLER",
+
+      LANDLORD:
+        "SELLER",
+
+      PROPERTY_OWNER:
+        "SELLER",
+
+      RENTER:
+        "TENANT",
+
+      STAFF:
+        "AGENT",
+
+      BROKER:
+        "AGENT",
+
+      REALTOR:
+        "AGENT",
+
+      BUSINESS_USER:
+        "BUSINESS",
+
+      SUPERADMIN:
+        "SUPER_ADMIN",
+
+      "SUPER-ADMIN":
+        "SUPER_ADMIN"
+
+    };
+
+    return aliases[normalized] ||
+      normalized;
+
+  }
+
+
+  function isValidRole(role) {
+
+    return CONFIG.ROLES.includes(
+      normalizeRole(role)
+    );
+
+  }
+
+
+  function normalizeRoles(roles) {
+
+    let input = roles;
+
+    if (!Array.isArray(input)) {
+
+      input =
+        input
+          ? [input]
+          : [];
+
+    }
+
+    const normalized =
+      input
+        .map(normalizeRole)
+        .filter(
+          role =>
+            role &&
+            isValidRole(role)
+        );
+
+    return [
+      ...new Set(normalized)
+    ];
+
+  }
+
+
+  function getStoredRoles() {
+
+    const stored =
+      getJSON(
+        CONFIG.STORAGE_KEYS.ROLES
+      );
+
+    if (Array.isArray(stored)) {
+
+      return normalizeRoles(stored);
+
+    }
+
+    const storedRole =
+      localStorage.getItem(
+        CONFIG.STORAGE_KEYS.ROLE
+      );
+
+    return normalizeRoles(
+      storedRole
+        ? [storedRole]
+        : []
+    );
+
+  }
+
+
+  function getUser() {
+
+    if (
+      window.GHAR_AUTH &&
+      typeof window.GHAR_AUTH.getUser ===
+        "function"
+    ) {
+
+      try {
+
+        return window.GHAR_AUTH.getUser();
+
+      } catch {}
+
+    }
+
+    return getJSON(
+      CONFIG.STORAGE_KEYS.USER
+    );
+
+  }
+
+
   function getProfile() {
 
     if (
@@ -115,76 +321,117 @@
         "function"
     ) {
 
-      return window.GHARProfile.get();
+      try {
+
+        return window.GHARProfile.get();
+
+      } catch {}
 
     }
 
     return (
       getJSON(
-        DASHBOARD_CONFIG.storageKeys.profile
+        CONFIG.STORAGE_KEYS.PROFILE
       ) ||
-      getJSON(
-        DASHBOARD_CONFIG.storageKeys.user
-      )
+      getUser()
     );
 
   }
 
-  // ==========================================================
-  // ROLE
-  // ==========================================================
 
-  function getRole() {
+  function getUserRoles() {
+
+    const user =
+      getUser();
 
     const profile =
       getProfile();
 
-    if (
-      profile &&
-      profile.role
-    ) {
+    const roles = [
 
-      return String(
-        profile.role
-      ).toLowerCase();
+      ...(user?.roles || []),
 
-    }
+      ...(profile?.roles || []),
 
-    const role =
-      document.body.dataset.role ||
-      document.documentElement.dataset.role;
+      user?.role,
 
-    if (role) {
+      profile?.role,
 
-      return String(
-        role
-      ).toLowerCase();
+      ...getStoredRoles(),
 
-    }
+      document.body.dataset.role,
 
-    return null;
+      document.documentElement.dataset.role
+
+    ];
+
+    return normalizeRoles(roles);
 
   }
 
-  function setRole(role) {
 
-    if (!role) {
-      return false;
-    }
+  function getRole() {
 
-    const normalized =
-      String(role)
-        .trim()
-        .toLowerCase();
+    const availableRoles =
+      state.roles.length
+        ? state.roles
+        : getUserRoles();
+
+    const storedRole =
+      normalizeRole(
+        localStorage.getItem(
+          CONFIG.STORAGE_KEYS.ROLE
+        )
+      );
 
     if (
-      !DASHBOARD_CONFIG.roles.includes(
-        normalized
-      )
+      storedRole &&
+      availableRoles.includes(storedRole)
+    ) {
+
+      return storedRole;
+
+    }
+
+    return (
+      state.role ||
+      availableRoles[0] ||
+      null
+    );
+
+  }
+
+
+  function setRole(role) {
+
+    const normalized =
+      normalizeRole(role);
+
+    if (
+      !normalized ||
+      !isValidRole(normalized)
     ) {
 
       console.warn(
-        `[GHAR DASHBOARD] Unknown role: ${normalized}`
+        `[GHAR Dashboard] Invalid role: ${role}`
+      );
+
+      return false;
+
+    }
+
+    const availableRoles =
+      state.roles.length
+        ? state.roles
+        : getUserRoles();
+
+    if (
+      availableRoles.length &&
+      !availableRoles.includes(normalized)
+    ) {
+
+      console.warn(
+        `[GHAR Dashboard] Role not assigned: ${normalized}`
       );
 
       return false;
@@ -194,15 +441,72 @@
     state.role =
       normalized;
 
+    localStorage.setItem(
+      CONFIG.STORAGE_KEYS.ROLE,
+      normalized
+    );
+
     document.body.dataset.role =
       normalized;
+
+    document.body.dataset.dashboardRole =
+      normalized;
+
+    document.documentElement.dataset.role =
+      normalized;
+
+    dispatchEvent(
+      "ghar:role-change",
+      {
+        role: normalized,
+        roles: state.roles
+      }
+    );
 
     return true;
 
   }
 
+
+  function initializeRoles() {
+
+    state.roles =
+      getUserRoles();
+
+    if (!state.roles.length) {
+
+      const bodyRole =
+        normalizeRole(
+          document.body.dataset.role
+        );
+
+      if (bodyRole && isValidRole(bodyRole)) {
+
+        state.roles = [
+          bodyRole
+        ];
+
+      }
+
+    }
+
+    const currentRole =
+      getRole();
+
+    if (currentRole) {
+
+      state.role =
+        currentRole;
+
+    }
+
+    return state.roles;
+
+  }
+
+
   // ==========================================================
-  // DASHBOARD DATA DEFAULTS
+  // DASHBOARD DEFAULT DATA
   // ==========================================================
 
   function getDefaultData() {
@@ -265,8 +569,9 @@
 
   }
 
+
   // ==========================================================
-  // NORMALIZE DASHBOARD DATA
+  // DATA NORMALIZATION
   // ==========================================================
 
   function normalizeData(data) {
@@ -283,7 +588,7 @@
 
     }
 
-    return {
+    const normalized = {
 
       ...defaults,
 
@@ -295,81 +600,126 @@
 
         ...(data.summary || {})
 
-      },
-
-      recentProperties:
-        Array.isArray(
-          data.recentProperties
-        )
-          ? data.recentProperties
-          : [],
-
-      recentVisits:
-        Array.isArray(
-          data.recentVisits
-        )
-          ? data.recentVisits
-          : [],
-
-      recentOffers:
-        Array.isArray(
-          data.recentOffers
-        )
-          ? data.recentOffers
-          : [],
-
-      recentApplications:
-        Array.isArray(
-          data.recentApplications
-        )
-          ? data.recentApplications
-          : [],
-
-      recentMessages:
-        Array.isArray(
-          data.recentMessages
-        )
-          ? data.recentMessages
-          : [],
-
-      recentNotifications:
-        Array.isArray(
-          data.recentNotifications
-        )
-          ? data.recentNotifications
-          : [],
-
-      recentPayments:
-        Array.isArray(
-          data.recentPayments
-        )
-          ? data.recentPayments
-          : [],
-
-      recentLeads:
-        Array.isArray(
-          data.recentLeads
-        )
-          ? data.recentLeads
-          : [],
-
-      recentDocuments:
-        Array.isArray(
-          data.recentDocuments
-        )
-          ? data.recentDocuments
-          : [],
-
-      activities:
-        Array.isArray(
-          data.activities
-        )
-          ? data.activities
-          : []
+      }
 
     };
 
+    const collections = [
+
+      "recentProperties",
+
+      "recentVisits",
+
+      "recentOffers",
+
+      "recentApplications",
+
+      "recentMessages",
+
+      "recentNotifications",
+
+      "recentPayments",
+
+      "recentLeads",
+
+      "recentDocuments",
+
+      "activities",
+
+      "quickActions"
+
+    ];
+
+    collections.forEach(
+      key => {
+
+        normalized[key] =
+          Array.isArray(data[key])
+            ? data[key]
+            : [];
+
+      }
+    );
+
+    return normalized;
+
   }
+
+
+  // ==========================================================
+  // API REQUEST
+  // ==========================================================
+
+  async function request(
+    url,
+    options = {}
+  ) {
+
+    const controller =
+      new AbortController();
+
+    const timeout =
+      setTimeout(
+        () =>
+          controller.abort(),
+        CONFIG.REQUEST_TIMEOUT
+      );
+
+    const token =
+      localStorage.getItem(
+        CONFIG.STORAGE_KEYS.ACCESS_TOKEN
+      );
+
+    const headers = {
+
+      Accept:
+        "application/json",
+
+      ...(options.headers || {})
+
+    };
+
+    if (token) {
+
+      headers.Authorization =
+        `Bearer ${token}`;
+
+    }
+
+    try {
+
+      const response =
+        await fetch(
+          url,
+          {
+            ...options,
+            headers,
+            credentials:
+              options.credentials ||
+              "include",
+            signal:
+              controller.signal
+          }
+        );
+
+      if (!response.ok) {
+
+        throw new Error(
+          `Request failed: ${response.status}`
+        );
+
+      }
+
+      return await response.json();
+
+    } finally {
+
+      clearTimeout(timeout);
+
+    }
+
+  }
+
 
   // ==========================================================
   // FETCH DASHBOARD
@@ -380,11 +730,17 @@
   ) {
 
     const role =
-      options.role ||
-      state.role ||
-      getRole();
+      normalizeRole(
+        options.role ||
+        state.role ||
+        getRole()
+      );
 
-    state.loading = true;
+    state.loading =
+      true;
+
+    state.error =
+      null;
 
     dispatchEvent(
       "ghar:dashboard-loading",
@@ -393,56 +749,39 @@
       }
     );
 
+    const endpoint =
+      options.endpoint ||
+      `${CONFIG.API_BASE}${CONFIG.DASHBOARD_ENDPOINT}`;
+
     try {
 
-      const token =
-        localStorage.getItem(
-          "ghar_token"
-        );
-
-      const headers = {
-
-        "Accept":
-          "application/json"
-
-      };
-
-      if (token) {
-
-        headers.Authorization =
-          `Bearer ${token}`;
-
-      }
-
-      const endpoint =
-        options.endpoint ||
-        `${DASHBOARD_CONFIG.apiBase}/dashboard`;
-
-      const response =
-        await fetch(
+      const url =
+        new URL(
           endpoint,
-          {
-            method: "GET",
-            headers,
-            credentials: "include"
-          }
+          window.location.origin
         );
 
-      if (!response.ok) {
+      if (role) {
 
-        throw new Error(
-          `Dashboard request failed: ${response.status}`
+        url.searchParams.set(
+          "role",
+          role
         );
 
       }
 
       const result =
-        await response.json();
+        await request(
+          url.toString(),
+          {
+            method: "GET"
+          }
+        );
 
       const dashboard =
         normalizeData(
-          result.data ||
-          result.dashboard ||
+          result?.data ||
+          result?.dashboard ||
           result
         );
 
@@ -453,11 +792,13 @@
         new Date().toISOString();
 
       setJSON(
-        DASHBOARD_CONFIG.storageKeys.dashboard,
+        CONFIG.STORAGE_KEYS.DASHBOARD,
         dashboard
       );
 
-      render(dashboard);
+      render(
+        dashboard
+      );
 
       dispatchEvent(
         "ghar:dashboard-loaded",
@@ -471,14 +812,17 @@
 
     } catch (error) {
 
+      state.error =
+        error;
+
       console.warn(
-        "[GHAR DASHBOARD] API unavailable:",
+        "[GHAR Dashboard] API unavailable:",
         error
       );
 
       const cached =
         getJSON(
-          DASHBOARD_CONFIG.storageKeys.dashboard
+          CONFIG.STORAGE_KEYS.DASHBOARD
         );
 
       const dashboard =
@@ -487,7 +831,9 @@
       state.data =
         dashboard;
 
-      render(dashboard);
+      render(
+        dashboard
+      );
 
       dispatchEvent(
         "ghar:dashboard-error",
@@ -501,7 +847,8 @@
 
     } finally {
 
-      state.loading = false;
+      state.loading =
+        false;
 
       dispatchEvent(
         "ghar:dashboard-loading-complete",
@@ -514,52 +861,49 @@
 
   }
 
+
   // ==========================================================
-  // RENDER DASHBOARD
+  // RENDER
   // ==========================================================
 
   function render(data) {
 
-    if (!data) {
-      return;
-    }
+    const dashboard =
+      normalizeData(data);
 
     renderSummary(
-      data.summary
+      dashboard.summary
     );
 
     renderCollections(
-      data
+      dashboard
     );
 
     renderActivities(
-      data.activities
+      dashboard.activities
     );
 
     renderQuickActions(
-      data.quickActions
+      dashboard.quickActions
     );
 
     renderRoleContent(
-      data
+      dashboard
     );
 
     updateDashboardMeta();
 
   }
 
+
   // ==========================================================
-  // SUMMARY CARDS
+  // SUMMARY
   // ==========================================================
 
   function renderSummary(summary) {
 
-    if (!summary) {
-      return;
-    }
-
     Object.entries(
-      summary
+      summary || {}
     ).forEach(
       ([key, value]) => {
 
@@ -586,7 +930,7 @@
                   formatNumber(value);
 
                 element.dataset.value =
-                  value;
+                  String(value ?? 0);
 
               });
 
@@ -598,8 +942,9 @@
 
   }
 
+
   // ==========================================================
-  // COLLECTION RENDERING
+  // COLLECTIONS
   // ==========================================================
 
   function renderCollections(data) {
@@ -638,29 +983,29 @@
     Object.entries(
       collections
     ).forEach(
-      ([name, items]) => {
+      ([type, items]) => {
 
         document
           .querySelectorAll(
-            `[data-dashboard-list="${name}"]`
+            `[data-dashboard-list="${type}"]`
           )
-          .forEach(container => {
-
-            renderList(
-              container,
-              items,
-              name
-            );
-
-          });
+          .forEach(
+            container =>
+              renderList(
+                container,
+                items,
+                type
+              )
+          );
 
       }
     );
 
   }
 
+
   // ==========================================================
-  // GENERIC LIST
+  // LIST RENDERING
   // ==========================================================
 
   function renderList(
@@ -669,15 +1014,11 @@
     type
   ) {
 
-    if (!container) {
-      return;
-    }
-
-    container.innerHTML = "";
+    container.replaceChildren();
 
     if (
       !Array.isArray(items) ||
-      items.length === 0
+      !items.length
     ) {
 
       const empty =
@@ -699,27 +1040,28 @@
 
     }
 
+    const fragment =
+      document.createDocumentFragment();
+
     items.forEach(
       item => {
 
-        const element =
+        fragment.appendChild(
           createListItem(
             item,
             type
-          );
-
-        container.appendChild(
-          element
+          )
         );
 
       }
     );
 
+    container.appendChild(
+      fragment
+    );
+
   }
 
-  // ==========================================================
-  // LIST ITEM
-  // ==========================================================
 
   function createListItem(
     item,
@@ -735,80 +1077,110 @@
       `ghar-dashboard-item ghar-dashboard-item-${type}`;
 
     wrapper.dataset.id =
-      item.id ||
-      item._id ||
-      "";
+      String(
+        item?.id ||
+        item?._id ||
+        ""
+      );
 
     const title =
-      item.title ||
-      item.name ||
-      item.propertyName ||
-      item.subject ||
-      item.type ||
+      item?.title ||
+      item?.name ||
+      item?.propertyName ||
+      item?.subject ||
+      item?.type ||
       formatType(type);
 
     const status =
-      item.status ||
-      item.state ||
+      item?.status ||
+      item?.state ||
       "";
 
     const meta =
-      item.location ||
-      item.date ||
-      item.createdAt ||
-      item.created_at ||
+      item?.location ||
+      item?.date ||
+      item?.createdAt ||
+      item?.created_at ||
       "";
 
-    wrapper.innerHTML = `
+    const main =
+      document.createElement(
+        "div"
+      );
 
-      <div class="ghar-dashboard-item-main">
+    main.className =
+      "ghar-dashboard-item-main";
 
-        <div
-          class="ghar-dashboard-item-title"
-          data-item-title
-        >
-          ${escapeHTML(title)}
-        </div>
+    const titleElement =
+      document.createElement(
+        "div"
+      );
 
-        ${
-          meta
-            ? `
-              <div
-                class="ghar-dashboard-item-meta"
-                data-item-meta
-              >
-                ${escapeHTML(
-                  formatValue(meta)
-                )}
-              </div>
-            `
-            : ""
-        }
+    titleElement.className =
+      "ghar-dashboard-item-title";
 
-      </div>
+    titleElement.dataset.itemTitle =
+      "";
 
-      ${
-        status
-          ? `
-            <span
-              class="ghar-dashboard-item-status"
-              data-status="${escapeHTML(
-                String(status)
-              )}"
-            >
-              ${escapeHTML(
-                formatValue(status)
-              )}
-            </span>
-          `
-          : ""
-      }
+    titleElement.textContent =
+      String(title);
 
-    `;
+    main.appendChild(
+      titleElement
+    );
+
+    if (meta) {
+
+      const metaElement =
+        document.createElement(
+          "div"
+        );
+
+      metaElement.className =
+        "ghar-dashboard-item-meta";
+
+      metaElement.dataset.itemMeta =
+        "";
+
+      metaElement.textContent =
+        formatValue(meta);
+
+      main.appendChild(
+        metaElement
+      );
+
+    }
+
+    wrapper.appendChild(
+      main
+    );
+
+    if (status) {
+
+      const statusElement =
+        document.createElement(
+          "span"
+        );
+
+      statusElement.className =
+        "ghar-dashboard-item-status";
+
+      statusElement.dataset.status =
+        String(status);
+
+      statusElement.textContent =
+        formatValue(status);
+
+      wrapper.appendChild(
+        statusElement
+      );
+
+    }
 
     return wrapper;
 
   }
+
 
   // ==========================================================
   // ACTIVITIES
@@ -820,85 +1192,109 @@
 
     document
       .querySelectorAll(
-        '[data-dashboard-activities]'
+        "[data-dashboard-activities]"
       )
-      .forEach(container => {
+      .forEach(
+        container => {
 
-        container.innerHTML = "";
+          container.replaceChildren();
 
-        if (
-          !Array.isArray(activities) ||
-          activities.length === 0
-        ) {
+          if (
+            !Array.isArray(activities) ||
+            !activities.length
+          ) {
 
-          const empty =
-            document.createElement(
-              "div"
-            );
-
-          empty.className =
-            "ghar-empty-state";
-
-          empty.textContent =
-            "No recent activity.";
-
-          container.appendChild(
-            empty
-          );
-
-          return;
-
-        }
-
-        activities.forEach(
-          activity => {
-
-            const item =
+            const empty =
               document.createElement(
                 "div"
               );
 
-            item.className =
-              "ghar-dashboard-activity";
+            empty.className =
+              "ghar-empty-state";
 
-            item.innerHTML = `
-
-              <div
-                class="ghar-dashboard-activity-title"
-              >
-                ${escapeHTML(
-                  activity.title ||
-                  activity.message ||
-                  "Activity"
-                )}
-              </div>
-
-              ${
-                activity.createdAt
-                  ? `
-                    <time>
-                      ${escapeHTML(
-                        formatDate(
-                          activity.createdAt
-                        )
-                      )}
-                    </time>
-                  `
-                  : ""
-              }
-
-            `;
+            empty.textContent =
+              "No recent activity.";
 
             container.appendChild(
-              item
+              empty
             );
 
-          }
-        );
+            return;
 
-      });
+          }
+
+          const fragment =
+            document.createDocumentFragment();
+
+          activities.forEach(
+            activity => {
+
+              const item =
+                document.createElement(
+                  "div"
+                );
+
+              item.className =
+                "ghar-dashboard-activity";
+
+              const title =
+                document.createElement(
+                  "div"
+                );
+
+              title.className =
+                "ghar-dashboard-activity-title";
+
+              title.textContent =
+                activity?.title ||
+                activity?.message ||
+                "Activity";
+
+              item.appendChild(
+                title
+              );
+
+              if (
+                activity?.createdAt
+              ) {
+
+                const time =
+                  document.createElement(
+                    "time"
+                  );
+
+                time.dateTime =
+                  String(
+                    activity.createdAt
+                  );
+
+                time.textContent =
+                  formatDate(
+                    activity.createdAt
+                  );
+
+                item.appendChild(
+                  time
+                );
+
+              }
+
+              fragment.appendChild(
+                item
+              );
+
+            }
+          );
+
+          container.appendChild(
+            fragment
+          );
+
+        }
+      );
 
   }
+
 
   // ==========================================================
   // QUICK ACTIONS
@@ -911,90 +1307,119 @@
     if (
       !Array.isArray(actions)
     ) {
+
       return;
+
     }
 
     document
       .querySelectorAll(
         "[data-dashboard-quick-actions]"
       )
-      .forEach(container => {
+      .forEach(
+        container => {
 
-        container.innerHTML = "";
+          container.replaceChildren();
 
-        actions.forEach(
-          action => {
+          const fragment =
+            document.createDocumentFragment();
 
-            if (!action.url) {
-              return;
-            }
+          actions.forEach(
+            action => {
 
-            const link =
-              document.createElement(
-                "a"
+              if (
+                !action?.url
+              ) {
+
+                return;
+
+              }
+
+              const link =
+                document.createElement(
+                  "a"
+                );
+
+              link.href =
+                String(action.url);
+
+              link.className =
+                "ghar-dashboard-action";
+
+              link.textContent =
+                action.label ||
+                action.name ||
+                "Open";
+
+              fragment.appendChild(
+                link
               );
 
-            link.href =
-              action.url;
+            }
+          );
 
-            link.className =
-              "ghar-dashboard-action";
+          container.appendChild(
+            fragment
+          );
 
-            link.textContent =
-              action.label ||
-              action.name ||
-              "Open";
-
-            container.appendChild(
-              link
-            );
-
-          }
-        );
-
-      });
+        }
+      );
 
   }
 
+
   // ==========================================================
-  // ROLE-SPECIFIC CONTENT
+  // ROLE-BASED CONTENT
   // ==========================================================
 
-  function renderRoleContent(
-    data
-  ) {
+  function renderRoleContent() {
 
     const role =
       state.role ||
       getRole();
 
     if (!role) {
+
       return;
+
     }
 
     document
       .querySelectorAll(
         "[data-dashboard-role]"
       )
-      .forEach(element => {
+      .forEach(
+        element => {
 
-        const allowed =
-          element.dataset.dashboardRole
-            .split(",")
-            .map(value =>
-              value.trim()
-                .toLowerCase()
-            );
+          /*
+           * Example:
+           *
+           * data-dashboard-role="BUYER"
+           *
+           * or:
+           *
+           * data-dashboard-role="BUYER,SELLER"
+           */
 
-        element.hidden =
-          !allowed.includes(role);
+          const allowed =
+            String(
+              element.dataset.dashboardRole
+            )
+              .split(",")
+              .map(normalizeRole)
+              .filter(Boolean);
 
-      });
+          element.hidden =
+            !allowed.includes(role);
+
+        }
+      );
 
     document.body.dataset.dashboardRole =
       role;
 
   }
+
 
   // ==========================================================
   // DASHBOARD META
@@ -1005,45 +1430,93 @@
     const profile =
       getProfile();
 
-    if (
-      profile &&
-      profile.name
-    ) {
+    if (profile?.name) {
 
       document
         .querySelectorAll(
           "[data-dashboard-user]"
         )
-        .forEach(element => {
+        .forEach(
+          element => {
 
-          element.textContent =
-            profile.name;
+            element.textContent =
+              profile.name;
 
-        });
+          }
+        );
 
     }
 
+    const role =
+      state.role ||
+      getRole();
+
     document
       .querySelectorAll(
-        "[data-dashboard-role]"
+        "[data-dashboard-current-role]"
+      )
+      .forEach(
+        element => {
+
+          element.textContent =
+            role
+              ? formatType(role)
+              : "";
+
+        }
       );
 
     document
       .querySelectorAll(
         "[data-dashboard-updated]"
       )
-      .forEach(element => {
+      .forEach(
+        element => {
 
-        element.textContent =
-          state.lastUpdated
-            ? formatDate(
-                state.lastUpdated
-              )
-            : "";
+          element.textContent =
+            state.lastUpdated
+              ? formatDate(
+                  state.lastUpdated
+                )
+              : "";
 
-      });
+        }
+      );
 
   }
+
+
+  // ==========================================================
+  // LOADING
+  // ==========================================================
+
+  function setLoading(
+    loading
+  ) {
+
+    state.loading =
+      Boolean(loading);
+
+    document.body.classList.toggle(
+      "ghar-dashboard-loading",
+      state.loading
+    );
+
+    document
+      .querySelectorAll(
+        "[data-dashboard-loading]"
+      )
+      .forEach(
+        element => {
+
+          element.hidden =
+            !state.loading;
+
+        }
+      );
+
+  }
+
 
   // ==========================================================
   // REFRESH
@@ -1054,13 +1527,17 @@
   ) {
 
     return fetchDashboard(
-      options
+      {
+        ...options,
+        force: true
+      }
     );
 
   }
 
+
   // ==========================================================
-  // GET CURRENT DATA
+  // DATA ACCESS
   // ==========================================================
 
   function getData() {
@@ -1068,16 +1545,13 @@
     return (
       state.data ||
       getJSON(
-        DASHBOARD_CONFIG.storageKeys.dashboard
+        CONFIG.STORAGE_KEYS.DASHBOARD
       ) ||
       getDefaultData()
     );
 
   }
 
-  // ==========================================================
-  // GET SUMMARY
-  // ==========================================================
 
   function getSummary() {
 
@@ -1085,51 +1559,6 @@
 
   }
 
-  // ==========================================================
-  // LOADING STATE
-  // ==========================================================
-
-  function setLoading(
-    loading
-  ) {
-
-    document.body.classList.toggle(
-      "ghar-dashboard-loading",
-      Boolean(loading)
-    );
-
-    document
-      .querySelectorAll(
-        "[data-dashboard-loading]"
-      )
-      .forEach(element => {
-
-        element.hidden =
-          !loading;
-
-      });
-
-  }
-
-  // ==========================================================
-  // EVENT DISPATCH
-  // ==========================================================
-
-  function dispatchEvent(
-    name,
-    detail
-  ) {
-
-    document.dispatchEvent(
-      new CustomEvent(
-        name,
-        {
-          detail
-        }
-      )
-    );
-
-  }
 
   // ==========================================================
   // FORMATTING
@@ -1143,7 +1572,7 @@
       Number(value);
 
     if (
-      Number.isNaN(number)
+      !Number.isFinite(number)
     ) {
 
       return "0";
@@ -1156,12 +1585,15 @@
 
   }
 
+
   function formatDate(
     value
   ) {
 
     if (!value) {
+
       return "";
+
     }
 
     const date =
@@ -1180,12 +1612,16 @@
     return date.toLocaleString(
       "en-IN",
       {
-        dateStyle: "medium",
-        timeStyle: "short"
+        dateStyle:
+          "medium",
+
+        timeStyle:
+          "short"
       }
     );
 
   }
+
 
   function formatValue(
     value
@@ -1208,21 +1644,32 @@
 
     }
 
-    return String(value);
+    return String(
+      value ?? ""
+    );
 
   }
 
+
   function formatType(
-    type
+    value
   ) {
 
-    return String(type || "")
-      .replace(/[_-]/g, " ")
-      .replace(/\b\w/g, char =>
-        char.toUpperCase()
+    return String(
+      value || ""
+    )
+      .replace(
+        /[_-]+/g,
+        " "
+      )
+      .replace(
+        /\b\w/g,
+        char =>
+          char.toUpperCase()
       );
 
   }
+
 
   function getEmptyMessage(
     type
@@ -1266,42 +1713,30 @@
 
   }
 
+
   // ==========================================================
-  // HTML ESCAPING
+  // EVENTS
   // ==========================================================
 
-  function escapeHTML(
-    value
+  function dispatchEvent(
+    name,
+    detail = {}
   ) {
 
-    return String(
-      value ?? ""
-    )
-      .replace(
-        /&/g,
-        "&amp;"
+    document.dispatchEvent(
+      new CustomEvent(
+        name,
+        {
+          detail
+        }
       )
-      .replace(
-        /</g,
-        "&lt;"
-      )
-      .replace(
-        />/g,
-        "&gt;"
-      )
-      .replace(
-        /"/g,
-        "&quot;"
-      )
-      .replace(
-        /'/g,
-        "&#039;"
-      );
+    );
 
   }
 
+
   // ==========================================================
-  // INITIALIZE
+  // INITIALIZATION
   // ==========================================================
 
   async function init(
@@ -1317,12 +1752,25 @@
 
     }
 
-    const role =
-      options.role ||
-      getRole();
+    state.user =
+      getUser();
 
-    if (role) {
-      setRole(role);
+    state.profile =
+      getProfile();
+
+    initializeRoles();
+
+    const requestedRole =
+      normalizeRole(
+        options.role
+      );
+
+    if (requestedRole) {
+
+      setRole(
+        requestedRole
+      );
+
     }
 
     setLoading(true);
@@ -1344,14 +1792,18 @@
 
   }
 
+
   // ==========================================================
-  // PUBLIC GHAR DASHBOARD API
+  // PUBLIC API
   // ==========================================================
 
-  window.GHARDashboard = {
+  const GHARDashboard = {
 
     version:
-      DASHBOARD_CONFIG.version,
+      CONFIG.VERSION,
+
+    config:
+      CONFIG,
 
     state,
 
@@ -1371,7 +1823,15 @@
 
     getRole,
 
+    getUserRoles,
+
     setRole,
+
+    normalizeRole,
+
+    normalizeRoles,
+
+    isValidRole,
 
     render,
 
@@ -1387,9 +1847,40 @@
 
   };
 
+
+  // ==========================================================
+  // GLOBAL EXPORT
+  // ==========================================================
+
+  window.GHARDashboard =
+    GHARDashboard;
+
+
+  // Compatibility alias
+
+  window.GHAR_DASHBOARD =
+    GHARDashboard;
+
+
   // ==========================================================
   // AUTO INITIALIZATION
   // ==========================================================
+
+  function autoInit() {
+
+    if (
+      document.body.dataset.dashboardAuto ===
+      "false"
+    ) {
+
+      return;
+
+    }
+
+    init();
+
+  }
+
 
   if (
     document.readyState ===
@@ -1398,40 +1889,17 @@
 
     document.addEventListener(
       "DOMContentLoaded",
-      () => {
-
-        /*
-         * Dashboard pages can disable
-         * automatic API loading with:
-         *
-         * <body data-dashboard-auto="false">
-         */
-
-        if (
-          document.body.dataset.dashboardAuto ===
-          "false"
-        ) {
-
-          return;
-
-        }
-
-        init();
-
+      autoInit,
+      {
+        once: true
       }
     );
 
   } else {
 
-    if (
-      document.body.dataset.dashboardAuto !==
-      "false"
-    ) {
-
-      init();
-
-    }
+    autoInit();
 
   }
+
 
 })(window, document);
